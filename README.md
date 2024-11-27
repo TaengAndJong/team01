@@ -20,5 +20,6 @@ https://docs.google.com/document/d/1YLHberEyHsk_bFVLBBBQm7kluXyulL3_9606YZTC4BA/
 2. 데이터베이스 연동 
 https://docs.google.com/document/d/1NYSedU5LV29CLMtiwy9d9Bhih6C_Qk3PxbPpJdEOzS4/edit?tab=t.0#heading=h.mvw3em96lph7
 
-2. 데이터베이스 
+2. 깃 & 깃허브 & 프로젝트 세팅
+https://docs.google.com/document/d/1q1y4d-JDNBWJvMGzXffmhMw6uH3uw8Qw2X4LnjvQnaQ/edit?tab=t.0
 
