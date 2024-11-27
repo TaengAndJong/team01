@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+
+//VO의 역할 데이터베이스의 한 테이블을 표현한 Value Object 이며, 테이블의 열에 대응하는 필드를 선언하고, 데이터베이스와 객체 간의 매핑을 담당.
+
 // @Data: getter, setter, toString(), equals(), hashCode() 메서드를 자동으로 생성합니다.
 // @NoArgsConstructor: 인자가 없는 기본 생성자를 자동으로 생성합니다. 
 //==> 기본 생성자가 없으면 객체를 제대로 생성할 수 없기 때문에 생성해줘야함
@@ -22,3 +25,5 @@ public class TestVO implements Serializable{
     String testId;
     String testName;
 }
+
+//VO작성 후 Dao interface 작성하러 가기 
