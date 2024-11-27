@@ -17,5 +17,8 @@ https://docs.google.com/document/d/19F7KeqFxAv2oru8BQ3tkF7GRqEeR6twF8P70PjtC2lc/
 1. 노드와 리액트 : 
 https://docs.google.com/document/d/1YLHberEyHsk_bFVLBBBQm7kluXyulL3_9606YZTC4BA/edit?tab=t.0
 
+2. 데이터베이스 연동 
+https://docs.google.com/document/d/1NYSedU5LV29CLMtiwy9d9Bhih6C_Qk3PxbPpJdEOzS4/edit?tab=t.0#heading=h.mvw3em96lph7
+
 2. 데이터베이스 
-https://docs.google.com/document/d/14-SNUWd23wPQdqRDi_3ZlTiWZRk-957-yq1hGuFAA2k/edit?tab=t.0#heading=h.he8zwhkogvek
+
