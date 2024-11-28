@@ -4,7 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.backend.test.dao.TestDao">
 <!-- namespace는 dao 인터페이스가 실제로 위치하는 Java 패키지 경로를 입력, 즉 Java폴터 하위의  TestDao가 있는 패키지 경로 입력 -->
-    <select id="selectCityById" resultType="TestVO">
-        select id, email, name from user where id = #{id}
-    </select>
+<!-- resultType을 간결하게 VO객체로만 입력하려면 application.properties파일에 mybatis 속성값 지정해야 함. -->
+
+        <insert id="insetTest" parameterType="TestVO">
+                INSERT INTO TEST (id,name) values(#{id},#{name});
+        </insert>
+
 </mapper>
