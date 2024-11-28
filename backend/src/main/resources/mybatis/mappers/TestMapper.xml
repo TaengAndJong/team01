@@ -7,7 +7,7 @@
 <!-- resultType을 간결하게 VO객체로만 입력하려면 application.properties파일에 mybatis 속성값 지정해야 함. -->
 
         <insert id="insetTest" parameterType="TestVO">
-                INSERT INTO TEST (ID,NAME) values(#{testId},#{testName});
+                INSERT INTO TEST (ID,NAME) VALUES(#{testId},#{testName});
         </insert>
 
         <update id="updateTest" parameterType="TestVO" parameterType="TestVO">
