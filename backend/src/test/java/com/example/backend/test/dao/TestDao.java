@@ -1,5 +1,9 @@
 package com.example.backend.test.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
 import com.example.backend.vo.TestVO;
 
 // void 로 선언하는 메소드와 VO 객체의 타입으로 선언하는 메소드의 차이

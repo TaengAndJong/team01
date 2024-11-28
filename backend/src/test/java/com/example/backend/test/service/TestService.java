@@ -1,5 +1,9 @@
 package com.example.backend.test.service;
 
+import java.util.List;
+
+import com.example.backend.vo.TestVO;
+
 //Service 인터페이스와 구현체를 작성하는 이유 : 
 // 1) 역할 분리  : 비즈니스 로직(Service)과 데이터 접근 로직(Dao)을 분리하여 응집도를 높이고 유지보수를 용이하게 만들기 위함.
 // 2) 코드의 재사용성 : Service는 DAO 호출뿐 아니라 비즈니스 요구사항에 맞게 로직을 추가

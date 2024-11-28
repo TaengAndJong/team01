@@ -12,6 +12,8 @@ p.s 깃 명령어 정리도 되어있고, 열람 승인 요청하셈
 3. 프로젝트 포트폴리오 계획서 
 https://docs.google.com/document/d/19F7KeqFxAv2oru8BQ3tkF7GRqEeR6twF8P70PjtC2lc/edit?tab=t.0#heading=h.cnnb0qyfu06f
 
+4.VSCODE 무한로딩 해결책
+https://www.imymac.com/ko/powermymac/clear-vs-code-cache.html
 
 *** 그냥 정리해 놓은 문서 ***
 1. 노드와 리액트 : 
