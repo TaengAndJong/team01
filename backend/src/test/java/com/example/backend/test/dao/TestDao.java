@@ -24,7 +24,9 @@ public interface TestDao {
     void deleteTest(String testId);
 
     //DB에 select할 메소드(특정데이터 조회)
-    TestVO selectTestById(String testId);
+    TestVO selectOne(String testId);
+    // DB에 조건없이 전체 조회 (행이 여러개니까 List로 받아야 함)
+    List<TestVO> selectAll();
 
 }
 
