@@ -15,15 +15,15 @@ public interface TestService {
 //Service 인터페이스를 작성할 때 일반적으로 Dao와 동일한 메소드 타입과 파라미터(인자)로 작성하면 됨! 
 
     //데이터를 DB에 삽입 
-    void addTest(TestVO test);
+    public void addTest(TestVO test);
     //데이터를 업데이트
-    void modifyTest(TestVO test);
+    public void modifyTest(TestVO test);
     //데이터를 삭제
-    void removeTest(String testId);
+    public void removeTest(String testId);
     //특정 데이터를 조회
-    TestVO getSelectOne(String testId);
+    public TestVO getSelectOne(String testId);
     //모든 데이터를 조회
-    List<TestVO> getSelectAll();
+    public List<TestVO> getSelectAll();
 
 
 }

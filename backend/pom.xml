@@ -28,6 +28,8 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source> <!-- Java 17 -->
+		<maven.compiler.target>17</maven.compiler.target> <!-- Java 17 -->
 	</properties>
 
   <!-- 의존성 버전 관리 -->
@@ -66,7 +68,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
-
+	
 		<!-- ojdbc 버전 -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
@@ -80,7 +82,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-
+			
 		<!-- 스프링부트와 마이바티스 -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
@@ -96,9 +98,19 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<version>1.18.28</version> <!-- 최신 버전 사용 -->
+			<scope>provided</scope>
 		</dependency>
 		
+		<!-- inject 어노테이션  -->
+	<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+			
+
         <!-- JUnit (테스트 프레임워크) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
