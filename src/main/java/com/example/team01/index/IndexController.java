@@ -1,7 +1,6 @@
 package com.example.team01.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,14 +10,13 @@ import java.util.Date;
 //localhost:port/api/test
 
 
-@RestController    //전역 ResponseBody
-@RequestMapping("/api")
-public class Controller {
+@RestController    //전역 ResponseBody + controller
+public class IndexController {
 
-    @GetMapping("/test")
+    @RequestMapping("/")
     public String testHandler() {
 
-        return "안녕하세요. 현재 서버시간은 "+new Date() +"입니다. \n";
+        return "안녕하세요gg. 현재 서버시간은 "+new Date() +"입니다. \n";
 
     }
 

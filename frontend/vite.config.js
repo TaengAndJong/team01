@@ -1,12 +1,38 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import { exec } from 'child_process';
+import path from 'path';
+
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(),
+    {
+      name: 'copy-to-springboot',
+      closeBundle() {
+        // 현재경로에서 team01까지만 경로 가져오기
+        const projectRootPath = path.dirname(__dirname);
+        const sourceDir = path.join(projectRootPath, 'frontend/dist');
+        const targetDir = path.join(projectRootPath, 'src/main/resources/static');
+
+        // xcopy 명령어 실행
+        exec(`robocopy "${sourceDir}" "${targetDir}" /E /Y /V /R:0`, { encoding: 'utf8' }, (err, stdout, stderr) => {
+          if (err) {
+            console.log('sourceDir:', sourceDir);
+            console.log('targetDir:', targetDir);
+            console.error('Error during copy:', err);
+            return;
+          }
+          if (stderr) {
+            console.error('stderr:', stderr);
+          }
+          console.log('stdout:', stdout);  // 복사된 파일 목록을 출력
+        });
+      },
+    }],
   server: {
     proxy: {
-      '/api': {
+      '/': {
         target: 'http://localhost:8081',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
