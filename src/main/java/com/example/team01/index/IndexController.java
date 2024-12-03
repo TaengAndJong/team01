@@ -1,23 +1,26 @@
-package com.example.team01.controller;
+package com.example.team01.index;
 
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 // api 는 localhost:port/api
 // getMapping 은 localhost:port/api 다음의 경로 /test
 //localhost:port/api/test
 
 
-@RestController    //전역 ResponseBody + controller
+@RestController
+@RequestMapping("/api")
 public class IndexController {
 
-    @RequestMapping("/")
-    public String testHandler() {
-
-        return "안녕하세요gg. 현재 서버시간은 "+new Date() +"입니다. \n";
-
+    @GetMapping()
+    public String test() {
+        String data = "test";
+        return data;
     }
-
 }

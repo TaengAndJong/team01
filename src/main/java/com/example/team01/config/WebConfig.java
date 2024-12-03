@@ -13,10 +13,12 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**") // /api 경로 전체 허용
-                        .allowedOrigins("http://localhost:5173") // React 개발 서버 허용주소, ","를 기준으로 여러개 작성가능
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowCredentials(true); // 쿠키 등 인증 정보 허용
+                // 모든 경로에 대해 CORS 설정
+                registry.addMapping("/**")  // 모든 경로에 대해
+                        .allowedOrigins("http://localhost:5173")  // 리액트 앱의 주소
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // 허용할 HTTP 메서드
+                        .allowedHeaders("*")  // 모든 헤더 허용
+                        .allowCredentials(true);  // 쿠키를 포함한 요청을 허용할지 여부
             }
         };
     }

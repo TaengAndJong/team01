@@ -13,7 +13,7 @@ import java.util.Date;
 public class TestController {
 
 
-        @GetMapping("/test1/test")
+        @GetMapping("/test1")
         public String testHandler() {
 
             return "안녕하세요. 현재 서버시간1111은 "+new Date() +"입니다. \n";
