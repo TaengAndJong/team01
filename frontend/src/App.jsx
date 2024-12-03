@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react'
 
+
+import '../scss/layout/layout.scss'
 import './App.css'
 import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
@@ -8,7 +10,7 @@ function App() {
     const [data, setData] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:8081/api')
+        fetch('/api')
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -24,7 +26,6 @@ function App() {
 
     return (
         <div className="app">
-
             <Header/>
             <h1>서버에서 받은 데이터:</h1>
             <p>{data}</p>
