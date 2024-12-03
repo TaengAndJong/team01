@@ -6,30 +6,10 @@ import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),
-    {
-      name: 'copy-to-springboot',
-      closeBundle() {
-        // 현재경로에서 team01까지만 경로 가져오기
-        const projectRootPath = path.dirname(__dirname);
-        const sourceDir = path.join(projectRootPath, 'frontend/dist');
-        const targetDir = path.join(projectRootPath, 'src/main/resources/static');
-
-        // xcopy 명령어 실행
-        exec(`robocopy "${sourceDir}" "${targetDir}" /E /Y /V /R:0`, { encoding: 'utf8' }, (err, stdout, stderr) => {
-          if (err) {
-            console.log('sourceDir:', sourceDir);
-            console.log('targetDir:', targetDir);
-            console.error('Error during copy:', err);
-            return;
-          }
-          if (stderr) {
-            console.error('stderr:', stderr);
-          }
-          console.log('stdout:', stdout);  // 복사된 파일 목록을 출력
-        });
-      },
-    }],
+  plugins: [react()],
+  build: {// 빌드 결과물이 생성되는 경로
+    outDir: '../src/main/resources/static'
+  },
   server: {
     proxy: {
       '/': {
