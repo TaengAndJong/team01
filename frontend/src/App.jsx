@@ -3,8 +3,8 @@ import {useEffect, useState} from 'react'
 
 import '../scss/layout/layout.scss'
 import './App.css'
-import Footer from "./components/Footer.jsx";
-import Header from "./components/Header.jsx";
+import Footer from "./layout/Footer.jsx";
+import Header from "./layout/Header.jsx";
 
 function App() {
     const [data, setData] = useState('');
