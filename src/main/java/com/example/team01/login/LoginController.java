@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 @RestController    //전역 ResponseBody
-@RequestMapping("")
+@RequestMapping()
 public class LoginController {
 
 
     @GetMapping("/login")
     public String login() {
-
-        return "안녕하세요. 로그인 페이지"+new Date() +"입니다. \n";
+        String data = "안녕하세요. 로그인 페이지"+new Date() +"입니다. \n";
+        return data;
 
     }
 

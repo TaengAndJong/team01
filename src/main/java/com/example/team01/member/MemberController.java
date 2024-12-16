@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 @RestController    //전역 ResponseBody
-@RequestMapping("")
+@RequestMapping("/api")
 public class MemberController {
 
     @GetMapping("/member")
@@ -15,6 +15,7 @@ public class MemberController {
         return "멤버페이지 "+new Date() +"입니다. \n";
 
     }
+
 
 
 }

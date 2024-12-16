@@ -9,7 +9,7 @@ import java.util.Date;
 // getMapping 은 localhost:port/api/test 다음의 경로 /test
 //localhost:port/api/test/test
 @RestController    //전역 ResponseBody
-@RequestMapping("")
+@RequestMapping()
 public class AdminController {
 
     @GetMapping("/admin")

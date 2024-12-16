@@ -5,16 +5,17 @@ import react from '@vitejs/plugin-react-swc'
 
 // https://vite.dev/config/
 export default defineConfig({
+ // base: "/api", // 기본 경로,
   plugins: [react()],
   build: {// 빌드 결과물이 생성되는 경로
     outDir: '../src/main/resources/static'
   },
   server: {
     proxy: {
-      '/': { // http://localhost:5173/ 를 의미
+      '/api': {
         target: 'http://localhost:8081/',// 백엔드 URL
         changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, '/api')
+        rewrite: (path) => path.replace(/^\/api/, '/')
       }
     }
   }

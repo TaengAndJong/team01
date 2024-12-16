@@ -20,8 +20,8 @@ import java.util.Map;
 public class IndexController {
 
     @GetMapping()
-    public String test() {
-        String data = " 메인 페이지";
+    public String main() {
+        String data = " ww메인 페이지";
         return data;
     }
 

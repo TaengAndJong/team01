@@ -1,18 +1,25 @@
 import {useEffect, useState} from 'react'
+import {Routes, Route } from "react-router-dom";
 
 
-// import '../scss/layout/layout.scss'
 import './App.css'
-import Footer from "./layout/Footer.jsx";
-import Header from "./layout/Header.jsx";
+import Home from "./test/home.jsx";
+import Login from "./test/login.jsx";
+import Admin from "./test/admin.jsx";
 
 function App() {
     const [data, setData] = useState('');
+    const [url,setUrl] = useState('/api'); // 기본 URL 설정
+
+    // 경로 요청할 매핑주소 ?
+
 
     useEffect(() => {
-        fetch('/api')
+        // navigation fetch 경로 동적기능 필요
+        fetch(url)
             .then((response) => {
                 if (!response.ok) {
+                    console.log("???",response.text())
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 return response.text();  // 문자열로 응답 받기
@@ -22,14 +29,16 @@ function App() {
                 setData(data); // 받은 문자열 상태에 저장
             })
             .catch((error) => console.error('Fetch error:', error));
-    }, []);
+    }, [url]);
 
     return (
-        <div className="app">
-            <Header/>
-            <h1>서버에서 받은 데이터:</h1>
-            <p>{data}</p>
-            <Footer/>
+        <div className="App">
+            <Routes>
+                <Route path="/" element={<Home data={data} setUrl={setUrl}/>} />
+                {/*<Route path="/api" element={<Home data={data} setUrl={setUrl} />} />*/}
+                <Route path="/login" element={<Login data={data} setUrl={setUrl}/>} />
+                <Route path="/admin" element={<Admin data={data} setUrl={setUrl}/>} />
+            </Routes>
         </div>
     );
 
