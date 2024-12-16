@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 
 
-import '../scss/layout/layout.scss'
+// import '../scss/layout/layout.scss'
 import './App.css'
 import Footer from "./layout/Footer.jsx";
 import Header from "./layout/Header.jsx";

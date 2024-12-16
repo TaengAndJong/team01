@@ -39,7 +39,7 @@
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
+			<groupId>org.springframework.boot</groupId>n
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		<dependency>
@@ -91,6 +91,19 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -119,7 +132,6 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-<!-- ${project.basedir}	Maven에서 자동으로 설정되는 변수로, 현재 프로젝트의 루트 디렉토리 -->
 							<tasks>
 								<copy todir="${project.basedir}/src/main/resources/static">
 									<fileset dir="${project.basedir}/src/main/frontend/dist" />

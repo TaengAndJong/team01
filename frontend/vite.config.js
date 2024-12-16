@@ -11,10 +11,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': {
-        target: 'http://localhost:8081',// 백엔드 URL
+      '/': { // http://localhost:5173/ 를 의미
+        target: 'http://localhost:8081/',// 백엔드 URL
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/api')
+        // rewrite: (path) => path.replace(/^\/api/, '/api')
       }
     }
   }

@@ -16,12 +16,13 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 public class IndexController {
 
     @GetMapping()
     public String test() {
-        String data = "test";
+        String data = " 메인 페이지";
         return data;
     }
+
 }
