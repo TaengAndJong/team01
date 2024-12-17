@@ -22,7 +22,7 @@ public class AdminController {
     @GetMapping("/admin/test")
     public String testHandler() {
 
-        return "안녕하세요.관리자페이지 테스트 "+new Date() +"입니다. \n";
+        return "안녕하세요.관리자페이지 테스트2222 "+new Date() +"입니다. \n";
 
     }
 

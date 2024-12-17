@@ -1,4 +1,5 @@
 import {useEffect} from "react";
+import AdminTest from "./adminTest.jsx";
 
 function Admin({data,setUrl}){
 
@@ -10,6 +11,7 @@ function Admin({data,setUrl}){
     <div>
         <p>관리자</p>
         {data}
+        <AdminTest data={data} setUrl={setUrl}/>
     </div>
         
     );
