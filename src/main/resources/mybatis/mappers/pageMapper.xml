@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.team01.pages.dao.PageDao">
+        <select id="selectOne" resultType="PageVO" parameterType="String">
+            SELECT  * FROM PAGE WHERE pageId = #{pageId}
+        </select>
+
+        <select id="selectAllPage" resultType="PageVO">
+            SELECT * FROM PAGE
+        </select>
+
+</mapper>

@@ -6,6 +6,7 @@ import './App.css'
 import Home from "./test/home.jsx";
 import Login from "./test/login.jsx";
 import Admin from "./test/admin.jsx";
+import Page from "./test/page.jsx";
 
 function App() {
     const [data, setData] = useState('');
@@ -22,7 +23,17 @@ function App() {
                     console.log("???",response.text())
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                return response.text();  // 문자열로 응답 받기
+                // 응답의 Content-Type을 확인하여 처리
+                const contentType = response.headers.get("Content-Type");
+
+                if (contentType && contentType.includes("application/json")) {
+                    // JSON 응답일 경우
+                    return response.json();
+                } else {
+                    // 텍스트 응답일 경우
+                    return response.text();
+                }
+
             })
             .then((data) => {
                 console.log('Received data:', data); // 받은 문자열 출력
@@ -38,6 +49,7 @@ function App() {
                 {/*<Route path="/api" element={<Home data={data} setUrl={setUrl} />} />*/}
                 <Route path="/login" element={<Login data={data} setUrl={setUrl}/>} />
                 <Route path="/admin" element={<Admin data={data} setUrl={setUrl}/>} />
+                <Route path="/page" element={<Page data={data} setUrl={setUrl}/>} />
             </Routes>
         </div>
     );
