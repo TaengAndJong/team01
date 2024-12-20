@@ -8,9 +8,7 @@ function Home({data,setUrl}){
 
     return(
         <div>
-
             <p>메인{data}</p>
-
         </div>
         
     );
