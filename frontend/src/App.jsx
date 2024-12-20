@@ -3,11 +3,10 @@ import {Routes, Route } from "react-router-dom";
 
 
 import './App.css'
-import Home from "./pages/main/mainComponent.jsx";
+import Home from "./test/home.jsx";
 import Login from "./test/login.jsx";
 import Admin from "./test/admin.jsx";
 import Page from "./test/page.jsx";
-import SignUp from "./pages/singUp/signUpComponent.jsx";
 
 function App() {
     const [data, setData] = useState('');
@@ -46,12 +45,11 @@ function App() {
     return (
         <div className="App">
             <Routes>
-                <Route path="/" element={<Home/>} />
+                <Route path="/" element={<Home data={data} setUrl={setUrl}/>} />
                 {/*<Route path="/api" element={<Home data={data} setUrl={setUrl} />} />*/}
                 <Route path="/login" element={<Login data={data} setUrl={setUrl}/>} />
                 <Route path="/admin" element={<Admin data={data} setUrl={setUrl}/>} />
                 <Route path="/page" element={<Page data={data} setUrl={setUrl}/>} />
-                <Route path="/signup" element={<SignUp/>} />
             </Routes>
         </div>
     );

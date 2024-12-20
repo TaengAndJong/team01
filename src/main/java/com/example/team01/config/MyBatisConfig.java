@@ -23,7 +23,7 @@ public class MyBatisConfig {
         factoryBean.setDataSource(dataSource);
         factoryBean.setConfigLocation(new org.springframework.core.io.ClassPathResource("mybatis/config.xml")); // MyBatis 설정 파일 경로
         // Mapper XML 파일 경로, 클래스패스루트는 src/main/resources m
-        factoryBean.setMapperLocations(new org.springframework.core.io.ClassPathResource("mybatis/mappers/pageMapper.xml"));
+        factoryBean.setMapperLocations(new org.springframework.core.io.ClassPathResource("mybatis/mappers/PageMapper.xml"));
 
         return factoryBean.getObject();
     }
