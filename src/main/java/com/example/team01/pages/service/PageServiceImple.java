@@ -1,10 +1,9 @@
-package com.example.team01.pages;
+package com.example.team01.pages.service;
 
 import com.example.team01.pages.dao.PageDao;
 import com.example.team01.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 

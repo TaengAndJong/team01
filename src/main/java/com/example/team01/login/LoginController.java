@@ -10,16 +10,16 @@ import java.util.Map;
 
 @Slf4j
 @RestController    //전역 ResponseBody
-@RequestMapping("/login")
+@RequestMapping()
 public class LoginController {
 
-    @GetMapping()
+    @GetMapping("/login")
     public String getLogin() {
        String data = "로그인 페이지 , getMapping";
         return data;
     }
 
-    @PostMapping()
+    @PostMapping("/login")
     public Map<String, Object> postLogin(@RequestBody Map<String, String> user) {
         //프론트에서 넘어 온  파라미터 변수에 저장해서 가져오기, 개발자도구 네트워크확인하기
         String id = user.get("id");

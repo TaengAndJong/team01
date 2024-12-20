@@ -4,12 +4,13 @@ import {Routes, Route } from "react-router-dom";
 
 import './App.css'
 import Home from "./pages/main/mainComponent.jsx";
-import Login from "./test/login.jsx";
+
 import Admin from "./test/admin.jsx";
 import Page from "./test/page.jsx";
 import SignUp from "./pages/singUp/signUpComponent.jsx";
 // import cart from "./pages/cart/cartComponent.jsx";
 import AdminTest from "./test/adminTest.jsx";
+import Login from "./pages/login/loginCompoenet.jsx";
 
 function App() {
     const [data, setData] = useState('');

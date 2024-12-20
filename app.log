@@ -1414,3 +1414,776 @@ org.springframework.security.web.firewall.RequestRejectedException: The request 
 2024-12-20T21:39:05.887+09:00  INFO 27012 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-12-20T21:39:05.890+09:00  INFO 27012 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2024-12-20T21:39:05.896+09:00  INFO 27012 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-12-20T21:44:29.112+09:00  INFO 26096 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 26096 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T21:44:29.125+09:00 DEBUG 26096 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T21:44:29.128+09:00  INFO 26096 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T21:44:29.211+09:00  INFO 26096 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\k\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/k/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
+2024-12-20T21:44:29.212+09:00  INFO 26096 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-20T21:44:29.212+09:00  INFO 26096 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-20T21:44:30.831+09:00  INFO 26096 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T21:44:30.859+09:00  INFO 26096 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19 ms. Found 0 JPA repository interfaces.
+2024-12-20T21:44:31.781+09:00  INFO 26096 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T21:44:31.788+09:00  INFO 26096 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T21:44:31.788+09:00  INFO 26096 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T21:44:31.794+09:00  INFO 26096 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T21:44:31.809+09:00  INFO 26096 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T21:44:31.810+09:00  INFO 26096 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T21:44:31.895+09:00  INFO 26096 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T21:44:31.895+09:00  INFO 26096 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2676 ms
+2024-12-20T21:44:32.320+09:00  INFO 26096 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T21:44:32.401+09:00  INFO 26096 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-20T21:44:32.441+09:00  INFO 26096 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T21:44:32.851+09:00  INFO 26096 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T21:44:32.902+09:00  INFO 26096 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-20T21:44:33.271+09:00  INFO 26096 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@7df49c9b
+2024-12-20T21:44:33.275+09:00  INFO 26096 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-20T21:44:33.419+09:00  WARN 26096 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T21:44:33.425+09:00  WARN 26096 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T21:44:33.952+09:00  INFO 26096 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T21:44:33.959+09:00  INFO 26096 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T21:44:34.372+09:00  WARN 26096 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T21:44:34.420+09:00  WARN 26096 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T21:44:34.554+09:00  INFO 26096 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T21:44:34.660+09:00  INFO 26096 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T21:44:35.097+09:00  INFO 26096 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T21:44:35.200+09:00 DEBUG 26096 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T21:44:35.411+09:00  WARN 26096 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T21:44:35.794+09:00  INFO 26096 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T21:44:35.887+09:00  INFO 26096 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T21:44:35.908+09:00  INFO 26096 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 7.422 seconds (process running for 8.459)
+2024-12-20T21:44:36.422+09:00  INFO 26096 --- [team01] [RMI TCP Connection(2)-192.168.0.3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-20T21:44:36.422+09:00  INFO 26096 --- [team01] [RMI TCP Connection(2)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-20T21:44:36.424+09:00  INFO 26096 --- [team01] [RMI TCP Connection(2)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-12-20T21:46:28.293+09:00 DEBUG 26096 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T21:46:28.313+09:00 DEBUG 26096 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T21:46:28.384+09:00 DEBUG 26096 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T21:46:29.159+09:00 DEBUG 26096 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T21:46:29.160+09:00 DEBUG 26096 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T21:46:29.164+09:00 DEBUG 26096 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T21:49:50.817+09:00  INFO 26096 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T21:49:50.823+09:00  INFO 26096 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-20T21:49:50.863+09:00  INFO 26096 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-12-20T22:08:47.078+09:00  INFO 8148 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 8148 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:08:47.080+09:00 DEBUG 8148 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:08:47.082+09:00  INFO 8148 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:08:47.137+09:00  INFO 8148 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\k\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/k/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
+2024-12-20T22:08:47.139+09:00  INFO 8148 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-20T22:08:47.139+09:00  INFO 8148 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-20T22:08:48.482+09:00  INFO 8148 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:08:48.514+09:00  INFO 8148 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:08:49.683+09:00  INFO 8148 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:08:49.687+09:00  INFO 8148 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:08:49.687+09:00  INFO 8148 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:08:49.707+09:00  INFO 8148 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:08:49.719+09:00  INFO 8148 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:08:49.720+09:00  INFO 8148 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:08:49.792+09:00  INFO 8148 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:08:49.793+09:00  INFO 8148 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2654 ms
+2024-12-20T22:08:50.356+09:00  INFO 8148 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:08:50.472+09:00  INFO 8148 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-20T22:08:50.532+09:00  INFO 8148 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:08:51.022+09:00  INFO 8148 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:08:51.072+09:00  INFO 8148 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-20T22:08:54.714+09:00  INFO 29296 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 29296 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:08:54.717+09:00 DEBUG 29296 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:08:54.718+09:00  INFO 29296 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:08:54.769+09:00  INFO 29296 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\k\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/k/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
+2024-12-20T22:08:54.770+09:00  INFO 29296 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-20T22:08:54.770+09:00  INFO 29296 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-20T22:08:55.897+09:00  INFO 29296 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:08:55.924+09:00  INFO 29296 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:08:56.667+09:00  INFO 29296 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:08:56.670+09:00  INFO 29296 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:08:56.670+09:00  INFO 29296 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:08:56.675+09:00  INFO 29296 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:08:56.687+09:00  INFO 29296 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:08:56.687+09:00  INFO 29296 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:08:56.744+09:00  INFO 29296 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:08:56.745+09:00  INFO 29296 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1975 ms
+2024-12-20T22:08:57.124+09:00  INFO 29296 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:08:57.188+09:00  INFO 29296 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-20T22:08:57.216+09:00  INFO 29296 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:08:57.493+09:00  INFO 29296 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:08:57.525+09:00  INFO 29296 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-20T22:08:57.778+09:00  INFO 29296 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@74198c1c
+2024-12-20T22:08:57.780+09:00  INFO 29296 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-20T22:08:57.868+09:00  WARN 29296 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:08:57.877+09:00  WARN 29296 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:08:58.329+09:00  INFO 29296 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:08:58.337+09:00  INFO 29296 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:08:58.694+09:00  WARN 29296 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:08:58.736+09:00  WARN 29296 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:08:58.837+09:00  INFO 29296 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:08:58.947+09:00  INFO 29296 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:08:59.322+09:00  INFO 29296 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:08:59.417+09:00 DEBUG 29296 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:08:59.612+09:00  WARN 29296 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:08:59.962+09:00  INFO 29296 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:09:00.062+09:00  INFO 29296 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:09:00.079+09:00  INFO 29296 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 5.884 seconds (process running for 6.766)
+2024-12-20T22:09:00.727+09:00  INFO 29296 --- [team01] [RMI TCP Connection(3)-192.168.0.3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-20T22:09:00.727+09:00  INFO 29296 --- [team01] [RMI TCP Connection(3)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-20T22:09:00.733+09:00  INFO 29296 --- [team01] [RMI TCP Connection(3)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2024-12-20T22:09:12.587+09:00  INFO 29296 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:09:12.591+09:00  INFO 29296 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-20T22:09:12.626+09:00  INFO 29296 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-12-20T22:09:15.892+09:00  INFO 33416 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 33416 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:09:15.894+09:00 DEBUG 33416 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:09:15.895+09:00  INFO 33416 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:09:15.945+09:00  INFO 33416 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\k\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/k/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
+2024-12-20T22:09:15.945+09:00  INFO 33416 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-20T22:09:15.946+09:00  INFO 33416 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-20T22:09:17.058+09:00  INFO 33416 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:09:17.091+09:00  INFO 33416 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:09:17.911+09:00  INFO 33416 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:09:17.914+09:00  INFO 33416 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:09:17.914+09:00  INFO 33416 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:09:17.917+09:00  INFO 33416 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:09:17.928+09:00  INFO 33416 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:09:17.929+09:00  INFO 33416 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:09:17.996+09:00  INFO 33416 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:09:17.998+09:00  INFO 33416 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2051 ms
+2024-12-20T22:09:18.390+09:00  INFO 33416 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:09:18.448+09:00  INFO 33416 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-20T22:09:18.480+09:00  INFO 33416 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:09:18.804+09:00  INFO 33416 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:09:18.873+09:00  INFO 33416 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-20T22:09:19.189+09:00  INFO 33416 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@367572b5
+2024-12-20T22:09:19.191+09:00  INFO 33416 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-20T22:09:19.306+09:00  WARN 33416 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:09:19.311+09:00  WARN 33416 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:09:19.832+09:00  INFO 33416 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:09:19.845+09:00  INFO 33416 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:09:20.303+09:00  WARN 33416 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:09:20.432+09:00  WARN 33416 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:09:20.580+09:00  INFO 33416 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:09:20.695+09:00  INFO 33416 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:09:21.323+09:00  INFO 33416 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:09:21.462+09:00 DEBUG 33416 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:09:21.706+09:00  WARN 33416 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:09:22.044+09:00  INFO 33416 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:09:22.108+09:00  INFO 33416 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:09:22.126+09:00  INFO 33416 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 6.71 seconds (process running for 7.576)
+2024-12-20T22:09:22.442+09:00  INFO 33416 --- [team01] [RMI TCP Connection(1)-192.168.0.3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-20T22:09:22.443+09:00  INFO 33416 --- [team01] [RMI TCP Connection(1)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-20T22:09:22.445+09:00  INFO 33416 --- [team01] [RMI TCP Connection(1)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-12-20T22:09:24.345+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:09:24.345+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:09:24.367+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:09:24.367+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:09:24.447+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:09:24.447+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:09:29.610+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:09:29.610+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:09:29.612+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:09:29.613+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:09:29.614+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:09:29.614+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:09:41.275+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:09:41.466+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-5] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:09:41.550+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-5] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:09:41.558+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:09:41.563+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:09:41.566+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:09:41.568+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:10:32.757+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:10:32.841+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-9] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:10:32.842+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-9] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:10:32.847+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:10:32.850+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:10:32.851+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:10:32.853+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:10:40.773+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:10:40.862+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-4] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:10:40.863+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-4] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:10:40.868+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:10:40.872+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:10:40.873+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:10:40.875+09:00 DEBUG 33416 --- [team01] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:11:18.442+09:00  INFO 33416 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:11:18.445+09:00  INFO 33416 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-20T22:11:18.482+09:00  INFO 33416 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-12-20T22:11:21.793+09:00  INFO 34808 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 34808 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:11:21.797+09:00 DEBUG 34808 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:11:21.798+09:00  INFO 34808 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:11:21.878+09:00  INFO 34808 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\k\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/k/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
+2024-12-20T22:11:21.879+09:00  INFO 34808 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-20T22:11:21.879+09:00  INFO 34808 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-20T22:11:23.113+09:00  INFO 34808 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:11:23.137+09:00  INFO 34808 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:11:24.072+09:00  INFO 34808 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:11:24.075+09:00  INFO 34808 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:11:24.075+09:00  INFO 34808 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:11:24.081+09:00  INFO 34808 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:11:24.093+09:00  INFO 34808 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:11:24.093+09:00  INFO 34808 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:11:24.163+09:00  INFO 34808 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:11:24.163+09:00  INFO 34808 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2283 ms
+2024-12-20T22:11:24.765+09:00  INFO 34808 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:11:24.870+09:00  INFO 34808 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-20T22:11:24.950+09:00  INFO 34808 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:11:25.277+09:00  INFO 34808 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:11:25.310+09:00  INFO 34808 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-20T22:11:25.544+09:00  INFO 34808 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@2d23e39b
+2024-12-20T22:11:25.545+09:00  INFO 34808 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-20T22:11:25.630+09:00  WARN 34808 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:11:25.633+09:00  WARN 34808 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:11:26.005+09:00  INFO 34808 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:11:26.010+09:00  INFO 34808 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:11:26.319+09:00  WARN 34808 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:11:26.365+09:00  WARN 34808 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:11:26.475+09:00  INFO 34808 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:11:26.575+09:00  INFO 34808 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:11:27.065+09:00  INFO 34808 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:11:27.327+09:00 DEBUG 34808 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:11:27.590+09:00  WARN 34808 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:11:27.914+09:00  INFO 34808 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:11:27.980+09:00  INFO 34808 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:11:27.995+09:00  INFO 34808 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 6.799 seconds (process running for 7.999)
+2024-12-20T22:11:28.600+09:00  INFO 34808 --- [team01] [RMI TCP Connection(1)-192.168.0.3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-20T22:11:28.600+09:00  INFO 34808 --- [team01] [RMI TCP Connection(1)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-20T22:11:28.602+09:00  INFO 34808 --- [team01] [RMI TCP Connection(1)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-12-20T22:11:28.694+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:11:28.694+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:11:28.713+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:11:28.713+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:11:28.792+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:11:28.792+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:11:55.239+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:11:55.241+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:11:55.246+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:11:55.250+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:11:55.252+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:11:55.255+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:12:01.608+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:12:01.818+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-5] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:12:01.823+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-5] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:12:01.828+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:12:01.833+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:12:01.837+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:12:01.839+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:12:16.479+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:12:16.563+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:12:16.563+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:12:16.570+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:12:16.573+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:12:16.575+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:12:16.577+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:12:20.859+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:12:20.859+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:12:20.860+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:12:20.860+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:12:20.861+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:12:20.861+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:12:23.081+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:12:23.177+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:12:23.177+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:12:23.181+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:12:23.184+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:12:23.187+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:12:23.188+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:15:46.449+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:15:46.451+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:15:46.453+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:15:46.458+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:15:46.460+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:15:46.462+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:15:47.301+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:15:47.303+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:15:47.307+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:15:47.317+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:15:47.317+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:15:47.319+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:15:56.350+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:15:56.650+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:15:56.650+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:15:56.651+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:15:56.653+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:15:56.654+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:15:56.658+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:15:56.718+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:15:56.719+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:16:52.691+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:16:52.830+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:16:52.830+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:16:52.833+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:16:52.842+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:16:52.844+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:16:52.846+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:16:52.865+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-5] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:16:52.865+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-5] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:18:13.595+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:18:13.597+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:18:13.602+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:18:13.611+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:18:13.612+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:18:13.613+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:18:14.482+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:18:14.483+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:18:14.484+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:18:14.490+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:18:14.491+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:18:14.493+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:18:24.973+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:18:25.065+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:18:25.065+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:18:25.070+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:18:25.074+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:18:25.075+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:18:25.077+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:23:28.230+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:23:28.317+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:23:28.317+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:23:28.321+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:23:28.324+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:23:28.326+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:23:28.328+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:24:09.755+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:24:09.843+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:24:09.844+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:24:09.849+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:24:09.852+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:24:09.853+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:24:09.855+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:24:51.568+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:24:51.661+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:24:51.661+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-1] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:24:51.665+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:24:51.669+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:24:51.670+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:24:51.673+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:26:55.477+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:26:55.479+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:26:55.481+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:26:55.490+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:26:55.491+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:26:55.493+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:26:57.972+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:26:57.972+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:26:57.974+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:26:57.981+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:26:57.982+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:26:57.983+09:00 DEBUG 34808 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:32:07.075+09:00  INFO 34808 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:32:07.080+09:00  INFO 34808 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-20T22:32:07.122+09:00  INFO 34808 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-12-20T22:32:09.978+09:00  INFO 1428 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 1428 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:32:09.980+09:00 DEBUG 1428 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:32:09.981+09:00  INFO 1428 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:32:10.029+09:00  INFO 1428 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\k\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/k/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
+2024-12-20T22:32:10.030+09:00  INFO 1428 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-20T22:32:10.030+09:00  INFO 1428 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-20T22:32:11.347+09:00  INFO 1428 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:32:11.375+09:00  INFO 1428 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:32:12.251+09:00  INFO 1428 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:32:12.254+09:00  INFO 1428 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:32:12.254+09:00  INFO 1428 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:32:12.258+09:00  INFO 1428 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:32:12.271+09:00  INFO 1428 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:32:12.272+09:00  INFO 1428 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:32:12.333+09:00  INFO 1428 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:32:12.334+09:00  INFO 1428 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2301 ms
+2024-12-20T22:32:12.722+09:00  INFO 1428 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:32:12.792+09:00  INFO 1428 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-20T22:32:12.829+09:00  INFO 1428 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:32:13.112+09:00  INFO 1428 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:32:13.145+09:00  INFO 1428 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-20T22:32:13.393+09:00  INFO 1428 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@72831e18
+2024-12-20T22:32:13.395+09:00  INFO 1428 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-20T22:32:13.486+09:00  WARN 1428 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:32:13.490+09:00  WARN 1428 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:32:13.862+09:00  INFO 1428 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:32:13.867+09:00  INFO 1428 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:32:14.214+09:00  WARN 1428 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:32:14.262+09:00  WARN 1428 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:32:14.394+09:00  INFO 1428 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:32:14.494+09:00  INFO 1428 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:32:14.834+09:00  INFO 1428 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:32:14.920+09:00 DEBUG 1428 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:32:15.087+09:00  WARN 1428 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:32:15.396+09:00  INFO 1428 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:32:15.464+09:00  INFO 1428 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:32:15.482+09:00  INFO 1428 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 6.037 seconds (process running for 7.432)
+2024-12-20T22:32:16.032+09:00  INFO 1428 --- [team01] [RMI TCP Connection(4)-192.168.0.3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-20T22:32:16.032+09:00  INFO 1428 --- [team01] [RMI TCP Connection(4)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-20T22:32:16.034+09:00  INFO 1428 --- [team01] [RMI TCP Connection(4)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-12-20T22:32:17.372+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:32:17.373+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:32:17.391+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:32:17.391+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:32:17.457+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:32:17.457+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:32:28.297+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:32:28.478+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-3] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:32:28.483+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-3] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:32:28.489+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:32:28.494+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:32:28.497+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:32:28.498+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:35:19.507+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:35:19.507+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:35:19.509+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:35:19.509+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:35:19.511+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:35:19.511+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:35:23.013+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:35:23.015+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:35:23.016+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:35:23.019+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:35:23.021+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:35:23.024+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:35:32.145+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:35:32.230+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:35:32.230+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-1] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:35:32.234+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:35:32.237+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:35:32.239+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:35:32.240+09:00 DEBUG 1428 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:36:42.292+09:00  INFO 1428 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:36:42.294+09:00  INFO 1428 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-20T22:36:42.322+09:00  INFO 1428 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-12-20T22:36:48.000+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 25972 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:36:48.003+09:00 DEBUG 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:36:48.004+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:36:48.058+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\k\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/k/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
+2024-12-20T22:36:48.059+09:00  INFO 25972 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-20T22:36:48.059+09:00  INFO 25972 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-20T22:36:49.293+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:36:49.325+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:36:50.246+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:36:50.251+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:36:50.251+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:36:50.267+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:36:50.301+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:36:50.301+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:36:50.403+09:00  INFO 25972 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:36:50.405+09:00  INFO 25972 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2345 ms
+2024-12-20T22:36:51.014+09:00  INFO 25972 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:36:51.114+09:00  INFO 25972 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-20T22:36:51.164+09:00  INFO 25972 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:36:51.591+09:00  INFO 25972 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:36:51.625+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-20T22:36:51.927+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@74fcdad9
+2024-12-20T22:36:51.929+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-20T22:36:52.057+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:36:52.062+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:36:52.555+09:00  INFO 25972 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:36:52.563+09:00  INFO 25972 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:36:52.884+09:00  WARN 25972 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:36:52.937+09:00  WARN 25972 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:36:53.049+09:00  INFO 25972 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:36:53.140+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:36:53.479+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:36:53.549+09:00 DEBUG 25972 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:36:53.727+09:00  WARN 25972 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:36:54.022+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:36:54.083+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:36:54.097+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 6.548 seconds (process running for 7.451)
+2024-12-20T22:36:54.464+09:00  INFO 25972 --- [team01] [RMI TCP Connection(2)-192.168.0.3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-20T22:36:54.465+09:00  INFO 25972 --- [team01] [RMI TCP Connection(2)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-20T22:36:54.467+09:00  INFO 25972 --- [team01] [RMI TCP Connection(2)-192.168.0.3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-12-20T22:36:57.952+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:36:58.149+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:36:58.154+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-1] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:36:58.165+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:36:58.172+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:36:58.180+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:36:58.229+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:36:58.235+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /error?error
+2024-12-20T22:36:58.237+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:36:58.310+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-3] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8081/error?error&continue to session
+2024-12-20T22:36:58.311+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-3] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8081/login;jsessionid=A6A4E03DE0E0E663A2460EFA67187C32
+2024-12-20T22:36:58.318+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-4] s.s.w.f.HttpStatusRequestRejectedHandler : Rejecting request due to: The request was rejected because the URL contained a potentially malicious String ";"
+
+org.springframework.security.web.firewall.RequestRejectedException: The request was rejected because the URL contained a potentially malicious String ";"
+	at org.springframework.security.web.firewall.StrictHttpFirewall.rejectedBlocklistedUrls(StrictHttpFirewall.java:539) ~[spring-security-web-6.3.5.jar:6.3.5]
+	at org.springframework.security.web.firewall.StrictHttpFirewall.getFirewalledRequest(StrictHttpFirewall.java:509) ~[spring-security-web-6.3.5.jar:6.3.5]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211) ~[spring-security-web-6.3.5.jar:6.3.5]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.3.5.jar:6.3.5]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195) ~[spring-webmvc-6.1.15.jar:6.1.15]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230) ~[spring-security-config-6.3.5.jar:6.3.5]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.15.jar:6.1.15]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.33.jar:10.1.33]
+	at java.base/java.lang.Thread.run(Thread.java:842) ~[na:na]
+
+2024-12-20T22:36:58.328+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /error
+2024-12-20T22:36:58.328+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:36:58.330+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-4] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8081/error?continue to session
+2024-12-20T22:36:58.330+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-4] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8081/login;jsessionid=A6A4E03DE0E0E663A2460EFA67187C32
+2024-12-20T22:37:36.205+09:00  INFO 25972 --- [team01] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2024-12-20T22:37:36.635+09:00  INFO 25972 --- [team01] [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:37:36.639+09:00  INFO 25972 --- [team01] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-20T22:37:36.678+09:00  INFO 25972 --- [team01] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-12-20T22:37:36.794+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 25972 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:37:36.794+09:00 DEBUG 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:37:36.794+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:37:37.373+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:37:37.385+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:37:37.631+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:37:37.632+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:37:37.632+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:37:37.633+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:37:37.633+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:37:37.633+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:37:37.669+09:00  INFO 25972 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:37:37.669+09:00  INFO 25972 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 873 ms
+2024-12-20T22:37:37.855+09:00  INFO 25972 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:37:37.860+09:00  INFO 25972 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:37:37.877+09:00  INFO 25972 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:37:37.878+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2024-12-20T22:37:37.960+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection oracle.jdbc.driver.T4CConnection@2fd42908
+2024-12-20T22:37:37.960+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2024-12-20T22:37:37.968+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:37:37.969+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:37:37.991+09:00  INFO 25972 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:37:37.992+09:00  INFO 25972 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:37:38.073+09:00  WARN 25972 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:37:38.125+09:00  WARN 25972 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:37:38.300+09:00  INFO 25972 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:37:38.361+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:37:38.668+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:37:38.714+09:00 DEBUG 25972 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:37:38.815+09:00  WARN 25972 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:37:39.027+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:37:39.051+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:37:39.061+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 2.293 seconds (process running for 52.414)
+2024-12-20T22:37:39.063+09:00  INFO 25972 --- [team01] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-12-20T22:37:40.459+09:00  INFO 25972 --- [team01] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2024-12-20T22:37:40.827+09:00  INFO 25972 --- [team01] [Thread-10] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:37:40.828+09:00  INFO 25972 --- [team01] [Thread-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2024-12-20T22:37:40.949+09:00  INFO 25972 --- [team01] [Thread-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2024-12-20T22:37:41.065+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 25972 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:37:41.065+09:00 DEBUG 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:37:41.065+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:37:41.401+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:37:41.407+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:37:41.583+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:37:41.584+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:37:41.584+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:37:41.585+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:37:41.585+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:37:41.585+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:37:41.614+09:00  INFO 25972 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:37:41.614+09:00  INFO 25972 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 547 ms
+2024-12-20T22:37:41.750+09:00  INFO 25972 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:37:41.753+09:00  INFO 25972 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:37:41.760+09:00  INFO 25972 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:37:41.761+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2024-12-20T22:37:41.797+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection oracle.jdbc.driver.T4CConnection@5f5ec87f
+2024-12-20T22:37:41.797+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2024-12-20T22:37:41.809+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:37:41.809+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:37:41.840+09:00  INFO 25972 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:37:41.840+09:00  INFO 25972 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:37:41.929+09:00  WARN 25972 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:37:41.955+09:00  WARN 25972 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:37:42.054+09:00  INFO 25972 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:37:42.078+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:37:42.274+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:37:42.323+09:00 DEBUG 25972 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:37:42.415+09:00  WARN 25972 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:37:42.604+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:37:42.629+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:37:42.640+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 1.601 seconds (process running for 55.993)
+2024-12-20T22:37:42.643+09:00  INFO 25972 --- [team01] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-12-20T22:37:46.344+09:00  INFO 25972 --- [team01] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-20T22:37:46.344+09:00  INFO 25972 --- [team01] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-20T22:37:46.347+09:00  INFO 25972 --- [team01] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-12-20T22:37:46.348+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T22:37:46.350+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T22:37:46.355+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T22:37:46.359+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T22:37:46.408+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:37:46.409+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:37:54.030+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-20T22:37:54.204+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-3] o.s.s.a.dao.DaoAuthenticationProvider    : Failed to find user ''
+2024-12-20T22:37:54.206+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-3] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /login?error
+2024-12-20T22:37:54.210+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login?error
+2024-12-20T22:37:54.213+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /login?error
+2024-12-20T22:37:54.214+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /login?error
+2024-12-20T22:37:54.216+09:00 DEBUG 25972 --- [team01] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T22:41:42.384+09:00  INFO 25972 --- [team01] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 1 deletion, 1 modification)
+2024-12-20T22:41:42.782+09:00  INFO 25972 --- [team01] [Thread-15] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:41:42.783+09:00  INFO 25972 --- [team01] [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2024-12-20T22:41:42.811+09:00  INFO 25972 --- [team01] [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2024-12-20T22:41:42.924+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 25972 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:41:42.924+09:00 DEBUG 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:41:42.925+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:41:43.312+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:41:43.315+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:41:43.504+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:41:43.505+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:41:43.505+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:41:43.506+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:41:43.506+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:41:43.506+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:41:43.537+09:00  INFO 25972 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:41:43.537+09:00  INFO 25972 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 610 ms
+2024-12-20T22:41:43.686+09:00  INFO 25972 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:41:43.689+09:00  INFO 25972 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:41:43.698+09:00  INFO 25972 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:41:43.699+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2024-12-20T22:41:43.731+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection oracle.jdbc.driver.T4CConnection@8058e1a
+2024-12-20T22:41:43.731+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2024-12-20T22:41:43.737+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:41:43.737+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:41:43.761+09:00  INFO 25972 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:41:43.761+09:00  INFO 25972 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:41:43.868+09:00  WARN 25972 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:41:43.888+09:00  WARN 25972 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:41:43.976+09:00  INFO 25972 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:41:43.996+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:41:44.174+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:41:44.216+09:00 DEBUG 25972 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:41:44.289+09:00  WARN 25972 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:41:44.485+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:41:44.503+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:41:44.512+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 1.618 seconds (process running for 297.865)
+2024-12-20T22:41:44.514+09:00  INFO 25972 --- [team01] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-12-20T22:41:45.927+09:00  INFO 25972 --- [team01] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2024-12-20T22:41:46.324+09:00  INFO 25972 --- [team01] [Thread-20] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:41:46.324+09:00  INFO 25972 --- [team01] [Thread-20] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2024-12-20T22:41:46.359+09:00  INFO 25972 --- [team01] [Thread-20] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2024-12-20T22:41:46.475+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 25972 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:41:46.475+09:00 DEBUG 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:41:46.475+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:41:46.800+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:41:46.809+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:41:46.956+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:41:46.956+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:41:46.956+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:41:46.957+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:41:46.957+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:41:46.957+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:41:46.982+09:00  INFO 25972 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:41:46.982+09:00  INFO 25972 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 504 ms
+2024-12-20T22:41:47.112+09:00  INFO 25972 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:41:47.114+09:00  INFO 25972 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:41:47.121+09:00  INFO 25972 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:41:47.122+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2024-12-20T22:41:47.153+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection oracle.jdbc.driver.T4CConnection@37d93aa3
+2024-12-20T22:41:47.153+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2024-12-20T22:41:47.160+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:41:47.161+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:41:47.180+09:00  INFO 25972 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:41:47.180+09:00  INFO 25972 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:41:47.256+09:00  WARN 25972 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:41:47.281+09:00  WARN 25972 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:41:47.378+09:00  INFO 25972 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:41:47.403+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:41:47.629+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:41:47.660+09:00 DEBUG 25972 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:41:47.733+09:00  WARN 25972 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:41:47.920+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:41:47.937+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:41:47.945+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 1.498 seconds (process running for 301.298)
+2024-12-20T22:41:47.947+09:00  INFO 25972 --- [team01] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-12-20T22:51:21.390+09:00  INFO 25972 --- [team01] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 4 class path changes (0 additions, 4 deletions, 0 modifications)
+2024-12-20T22:51:21.873+09:00  INFO 25972 --- [team01] [Thread-25] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:51:21.873+09:00  INFO 25972 --- [team01] [Thread-25] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2024-12-20T22:51:21.910+09:00  INFO 25972 --- [team01] [Thread-25] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+2024-12-20T22:51:22.023+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 25972 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:51:22.023+09:00 DEBUG 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:51:22.023+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:51:22.710+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:51:22.717+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:51:22.955+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:51:22.955+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2024-12-20T22:51:22.955+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2024-12-20T22:51:22.956+09:00  INFO 25972 --- [team01] [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2024-12-20T22:51:22.957+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T22:51:22.957+09:00  INFO 25972 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T22:51:22.988+09:00  INFO 25972 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T22:51:22.988+09:00  INFO 25972 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 961 ms
+2024-12-20T22:51:23.160+09:00  INFO 25972 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:51:23.165+09:00  INFO 25972 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:51:23.177+09:00  INFO 25972 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:51:23.178+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2024-12-20T22:51:23.221+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection oracle.jdbc.driver.T4CConnection@299164b4
+2024-12-20T22:51:23.221+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2024-12-20T22:51:23.237+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:51:23.237+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:51:23.263+09:00  INFO 25972 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:51:23.264+09:00  INFO 25972 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:51:23.381+09:00  WARN 25972 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:51:23.418+09:00  WARN 25972 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:51:23.585+09:00  INFO 25972 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:51:23.611+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:51:23.861+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:51:23.911+09:00 DEBUG 25972 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:51:24.012+09:00  WARN 25972 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:51:24.213+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:51:24.246+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:51:24.258+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 2.267 seconds (process running for 877.61)
+2024-12-20T22:51:24.260+09:00  INFO 25972 --- [team01] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-12-20T22:51:25.659+09:00  INFO 25972 --- [team01] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 11 class path changes (11 additions, 0 deletions, 0 modifications)
+2024-12-20T22:51:26.095+09:00  INFO 25972 --- [team01] [Thread-30] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:51:26.097+09:00  INFO 25972 --- [team01] [Thread-30] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2024-12-20T22:51:26.132+09:00  INFO 25972 --- [team01] [Thread-30] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2024-12-20T22:51:26.274+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.13 with PID 25972 (C:\Users\k\Desktop\team01\target\classes started by k in C:\Users\k\Desktop\team01)
+2024-12-20T22:51:26.274+09:00 DEBUG 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T22:51:26.274+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T22:51:26.849+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T22:51:26.861+09:00  INFO 25972 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JPA repository interfaces.
+2024-12-20T22:51:27.042+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T22:51:27.068+09:00  INFO 25972 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 789 ms
+2024-12-20T22:51:27.212+09:00  INFO 25972 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T22:51:27.215+09:00  INFO 25972 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T22:51:27.222+09:00  INFO 25972 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T22:51:27.223+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2024-12-20T22:51:27.251+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection oracle.jdbc.driver.T4CConnection@70f7ccb1
+2024-12-20T22:51:27.251+09:00  INFO 25972 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2024-12-20T22:51:27.263+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T22:51:27.263+09:00  WARN 25972 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T22:51:27.289+09:00  INFO 25972 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T22:51:27.289+09:00  INFO 25972 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:51:27.393+09:00  WARN 25972 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T22:51:27.422+09:00  WARN 25972 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T22:51:27.515+09:00  INFO 25972 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T22:51:27.538+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T22:51:27.711+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T22:51:27.751+09:00 DEBUG 25972 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T22:51:27.825+09:00  WARN 25972 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T22:51:28.002+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T22:51:28.026+09:00  INFO 25972 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T22:51:28.035+09:00  INFO 25972 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 1.805 seconds (process running for 881.389)
+2024-12-20T22:51:28.038+09:00  INFO 25972 --- [team01] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-12-20T22:51:28.401+09:00  INFO 25972 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T22:51:28.402+09:00  INFO 25972 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
+2024-12-20T22:51:28.456+09:00  INFO 25972 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.

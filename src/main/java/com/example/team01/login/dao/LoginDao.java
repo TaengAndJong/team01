@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface LoginDao {
 
     //로그인시 필요한 파라미터
-    public LoginVO selectLogin(String clientId,String password,String identifyNumber);
+    public LoginVO selectLogin(String clientId,String password);
     public LoginVO selectRoleId(String roleId);
 }
 

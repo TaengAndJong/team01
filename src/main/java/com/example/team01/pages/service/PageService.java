@@ -1,7 +1,6 @@
-package com.example.team01.pages;
+package com.example.team01.pages.service;
 
 import com.example.team01.vo.PageVO;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

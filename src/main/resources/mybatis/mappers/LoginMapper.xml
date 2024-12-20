@@ -7,7 +7,6 @@
         FROM LOGIN
         WHERE clientId = #{clientId}
           and password = #{password}
-          and identifyNumber = #{identifyNumber}
     </select>
 
 
