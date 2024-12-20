@@ -1,4 +1,5 @@
 import {useEffect} from "react";
+import Btn from "../util/reuseBtn.jsx"
 
 function Home({data,setUrl}){
     useEffect(() => {
@@ -7,6 +8,7 @@ function Home({data,setUrl}){
 
     return(
         <div>
+
             <p>메인{data}</p>
 
         </div>
