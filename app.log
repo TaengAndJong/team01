@@ -1368,3 +1368,49 @@ org.springframework.security.web.firewall.RequestRejectedException: The request 
 2024-12-20T16:52:38.058+09:00  INFO 13020 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-12-20T16:52:38.062+09:00  INFO 13020 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2024-12-20T16:52:38.103+09:00  INFO 13020 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-12-20T21:38:00.299+09:00  INFO 27012 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.12 with PID 27012 (C:\Users\whdgh\IdeaProjects\team01\target\classes started by whdgh in C:\Users\whdgh\IdeaProjects\team01)
+2024-12-20T21:38:00.301+09:00 DEBUG 27012 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T21:38:00.302+09:00  INFO 27012 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T21:38:00.364+09:00  INFO 27012 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\whdgh\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/whdgh/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
+2024-12-20T21:38:00.365+09:00  INFO 27012 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-20T21:38:00.366+09:00  INFO 27012 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-20T21:38:01.686+09:00  INFO 27012 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T21:38:01.705+09:00  INFO 27012 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.
+2024-12-20T21:38:02.490+09:00  INFO 27012 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T21:38:02.500+09:00  INFO 27012 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T21:38:02.500+09:00  INFO 27012 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T21:38:02.546+09:00  INFO 27012 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T21:38:02.547+09:00  INFO 27012 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2181 ms
+2024-12-20T21:38:02.912+09:00  INFO 27012 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T21:38:02.968+09:00  INFO 27012 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-20T21:38:02.997+09:00  INFO 27012 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T21:38:03.265+09:00  INFO 27012 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T21:38:03.291+09:00  INFO 27012 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-20T21:38:03.454+09:00  INFO 27012 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@4485fb9e
+2024-12-20T21:38:03.456+09:00  INFO 27012 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-20T21:38:03.521+09:00  WARN 27012 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T21:38:03.525+09:00  WARN 27012 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T21:38:03.911+09:00  INFO 27012 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T21:38:03.915+09:00  INFO 27012 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T21:38:04.294+09:00  WARN 27012 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T21:38:04.343+09:00  WARN 27012 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-20T21:38:04.463+09:00  INFO 27012 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-20T21:38:04.564+09:00  INFO 27012 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T21:38:04.988+09:00  INFO 27012 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-20T21:38:05.072+09:00 DEBUG 27012 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-20T21:38:05.267+09:00  WARN 27012 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-20T21:38:05.579+09:00  INFO 27012 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T21:38:05.642+09:00  INFO 27012 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T21:38:05.669+09:00  INFO 27012 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 5.737 seconds (process running for 6.498)
+2024-12-20T21:38:06.335+09:00  INFO 27012 --- [team01] [RMI TCP Connection(2)-192.168.0.8] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-20T21:38:06.335+09:00  INFO 27012 --- [team01] [RMI TCP Connection(2)-192.168.0.8] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-20T21:38:06.339+09:00  INFO 27012 --- [team01] [RMI TCP Connection(2)-192.168.0.8] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2024-12-20T21:38:29.528+09:00 DEBUG 27012 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-20T21:38:29.551+09:00 DEBUG 27012 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-20T21:38:29.750+09:00 DEBUG 27012 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T21:38:31.027+09:00 DEBUG 27012 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-20T21:38:31.029+09:00 DEBUG 27012 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-20T21:38:31.031+09:00 DEBUG 27012 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-20T21:39:05.887+09:00  INFO 27012 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T21:39:05.890+09:00  INFO 27012 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-20T21:39:05.896+09:00  INFO 27012 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

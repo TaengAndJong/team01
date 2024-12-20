@@ -2,13 +2,15 @@ import Btn from "../../../util/reuseBtn.jsx";
 import {validateInput} from "../../../util/validation.jsx";
 import {useState} from "react";
 
-const SignUpForm = ()=> {
+const SignUpForm = ()=> { //
     const [values,SetValues] = useState({
         id : "",
         pw : "",
     });
 
-
+    const duplicationHandle = () => {
+        validateInput()
+    }
     return (
         <>
             <div>
@@ -17,7 +19,7 @@ const SignUpForm = ()=> {
             <div>
                 <p>아이디</p>
                 <input type="text" name="id"/>
-                <Btn text="중복확인" type="" onClick={()=>{}} className="btn-id_duplication"/>
+                <Btn text="중복확인" type="" onClick={()=>{duplicationHandle(id,id)}} className="btn-id_duplication"/>
             </div>
             <div>
                 <p>아이디</p>
