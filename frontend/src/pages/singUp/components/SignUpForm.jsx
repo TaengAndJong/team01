@@ -19,10 +19,24 @@ const SignUpForm = ()=> { //
             <div>
                 <p>아이디</p>
                 <input type="text" name="id"/>
-                <Btn text="중복확인" type="" onClick={()=>{duplicationHandle(id,id)}} className="btn-id_duplication"/>
+                <Btn text="중복확인" type="" onClick={() => {
+                    duplicationHandle(id, id)
+                }} className="btn-id_duplication"/>
             </div>
             <div>
-                <p>아이디</p>
+                <p>비밀번호</p>
+                <input type="text" name="id"/>
+            </div>
+            <div>
+                <p>비밀번호</p>
+                <input type="text" name="id"/>
+            </div>
+            <div>
+                <p>E-mail</p>
+                <input type="text" name="id"/>
+            </div>
+            <div>
+                <p>비밀번호</p>
                 <input type="text" name="id"/>
             </div>
             <div>
