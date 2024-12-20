@@ -37,3 +37,45 @@ This generated password is for development use only. Your security configuration
 2024-12-20T17:41:30.505+09:00  INFO 22200 --- [team01] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2024-12-20T17:41:30.507+09:00  INFO 22200 --- [team01] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2024-12-20T17:41:30.510+09:00  INFO 22200 --- [team01] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-12-20T20:12:11.426+09:00  INFO 27064 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.12 with PID 27064 (C:\Users\whdgh\IdeaProjects\team01\target\classes started by whdgh in C:\Users\whdgh\IdeaProjects\team01)
+2024-12-20T20:12:11.428+09:00 DEBUG 27064 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-20T20:12:11.428+09:00  INFO 27064 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T20:12:11.467+09:00  INFO 27064 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\whdgh\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/whdgh/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
+2024-12-20T20:12:11.468+09:00  INFO 27064 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-20T20:12:11.468+09:00  INFO 27064 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-20T20:12:12.139+09:00  INFO 27064 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T20:12:12.168+09:00  INFO 27064 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19 ms. Found 0 JPA repository interfaces.
+2024-12-20T20:12:12.733+09:00  INFO 27064 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-20T20:12:12.742+09:00  INFO 27064 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T20:12:12.743+09:00  INFO 27064 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-20T20:12:12.786+09:00  INFO 27064 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T20:12:12.787+09:00  INFO 27064 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1319 ms
+2024-12-20T20:12:12.944+09:00  INFO 27064 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T20:12:13.004+09:00  INFO 27064 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-20T20:12:13.040+09:00  INFO 27064 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T20:12:13.324+09:00  INFO 27064 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T20:12:13.349+09:00  INFO 27064 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-20T20:12:13.518+09:00  INFO 27064 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@3e4301d2
+2024-12-20T20:12:13.520+09:00  INFO 27064 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-20T20:12:13.598+09:00  WARN 27064 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-20T20:12:13.601+09:00  WARN 27064 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-20T20:12:13.922+09:00  INFO 27064 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T20:12:13.927+09:00  INFO 27064 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T20:12:14.122+09:00  WARN 27064 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T20:12:14.138+09:00  WARN 27064 --- [team01] [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: c08cdd9c-141b-4515-96c1-9ca6fcfd6714
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-12-20T20:12:14.150+09:00  INFO 27064 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2024-12-20T20:12:14.204+09:00  INFO 27064 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-20T20:12:14.499+09:00  INFO 27064 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-20T20:12:14.523+09:00  INFO 27064 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-20T20:12:14.531+09:00  INFO 27064 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 3.455 seconds (process running for 3.993)
+2024-12-20T20:13:05.870+09:00  INFO 27064 --- [team01] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-20T20:13:05.871+09:00  INFO 27064 --- [team01] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-20T20:13:05.873+09:00  INFO 27064 --- [team01] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-12-20T20:15:42.651+09:00  INFO 27064 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T20:15:42.654+09:00  INFO 27064 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-20T20:15:42.658+09:00  INFO 27064 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

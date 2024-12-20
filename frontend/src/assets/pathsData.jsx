@@ -1,11 +1,10 @@
-const pathsData = [
+const pathsData = // 객체 데이터 구조 미완성
     {
-        login: { path : "/login"},
-        mypage: { path : "/login"},
-        login: { path : "/login"},
-        login: { path : "/login"},
-
+        page: {
+            login:  "/login",
+            mypage:  "/mypage",
+            cart:  "/cart",
+            signup: "/signup",
+        },
     }
-]
-
 export default pathsData;
