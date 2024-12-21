@@ -5,7 +5,7 @@ import {useState} from "react";
 const idForm = () => {
     const [id, setId] = useState('');
     const [idCheckMessage, setIdCheckMessage] = useState('대소문자, 숫자를 포함한 3~20자 이내');
-    const handleIdChange = async (e) => {
+    const handleIdChange = (e) => {
         const newId = e.target.value;
         setId(newId);
         console.log("아이디",newId);
@@ -20,14 +20,13 @@ const idForm = () => {
     return(
         <>
             <div>
-                <label>아이디 </label>wq
+                <label>아이디 </label>
                 <input type="text" name="id" placeholder="아이디를 입력해주세요" onChange={handleIdChange} value={id}
                        maxLength={20}/>
-                <p>{idCheckMessage}</p>
                 <Btn text="중복확인" type="" onClick={() => {
                     alert(checkDuplicate(id).massage);
-
                 }}/>
+                <p>{idCheckMessage}</p>
             </div>
         </>
     )
