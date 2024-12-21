@@ -1,5 +1,7 @@
 package com.example.team01.config;
 
+import com.example.team01.security.CustomUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +19,13 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     @Autowired
     private CorsConfigurationSource corsConfigurationSource;
+
+    private final CustomUserDetailsService customUserDetailsService;
 //
 //    @Bean
 //    public BCryptPasswordEncoder encoder() {
@@ -36,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/","/admin","/login").permitAll()  // 첫 페이지 인증 없이 허용
                         .requestMatchers("/admin/**").hasRole("admin") // ADMIN 역할 필요
                         .requestMatchers("/member/**").hasRole("member") //member 역할 필요
-                        .requestMatchers("/user/**").authenticated() // // 인증된 사용자만 접근 가능
+                        .requestMatchers("/mypage/**").authenticated() // // 인증된 사용자만 접근 가능
                         .anyRequest().authenticated()  // 나머지 요청 인증 필요
 
                 ).formLogin((form)-> form.loginPage("/login")//사용자 정의 로그인 페이지

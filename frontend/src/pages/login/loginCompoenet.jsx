@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import CryptoJS from 'crypto-js';
+
 
 function Login({ setUrl,data }) {
     // 상태 관리
     const [id, setId] = useState(''); // id 상태 추가
     const [password, setPassword] = useState('');
-    const [hashedPassword, setHashedPassword] = useState('');
+
 
     // URL 설정
     useEffect(() => {
@@ -41,13 +41,14 @@ function Login({ setUrl,data }) {
             },
             body: JSON.stringify(userCredentials),
         });
-
+        console.log("response",userCredentials);
         console.log("response",response);
 
         const contentType = response.headers.get("Content-Type");
         let data='';
         //백엔드 서버로부터 응답 받기
         if(response.ok){
+            console.log("contentType",contentType);
             console.log("응답 성공",data.message);
             if (contentType && contentType.includes("application/json")) {
                 data = await response.json();
@@ -55,9 +56,10 @@ function Login({ setUrl,data }) {
                 // JSON 응답일 경우
                 return data;
             } else {
+                console.log("error response",response);
                 data = response.text();// 텍스트 응답일 경우
                 console.log("텍스트",data.message);
-                return data
+                return data;
             }
 
         }else{
@@ -70,11 +72,12 @@ function Login({ setUrl,data }) {
     return (
         <>
             {data}
-            <form onSubmit={handleFormSubmit}>
+            <form action="/api/login" method="POST"  onSubmit={handleFormSubmit}>
                 <label>
                     아이디:
                     <input
                         type="text"
+                        name="id"
                         placeholder="아이디"
                         value={id}
                         onChange={handleIdChange} // id 상태 업데이트
@@ -85,6 +88,7 @@ function Login({ setUrl,data }) {
                     비밀번호:
                     <input
                         type="password"
+                        name="password"
                         placeholder="비밀번호"
                         value={password}
                         onChange={handlePasswordChange} // password 상태 업데이트
