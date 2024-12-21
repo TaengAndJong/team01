@@ -2,13 +2,14 @@
 const inputRegexs = {
     // 이메일 : 공백이나 @를 포함하지 않는 문자열 + @ + 공백이나 @를 포함하지 않는 문자열 + . + 공백이나 @를 포함하지 않는 문자열
     emailRegex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    // 아이디 : 문자로 시작하여, 영문자, 숫자, 하이픈(-), 언더바(_)를 사용하여 3~20자 이내
-    idRegex: /^[a-zA-Z][a-zA-Z0-9_-]{2,19}$/,
+    // 아이디 : 문자로 시작하여, 영문자, 숫자를 사용하여 3~20자 이내
+    idRegex: /^[a-zA-Z][a-zA-Z0-9]{6,15}$/,
     // 비밀번호 : 최소 8자 이상, 최소한 하나의 대문자, 하나의 소문자, 하나의 숫자, 하나의 특수문자를 포함, 공백 허용하지 않음
     pwRegex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?!.*\s).{8,}$/,
     // 닉네임 : 영어 대/소문자, 숫자, 한글 자모음 조합, 2~10자 이내
     nicknameRegex: /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/,
 };
+
 
 // // 비동기 함수 - 이메일 중복 체크
 // const checkEmailDuplicate = async (email) => {
@@ -41,13 +42,14 @@ const inputRegexs = {
 //     }
 // };
 
+
 //GPT 가 알려준 최적화
 
 // 공통 유효성 검사 함수작성
 export const validateInput = (regex, value) => {
-    if(!value)return {valid: false, massage: "입력값이 없습니다."}
-    if(!regex.test(value)) return {valid:false, massage: "형식이 올바르지 않습니다."}
-    return {valid: true}
+    if(!value)return {valid: false}
+        if(!regex.test(value)) return {valid:false, massage: "형식이 올바르지 않습니다."}
+    return {valid: true, massage: "사용가능 합니다."}
 }
 
 // 공통 유효성 검사 개별 함수 단순화
@@ -68,3 +70,4 @@ export const validatePasswordMatch = (password, confirmPassword) => {
     if (password !== confirmPassword) return { valid: false, message: '비밀번호가 일치하지 않습니다.' };
     return { valid: true, message: '비밀번호가 일치합니다.' };
 };
+

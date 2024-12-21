@@ -1,49 +1,37 @@
-import Btn from "../../../util/reuseBtn.jsx";
-import {validateInput} from "../../../util/validation.jsx";
+// import Btn from "../../../util/reuseBtn.jsx";
+// import {checkDuplicate, isFormValid} from "../../../util/validation.jsx";
 import {useState} from "react";
+// import forms
+import IDform from "./idForm.jsx";
 
 const SignUpForm = ()=> { //
-    const [values,SetValues] = useState({
+    const [formData, setFormData] = useState({
         id : "",
         pw : "",
-    });
+        pwd : "",
+        name :"",
+        identiNum : "",
+        phone : "",
+        email : "",
+        dtailEmail : "",
+        adr : "",
+        dtailAdr : "",
+    })
 
-    const duplicationHandle = () => {
-        validateInput()
+
+
+    const handleSubmit =async (e)=> {
+        e.preventDefault(); // 리렌더링 방지
+
     }
+
+
     return (
         <>
-            <div>
-                <span>회원가입 입력 폼</span>
-            </div>
-            <div>
-                <p>아이디</p>
-                <input type="text" name="id"/>
-                <Btn text="중복확인" type="" onClick={() => {
-                    duplicationHandle(id, id)
-                }} className="btn-id_duplication"/>
-            </div>
-            <div>
-                <p>비밀번호</p>
-                <input type="text" name="id"/>
-            </div>
-            <div>
-                <p>비밀번호</p>
-                <input type="text" name="id"/>
-            </div>
-            <div>
-                <p>E-mail</p>
-                <input type="text" name="id"/>
-            </div>
-            <div>
-                <p>비밀번호</p>
-                <input type="text" name="id"/>
-            </div>
-            <div>
-                <Btn text="회원가입" type="submit" onClick={() => {
-                }} className="btn-signUp"/>
-            </div>
-
+            <form onSubmit={handleSubmit}>
+                <h2>회원가입</h2>
+            <IDform />
+            </form>
         </>
     )
 }
