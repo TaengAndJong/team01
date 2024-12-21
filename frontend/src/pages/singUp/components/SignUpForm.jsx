@@ -2,8 +2,8 @@
 // import {checkDuplicate, isFormValid} from "../../../util/validation.jsx";
 import {useState} from "react";
 // import forms
-import IDform from "./idForm.jsx";
-
+import IdForm from "./idForm.jsx";
+import PwForm from "./pwForm.jsx";
 const SignUpForm = ()=> { //
     const [formData, setFormData] = useState({
         id : "",
@@ -30,7 +30,8 @@ const SignUpForm = ()=> { //
         <>
             <form onSubmit={handleSubmit}>
                 <h2>회원가입</h2>
-            <IDform />
+            <IdForm/>
+            <PwForm/>
             </form>
         </>
     )
