@@ -4,10 +4,9 @@ import {useState} from "react";
 
 const idPwForm = ({ formData, onInputChange }) => {
     // id useState
-
     const [idCheckMessage, setIdCheckMessage] = useState('대소문자, 숫자를 포함한 3~20자 이내');
-    // pw useState
 
+    // pw useState
     const [pwCheckMessage, setPwCheckMessage] = useState('대문자, 소문자, 특수문자, 숫자를 포함한 최소8자 이상');
     const [pwMatchMessage, setPwMatchMessage] = useState('비밀번호를 입력해주세요');
 
@@ -67,7 +66,7 @@ const idPwForm = ({ formData, onInputChange }) => {
                 <p>{pwCheckMessage}</p>
             </div>
             <div>
-                <label>비밀번호 확인</label>
+                <label>비밀번호 확인 </label>
                 <input type="password" name="pwd" placeholder="비밀번호를 입력해주세요" onChange={handlePwMatch} value={formData.pwd}
                        maxLength={20}/>
                 <p>{pwMatchMessage}</p>
