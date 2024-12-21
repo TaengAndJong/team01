@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
-import GoToEvent from "./GoToEvent.jsx";
+import GoToEvent from "./goToEvent.jsx";
 
 const Button = ({text, type, onClick, className, isLoading, isDisabled, confirmMessage, path,}) => { // 버튼 태그에 들어가는 매개 변수 className: Name 지정, type: 버튼 타입, onClick: 클릭 이벤트, text: 버튼 내용,
 

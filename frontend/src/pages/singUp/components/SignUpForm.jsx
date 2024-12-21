@@ -11,10 +11,10 @@ const SignUpForm = ()=> { //
         pw : "",
         pwd : "",
         name :"",
-        identiNum : "",
+        f_IdentiNum : "",
+        s_IdentiNum : "",
         phone : "",
         email : "",
-        dtailEmail : "",
         adr : "",
         dtailAdr : "",
     })
