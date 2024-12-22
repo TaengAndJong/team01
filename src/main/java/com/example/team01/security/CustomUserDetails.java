@@ -4,6 +4,7 @@ import com.example.team01.vo.LoginVO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -19,8 +20,7 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // role에 따른 권한 설정
-        // Arrays.asList(new SimpleGrantedAuthority(loginVO.getRoleId()));
-        return List.of();
+        return List.of(new SimpleGrantedAuthority(loginVO.getRoleId()));
     }
 
 

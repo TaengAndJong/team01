@@ -30,7 +30,7 @@ public class PageServiceImple implements PageService {
         List<PageVO> pageList = dao.selectAllPage();
 
         if (pageList == null || pageList.isEmpty()) {
-            PageVO defaultVO = new PageVO("defaultId", "No data available");
+            PageVO defaultVO = new PageVO("defaultId", "No data available","nodata");
             return List.of(defaultVO); // 기본값이 포함된 리스트 반환
         }
 

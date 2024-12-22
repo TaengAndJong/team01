@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 @Configuration
-@MapperScan(basePackages = "com.example.team01")
+@MapperScan(basePackages = {"com.example.team01.**.dao"})
 @EnableTransactionManagement
 public class MyBatisConfig {
 
@@ -42,3 +42,5 @@ public class MyBatisConfig {
     }
 
 }
+
+// bindingException 발생 시 basepackage 문법 기입법 잘 살펴보기 .ㅠㅠ https://pebblepark.github.io/2021/04/09/mybatis-mapper-exception/

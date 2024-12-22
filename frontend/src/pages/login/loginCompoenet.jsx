@@ -29,7 +29,7 @@ function Login({ setUrl,data }) {
         e.preventDefault();// 이벤트 버블링 방지
 
         const userCredentials = {
-            id: id,
+            clientId: id,
             password: password,
         };
 

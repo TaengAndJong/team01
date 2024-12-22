@@ -2,10 +2,11 @@ package com.example.team01.vo;
 
 import jakarta.persistence.Id;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
-
+@Slf4j
 @ToString
 @Getter // 은닉화된 정보를 캡슐화
 @Setter

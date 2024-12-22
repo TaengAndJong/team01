@@ -15,7 +15,11 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:8081/',// 백엔드 URL
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/')
+       // secure: false,                   // https 연결을 사용하는 경우 설정
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        onError(err) {
+          console.error('Proxy error:', err);
+        },
       }
     }
   }
@@ -26,4 +30,4 @@ export default defineConfig({
 // http://localhost:8080/string 으로 요청을 보내야 한다고 가정 했을 때,
 // axios.get("/api/string") 으로만 요청을 보내면, 이 요청을 프록시 서버로 전송하게 된다.
 // 프록시 서버는 이 전달받은 주소에서 '/api'를 제거하고,
-// 대상 서버인 http://localhost:8080/string 으로 보내게 된다.
+// 대상 서버인 http://localhost:8081/string 으로 보내게 된다.
