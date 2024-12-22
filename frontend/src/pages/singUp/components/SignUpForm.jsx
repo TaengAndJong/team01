@@ -1,5 +1,5 @@
 import Btn from "../../../util/reuseBtn.jsx";
-// import {checkDuplicate, isFormValid} from "../../../util/validation.jsx";
+import {FormValid} from "../../../util/validation.jsx";
 import {useState} from "react";
 // import forms
 import IdPwForm from "./idPwForm.jsx";
@@ -30,7 +30,17 @@ const SignUpForm = ()=> { //
 
     const handleSubmit = (e) => {
         e.preventDefault(); //리랜더링 방지
+
+        if(!FormValid(formData)){
+            alert("필수 정보를 입력해주세요")
+            return;
+        }
+
+
+        // 서버로 전송하는 로직
+
         console.log("회원가입 데이터:", formData);
+
     };
 
     return (

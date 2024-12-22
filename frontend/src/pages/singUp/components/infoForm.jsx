@@ -1,14 +1,21 @@
 import {useState} from "react";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
+import {validEmail} from "../../../util/validation.jsx";
 
 const infoForm = ({formData,onInputChange}) =>{
-    const [name, setName] = useState('');
-
+    const [emailCheckMessage, setEmailCheckMessage] = useState('E-mail을 입력해주세요');
 
     // e-mail handle
     const emailChangeHandle = (e) => {
         const newEmail = e.target.value;
         onInputChange("email", newEmail);
+
+        const validationResult = validEmail(newEmail);
+        if(validationResult && validationResult.massage) {
+            setEmailCheckMessage(validationResult.massage);
+        } else {
+            setEmailCheckMessage('E-mail을 입력해주세요');
+        }
     }
 
     // name handle
@@ -63,6 +70,7 @@ const infoForm = ({formData,onInputChange}) =>{
                        maxLength={20}
                        onChange={emailChangeHandle}
                 />
+                <p>{emailCheckMessage}</p>
             </div>
 
             <div>
