@@ -1,217 +1,37 @@
-2024-12-21T01:52:44.429+09:00  INFO 20612 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.12 with PID 20612 (C:\Users\whdgh\IdeaProjects\team01\target\classes started by whdgh in C:\Users\whdgh\IdeaProjects\team01)
-2024-12-21T01:52:44.434+09:00 DEBUG 20612 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
-2024-12-21T01:52:44.435+09:00  INFO 20612 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
-2024-12-21T01:52:44.494+09:00  INFO 20612 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\whdgh\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/whdgh/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
-2024-12-21T01:52:44.496+09:00  INFO 20612 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2024-12-21T01:52:44.496+09:00  INFO 20612 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2024-12-21T01:52:46.074+09:00  INFO 20612 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-12-21T01:52:46.097+09:00  INFO 20612 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 14 ms. Found 0 JPA repository interfaces.
-2024-12-21T01:52:47.114+09:00  INFO 20612 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2024-12-21T01:52:47.126+09:00  INFO 20612 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-12-21T01:52:47.127+09:00  INFO 20612 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
-2024-12-21T01:52:47.174+09:00  INFO 20612 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-12-21T01:52:47.174+09:00  INFO 20612 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2677 ms
-2024-12-21T01:52:47.530+09:00  INFO 20612 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-12-21T01:52:47.628+09:00  INFO 20612 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2024-12-21T01:52:47.670+09:00  INFO 20612 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-12-21T01:52:47.976+09:00  INFO 20612 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-12-21T01:52:48.005+09:00  INFO 20612 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-12-21T01:52:48.204+09:00  INFO 20612 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@26e1011d
-2024-12-21T01:52:48.206+09:00  INFO 20612 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-12-21T01:52:48.281+09:00  WARN 20612 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
-2024-12-21T01:52:48.285+09:00  WARN 20612 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-21T01:52:48.735+09:00  INFO 20612 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-12-21T01:52:48.739+09:00  INFO 20612 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-12-21T01:52:49.060+09:00  WARN 20612 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-12-21T01:52:49.098+09:00  WARN 20612 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
-2024-12-21T01:52:49.188+09:00  INFO 20612 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
-2024-12-21T01:52:49.278+09:00  INFO 20612 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
-2024-12-21T01:52:49.625+09:00  INFO 20612 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2024-12-21T01:52:49.699+09:00 DEBUG 20612 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
-2024-12-21T01:52:49.889+09:00  WARN 20612 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
-2024-12-21T01:52:50.194+09:00  INFO 20612 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2024-12-21T01:52:50.259+09:00  INFO 20612 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
-2024-12-21T01:52:50.274+09:00  INFO 20612 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 6.415 seconds (process running for 7.474)
-2024-12-21T01:52:50.549+09:00  INFO 20612 --- [team01] [RMI TCP Connection(3)-192.168.0.8] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-12-21T01:52:50.549+09:00  INFO 20612 --- [team01] [RMI TCP Connection(3)-192.168.0.8] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2024-12-21T01:52:50.553+09:00  INFO 20612 --- [team01] [RMI TCP Connection(3)-192.168.0.8] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
-2024-12-21T01:52:54.217+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T01:52:54.248+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T01:52:54.373+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T01:52:55.638+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login
-2024-12-21T01:52:55.640+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login
-2024-12-21T01:52:55.642+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T02:12:09.579+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T02:12:09.581+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T02:12:09.586+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T02:15:02.992+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T02:15:02.994+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T02:15:02.996+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T02:24:15.659+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T02:24:15.660+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T02:24:15.688+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T02:24:54.097+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T02:24:54.098+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T02:24:54.100+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T02:35:59.392+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T02:35:59.393+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T02:35:59.396+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T02:36:03.959+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T02:36:03.960+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T02:36:03.961+09:00 DEBUG 20612 --- [team01] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T02:51:26.218+09:00  INFO 20612 --- [team01] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-12-21T02:51:26.222+09:00  INFO 20612 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2024-12-21T02:51:26.228+09:00  INFO 20612 --- [team01] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2024-12-21T10:34:52.564+09:00  INFO 22252 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.12 with PID 22252 (C:\Users\whdgh\IdeaProjects\team01\target\classes started by whdgh in C:\Users\whdgh\IdeaProjects\team01)
-2024-12-21T10:34:52.567+09:00 DEBUG 22252 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
-2024-12-21T10:34:52.568+09:00  INFO 22252 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
-2024-12-21T10:34:52.616+09:00  INFO 22252 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\whdgh\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/whdgh/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
-2024-12-21T10:34:52.616+09:00  INFO 22252 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2024-12-21T10:34:52.616+09:00  INFO 22252 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2024-12-21T10:34:54.008+09:00  INFO 22252 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-12-21T10:34:54.087+09:00  INFO 22252 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 67 ms. Found 0 JPA repository interfaces.
-2024-12-21T10:34:55.201+09:00  INFO 22252 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2024-12-21T10:34:55.218+09:00  INFO 22252 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-12-21T10:34:55.218+09:00  INFO 22252 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
-2024-12-21T10:34:55.289+09:00  INFO 22252 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-12-21T10:34:55.290+09:00  INFO 22252 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2670 ms
-2024-12-21T10:34:55.962+09:00  INFO 22252 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-12-21T10:34:56.051+09:00  INFO 22252 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2024-12-21T10:34:56.096+09:00  INFO 22252 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-12-21T10:34:56.486+09:00  INFO 22252 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-12-21T10:34:56.529+09:00  INFO 22252 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-12-21T10:34:56.871+09:00  INFO 22252 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@2ad11164
-2024-12-21T10:34:56.872+09:00  INFO 22252 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-12-21T10:34:56.957+09:00  WARN 22252 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
-2024-12-21T10:34:56.962+09:00  WARN 22252 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-21T10:34:57.454+09:00  INFO 22252 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-12-21T10:34:57.459+09:00  INFO 22252 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-12-21T10:34:57.856+09:00  WARN 22252 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-12-21T10:34:57.901+09:00  WARN 22252 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
-2024-12-21T10:34:58.003+09:00  INFO 22252 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
-2024-12-21T10:34:58.116+09:00  INFO 22252 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
-2024-12-21T10:34:58.617+09:00  INFO 22252 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2024-12-21T10:34:58.755+09:00 DEBUG 22252 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
-2024-12-21T10:34:59.049+09:00  WARN 22252 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
-2024-12-21T10:34:59.462+09:00  INFO 22252 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2024-12-21T10:34:59.523+09:00  INFO 22252 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
-2024-12-21T10:34:59.539+09:00  INFO 22252 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 7.481 seconds (process running for 9.122)
-2024-12-21T10:35:00.106+09:00  INFO 22252 --- [team01] [RMI TCP Connection(1)-192.168.0.8] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-12-21T10:35:00.108+09:00  INFO 22252 --- [team01] [RMI TCP Connection(1)-192.168.0.8] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2024-12-21T10:35:00.111+09:00  INFO 22252 --- [team01] [RMI TCP Connection(1)-192.168.0.8] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
-2024-12-21T11:03:03.200+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T11:03:03.218+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T11:03:03.285+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T11:35:46.121+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T11:35:46.122+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T11:35:46.125+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T11:38:37.318+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T11:38:37.319+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T11:38:37.321+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T11:38:40.923+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T11:38:40.924+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T11:38:40.930+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T11:40:23.412+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T11:40:23.413+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T11:40:23.415+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T11:40:25.140+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T11:40:25.141+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T11:40:25.144+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T11:43:35.130+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T11:43:35.131+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T11:43:35.134+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T11:46:41.548+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T11:46:41.548+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T11:46:41.550+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T16:53:35.692+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing POST /register
-2024-12-21T16:53:35.705+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T16:53:35.737+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8081/register?continue to session
-2024-12-21T16:53:35.738+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8081/login
-2024-12-21T16:53:35.745+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /login
-2024-12-21T16:53:35.760+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /login
-2024-12-21T16:53:35.761+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /login
-2024-12-21T16:53:35.764+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T16:53:39.517+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T16:53:39.519+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T16:53:39.520+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T16:54:22.600+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T16:54:22.602+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T16:54:22.603+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T17:31:06.361+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T17:31:06.363+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T17:31:06.366+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T17:34:45.517+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T17:34:45.518+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T17:34:45.523+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T17:39:10.812+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T17:39:10.813+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T17:39:10.814+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T17:39:46.856+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T17:39:46.857+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T17:39:46.858+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T17:42:24.551+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T17:42:24.552+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T17:42:24.555+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T17:54:19.567+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T17:54:19.568+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T17:54:19.570+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T17:58:37.400+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T17:58:37.401+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T17:58:37.403+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T17:59:35.243+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T17:59:35.243+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T17:59:35.245+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:00:57.032+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:00:57.033+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:00:57.034+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:01:28.768+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:01:28.769+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:01:28.770+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:02:51.103+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:02:51.104+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:02:51.106+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:04:03.311+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:04:03.312+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:04:03.313+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:05:59.654+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:05:59.654+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:05:59.657+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:08:59.048+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:08:59.049+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:08:59.050+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:19:06.461+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:19:06.462+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:19:06.464+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:19:53.180+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:19:53.181+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:19:53.182+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:20:36.749+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:20:36.749+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:20:36.751+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:24:46.143+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:24:46.144+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:24:46.145+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:26:31.478+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:26:31.480+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:26:31.482+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:26:33.018+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:26:33.019+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:26:33.021+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:27:27.601+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:27:27.601+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:27:27.602+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:29:26.183+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:29:26.184+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:29:26.185+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:29:30.364+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:29:30.365+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:29:30.366+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:29:34.054+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:29:34.054+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:29:34.055+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:29:43.970+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:29:43.971+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:29:43.972+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2024-12-21T18:39:15.781+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /
-2024-12-21T18:39:15.781+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /
-2024-12-21T18:39:15.783+09:00 DEBUG 22252 --- [team01] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-22T18:41:55.567+09:00  INFO 8988 --- [team01] [restartedMain] com.example.team01.Team01Application     : Starting Team01Application using Java 17.0.12 with PID 8988 (C:\Users\whdgh\IdeaProjects\team01\target\classes started by whdgh in C:\Users\whdgh\IdeaProjects\team01)
+2024-12-22T18:41:55.571+09:00 DEBUG 8988 --- [team01] [restartedMain] com.example.team01.Team01Application     : Running with Spring Boot v3.3.6, Spring v6.1.15
+2024-12-22T18:41:55.571+09:00  INFO 8988 --- [team01] [restartedMain] com.example.team01.Team01Application     : No active profile set, falling back to 1 default profile: "default"
+2024-12-22T18:41:55.609+09:00  INFO 8988 --- [team01] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\whdgh\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/whdgh/.m2/repository/com/oracle/database/jdbc/ojdbc11/21.9.0.0/oraclepki.jar
+2024-12-22T18:41:55.609+09:00  INFO 8988 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-22T18:41:55.609+09:00  INFO 8988 --- [team01] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-22T18:41:56.648+09:00  INFO 8988 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-22T18:41:56.670+09:00  INFO 8988 --- [team01] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 14 ms. Found 0 JPA repository interfaces.
+2024-12-22T18:41:57.401+09:00  INFO 8988 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-12-22T18:41:57.412+09:00  INFO 8988 --- [team01] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-22T18:41:57.413+09:00  INFO 8988 --- [team01] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-22T18:41:57.463+09:00  INFO 8988 --- [team01] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-22T18:41:57.464+09:00  INFO 8988 --- [team01] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1854 ms
+2024-12-22T18:41:57.785+09:00  INFO 8988 --- [team01] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-22T18:41:57.853+09:00  INFO 8988 --- [team01] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-22T18:41:57.888+09:00  INFO 8988 --- [team01] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-22T18:41:58.172+09:00  INFO 8988 --- [team01] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-22T18:41:58.201+09:00  INFO 8988 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-22T18:41:58.382+09:00  INFO 8988 --- [team01] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@615f2f35
+2024-12-22T18:41:58.383+09:00  INFO 8988 --- [team01] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-22T18:41:58.463+09:00  WARN 8988 --- [team01] [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 11.2.0 version for [org.hibernate.dialect.OracleDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 19.0.0. Check the community dialects project for available legacy versions.
+2024-12-22T18:41:58.467+09:00  WARN 8988 --- [team01] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: OracleDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-22T18:41:58.840+09:00  INFO 8988 --- [team01] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-22T18:41:58.845+09:00  INFO 8988 --- [team01] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-22T18:41:59.164+09:00  WARN 8988 --- [team01] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-22T18:41:59.200+09:00  WARN 8988 --- [team01] [restartedMain] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2024-12-22T18:41:59.289+09:00  INFO 8988 --- [team01] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-12-22T18:41:59.375+09:00  INFO 8988 --- [team01] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-12-22T18:41:59.722+09:00  INFO 8988 --- [team01] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-22T18:41:59.788+09:00 DEBUG 8988 --- [team01] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-22T18:41:59.966+09:00  WARN 8988 --- [team01] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-22T18:42:00.240+09:00  INFO 8988 --- [team01] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-22T18:42:00.298+09:00  INFO 8988 --- [team01] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-12-22T18:42:00.312+09:00  INFO 8988 --- [team01] [restartedMain] com.example.team01.Team01Application     : Started Team01Application in 5.161 seconds (process running for 5.87)
+2024-12-22T18:42:00.686+09:00  INFO 8988 --- [team01] [RMI TCP Connection(3)-192.168.0.8] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-22T18:42:00.686+09:00  INFO 8988 --- [team01] [RMI TCP Connection(3)-192.168.0.8] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-22T18:42:00.688+09:00  INFO 8988 --- [team01] [RMI TCP Connection(3)-192.168.0.8] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
