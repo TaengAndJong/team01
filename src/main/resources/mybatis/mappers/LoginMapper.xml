@@ -3,11 +3,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.team01.login.dao.LoginDao">
     <select id="selectLogin" resultType="LoginVO" parameterType="String">
-        SELECT  clientId, password,identifyNumber
-        FROM LOGIN
-        WHERE clientId = #{clientId}
-          and password = #{password}
-          and identifyNumber = #{identifyNumber}
+        WITH "joinClient" AS (
+            SELECT "clientId", "clientName", "PasswordHash", "roleId"
+            FROM client
+            where "clientId" = #{clientId} and "PasswordHash" = #{password}
+        )
+        SELECT a.*
+        FROM (
+                 SELECT c."clientId",
+                        c."clientName",
+                        c."PasswordHash",
+                        r."roleId",
+                        r."roleName"
+                 FROM "joinClient" c
+                          JOIN "ROLES" r ON c."roleId" = r."roleId"
+             ) a
+        WHERE  a."roleId" LIKE CONCAT('%', #{clientId}, '%')
+    </select>
+
+    <select id="selectClientId" resultType="LoginVO" parameterType="String">
+        SELECT "clientName","PasswordHash","roleId"
+        FROM client
+        WHERE  "clientId" = #{clientId};
     </select>
 
 
@@ -16,3 +33,4 @@
         FROM ROLES
         WHERE roleId = #{roleId}
     </select>
+</mapper>

@@ -1,5 +1,6 @@
 package com.example.team01.vo;
 
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor //파라미터로 받는 생성자 전부 생성, 객체 생성시 모든 필드 초기화
 public class LoginVO implements Serializable {
 
+    @Id
     private String clientId;  // 사용자 아이디 (예: 이메일 또는 사용자 이름)
     private String password;  // 비밀번호
     private String identifyNumber;//주민등록번호

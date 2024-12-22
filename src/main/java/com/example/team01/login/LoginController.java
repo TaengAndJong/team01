@@ -1,6 +1,10 @@
 package com.example.team01.login;
 
+import com.example.team01.login.service.LoginService;
+import com.example.team01.vo.LoginVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -10,31 +14,45 @@ import java.util.Map;
 
 @Slf4j
 @RestController    //전역 ResponseBody
-@RequestMapping("/login")
+@RequestMapping()
 public class LoginController {
 
-    @GetMapping()
+    private final LoginService loginService;
+
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
+    }
+
+    @GetMapping("/login")
     public String getLogin() {
        String data = "로그인 페이지 , getMapping";
         return data;
     }
 
-    @PostMapping()
+    @PostMapping("/login")
     public Map<String, Object> postLogin(@RequestBody Map<String, String> user) {
-        //프론트에서 넘어 온  파라미터 변수에 저장해서 가져오기, 개발자도구 네트워크확인하기
-        String id = user.get("id");
+        //프론트에서 넘어 온  파라미터를 변수에 저장해서 가져오기
+        String clientId = user.get("id");
         String password = user.get("password");
+        String roleId  = user.get("roleId");
 
-        log.info("parameter : {}",id);
-        log.info("parameter : {}",password);
+        log.info("받은 데이터  clientId = {}, pwd = {}, roleId:{}",clientId, password, roleId);
+        // 서비스를 호출해서 받아온 파라미터를 적용 시켜주기
+        LoginVO loginInfo = loginService.selectLogin(clientId, password, roleId);
 
+        //json으로 반환해야하니까   Map<String, Object> 로 response 구성하기
         Map<String, Object> response = new HashMap<>();
-        // 파라미터로 받은 값 사용하기
-        response.put("id", id);
-        response.put("password", password);
-        response.put("message", "안녕하세요. 로그인 페이지");
-        response.put("date", new Date());
-        return response;
+
+        //데이터가 null일 때, null 아닐 때
+        if(loginInfo != null) {
+            response.put("status","success");
+            response.put("data",loginInfo);
+        }else{
+            response.put("status","error");
+            response.put("message","로그인 정보가 없습니다.");
+        }
+        log.info("받은 데이터  response = {}",response );
+        return (Map<String, Object>) ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON);
     }
 
 

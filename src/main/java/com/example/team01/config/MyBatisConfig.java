@@ -6,13 +6,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 @Configuration
-@MapperScan(basePackages = "com.example.team01.pages.dao")
+@MapperScan(basePackages = "com.example.team01")
 @EnableTransactionManagement
 public class MyBatisConfig {
 
@@ -22,8 +23,10 @@ public class MyBatisConfig {
         // application.properties에서 설정된 DataSource 사용
         factoryBean.setDataSource(dataSource);
         factoryBean.setConfigLocation(new org.springframework.core.io.ClassPathResource("mybatis/config.xml")); // MyBatis 설정 파일 경로
-        // Mapper XML 파일 경로, 클래스패스루트는 src/main/resources m
-        factoryBean.setMapperLocations(new org.springframework.core.io.ClassPathResource("mybatis/mappers/PageMapper.xml"));
+
+        // Mapper XML 파일 경로, 클래스패스루트는 src/main/resources
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        factoryBean.setMapperLocations(resolver.getResources("classpath:mybatis/mappers/**/*.xml"));
 
         return factoryBean.getObject();
     }
