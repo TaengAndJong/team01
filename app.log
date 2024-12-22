@@ -35,3 +35,18 @@
 2024-12-22T18:42:00.686+09:00  INFO 8988 --- [team01] [RMI TCP Connection(3)-192.168.0.8] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2024-12-22T18:42:00.686+09:00  INFO 8988 --- [team01] [RMI TCP Connection(3)-192.168.0.8] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2024-12-22T18:42:00.688+09:00  INFO 8988 --- [team01] [RMI TCP Connection(3)-192.168.0.8] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-12-22T19:20:28.106+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-22T19:20:28.128+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-22T19:20:28.227+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-22T19:20:28.302+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-22T19:20:28.303+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-22T19:20:28.304+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-22T19:20:30.256+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-22T19:20:30.257+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-22T19:20:30.261+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-22T19:28:00.101+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-22T19:28:00.102+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-22T19:28:00.104+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-22T19:28:01.613+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-22T19:28:01.615+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-22T19:28:01.618+09:00 DEBUG 8988 --- [team01] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext

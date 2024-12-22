@@ -43,6 +43,23 @@ const inputRegexs = {
 // };
 
 
+// 필드 유효성 검사 함수
+export const FormValid = (formData) => {
+    const requiredFields = ["id", "pw", "pwd", "name", "f_IdentiNum", "s_IdentiNum", "phone", "email", "adr", "dtailAdr"];
+    for (const field of requiredFields) {
+        if (!formData[field] || formData[field].trim() === "") {
+            return false;
+        }
+    }
+    for (const key in formData) {
+        if (formData[key] === null || formData[key] === undefined) {
+            return false;
+        }
+    }
+    return true;
+};
+
+
 //GPT 가 알려준 최적화
 
 // 공통 유효성 검사 함수작성
@@ -56,7 +73,6 @@ export const validateInput = (regex, value) => {
 export const validEmail = (email) => validateInput(inputRegexs.emailRegex, email);
 export const validID = (id) => validateInput(inputRegexs.idRegex, id);
 export const validPW = (pw) => validateInput(inputRegexs.pwRegex, pw);
-export const validNickname = (nickname) => validateInput(inputRegexs.nicknameRegex, nickname);
 
 // 중복 체크 추가 (서버와 통신하기 때문에 비동기로 작성)
 export const checkDuplicate = async (field, value) => {
