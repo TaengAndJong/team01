@@ -1,4 +1,3 @@
-import { useState, useEffect} from "react";
 import SignUpForm from "./components/SignUpForm.jsx";
 const signUpComponent = () =>{
 
