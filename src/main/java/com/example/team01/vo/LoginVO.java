@@ -23,6 +23,8 @@ public class LoginVO implements Serializable {
     
     //로그인 시 유저의 역할에 따라 권한 설정에 필요
     private String roleId;     // 사용자 역할 (예: ROLE_ADMIN, ROLE_CLIENT,ROEL_MEMBER 등)
+
+
 }
 
 //로그인 시 필요한 검증 데이터 "아이디","비밀번호" , "주민등록번호"

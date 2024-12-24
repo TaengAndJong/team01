@@ -9,5 +9,11 @@
         <select id="selectAllPage" resultType="PageVO">
             SELECT * FROM PAGE
         </select>
+    
+    
+        <insert id="insert" parameterType="PageVO">
+            INSERT INTO PAGE("pageId","pagePath","pageName")
+            VALUES (#{pageId},#{pagePath},#{pageName})
+        </insert>
 
 </mapper>

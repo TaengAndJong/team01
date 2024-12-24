@@ -37,4 +37,14 @@ public class PageServiceImple implements PageService {
         return pageList;
     }
 
+    @Override
+    public int insert(PageVO pageVO) {
+        int cnt;
+        if (pageVO != null) {
+            return cnt = dao.insert(pageVO);
+        }
+        return 0;
+    }
+
+
 }

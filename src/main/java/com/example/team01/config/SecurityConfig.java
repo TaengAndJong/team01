@@ -3,21 +3,23 @@ package com.example.team01.config;
 
 import com.example.team01.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 
-
+@Slf4j
 @Configuration
-//@EnableWebSecurity //시큐리티 비활성화
+@EnableWebSecurity(debug=true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -33,44 +35,34 @@ public class SecurityConfig {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
 
-        authenticationManagerBuilder.userDetailsService(customUserDetailsService)
-                .passwordEncoder(passwordEncoder());  // 비밀번호 인코더 설정
+        authenticationManagerBuilder.userDetailsService(customUserDetailsService);
+        log.info("AuthenticationManager  : {}",authenticationManagerBuilder.userDetailsService(customUserDetailsService));
+//                .passwordEncoder(passwordEncoder());  // 비밀번호 인코더 설정
 
         return authenticationManagerBuilder.build();
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(customUserDetailsService);  // UserDetailsService 설정
-        provider.setPasswordEncoder(passwordEncoder());  // 비밀번호 인코더 설정
-        return provider;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();  // BCrypt 인코더 사용
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
+    //개발환경에서는 csrf 비활성해야 로그인이 가능함
         http.csrf(csrf -> csrf.disable())
                 .cors(cors-> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/**","/api/**","/admin/**","/login/**","/signUp/**","/page/**").permitAll()  // 첫 페이지 인증 없이 허용
-                                .requestMatchers("/admin/**").hasAuthority("admin") // ADMIN 역할 필요
-                                .requestMatchers("/member/**").hasAuthority("member") //member 역할 필요
-                                .requestMatchers("/mypage/**").authenticated() // // 인증된 사용자만 접근 가능
-                                .anyRequest().authenticated()  // 나머지 요청 인증 필요
+                                .requestMatchers("/","/api","/login","/signUp","/page").permitAll()
+                                .requestMatchers("/admin").hasRole("ADMIN")
+                                .requestMatchers("/login/**","/mypage/**").hasAnyRole("ADMIN","MEMBER","CLIENT")
+                                .anyRequest().authenticated()// 나머지 요청 인증 필요
 
                         //.hasAuthority("admin") 하면 admin으로 데이터베이스에 전달
-                        //.hasRole("admin") 은 Role_admin으로 Role_접두사가 붙어 디비로 전달
-
 
                 ).formLogin((form)-> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/", true) //사용자 정의 로그인 페이지
+                        .defaultSuccessUrl("/page", true) //사용자 정의 로그인 페이지
                         .failureUrl("/login?error=true")// 로그인 실패 시 이동할 URL
                         .permitAll()//로그인 페이지 인증 없이 접근 가능
 
@@ -78,7 +70,6 @@ public class SecurityConfig {
                         logout.logoutUrl("/logout").logoutSuccessUrl("/logout-success")
                                 .deleteCookies("JSESSIONID")//쿠키삭제
                                 .permitAll());//로그아웃 URL 인증없이 접근 가능
-        //.httpBasic(Customizer.withDefaults()); // 브라우저에서 기본제공하는 팝업으로 비밀번호 아이디 요구
         return http.build();
 
 
