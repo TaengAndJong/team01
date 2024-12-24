@@ -120,7 +120,6 @@ const infoForm = ({formData,onInputChange}) =>{
                        maxLength={20}
                        onChange={dtailAdrHandle}
                 />
-
             </div>
 
         </>
