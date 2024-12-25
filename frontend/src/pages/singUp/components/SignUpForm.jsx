@@ -29,7 +29,7 @@ const SignUpForm = ()=> { //
 
 
     const handleSubmit = (e) => {
-        e.preventDefault(); //리랜더링 방지
+        e.preventDefault(); // 새로고침 방지
 
         if(!FormValid(formData)){
             alert("필수 정보를 입력해주세요")
