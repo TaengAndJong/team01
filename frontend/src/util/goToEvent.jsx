@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const GotoEvent = () => {
+const GoToEvent = () => {
     const navigate = useNavigate();
 
     const goToPage = (path = "/") => {
@@ -13,4 +13,4 @@ const GotoEvent = () => {
     };
 };
 
-export default GotoEvent;
+export default GoToEvent;

@@ -1,49 +1,62 @@
 import Btn from "../../../util/reuseBtn.jsx";
-import {validateInput} from "../../../util/validation.jsx";
+import {FormValid} from "../../../util/validation.jsx";
 import {useState} from "react";
+// import forms
+import IdPwForm from "./idPwForm.jsx";
+import InfoForm from "./infoForm.jsx"
 
 const SignUpForm = ()=> { //
-    const [values,SetValues] = useState({
+    const [formData, setFormData] = useState({
         id : "",
         pw : "",
-    });
+        pwd : "",
+        name :"",
+        f_IdentiNum : "",
+        s_IdentiNum : "",
+        phone : "",
+        email : "",
+        adr : "",
+        dtailAdr : "",
+    })
 
-    const duplicationHandle = () => {
-        validateInput()
-    }
+    const handleInputChange = (name, value) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+        console.log(`${name} : `,value);
+    };
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault(); //리랜더링 방지
+
+        if(!FormValid(formData)){
+            alert("필수 정보를 입력해주세요")
+            return;
+        }
+
+
+        // 서버로 전송하는 로직
+
+        console.log("회원가입 데이터:", formData);
+
+    };
+
     return (
         <>
-            <div>
-                <span>회원가입 입력 폼</span>
-            </div>
-            <div>
-                <p>아이디</p>
-                <input type="text" name="id"/>
-                <Btn text="중복확인" type="" onClick={() => {
-                    duplicationHandle(id, id)
-                }} className="btn-id_duplication"/>
-            </div>
-            <div>
-                <p>비밀번호</p>
-                <input type="text" name="id"/>
-            </div>
-            <div>
-                <p>비밀번호</p>
-                <input type="text" name="id"/>
-            </div>
-            <div>
-                <p>E-mail</p>
-                <input type="text" name="id"/>
-            </div>
-            <div>
-                <p>비밀번호</p>
-                <input type="text" name="id"/>
-            </div>
-            <div>
-                <Btn text="회원가입" type="submit" onClick={() => {
-                }} className="btn-signUp"/>
-            </div>
-
+            <form onSubmit={handleSubmit}>
+                <h2>회원가입</h2>
+                <IdPwForm
+                    formData={formData}
+                    onInputChange={handleInputChange}
+                />
+                <InfoForm
+                    formData={formData}
+                    onInputChange={handleInputChange}
+                />
+                <Btn text="회원가입" type="submit" onClick={handleSubmit} />
+            </form>
         </>
     )
 }
