@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 function Login({ setUrl,data }) {
     // 상태 관리
-    const [id, setId] = useState(''); // id 상태 추가
+    const [clientId, setclientId] = useState(''); // id 상태 추가
     const [password, setPassword] = useState('');
 
 
@@ -16,7 +16,7 @@ function Login({ setUrl,data }) {
 
     const handleIdChange = (e) => {
         console.log("id" , e.target.value)
-        setId(e.target.value);
+        setclientId(e.target.value);
     };
 
     const handlePasswordChange = (e) => {
@@ -29,7 +29,7 @@ function Login({ setUrl,data }) {
         e.preventDefault();// 이벤트 버블링 방지
 
         const userCredentials = {
-            clientId: id,
+            clientId: clientId,
             password: password,
         };
 
@@ -72,14 +72,14 @@ function Login({ setUrl,data }) {
     return (
         <>
             {data}
-            <form action="/api/login" method="POST"  onSubmit={handleFormSubmit}>
+            <form onSubmit={handleFormSubmit}>
                 <label>
                     아이디:
                     <input
                         type="text"
-                        name="id"
+                        name="clientId"
                         placeholder="아이디"
-                        value={id}
+                        value={clientId}
                         onChange={handleIdChange} // id 상태 업데이트
                     />
                 </label>

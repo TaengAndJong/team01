@@ -8,28 +8,26 @@
     </select>
 
     <select id="selectClientId" resultType="LoginVO" parameterType="String">
-        SELECT "clientId", "clientName", "password", "roleId"
-        FROM client
-        WHERE "clientId" = #{clientId}
+        WITH "joinClient" AS (
+            SELECT "clientId", "clientName", "password", "roleId"
+            FROM client
+        )
+        SELECT a.*
+        FROM (
+                 SELECT c."clientId",
+                        c."clientName",
+                        c."password",
+                        r."roleId",
+                        r."roleName"
+                 FROM "joinClient" c
+                          JOIN "ROLES" r ON c."roleId" = r."roleId"
+             ) a
+        WHERE a."clientId" = #{clientId}
     </select>
 
 
 <!--    <select id="selectLogin" resultType="LoginVO" parameterType="String">-->
-<!--        WITH "joinClient" AS (-->
-<!--            SELECT "clientId", "clientName", "password", "roleId"-->
-<!--            FROM client-->
-<!--        )-->
-<!--        SELECT a.*-->
-<!--        FROM (-->
-<!--                 SELECT c."clientId",-->
-<!--                        c."clientName",-->
-<!--                        c."password",-->
-<!--                        r."roleId",-->
-<!--                        r."roleName"-->
-<!--                 FROM "joinClient" c-->
-<!--                          JOIN "ROLES" r ON c."roleId" = r."roleId"-->
-<!--             ) a-->
-<!--        WHERE a."clientId" = #{clientId} AND a."password" = #{password};-->
+
 
 
 <!--    </select>-->
