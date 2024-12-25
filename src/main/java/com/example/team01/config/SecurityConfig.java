@@ -3,20 +3,24 @@ package com.example.team01.config;
 import com.example.team01.common.Enum.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.sql.DataSource;
 
 @Slf4j
 @EnableWebSecurity(debug = true)
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor()
 @Configuration
 public class SecurityConfig {
 
     private final WebConfig webConfig;
+    private final DataSource dataSource;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,10 +37,10 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // 나머지 요청 인증 필요
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        .loginPage("/api/login")
                         .usernameParameter("clientId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/page", true) // 사용자 정의 로그인 페이지
+                        .defaultSuccessUrl("/api/page", true) // 사용자 정의 로그인 페이지
                         .failureUrl("/login?error=true") // 로그인 실패 시 이동할 URL
                         .permitAll() // 로그인 페이지 인증 없이 접근 가능
                 )

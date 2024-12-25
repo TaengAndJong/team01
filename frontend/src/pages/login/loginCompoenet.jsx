@@ -87,7 +87,7 @@ function Login({ setUrl,data }) {
                 <label>
                     비밀번호:
                     <input
-                        type="password"
+                        type="text"
                         name="password"
                         placeholder="비밀번호"
                         value={password}
