@@ -34,27 +34,27 @@ public class LoginController {
         //프론트에서 넘어 온  파라미터를 변수에 저장해서 가져오기
         String clientId = user.getClientId();
         String password = user.getPassword();
-//       String roleId  = user.get("roleId");
+        //String roleId  = user.getRoleId();
         log.info("받은 데이터  clientId = {}, pwd = {}",clientId, password);
         log.info("받은 데이터  user = {}", user);
 
         //1. 데이터베이스에 해당 데이터의 클라이언트가 존재하는지 확인하고 데이터 넣기
         
-//        try {
-//            // 사용자 정보 조회
-//            CustomUserDtails loginInfo = loginService.selectClientId(clientId);
-//
-//            // 만약 사용자 정보가 없다면 예외 처리
-//            if (loginInfo == null) {
-//                log.info("사용자 정보 없음");
-//                return Map.of("message", "사용자 정보 없음");
-//            }
-//
-//        } catch (Exception e) {
-//            // 로그인 실패 시 예외 처리
-//            log.error("로그인 실패: {}", e.getMessage());
-//            return Map.of("message", "로그인 실패");
-//        }
+        try {
+            // 사용자 정보 조회
+            LoginVO loginInfo = loginService.selectClientId(clientId);
+
+            // 만약 사용자 정보가 없다면 예외 처리
+            if (loginInfo == null) {
+                log.info("사용자 정보 없음");
+                return Map.of("message", "사용자 정보 없음");
+            }
+
+        } catch (Exception e) {
+            // 로그인 실패 시 예외 처리
+            log.error("로그인 실패: {}", e.getMessage());
+            return Map.of("message", "로그인 실패");
+        }
         return null;
 
     }
