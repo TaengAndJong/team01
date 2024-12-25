@@ -37,10 +37,10 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // 나머지 요청 인증 필요
                 )
                 .formLogin(form -> form
-                        .loginPage("/api/login")
+                        .loginPage("/api/login") // 백엔드 서버 주소로 해야함
                         .usernameParameter("clientId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/api/page", true) // 사용자 정의 로그인 페이지
+                        .defaultSuccessUrl("/page", true) // 사용자 정의 로그인 페이지
                         .failureUrl("/login?error=true") // 로그인 실패 시 이동할 URL
                         .permitAll() // 로그인 페이지 인증 없이 접근 가능
                 )
