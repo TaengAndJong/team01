@@ -1,6 +1,5 @@
 package com.example.team01.login.dao;
 
-import com.example.team01.security.CustomUserDtails;
 import com.example.team01.vo.LoginVO;
 import org.apache.ibatis.annotations.Mapper;
 
