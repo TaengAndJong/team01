@@ -9,13 +9,14 @@ import org.springframework.stereotype.Service;
 
 
 @Slf4j
-
 @Service
-@Transactional
 @RequiredArgsConstructor
-public class LoginServiceImple implements LoginService {
+public class LoginServiceImple implements LoginService{
 
     private final LoginDao loginDao;
+
+    //비밀번호 암호와 , 빈으로 등록하면 어디서든지 가져다 사용가능
+
 
     @Override
     public LoginVO selectLogin(String clientId, String password) {
@@ -31,10 +32,7 @@ public class LoginServiceImple implements LoginService {
     @Override
     public LoginVO selectClientId(String clientId) {
 
-        log.info("selectClientId start:{}",clientId);
-
         LoginVO loginInfo =loginDao.selectClientId(clientId);
-        System.out.println("loginInfo: " + loginInfo);
 
         log.info("loginInfo end:{}",loginInfo);
 
@@ -46,8 +44,7 @@ public class LoginServiceImple implements LoginService {
         return loginDao.selectLoginAll();
     }
 
-//    @Override
-//    public LoginVO selectRoleId(String roleId) {
-//        return loginDao.selectRoleId(roleId);
-//    }
+
+
 }
+//https://velog.io/@wlgns3855/Spring-Security-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0%EB%A1%9C-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0

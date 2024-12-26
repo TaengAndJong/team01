@@ -4,10 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
 import java.util.List;
 
 @Configuration
 public class WebConfig {
+
+
     //전역 CORS 설정
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
@@ -16,7 +20,7 @@ public class WebConfig {
         //
         CorsConfiguration config = new CorsConfiguration();
         //cors config 설정하기
-        config.addAllowedOrigin("http://localhost:5174");  // 리액트 앱의 주소
+        config.addAllowedOrigin("http://localhost:5173");  // 리액트 앱의 주소
         // 허용할 HTTP 메서드를 배열로 전달
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.addAllowedHeader("*");  // 허용할 모든 헤더
