@@ -5,7 +5,7 @@
     <!--메서드 구현부-->
 
     <!--사용자 정보 저장-->
-    <insert id="insertUserData" parameterType="com.example.team01.vo.SignUpVO"> 변경되는 데이터가 없을 때 resultype 안써도 됨
+    <insert id="insertUserData" parameterType="SignUpVO"> 변경되는 데이터가 없을 때 resultype 안써도 됨
         <!--DB Code 작성-->
         INSERT INTO client (id, name, pw, birth, identiNum, tel, zipCod, addr, detailAddr, email, pictuer, joinDate) values ( #{clientId}, #{clientName}, #{password}, #{birth}, #{identiNum}, #{tel}, #{zipCode}, #{addr}, #{detailAddr}, #{email},)
     </insert>
@@ -20,7 +20,7 @@
     </select>
 
     <!--id로 특정 사용자 데이터 조회-->
-    <select id="getUserInfo" parameterType="String" resultType="com.example.team01.signup.vo.UserVO">
+    <select id="getUserInfo" parameterType="String" resultType="SignUpVO">
         SELECT id, name, email, password, status, created_at
         FROM client
         WHERE id = #{clientId}
