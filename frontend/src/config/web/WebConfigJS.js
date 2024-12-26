@@ -1,5 +1,7 @@
 class WebConfigJS {
     constructor() {
+
+
         this.ipAddress = "192.168.0.3"; // 본인 장비 ip  예: "192.168.1.1"
         this.backEndPort = "8081"; // 예: "8080"
     }

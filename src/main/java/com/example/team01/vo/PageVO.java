@@ -20,6 +20,7 @@ public class PageVO implements Serializable {
     @Id
     private String pageId; 
     private String pagePath;
+    private String pageName;
 
 }
 

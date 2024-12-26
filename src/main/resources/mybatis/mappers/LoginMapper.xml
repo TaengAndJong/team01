@@ -2,35 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.team01.login.dao.LoginDao">
-    <select id="selectLogin" resultType="LoginVO" parameterType="String">
+
+    <select id="selectLoginAll" resultType="LoginVO">
+     select * from client
+    </select>
+
+    <select id="selectClientId" resultType="LoginVO" parameterType="String">
         WITH "joinClient" AS (
-            SELECT "clientId", "clientName", "PasswordHash", "roleId"
+            SELECT "clientId", "clientName","identiNum","email", "password", "roleId"
             FROM client
-            where "clientId" = #{clientId} and "PasswordHash" = #{password}
         )
         SELECT a.*
         FROM (
                  SELECT c."clientId",
                         c."clientName",
-                        c."PasswordHash",
+                        c."password",
+                        c."identiNum",
+                        c."email",
                         r."roleId",
                         r."roleName"
                  FROM "joinClient" c
                           JOIN "ROLES" r ON c."roleId" = r."roleId"
              ) a
-        WHERE  a."roleId" LIKE CONCAT('%', #{clientId}, '%')
-    </select>
-
-    <select id="selectClientId" resultType="LoginVO" parameterType="String">
-        SELECT "clientName","PasswordHash","roleId"
-        FROM client
-        WHERE  "clientId" = #{clientId};
+        WHERE a."clientId" = #{clientId}
     </select>
 
 
-    <select id="selectRole" resultType="LoginVO" parameterType="String">
-        SELECT  roleId, roleName
-        FROM ROLES
-        WHERE roleId = #{roleId}
-    </select>
+<!--    <select id="selectLogin" resultType="LoginVO" parameterType="String">-->
+
+
+
+<!--    </select>-->
+
+
+<!--    <select id="selectRole" resultType="LoginVO" parameterType="String">-->
+<!--        SELECT  roleId, roleName-->
+<!--        FROM ROLES-->
+<!--        WHERE roleId = #{roleId}-->
+<!--    </select>-->
 </mapper>

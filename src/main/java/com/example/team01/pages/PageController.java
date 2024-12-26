@@ -3,29 +3,36 @@ package com.example.team01.pages;
 
 import com.example.team01.pages.service.PageService;
 import com.example.team01.vo.PageVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @Slf4j
-@RestController("/api")
+@RestController()
+@RequiredArgsConstructor
 public class PageController {
 
-    @Autowired //의존성 주입하기
-    private PageService pageService;
+    private final PageService pageService;
 
     @GetMapping("/page")
     public List<PageVO> test() {
-        List<PageVO> data =pageService.pageList();
-
+        List<PageVO> data = pageService.pageList();
         log.info("test :{}",data);
-
         return data;
     }
+
+    @PostMapping("/page")
+    public void insert(@RequestBody PageVO pageVO) {
+
+        log.info("Received data: {}", pageVO);
+        // pageVO 객체에는 {pageId, pagePath, pageName}이 포함되어 있음
+        pageService.insert(pageVO); // 서비스 로직에서 DB에 삽입
+
+    }
+
 
 
 }

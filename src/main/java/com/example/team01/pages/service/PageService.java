@@ -9,5 +9,6 @@ public interface PageService {
 
     public PageVO pageOne(String pageId);
     public List<PageVO> pageList();
+    public int insert(PageVO pageVO);
 
 }

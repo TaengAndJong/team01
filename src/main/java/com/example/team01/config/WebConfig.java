@@ -4,10 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
 import java.util.List;
 
 @Configuration
 public class WebConfig {
+
+
     //전역 CORS 설정
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
