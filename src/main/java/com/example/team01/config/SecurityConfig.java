@@ -52,8 +52,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .authorizeRequests(requests -> requests
-                        .requestMatchers("/", "/api", "/login", "/signUp", "/page").permitAll()//로그인 없이 접근 가능
-                        .requestMatchers("/admin").hasRole(Role.ADMIN.name())
+                        .requestMatchers("/", "/api", "/login", "/signUp", "/page","/test/**").permitAll()//로그인 없이 접근 가능
+                        .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                         .requestMatchers("/login/**", "/mypage/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MEMBER.name())
                         .anyRequest().authenticated() // 나머지 요청 인증 필요
                 )
