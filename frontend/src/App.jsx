@@ -54,7 +54,7 @@ function App() {
                 <Route path="/login" element={<Login data={data} setUrl={setUrl}/>} />
                 <Route path="/admin" element={<Admin data={data} setUrl={setUrl}/>} />
                 <Route path="/page" element={<Page data={data} setUrl={setUrl}/>} />
-                <Route path="/signup" element={<SignUp/>} />
+                <Route path="/signup" element={<SignUp data={data} setUrl={setUrl}/>} />
                 <Route path="/admin/test" element={<AdminTest data={data} setUrl={setUrl}/>} />
             </Routes>
         </div>

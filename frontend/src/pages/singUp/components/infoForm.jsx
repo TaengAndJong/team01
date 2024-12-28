@@ -93,13 +93,13 @@ const infoForm = ({formData,onInputChange}) =>{
                 <label>주민번호 </label>
                 <input type="text" name="f_IdentiNum" placeholder="앞자리 번호를 입력해주세요"
                        value={formData.f_IdentiNum}
-                       maxLength={20}
+                       maxLength={6}
                        onChange={f_IdentiNumChangeHandle}
                 />
                 <span>-</span>
                 <input type="text" name="s_IdentiNum" placeholder="뒷자리 번호를 입력해주세요"
                        value={formData.s_IdentiNum}
-                       maxLength={20}
+                       maxLength={6}
                        onChange={s_IdentiNumChangeHandle}
                 />
             </div>

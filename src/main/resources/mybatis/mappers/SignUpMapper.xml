@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.team01.signup.dao.SignUpDao">
+    <!--메서드 구현부-->
+
+    <!-- 사용자 정보 저장 -->
+    <!-- 변경되는 데이터가 없을 때 resultType 안 써도 됨 -->
+    <insert id="insertUserData" parameterType="SignUpVO">
+        <!-- DB Code 작성 -->
+        INSERT INTO client ("id", "name", "password", "birth", "identiNum", "tel", "zipCode", "addr", "detailAddr", "email", "pictuer", "joinDate")
+        VALUES (#{clientId}, #{clientName}, #{password}, #{birth}, #{identiNum}, #{tel}, #{zipCode}, #{addr}, #{detailAddr}, #{email});
+    </insert>
+
+    <!-- 아이디 중복 확인 -->
+    <select id="checkId" parameterType="String" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1
+            FROM client
+            WHERE "id" = #{clientId}
+        )
+    </select>
+
+    <!-- id로 특정 사용자 데이터 조회 -->
+    <select id="getUserInfo" parameterType="String" resultType="SignUpVO">
+        SELECT "id", "name", "email", "password", "status", "joinDate"
+        FROM client
+        WHERE "id" = #{clientId}
+    </select>
+
+
+</mapper>
