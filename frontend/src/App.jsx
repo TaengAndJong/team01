@@ -11,6 +11,10 @@ import SignUp from "./pages/singUp/signUpComponent.jsx";
 // import cart from "./pages/cart/cartComponent.jsx";
 import AdminTest from "./test/adminTest.jsx";
 import Login from "./pages/login/loginCompoenet.jsx";
+import Qna from "./pages/qna/qnaComponent.jsx";
+import QnaCreate from "./pages/qna/components/qnaCreate.jsx";
+import QnaDetail from "./pages/qna/components/qnaDetail.jsx";
+import QnaEdit from "./pages/qna/components/qnaEdit.jsx";
 
 function App() {
     const [data, setData] = useState('');
@@ -56,6 +60,11 @@ function App() {
                 <Route path="/page" element={<Page data={data} setUrl={setUrl}/>} />
                 <Route path="/signup" element={<SignUp data={data} setUrl={setUrl}/>} />
                 <Route path="/admin/test" element={<AdminTest data={data} setUrl={setUrl}/>} />
+                <Route path="/test/qna" element={<Qna/>} />
+                <Route path="/create" element={<QnaCreate/>} />
+                <Route path="/post/:id" element={<QnaDetail/>} />
+                <Route path="/edit/:id" element={<QnaEdit/>} />
+
             </Routes>
         </div>
     );

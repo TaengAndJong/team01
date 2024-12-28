@@ -8,7 +8,7 @@ public interface LoginDao {
 
     //로그인시 필요한 파라미터
     public LoginVO selectLogin(String clientId,String password);
-   public LoginVO selectClientId(String clientId);
+    public LoginVO selectClientId(String clientId);
     public LoginVO selectRoleId(String roleId);
     public LoginVO selectLoginAll();
 
