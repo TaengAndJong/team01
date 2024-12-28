@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping()
 public class IndexController {
 
-    @GetMapping()
+    @GetMapping("/")
     public String index() {
         String data= "main";
 
         return data;
     }
-
-
 
 
 }
