@@ -19,7 +19,7 @@ public class SignUpVO implements Serializable {
     private String clientName;    // 고객 이름
     private String password;      // 비밀번호
     private String birth;         // 생년월일 (YYYY-MM-DD)
-    private String identiNum;     // 주민등록번호
+   // private String identiNum;     // 주민등록번호
     private String tel;           // 전화번호
     private String zipCode;       // 우편번호
     private String addr;          // 주소
@@ -29,5 +29,5 @@ public class SignUpVO implements Serializable {
     private LocalDateTime joinDate; // 가입 일자 (TIMESTAMP)
     private LocalDateTime withDrawalDate; // 탈퇴 일자 (TIMESTAMP)
     private String status; // 가입시 기본값 '회원' --> 탈퇴시 '탈퇴'로 변경
-
+    private String staffId;// 사원 번호
 }
