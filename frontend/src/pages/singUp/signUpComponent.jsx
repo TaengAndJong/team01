@@ -1,4 +1,5 @@
 import SignUpForm from "./components/SignUpForm.jsx";
+import {useEffect, useState} from "react";
 const signUpComponent = () =>{
 
     const [data, setData] = useState(null);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @Slf4j
-@RequestMapping() //전역 ResponseBody
+@RequestMapping("/signUp") //전역 ResponseBody
 @RequiredArgsConstructor(onConstructor = @__(@Autowired)) //final 타입 사용시 생성자 주입방식 사용
 @RestController
 public class SignUpController {
@@ -22,14 +22,14 @@ public class SignUpController {
 
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    @GetMapping("/signUp")
+    @GetMapping()
     public String getSignUp() {
         String data = " 회원가입  , getMapping";
         return data;
     }
 
 
-    @PostMapping("/signUp")
+    @PostMapping()
     public Map<String,Object> getInsert(@RequestBody SignUpVO joinUser) {
 
         log.info("joinUser-------------------: {}",joinUser.toString());
