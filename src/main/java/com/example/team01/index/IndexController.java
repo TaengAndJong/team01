@@ -16,9 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping()
 public class IndexController {
 
+    //getMapping index 페이지 명시적으로 해주지 않으면 데이터 전송에 충돌 생길 수 있음!
     @GetMapping("/")
     public String index() {
         String data= "main";
+        return data;
+    }
+
+    @GetMapping("/api")
+    public String indexAPI() {
+        String data= "apiMain";
 
         return data;
     }

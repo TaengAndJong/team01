@@ -1,6 +1,9 @@
 package com.example.team01.signup.service;
 
+import com.example.team01.vo.SignUpVO;
+
 public interface SignUpService {
-    // 매서드 생성
-    // 사용자 정보 db 저장 매서드
+
+    public int insertUserData(SignUpVO signUpVO);
+    public int selectDuplicateId(String clientId);
 }

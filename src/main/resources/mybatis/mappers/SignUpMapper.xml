@@ -4,26 +4,20 @@
 <mapper namespace="com.example.team01.signup.dao.SignUpDao">
     <!--메서드 구현부-->
 
-    <!--사용자 정보 저장-->
-    <insert id="insertUserData" parameterType="SignUpVO"> 변경되는 데이터가 없을 때 resultype 안써도 됨
-        <!--DB Code 작성-->
-        INSERT INTO client (id, name, pw, birth, identiNum, tel, zipCod, addr, detailAddr, email, pictuer, joinDate) values ( #{clientId}, #{clientName}, #{password}, #{birth}, #{identiNum}, #{tel}, #{zipCode}, #{addr}, #{detailAddr}, #{email},)
+    <!-- 사용자 정보 저장 -->
+    <!-- 변경되는 데이터가 없을 때 resultType 안 써도 됨 -->
+    <insert id="insertUserData" parameterType="SignUpVO">
+        <!-- DB Code 작성 -->
+        INSERT INTO client ("clientId", "name", "password", "birth", "identiNum", "tel", "zipCode", "addr", "detailAddr", "email", "pictuer", "joinDate")
+        VALUES (#{clientId}, #{clientName}, #{password}, #{birth}, #{identiNum}, #{tel}, #{zipCode}, #{addr}, #{detailAddr}, #{email});
     </insert>
 
-    <!--아이디 중복확인-->
-    <select id="checkId" parameterType="String" resultType="boolean">
-        SELECT EXISTS (
-            SELECT 1
-            FROM client
-            WHERE id = #{clientId}
-        )
+    <!-- 아이디 중복 확인 -->
+    <select id="selectDuplicateId" parameterType="String" resultType="int">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
+        FROM client
+        WHERE "clientId" = #{clientId}
     </select>
 
-    <!--id로 특정 사용자 데이터 조회-->
-    <select id="getUserInfo" parameterType="String" resultType="SignUpVO">
-        SELECT id, name, email, password, status, created_at
-        FROM client
-        WHERE id = #{clientId}
-    </select>
 
 </mapper>

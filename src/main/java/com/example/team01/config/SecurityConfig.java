@@ -13,6 +13,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
+
+import java.util.Arrays;
 
 @Slf4j
 @EnableWebSecurity(debug = true)
@@ -52,7 +56,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .authorizeRequests(requests -> requests
-                        .requestMatchers("/", "/api", "/login", "/signUp", "/page","/test/**").permitAll()//로그인 없이 접근 가능
+                        .requestMatchers("/", "/api", "/login", "/signUp/**", "/page","/test/**").permitAll()//로그인 없이 접근 가능
                         .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                         .requestMatchers("/login/**", "/mypage/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MEMBER.name())
                         .anyRequest().authenticated() // 나머지 요청 인증 필요
@@ -72,6 +76,7 @@ public class SecurityConfig {
                         .permitAll() // 로그아웃 URL 인증 없이 접근 가능
                 );
         // 모든 설정이 끝난 후에 build 호출
+
         return http.build();
     }
 }
