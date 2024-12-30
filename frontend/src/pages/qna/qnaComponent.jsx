@@ -11,7 +11,7 @@ const qnaComponent =  ()  => {
         //
         // }
     useEffect(() => {
-        fetch("/api/test/qna")
+        fetch(`/api/test/qna${qnaId}`)
             // /admin/qna 로 요청
             .then((response) => {
                 // 응답 상태가 정상인지 확인
