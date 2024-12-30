@@ -11,31 +11,29 @@ const qnaComponent =  ()  => {
         //
         // }
     useEffect(() => {
-        fetch(`/api/test/qna${qnaId}`)
-            // /admin/qna 로 요청
-            .then((response) => {
-                // 응답 상태가 정상인지 확인
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                console.log("리스폰 데이터: ",response);
-                return response.text(); // JSON 데이터 파싱
-            })
-            .then((data) => {
-                // 데이터를 state에 저장
-                setData(data);
-                console.log("Response data:", data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
+        const userId = "user01";
+        const fetchData = async () =>{
+            try{
+                const response = await fetch(`/api/test/qnaList?userId=${userId}`);
+                const result =response.json();
+                setData(result);
+                console.log('QnaData : ', result);
+            } catch (err) {
+                console.error("err", err);
+            }
+        };
 
+      fetchData()
     }, []);
 
     return (
         <>
             <div>
-                <span>데이터 : {data}</span>
+                {data ? (
+                    <span>데이터 : {data}</span> // Display a specific field from the data
+                ) : (
+                    <span>Loading...</span>
+                )}
                 <QnAList/>
             </div>
         </>

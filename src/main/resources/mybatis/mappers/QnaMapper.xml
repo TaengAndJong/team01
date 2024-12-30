@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.team01.signup.dao.QnaDao">  <!--사용하는 Dao 연결-->
+<mapper namespace="com.example.team01.qna.dao.QnaDao">  <!--사용하는 Dao 연결-->
     <!--메서드 구현부-->
     <!--id로 특정 사용자 데이터 조회-->
     <select id="userQnaDataList" parameterType="String" resultType="QnaVO">
-        SELECT qnaid, qndType, userid, roleid
-        FROM client
-        WHERE id = #{qnaId}
+        SELECT qnaOneId, qnaTitle, qnaContent, qndWriter, qnaDate, qnaDel, qndStatus, qnaId
+        FROM qna join qnaone
+        on qna.qnaId = qnaone.qnaId
+        WHERE qna.userid = #{userId}
     </select>
 </mapper>
 
