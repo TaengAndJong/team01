@@ -5,5 +5,5 @@ import com.example.team01.vo.SignUpVO;
 public interface SignUpService {
 
     public int insertUserData(SignUpVO signUpVO);
-
+    public int selectDuplicateId(String clientId);
 }

@@ -75,10 +75,28 @@ export const validID = (id) => validateInput(inputRegexs.idRegex, id);
 export const validPW = (pw) => validateInput(inputRegexs.pwRegex, pw);
 
 // 중복 체크 추가 (서버와 통신하기 때문에 비동기로 작성)
-export const checkDuplicate = async (field, value) => {
-    const response = await fetch(`/중복검사 API ${field}, ${value}`);
-    const result = await response.json();
-    return result.응답데이터 ? {valid: false, massage: `${field}(이)가 중복되었습니다.`} : {valid: true, massage: '사용 가능합니다.'}
+export const checkDuplicate = async (apiAddr,field, value) => {
+    console.log("value-----------", apiAddr,field,value);
+    console.log("value2222-----------", `${apiAddr}?"${field}"=${value}`);
+    // 서버로 요청하는 fetch
+    try {
+        //서버에 응답 요청
+        const response = await fetch(`${apiAddr}?${field}=${value}`);
+        console.log("response---------",response);
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        //응답 받은 데이터 제이슨으로 파싱
+        const result = await response.json();
+        //중복여부 반환 ==> result.isDuplicate 는 서버에서 보낸 isDuplicate 속성을 의미함
+        return result.isDuplicate
+            ? { valid: false, message: `${field}(이)가 중복되었습니다.` }
+            : { valid: true, message: "사용 가능합니다." };
+    } catch (error) {
+        console.error("Error checking duplicate:", error);
+        return { valid: false, message: "서버와의 통신에 실패했습니다." };
+    }
+
 }
 
 // 비밀번호 확인 검사

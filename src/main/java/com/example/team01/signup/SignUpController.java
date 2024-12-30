@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -27,7 +28,6 @@ public class SignUpController {
         String data = " 회원가입  , getMapping";
         return data;
     }
-
 
     @PostMapping()
     public Map<String,Object> getInsert(@RequestBody SignUpVO joinUser) {
@@ -53,5 +53,31 @@ public class SignUpController {
         }
 //
     }
+
+
+    @GetMapping("/checkDuplicate")
+    public Map<String,Object> idCheck(@RequestParam("clientId") String clientId) {
+        log.info("idCheck------------------: {}",clientId);
+        int isDuplicate = signUpService.selectDuplicateId(clientId);
+
+        log.info("isDuplicate------------------: {}",isDuplicate);
+        //json형식 key와 value로 형식으로 바꿔주기위해 Map 사용
+        Map<String, Object> response = new HashMap<>();
+
+        if (isDuplicate == 1) {
+            response.put("isDuplicate", isDuplicate > 0);
+            log.info("isDuplicate > 0: {}",isDuplicate > 0);
+           // response.put("message", "아이디입니다");
+        } else {
+            //response.put("isDuplicate", isDuplicate == 0);
+            //response.put("message", "사용 가능한 아이디입니다.");
+        }
+
+
+        return response;
+    }
+
+
+
 //
 }

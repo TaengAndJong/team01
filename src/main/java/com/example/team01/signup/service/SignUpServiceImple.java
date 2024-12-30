@@ -26,4 +26,15 @@ public class SignUpServiceImple implements SignUpService {
         return 0;
 
     }
+
+    @Override
+    public int selectDuplicateId(String clientId) {
+        int cnt;
+        if (clientId != null) {
+            log.info("insert user data:{}", clientId );
+            log.info("insert user dao:{}", dao.selectDuplicateId(clientId));
+            return cnt =  dao.selectDuplicateId(clientId);
+        }
+        return 0;
+    }
 }

@@ -19,7 +19,6 @@ public class SignUpVO implements Serializable {
     private String clientName;    // 고객 이름
     private String password;      // 비밀번호
     private String birth;         // 생년월일 (YYYY-MM-DD)
-   // private String identiNum;     // 주민등록번호
     private String tel;           // 전화번호
     private String zipCode;       // 우편번호
     private String addr;          // 주소
