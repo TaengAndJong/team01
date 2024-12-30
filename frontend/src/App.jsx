@@ -64,7 +64,6 @@ function App() {
                 <Route path="/create" element={<QnaCreate/>} />
                 <Route path="/post/:id" element={<QnaDetail/>} />
                 <Route path="/edit/:id" element={<QnaEdit/>} />
-
             </Routes>
         </div>
     );

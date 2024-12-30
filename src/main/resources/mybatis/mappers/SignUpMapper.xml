@@ -10,7 +10,7 @@
         INSERT INTO client (id, name, pw, birth, identiNum, tel, zipCod, addr, detailAddr, email, pictuer, joinDate) values ( #{clientId}, #{clientName}, #{password}, #{birth}, #{identiNum}, #{tel}, #{zipCode}, #{addr}, #{detailAddr}, #{email},)
     </insert>
 
-    <!--아이디 중복확인222-->
+    <!--아이디 중복확인-->
     <select id="checkId" parameterType="String" resultType="boolean">
         SELECT EXISTS (
             SELECT 1

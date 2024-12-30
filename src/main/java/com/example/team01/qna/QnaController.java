@@ -2,6 +2,7 @@ package com.example.team01.qna;
 
 
 import com.example.team01.login.service.LoginService;
+import com.example.team01.qna.service.QnaService;
 import com.example.team01.security.UserDetailCustomServiceImple;
 import com.example.team01.vo.LoginVO;
 import com.example.team01.vo.QnaVO;
@@ -20,26 +21,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.Map;
 
-
 @Slf4j
-@RequestMapping("/test") //전역 ResponseBody
+@RequestMapping("/test") // 전역 ResponseBody
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RestController
 public class QnaController {
 
-    @GetMapping("/qna")
-    public String getQna() {
-        String Data = "qna 데이터";
+    private final QnaService qnaService; // 의존성 주입
 
-        return Data;
+
+    /**
+     * 특정 사용자 ID에 해당하는 QnA 데이터를 반환
+     *
+     * @param qnaId 사용자 ID
+     * @return QnA 데이터
+     **/
+
+    @GetMapping("/qna")
+    public QnaVO getQna(@RequestParam("qnaId") String qnaId) {
+        // QnaService를 통해 데이터 조회
+        QnaVO qnaData = qnaService.getUserQnaData(qnaId);
+
+        // 로그 출력 (디버깅용)
+        log.info("QnA 데이터 조회: {}", qnaData);
+
+        return qnaData; // 조회된 데이터를 반환
     }
 
-
+    // 아래의 주석 처리된 코드 부분은 필요 없는 경우 삭제하거나, 별도 메서드로 분리하세요.
+    // @GetMapping("/qna")
+    // public String getQna() {
+    //     String Data = "qna 데이터";
+    //     return Data;
+    // }
 }
-
-//내일 할일 : 1) identifyNumber=null, email=null
-
-
-//Json 데이터를 프론트에서 받아올 때 Map<String, Object> 타입으로 선언 하고 HashMap<String, Object> 사용
-// String은 Json의 key 값,  Object는 Json의 value 값 (어떤 데이터가 들어올지 모르니까 Object최상위 타입으로 선언)
-//인터페이스 Map 의 HashMap<String, Object> 구현체를 사용하는 이유는 빠른 검색과 중복되지 않는 값
