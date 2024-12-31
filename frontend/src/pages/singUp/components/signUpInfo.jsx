@@ -3,7 +3,8 @@ import {checkDuplicate, validatePasswordMatch, validID, validPW} from "../../../
 import {useContext, useState} from "react";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
 import { signUpDispatchContext} from "../SignUpComponent"; // 부모 컴포넌트에서 제공한 signUpContext를 import
-
+import Select from 'react-select';
+import {generateOptions} from "../../../util/selectDate.jsx";
 
 
 const SignUpInfo = () => {
@@ -45,13 +46,14 @@ const SignUpInfo = () => {
                 name === "passwordConfirm" ? value : formInfoData.passwordConfirm // passwordConfirm 또는 현재 state의 passwordConfirm
             );
 
+            //입력된 상태값 갱신
             setformInfoData((prevState) => ({
                 ...prevState,
                 errorMessage: validationResult.message,
             }));
         }
 
-        //생년월일 : 1) 공통 핸들러 생성해서 value값 받기  2) 이전 데이터를 포함한 value값 데이터를 상태 갱신해주기
+
 
         //이메일
 
@@ -69,7 +71,7 @@ const SignUpInfo = () => {
 
         // params에서 key만 가져오기
         const keys = Array.from(params.keys());  // ["clientId"]
-        const values = Array.from(params.values());  // ["clientId"]
+        const values = Array.from(params.values());  // []
 
         // 비동기 함수 호출 //field는 name을 의미하기때문에 문자열("clientId")로 , field의 값이 value니까 value로 전달
         try {
@@ -81,6 +83,43 @@ const SignUpInfo = () => {
 
         }
     };
+
+    //생일
+    const yearOptions = generateOptions(1990, 2024, "년"); // 1990년부터 2024년까지
+    const monthOptions = generateOptions(1, 12, "월", true); // 1월부터 12월까지 (0 패딩)
+    const dayOptions = generateOptions(1, 31, "일", true); // 1일부터 31일까지 (0 패딩)
+
+
+    // 1. 배열을 함수 밖에 선언하여 상태를 유지,  selectedOption을 배열에 하나씩 저장
+    let birthObject = {}; // key와 value 형태로 사용할 경우, 빈 객체로 시작
+    //생년월일
+    const handleBirthChange= (selectedOption,name) => {
+        //console.log("selectedOption",selectedOption); // react-select API 옵션값 확인
+        //console.log("birthObject",birthObject);// birthObject 초기값 및 , 변경 값 확인
+       // console.log("name ",  name ); // name 값을 활용한 조건부
+        // 2. 기존 값을 불러와서 키-값 형태로 설정 (객체에 key : value  추가) , name에 따른 vale에 2자리 중 빈자리 0 추가
+        if(name === 'birthMonth' || name === 'birthDay'){
+            birthObject[name] = String(selectedOption.value).padStart(2, "0");
+           
+        }else{ 
+            // birthYear인 경우 그냥 추가
+            birthObject[name] = selectedOption.value;
+        }
+
+        // '년, 월 ,일 ' 모든 값이 있을 때만 infoDate의 'birth'를 갱신
+        if (birthObject.birthYear && birthObject.birthMonth && birthObject.birthDay) {
+            // 'birthYear', 'birthMonth', 'birthDay' 값이 모두 있으면
+            setformInfoData((prev) => ({
+                ...prev,
+                birth: `${birthObject.birthYear}-${birthObject.birthMonth}-${birthObject.birthDay}`,
+            }));
+        }
+        //최종값 확인   console.log("Updated Birth Object:", birthObject); // 객체 출력
+
+    }
+
+
+
 
     //주소
     const handleAddressSelect = (address) => { // 우편번호 검색한 데이터를 입력해주는 handler
@@ -126,19 +165,27 @@ const SignUpInfo = () => {
             {/*생일*/}
             <div className="Info birth">
                 <label>생년월일</label>
-                {/*연,월,일 데이터로 뿌리기*/}
-                <select name="birthYear" id="birthYear" value="" onChange="">
-                    <option key="1" value="">2024</option>
-                </select>
-                <span>년</span>
-                <select name="birthMonth" id="birthMonth" value="" onChange="">
-                    <option key="1" value="">01</option>
-                </select>
-                <span>월</span>
-                <select name="birthMonth" id="birthMonth" value="" onChange="">
-                    <option key="1" value="">01</option>
-                </select>
-                <span>일</span>
+                <Select
+                    name="birthYear"
+                    id="birthYear"
+                    options={yearOptions}
+                    onChange={(selectedOption) => handleBirthChange(selectedOption, "birthYear")}
+                    placeholder="연도 선택"
+                />
+                <Select
+                    name="birthMonth"
+                    id="birthMonth"
+                    options={monthOptions}
+                    onChange={(selectedOption) => handleBirthChange(selectedOption, "birthMonth")}
+                    placeholder="월 선택"
+                />
+                <Select
+                    name="birthDay"
+                    id="birthDay"
+                    options={dayOptions}
+                    onChange={(selectedOption) => handleBirthChange(selectedOption, "birthDay")}
+                    placeholder="일 선택"
+                />
             </div>
             {/*이메일*/}
             <div className="Info email">
@@ -190,3 +237,9 @@ const SignUpInfo = () => {
 }
 
 export default SignUpInfo;
+
+
+
+//react -select https://react-select.com/home
+// React-Select는 기본적으로 name 속성을 전달하지 않으므로, onChange 핸들러에서 name 정보를 가져오려면 별도의 설정이
+// Select 컴포넌트에 inputId 속성을 사용하거나, onChange 핸들러의 두 번째 매개변수를 활용
