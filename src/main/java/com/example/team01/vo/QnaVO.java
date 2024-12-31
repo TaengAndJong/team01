@@ -3,6 +3,7 @@ package com.example.team01.vo;
 import lombok.*;
 import jakarta.persistence.Id; // 관계형 디비에서 사용
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 
 @ToString
@@ -17,4 +18,11 @@ public class QnaVO implements Serializable{
     private String qnbType; // 문의타입
     private String userId; // 사용자 ID
     private String roleId; // 권한 ID
+    private String qnaOneId;
+    private String qnaTitle;
+    private String qnaContent;
+    private String qndWriter;
+    private LocalDateTime qnaDate;
+    private LocalDateTime qnaDel;
+    private String qndStatus;
 }

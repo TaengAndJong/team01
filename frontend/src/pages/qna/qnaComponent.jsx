@@ -11,11 +11,12 @@ const qnaComponent =  ()  => {
         //
         // }
     useEffect(() => {
+        console.log("마운트 됨");
         const userId = "user01";
         const fetchData = async () =>{
             try{
-                const response = await fetch(`/api/test/qnaList?userId=${userId}`);
-                const result =response.json();
+                const response = await fetch(`/api/test/qnaList?userId=${userId}` ,{ method: "GET",});
+                const result = await response.json();
                 setData(result);
                 console.log('QnaData : ', result);
             } catch (err) {
@@ -30,7 +31,7 @@ const qnaComponent =  ()  => {
         <>
             <div>
                 {data ? (
-                    <span>데이터 : {data}</span> // Display a specific field from the data
+                    <span>데이터 : {data ? JSON.stringify(data) : "No Data Available"}</span> // Display a specific field from the data
                 ) : (
                     <span>Loading...</span>
                 )}

@@ -4,6 +4,7 @@ import com.example.team01.qna.dao.QnaDao;
 import com.example.team01.vo.QnaVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service // 스프링의 서비스 계층 컴포넌트로 등록
 public class QnaServiceImpl implements QnaService {
@@ -17,7 +18,7 @@ public class QnaServiceImpl implements QnaService {
     }
 
     @Override
-    public QnaVO getUserQnaData(String userId) {
+    public List<QnaVO> getUserQnaData(String userId) {
         // DAO 계층 메서드 호출 및 리턴
         return qnaDao.userQnaDataList(userId);
     }

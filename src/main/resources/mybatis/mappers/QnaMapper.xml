@@ -5,10 +5,10 @@
     <!--메서드 구현부-->
     <!--id로 특정 사용자 데이터 조회-->
     <select id="userQnaDataList" parameterType="String" resultType="QnaVO">
-        SELECT qnaOneId, qnaTitle, qnaContent, qndWriter, qnaDate, qnaDel, qndStatus, qnaId
-        FROM qna join qnaone
-        on qna.qnaId = qnaone.qnaId
-        WHERE qna.userid = #{userId}
+        SELECT qna."qnaId", qnaone."qnaOneId" , qnaone."qnaTitle" , qnaone."qnaContent" , qnaone."qndWriter" , qnaone."qnaDate"
+        FROM qna
+        JOIN qnaone ON qna."qnaId" = qnaone."qnaId"
+        WHERE qna."userId" = #{userId}
     </select>
 </mapper>
 
