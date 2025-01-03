@@ -60,11 +60,10 @@ function App() {
                 <Route path="/page" element={<Page data={data} setUrl={setUrl}/>} />
                 <Route path="/signup" element={<SignUp/>} />
                 <Route path="/admin/test" element={<AdminTest data={data} setUrl={setUrl}/>} />
-                <Route path="/test/qna" element={<Qna/>} />
+                <Route path="/test/qnaList" element={<Qna/>} />
                 <Route path="/create" element={<QnaCreate/>} />
                 <Route path="/post/:id" element={<QnaDetail/>} />
                 <Route path="/edit/:id" element={<QnaEdit/>} />
-
             </Routes>
         </div>
     );
