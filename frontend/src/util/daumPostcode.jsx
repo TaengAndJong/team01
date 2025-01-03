@@ -5,9 +5,20 @@ const DaumPostcode  = ({ onAddressSelect }) => {
     const open = useDaumPostcodePopup(scriptUrl);
 
     const handleComplete = (data) => {
-        let fullAddress = data.address;
+        console.log("data------",data);
+        let addressObject ={}
+        //let zonecode = data.zonecode;
+        //let fullAddress = data.address;
         let extraAddress = '';
+    
+        // addressObject 에 address, zoncode 담기
+        addressObject.fullAddress = data.address;
+        addressObject.zonecode = data.zonecode;
+        console.log("Address---",addressObject);
 
+        //bname = xx동 
+        //buildingName = 아파트명
+        //zoneCode = 우편번호
         if (data.addressType === 'R') {
             if (data.bname !== '') {
                 extraAddress += data.bname;
@@ -15,11 +26,12 @@ const DaumPostcode  = ({ onAddressSelect }) => {
             if (data.buildingName !== '') {
                 extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
             }
-            fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+            addressObject.fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
         }
 
-        console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-        onAddressSelect(fullAddress); // 부모 컴포넌트로 데이터 전달
+        console.log("addressObject---------",addressObject); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+        onAddressSelect(addressObject); // 부모 컴포넌트로 데이터 전달
+
     };
 
     const handleClick = () => {
@@ -28,7 +40,7 @@ const DaumPostcode  = ({ onAddressSelect }) => {
 
     return (
         <button type='button' onClick={handleClick}>
-            우편번호 찾기
+            주소 찾기
         </button>
     );
 };
