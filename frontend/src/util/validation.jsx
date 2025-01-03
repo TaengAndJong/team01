@@ -79,7 +79,6 @@ export const checkDuplicate = async (apiAddr,field, value) => {
 
     // 서버로 요청하는 fetch
     try {
-
         //서버에 응답 요청
         const response = await fetch(`${apiAddr}?${field}=${value}`);
         console.log("response---------",response);

@@ -1,6 +1,6 @@
 import Btn from "../../../util/reuseBtn.jsx";
 import {checkDuplicate, validatePasswordMatch, validID, validPW} from "../../../util/validation.jsx";
-import {useContext, useState} from "react";
+import {useContext, useState,useEffect} from "react";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
 import { signUpDispatchContext} from "../SignUpComponent"; // 부모 컴포넌트에서 제공한 signUpContext를 import
 import Select from 'react-select';
@@ -14,19 +14,16 @@ const SignUpInfo = () => {
        clientId: "",
        password: "",
        passwordConfirm: "",
-       errorMessage: "",
+       passwordErrorMessage: "",
        userName:"",
        email: "",
        birth:"",
        tel:"",
-       zipCode:"",
-       adr:"",
+       addr:"",
+       zoneCode:"",
        dtailAdr:""
    });
 
-
-    console.log("formData",formData);
-    console.log("formInfoData",formInfoData);
 
     // 공통 입력값 변경 핸들러
     const handleInputChange = (e) => {
@@ -49,15 +46,10 @@ const SignUpInfo = () => {
             //입력된 상태값 갱신
             setformInfoData((prevState) => ({
                 ...prevState,
-                errorMessage: validationResult.message,
+                passwordErrorMessage: validationResult.message,
             }));
         }
 
-
-
-        //이메일
-
-        //전화번호
 
     };
 
@@ -91,7 +83,7 @@ const SignUpInfo = () => {
 
 
     // 1. 배열을 함수 밖에 선언하여 상태를 유지,  selectedOption을 배열에 하나씩 저장
-    let birthObject = {}; // key와 value 형태로 사용할 경우, 빈 객체로 시작
+    let birthObject = {}; // key와 value 형태로 사용할 경우, 빈 객체로 시작 또는 useState로 관리
     //생년월일
     const handleBirthChange= (selectedOption,name) => {
         //console.log("selectedOption",selectedOption); // react-select API 옵션값 확인
@@ -118,13 +110,83 @@ const SignUpInfo = () => {
 
     }
 
+    //전화번호 : handlerObject , e.target.name, e.target.value
+    let telObject = {};
+    const handleTelChange=(e)=>{
+        //console.log("tel",e.target.value,e.target.name);
+        let value;
+        //두 번째 전화번호 이거나 세 번째 전화번호이면
+        if(e.target.name === "secondTelNum" || e.target.name === "lastTelNum"){
+            // 숫자만 가능하고 자리수 제한 4자리까지 아니면 자리수 안내 경고 문구 반환
+            value =  /^\d*$/.test(value) ? alert("숫자만 입력해주세요"): e.target.value;
+            // 2. 최대 길이 확인  --> 빈 값일 때는 ??????
+            if (value.length > 4) {
+                alert("최대 4자리까지만 입력 가능합니다.");
+                e.target.value="";
+            }
+        }else{
+            value = e.target.value;
+        }
 
+        // 3. e.target.name과 value를 telObject 객체에 저장
+        telObject[e.target.name] = value;
+        // 3개의 전화번호를 합쳐서 setFormInfoData에 갱신해주기
+        console.log("telObject",telObject);
+        if (telObject.FirstTelNum && telObject.secondTelNum && telObject.lastTelNum) {
+            // 'FirstTelNum', 'secondTelNum', 'lastTelNum' 값이 모두 있으면
+            setformInfoData((prev) => ({
+                ...prev,
+                tel: `${telObject.FirstTelNum}-${telObject.secondTelNum}-${telObject.lastTelNum}`,
+            }));
 
+        }
+        console.log("telObject------",telObject);
+
+    }
+
+    //email
+    const [emailData, setemailData] = useState({
+        emailId: "",
+        emailAddrInput: "",
+        emailAddrSelect: "직접선택",
+    });
+    //email
+    useEffect(() => {
+        if (emailData.emailId && emailData.emailAddrInput) {
+            setformInfoData((prev) => ({
+                ...prev,
+                email: `${emailData.emailId}@${emailData.emailAddrInput}`,
+            }));
+        }
+    },  [emailData.emailId, emailData.emailAddrInput]); // emailData가 변경될 때 실행
+
+    //emailHandler
+    const handleEmailChange = (e)=>{
+        console.log("e.target.name", e.target.name);
+        console.log("e.target.value", e.target.value);
+    //...(스프레드 연산자)는 객체를 "펼쳐서" 새로운 객체에 병합하거나 추가하는 역할을 합니다.
+        setemailData((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+            ...(e.target.name === "emailAddrSelect" && { emailAddrInput: e.target.value }), // emailAddrSelect 처리
+        }));
+        //end
+    }
 
     //주소
-    const handleAddressSelect = (address) => { // 우편번호 검색한 데이터를 입력해주는 handler
-        onInputChange('adr', address); // adr 필드 업데이트
+    const handleAddressSelect = (addressObject) => {
+
+        // 다음 API에서 받은 데이터 infoData에 갱신해주기
+        setformInfoData((prev)=>({
+            ...prev,
+            addr:addressObject.fullAddress,
+            zoneCode:addressObject.zonecode,
+        }));
+
     };
+//
+
+    console.log("formInfoData----",formInfoData);
 
 //
     return(
@@ -151,8 +213,8 @@ const SignUpInfo = () => {
                 <label>비밀번호 확인 </label>
                 <input type="password" name="passwordConfirm" placeholder="비밀번호를 입력해주세요"
                        value={formInfoData.passwordConfirm} onChange={handleInputChange} />
-                {formInfoData.errorMessage && (
-                    <span className="error">{formInfoData.errorMessage}</span>
+                {formInfoData. passwordErrorMessage && (
+                    <span className="error">{formInfoData. passwordErrorMessage}</span>
                 )}
             </div>
            
@@ -160,7 +222,7 @@ const SignUpInfo = () => {
             {/*이름*/}
             <div className="Info name">
                 <label>이름</label>
-                <input type="text" name="userName" placeholder="이름을 입력해주세요"/>
+                <input type="text" name="userName" onChange={handleInputChange} placeholder="이름을 입력해주세요"/>
             </div>
             {/*생일*/}
             <div className="Info birth">
@@ -190,11 +252,14 @@ const SignUpInfo = () => {
             {/*이메일*/}
             <div className="Info email">
                 <label>이메일 </label>
-                <input type="text" name="emailId" placeholder="ex)이메일아이디"/>
+                <input type="text" name="emailId" onChange={handleEmailChange} value={emailData.emailId} placeholder="ex)이메일아이디"/>
                 <span id="at">@</span>
-                {/*메일주소 데이터로 뿌리기*/}
-                <select name="emailAddr" >
-                    <option key="1" value="">직접선택</option>
+                <input type="text" name="emailAddrInput"  onChange={handleEmailChange} value={emailData.emailAddrInput} placeholder="ex)이메일주소" />
+                <select name="emailAddrSelect"  onChange={handleEmailChange} value={emailData.emailAddrSelect}>
+                    <option key="1" value="직접선택">직접선택</option>
+                    <option key="2" value="naver.com">naver.com</option>
+                    <option key="3" value="google.com">google.com</option>
+                    <option key="4" value="daum.net">daum.net</option>
                 </select>
                 {/*<p>{emailCheckMessage}</p>*/}
             </div>
@@ -202,34 +267,31 @@ const SignUpInfo = () => {
             {/*전화번호*/}
             <div className="Info tel">
                 <label>전화번호</label>
-                {/*첫번째 전화번호 스크립트 조작*/}
-                <select name="FirstTelNum" id="FirstTelNum">
-                    <option key="1" value="">직접선택</option>
+                <select name="FirstTelNum" id="FirstTelNum" onChange={handleTelChange}>
+                    <option key="1" value="직접선택">직접선택</option>
+                    <option key="2" value="010">010</option>
                 </select>
                 <span>-</span>
-                <input type="text" name="secondTelNum" placeholder={`"두 번째 전화번호 입력"`}
-                />
+                <input type="text" name="secondTelNum" onChange={handleTelChange}  placeholder={`"두 번째 전화번호 입력"`}/>
                 <span>-</span>
-                <input type="text" name="lastTelNum" placeholder={`"마지막 번째 전화번호 입력"`}
-
-                />
+                <input type="text" name="lastTelNum" onChange={handleTelChange} placeholder={`"마지막 번째 전화번호 입력"`}/>
             </div>
+            {formInfoData.errorMessage && (
+                <span className="error">{formInfoData.errorMessage}</span>
+            )}
             
             {/*주소*/}
             <div className="Info Address">
                 <div>
                     {/* 카카오톡 API 주소 , 각각 갈라서 백으로 전달*/}
                     <label>주소 </label>
-                    <input type="text" name="zipCode" placeholder="우편번호입력"/>
+                    <input type="text" name="addr" value={formInfoData.addr}  placeholder="주소"/>
+                    <input type="text" name="zoneCode" value={formInfoData.zoneCode}  placeholder="우편번호"/>
                     <DaumPostcode onAddressSelect={handleAddressSelect}/>
                 </div>
                 <div>
-                    <label>주소</label>
-                    <input type="text" name="adr" placeholder="주소를 입력해주세요"/>
-                </div>
-                <div>
                     <label>상세주소</label>
-                    <input type="text" name="dtailAdr" placeholder="상세주소를 입력해주세요"/>
+                    <input type="text" name="dtailAdr" onChange={handleInputChange} placeholder="상세주소를 입력해주세요"/>
                 </div>
             </div>
         </>
