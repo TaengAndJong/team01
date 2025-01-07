@@ -88,9 +88,19 @@ export const checkDuplicate = async (apiAddr,field, value) => {
         //응답 받은 데이터 제이슨으로 파싱
         const result = await response.json();
         //중복여부 반환 ==> result.isDuplicate 는 서버에서 보낸 isDuplicate 속성을 의미함
-        return result.isDuplicate
-            ? { valid: false, message: `${field}(이)가 중복되었습니다.` }
-            : { valid: true, message: "사용 가능합니다." };
+
+        console.log("field", field);
+        console.log("result.isDuplicate", result.isDuplicate);
+
+        if(field ==='clientId'){
+          return  result.isDuplicate?{ valid: false, message: `${field}(이)가 중복되었습니다.` }:{ valid: true, message: "사용 가능합니다." };
+        }
+
+        if(field ==='staffId'){
+            //존재하면 true, 존재하지 않으면 false
+            return result.isDuplicate? { valid: true, message: "확인되었습니다." }:{ valid: false, message: `${field}(을)를 존재하지 않습니다.` };
+        }
+
     } catch (error) {
         console.error("Error checking duplicate:", error);
         return { valid: false, message: "서버와의 통신에 실패했습니다." };

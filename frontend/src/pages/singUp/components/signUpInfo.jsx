@@ -1,27 +1,27 @@
 import Btn from "../../../util/reuseBtn.jsx";
-import {checkDuplicate, validatePasswordMatch, validID, validPW} from "../../../util/validation.jsx";
-import {useContext, useState,useEffect} from "react";
+import {checkDuplicate, validatePasswordMatch} from "../../../util/validation.jsx";
+import {useState,useEffect} from "react";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
-import { signUpDispatchContext} from "../SignUpComponent"; // 부모 컴포넌트에서 제공한 signUpContext를 import
 import Select from 'react-select';
 import {generateOptions} from "../../../util/selectDate.jsx";
 
 
 const SignUpInfo = () => {
     // 부모 컴포넌트인 SignUpForm 에서 context.provider의 value  로 전달 받은 context 값 받아오기
-   const { formData, dispatch} = useContext(signUpDispatchContext);
+
    const [formInfoData,setformInfoData] = useState({
        clientId: "",
        password: "",
        passwordConfirm: "",
        passwordErrorMessage: "",
        userName:"",
+       staffId:"",
        email: "",
        birth:"",
        tel:"",
        addr:"",
        zoneCode:"",
-       dtailAdr:""
+       detailAddr:""
    });
 
 
@@ -54,25 +54,25 @@ const SignUpInfo = () => {
     };
 
 
-    //아이디 검증하기
-    const handleConfirm = async () => {
+    //아이디와 사원아이디 검증
+    const handleIdConfirm = async (fieldName) => {
 
     // 서버와 비동기 통신하여 중복 확인 , field이름은 ""(문자열)
         const apiAddr = "/api/signUp/checkDuplicate"
-        const params = new URLSearchParams({ clientId:formInfoData.clientId});
 
+        const params = new URLSearchParams({ [fieldName]: formInfoData[fieldName] });
+      //  const params = new URLSearchParams({ clientId:formInfoData.clientId});
+        console.log("params",params);
         // params에서 key만 가져오기
-        const keys = Array.from(params.keys());  // ["clientId"]
-        const values = Array.from(params.values());  // []
 
-        // 비동기 함수 호출 //field는 name을 의미하기때문에 문자열("clientId")로 , field의 값이 value니까 value로 전달
+        // 비동기 함수 호출
         try {
-            const result = await checkDuplicate(apiAddr,`${keys.toString()}`,`${values.toString()}`);
+            // 비동기 함수 호출 (fieldName과 해당 값을 전달)
+            const result = await checkDuplicate(apiAddr, fieldName, params.get(fieldName));
             console.log(result);
-            alert(result.message);  // 중복 여부 메시지 출력
-        }catch(err) {
-            console.error("중복 확인 중 오류 발생:", error);
-
+            alert(result.message); // 중복 여부 메시지 출력
+        } catch (err) {
+            console.error(`중복 확인 중 오류 발생 (${fieldName}):`, err);
         }
     };
 
@@ -81,14 +81,21 @@ const SignUpInfo = () => {
     const monthOptions = generateOptions(1, 12, "월", true); // 1월부터 12월까지 (0 패딩)
     const dayOptions = generateOptions(1, 31, "일", true); // 1일부터 31일까지 (0 패딩)
 
+    // 사원여부
+    const [isStaff, setIsStaff] = useState("no"); // 기본값을 "no"(아니오)로 설정
+    // 라디오 버튼 변경 핸들러
+    const handleStaffChange = (e) => {
+        console.log("staffId",e.target.value);
+        setIsStaff(e.target.value);
+    };
+
+
 
     // 1. 배열을 함수 밖에 선언하여 상태를 유지,  selectedOption을 배열에 하나씩 저장
     let birthObject = {}; // key와 value 형태로 사용할 경우, 빈 객체로 시작 또는 useState로 관리
     //생년월일
     const handleBirthChange= (selectedOption,name) => {
-        //console.log("selectedOption",selectedOption); // react-select API 옵션값 확인
-        //console.log("birthObject",birthObject);// birthObject 초기값 및 , 변경 값 확인
-       // console.log("name ",  name ); // name 값을 활용한 조건부
+
         // 2. 기존 값을 불러와서 키-값 형태로 설정 (객체에 key : value  추가) , name에 따른 vale에 2자리 중 빈자리 0 추가
         if(name === 'birthMonth' || name === 'birthDay'){
             birthObject[name] = String(selectedOption.value).padStart(2, "0");
@@ -197,8 +204,8 @@ const SignUpInfo = () => {
                 <input type="text" name="clientId" placeholder="아이디를 입력해주세요" value={formInfoData.clientId}
                        onChange={handleInputChange}
                 />
-                <Btn text="중복확인" type="" onClick={() => {
-                    handleConfirm()
+                <Btn text="중복확인" type="button" onClick={() => {
+                    handleIdConfirm("clientId", formInfoData.clientId)
                 }}/>
                 <span className="error"></span>
 
@@ -207,22 +214,65 @@ const SignUpInfo = () => {
             {/*비밀번호*/}
             <div>
                 <label>비밀번호 </label>
-                <input type="password" name="password" placeholder="비밀번호를 입력해주세요" value={formInfoData.password}  onChange={handleInputChange} />
+                <input type="password" name="password" placeholder="비밀번호를 입력해주세요" value={formInfoData.password}
+                       onChange={handleInputChange}/>
             </div>
             <div>
                 <label>비밀번호 확인 </label>
                 <input type="password" name="passwordConfirm" placeholder="비밀번호를 입력해주세요"
-                       value={formInfoData.passwordConfirm} onChange={handleInputChange} />
-                {formInfoData. passwordErrorMessage && (
-                    <span className="error">{formInfoData. passwordErrorMessage}</span>
+                       value={formInfoData.passwordConfirm} onChange={handleInputChange}/>
+                {formInfoData.passwordErrorMessage && (
+                    <span className="error">{formInfoData.passwordErrorMessage}</span>
                 )}
             </div>
-           
-            <h4>-----------------------------------</h4>
+            {/*사원확인*/}
+            <div className="Info staff">
+                <label>사원여부</label>
+                <div>
+                    <label htmlFor="yes">예</label>
+                    <input
+                        type="radio"
+                        id="yes"
+                        name="yes"
+                        value="yes"
+                        checked={isStaff === "yes"} // 선택 상태 확인
+                        onChange={handleStaffChange}
+                    />
+
+                    <label htmlFor="no">아니오</label>
+                    <input
+                        type="radio"
+                        id="no"
+                        name="staff"
+                        value="no"
+                        checked={isStaff === "no"} // 기본값으로 설정
+                        onChange={handleStaffChange}
+                    />
+
+                    {isStaff === "yes" && (
+                        // 조건부 렌더링 시 다중 요소를 React Fragment로 감쌈
+                        <>
+                            <input
+                                type="text"
+                                name="staffId"
+                                value={formInfoData.staffId}
+                                onChange={handleInputChange}
+                                placeholder="사원번호를 입력해주세요"
+                            />
+                            <Btn text="사원번호확인" type="button" onClick={()=>{
+                                handleIdConfirm("staffId", formInfoData.staffId)
+                            }}  />
+                        </>
+                    )}
+
+                </div>
+
+            </div>
             {/*이름*/}
             <div className="Info name">
-                <label>이름</label>
-                <input type="text" name="userName" onChange={handleInputChange} placeholder="이름을 입력해주세요"/>
+            <label>이름</label>
+                <input type="text" name="userName" value={formInfoData.userName} onChange={handleInputChange}
+                       placeholder="이름을 입력해주세요"/>
             </div>
             {/*생일*/}
             <div className="Info birth">
@@ -252,10 +302,12 @@ const SignUpInfo = () => {
             {/*이메일*/}
             <div className="Info email">
                 <label>이메일 </label>
-                <input type="text" name="emailId" onChange={handleEmailChange} value={emailData.emailId} placeholder="ex)이메일아이디"/>
+                <input type="text" name="emailId" onChange={handleEmailChange} value={emailData.emailId}
+                       placeholder="ex)이메일아이디"/>
                 <span id="at">@</span>
-                <input type="text" name="emailAddrInput"  onChange={handleEmailChange} value={emailData.emailAddrInput} placeholder="ex)이메일주소" />
-                <select name="emailAddrSelect"  onChange={handleEmailChange} value={emailData.emailAddrSelect}>
+                <input type="text" name="emailAddrInput" onChange={handleEmailChange} value={emailData.emailAddrInput}
+                       placeholder="ex)이메일주소"/>
+                <select name="emailAddrSelect" onChange={handleEmailChange} value={emailData.emailAddrSelect}>
                     <option key="1" value="직접선택">직접선택</option>
                     <option key="2" value="naver.com">naver.com</option>
                     <option key="3" value="google.com">google.com</option>
@@ -272,26 +324,27 @@ const SignUpInfo = () => {
                     <option key="2" value="010">010</option>
                 </select>
                 <span>-</span>
-                <input type="text" name="secondTelNum" onChange={handleTelChange}  placeholder={`"두 번째 전화번호 입력"`}/>
+                <input type="text" name="secondTelNum" onChange={handleTelChange} placeholder={`"두 번째 전화번호 입력"`}/>
                 <span>-</span>
                 <input type="text" name="lastTelNum" onChange={handleTelChange} placeholder={`"마지막 번째 전화번호 입력"`}/>
             </div>
             {formInfoData.errorMessage && (
                 <span className="error">{formInfoData.errorMessage}</span>
             )}
-            
+
             {/*주소*/}
             <div className="Info Address">
                 <div>
                     {/* 카카오톡 API 주소 , 각각 갈라서 백으로 전달*/}
                     <label>주소 </label>
-                    <input type="text" name="addr" value={formInfoData.addr}  placeholder="주소"/>
-                    <input type="text" name="zoneCode" value={formInfoData.zoneCode}  placeholder="우편번호"/>
+                    <input type="text" name="addr" value={formInfoData.addr} placeholder="주소"/>
+                    <input type="text" name="zoneCode" value={formInfoData.zoneCode} placeholder="우편번호"/>
                     <DaumPostcode onAddressSelect={handleAddressSelect}/>
                 </div>
                 <div>
                     <label>상세주소</label>
-                    <input type="text" name="dtailAdr" onChange={handleInputChange} placeholder="상세주소를 입력해주세요"/>
+                    <input type="text" name="detailAddr" value={formInfoData.detailAddr} onChange={handleInputChange}
+                           placeholder="상세주소 입력"/>
                 </div>
             </div>
         </>
@@ -299,7 +352,6 @@ const SignUpInfo = () => {
 }
 
 export default SignUpInfo;
-
 
 
 //react -select https://react-select.com/home

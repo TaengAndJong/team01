@@ -7,5 +7,6 @@ public interface SignUpDao {
 
     //회원가입 정보 추가
     public int insertUserData(SignUpVO signUpVO);
-    public int selectDuplicateId(String clientid);
+    public int selectDuplicateId(String clientId);
+    public int selectDuplicateStaffId(String staffId);
 }

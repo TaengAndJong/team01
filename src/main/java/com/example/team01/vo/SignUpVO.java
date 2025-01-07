@@ -20,7 +20,7 @@ public class SignUpVO implements Serializable {
     private String password;      // 비밀번호
     private String birth;         // 생년월일 (YYYY-MM-DD)
     private String tel;           // 전화번호
-    private String zipCode;       // 우편번호
+    private String zonCode;       // 우편번호
     private String addr;          // 주소
     private String detailAddr;    // 상세 주소
     private String email;         // 이메일 주소

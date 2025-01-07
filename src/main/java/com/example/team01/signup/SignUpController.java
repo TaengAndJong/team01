@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 @Slf4j
 @RequestMapping("/signUp") //전역 ResponseBody
@@ -35,6 +36,7 @@ public class SignUpController {
         log.info("joinUser-------------------: {}",joinUser.toString());
         log.info("joinUser222-------------------------: {}",joinUser);
         // 문자열 비밀번호 시큐리티에 맞게 암호화해주고
+
         String password = bCryptPasswordEncoder.encode(joinUser.getPassword());
         // 다시 설정하기
         joinUser.setPassword(password);
@@ -55,29 +57,59 @@ public class SignUpController {
     }
 
 
-    @GetMapping("/checkDuplicate")
-    public Map<String,Object> idCheck(@RequestParam("clientId") String clientId) {
-        log.info("idCheck------------------: {}",clientId);
-        int isDuplicate = signUpService.selectDuplicateId(clientId);
+    //
 
-        log.info("isDuplicate------------------: {}",isDuplicate);
+    @GetMapping("/checkDuplicate")
+    public Map<String,Object> idCheck(@RequestParam(value = "clientId", required = false) String clientId,
+                                      @RequestParam(value = "staffId", required = false) String staffId) {
+        log.info("idCheck------------------: {}",clientId);
+        log.info("staffIdCheck------------------:{}", staffId);
+
         //json형식 key와 value로 형식으로 바꿔주기위해 Map 사용
         Map<String, Object> response = new HashMap<>();
 
-        if (isDuplicate == 1) {
-            response.put("isDuplicate", isDuplicate > 0);
-            log.info("isDuplicate > 0: {}",isDuplicate > 0);
-           // response.put("message", "아이디입니다");
-        } else {
-            //response.put("isDuplicate", isDuplicate == 0);
-            //response.put("message", "사용 가능한 아이디입니다.");
+        // clientId 처리
+        if (clientId != null) {
+             checkDuplicate("clientId",clientId,response);
         }
 
+        // staffId 처리
+        if (staffId != null) {
+            checkDuplicate("staffId",staffId,response);
+        }
 
         return response;
     }
 
+    //Function<T, R>는 Java의 java.util.function 패키지에 포함된 람다식이나 메서드 참조를 사용할 수 있는 함수형 인터페이스
+    //T: 입력 타입 (여기서는 String, 즉 ID 값)
+    //R: 반환 타입 (여기서는 Integer, 즉 중복 여부)
+    //즉, Function<String, Integer>는 "String 값을 입력받아 Integer를 반환하는 함수"를 의미
 
+   public void checkDuplicate(String key, String checkValue, Map<String, Object> response) {
+
+            int isDuplicate;
+            //checkValue가 있고
+            if(checkValue != null) {
+                // clientId 이면
+                if(key.equals("clientId")) {
+                    isDuplicate = signUpService.selectDuplicateId(checkValue);
+                    log.info("isDuplicate-----checkValue--:{},{}",isDuplicate,checkValue);
+                    response.put("isDuplicate", isDuplicate > 0);
+
+
+                }
+                // staffId 이면
+                if(key.equals("staffId")) {
+                    isDuplicate = signUpService.selectDuplicateStaffId(checkValue);
+                    log.info("isDuplicate-----checkValue--:{},{}",isDuplicate,checkValue);
+                    response.put("isDuplicate", isDuplicate > 0);
+
+                }
+            }
+
+
+   }
 
 //
 }
