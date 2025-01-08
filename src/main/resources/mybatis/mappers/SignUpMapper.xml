@@ -9,7 +9,7 @@
     <insert id="insertUserData" parameterType="SignUpVO">
         <!-- DB Code 작성 -->
         INSERT INTO client ("clientId","roleId", "clientName", "password", "birth", "tel", "zoneCode", "addr", "detailAddr", "email", "picture")
-        VALUES (#{clientId}, #{roleId}, #{clientName}, #{password}, #{birth}, #{tel}, #{zoneCode}, #{addr}, #{detailAddr}, #{email},#{picture})
+        VALUES (#{clientId}, REPLACE(#{roleId}, ' ', ''), #{clientName}, #{password}, #{birth}, #{tel}, #{zoneCode}, #{addr}, #{detailAddr}, #{email},#{picture})
     </insert>
 
     <!-- 아이디 중복 확인 -->
@@ -36,7 +36,7 @@
             dep."departId",
             dep."departName"
         FROM
-            (SELECT "staffId", "staffName", "roleId","startDate", "departId"
+            (SELECT "staffId", "staffName","roleId","startDate", "departId"
              FROM emp
              WHERE "staffId" = #{staffId}) emp
                 LEFT JOIN DEPARTMENT dep

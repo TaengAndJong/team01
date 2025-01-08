@@ -1,6 +1,6 @@
 import Btn from "../../../util/reuseBtn.jsx";
 import {checkDuplicate, validatePasswordMatch} from "../../../util/validation.jsx";
-import {useState,useEffect} from "react";
+import React,{useState,useEffect} from "react";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
 import Select from 'react-select';
 import {generateOptions} from "../../../util/selectDate.jsx";
@@ -219,168 +219,173 @@ const SignUpInfo = ({formInfoData,setFormInfoData}) => {
     return(
         <>
             {/*아이디*/}
-            <div>
-                <label>아이디 </label>
-                <input type="text" name="clientId" placeholder="아이디를 입력해주세요" value={formInfoData.clientId}
-                       onChange={handleInputChange}
-                />
-                <Btn text="중복확인" type="button" onClick={() => {
-                    handleIdConfirm("clientId", formInfoData.clientId)
-                }}/>
-                <span className="error"></span>
+            <form>
+                <div>
+                    <label>아이디 </label>
+                    <input type="text" name="clientId" placeholder="아이디를 입력해주세요" value={formInfoData.clientId}
+                           onChange={handleInputChange}
+                    />
+                    <Btn text="중복확인" type="button" onClick={() => {
+                        handleIdConfirm("clientId", formInfoData.clientId)
+                    }}/>
+                    <span className="error"></span>
 
-            </div>
+                </div>
 
-            {/*비밀번호*/}
-            <div>
-                <label>비밀번호 </label>
-                <input type="password" name="password" placeholder="비밀번호를 입력해주세요" value={formInfoData.password}
-                       onChange={handleInputChange}/>
-            </div>
-            <div>
-                <label>비밀번호 확인 </label>
-                <input type="password" name="passwordConfirm" placeholder="비밀번호를 입력해주세요"
-                       value={formInfoData.passwordConfirm} onChange={handleInputChange}/>
-                {formInfoData.passwordErrorMessage && (
-                    <span className="error">{formInfoData.passwordErrorMessage}</span>
+                {/*비밀번호*/}
+                <div>
+                    <label htmlFor="password">비밀번호 </label>
+                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력해주세요" value={formInfoData.password}
+                           onChange={handleInputChange} />
+                </div>
+                <div>
+                    <label htmlFor="passwordConfirm">비밀번호 확인 </label>
+                    <input type="password"  id="passwordConfirm" name="passwordConfirm"  placeholder="비밀번호를 입력해주세요"
+                           value={formInfoData.passwordConfirm} onChange={handleInputChange}/>
+                    {formInfoData.passwordErrorMessage && (
+                        <span className="error">{formInfoData.passwordErrorMessage}</span>
+                    )}
+                </div>
+                {/*사원확인*/}
+                <div className="Info staff">
+                    <label>사원여부</label>
+                    <div>
+                        <label htmlFor="yes">예</label>
+                        <input
+                            type="radio"
+                            id="yes"
+                            name="yes"
+                            value="yes"
+                            checked={isStaff === "yes"} // 선택 상태 확인
+                            onChange={handleStaffChange}
+                        />
+
+                        <label htmlFor="no">아니오</label>
+                        <input
+                            type="radio"
+                            id="no"
+                            name="no"
+                            value="no"
+                            checked={isStaff === "no"} // 기본값으로 설정
+                            onChange={handleStaffChange}
+                        />
+
+                        {isStaff === "yes" && (
+                            // 조건부 렌더링 시 다중 요소를 React Fragment로 감쌈
+                            <>
+                                <input
+                                    type="text"
+                                    name="staffId"
+                                    value={formInfoData.staffId}
+                                    onChange={handleInputChange}
+                                    placeholder="사원번호를 입력해주세요"
+                                />
+                                <Btn text="사원번호확인" type="button" onClick={()=>{
+                                    handleIdConfirm("staffId", formInfoData.staffId)
+                                }}  />
+                            </>
+                        )}
+                        {/* result.staffInfo가 존재하면 그 정보를 출력 */}
+                        {result.staffInfo && (
+                            <div>
+                                <div><strong>사원번호:</strong> {result.staffInfo.staffId}</div>
+                                <div><strong>사원명:</strong> {result.staffInfo.staffName}</div>
+                                <div><strong>부서명:</strong> {result.staffInfo.departName}</div>
+                                <div><strong>입사일:</strong> {result.staffInfo.startDate}</div>
+                            </div>
+                        )}
+
+                    </div>
+
+                </div>
+                {/*이름*/}
+                <div className="Info name">
+                    <label>이름</label>
+                    <input type="text" name="clientName" value={formInfoData.clientName} onChange={handleInputChange}
+                           placeholder="이름을 입력해주세요"/>
+                </div>
+                {/*생일*/}
+                <div className="Info birth">
+                    <label>생년월일</label>
+                    <Select
+                        name="birthYear"
+                        id="birthYear"
+
+                        options={yearOptions}
+                        onChange={(selectedOption) => handleBirthChange(selectedOption, "birthYear")}
+                        placeholder="연도 선택"
+                    />
+                    <Select
+                        name="birthMonth"
+                        id="birthMonth"
+
+                        options={monthOptions}
+                        onChange={(selectedOption) => handleBirthChange(selectedOption, "birthMonth")}
+                        placeholder="월 선택"
+                    />
+                    <Select
+                        name="birthDay"
+                        id="birthDay"
+
+                        options={dayOptions}
+                        onChange={(selectedOption) => handleBirthChange(selectedOption, "birthDay")}
+                        placeholder="일 선택"
+                    />
+                </div>
+                {/*이메일*/}
+                <div className="Info email">
+                    <label>이메일 </label>
+                    <input type="text" name="emailId" value={emailData.emailId} onChange={handleEmailChange}
+                           placeholder="ex)이메일아이디"/>
+                    <span id="at">@</span>
+                    <input type="text" name="emailAddrInput" value={emailData.emailAddrInput} onChange={handleEmailChange}
+                           placeholder="ex)이메일주소"/>
+                    <select name="emailAddrSelect" value={emailData.emailAddrSelect} onChange={handleEmailChange} >
+                        <option key="1" value="직접선택">직접선택</option>
+                        <option key="2" value="naver.com">naver.com</option>
+                        <option key="3" value="google.com">google.com</option>
+                        <option key="4" value="daum.net">daum.net</option>
+                    </select>
+                    {/*<p>{emailCheckMessage}</p>*/}
+                </div>
+
+                {/*전화번호*/}
+                <div className="Info tel">
+                    <label>전화번호</label>
+                    <select name="FirstTelNum" id="FirstTelNum" value={telObject.FirstTelNum} onChange={handleTelChange}>
+                        <option key="1" value="직접선택">직접선택</option>
+                        <option key="2" value="010">010</option>
+                    </select>
+                    <span>-</span>
+                    <input type="text" name="secondTelNum" value={telObject.secondTelNum} onChange={handleTelChange} placeholder={`"두 번째 전화번호 입력"`}/>
+                    <span>-</span>
+                    <input type="text" name="lastTelNum" value={telObject.lastTelNum} onChange={handleTelChange} placeholder={`"마지막 번째 전화번호 입력"`}/>
+                </div>
+                {formInfoData.errorMessage && (
+                    <span className="error">{formInfoData.errorMessage}</span>
                 )}
-            </div>
-            {/*사원확인*/}
-            <div className="Info staff">
-                <label>사원여부</label>
-                <div>
-                    <label htmlFor="yes">예</label>
-                    <input
-                        type="radio"
-                        id="yes"
-                        name="yes"
-                        value="yes"
-                        checked={isStaff === "yes"} // 선택 상태 확인
-                        onChange={handleStaffChange}
-                    />
 
-                    <label htmlFor="no">아니오</label>
-                    <input
-                        type="radio"
-                        id="no"
-                        name="no"
-                        value="no"
-                        checked={isStaff === "no"} // 기본값으로 설정
-                        onChange={handleStaffChange}
-                    />
-
-                    {isStaff === "yes" && (
-                        // 조건부 렌더링 시 다중 요소를 React Fragment로 감쌈
-                        <>
-                            <input
-                                type="text"
-                                name="staffId"
-                                value={formInfoData.staffId}
-                                onChange={handleInputChange}
-                                placeholder="사원번호를 입력해주세요"
-                            />
-                            <Btn text="사원번호확인" type="button" onClick={()=>{
-                                handleIdConfirm("staffId", formInfoData.staffId)
-                            }}  />
-                        </>
-                    )}
-                    {/* result.staffInfo가 존재하면 그 정보를 출력 */}
-                    {result.staffInfo && (
-                        <div>
-                            <div><strong>사원번호:</strong> {result.staffInfo.staffId}</div>
-                            <div><strong>사원명:</strong> {result.staffInfo.staffName}</div>
-                            <div><strong>부서명:</strong> {result.staffInfo.departName}</div>
-                            <div><strong>입사일:</strong> {result.staffInfo.startDate}</div>
-                        </div>
-                    )}
-
+                {/*주소*/}
+                <div className="Info Address">
+                    <div>
+                        {/* 카카오톡 API 주소 , 각각 갈라서 백으로 전달*/}
+                        <label>주소 </label>
+                        <input type="text" name="addr" value={formInfoData.addr} placeholder="주소"/>
+                        <input type="text" name="zoneCode" value={formInfoData.zoneCode} placeholder="우편번호"/>
+                        <DaumPostcode onAddressSelect={handleAddressSelect}/>
+                    </div>
+                    <div>
+                        <label>상세주소</label>
+                        <input type="text" name="detailAddr" value={formInfoData.detailAddr} onChange={handleInputChange}
+                               placeholder="상세주소 입력"/>
+                    </div>
                 </div>
-
-            </div>
-            {/*이름*/}
-            <div className="Info name">
-                <label>이름</label>
-                <input type="text" name="clientName" value={formInfoData.clientName} onChange={handleInputChange}
-                       placeholder="이름을 입력해주세요"/>
-            </div>
-            {/*생일*/}
-            <div className="Info birth">
-                <label>생년월일</label>
-                <Select
-                    name="birthYear"
-                    id="birthYear"
-                    options={yearOptions}
-                    onChange={(selectedOption) => handleBirthChange(selectedOption, "birthYear")}
-                    placeholder="연도 선택"
-                />
-                <Select
-                    name="birthMonth"
-                    id="birthMonth"
-                    options={monthOptions}
-                    onChange={(selectedOption) => handleBirthChange(selectedOption, "birthMonth")}
-                    placeholder="월 선택"
-                />
-                <Select
-                    name="birthDay"
-                    id="birthDay"
-                    options={dayOptions}
-                    onChange={(selectedOption) => handleBirthChange(selectedOption, "birthDay")}
-                    placeholder="일 선택"
-                />
-            </div>
-            {/*이메일*/}
-            <div className="Info email">
-                <label>이메일 </label>
-                <input type="text" name="emailId" onChange={handleEmailChange} value={emailData.emailId}
-                       placeholder="ex)이메일아이디"/>
-                <span id="at">@</span>
-                <input type="text" name="emailAddrInput" onChange={handleEmailChange} value={emailData.emailAddrInput}
-                       placeholder="ex)이메일주소"/>
-                <select name="emailAddrSelect" onChange={handleEmailChange} value={emailData.emailAddrSelect}>
-                    <option key="1" value="직접선택">직접선택</option>
-                    <option key="2" value="naver.com">naver.com</option>
-                    <option key="3" value="google.com">google.com</option>
-                    <option key="4" value="daum.net">daum.net</option>
-                </select>
-                {/*<p>{emailCheckMessage}</p>*/}
-            </div>
-
-            {/*전화번호*/}
-            <div className="Info tel">
-                <label>전화번호</label>
-                <select name="FirstTelNum" id="FirstTelNum" onChange={handleTelChange}>
-                    <option key="1" value="직접선택">직접선택</option>
-                    <option key="2" value="010">010</option>
-                </select>
-                <span>-</span>
-                <input type="text" name="secondTelNum" onChange={handleTelChange} placeholder={`"두 번째 전화번호 입력"`}/>
-                <span>-</span>
-                <input type="text" name="lastTelNum" onChange={handleTelChange} placeholder={`"마지막 번째 전화번호 입력"`}/>
-            </div>
-            {formInfoData.errorMessage && (
-                <span className="error">{formInfoData.errorMessage}</span>
-            )}
-
-            {/*주소*/}
-            <div className="Info Address">
-                <div>
-                    {/* 카카오톡 API 주소 , 각각 갈라서 백으로 전달*/}
-                    <label>주소 </label>
-                    <input type="text" name="addr" value={formInfoData.addr} placeholder="주소"/>
-                    <input type="text" name="zoneCode" value={formInfoData.zoneCode} placeholder="우편번호"/>
-                    <DaumPostcode onAddressSelect={handleAddressSelect}/>
-                </div>
-                <div>
-                    <label>상세주소</label>
-                    <input type="text" name="detailAddr" value={formInfoData.detailAddr} onChange={handleInputChange}
-                           placeholder="상세주소 입력"/>
-                </div>
-            </div>
+            </form>
         </>
     )
 }
 
-export default SignUpInfo;
+export default React.memo(SignUpInfo);
 
 
 //react -select https://react-select.com/home
