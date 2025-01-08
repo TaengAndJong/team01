@@ -76,6 +76,11 @@ public class SignUpController {
         // staffId 처리
         if (staffId != null) {
             checkDuplicate("staffId",staffId,response);
+            //staffId가 있으면 해당하는 StaffId 를 가진 사원의 정보를 가져올 서비스 불러오기
+            SignUpVO staffInfo =signUpService.selectStaffInfo(staffId);
+            log.info("staffInfo------------------: {}",staffInfo);
+            // 프론트로 보낼 response 객체에 담아주기
+            response.put("staffInfo",staffInfo);
         }
 
         return response;

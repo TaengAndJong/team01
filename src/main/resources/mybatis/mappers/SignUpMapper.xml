@@ -9,7 +9,7 @@
     <insert id="insertUserData" parameterType="SignUpVO">
         <!-- DB Code 작성 -->
         INSERT INTO client ("clientId", "name", "password", "birth", "identiNum", "tel", "zipCode", "addr", "detailAddr", "email", "pictuer", "joinDate")
-        VALUES (#{clientId}, #{clientName}, #{password}, #{birth}, #{identiNum}, #{tel}, #{zipCode}, #{addr}, #{detailAddr}, #{email});
+        VALUES (#{clientId}, #{clientName}, #{password}, #{birth}, #{identiNum}, #{tel}, #{zipCode}, #{addr}, #{detailAddr}, #{email})
     </insert>
 
     <!-- 아이디 중복 확인 -->
@@ -24,6 +24,22 @@
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
         FROM EMP
         WHERE "staffId" = #{staffId}
+    </select>
+
+    <!-- staff 사원 정보 -->
+    <select id="selectStaffInfo" parameterType="String" resultType="SignUpVO">
+        SELECT
+            emp."staffId",
+            emp."staffName",
+            emp."startDate",
+            dep."departId",
+            dep."departName"
+        FROM
+            (SELECT "staffId", "staffName","startDate", "departId"
+             FROM emp
+             WHERE "staffId" = #{staffId}) emp
+                LEFT JOIN DEPARTMENT dep
+                          ON emp."departId" = dep."departId"
     </select>
 
 

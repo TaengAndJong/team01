@@ -7,4 +7,5 @@ public interface SignUpService {
     public int insertUserData(SignUpVO signUpVO);
     public int selectDuplicateId(String clientId);
     public int selectDuplicateStaffId(String staffId);
+    public SignUpVO selectStaffInfo(String staffId);
 }

@@ -54,6 +54,7 @@ const SignUpInfo = () => {
     };
 
 
+    const [result, setResult] = useState({ staffInfo: null });
     //아이디와 사원아이디 검증
     const handleIdConfirm = async (fieldName) => {
 
@@ -69,7 +70,18 @@ const SignUpInfo = () => {
         try {
             // 비동기 함수 호출 (fieldName과 해당 값을 전달)
             const result = await checkDuplicate(apiAddr, fieldName, params.get(fieldName));
-            console.log(result);
+            console.log("result------------frontEnd",result);
+            // result가 넘어왔을 때 객체 내부에 staffInfo를 담고 있으니까, result값 state 초기값을 갱신
+            setResult(result);
+            //result.staffInfo 가 잇으면 (True  이면)
+            if (result.staffInfo) {
+                // 사원번호 확인이 되면 이름 자동 입력
+                setformInfoData((prev) => ({
+                    ...prev,
+                    userName: result.staffInfo.staffName, // 사원명 자동 입력
+                }));
+            }
+
             alert(result.message); // 중복 여부 메시지 출력
         } catch (err) {
             console.error(`중복 확인 중 오류 발생 (${fieldName}):`, err);
@@ -243,7 +255,7 @@ const SignUpInfo = () => {
                     <input
                         type="radio"
                         id="no"
-                        name="staff"
+                        name="no"
                         value="no"
                         checked={isStaff === "no"} // 기본값으로 설정
                         onChange={handleStaffChange}
@@ -264,13 +276,22 @@ const SignUpInfo = () => {
                             }}  />
                         </>
                     )}
+                    {/* result.staffInfo가 존재하면 그 정보를 출력 */}
+                    {result.staffInfo && (
+                        <div>
+                            <div><strong>사원번호:</strong> {result.staffInfo.staffId}</div>
+                            <div><strong>사원명:</strong> {result.staffInfo.staffName}</div>
+                            <div><strong>부서명:</strong> {result.staffInfo.departName}</div>
+                            <div><strong>입사일:</strong> {result.staffInfo.startDate}</div>
+                        </div>
+                    )}
 
                 </div>
 
             </div>
             {/*이름*/}
             <div className="Info name">
-            <label>이름</label>
+                <label>이름</label>
                 <input type="text" name="userName" value={formInfoData.userName} onChange={handleInputChange}
                        placeholder="이름을 입력해주세요"/>
             </div>

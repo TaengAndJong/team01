@@ -21,10 +21,10 @@ public class SignUpServiceImple implements SignUpService {
         if (signUpVO != null) {
             log.info("insert user data:{}", signUpVO );
             log.info("insert user dao:{}", dao.insertUserData(signUpVO));
-            return cnt = dao.insertUserData(signUpVO);
+            cnt = dao.insertUserData(signUpVO);
         }
-        return 0;
 
+        return 0;
     }
 
     @Override
@@ -48,4 +48,11 @@ public class SignUpServiceImple implements SignUpService {
         }
         return 0;
     }
+
+    @Override
+    public SignUpVO selectStaffInfo(String staffId) {
+        log.info("select staff info:{}", dao.selectStaffInfo(staffId));
+        return dao.selectStaffInfo(staffId);
+    }
+
 }

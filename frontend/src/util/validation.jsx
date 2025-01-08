@@ -11,36 +11,36 @@ const inputRegexs = {
 };
 
 
-// // 비동기 함수 - 이메일 중복 체크
-// const checkEmailDuplicate = async (email) => {
-//     try {
-//         const response = await fetch(`/api/check-email?email=${encodeURIComponent(email)}`);
-//         const data = await response.json();
-//
-//         if (data.exists) {
-//             return true; // 중복임
-//         } else {
-//             return false; // 중복 아님
-//         }
-//     } catch (error) {
-//         console.error("중복 검사 중 서버 오류:", error);
-//         return false;
-//     }
-// };
-//
-// //이메일 유효성 검사
-// const vailEmail = async (data) => {
-//     // 이메일이 입력되었는가?
-//     if(!data){
-//         return "이메일이 입력되지 않았습니다."
-//     }
-//     // 이메일이 정규식에 부합하는가?
-//     if(inputRegexs.emailRegex.test(data)){
-//         return "유효한 이메일 입니다."
-//     }else {
-//         return "유효하지 않은 이메일 입니다."
-//     }
-// };
+// 비동기 함수 - 이메일 중복 체크
+const checkEmailDuplicate = async (email) => {
+    try {
+        const response = await fetch(`/api/check-email?email=${encodeURIComponent(email)}`);
+        const data = await response.json();
+
+        if (data.exists) {
+            return true; // 중복임
+        } else {
+            return false; // 중복 아님
+        }
+    } catch (error) {
+        console.error("중복 검사 중 서버 오류:", error);
+        return false;
+    }
+};
+
+//이메일 유효성 검사
+const vailEmail = async (data) => {
+    // 이메일이 입력되었는가?
+    if(!data){
+        return "이메일이 입력되지 않았습니다."
+    }
+    // 이메일이 정규식에 부합하는가?
+    if(inputRegexs.emailRegex.test(data)){
+        return "유효한 이메일 입니다."
+    }else {
+        return "유효하지 않은 이메일 입니다."
+    }
+};
 
 
 // 필드 유효성 검사 함수
@@ -89,16 +89,26 @@ export const checkDuplicate = async (apiAddr,field, value) => {
         const result = await response.json();
         //중복여부 반환 ==> result.isDuplicate 는 서버에서 보낸 isDuplicate 속성을 의미함
 
-        console.log("field", field);
-        console.log("result.isDuplicate", result.isDuplicate);
+        console.log("field----------------", field);
+        console.log("result.isDuplicate--------------------------", result.isDuplicate);
 
         if(field ==='clientId'){
           return  result.isDuplicate?{ valid: false, message: `${field}(이)가 중복되었습니다.` }:{ valid: true, message: "사용 가능합니다." };
         }
 
         if(field ==='staffId'){
-            //존재하면 true, 존재하지 않으면 false
-            return result.isDuplicate? { valid: true, message: "확인되었습니다." }:{ valid: false, message: `${field}(을)를 존재하지 않습니다.` };
+
+          console.log("result---------------",result);
+            //result.staffInfo 존재하면 true
+          if(result.staffInfo){
+              let startDate = result.staffInfo.startDate;  // 예: "2015-03-01T00:00:00"
+              let [date, time] = startDate.split("T");  // "T"를 기준으로 나눔어 구조 분해 할당 해줌
+              // 이제 'date'만 다시 result.staffInfo.startDate에 할당
+              result.staffInfo.startDate = date;
+              return result.isDuplicate? { valid: true, message: "확인되었습니다.", staffInfo: result.staffInfo}:{ valid: false, message: `${field}(을)를 존재하지 않습니다.` };
+          }
+        //result.staffInfo 존재하지 않으면 false
+            return result.isDuplicate? { valid: true, message: "확인되었습니다."}:{ valid: false, message: `사원번호 ${value}가 존재하지 않습니다.` };
         }
 
     } catch (error) {

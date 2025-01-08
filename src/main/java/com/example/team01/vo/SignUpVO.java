@@ -28,5 +28,14 @@ public class SignUpVO implements Serializable {
     private LocalDateTime joinDate; // 가입 일자 (TIMESTAMP)
     private LocalDateTime withDrawalDate; // 탈퇴 일자 (TIMESTAMP)
     private String status; // 가입시 기본값 '회원' --> 탈퇴시 '탈퇴'로 변경
+
     private String staffId;// 사원 번호
+    private String staffName;// 사원명
+    private String departId;// 부서번호
+    private String departName;// 사원명
+    private String rankId;// 직급
+    // TIMESTAMP 값이 LocalDateTime으로 매핑됨
+    private LocalDateTime startDate;//입사일
+
+
 }
