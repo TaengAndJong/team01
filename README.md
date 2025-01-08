@@ -12,3 +12,7 @@ https://docs.google.com/document/d/1YLHberEyHsk_bFVLBBBQm7kluXyulL3_9606YZTC4BA/
 
 자바 
 https://docs.google.com/document/d/1wUyyCyRPi0HRtqPgWqPXERFT7gpfT4I4Tbwv6RELmeY/edit?tab=t.0
+
+
+ERD 
+https://www.erdcloud.com/d/c3TcFq2q8h6YrYYuB
