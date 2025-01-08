@@ -20,7 +20,6 @@ public class SignUpServiceImple implements SignUpService {
         int cnt;
         if (signUpVO != null) {
             log.info("insert user data:{}", signUpVO );
-            log.info("insert user dao:{}", dao.insertUserData(signUpVO));
             cnt = dao.insertUserData(signUpVO);
         }
 
@@ -53,6 +52,16 @@ public class SignUpServiceImple implements SignUpService {
     public SignUpVO selectStaffInfo(String staffId) {
         log.info("select staff info:{}", dao.selectStaffInfo(staffId));
         return dao.selectStaffInfo(staffId);
+    }
+
+    @Override
+    public int selectDuplicateEmail(String email) {
+        int cnt;
+        if (email != null) {
+            log.info("email data-------: {}", email);
+            return  cnt = dao.selectDuplicateEmail(email);  // email 중복 검사 결과 반환
+        }
+        return 0;
     }
 
 }

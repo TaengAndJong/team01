@@ -5,28 +5,27 @@ import SignUpInfo from "./components/signUpInfo.jsx";
 
 
 
-//1 formData 초기값 설정 ==> useStatus 사용하지말고 객체로 전달, useStatus를 컴포넌트함수 외부에 사용하면 에러
-const initialState  = {
-    clientId : "",//아이디
-    roleId : "",//
-    password : "",//비밀번호
-    passwordConfirm : "",//비밀번화확인 (디비로 안넘어감)
-    clientName :"",// 사용자 이름
-    tel : "",//전화번호
-    ZONECODE : "",//우편번호
-    addr : "",// 기본주소
-    detailAddr : "",// 상세주소
-    picture:"", // 기본이미지 또는 다른 이미지
-    joinDate:"", // 가입일
-    status:"", // "일반회원","사원"  // --> 일반회원일 경우 ROLE_CLIENT, 사원일 경우 ROLE_ADMIN , 관리자일 경우 ROLE_ADMIN
-    staffId:"",// 사원번호
-}
-
 
 
 const SignUpComponent = () => {
 
-    const [data,setData] = useState();
+    const [data, setData] = useState();
+    // formInfoData를 부모 컴포넌트로부터 props로 받아온다고 가정합니다.
+    const [formInfoData,setFormInfoData] = useState({
+        clientId: "",
+        password: "",
+        passwordConfirm: "",
+        passwordErrorMessage: "",
+        clientName:"",
+        staffId:"",
+        roleId:`ROLE_CLIENT`,
+        email: "",
+        birth:"",
+        tel:"",
+        addr:"",
+        zoneCode:"",
+        detailAddr:""
+    });
 
     // GET 요청 처리
     useEffect(() => {
@@ -60,8 +59,37 @@ const SignUpComponent = () => {
         fetchData();
     }, []); // 빈 의존성배열 사용
 
+//signUp post로 비동기 요청보내기
+    const handleSignUp = async () => {
+        try {
+            const response = await fetch("/api/signUp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formInfoData), // formInfoData를 JSON으로 변환하여 전송
+            });
 
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
 
+            const result = await response.json(); // 서버에서 반환된 JSON 데이터 처리
+            console.log("result-------backend to front",result); // 서버에서 받은 응답 확인
+        
+            //서버에서 반환하는 json 객체에 success :  true로 설정해줘야함
+            if (result.success) {
+                alert(`회원가입이 성공적으로 완료되었습니다! : ${result.message}` );
+                // 성공 시 추가 작업 (예: 로그인 페이지로 이동)
+            } else {
+                // success : false
+                alert(`회원가입 실패: ${result.message}`);
+            }
+        } catch (err) {
+            console.error("회원가입 오류:", err);
+            alert("회원가입 중 오류가 발생했습니다.");
+        }
+    };
 
 
     // value로 전달하는 객체는 자식 컴포넌트에서 사용할 수 있는 데이터들을 포함하는 객체
@@ -72,8 +100,8 @@ const SignUpComponent = () => {
         <>
             <div>
                 <span>{data}</span>
-                <SignUpInfo/>
-                <Btn text="회원가입" type="submit" />
+                <SignUpInfo formInfoData={formInfoData} setFormInfoData={setFormInfoData} />
+                <Btn text="회원가입" type="submit" onClick={handleSignUp} />
             </div>
 
         </>

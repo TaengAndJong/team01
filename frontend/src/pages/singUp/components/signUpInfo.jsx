@@ -6,31 +6,18 @@ import Select from 'react-select';
 import {generateOptions} from "../../../util/selectDate.jsx";
 
 
-const SignUpInfo = () => {
-    // 부모 컴포넌트인 SignUpForm 에서 context.provider의 value  로 전달 받은 context 값 받아오기
+const SignUpInfo = ({formInfoData,setFormInfoData}) => {
 
-   const [formInfoData,setformInfoData] = useState({
-       clientId: "",
-       password: "",
-       passwordConfirm: "",
-       passwordErrorMessage: "",
-       userName:"",
-       staffId:"",
-       email: "",
-       birth:"",
-       tel:"",
-       addr:"",
-       zoneCode:"",
-       detailAddr:""
-   });
-
+    useEffect(() => {
+        console.log("Updated formInfoData: ", formInfoData);  // formInfoData 값 확인
+    }, [formInfoData]);  // formInfoData가 변경될 때마다 실행
 
     // 공통 입력값 변경 핸들러
     const handleInputChange = (e) => {
         //1.이벤트 타겟팅 된 요소의 name과 value 구조분해 할당하기
         const { name, value } = e.target;
         //2. formInfoData 이전데이터 유지 및 상태갱신 해주기
-        setformInfoData((prev) => ({
+        setFormInfoData((prev) => ({
             ...prev,
             [name]: value, // 동적으로 필드 이름 업데이트
         }));
@@ -44,7 +31,7 @@ const SignUpInfo = () => {
             );
 
             //입력된 상태값 갱신
-            setformInfoData((prevState) => ({
+            setFormInfoData((prevState) => ({
                 ...prevState,
                 passwordErrorMessage: validationResult.message,
             }));
@@ -73,14 +60,17 @@ const SignUpInfo = () => {
             console.log("result------------frontEnd",result);
             // result가 넘어왔을 때 객체 내부에 staffInfo를 담고 있으니까, result값 state 초기값을 갱신
             setResult(result);
+            
             //result.staffInfo 가 잇으면 (True  이면)
             if (result.staffInfo) {
                 // 사원번호 확인이 되면 이름 자동 입력
-                setformInfoData((prev) => ({
+                setFormInfoData((prev) => ({
                     ...prev,
-                    userName: result.staffInfo.staffName, // 사원명 자동 입력
-                }));
+                    clientName: result.staffInfo.staffName, // 사원명 자동 입력
+                    roleId :`ROLE_${result.staffInfo.roleId}`, //roleId 설정
+                    }));
             }
+            
 
             alert(result.message); // 중복 여부 메시지 출력
         } catch (err) {
@@ -120,7 +110,7 @@ const SignUpInfo = () => {
         // '년, 월 ,일 ' 모든 값이 있을 때만 infoDate의 'birth'를 갱신
         if (birthObject.birthYear && birthObject.birthMonth && birthObject.birthDay) {
             // 'birthYear', 'birthMonth', 'birthDay' 값이 모두 있으면
-            setformInfoData((prev) => ({
+            setFormInfoData((prev) => ({
                 ...prev,
                 birth: `${birthObject.birthYear}-${birthObject.birthMonth}-${birthObject.birthDay}`,
             }));
@@ -130,38 +120,53 @@ const SignUpInfo = () => {
     }
 
     //전화번호 : handlerObject , e.target.name, e.target.value
-    let telObject = {};
+    const [telObject, setTelObject] = useState({
+        FirstTelNum: '',
+        secondTelNum: '',
+        lastTelNum: ''
+    });
+
     const handleTelChange=(e)=>{
         //console.log("tel",e.target.value,e.target.name);
-        let value;
+        // e.target된 요소의 name,value로 구조분해 할당하며, 초기화값을 의미
+        const { name, value } = e.target;
         //두 번째 전화번호 이거나 세 번째 전화번호이면
-        if(e.target.name === "secondTelNum" || e.target.name === "lastTelNum"){
-            // 숫자만 가능하고 자리수 제한 4자리까지 아니면 자리수 안내 경고 문구 반환
-            value =  /^\d*$/.test(value) ? alert("숫자만 입력해주세요"): e.target.value;
-            // 2. 최대 길이 확인  --> 빈 값일 때는 ??????
+        if(name === "secondTelNum" || name === "lastTelNum"){
+            // 숫자만 허용, 아니면 경고창 띄우기
+            if (!/^\d*$/.test(value)) {
+                alert("숫자만 입력해주세요");
+                e.target.value = ""; // 숫자가 아닌 값은 입력을 지움
+                return; // 더 이상 진행하지 않음
+            }
+
+            // 2. 최대 길이 확인
             if (value.length > 4) {
                 alert("최대 4자리까지만 입력 가능합니다.");
-                e.target.value="";
+                e.target.value = ""; // 4자리 초과 시 값 비우기
             }
-        }else{
-            value = e.target.value;
         }
 
-        // 3. e.target.name과 value를 telObject 객체에 저장
-        telObject[e.target.name] = value;
-        // 3개의 전화번호를 합쳐서 setFormInfoData에 갱신해주기
-        console.log("telObject",telObject);
-        if (telObject.FirstTelNum && telObject.secondTelNum && telObject.lastTelNum) {
-            // 'FirstTelNum', 'secondTelNum', 'lastTelNum' 값이 모두 있으면
-            setformInfoData((prev) => ({
-                ...prev,
-                tel: `${telObject.FirstTelNum}-${telObject.secondTelNum}-${telObject.lastTelNum}`,
-            }));
+        // 3. telObject 객체에 전화번호 객체 값 저장( 이전값 + 갱신값)_
+        // 이전값 파라미터prevTelObject
+        setTelObject((prevTelObject) =>{
+            //불변성 유지 , 새로운 값 추가
+            const newTelObject = { ...prevTelObject, [name]: value };
+            // 전화번호 3자리 전부 있을 경우
+            if (newTelObject.FirstTelNum && newTelObject.secondTelNum && newTelObject.lastTelNum) {
+                // FormInfoData의 tel 갱신
+                setFormInfoData((prev) => ({
+                    ...prev,
+                    tel: `${newTelObject.FirstTelNum}-${newTelObject.secondTelNum}-${newTelObject.lastTelNum}`
+                }));
+            }
 
-        }
-        console.log("telObject------",telObject);
+            //3자리 모두 될 때까지 반환해서 telObject 갱신
+            return newTelObject;
+        });
 
     }
+    console.log("telObject------",telObject);
+    console.log("formInfoDat--------------------",formInfoData);
 
     //email
     const [emailData, setemailData] = useState({
@@ -172,31 +177,34 @@ const SignUpInfo = () => {
     //email
     useEffect(() => {
         if (emailData.emailId && emailData.emailAddrInput) {
-            setformInfoData((prev) => ({
+            setFormInfoData((prev) => ({
                 ...prev,
                 email: `${emailData.emailId}@${emailData.emailAddrInput}`,
             }));
         }
     },  [emailData.emailId, emailData.emailAddrInput]); // emailData가 변경될 때 실행
 
-    //emailHandler
+    // 이메일 유효성 검사 및 중복 검사
     const handleEmailChange = (e)=>{
         console.log("e.target.name", e.target.name);
         console.log("e.target.value", e.target.value);
+
+
     //...(스프레드 연산자)는 객체를 "펼쳐서" 새로운 객체에 병합하거나 추가하는 역할을 합니다.
         setemailData((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
             ...(e.target.name === "emailAddrSelect" && { emailAddrInput: e.target.value }), // emailAddrSelect 처리
         }));
-        //end
+
+    //end
     }
 
     //주소
     const handleAddressSelect = (addressObject) => {
 
         // 다음 API에서 받은 데이터 infoData에 갱신해주기
-        setformInfoData((prev)=>({
+        setFormInfoData((prev)=>({
             ...prev,
             addr:addressObject.fullAddress,
             zoneCode:addressObject.zonecode,
@@ -292,7 +300,7 @@ const SignUpInfo = () => {
             {/*이름*/}
             <div className="Info name">
                 <label>이름</label>
-                <input type="text" name="userName" value={formInfoData.userName} onChange={handleInputChange}
+                <input type="text" name="clientName" value={formInfoData.clientName} onChange={handleInputChange}
                        placeholder="이름을 입력해주세요"/>
             </div>
             {/*생일*/}

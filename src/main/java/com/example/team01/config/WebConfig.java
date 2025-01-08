@@ -21,6 +21,7 @@ public class WebConfig {
         CorsConfiguration config = new CorsConfiguration();
         //cors config 설정하기
         config.addAllowedOrigin("http://localhost:5173");  // 리액트 앱의 주소
+        config.addAllowedOrigin("http://localhost:5174");
         // 허용할 HTTP 메서드를 배열로 전달
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.addAllowedHeader("*");  // 허용할 모든 헤더

@@ -12,10 +12,13 @@ const inputRegexs = {
 
 
 // 비동기 함수 - 이메일 중복 체크
-const checkEmailDuplicate = async (email) => {
+export const checkEmailDuplicate = async (email) => {
     try {
-        const response = await fetch(`/api/check-email?email=${encodeURIComponent(email)}`);
+        const response = await fetch(`/api/checkDuplicate?email=${encodeURIComponent(email)}`);
+        console.log("::response--------",response);
         const data = await response.json();
+        console.log("::data--------[",data);
+
 
         if (data.exists) {
             return true; // 중복임
@@ -29,7 +32,7 @@ const checkEmailDuplicate = async (email) => {
 };
 
 //이메일 유효성 검사
-const vailEmail = async (data) => {
+export const vailEmail = async (data) => {
     // 이메일이 입력되었는가?
     if(!data){
         return "이메일이 입력되지 않았습니다."
