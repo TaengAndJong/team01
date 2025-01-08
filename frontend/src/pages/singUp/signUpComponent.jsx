@@ -1,9 +1,7 @@
 
-import {createContext, useEffect, useReducer, useState} from "react";
+import React, { useEffect, useState} from "react";
 import Btn from "../../util/reuseBtn.jsx";
 import SignUpInfo from "./components/signUpInfo.jsx";
-
-
 
 
 
@@ -107,4 +105,4 @@ const SignUpComponent = () => {
         </>
     )
 }
-export default SignUpComponent;
+export default React.memo(SignUpComponent);
