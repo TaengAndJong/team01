@@ -84,8 +84,9 @@ public class LoginController {
                 log.info("customAuthenticationSuccessHandler---------------------:{}", response);
                 log.info("customAuthenticationSuccessHandler---------------------:{}", authentication);
 
-            } else {
 
+            } else {
+                log.warn("Authentication failed for clientId: {}", user.getClientId());
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write("{\"message\": \"로그인 실패\"}");
@@ -101,51 +102,6 @@ public class LoginController {
 //
     }
 
-//    @PostMapping("/process")
-//    public Map<String, Object> postLoginProcess(@RequestBody LoginVO user) {
-//
-//        log.info("PostMapping------------22222 :{}",user);
-//        //프론트에서 넘어 온  파라미터를 변수에 저장해서 가져오기
-//        String clientId = user.getClientId();
-//        String password = user.getPassword();
-//
-//
-//        //1. 데이터베이스에 해당 데이터의 클라이언트가 존재하는지 확인하고 데이터 넣기
-//            try {
-//                log.info("받은 데이터-----------3333  clientId = {}, pwd = {}",clientId, password);
-//                // 사용자 정보 조회
-//
-//                // Spring Security를 사용하여 인증 처리 --> 시큐리티로 어떻게 넘길 것인가
-//
-//                //사용자 정보를 커스텀 UserDetailCustomServiceImple로부터
-//                // 사용자 정보를 DB에서 가져오는 서비스로 정보 조회 (DB에서 클라이언트 정보 확인)
-//                // 객체 주입 필수!
-//                UserDetails userInfo = userDetailCustomService.loadUserByUsername(clientId);
-//                // 인증 성공 시 SecurityContext에 설정
-//
-//                if(new BCryptPasswordEncoder().matches(password, userInfo.getPassword())){
-//                    log.info("받은 데이터-----------777  userInfo.getPassword() : {}",userInfo.getPassword());
-//
-//                    Authentication authentication = new UsernamePasswordAuthenticationToken(
-//                            userInfo, password, userInfo.getAuthorities());
-//                    log.info("받은 데이터-----------888  authentication : {}",authentication);
-//
-//                    //여기서 securityConfig의 successHandler가 실행 되어야하는데ㅔ...
-//                    // 인증 성공 후 자동으로 처리되므로 SecurityContext에 인증을 수동으로 설정할 필요가 없습니다.
-//                    // Spring Security의 formLogin()에서 자동으로 인증 처리하고 successHandler를 호출
-//
-//                    return Map.of("message", "로그인 성공", "redirect", "/api");
-//                }else{
-//
-//                    return Map.of("message", "로그인 실패");
-//                }
-//
-//        } catch (Exception e) {
-//                log.error("로그인 실패: {}", e.getMessage());
-//                return Map.of("message", "로그인 실패: " + e.getMessage());
-//        }
-//
-//    }
 
 
     @GetMapping("/loginError")

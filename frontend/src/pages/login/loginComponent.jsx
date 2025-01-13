@@ -55,12 +55,13 @@ function Login({ setUrl,data }) {
                 data = await response.json();
                 console.log("json data",data);
                 console.log("응답 제이슨 성공",data.message);
+                console.log("로그인 성공, 서버에서 리디렉션 처리됨.");
 
                 if (data.redirect) {
                     console.log("리디렉션 URL:", data.redirect);
-                    window.location.href = data.redirect;
+                    window.location.href = data.redirect; // 클라이언트에서 리디렉션 수행
                 } else {
-                    console.error("리디렉션 URL이 없습니다");
+                    console.error("리디렉션 URL이 없습니다.");
                 }
 
             } else {

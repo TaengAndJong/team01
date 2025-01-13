@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 @RestController    //전역 ResponseBody
-@RequestMapping("/admin")
+@RequestMapping()
 public class AdminController {
 
-    @GetMapping()
+    @GetMapping("/admin")
     public String adminHandler() {
 
         return "안녕하세요.관리자 페이지 "+new Date() +"입니다. \n";
 
     }
 
-    @PostMapping
+    @PostMapping("/admin")
     public String adminHandler2() {
 
         return "안녕하세요.관리자 페이지 "+new Date() +"입니다. \n";
@@ -26,7 +26,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/dashboard")
+    @GetMapping("/admin/dashboard")
     public String testHandler() {
         String data ="안녕하세요.관리자페이지 테스트2222 "+new Date() +"입니다. \n";
         return data;

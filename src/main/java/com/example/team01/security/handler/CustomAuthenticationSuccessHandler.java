@@ -32,10 +32,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String redirectUrl = isAdmin ? "/admin" : "/";
 
         log.info("redirectUrl------------------:{}",redirectUrl);
+        log.info("Response committed before redirect: {}", response.isCommitted());
 
+        // JSON 응답으로 리디렉션 URL 전달
         String jsonResponse = String.format("{\"message\": \"로그인 성공\", \"redirect\": \"%s\"}", redirectUrl);
         log.info("jsonResponse-------------------jsonResponse:{}",jsonResponse); //json 응답 반환
         response.getWriter().write(jsonResponse);
+
     }
 // class end
 
