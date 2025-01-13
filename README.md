@@ -16,3 +16,10 @@ https://docs.google.com/document/d/1wUyyCyRPi0HRtqPgWqPXERFT7gpfT4I4Tbwv6RELmeY/
 
 ERD 
 https://www.erdcloud.com/d/c3TcFq2q8h6YrYYuB
+
+테스트 아이디 
+user01 - 관리자
+user02 - 사원
+user03 - 일반회원
+
+비밀번호 1234 (모두 동일)

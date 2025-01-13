@@ -9,7 +9,7 @@
 
     <select id="selectClientId" resultType="LoginVO" parameterType="String">
         WITH "joinClient" AS (
-            SELECT "clientId", "clientName","identiNum","email", "password", "roleId"
+            SELECT "clientId", "clientName","password", "roleId"
             FROM client
         )
         SELECT a.*
@@ -17,8 +17,6 @@
                  SELECT c."clientId",
                         c."clientName",
                         c."password",
-                        c."identiNum",
-                        c."email",
                         r."roleId",
                         r."roleName"
                  FROM "joinClient" c

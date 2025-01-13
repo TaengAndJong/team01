@@ -11,20 +11,27 @@ import java.util.List;
 
 
 @Slf4j
-@RestController()
+@RestController("/page")
 @RequiredArgsConstructor
 public class PageController {
 
     private final PageService pageService;
 
-    @GetMapping("/page")
+    @GetMapping()
     public List<PageVO> test() {
         List<PageVO> data = pageService.pageList();
         log.info("test :{}",data);
         return data;
     }
 
-    @PostMapping("/page")
+    @GetMapping("/test")
+    public List<PageVO> test2() {
+        List<PageVO> data = pageService.pageList();
+        log.info("test :{}",data);
+        return data;
+    }
+
+    @PostMapping()
     public void insert(@RequestBody PageVO pageVO) {
 
         log.info("Received data: {}", pageVO);

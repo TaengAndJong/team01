@@ -40,6 +40,7 @@ function Login({ setUrl,data }) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(userCredentials),
+            credentials: 'include',  // 쿠키를 포함시키기 위해 'include' 설정
         });
         console.log("response",userCredentials);
         console.log("response",response);
@@ -49,21 +50,29 @@ function Login({ setUrl,data }) {
         //백엔드 서버로부터 응답 받기
         if(response.ok){
             console.log("contentType",contentType);
-            console.log("응답 성공",data.message);
+            console.log("컨텐츠타입 들어가기전",response);
             if (contentType && contentType.includes("application/json")) {
                 data = await response.json();
-                console.log("제이슨",data.message);
-                // JSON 응답일 경우
-                return data;
+                console.log("json data",data);
+                console.log("응답 제이슨 성공",data.message);
+
+                if (data.redirect) {
+                    console.log("리디렉션 URL:", data.redirect);
+                    window.location.href = data.redirect;
+                } else {
+                    console.error("리디렉션 URL이 없습니다");
+                }
+
             } else {
-                console.log("error response",response);
+
                 data = response.text();// 텍스트 응답일 경우
-                console.log("텍스트",data.message);
+                console.log("텍스트data",data);
+                console.log("텍스트mgs",data.message);
                 return data;
             }
 
         }else{
-            console.log("로그인 실패",data.message);
+            console.error("서버와 통신 중 에러 발생:", error);
         }
 
 
@@ -87,7 +96,7 @@ function Login({ setUrl,data }) {
                 <label>
                     비밀번호:
                     <input
-                        type="text"
+                        type="password"
                         name="password"
                         placeholder="비밀번호"
                         value={password}

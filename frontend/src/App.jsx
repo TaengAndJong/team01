@@ -3,18 +3,19 @@ import {Routes, Route } from "react-router-dom";
 
 
 import './App.css'
-import Home from "./pages/main/mainComponent.jsx";
+import Main from "./pages/main/mainComponent.jsx";
 
-import Admin from "./test/admin.jsx";
+
 import Page from "./test/page.jsx";
 import SignUp from "./pages/singUp/signUpComponent.jsx";
 // import cart from "./pages/cart/cartComponent.jsx";
-import AdminTest from "./test/adminTest.jsx";
-import Login from "./pages/login/loginCompoenet.jsx";
+
+import Login from "./pages/login/loginComponent.jsx";
 import Qna from "./pages/qna/qnaComponent.jsx";
 import QnaCreate from "./pages/qna/components/qnaCreate.jsx";
 import QnaDetail from "./pages/qna/components/qnaDetail.jsx";
 import QnaEdit from "./pages/qna/components/qnaEdit.jsx";
+import Admin from "./pages/admin/adminCoponent.jsx";
 
 function App() {
     const [data, setData] = useState('');
@@ -53,13 +54,12 @@ function App() {
     return (
         <div className="App">
             <Routes>
-                <Route path="/" element={<Home/>} />
+                <Route path="/" element={<Main/>} />
                 {/*<Route path="/api" element={<Home data={data} setUrl={setUrl} />} />*/}
                 <Route path="/login" element={<Login data={data} setUrl={setUrl}/>} />
                 <Route path="/admin" element={<Admin data={data} setUrl={setUrl}/>} />
                 <Route path="/page" element={<Page data={data} setUrl={setUrl}/>} />
                 <Route path="/signup" element={<SignUp/>} />
-                <Route path="/admin/test" element={<AdminTest data={data} setUrl={setUrl}/>} />
                 <Route path="/test/qnaList" element={<Qna/>} />
                 <Route path="/create" element={<QnaCreate/>} />
                 <Route path="/post/:id" element={<QnaDetail/>} />
