@@ -3,13 +3,11 @@ import {Routes, Route } from "react-router-dom";
 
 
 import './App.css'
-import Main from "./pages/main/mainComponent.jsx";
 
-
-import Page from "./test/page.jsx";
+import Header from "./layout/Header.jsx"
 import SignUp from "./pages/singUp/signUpComponent.jsx";
-// import cart from "./pages/cart/cartComponent.jsx";
-
+import PathData from "./assets/pathsData.jsx"
+import Main from "./pages/main/mainComponent.jsx";
 import Login from "./pages/login/loginComponent.jsx";
 import Qna from "./pages/qna/qnaComponent.jsx";
 import QnaCreate from "./pages/qna/components/qnaCreate.jsx";
@@ -53,12 +51,12 @@ function App() {
 
     return (
         <div className="App">
+            <Header/>
             <Routes>
-                <Route path="/" element={<Main/>} />
-                <Route path="/login" element={<Login data={data} setUrl={setUrl}/>} />
-                <Route path="/admin" element={<Admin/>} />
-
-                <Route path="/signup" element={<SignUp/>} />
+                <Route path={PathData.page.home} element={<Main/>} />
+                <Route path={PathData.page.login} element={<Login data={data} setUrl={setUrl}/>} />
+                <Route path={PathData.page.admin} element={<Admin/>} />
+                <Route path={PathData.page.signup} element={<SignUp/>} />
                 <Route path="/test/qnaList" element={<Qna/>} />
                 <Route path="/create" element={<QnaCreate/>} />
                 <Route path="/post/:id" element={<QnaDetail/>} />

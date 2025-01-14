@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Btn from "../../util/reuseBtn.jsx";
 
 function Login({data,setUrl}) {
     // 상태 관리
@@ -110,6 +111,8 @@ function Login({data,setUrl}) {
                 <button type="submit">로그인</button>
                 {/*<p>해시값: {hashedPassword}</p>*/}
             </form>
+
+            <Btn text="회원가입" type="" path="/signup"/>
         </>
     );
 }

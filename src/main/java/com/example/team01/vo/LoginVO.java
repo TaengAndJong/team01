@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Slf4j
+
 @ToString
 @Getter // 은닉화된 정보를 캡슐화
 @Setter

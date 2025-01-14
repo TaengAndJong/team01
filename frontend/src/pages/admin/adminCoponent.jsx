@@ -8,7 +8,6 @@ function Admin() {
             try {
                 const response = await fetch("/api/admin", {
                     method: "GET",
-                    credentials: "include", // 쿠키와 인증 정보를 포함
                 });
 
                 if (response.ok) {

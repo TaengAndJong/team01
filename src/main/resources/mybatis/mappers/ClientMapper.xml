@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.team01.common.dao.ClientDao">
+    <!-- ClientVO와 RoleVO 간 1:1 관계 매핑 -->
+    <resultMap id="ClientWithRoleResultMap" type="ClientVO">
+        <!-- ClientVO 필드 매핑 -->
+        <id column="clientId" property="clientId" />
+        <result column="clientName" property="clientName" />
+        <result column="password" property="password" />
+        <result column="birth" property="birth" />
+        <result column="tel" property="tel" />
+        <result column="zoneCode" property="zoneCode" />
+        <result column="addr" property="addr" />
+        <result column="detailAddr" property="detailAddr" />
+        <result column="email" property="email" />
+        <result column="picture" property="picture" />
+        <result column="joinDate" property="joinDate" />
+        <result column="withdrawDate" property="withDrawDate" />
+        <result column="status" property="status" />
+
+        <!-- RoleVO 매핑 -->
+        <association property="roleVO" javaType="RoleVO">
+            <id column="roleId" property="roleId" />
+            <result column="roleName" property="roleName" />
+        </association>
+    </resultMap>
+
+
+    <!-- 클라이언트와 역할 정보를 조회하는 쿼리 , 클라이언트와 역할테이블의 1:1 관계로 조인 -->
+    <select id="getClientWithRole" resultMap="ClientWithRoleResultMap">
+        SELECT
+            c."clientId",
+            c."clientName",
+            c."password",
+            c."birth",
+            c."tel",
+            c."zoneCode",
+            c."addr",
+            c."detailAddr",
+            c."email",
+            c."picture",
+            c."joinDate",
+            c."WITHDRAWALDATE",
+            c."STATUS",
+            r."roleId",
+            r."roleName"
+        FROM Client c
+                 LEFT JOIN roles r ON c."roleId" = r."roleId"
+        WHERE c."clientId" = #{clientId}
+
+    </select>
+
+</mapper>

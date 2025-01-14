@@ -17,11 +17,6 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminController {
 
-//    @GetMapping()
-//    public String adminHandler() {
-//        String data = "안녕하세요. 관리자 페이지 " + new Date() + "입니다.\n";
-//        return data;
-//    }
 
     @GetMapping
     public Map<String, Object> adminHandler(HttpSession session) {

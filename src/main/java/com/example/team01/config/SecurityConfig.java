@@ -2,11 +2,11 @@ package com.example.team01.config;
 
 import com.example.team01.common.Enum.Role;
 
+import com.example.team01.logout.handler.AddLogoutHandler;
 import com.example.team01.security.UserDetailCustomServiceImple;
 import com.example.team01.security.handler.CustomAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 
 @Slf4j
@@ -36,11 +36,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    //로그인 성공 시 경로 커스텀
-    @Bean
-    CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return new CustomAuthenticationSuccessHandler();
-    }
 
     // AuthenticationManager를 빈으로 등록, 인증을 담당하는 핵심 컴포넌트로 RESTful API로그인 처리 구현시 빈으로 등록
     @Bean
@@ -53,16 +48,18 @@ public class SecurityConfig {
     }
 
 
+
+
     // 5버전 이후 web~Adapter 대신 filterChain 사용
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
 
         log.info("SecurityFilterChain------------11111 :{}", http);
 
         // 개발환경에서는 csrf 비활성해야 로그인이 가능함
         http.cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .authorizeRequests(requests -> requests
-                        .requestMatchers("/", "/login", "/signUp/**", "/page","/test/**").permitAll()//로그인 없이 접근 가능
+                        .requestMatchers("/", "/login*", "/signUp/**", "/page","/test/**").permitAll()//로그인 없이 접근 가능
                         .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                         .requestMatchers("/login/**", "/mypage/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MEMBER.name())
                         .anyRequest().authenticated() // 나머지 요청 인증 필요
@@ -72,11 +69,12 @@ public class SecurityConfig {
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .loginProcessingUrl("/api/login")//실제 인증처리되는 백엔드주소
-                        .successHandler(customAuthenticationSuccessHandler())
+                        .successHandler(customAuthenticationSuccessHandler)
                         .permitAll()
                 ).logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
+                        .addLogoutHandler(new AddLogoutHandler())
                 ).sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 세션을 필요시 생성
                         .invalidSessionUrl("/login") // 세션이 만료된 경우 이동할 경로
@@ -90,6 +88,8 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
 }
 
 
