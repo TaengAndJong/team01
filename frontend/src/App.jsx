@@ -55,10 +55,9 @@ function App() {
         <div className="App">
             <Routes>
                 <Route path="/" element={<Main/>} />
-                {/*<Route path="/api" element={<Home data={data} setUrl={setUrl} />} />*/}
                 <Route path="/login" element={<Login data={data} setUrl={setUrl}/>} />
-                <Route path="/admin" element={<Admin data={data} setUrl={setUrl}/>} />
-                <Route path="/page" element={<Page data={data} setUrl={setUrl}/>} />
+                <Route path="/admin" element={<Admin/>} />
+
                 <Route path="/signup" element={<SignUp/>} />
                 <Route path="/test/qnaList" element={<Qna/>} />
                 <Route path="/create" element={<QnaCreate/>} />

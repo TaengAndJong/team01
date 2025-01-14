@@ -23,12 +23,7 @@ public class IndexController {
         return data;
     }
 
-    @GetMapping("/api")
-    public String indexAPI() {
-        String data= "apiMain";
-
-        return data;
-    }
-
+    //백엔드 매핑주소는 프론트와 동일
+    // 프론트 fetch 주소는 백엔드 기준
 
 }

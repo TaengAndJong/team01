@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -59,8 +60,7 @@ public class SecurityConfig {
         log.info("SecurityFilterChain------------11111 :{}", http);
 
         // 개발환경에서는 csrf 비활성해야 로그인이 가능함
-        http.csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
+        http.cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .authorizeRequests(requests -> requests
                         .requestMatchers("/", "/login", "/signUp/**", "/page","/test/**").permitAll()//로그인 없이 접근 가능
                         .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
@@ -74,7 +74,16 @@ public class SecurityConfig {
                         .loginProcessingUrl("/api/login")//실제 인증처리되는 백엔드주소
                         .successHandler(customAuthenticationSuccessHandler())
                         .permitAll()
-                );
+                ).logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                ).sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 세션을 필요시 생성
+                        .invalidSessionUrl("/login") // 세션이 만료된 경우 이동할 경로
+                        .maximumSessions(1) // 최대 세션 수
+                        .expiredUrl("/login") // 세션 만료 후 이동할 URL
+                )
+                .csrf(csrf -> csrf.disable());
 
 
         // 모든 설정이 끝난 후에 build 호출

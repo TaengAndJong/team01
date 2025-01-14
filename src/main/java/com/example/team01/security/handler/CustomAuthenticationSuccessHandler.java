@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         log.info("onAuthenticationSuccess-------------------인증성공 :{}",response);
         //실제 로그인 성공 후의 로직 처리 하는 메소드
         log.info("onAuthenticationSuccess9999-------------------로그인성공");
+
+        // 인증 정보를 세션에 저장
+        request.getSession().setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+
         // 로그인 성공시 roleId가 Role_Admin 일때 redirection 주소 관리자로 아니면 /로
         // 사용자 권한 정보 가져오기
         boolean isAdmin = authentication.getAuthorities().stream()

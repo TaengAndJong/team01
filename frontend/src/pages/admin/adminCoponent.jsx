@@ -1,23 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import AdminDashboard from "./components/adminDashboard.jsx";
 
+function Admin() {
+    const [data, setData] = useState(null);
 
-function Admin({ setUrl,data }) {
-
-
-    // URL 설정
     useEffect(() => {
-        setUrl('/api/admin'); // Login 컴포넌트 진입 시 URL 변경
-    }, [setUrl]);
+        const fetchData = async () => {
+            try {
+                const response = await fetch("/api/admin", {
+                    method: "GET",
+                    credentials: "include", // 쿠키와 인증 정보를 포함
+                });
 
+                if (response.ok) {
+                    const contentType = response.headers.get("Content-Type");
+
+                    if (contentType && contentType.includes("application/json")) {
+                        const jsonData = await response.json();
+                        setData(jsonData);
+                    } else {
+                        const textData = await response.text();
+                        setData({ message: textData });
+                    }
+                } else {
+                    console.error("HTTP Error:", response.status, response.statusText);
+                }
+            } catch (error) {
+                console.error("Fetch Error:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
-        <>
-            관리자 페이지
-            {data}
-            <AdminDashboard/>
-        </>
+        <div>
+            <h1>관리자 페이지</h1>
+            {data ? (
+                <div>
+                    <p>메시지: {data.message}</p>
+                    <p>시간: {data.timestamp}</p>
+                </div>
+            ) : (
+                <p>데이터를 불러오는 중...</p>
+            )}
+        </div>
     );
 }
-//hashedPassword 는 json 코드로 서버로 전송됨
+
 export default Admin;

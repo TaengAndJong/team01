@@ -11,7 +11,8 @@ import java.util.List;
 
 
 @Slf4j
-@RestController("/page")
+@RequestMapping("/page")
+@RestController
 @RequiredArgsConstructor
 public class PageController {
 

@@ -1,7 +1,7 @@
 package com.example.team01.login;
 
 
-import com.example.team01.login.service.LoginService;
+
 import com.example.team01.security.UserDetailCustomServiceImple;
 import com.example.team01.security.handler.CustomAuthenticationSuccessHandler;
 import com.example.team01.vo.LoginVO;
@@ -10,9 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,8 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
+
 
 // 프론트 주소로 매핑
 @Slf4j
@@ -30,12 +27,7 @@ import java.util.Map;
 @RestController
 public class LoginController {
 
-
-    private final  LoginService loginService;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
     private final UserDetailCustomServiceImple userDetailCustomService;  // UserDetailCustomService를 자동 주입
-    private final AuthenticationManager authenticationManager;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
 

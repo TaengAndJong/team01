@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-
-function Login({ setUrl,data }) {
+function Login({data,setUrl}) {
     // 상태 관리
     const [clientId, setclientId] = useState(''); // id 상태 추가
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-
+    console.log("data---111",data);
     // URL 설정
     useEffect(() => {
         setUrl('/api/login'); // Login 컴포넌트 진입 시 URL 변경
@@ -46,7 +47,7 @@ function Login({ setUrl,data }) {
         console.log("response",response);
 
         const contentType = response.headers.get("Content-Type");
-        let data='';
+        let data;
         //백엔드 서버로부터 응답 받기
         if(response.ok){
             console.log("contentType",contentType);
@@ -59,14 +60,15 @@ function Login({ setUrl,data }) {
 
                 if (data.redirect) {
                     console.log("리디렉션 URL:", data.redirect);
-                    window.location.href = data.redirect; // 클라이언트에서 리디렉션 수행
+                    navigate(data.redirect);  // React Router를 통해 리다이렉트
+
                 } else {
                     console.error("리디렉션 URL이 없습니다.");
                 }
 
             } else {
 
-                data = response.text();// 텍스트 응답일 경우
+                data = await response.text();// 텍스트 응답일 경우
                 console.log("텍스트data",data);
                 console.log("텍스트mgs",data.message);
                 return data;
@@ -81,7 +83,7 @@ function Login({ setUrl,data }) {
 
     return (
         <>
-            {data}
+           Received data: {JSON.stringify(data)}
             <form onSubmit={handleFormSubmit}>
                 <label>
                     아이디:
@@ -113,3 +115,7 @@ function Login({ setUrl,data }) {
 }
 //hashedPassword 는 json 코드로 서버로 전송됨
 export default Login;
+
+
+//react-router-dom의 useNavigate를 사용해 리다이렉트하며, 상태를 유지
+//window.location.href
