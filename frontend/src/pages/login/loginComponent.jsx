@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Btn from "../../util/reuseBtn.jsx";
+import { useAuth } from "../common/AuthContext.jsx";
 
-function Login({data,setUrl}) {
+function Login({data}) {
     // 상태 관리
     const [clientId, setclientId] = useState(''); // id 상태 추가
     const [password, setPassword] = useState('');
+    const { login } = useAuth(); // 로그인 상태 업데이트 함수
     const navigate = useNavigate();
 
     console.log("data---111",data);
-    // URL 설정
-    useEffect(() => {
-        setUrl('/api/login'); // Login 컴포넌트 진입 시 URL 변경
-    }, [setUrl]);
-
-
 
     const handleIdChange = (e) => {
         console.log("id" , e.target.value)
@@ -55,6 +51,10 @@ function Login({data,setUrl}) {
             console.log("컨텐츠타입 들어가기전",response);
             if (contentType && contentType.includes("application/json")) {
                 data = await response.json();
+
+                // 로그인 성공 시 로그인 상태 업데이트
+                login(data);
+
                 console.log("json data",data);
                 console.log("응답 제이슨 성공",data.message);
                 console.log("로그인 성공, 서버에서 리디렉션 처리됨.");

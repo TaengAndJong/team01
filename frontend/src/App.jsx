@@ -3,7 +3,7 @@ import {Routes, Route } from "react-router-dom";
 
 
 import './App.css'
-
+import { AuthProvider } from "./pages/common/AuthContext.jsx";
 import Header from "./layout/Header.jsx"
 import SignUp from "./pages/singUp/signUpComponent.jsx";
 import PathData from "./assets/pathsData.jsx"
@@ -51,17 +51,19 @@ function App() {
 
     return (
         <div className="App">
-            <Header/>
-            <Routes>
-                <Route path={PathData.page.home} element={<Main/>} />
-                <Route path={PathData.page.login} element={<Login data={data} setUrl={setUrl}/>} />
-                <Route path={PathData.page.admin} element={<Admin/>} />
-                <Route path={PathData.page.signup} element={<SignUp/>} />
-                <Route path="/test/qnaList" element={<Qna/>} />
-                <Route path="/create" element={<QnaCreate/>} />
-                <Route path="/post/:id" element={<QnaDetail/>} />
-                <Route path="/edit/:id" element={<QnaEdit/>} />
-            </Routes>
+            <AuthProvider>
+                <Header />
+                <Routes>
+                    <Route path={PathData.page.home} element={<Main/>} />
+                    <Route path={PathData.page.login} element={<Login data={data} setUrl={setUrl}/>} />
+                    <Route path={PathData.page.admin} element={<Admin/>} />
+                    <Route path={PathData.page.signup} element={<SignUp/>} />
+                    <Route path="/test/qnaList" element={<Qna/>} />
+                    <Route path="/create" element={<QnaCreate/>} />
+                    <Route path="/post/:id" element={<QnaDetail/>} />
+                    <Route path="/edit/:id" element={<QnaEdit/>} />
+                </Routes>
+            </AuthProvider>
         </div>
     );
 

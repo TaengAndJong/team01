@@ -1,13 +1,18 @@
-import React ,{useState} from 'react';
+import React ,{useState,useEffect} from 'react';
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
+import {useAuth} from "../pages/common/AuthContext.jsx";
 
 
 
 const Header = () => {
 
-    //로그인 후 사용자 정보가져오기
-    const [authData, setAuthData] = useState(null);
+// 로그인 상태와 사용자 데이터 가져오기
+    const { isAuthenticated, userData } = useAuth();
+
+
+    console.log("userData----------------",userData);
+    console.log("isAuthenticated----------------",isAuthenticated);
 
 
     return (
@@ -23,13 +28,21 @@ const Header = () => {
                 </ul>
             </nav>
             <div>
-
-                {/* 세션 조건이 없으면 로그인 */}
-                <Btn className={"login"} type={"login"} text={"로그인"} path={pathsData.page.login}/>
-                {/* 세션 조건이 있으면 로그아웃 */}
-                <Btn className={"logout"} type={"logout"} text={"로그아웃"} path={pathsData.page.logout}/>
-                <Btn className={"mypage"} type={"mypage"} text={"마이페이지"} path={pathsData.page.mypage}/>
-                <Btn className={"cart"} type={"cart"} text={"장바구니"} path={pathsData.page.cart}/>
+                {isAuthenticated ? ( // 시큐리티 인증이 true이면
+                    <>
+                        <li> {userData?.roles && (
+                            <li>{userData.roles[0] === "ROLE_ADMIN" ?
+                                `${userData.clientName}관리자(${userData.clientId})`
+                                : `${userData.clientName}(${userData.clientId})님`}
+                            </li>
+                        )}
+                        </li>
+                        <li> <Btn className={"logout"} type={"logout"} text={"로그아웃"} path={pathsData.page.logout}/>
+                        </li>
+                    </>
+                ) : (
+                    <li><Btn className={"login"} type={"login"} text={"로그인"} path={pathsData.page.login}/></li>
+                )}
             </div>
         </header>
     );

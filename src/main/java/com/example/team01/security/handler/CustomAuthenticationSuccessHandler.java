@@ -52,21 +52,19 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String username = authentication.getName(); // 사용자 이름
         Collection<? extends GrantedAuthority> roles = authentication.getAuthorities(); // 권한 목록
 
-
         // clientId를 이용하여 추가 사용자 정보를 가져오기
         ClientVO clientInfo = clientService.getClientWithRole(username);
 
 
         // 2. JSON 응답 생성
         Map<String, Object> responseData = new HashMap<>();
-        responseData.put("message", "로그인 성공");
+        responseData.put("message", username +" 로그인 성공");
         responseData.put("redirect", redirectUrl);
-        responseData.put("sessionId", request.getSession().getId()); // 세션 ID
-        responseData.put("username", username); // 로그인 사용자 이름
         responseData.put("roles", roles.stream().map(GrantedAuthority::getAuthority).toList()); // 권한 목록
-        responseData.put("clientInfo", clientInfo); // 추가된 사용자 정보
-
-
+        responseData.put("clientId", clientInfo.getClientId()); // 사용자이름
+        responseData.put("clientName", clientInfo.getClientName()); // 사용자이름
+        responseData.put("status", clientInfo.getStatus()); // 회원,사원,관리자
+        // responseData.put("sessionId", request.getSession().getId()); // 세션 ID
 
         log.info("responseData-------------------:{}",responseData); //json 응답 반환
 
