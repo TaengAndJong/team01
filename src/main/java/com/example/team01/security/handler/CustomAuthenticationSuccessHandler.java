@@ -6,10 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -40,7 +42,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         // 인증 정보를 세션에 저장 (JSESSIONID 생성)
         request.getSession().setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-
+        log.info("onAuthenticationSuccess------10------------------");
         // 로그인 성공시 roleId가 Role_Admin 일때 redirection 주소 관리자로 아니면 /로
         // 사용자 권한 정보 가져오기
         boolean isAdmin = authentication.getAuthorities().stream()

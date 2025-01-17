@@ -17,6 +17,12 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setIsAuthenticated(false);
         setUserData(null); // 로그아웃 시 사용자 데이터 초기화
+
+        // 로그아웃 시 추가적으로 로컬스토리지나 쿠키를 클리어할 수도 있음
+       // localStorage.removeItem("userData");
+       // sessionStorage.removeItem("userData");
+        // 또는 인증 토큰을 삭제할 수도 있음
+
     };
 
     return (

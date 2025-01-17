@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import {Routes, Route } from "react-router-dom";
-
+import { useLocation } from 'react-router-dom';
 
 import './App.css'
 import { AuthProvider } from "./pages/common/AuthContext.jsx";
@@ -9,6 +9,7 @@ import SignUp from "./pages/singUp/signUpComponent.jsx";
 import PathData from "./assets/pathsData.jsx"
 import Main from "./pages/main/mainComponent.jsx";
 import Login from "./pages/login/loginComponent.jsx";
+import Logout from "./pages/logout/logoutComponent.jsx";
 import Qna from "./pages/qna/qnaComponent.jsx";
 import QnaCreate from "./pages/qna/components/qnaCreate.jsx";
 import QnaDetail from "./pages/qna/components/qnaDetail.jsx";
@@ -19,7 +20,9 @@ function App() {
     const [data, setData] = useState('');
     const [url,setUrl] = useState('/api'); // 기본 URL 설정
 
-    // 경로 요청할 매핑주소 ?
+
+    //현재 경로 가져오기
+    const location = useLocation();
 
 
     useEffect(() => {
@@ -49,13 +52,17 @@ function App() {
             .catch((error) => console.error('Fetch error:', error));
     }, [url]);
 
+
+
     return (
         <div className="App">
             <AuthProvider>
-                <Header />
+                {/* 로그인 페이지가 아닐 때만 Header 렌더링 */}
+                {location.pathname !== PathData.page.login && <Header />}
                 <Routes>
                     <Route path={PathData.page.home} element={<Main/>} />
-                    <Route path={PathData.page.login} element={<Login data={data} setUrl={setUrl}/>} />
+                    <Route path={PathData.page.login} element={<Login data={data}/>} />
+                    <Route path={PathData.page.logout} element={<Logout data={data}/>} />
                     <Route path={PathData.page.admin} element={<Admin/>} />
                     <Route path={PathData.page.signup} element={<SignUp/>} />
                     <Route path="/test/qnaList" element={<Qna/>} />

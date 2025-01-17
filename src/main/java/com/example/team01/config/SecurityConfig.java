@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
 import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 
@@ -81,16 +82,17 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .logout(logout -> logout
-                                .logoutUrl("/logout") // 프론트 주소 (로그아웃을 요청할 URL)
+                                .logoutUrl("/logout") // 백엔드 주소 (로그아웃 요청을 실행할 백엔드 주소?)
                                 .logoutSuccessUrl("/") // 로그아웃 성공시 리다이렉트 할 URL
                                 .addLogoutHandler(addLogoutHandler)  // 로그아웃 후 세션 무효화 및 추가 작업 처리
-                                .logoutSuccessHandler(customLogoutSuccessHandler) // 로그아웃 성공 후 실행
+                                //.logoutSuccessHandler(customLogoutSuccessHandler) // 로그아웃 성공 후 실행
+                                .permitAll()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 세션을 필요시 생성
-                        .invalidSessionUrl("/login") // 세션이 만료된 경우 이동할 경로
+                        .invalidSessionUrl("/") // 세션이 만료된 경우 이동할 경로
                         .maximumSessions(1) // 최대 세션 수
-                        .expiredUrl("/login") // 세션 만료 후 이동할 URL
+                        .expiredUrl("/") // 세션 만료 후 이동할 URL
                 )
                 .csrf(csrf -> csrf.disable());
 

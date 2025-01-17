@@ -1,4 +1,5 @@
 import React ,{useState,useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 import {useAuth} from "../pages/common/AuthContext.jsx";
@@ -9,10 +10,40 @@ const Header = () => {
 
 // 로그인 상태와 사용자 데이터 가져오기
     const { isAuthenticated, userData } = useAuth();
-
+    const {logout} = useAuth();
+   const navigate = useNavigate();
 
     console.log("userData----------------",userData);
     console.log("isAuthenticated----------------",isAuthenticated);
+
+    const handleLogout = async () => {
+
+        try {
+            // 서버로 로그아웃 요청 보내기
+            const response = await fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include', // 쿠키를 포함하여 요청
+            });
+
+            if (response.ok) {
+                console.log("logout response", response);
+
+                // 로그아웃 성공 시, 인증 상태를 업데이트하거나 다른 동작
+                // AuthContext에서 인증 상태를 업데이트하는 로직
+                logout();
+                console.log("로그아웃 성공");
+              // 로그아웃 후 리다이렉트
+                navigate("/")
+            } else {
+                console.error("로그아웃 실패");
+            }
+        } catch (error) {
+            console.error("로그아웃 요청 중 오류 발생", error);
+        }
+    };
 
 
     return (
@@ -31,13 +62,13 @@ const Header = () => {
                 {isAuthenticated ? ( // 시큐리티 인증이 true이면
                     <>
                         <li> {userData?.roles && (
-                            <li>{userData.roles[0] === "ROLE_ADMIN" ?
+                            <span>{userData.roles[0] === "ROLE_ADMIN" ?
                                 `${userData.clientName}관리자(${userData.clientId})`
                                 : `${userData.clientName}(${userData.clientId})님`}
-                            </li>
+                            </span>
                         )}
                         </li>
-                        <li> <Btn className={"logout"} type={"logout"} text={"로그아웃"} path={pathsData.page.logout}/>
+                        <li> <Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
                         </li>
                     </>
                 ) : (
