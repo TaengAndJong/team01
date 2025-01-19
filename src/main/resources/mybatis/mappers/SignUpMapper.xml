@@ -32,11 +32,14 @@
             emp."staffId",
             emp."staffName",
             emp."roleId",
+            emp."rankId",
+            emp."birth",
+            emp."tel",
             emp."startDate",
             dep."departId",
             dep."departName"
         FROM
-            (SELECT "staffId", "staffName","roleId","startDate", "departId"
+            (SELECT "staffId", "staffName","birth","tel","roleId","rankId","startDate", "departId"
              FROM emp
              WHERE "staffId" = #{staffId}) emp
                 LEFT JOIN DEPARTMENT dep

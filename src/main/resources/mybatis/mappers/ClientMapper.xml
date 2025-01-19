@@ -24,6 +24,7 @@
             <id column="roleId" property="roleId" />
             <result column="roleName" property="roleName" />
         </association>
+
     </resultMap>
 
 
@@ -50,5 +51,36 @@
         WHERE c."clientId" = #{clientId}
 
     </select>
+
+    <!-- 클라이언트에 사원번호,이름, 전화번호,생일로  중복 검증 조회-->
+    <select id="selectOneStaff" parameterType="String">
+        SELECT
+            "clientId",
+            "clientName",
+            "birth",
+            "tel",
+            "zoneCode",
+            "addr",
+            "detailAddr",
+            "email",
+            "picture",
+            "joinDate",
+            "WITHDRAWALDATE",
+            "STATUS",
+        FROM Client
+        WHERE "staffId" = #{staffId}
+        and "clientName" =#{staffName}
+        and "birth" =#{staffBirth}
+    </select>
+
+    <!-- staff 아이디 중복 확인 -->
+    <select id="selectDuplicateClientStaff" parameterType="String" resultType="int">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
+        FROM Client
+        WHERE "STAFFID" = #{staffId}
+          AND "clientName" = #{staffName}
+          AND "birth" = #{staffBirth}
+    </select>
+
 
 </mapper>

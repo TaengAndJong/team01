@@ -26,7 +26,7 @@ const Button = ({text, type, onClick, className, isLoading, isDisabled, confirmM
         "logout",
         "contact",
         "submit",//제출
-        ].includes(type) ? type : "default";
+        ].includes(type) ? type : "button";
 
     const navigate = useNavigate(); // useNavigate 선언
     const [loading, setLoading] = useState(isLoading); // useState 선언

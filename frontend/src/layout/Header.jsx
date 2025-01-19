@@ -1,8 +1,9 @@
 import React ,{useState,useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 import {useAuth} from "../pages/common/AuthContext.jsx";
+import PathData from "../assets/pathsData.jsx";
 
 
 
@@ -15,6 +16,7 @@ const Header = () => {
 
     console.log("userData----------------",userData);
     console.log("isAuthenticated----------------",isAuthenticated);
+
 
     const handleLogout = async () => {
 
@@ -46,6 +48,12 @@ const Header = () => {
     };
 
 
+    //현재 경로 가져오기
+    const location = useLocation();
+    // 로그인 또는 회원가입 페이지가 아닐 때만 Header를 렌더링
+   const hideContent = location.pathname === PathData.page.login || location.pathname === PathData.page.signup;
+
+
     return (
         <header className="header">
             <div className="logo">
@@ -68,15 +76,26 @@ const Header = () => {
                             </span>
                         )}
                         </li>
-                        <li> <Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
+                        <li><Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
                         </li>
                     </>
-                ) : (
-                    <li><Btn className={"login"} type={"login"} text={"로그인"} path={pathsData.page.login}/></li>
-                )}
+                     ) :
+                    (<>
+                        {/*   로그인 페이지와 회원가입 페이지 가 아니면  나오게 */}
+                            {!hideContent && (<>
+                                    <li><Btn className={"login"} type={"login"} text={"로그인"}
+                                             path={pathsData.page.login}/></li>
+                                    <li><Btn className={"signup"} type={"signup"} text={"회원가입"}
+                                             path={pathsData.page.signup}/></li>
+                                </>
+                            )}
+                        </>
+                    )
+                }
             </div>
         </header>
-    );
+    )
+        ;
 };
 
 export default Header;

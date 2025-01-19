@@ -25,10 +25,11 @@ public class ClientVO implements Serializable {
     private String detailAddr; // 상세주소
     private String email;
     private byte[] picture; // 프로필사진 BLOB는 byte[]로
-    private LocalDateTime joinDate; // 회원가입일, db의 timestamp는 localDatetime으로 
+    private LocalDateTime joinDate; // 회원가입일, db의 timestamp는 localDatetime으로
     private LocalDateTime withDrowDate; // 탈퇴일
     private String status;
 
     private RoleVO roleVO; // 1:1 관계인 Role 테이블의 정보를 담는 객체
+
 
 }

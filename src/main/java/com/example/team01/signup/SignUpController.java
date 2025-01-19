@@ -1,7 +1,9 @@
 package com.example.team01.signup;
 
 
+import com.example.team01.common.service.ClientService;
 import com.example.team01.signup.service.SignUpService;
+import com.example.team01.vo.ClientVO;
 import com.example.team01.vo.SignUpVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ public class SignUpController {
 
     //SignupService 주입
     private final SignUpService signUpService;
+    private final ClientService clientService;
 
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
@@ -49,6 +52,7 @@ public class SignUpController {
 
             // 중복 ID 체크 (clientId, email, staffId 등)
             if (signUpService.selectDuplicateId(joinUser.getClientId()) > 0) {
+                log.info("signUpService.selectDuplicateId(joinUser.getClientId()): {}", joinUser.getClientId());
                 return Map.of("message", "이미 존재하는 아이디입니다.");
             }
 
@@ -106,12 +110,8 @@ public class SignUpController {
 
         // staffId 처리
         if (staffId != null) {
+            // 검증할 staffId가 넘어옴
             checkDuplicateId("staffId",staffId,response);
-            //staffId가 있으면 해당하는 StaffId 를 가진 사원의 정보를 가져올 서비스 불러오기
-            SignUpVO staffInfo =signUpService.selectStaffInfo(staffId);
-            log.info("staffInfo------------------: {}",staffInfo);
-            // 프론트로 보낼 response 객체에 담아주기
-            response.put("staffInfo",staffInfo);
         }
 
         //이메일 검증
@@ -121,7 +121,7 @@ public class SignUpController {
             response.put("isDuplicate",isDuplicate);
         }
 
-
+        log.info("response------------------: {}",response);
 
         return response;
     }
@@ -141,20 +141,43 @@ public class SignUpController {
                     isDuplicate = signUpService.selectDuplicateId(checkValue);
                     log.info("isDuplicate-----checkValue--:{},{}",isDuplicate,checkValue);
                     response.put("isDuplicate", isDuplicate > 0);
-
-
                 }
                 // staffId 이면
                 if(key.equals("staffId")) {
-                    isDuplicate = signUpService.selectDuplicateStaffId(checkValue);
-                    log.info("isDuplicate-----checkValue--:{},{}",isDuplicate,checkValue);
-                    response.put("isDuplicate", isDuplicate > 0);
+                    // 1. 존재하는 사원인지 검증 ( EMP에서 )
+                    SignUpVO staffInfo =signUpService.selectStaffInfo(checkValue);
+                    // 2. 조회한 사원 번호가 있으면, 클라이언트 테이블에서 동일한 사원번호가 있는지 확인
+                    if(staffInfo != null) {
+                        log.info("staffInfo-------------:{}",staffInfo);
+                        String staffName = staffInfo.getStaffName();
+                        String staffBirth = staffInfo.getBirth();
+                        log.info("staffName-------------:{}",staffName);
+                        log.info("staffBirth-----------:{}",staffBirth);
+
+                        //2. 회원가입이 되어있는 회원인지 확인 (CLIENT에서)
+                        // 조회가 있으면 중복되었끼 때문에 중복응답보내기
+                        isDuplicate =  clientService.selectDuplicateClientStaff(checkValue,staffName,staffBirth);
+                        log.info("isDuplicate-----checkValue--:{},{}",isDuplicate,checkValue);
+
+                        // 중복 여부 반환
+                        if (isDuplicate > 0) {
+                            response.put("isDuplicate", true);  // 중복된 사원번호가 있으면 true
+                        } else {
+                            response.put("isDuplicate", false);  // 중복된 사원번호가 없으면 false
+
+                        }
+
+                        // staffInfo를 반환 (사원 정보 포함) --> 클라이언트 조건분기점
+                        response.put("staffInfo", staffInfo);
+
+                    }
+                    //If end
 
                 }
+                //staff If end
             }
-
-
+    //if end
    }
 
-//
+// checkduplicate end
 }

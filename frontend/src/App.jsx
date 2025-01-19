@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import {Routes, Route } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
+
 
 import './App.css'
 import { AuthProvider } from "./pages/common/AuthContext.jsx";
@@ -20,9 +20,6 @@ function App() {
     const [data, setData] = useState('');
     const [url,setUrl] = useState('/api'); // 기본 URL 설정
 
-
-    //현재 경로 가져오기
-    const location = useLocation();
 
 
     useEffect(() => {
@@ -57,8 +54,7 @@ function App() {
     return (
         <div className="App">
             <AuthProvider>
-                {/* 로그인 페이지가 아닐 때만 Header 렌더링 */}
-                {location.pathname !== PathData.page.login && <Header />}
+                 <Header />
                 <Routes>
                     <Route path={PathData.page.home} element={<Main/>} />
                     <Route path={PathData.page.login} element={<Login data={data}/>} />

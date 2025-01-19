@@ -1,174 +1,161 @@
 import Btn from "../../../util/reuseBtn.jsx";
-import {checkDuplicate, validatePasswordMatch} from "../../../util/validation.jsx";
+import FormTag from "../../../util/formTag.jsx"
 import React,{useState,useEffect} from "react";
+import {validTel, validID, validPW} from "../../../util/validation.jsx";
+
+
+import {checkDuplicate, validatePasswordMatch} from "../../../util/validation.jsx";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
 import Select from 'react-select';
 import {generateOptions} from "../../../util/selectDate.jsx";
 
 
-const SignUpInfo = ({formInfoData,setFormInfoData}) => {
+const SignUpInfo = ({formData,setFormData}) => {
+
 
     useEffect(() => {
-        console.log("Updated formInfoData: ", formInfoData);  // formInfoData 값 확인
-    }, [formInfoData]);  // formInfoData가 변경될 때마다 실행
+        console.log("Updated formData: ", formData);  // formInfoData 값 확인
+    }, [formData]);  // formInfoData가 변경될 때마다 실행
 
-    // 공통 입력값 변경 핸들러
+    //에러 상태 초기화 관리
+    const [msg, setMsg] = useState({
+        errorId:"",
+        errorpwd:"",
+        errorpwdConfirm:"",
+        errorEmail:"",
+        errorAddr:"",
+        errorTel:"",
+        errorMemNum:"",
+        errorBirth:"",
+        memberMsg:""
+    });
+    console.log("msg",msg);
+    // 공통 onChange 핸들러
     const handleInputChange = (e) => {
-        //1.이벤트 타겟팅 된 요소의 name과 value 구조분해 할당하기
-        const { name, value } = e.target;
-        //2. formInfoData 이전데이터 유지 및 상태갱신 해주기
-        setFormInfoData((prev) => ({
-            ...prev,
-            [name]: value, // 동적으로 필드 이름 업데이트
-        }));
+        const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
+        setFormData({ ...formData, [name]: value });
 
-      //비밀번호 검증 ( 비밀번호 와 비밀번호 확인 두 조건을 비교해야함 ?? 동시에 비교가 됨?)
-        if (name === "password" || name === "passwordConfirm") {
-            //validatePasswordMatch = (password, confirmPassword)
-            const validationResult = validatePasswordMatch(
-                name === "password" ? value : formInfoData.password, // password 또는 현재 state의 password
-                name === "passwordConfirm" ? value : formInfoData.passwordConfirm // passwordConfirm 또는 현재 state의 passwordConfirm
-            );
-
-            //입력된 상태값 갱신
-            setFormInfoData((prevState) => ({
-                ...prevState,
-                passwordErrorMessage: validationResult.message,
+        console.log("name", name);
+        // 아이디 유효성 검사
+        if (name === "clientId") {
+            const idValidation = validID(value);
+            console.log(idValidation);
+            setMsg((prev) => ({
+                ...prev,
+                errorId: idValidation.valid ? "" : idValidation.message,
             }));
         }
 
-
+//
     };
 
+// 비밀번호 데이터가 변경될 때마다 갱신
+    useEffect(() => {
+        // 비밀번호 동일 여부 확인 , 바로 데이터를 파라미터로 넘겨주기
+        const pwdConfirm = validatePasswordMatch(formData.password, formData.passwordConfirm);
+        setMsg((prev) => ({
+            ...prev,
+            errorpwdConfirm: pwdConfirm.valid ? "" : pwdConfirm.message,
+        }));
 
-    const [result, setResult] = useState({ staffInfo: null });
-    //아이디와 사원아이디 검증
+        // 비밀번호 유효성 검사
+        const pwValidation = validPW(formData.password);
+        setMsg((prev) => ({
+            ...prev,
+            errorpwd: pwValidation.valid ? "" : pwValidation.message,
+        }));
+    }, [formData.password, formData.passwordConfirm]);
+
+    //handler
+    //아이디와 검증 핸들러
     const handleIdConfirm = async (fieldName) => {
-
-    // 서버와 비동기 통신하여 중복 확인 , field이름은 ""(문자열)
+        // 서버와 비동기 통신하여 중복 확인 , field이름은 ""(문자열)
         const apiAddr = "/api/signUp/checkDuplicate"
-
-        const params = new URLSearchParams({ [fieldName]: formInfoData[fieldName] });
-      //  const params = new URLSearchParams({ clientId:formInfoData.clientId});
-        console.log("params",params);
-        // params에서 key만 가져오기
-
+        const params = new URLSearchParams({ [fieldName]: formData[fieldName] });
+        //  const params = new URLSearchParams({ clientId:formInfoData.clientId});
         // 비동기 함수 호출
         try {
-            // 비동기 함수 호출 (fieldName과 해당 값을 전달)
-            const result = await checkDuplicate(apiAddr, fieldName, params.get(fieldName));
-            console.log("result------------frontEnd",result);
-            // result가 넘어왔을 때 객체 내부에 staffInfo를 담고 있으니까, result값 state 초기값을 갱신
-            setResult(result);
-            
-            //result.staffInfo 가 잇으면 (True  이면)
-            if (result.staffInfo) {
-                // 사원번호 확인이 되면 이름 자동 입력
-                setFormInfoData((prev) => ({
-                    ...prev,
-                    clientName: result.staffInfo.staffName, // 사원명 자동 입력
-                    roleId :`ROLE_${result.staffInfo.roleId}`, //roleId 설정
-                    }));
-            }
-            
+            // 비동기 함수 호출 (fieldName과 해당 값을 전달 , 아이디 중복검증 비동기 요청)
+            const userInfo = await checkDuplicate(apiAddr, fieldName, params.get(fieldName));
+            console.log("userInfo------------",userInfo);
+            console.log("userInfo.message",userInfo.message)
 
-            alert(result.message); // 중복 여부 메시지 출력
+            if (userInfo.message.includes("사원번호")) {
+                console.log("-----------")
+                setMsg((prevState) =>(
+                    {
+                        ...prevState,
+                        memberMsg: userInfo.message
+                    }))
+
+            }else{
+                setMsg((prevState) =>(
+                    {
+                        ...prevState,
+                        errorId: userInfo.message
+                    }))
+            }
+
+
         } catch (err) {
             console.error(`중복 확인 중 오류 발생 (${fieldName}):`, err);
         }
     };
 
-    //생일
-    const yearOptions = generateOptions(1990, 2024, "년"); // 1990년부터 2024년까지
+    //birth handler
+    //react-select Api에서 생년월일 가져오기
+    const yearOptions = generateOptions(1920, 2030, "년"); // 1990년부터 2024년까지
     const monthOptions = generateOptions(1, 12, "월", true); // 1월부터 12월까지 (0 패딩)
     const dayOptions = generateOptions(1, 31, "일", true); // 1일부터 31일까지 (0 패딩)
-
-    // 사원여부
-    const [isStaff, setIsStaff] = useState("no"); // 기본값을 "no"(아니오)로 설정
-    // 라디오 버튼 변경 핸들러
-    const handleStaffChange = (e) => {
-        console.log("staffId",e.target.value);
-        setIsStaff(e.target.value);
-    };
-
-
-
-    // 1. 배열을 함수 밖에 선언하여 상태를 유지,  selectedOption을 배열에 하나씩 저장
-    let birthObject = {}; // key와 value 형태로 사용할 경우, 빈 객체로 시작 또는 useState로 관리
-    //생년월일
+    
+    const [birth, setBirth] = useState({})
     const handleBirthChange= (selectedOption,name) => {
 
         // 2. 기존 값을 불러와서 키-값 형태로 설정 (객체에 key : value  추가) , name에 따른 vale에 2자리 중 빈자리 0 추가
         if(name === 'birthMonth' || name === 'birthDay'){
-            birthObject[name] = String(selectedOption.value).padStart(2, "0");
-           
-        }else{ 
+            //  name에 따른 value에 2자리 중 빈자리 0 추가
+            const value = String(selectedOption.value).padStart(2, "0");
+
+            setBirth((prevState) => ({
+                ...prevState,
+                [name]: value, // 이전 상태를 유지하면서 name에 해당하는 값만 업데이트
+            }));
+
+        }else{
             // birthYear인 경우 그냥 추가
-            birthObject[name] = selectedOption.value;
+            setBirth((prevState) => ({
+                ...prevState,
+                [name]: selectedOption.value,
+            }));
+
         }
 
         // '년, 월 ,일 ' 모든 값이 있을 때만 infoDate의 'birth'를 갱신
-        if (birthObject.birthYear && birthObject.birthMonth && birthObject.birthDay) {
+        if (birth.birthYear && birth.birthMonth && birth.birthDay) {
             // 'birthYear', 'birthMonth', 'birthDay' 값이 모두 있으면
-            setFormInfoData((prev) => ({
+            setFormData((prev) => ({
                 ...prev,
-                birth: `${birthObject.birthYear}-${birthObject.birthMonth}-${birthObject.birthDay}`,
+                birth: `${birth.birthYear}-${birth.birthMonth}-${birth.birthDay}`,
             }));
         }
-        //최종값 확인   console.log("Updated Birth Object:", birthObject); // 객체 출력
+        //최종값 확인
+        // console.log("Updated Birth Object:", birth); // 객체 출력
 
     }
 
-    //전화번호 : handlerObject , e.target.name, e.target.value
-    const [telObject, setTelObject] = useState({
-        FirstTelNum: '',
-        secondTelNum: '',
-        lastTelNum: ''
-    });
+    //주소
+    const handleAddressSelect = (addressObject) => {
 
-    const handleTelChange=(e)=>{
-        //console.log("tel",e.target.value,e.target.name);
-        // e.target된 요소의 name,value로 구조분해 할당하며, 초기화값을 의미
-        const { name, value } = e.target;
-        //두 번째 전화번호 이거나 세 번째 전화번호이면
-        if(name === "secondTelNum" || name === "lastTelNum"){
-            // 숫자만 허용, 아니면 경고창 띄우기
-            if (!/^\d*$/.test(value)) {
-                alert("숫자만 입력해주세요");
-                e.target.value = ""; // 숫자가 아닌 값은 입력을 지움
-                return; // 더 이상 진행하지 않음
-            }
+        // 다음 API에서 받은 데이터 infoData에 갱신해주기
+        setFormData((prev)=>({
+            ...prev,
+            addr:addressObject.fullAddress,
+            zoneCode:addressObject.zonecode,
+        }));
 
-            // 2. 최대 길이 확인
-            if (value.length > 4) {
-                alert("최대 4자리까지만 입력 가능합니다.");
-                e.target.value = ""; // 4자리 초과 시 값 비우기
-            }
-        }
+    };
 
-        // 3. telObject 객체에 전화번호 객체 값 저장( 이전값 + 갱신값)_
-        // 이전값 파라미터prevTelObject
-        setTelObject((prevTelObject) =>{
-            //불변성 유지 , 새로운 값 추가
-            const newTelObject = { ...prevTelObject, [name]: value };
-            // 전화번호 3자리 전부 있을 경우
-            if (newTelObject.FirstTelNum && newTelObject.secondTelNum && newTelObject.lastTelNum) {
-                // FormInfoData의 tel 갱신
-                setFormInfoData((prev) => ({
-                    ...prev,
-                    tel: `${newTelObject.FirstTelNum}-${newTelObject.secondTelNum}-${newTelObject.lastTelNum}`
-                }));
-            }
-
-            //3자리 모두 될 때까지 반환해서 telObject 갱신
-            return newTelObject;
-        });
-
-    }
-    console.log("telObject------",telObject);
-    console.log("formInfoDat--------------------",formInfoData);
-
-    //email
+    //이메일
     const [emailData, setemailData] = useState({
         emailId: "",
         emailAddrInput: "",
@@ -177,7 +164,8 @@ const SignUpInfo = ({formInfoData,setFormInfoData}) => {
     //email
     useEffect(() => {
         if (emailData.emailId && emailData.emailAddrInput) {
-            setFormInfoData((prev) => ({
+
+            setFormData((prev) => ({
                 ...prev,
                 email: `${emailData.emailId}@${emailData.emailAddrInput}`,
             }));
@@ -190,202 +178,255 @@ const SignUpInfo = ({formInfoData,setFormInfoData}) => {
         console.log("e.target.value", e.target.value);
 
 
-    //...(스프레드 연산자)는 객체를 "펼쳐서" 새로운 객체에 병합하거나 추가하는 역할을 합니다.
+        //...(스프레드 연산자)는 객체를 "펼쳐서" 새로운 객체에 병합하거나 추가하는 역할을 합니다.
         setemailData((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
             ...(e.target.name === "emailAddrSelect" && { emailAddrInput: e.target.value }), // emailAddrSelect 처리
         }));
 
-    //end
+        //end
     }
 
-    //주소
-    const handleAddressSelect = (addressObject) => {
+    //전화번호 : handlerObject , e.target.name, e.target.value
+    const [tel, setTel] = useState({}); // 빈값으로 두면 undefind로 출력되기때문에 태그요소 value 초기값 설정하기
 
-        // 다음 API에서 받은 데이터 infoData에 갱신해주기
-        setFormInfoData((prev)=>({
-            ...prev,
-            addr:addressObject.fullAddress,
-            zoneCode:addressObject.zonecode,
-        }));
+    const handleTelChange=(eventTarget,name)=>{
+        // Select 컴포넌트의 onChange
+        if (name) { // 파라미터에 name값이 넘어올 경우
 
+            setTel((prevState) => ({
+                ...prevState,
+                [name]: eventTarget.value,
+            }));
+        } else {
+            // FormTag 컴포넌트의 onChange
+            const { name, value } = eventTarget.target;
+            console.log("Input change: ", name, value);
+
+            setTel((prevState) => ({
+                ...prevState,
+                [name]: value,
+            }));
+        }
+        
+        // 전체 데이터 formData에 갱신하기
+        if (tel.FirstTelNum && tel.secondTelNum && tel.lastTelNum) {
+            // FormInfoData의 tel 갱신
+            setFormData((prev) => ({
+                ...prev,
+                tel: `${tel.FirstTelNum}-${tel.secondTelNum}-${tel.lastTelNum}`
+            }));
+        }
+        return tel;
+    }
+    console.log("telObject------",tel);
+
+//사원여부 --> 이름, 생년월일, 전화번호, 사원번호로 조회하여 확인하기
+
+    // 사원여부
+    const [isStaff, setIsStaff] = useState("no"); // 기본값을 "no"(아니오)로 설정
+    // 라디오 버튼 변경 핸들러
+    const handleStaffChange = (e) => {
+        console.log("staffId",e.target.value);
+        setIsStaff(e.target.value);
     };
-//
 
-    console.log("formInfoData----",formInfoData);
 
-//
+
+    //
     return(
         <>
             {/*아이디*/}
             <form>
+                {/*id*/}
                 <div>
-                    <label>아이디 </label>
-                    <input type="text" name="clientId" placeholder="아이디를 입력해주세요" value={formInfoData.clientId}
-                           onChange={handleInputChange}
-                    />
+                    <FormTag label="아이디" name="clientId"
+                             value={formData.clientId}
+                             onChange={handleInputChange} msg={msg.errorId}/>
                     <Btn text="중복확인" type="button" onClick={() => {
-                        handleIdConfirm("clientId", formInfoData.clientId)
+                        handleIdConfirm("clientId", formData.clientId)
                     }}/>
-                    <span className="error"></span>
-
                 </div>
 
-                {/*비밀번호*/}
+                {/*pw*/}
                 <div>
-                    <label htmlFor="password">비밀번호 </label>
-                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력해주세요" value={formInfoData.password}
-                           onChange={handleInputChange} />
+                    <FormTag label="비밀번호" name="password" type="password"
+                             value={formData.password}
+                             onChange={handleInputChange} msg={msg.errorpwd}/>
+                    <FormTag label="비밀번호확인" name="passwordConfirm"  type="password"
+                             value={formData.passwordConfirm}
+                             onChange={handleInputChange} msg={msg.errorpwdConfirm}/>
+                    <FormTag label="이름" name="clientName"
+                             value={formData.clientName}
+                             onChange={handleInputChange}/>
                 </div>
+                {/* 생년월일 */}
                 <div>
-                    <label htmlFor="passwordConfirm">비밀번호 확인 </label>
-                    <input type="password"  id="passwordConfirm" name="passwordConfirm"  placeholder="비밀번호를 입력해주세요"
-                           value={formInfoData.passwordConfirm} onChange={handleInputChange}/>
-                    {formInfoData.passwordErrorMessage && (
-                        <span className="error">{formInfoData.passwordErrorMessage}</span>
-                    )}
-                </div>
-                {/*사원확인*/}
-                <div className="Info staff">
-                    <label>사원여부</label>
-                    <div>
-                        <label htmlFor="yes">예</label>
-                        <input
-                            type="radio"
-                            id="yes"
-                            name="yes"
-                            value="yes"
-                            checked={isStaff === "yes"} // 선택 상태 확인
-                            onChange={handleStaffChange}
+                    <div className="Info birth">
+                        <label>생년월일</label>
+                        <Select
+                            name="birthYear"
+                            id="birthYear"
+                            options={yearOptions}
+                            onChange={(selectedOption) => handleBirthChange(selectedOption, "birthYear")}
+                            placeholder="연도 선택"
                         />
+                        <Select
+                            name="birthMonth"
+                            id="birthMonth"
 
-                        <label htmlFor="no">아니오</label>
-                        <input
-                            type="radio"
-                            id="no"
-                            name="no"
-                            value="no"
-                            checked={isStaff === "no"} // 기본값으로 설정
-                            onChange={handleStaffChange}
+                            options={monthOptions}
+                            onChange={(selectedOption) => handleBirthChange(selectedOption, "birthMonth")}
+                            placeholder="월 선택"
                         />
+                        <Select
+                            name="birthDay"
+                            id="birthDay"
 
-                        {isStaff === "yes" && (
-                            // 조건부 렌더링 시 다중 요소를 React Fragment로 감쌈
-                            <>
-                                <input
-                                    type="text"
-                                    name="staffId"
-                                    value={formInfoData.staffId}
-                                    onChange={handleInputChange}
-                                    placeholder="사원번호를 입력해주세요"
-                                />
-                                <Btn text="사원번호확인" type="button" onClick={()=>{
-                                    handleIdConfirm("staffId", formInfoData.staffId)
-                                }}  />
-                            </>
-                        )}
-                        {/* result.staffInfo가 존재하면 그 정보를 출력 */}
-                        {result.staffInfo && (
-                            <div>
-                                <div><strong>사원번호:</strong> {result.staffInfo.staffId}</div>
-                                <div><strong>사원명:</strong> {result.staffInfo.staffName}</div>
-                                <div><strong>부서명:</strong> {result.staffInfo.departName}</div>
-                                <div><strong>입사일:</strong> {result.staffInfo.startDate}</div>
-                            </div>
-                        )}
-
+                            options={dayOptions}
+                            onChange={(selectedOption) => handleBirthChange(selectedOption, "birthDay")}
+                            placeholder="일 선택"
+                        />
                     </div>
-
                 </div>
-                {/*이름*/}
-                <div className="Info name">
-                    <label>이름</label>
-                    <input type="text" name="clientName" value={formInfoData.clientName} onChange={handleInputChange}
-                           placeholder="이름을 입력해주세요"/>
-                </div>
-                {/*생일*/}
-                <div className="Info birth">
-                    <label>생년월일</label>
+                {/*전화번호*/}
+                <div>
                     <Select
-                        name="birthYear"
-                        id="birthYear"
-
-                        options={yearOptions}
-                        onChange={(selectedOption) => handleBirthChange(selectedOption, "birthYear")}
-                        placeholder="연도 선택"
+                        name="FirstTelNum"
+                        id="FirstTelNum"
+                        onChange={(selectedOption) => {
+                            console.log("selectedOption", selectedOption);
+                            handleTelChange({ target: { name:"FirstTelNum", value: selectedOption.value } });
+                        }}
+                        options={[
+                            { value: '직접선택', label: '직접선택' },
+                            { value: '010', label: '010' },
+                        ]}
                     />
-                    <Select
-                        name="birthMonth"
-                        id="birthMonth"
-
-                        options={monthOptions}
-                        onChange={(selectedOption) => handleBirthChange(selectedOption, "birthMonth")}
-                        placeholder="월 선택"
+                    <span>-</span>
+                    <FormTag
+                        name="secondTelNum"
+                        value={tel.secondTelNum || ""}
+                        onChange={handleTelChange}
+                        placeholder="두 번째 전화번호 입력"
                     />
-                    <Select
-                        name="birthDay"
-                        id="birthDay"
-
-                        options={dayOptions}
-                        onChange={(selectedOption) => handleBirthChange(selectedOption, "birthDay")}
-                        placeholder="일 선택"
+                    <span>-</span>
+                    <FormTag
+                        name="lastTelNum"
+                        value={tel.lastTelNum || ""}
+                        onChange={handleTelChange}
+                        placeholder="마지막 전화번호 입력"
                     />
                 </div>
                 {/*이메일*/}
-                <div className="Info email">
-                    <label>이메일 </label>
-                    <input type="text" name="emailId" value={emailData.emailId} onChange={handleEmailChange}
-                           placeholder="ex)이메일아이디"/>
+                <div>
+                    <FormTag
+                        label="이메일아이디"
+                        name="emailId"
+                        value={emailData.emailId}
+                        onChange={handleEmailChange}
+                        placeholder="ex) 이메일아이디"
+                    />
                     <span id="at">@</span>
-                    <input type="text" name="emailAddrInput" value={emailData.emailAddrInput} onChange={handleEmailChange}
-                           placeholder="ex)이메일주소"/>
-                    <select name="emailAddrSelect" value={emailData.emailAddrSelect} onChange={handleEmailChange} >
-                        <option key="1" value="직접선택">직접선택</option>
-                        <option key="2" value="naver.com">naver.com</option>
-                        <option key="3" value="google.com">google.com</option>
-                        <option key="4" value="daum.net">daum.net</option>
-                    </select>
-                    {/*<p>{emailCheckMessage}</p>*/}
-                </div>
+                    <FormTag
+                        label="이메일주소"
+                        name="emailAddrInput"
+                        value={emailData.emailAddrInput}
+                        onChange={handleEmailChange}
+                        placeholder="ex) 이메일주소"
+                    />
 
-                {/*전화번호*/}
-                <div className="Info tel">
-                    <label>전화번호</label>
-                    <select name="FirstTelNum" id="FirstTelNum" value={telObject.FirstTelNum} onChange={handleTelChange}>
-                        <option key="1" value="직접선택">직접선택</option>
-                        <option key="2" value="010">010</option>
-                    </select>
-                    <span>-</span>
-                    <input type="text" name="secondTelNum" value={telObject.secondTelNum} onChange={handleTelChange} placeholder={`"두 번째 전화번호 입력"`}/>
-                    <span>-</span>
-                    <input type="text" name="lastTelNum" value={telObject.lastTelNum} onChange={handleTelChange} placeholder={`"마지막 번째 전화번호 입력"`}/>
+                    <Select
+                        name="emailAddrSelect"
+                        value={{ value: emailData.emailAddrSelect, label: emailData.emailAddrSelect }}
+                        onChange={(selectedOption) => {
+                            console.log("selectedOption", selectedOption);
+                            handleEmailChange({ target: { name: 'emailAddrSelect', value: selectedOption.value } });
+                        }}
+                        options={[
+                            { value: '직접선택', label: '직접선택' },
+                            { value: 'naver.com', label: 'naver.com' },
+                            { value: 'google.com', label: 'google.com' },
+                            { value: 'daum.net', label: 'daum.net' },
+                        ]}
+                    />
+
                 </div>
-                {formInfoData.errorMessage && (
-                    <span className="error">{formInfoData.errorMessage}</span>
-                )}
 
                 {/*주소*/}
-                <div className="Info Address">
-                    <div>
-                        {/* 카카오톡 API 주소 , 각각 갈라서 백으로 전달*/}
-                        <label>주소 </label>
-                        <input type="text" name="addr" value={formInfoData.addr} placeholder="주소"/>
-                        <input type="text" name="zoneCode" value={formInfoData.zoneCode} placeholder="우편번호"/>
-                        <DaumPostcode onAddressSelect={handleAddressSelect}/>
-                    </div>
-                    <div>
-                        <label>상세주소</label>
-                        <input type="text" name="detailAddr" value={formInfoData.detailAddr} onChange={handleInputChange}
-                               placeholder="상세주소 입력"/>
-                    </div>
+                <div>
+                    <FormTag
+                        label="주소"
+                        name="addr"
+                        value={formData.addr}
+                        placeholder="주소"
+                        onChange={handleInputChange}
+                    />
+                    <FormTag
+                        label="우편번호"
+                        name="zoneCode"
+                        value={formData.zoneCode}
+                        placeholder="우편번호"
+                        onChange={handleInputChange}
+                    />
+                    <DaumPostcode onAddressSelect={handleAddressSelect} />
+                    <FormTag
+                        label="상세주소"
+                        name="detailAddr"
+                        value={formData.detailAddr}
+                        onChange={handleInputChange}
+                        placeholder="상세주소 입력"
+                    />
                 </div>
+                {/*member*/}
+                <div>
+                    <FormTag
+                        label="예"
+                        name="isStaff"
+                        value="yes"
+                        type="radio"
+                        checked={isStaff === "yes"} // 선택 상태 확인
+                        onChange={handleStaffChange}
+                        htmlFor="yes"
+                    />
+                    <FormTag
+                        label="아니오"
+                        name="isStaff"
+                        value="no"
+                        type="radio"
+                        checked={isStaff === "no"} // 선택 상태 확인
+                        onChange={handleStaffChange}
+                        htmlFor="no"
+                    />
+                    {isStaff === "yes" && (
+                        <>
+                            <FormTag
+                                label="사원번호"
+                                name="staffId"
+                                value={formData.staffId}
+                                type="text"
+                                onChange={handleInputChange}
+                                placeholder="사원번호를 입력해주세요"
+                                msg={msg.memberMsg}
+                            />
+                            <Btn
+                                text="사원번호확인"
+                                type="button"
+                                onClick={() => {
+                                    handleIdConfirm("staffId", formData.staffId);
+                                }}
+                            />
+                        </>
+                    )}
+                </div>
+
             </form>
         </>
     )
 }
 
-export default React.memo(SignUpInfo);
+export default SignUpInfo;
 
 
 //react -select https://react-select.com/home
