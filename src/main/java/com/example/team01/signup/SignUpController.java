@@ -40,7 +40,8 @@ public class SignUpController {
             log.info("password------------------: {}", password);
 
             // `joinDate`를 현재 시간으로 설정
-            joinUser.setJoinDate(LocalDateTime.now());
+          //  joinUser.setJoinDate(LocalDateTime.now());
+
             // `status`를 기본값 "회원"으로 설정
             joinUser.setStatus("회원");
 
@@ -164,12 +165,11 @@ public class SignUpController {
                             response.put("isDuplicate", true);  // 중복된 사원번호가 있으면 true
                         } else {
                             response.put("isDuplicate", false);  // 중복된 사원번호가 없으면 false
-
+                            response.put("staffInfo", staffInfo);
+                            log.info("22222-------------:{}",staffInfo);
                         }
 
-                        // staffInfo를 반환 (사원 정보 포함) --> 클라이언트 조건분기점
-                        response.put("staffInfo", staffInfo);
-
+                    //
                     }
                     //If end
 

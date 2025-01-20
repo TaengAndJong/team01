@@ -70,15 +70,24 @@ const SignUpInfo = ({formData,setFormData}) => {
         // 비동기 함수 호출
         try {
             // 비동기 함수 호출 (fieldName과 해당 값을 전달 , 아이디 중복검증 비동기 요청)
-            const userInfo = await checkDuplicate(apiAddr, fieldName, params.get(fieldName));   
+            const userInfo = await checkDuplicate(apiAddr, fieldName, params.get(fieldName));
+                console.log("userInfo-------",userInfo)
             //사원번호와 아이디 검증 분기점
             if (userInfo.message.includes("사원번호")) {
-                console.log("-----------")
+
                 setMsg((prevState) =>(
                     {
                         ...prevState,
                         memberMsg: userInfo.message
                     }))
+
+                setFormData((prevState) =>(
+                    {
+                        ...prevState,
+                        roleId:userInfo.roleId,
+                        joinDate:userInfo.joinDate,
+                    }
+                ));
             }else{
                 setMsg((prevState) =>(
                     {

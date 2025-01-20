@@ -69,8 +69,6 @@ export const checkDuplicate = async (apiAddr,field, value) => {
         //응답 받은 데이터 제이슨으로 파싱
         const result = await response.json();
         // 빈값 여부 ?확인 ?
-
-
         //중복여부 반환 ==> result.isDuplicate 는 서버에서 보낸 isDuplicate 속성을 의미함
         if(field ==='clientId'){
             return  result.isDuplicate?{ valid: false, message: `${field}(이)가 중복되었습니다.` }:{ valid: true, message: "사용가능합니다." };
@@ -83,7 +81,11 @@ export const checkDuplicate = async (apiAddr,field, value) => {
                 let [date, time] = startDate.split("T");  // "T"를 기준으로 나눔어 구조 분해 할당 해줌
                 // 이제 'date'만 다시 result.staffInfo.startDate에 할당
                 result.staffInfo.startDate = date;
-                return result.isDuplicate? { valid: true, message: `사원번호 ${value}가 이미 존재합니다.`, staffInfo: result.staffInfo}:{ valid: false, message: `${result.staffInfo.staffName}님 사원번호 ${result.staffInfo.staffId}가 확인되었습니다.` };
+                let roleId = result.staffInfo.roleId;
+                return result.isDuplicate? { valid: true, message: `사원번호 ${value}가 이미 존재합니다.`, staffInfo: result.staffInfo}
+                    :{ valid: false,
+                        message: `${result.staffInfo.staffName}님 사원번호 ${result.staffInfo.staffId}가 확인되었습니다.`,
+                        roleId:`ROLE_${result.staffInfo.roleId}`, };
             }
             //
         }

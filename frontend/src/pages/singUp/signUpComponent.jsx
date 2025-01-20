@@ -22,7 +22,8 @@ const SignUpComponent = () => {
         tel:"",
         addr:"",
         zoneCode:"",
-        detailAddr:""
+        detailAddr:"",
+
     });
 
 
