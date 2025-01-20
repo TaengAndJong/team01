@@ -1,20 +1,18 @@
+import Select from 'react-select';
+import React,{useState,useEffect} from "react";
+
 import Btn from "../../../util/reuseBtn.jsx";
 import FormTag from "../../../util/formTag.jsx"
-import React,{useState,useEffect} from "react";
-import {validTel, validID, validPW} from "../../../util/validation.jsx";
-
-
-import {checkDuplicate, validatePasswordMatch} from "../../../util/validation.jsx";
+import {validID, validPW, validEachTel,checkDuplicate, validatePasswordMatch} from "../../../util/validation.jsx";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
-import Select from 'react-select';
 import {generateOptions} from "../../../util/selectDate.jsx";
+
 
 
 const SignUpInfo = ({formData,setFormData}) => {
 
 
     useEffect(() => {
-        console.log("Updated formData: ", formData);  // formInfoData 값 확인
     }, [formData]);  // formInfoData가 변경될 때마다 실행
 
     //에러 상태 초기화 관리
@@ -29,23 +27,19 @@ const SignUpInfo = ({formData,setFormData}) => {
         errorBirth:"",
         memberMsg:""
     });
-    console.log("msg",msg);
     // 공통 onChange 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
         setFormData({ ...formData, [name]: value });
 
-        console.log("name", name);
-        // 아이디 유효성 검사
-        if (name === "clientId") {
+         // 아이디 유효성 검사
+         if (name === "clientId") {
             const idValidation = validID(value);
-            console.log(idValidation);
             setMsg((prev) => ({
                 ...prev,
                 errorId: idValidation.valid ? "" : idValidation.message,
             }));
-        }
-
+       }
 //
     };
 
@@ -66,7 +60,7 @@ const SignUpInfo = ({formData,setFormData}) => {
         }));
     }, [formData.password, formData.passwordConfirm]);
 
-    //handler
+
     //아이디와 검증 핸들러
     const handleIdConfirm = async (fieldName) => {
         // 서버와 비동기 통신하여 중복 확인 , field이름은 ""(문자열)
@@ -76,10 +70,8 @@ const SignUpInfo = ({formData,setFormData}) => {
         // 비동기 함수 호출
         try {
             // 비동기 함수 호출 (fieldName과 해당 값을 전달 , 아이디 중복검증 비동기 요청)
-            const userInfo = await checkDuplicate(apiAddr, fieldName, params.get(fieldName));
-            console.log("userInfo------------",userInfo);
-            console.log("userInfo.message",userInfo.message)
-
+            const userInfo = await checkDuplicate(apiAddr, fieldName, params.get(fieldName));   
+            //사원번호와 아이디 검증 분기점
             if (userInfo.message.includes("사원번호")) {
                 console.log("-----------")
                 setMsg((prevState) =>(
@@ -87,7 +79,6 @@ const SignUpInfo = ({formData,setFormData}) => {
                         ...prevState,
                         memberMsg: userInfo.message
                     }))
-
             }else{
                 setMsg((prevState) =>(
                     {
@@ -112,7 +103,7 @@ const SignUpInfo = ({formData,setFormData}) => {
     const handleBirthChange= (selectedOption,name) => {
 
         // 2. 기존 값을 불러와서 키-값 형태로 설정 (객체에 key : value  추가) , name에 따른 vale에 2자리 중 빈자리 0 추가
-        if(name === 'birthMonth' || name === 'birthDay'){
+        if (name === 'birthMonth' || name === 'birthDay') {
             //  name에 따른 value에 2자리 중 빈자리 0 추가
             const value = String(selectedOption.value).padStart(2, "0");
 
@@ -121,15 +112,21 @@ const SignUpInfo = ({formData,setFormData}) => {
                 [name]: value, // 이전 상태를 유지하면서 name에 해당하는 값만 업데이트
             }));
 
-        }else{
+            console.log("birth=------",birth)
+        } else {
             // birthYear인 경우 그냥 추가
             setBirth((prevState) => ({
                 ...prevState,
                 [name]: selectedOption.value,
             }));
 
+            console.log("birth=------",birth)
         }
 
+    }
+
+    //birth 상태 변경 될 때마다 갱신
+    useEffect(() => {
         // '년, 월 ,일 ' 모든 값이 있을 때만 infoDate의 'birth'를 갱신
         if (birth.birthYear && birth.birthMonth && birth.birthDay) {
             // 'birthYear', 'birthMonth', 'birthDay' 값이 모두 있으면
@@ -138,10 +135,9 @@ const SignUpInfo = ({formData,setFormData}) => {
                 birth: `${birth.birthYear}-${birth.birthMonth}-${birth.birthDay}`,
             }));
         }
-        //최종값 확인
-        // console.log("Updated Birth Object:", birth); // 객체 출력
 
-    }
+    }, [birth]);
+
 
     //주소
     const handleAddressSelect = (addressObject) => {
@@ -190,11 +186,9 @@ const SignUpInfo = ({formData,setFormData}) => {
 
     //전화번호 : handlerObject , e.target.name, e.target.value
     const [tel, setTel] = useState({}); // 빈값으로 두면 undefind로 출력되기때문에 태그요소 value 초기값 설정하기
-
     const handleTelChange=(eventTarget,name)=>{
         // Select 컴포넌트의 onChange
         if (name) { // 파라미터에 name값이 넘어올 경우
-
             setTel((prevState) => ({
                 ...prevState,
                 [name]: eventTarget.value,
@@ -204,12 +198,31 @@ const SignUpInfo = ({formData,setFormData}) => {
             const { name, value } = eventTarget.target;
             console.log("Input change: ", name, value);
 
-            setTel((prevState) => ({
-                ...prevState,
-                [name]: value,
-            }));
+            // 전화번호 업데이팅 되기전 두 or 세번째 데이터  검증 후 업데이팅
+            if(name === "secondTelNum" || name === "lastTelNum"){
+
+                //true ,false 반환
+                const eachTelNumVailid = validEachTel(name,value);
+                //한번만 갱신하면됨
+                setMsg((prev) => ({
+                    ...prev,
+                    errorTel: eachTelNumVailid.valid ? "" : eachTelNumVailid.message, // true , false 에 따라 출력
+                }));
+
+            }
+        //전화번호 입력값 상태관리
+        setTel((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+        //
         }
-        
+
+        return tel;
+    }
+
+    // tel 객체 갱신될 때마다 반영
+    useEffect(()=>{
         // 전체 데이터 formData에 갱신하기
         if (tel.FirstTelNum && tel.secondTelNum && tel.lastTelNum) {
             // FormInfoData의 tel 갱신
@@ -218,9 +231,9 @@ const SignUpInfo = ({formData,setFormData}) => {
                 tel: `${tel.FirstTelNum}-${tel.secondTelNum}-${tel.lastTelNum}`
             }));
         }
-        return tel;
-    }
-    console.log("telObject------",tel);
+    },[tel])
+
+
 
 //사원여부 --> 이름, 생년월일, 전화번호, 사원번호로 조회하여 확인하기
 
@@ -228,12 +241,12 @@ const SignUpInfo = ({formData,setFormData}) => {
     const [isStaff, setIsStaff] = useState("no"); // 기본값을 "no"(아니오)로 설정
     // 라디오 버튼 변경 핸들러
     const handleStaffChange = (e) => {
-        console.log("staffId",e.target.value);
+
         setIsStaff(e.target.value);
     };
 
 
-
+    console.log("formData", formData);
     //
     return(
         <>
@@ -255,7 +268,7 @@ const SignUpInfo = ({formData,setFormData}) => {
                              value={formData.password}
                              onChange={handleInputChange} msg={msg.errorpwd}/>
                     <FormTag label="비밀번호확인" name="passwordConfirm"  type="password"
-                             value={formData.passwordConfirm}
+                             value={formData.passwordConfirm }
                              onChange={handleInputChange} msg={msg.errorpwdConfirm}/>
                     <FormTag label="이름" name="clientName"
                              value={formData.clientName}
@@ -318,6 +331,9 @@ const SignUpInfo = ({formData,setFormData}) => {
                         onChange={handleTelChange}
                         placeholder="마지막 전화번호 입력"
                     />
+                    {msg.errorTel && (
+                        <span>{msg.errorTel}</span>
+                    )}
                 </div>
                 {/*이메일*/}
                 <div>

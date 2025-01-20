@@ -2,11 +2,12 @@
 import React, { useEffect, useState} from "react";
 import Btn from "../../util/reuseBtn.jsx";
 import SignUpInfo from "./components/signUpInfo.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 
 const SignUpComponent = () => {
-
+    const navigate = useNavigate();
 
     // formInfoData를 부모 컴포넌트로부터 props로 받아온다고 가정합니다.
     const [formData,setFormData] = useState({
@@ -47,6 +48,7 @@ const SignUpComponent = () => {
             if (result.success) {
                 alert(`회원가입이 성공적으로 완료되었습니다! : ${result.message}` );
                 // 성공 시 추가 작업 (예: 로그인 페이지로 이동)
+                navigate("/");
             } else {
                 // success : false
                 alert(`회원가입 실패: ${result.message}`);

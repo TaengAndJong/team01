@@ -43,7 +43,6 @@ function App() {
 
             })
             .then((data) => {
-                console.log('Received data:', data); // 받은 문자열 출력
                 setData(data); // 받은 문자열 상태에 저장
             })
             .catch((error) => console.error('Fetch error:', error));

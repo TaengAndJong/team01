@@ -10,7 +10,6 @@ function Login({data}) {
     const { login } = useAuth(); // 로그인 상태 업데이트 함수
     const navigate = useNavigate();
 
-    console.log("data---111",data);
 
     const handleIdChange = (e) => {
         console.log("id" , e.target.value)

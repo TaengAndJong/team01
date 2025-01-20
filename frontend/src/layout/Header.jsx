@@ -14,8 +14,6 @@ const Header = () => {
     const {logout} = useAuth();
    const navigate = useNavigate();
 
-    console.log("userData----------------",userData);
-    console.log("isAuthenticated----------------",isAuthenticated);
 
 
     const handleLogout = async () => {
@@ -31,12 +29,12 @@ const Header = () => {
             });
 
             if (response.ok) {
-                console.log("logout response", response);
+
 
                 // 로그아웃 성공 시, 인증 상태를 업데이트하거나 다른 동작
                 // AuthContext에서 인증 상태를 업데이트하는 로직
                 logout();
-                console.log("로그아웃 성공");
+
               // 로그아웃 후 리다이렉트
                 navigate("/")
             } else {
