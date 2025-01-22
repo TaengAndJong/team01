@@ -14,7 +14,7 @@ public interface ClientDao {
 
     // 회원가입할 사원 데이터 조회
     public ClientVO selectOneStaff(String staffId, String staffName,String staffBirth);
-    public int selectDuplicateClientStaff(String staffId, String staffName,String staffBirth);
+    public int selectDuplicateClientStaff(String staffId);
 
     //클라이언트 Id에 따른 클라이언트정보와 Role 동시조회
     public ClientVO getClientWithRole(String clientId);

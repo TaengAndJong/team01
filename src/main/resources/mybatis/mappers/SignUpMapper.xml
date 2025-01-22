@@ -8,8 +8,8 @@
     <!-- 변경되는 데이터가 없을 때 resultType 안 써도 됨 -->
     <insert id="insertUserData" parameterType="SignUpVO">
         <!-- DB Code 작성 -->
-        INSERT INTO client ("clientId","roleId", "clientName", "password", "birth", "tel", "zoneCode", "addr", "detailAddr", "email", "picture")
-        VALUES (#{clientId}, REPLACE(#{roleId}, ' ', ''), #{clientName}, #{password}, #{birth}, #{tel}, #{zoneCode}, #{addr}, #{detailAddr}, #{email},#{picture})
+        INSERT INTO client ("clientId","roleId", "clientName", "password", "birth", "tel", "zoneCode", "addr", "detailAddr", "email", "picture","joinDate","staffId")
+        VALUES (#{clientId}, REPLACE(#{roleId}, ' ', ''), #{clientName}, #{password}, #{birth}, #{tel}, #{zoneCode}, #{addr}, #{detailAddr}, #{email},#{picture},#{joinDate},#{staffId})
     </insert>
 
     <!-- 아이디 중복 확인 -->

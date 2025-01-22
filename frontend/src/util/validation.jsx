@@ -77,15 +77,19 @@ export const checkDuplicate = async (apiAddr,field, value) => {
         if(field ==='staffId'){
             //result.staffInfo 존재하면 true
             if(result.staffInfo){
-                let startDate = result.staffInfo.startDate;  // 예: "2015-03-01T00:00:00"
-                let [date, time] = startDate.split("T");  // "T"를 기준으로 나눔어 구조 분해 할당 해줌
-                // 이제 'date'만 다시 result.staffInfo.startDate에 할당
-                result.staffInfo.startDate = date;
+                //입사일
+                // let startDate = result.staffInfo.startDate;  // 예: "2015-03-01T00:00:00"
+                // let [date, time] = startDate.split("T");  // "T"를 기준으로 나눔어 구조 분해 할당 해줌
+                // // 이제 'date'만 다시 result.staffInfo.startDate에 할당
+                // result.staffInfo.startDate = date;
                 let roleId = result.staffInfo.roleId;
                 return result.isDuplicate? { valid: true, message: `사원번호 ${value}가 이미 존재합니다.`, staffInfo: result.staffInfo}
                     :{ valid: false,
                         message: `${result.staffInfo.staffName}님 사원번호 ${result.staffInfo.staffId}가 확인되었습니다.`,
-                        roleId:`ROLE_${result.staffInfo.roleId}`, };
+                        roleId:`ROLE_${result.staffInfo.roleId}`
+                        ,staffId:`ROLE_${result.staffInfo.staffId}`
+
+                };
             }
             //
         }

@@ -42,8 +42,8 @@
             c."email",
             c."picture",
             c."joinDate",
-            c."WITHDRAWALDATE",
-            c."STATUS",
+            c."withDrawalDate",
+            c."status",
             r."roleId",
             r."roleName"
         FROM Client c
@@ -54,33 +54,45 @@
 
     <!-- 클라이언트에 사원번호,이름, 전화번호,생일로  중복 검증 조회-->
     <select id="selectOneStaff" parameterType="String">
+        WITH  clientEmp  as (
+            select * from emp e left join department d on ( e."departId" = d."departId")
+            WHERE "staffId" =#{staffId}
+              and "staffName" =#{staffName}
+              and "email" =#{email}
+        )
+
         SELECT
-            "clientId",
-            "clientName",
-            "birth",
-            "tel",
-            "zoneCode",
-            "addr",
-            "detailAddr",
-            "email",
-            "picture",
-            "joinDate",
-            "WITHDRAWALDATE",
-            "STATUS",
-        FROM Client
-        WHERE "staffId" = #{staffId}
-        and "clientName" =#{staffName}
-        and "birth" =#{staffBirth}
+            c."clientId",
+            c."clientName",
+            c."birth",
+            c."tel",
+            c."zoneCode",
+            c."addr",
+            c."detailAddr",
+            c."email",
+            c."picture",
+            c."joinDate",
+            c."withDrawalDate",
+            c."status"
+        FROM Client c join clientEmp e
+                           on  c."staffId" = e."staffId"  and c."clientName"=e."staffName";
+
     </select>
 
-    <!-- staff 아이디 중복 확인 -->
+    <!-- staff 아이디 중복 확인 : emp 테이블과 조인해서 동일 사원 있는 지 검증 ? -->
     <select id="selectDuplicateClientStaff" parameterType="String" resultType="int">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
         FROM Client
-        WHERE "STAFFID" = #{staffId}
-          AND "clientName" = #{staffName}
-          AND "birth" = #{staffBirth}
+        WHERE "staffId" = #{staffId}
     </select>
+
+    <!--
+    장바구니 ? 특정 회원이 도서조회
+
+    회원을 도서를 1권,1권이상 조회 가능하다 (회원과 도서는 1대 다의 관계)
+회원은 하나의 역할을 가지고 있다 (회원과 역할은 1:1관계)
+
+-->
 
 
 </mapper>

@@ -30,6 +30,6 @@ public class ClientVO implements Serializable {
     private String status;
 
     private RoleVO roleVO; // 1:1 관계인 Role 테이블의 정보를 담는 객체
-
+    private DepartmemtVO departmemtVO; // 부서와 사원의 1:1 관계 client VO
 
 }

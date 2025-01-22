@@ -9,5 +9,5 @@ public interface ClientService {
 
     public ClientVO selectOneStaff(String staffId, String staffName,String staffBirth) ;
 
-    public int selectDuplicateClientStaff(String staffId, String staffName,String staffBirth);
+    public int selectDuplicateClientStaff(String staffId);
 }

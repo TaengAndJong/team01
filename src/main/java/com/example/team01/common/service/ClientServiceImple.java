@@ -26,13 +26,13 @@ public class ClientServiceImple implements ClientService {
     }
 
     @Override
-    public int selectDuplicateClientStaff(String staffId, String staffName, String staffBirth) {
+    public int selectDuplicateClientStaff(String staffId) {
 
         int cnt;
-        if (staffId != null && staffName != null && staffBirth != null) {  // null 체크를 올바르게 수정
+        if (staffId != null) {  // null 체크를 올바르게 수정
             log.info("insert user data:{}", staffId);
-            log.info("insert user dao----------:{}", dao.selectDuplicateClientStaff(staffId, staffName, staffBirth));
-            return cnt = dao.selectDuplicateClientStaff(staffId, staffName, staffBirth);  // 중복 확인 결과 반환
+            log.info("insert user dao----------:{}", dao.selectDuplicateClientStaff(staffId));
+            return cnt = dao.selectDuplicateClientStaff(staffId);  // 중복 확인 결과 반환
         }
         return 0;
 

@@ -37,5 +37,8 @@ public class SignUpVO implements Serializable {
     // TIMESTAMP 값이 LocalDateTime으로 매핑됨
     private LocalDateTime startDate;//입사일
 
+    public void setJoinDate(LocalDateTime joinDate) {
+        this.joinDate = joinDate;
+    }
 
 }

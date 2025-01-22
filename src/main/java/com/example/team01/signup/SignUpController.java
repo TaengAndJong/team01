@@ -40,8 +40,7 @@ public class SignUpController {
             log.info("password------------------: {}", password);
 
             // `joinDate`를 현재 시간으로 설정
-          //  joinUser.setJoinDate(LocalDateTime.now());
-
+            joinUser.setJoinDate(LocalDateTime.now());
             // `status`를 기본값 "회원"으로 설정
             joinUser.setStatus("회원");
 
@@ -133,7 +132,7 @@ public class SignUpController {
     //즉, Function<String, Integer>는 "String 값을 입력받아 Integer 를 반환하는 함수"를 의미
 
    public void checkDuplicateId(String key, String checkValue, Map<String, Object> response) {
-
+            log.info("resposeEmail--- :{}",response);
             int isDuplicate;
             //check Value 가 있고
             if(checkValue != null) {
@@ -149,15 +148,9 @@ public class SignUpController {
                     SignUpVO staffInfo =signUpService.selectStaffInfo(checkValue);
                     // 2. 조회한 사원 번호가 있으면, 클라이언트 테이블에서 동일한 사원번호가 있는지 확인
                     if(staffInfo != null) {
-                        log.info("staffInfo-------------:{}",staffInfo);
-                        String staffName = staffInfo.getStaffName();
-                        String staffBirth = staffInfo.getBirth();
-                        log.info("staffName-------------:{}",staffName);
-                        log.info("staffBirth-----------:{}",staffBirth);
-
                         //2. 회원가입이 되어있는 회원인지 확인 (CLIENT에서)
                         // 조회가 있으면 중복되었끼 때문에 중복응답보내기
-                        isDuplicate =  clientService.selectDuplicateClientStaff(checkValue,staffName,staffBirth);
+                        isDuplicate =  clientService.selectDuplicateClientStaff(checkValue);
                         log.info("isDuplicate-----checkValue--:{},{}",isDuplicate,checkValue);
 
                         // 중복 여부 반환

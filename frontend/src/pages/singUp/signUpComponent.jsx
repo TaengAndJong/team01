@@ -23,7 +23,8 @@ const SignUpComponent = () => {
         addr:"",
         zoneCode:"",
         detailAddr:"",
-
+        // joinDate:"",
+        picture:"",
     });
 
 
