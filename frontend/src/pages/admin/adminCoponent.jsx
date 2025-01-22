@@ -1,4 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import AdminDashboard from "../admin/components/adminDashboard.jsx";
+import adminDeliveryBoard from "../adminBoard/components/deliveryBoard.jsx"
+import adminProductBoard from "../adminBoard/components/productBoard.jsx"
+import adminOneBoard from "../adminBoard/components/qnaOneBoard.jsx"
+
+import PathsData from "../../assets/pathsData.jsx"
+import {Link, Route, Routes} from "react-router-dom";
+
 
 function Admin() {
     const [data, setData] = useState(null);
@@ -33,6 +41,15 @@ function Admin() {
 
     return (
         <div>
+
+            <Routes>
+                <Route path="/admin" exact component={AdminDashboard}/>
+                <Route path={PathsData.adminDeliveryBoard} component={adminDeliveryBoard}/>
+                <Route path={PathsData.adminProductBoard} component={adminProductBoard}/>
+                <Route path={PathsData.adminOneBoard} component={adminOneBoard}/>
+            </Routes>
+
+
             <h1>관리자 페이지</h1>
             {data ? (
                 <div>
@@ -42,6 +59,9 @@ function Admin() {
             ) : (
                 <p>데이터를 불러오는 중...</p>
             )}
+
+            <AdminDashboard/>
+
         </div>
     );
 }

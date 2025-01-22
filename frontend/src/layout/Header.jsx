@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 import {useAuth} from "../pages/common/AuthContext.jsx";
-import PathData from "../assets/pathsData.jsx";
+
 
 
 
@@ -12,7 +12,7 @@ const Header = () => {
 // 로그인 상태와 사용자 데이터 가져오기
     const { isAuthenticated, userData } = useAuth();
     const {logout} = useAuth();
-   const navigate = useNavigate();
+    const navigate = useNavigate();
 
 
 
@@ -35,7 +35,7 @@ const Header = () => {
                 // AuthContext에서 인증 상태를 업데이트하는 로직
                 logout();
 
-              // 로그아웃 후 리다이렉트
+                // 로그아웃 후 리다이렉트
                 navigate("/")
             } else {
                 console.error("로그아웃 실패");
@@ -49,7 +49,7 @@ const Header = () => {
     //현재 경로 가져오기
     const location = useLocation();
     // 로그인 또는 회원가입 페이지가 아닐 때만 Header를 렌더링
-   const hideContent = location.pathname === PathData.page.login || location.pathname === PathData.page.signup;
+    const hideContent = location.pathname === pathsData.page.login || location.pathname === pathsData.page.signup;
 
 
     return (
@@ -66,20 +66,20 @@ const Header = () => {
             </nav>
             <div>
                 {isAuthenticated ? ( // 시큐리티 인증이 true이면
-                    <>
-                        <li> {userData?.roles && (
-                            <span>{userData.roles[0] === "ROLE_ADMIN" ?
-                                `${userData.clientName}관리자(${userData.clientId})`
-                                : `${userData.clientName}(${userData.clientId})님`}
+                        <>
+                            <li> {userData?.roles && (
+                                <span>{userData.roles[0] === "ROLE_ADMIN" ?
+                                    `${userData.clientName}관리자(${userData.clientId})`
+                                    : `${userData.clientName}(${userData.clientId})님`}
                             </span>
-                        )}
-                        </li>
-                        <li><Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
-                        </li>
-                    </>
-                     ) :
+                            )}
+                            </li>
+                            <li><Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
+                            </li>
+                        </>
+                    ) :
                     (<>
-                        {/*   로그인 페이지와 회원가입 페이지 가 아니면  나오게 */}
+                            {/*   로그인 페이지와 회원가입 페이지 가 아니면  나오게 */}
                             {!hideContent && (<>
                                     <li><Btn className={"login"} type={"login"} text={"로그인"}
                                              path={pathsData.page.login}/></li>
