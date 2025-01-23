@@ -3,7 +3,7 @@ const QnaOneBoard = () => {
 
     return (
         <>
-
+ 1:1
         </>
 
     );

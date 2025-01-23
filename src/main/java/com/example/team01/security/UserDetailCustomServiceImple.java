@@ -26,14 +26,14 @@ public class UserDetailCustomServiceImple implements UserDetailsService  {
     @Override
     public  UserDetails loadUserByUsername(String clientId) throws UsernameNotFoundException {
 
-        log.info("loadUserByUsername------------333:{}",clientId);
+        log.info("loadUserByUsername-----------444:{}",clientId);
 
         //3. 해당아이디에 대한 정보 조회
         LoginVO loginUser = loginDao.selectClientId(clientId);
-        log.info("loginUser------------444444:{}",loginUser);
+        log.info("loginUser------------555:{}",loginUser);
         //4.null 값 확인
         if (loginUser == null) {
-            log.info("정보없음-----------55:{}",loginUser);
+            log.info("정보없음-----------6666:{}",loginUser);
             throw new UsernameNotFoundException("User not found with clientId: " + clientId);
         }
     
@@ -45,7 +45,7 @@ public class UserDetailCustomServiceImple implements UserDetailsService  {
         userData.setIdentiNum(loginUser.getIdentiNum());
         userData.setRoleId(loginUser.getRoleId());
 
-        log.info("userData-----------6666:{}",userData);
+        log.info("userData-----------777:{}",userData);
 
         return new UserDetailsImple(userData);
 

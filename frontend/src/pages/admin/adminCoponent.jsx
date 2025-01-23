@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import AdminDashboard from "../admin/components/adminDashboard.jsx";
-import adminDeliveryBoard from "../adminBoard/components/deliveryBoard.jsx"
-import adminProductBoard from "../adminBoard/components/productBoard.jsx"
-import adminOneBoard from "../adminBoard/components/qnaOneBoard.jsx"
 
-import PathsData from "../../assets/pathsData.jsx"
-import {Link, Route, Routes} from "react-router-dom";
+
+
 
 
 function Admin() {
@@ -42,28 +38,28 @@ function Admin() {
     return (
         <div>
 
-            <Routes>
-                <Route path="/admin" exact component={AdminDashboard}/>
-                <Route path={PathsData.adminDeliveryBoard} component={adminDeliveryBoard}/>
-                <Route path={PathsData.adminProductBoard} component={adminProductBoard}/>
-                <Route path={PathsData.adminOneBoard} component={adminOneBoard}/>
-            </Routes>
 
+                <h1>관리자 페이지</h1>
+                {data ? (
+                    <div>
+                        <p>메시지: {data.message}</p>
+                        <p>시간: {data.timestamp}</p>
+                    </div>
+                ) : (
+                    <p>데이터를 불러오는 중...</p>
+                )}
+            {/*왼쪽 메뉴 Link 설정*/}
 
-            <h1>관리자 페이지</h1>
-            {data ? (
-                <div>
-                    <p>메시지: {data.message}</p>
-                    <p>시간: {data.timestamp}</p>
+                {/*오른쪽 컨텐츠*/}
+                <div className="right">
+                    <div className="content">
+                        {/*{content}*/}
+                    </div>
                 </div>
-            ) : (
-                <p>데이터를 불러오는 중...</p>
-            )}
 
-            <AdminDashboard/>
 
-        </div>
-    );
-}
+            </div>
+            );
+            }
 
 export default Admin;

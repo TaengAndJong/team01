@@ -7,7 +7,7 @@ const DeliveryBoard = () => {
 
     return (
         <>
-
+배송문의
         </>
 
     );

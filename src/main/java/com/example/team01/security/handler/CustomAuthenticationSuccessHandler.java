@@ -60,12 +60,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         // 2. JSON 응답 생성
         Map<String, Object> responseData = new HashMap<>();
+
+        responseData.put("status","success");
         responseData.put("message", username +" 로그인 성공");
         responseData.put("redirect", redirectUrl);
         responseData.put("roles", roles.stream().map(GrantedAuthority::getAuthority).toList()); // 권한 목록
         responseData.put("clientId", clientInfo.getClientId()); // 사용자이름
         responseData.put("clientName", clientInfo.getClientName()); // 사용자이름
-        responseData.put("status", clientInfo.getStatus()); // 회원,사원,관리자
+        responseData.put("userStatus", clientInfo.getStatus()); // 회원,사원,관리자
         // responseData.put("sessionId", request.getSession().getId()); // 세션 ID
 
         log.info("responseData-------------------:{}",responseData); //json 응답 반환

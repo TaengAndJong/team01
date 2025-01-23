@@ -5,6 +5,7 @@ import com.example.team01.common.Enum.Role;
 import com.example.team01.logout.handler.AddLogoutHandler;
 import com.example.team01.logout.handler.CustomLogoutSuccessHandler;
 import com.example.team01.security.UserDetailCustomServiceImple;
+import com.example.team01.security.handler.CustomAuthenticationFailureHandler;
 import com.example.team01.security.handler.CustomAuthenticationSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
@@ -52,6 +53,7 @@ public class SecurityConfig {
 
 
     private final  CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final AddLogoutHandler addLogoutHandler;
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
@@ -79,6 +81,7 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .loginProcessingUrl("/api/login") // 실제 인증처리되는 백엔드주소
                         .successHandler(customAuthenticationSuccessHandler)
+                        .failureHandler(customAuthenticationFailureHandler) //
                         .permitAll()
                 )
                 .logout(logout -> logout

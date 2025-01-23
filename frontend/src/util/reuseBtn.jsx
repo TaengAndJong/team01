@@ -6,6 +6,10 @@ const Button = ({text, type, onClick, className, isLoading, isDisabled, confirmM
 
     // 버튼 타입 초기 값 = submit, includes 함수로 컴포넌트가 제대로 작동하도록 기본값을 설정,
     const btnType = [
+        "submit",//제출
+        ].includes(type) ? type : "button";
+
+    const classNn =[
         //기본 버튼
         "search",//검색
         "cart",//장바구니
@@ -25,8 +29,7 @@ const Button = ({text, type, onClick, className, isLoading, isDisabled, confirmM
         "login",
         "logout",
         "contact",
-        "submit",//제출
-        ].includes(type) ? type : "button";
+    ].includes(className) ? className: 'default';
 
     const navigate = useNavigate(); // useNavigate 선언
     const [loading, setLoading] = useState(isLoading); // useState 선언
@@ -58,8 +61,8 @@ const Button = ({text, type, onClick, className, isLoading, isDisabled, confirmM
 
     return (
         <button
-            className={className}
-            id={`${btnType}Btn`}
+            className={`btn ${classNn}`}
+            id={`${classNn}Btn`}
             type={btnType}
             onClick={handleClick}
             disabled={isDisabled || isLoading}
@@ -70,3 +73,4 @@ const Button = ({text, type, onClick, className, isLoading, isDisabled, confirmM
 
 
 export default Button;
+//

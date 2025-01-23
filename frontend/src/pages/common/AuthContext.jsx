@@ -41,11 +41,23 @@ export const AuthProvider = ({ children }) => {
         // 로그아웃 시 localStorage에서 상태 삭제
         localStorage.removeItem('isAuthenticated');
         localStorage.removeItem('userData');
+        console.log("로그아웃 완료: 인증 정보 초기화 완료");
 
     };
 
+    const loginFailure = () => {
+        setIsAuthenticated(false);
+        setUserData(null); // 사용자 데이터 초기화
+
+        // 로컬 스토리지에 남아있는 인증 정보를 삭제
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('userData');
+
+        console.log("로그인 실패: 인증 정보 초기화 완료");
+    };
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, userData, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, userData, login, logout, loginFailure}}>
             {children}
         </AuthContext.Provider>
     );

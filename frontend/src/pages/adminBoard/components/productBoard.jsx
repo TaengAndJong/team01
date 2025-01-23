@@ -3,7 +3,7 @@ const ProductBoard = () => {
 
     return (
         <>
-
+상품문의
         </>
 
     );

@@ -3,6 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 import {useAuth} from "../pages/common/AuthContext.jsx";
+import Gnb from "./Gnb.jsx"
 
 
 
@@ -29,12 +30,9 @@ const Header = () => {
             });
 
             if (response.ok) {
-
-
                 // 로그아웃 성공 시, 인증 상태를 업데이트하거나 다른 동작
                 // AuthContext에서 인증 상태를 업데이트하는 로직
                 logout();
-
                 // 로그아웃 후 리다이렉트
                 navigate("/")
             } else {
@@ -54,24 +52,18 @@ const Header = () => {
 
     return (
         <header className="header">
-            <div className="logo">
-                <a href="/">testLogo</a>
-            </div>
-            <nav className="header-nav">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/book">도서</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
-            </nav>
+            {/*글로벌 메뉴*/}
+            <Gnb userData={userData}/>
             <div>
                 {isAuthenticated ? ( // 시큐리티 인증이 true이면
                         <>
                             <li> {userData?.roles && (
                                 <span>{userData.roles[0] === "ROLE_ADMIN" ?
                                     `${userData.clientName}관리자(${userData.clientId})`
-                                    : `${userData.clientName}(${userData.clientId})님`}
-                            </span>
+                                    : userData.roles[0] === "ROLE_MEMBER"
+                                        ? `${userData.clientName}[${userData.clientId}]사원님`
+                                    : `${userData.clientName}[${userData.clientId}]님`}
+                                </span>
                             )}
                             </li>
                             <li><Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
@@ -81,9 +73,9 @@ const Header = () => {
                     (<>
                             {/*   로그인 페이지와 회원가입 페이지 가 아니면  나오게 */}
                             {!hideContent && (<>
-                                    <li><Btn className={"login"} type={"login"} text={"로그인"}
+                                    <li><Btn className={"login"}  text={"로그인"}
                                              path={pathsData.page.login}/></li>
-                                    <li><Btn className={"signup"} type={"signup"} text={"회원가입"}
+                                    <li><Btn className={"signup"}  text={"회원가입"}
                                              path={pathsData.page.signup}/></li>
                                 </>
                             )}

@@ -7,7 +7,8 @@ function Login({data}) {
     // 상태 관리
     const [clientId, setclientId] = useState(''); // id 상태 추가
     const [password, setPassword] = useState('');
-    const { login } = useAuth(); // 로그인 상태 업데이트 함수
+    const [loginError, setLoginError] = useState(""); // 실패 메시지 상태
+    const { login ,loginFailure } = useAuth(); // 로그인 상태 업데이트 함수
     const navigate = useNavigate();
 
 
@@ -20,6 +21,23 @@ function Login({data}) {
         console.log("pwd" , e.target.value)
         setPassword(e.target.value);
     };
+
+    //로그인 성공
+    const handleLoginSuccess = (data) => {
+        login(data); // 로그인 성공 처리
+
+        if (data.redirect) {
+            navigate(data.redirect); // 리디렉션
+        } else {
+            console.error("리디렉션 URL이 없습니다.");
+        }
+    };
+    //로그인 실패
+    const handleLoginFailure = (data) => {
+        loginFailure(); // 로그인 실패 처리
+    };
+
+
 
     // submit 버튼 클릭 시 fetch 통해 로그인 컨트롤러에 데이터 요청
     const handleFormSubmit = async (e) => {
@@ -39,31 +57,28 @@ function Login({data}) {
             body: JSON.stringify(userCredentials),
             credentials: 'include',  // 쿠키를 포함시키기 위해 'include' 설정
         });
-        console.log("response",userCredentials);
-        console.log("response",response);
+        console.log("userCredentials",userCredentials);
+        console.log("response----------",response);
 
         const contentType = response.headers.get("Content-Type");
         let data;
         //백엔드 서버로부터 응답 받기
         if(response.ok){
+            //Json과 text 데이터 요청 받는데 성공하면 실행되는 로직
             console.log("contentType",contentType);
-            console.log("컨텐츠타입 들어가기전",response);
+            console.log("json /text 분기전 응답",response);
             if (contentType && contentType.includes("application/json")) {
                 data = await response.json();
 
-                // 로그인 성공 시 로그인 상태 업데이트
-                login(data);
-
-                console.log("json data",data);
-                console.log("응답 제이슨 성공",data.message);
-                console.log("로그인 성공, 서버에서 리디렉션 처리됨.");
-
-                if (data.redirect) {
-                    console.log("리디렉션 URL:", data.redirect);
-                    navigate(data.redirect);  // React Router를 통해 리다이렉트
-
+              //로그인 성공여부에 따른 리다이렉션 로직
+                console.log("data",data);
+                if (data.status === "success") {
+                    handleLoginSuccess(data); // 로그인 성공 처리
+                } else if (data.status === "error") {
+                    handleLoginFailure(); // 로그인 실패 처리
+                    setLoginError(data.message);//에러 메시지 갱신
                 } else {
-                    console.error("리디렉션 URL이 없습니다.");
+                    console.error("알 수 없는 상태:", data.status);
                 }
 
             } else {
@@ -76,10 +91,11 @@ function Login({data}) {
 
         }else{
             console.error("서버와 통신 중 에러 발생:", error);
+            // navigate("/login");  // React Router를 통해 리다이렉트
         }
 
-
     };
+
 
     return (
         <>
@@ -108,10 +124,10 @@ function Login({data}) {
                 </label>
                 <br />
                 <button type="submit">로그인</button>
-                {/*<p>해시값: {hashedPassword}</p>*/}
             </form>
 
             <Btn text="회원가입" type="" path="/signup"/>
+            {loginError && <div className="msg error">{loginError}</div>} {/* 실패 메시지 표시 */}
         </>
     );
 }

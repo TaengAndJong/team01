@@ -3,6 +3,7 @@ package com.example.team01.login;
 
 
 import com.example.team01.security.UserDetailCustomServiceImple;
+import com.example.team01.security.handler.CustomAuthenticationFailureHandler;
 import com.example.team01.security.handler.CustomAuthenticationSuccessHandler;
 import com.example.team01.vo.LoginVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,8 +11,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,7 +32,7 @@ public class LoginController {
 
     private final UserDetailCustomServiceImple userDetailCustomService;  // UserDetailCustomService를 자동 주입
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
 
     @GetMapping()
@@ -58,7 +61,9 @@ public class LoginController {
             // 객체 주입 필수!
             UserDetails userInfo = userDetailCustomService.loadUserByUsername(clientId);
             // 인증 성공 시 SecurityContext에 설정
-
+            
+       
+            //비밀번호가 데이터베이스와 동일하면 실행
             if (new BCryptPasswordEncoder().matches(password, userInfo.getPassword())) {
                 log.info("받은 데이터-----------777  userInfo.getPassword() : {}", userInfo.getPassword());
 
@@ -78,10 +83,13 @@ public class LoginController {
 
 
             } else {
-                log.warn("Authentication failed for clientId: {}", user.getClientId());
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().write("{\"message\": \"로그인 실패\"}");
+                // 아이디 비밀번호정보가 데이터베이스와 매칭이  안되면 실행
+                //1)  비밀번호 매칭 실패 시 AuthenticationException 생성
+                AuthenticationException exception = new BadCredentialsException("Invalid credentials");
+                //2) failuerHandler 로그인 실패 처리 핸들러 호출
+                customAuthenticationFailureHandler.onAuthenticationFailure(request,response,exception);
+                log.warn("Authentication failed for clientId------------------------: {}", user.getClientId());
+
             }
 
         } catch (Exception e) {
@@ -91,7 +99,7 @@ public class LoginController {
             response.getWriter().write("{\"message\": \"로그인 실패: " + e.getMessage() + "\"}");
         }
 
-//
+
     }
 
 
