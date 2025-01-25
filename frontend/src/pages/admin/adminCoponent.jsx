@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
-
+import {Outlet} from "react-router-dom";
+import LeftMenu from "../../layout/LeftMenu.jsx"
+import AdminDashboard from "../adminBoard/components/adminDashboard.jsx"
 
 
 
@@ -48,12 +49,16 @@ function Admin() {
                 ) : (
                     <p>데이터를 불러오는 중...</p>
                 )}
-            {/*왼쪽 메뉴 Link 설정*/}
+                <div className="dashboard">
+                    <AdminDashboard></AdminDashboard>
+                </div>
 
+                {/*왼쪽 메뉴 Link 설정*/}
+                <LeftMenu/>
                 {/*오른쪽 컨텐츠*/}
                 <div className="right">
                     <div className="content">
-                        {/*{content}*/}
+                        <Outlet />
                     </div>
                 </div>
 

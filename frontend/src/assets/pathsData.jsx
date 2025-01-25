@@ -20,16 +20,16 @@ const PathsData = // 객체 데이터 구조 미완성
             adminDashboard: "/admin/Dashboard",// 대시보드
             
             adminBoard: "/admin/board",
-            adminOneBoard:"/admin/oneBoard", // 1대1문의
-            adminDeliveryBoard:"/admin/deliveryBoard", // 배송문의
-            adminProductBoard:"/admin/productBoard", // 상품(도서)문의
+            adminOneBoard:"/admin/board/oneBoard", // 1대1문의
+            adminDeliveryBoard:"/admin/board/deliveryBoard", // 배송문의
+            adminProductBoard:"/admin/board/productBoard", // 상품(도서)문의
 
             // 게시판 주소 동적 구현 가능?
             adminBook:"/admin/book", // 관리자 등록된 도서 목록게시판
-            adminBookCreate:"/admin/bookCreate", // 상품 등록
-            adminBookEdit:"/admin/bookEdit:id", // 상품 수정
-            adminBookModify:"/admin/bookModify:id", // 상품 수정
-            adminBookDetail:"/admin/bookDetail:id", // 상품 수정
+            adminBookCreate:"/admin/book/bookCreate", // 상품 등록
+            adminBookEdit:"/admin/book/bookEdit:id", // 상품 수정
+            adminBookModify:"/admin/book/bookModify:id", // 상품 수정
+            adminBookDetail:"/admin/book/bookDetail:id", // 상품 수정
 
         },
     }

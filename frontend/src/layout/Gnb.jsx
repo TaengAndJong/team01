@@ -37,17 +37,14 @@ const Gnb=({userData})=>{
                         </span>
                         <nav className="header-nav">
                             <ul>
-                                <li><Link to={PathsData.page.adminDashboard}>대시보드</Link></li>
-                                <li><Link to={PathsData.page.adminBook}>도서</Link></li>
-                                <li><Link to={PathsData.page.adminBoard}>게시판</Link></li>
+                                <li><Link to={PathsData.page.book}>도서</Link></li>
+                                <li><Link to={PathsData.page.adminBoard}>게시판관리</Link></li>
                                 <li><Link to={PathsData.page.myPage}>마이페이지</Link></li>
                                 <li><Link to={PathsData.page.cart}>장바구니</Link></li>
-                                <li><Link to={PathsData.page.main}>운영페이지</Link></li>
-
                             </ul>
                         </nav>
                     </>
-                ): (
+                ) : (
                     //일반회원
                     <>
                     <span className="logo">

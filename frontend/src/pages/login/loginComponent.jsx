@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import Btn from "../../util/reuseBtn.jsx";
 import { useAuth } from "../common/AuthContext.jsx";
 
 function Login({data}) {
+
     // 상태 관리
     const [clientId, setclientId] = useState(''); // id 상태 추가
     const [password, setPassword] = useState('');

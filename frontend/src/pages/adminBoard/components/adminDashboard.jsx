@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {Outlet} from "react-router-dom";
 
 
 function AdminDashboard({ setUrl,data }) {
@@ -15,6 +16,7 @@ function AdminDashboard({ setUrl,data }) {
 
     return (
         <>
+        
         대시보드
         </>
     );
