@@ -1,6 +1,7 @@
 
 import {Routes, Route } from "react-router-dom";
-import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "../scss/style.scss";
 
 import SignUp from "./pages/singUp/signUpComponent.jsx";
 import PathData from "./assets/pathsData.jsx";
@@ -17,59 +18,65 @@ import AdminDeliveryBoard from "./pages/adminBoard/components/deliveryBoard.jsx"
 import AdminProductBoard from "./pages/adminBoard/components/productBoard.jsx";
 import AdminOneBoard from "./pages/adminBoard/components/qnaOneBoard.jsx";
 import AdminBoard from "./pages/adminBoard/adminBoardComponent.jsx";
-import AdminBook from "./pages/adminBook/boardComponent.jsx";
+import AdminBook from "./pages/adminBook/adminBookComponent.jsx";
 import WishList from "./pages/wishList/wishListComponent.jsx";
 import Book from "./pages/book/bookComponent.jsx";
 import Board from "./pages/board/boardComponent.jsx";
 import Layout from "./layout/Layout.jsx";
+import AdminBookModify from "./pages/adminBook/components/adminBookModify.jsx";
+import AdminBookCreate from "./pages/adminBook/components/adminBookCreate.jsx";
+import AdminBookDetail from "./pages/adminBook/components/adminBookDetail.jsx";
+import AdminBookList from "./pages/adminBook/components/adminBookList.jsx";
+import LeftMenu from "./layout/LeftMenu.jsx";
 
 
 
 function App() {
 
 
-
     return (
         <div className="App">
+            <Routes>
+                {/* Index 컴포넌트 */}
+                <Route path={PathData.page.index} element={<Index/>}/>
 
-                <Routes>
-                    {/* <Index/>  컴포넌트
-                        @react-refresh:160 No routes matched location "/admin/book"  Error Component Stack 경고 방지
-                    */}
-                    <Route path={PathData.page.index} element={<Index />}/>
-                    <Route path="/" element={<Layout />}>
-                        {/*공통컴포넌트*/}
-                        <Route path={PathData.page.login} element={<Login />} />  {/*로그인*/}
-                        <Route path={PathData.page.logout} element={<Logout/>} />{/*로그아웃*/}
-                        <Route path={PathData.page.myPage} element={<Mypage />} />{/*마이페이지*/}
-                        <Route path={PathData.page.cart} element={<Cart />} />{/*장바구니*/}
-                        <Route path={PathData.page.wishList}element={<WishList />} />{/*위시리스트*/}
-                        <Route path={PathData.page.signup} element={<SignUp/>} />{/*회원가입*/}
+                {/* 공통 Layout */}
+                <Route path="/" element={<Layout/>}>
+                    {/* 공통 컴포넌트 */}
+                    <Route path={PathData.page.login} element={<Login/>}/>
+                    <Route path={PathData.page.logout} element={<Logout/>}/>
+                    <Route path={PathData.page.myPage} element={<Mypage/>}/>
+                    <Route path={PathData.page.cart} element={<Cart/>}/>
+                    <Route path={PathData.page.wishList} element={<WishList/>}/>
+                    <Route path={PathData.page.signup} element={<SignUp/>}/>
 
+                    {/* 클라이언트 전용 라우트 */}
+                    <Route index path={PathData.page.main} element={<Main/>}/>
+                    <Route path={PathData.page.book} element={<Book/>}/>
+                    <Route path={PathData.page.board} element={<Board/>}/>
 
-                         {/* 클라이언트 전용 라우트 */}
-                        <Route index path={PathData.page.main} element={<Main/>} />{/*메인*/}
-                        <Route path={PathData.page.book} element={<Book />} />{/*도서판매*/}
-                        <Route path={PathData.page.board} element={<Board />} />{/*게시판 - 자식: 문의게시판 추가하기*/}
+                    {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
+                    <Route path="/admin" element={<Admin/>}/>
+                    <Route index path="dashboard" element={<AdminDashboard/>}/>
 
-                            {/*<Route path="/test/qnaList" element={<Qna/>} />*/}
-                            {/*<Route path="/create" element={<QnaCreate/>} />*/}
-                            {/*<Route path="/post/:id" element={<QnaDetail/>} />*/}
-                            {/*<Route path="/edit/:id" element={<QnaEdit/>} />*/}
-
-
-                        {/* 관리자 전용 라우트 */}
-                        <Route path="/admin" element={<Admin />}/>
-                        <Route path={PathData.page.adminBook} element={<AdminBook />} />
-                        <Route path={PathData.page.adminBoard} element={<AdminBoard/>} />
-                        <Route path={PathData.page.adminDashboard} element={<AdminDashboard />} />
-                        <Route path={PathData.page.adminDeliveryBoard} element={<AdminDeliveryBoard />} />
-                        <Route path={PathData.page.adminProductBoard} element={<AdminProductBoard />} />
-                        <Route path={PathData.page.adminOneBoard} element={<AdminOneBoard />} />
+                    <Route path={PathData.page.adminBoard} element={<AdminBoard/>}>
+                        <Route path="deliveryBoard" element={<AdminDeliveryBoard/>}/>
+                        <Route path="productBoard" element={<AdminProductBoard/>}/>
+                        <Route path="oneBoard" element={<AdminOneBoard/>}/>
                     </Route>
-                </Routes>
+
+
+                    <Route path={PathData.page.adminBook} element={<AdminBook/>}>
+                        <Route path="bookList" element={<AdminBookList/>}/>
+                        <Route path="bookCreate" element={<AdminBookCreate/>}/>
+                        <Route path="bookDetail" element={<AdminBookDetail/>}/>
+                        <Route path="bookModify" element={<AdminBookModify/>}/>
+                    </Route>
+
+                </Route>
+            </Routes>
         </div>
-      );
+    );
 
 }
 

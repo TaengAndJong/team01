@@ -1,13 +1,13 @@
-
 import {Outlet} from "react-router-dom";
 import React from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 
-const AdminBoard = () => {
+
+const AdminBook = () => {
 
     return(
         <>
-            <div className="page adminBoard d-flex">
+            <div className="page bookBoard d-flex">
                 <div className="left">
                     <LeftMenu/>
                 </div>
@@ -21,4 +21,4 @@ const AdminBoard = () => {
     )
 }
 
-export default AdminBoard;
+export default AdminBook;

@@ -8,28 +8,29 @@ const Button = ({text, type, onClick, className, isLoading, isDisabled, confirmM
     const btnType = [
         "submit",//제출
         ].includes(type) ? type : "button";
-
-    const classNn =[
-        //기본 버튼
-        "search",//검색
-        "cart",//장바구니
-        "buy-now", // 구매
-        "wishlist",//위시리스트
-        "filter",//???
-        "list", //목록
-        "view-details",//상세보기
-        //관리자 버튼
-        "add",//추가
-        "approve", //승인
-        "edit",//생성
-        "delete",//삭제
-        "order",//주문
-        "register", //등록
-        //기타 버튼
-        "login",
-        "logout",
-        "contact",
-    ].includes(className) ? className: 'default';
+    //클래스명이 2개 이상일 때 첫번째 클래스를 아이디값으로 가져옴
+        const id = className.split(' ').length > 1 ? className.split(' ')[0] : className;
+    // const classNn =[
+    //     //기본 버튼
+    //     "search",//검색
+    //     "cart",//장바구니
+    //     "buy-now", // 구매
+    //     "wishlist",//위시리스트
+    //     "filter",//???
+    //     "list", //목록
+    //     "view-details",//상세보기
+    //     //관리자 버튼
+    //     "add",//추가
+    //     "approve", //승인
+    //     "edit",//생성
+    //     "delete",//삭제
+    //     "order",//주문
+    //     "register", //등록
+    //     //기타 버튼
+    //     "login",
+    //     "logout",
+    //     "contact",
+    // ].includes(className) ? className: 'default';
 
     const navigate = useNavigate(); // useNavigate 선언
     const [loading, setLoading] = useState(isLoading); // useState 선언
@@ -61,8 +62,8 @@ const Button = ({text, type, onClick, className, isLoading, isDisabled, confirmM
 
     return (
         <button
-            className={`btn ${classNn}`}
-            id={`${classNn}Btn`}
+            className={`btn ${className}`}
+            id={`${id}Btn`}
             type={btnType}
             onClick={handleClick}
             disabled={isDisabled || isLoading}

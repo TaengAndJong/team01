@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import Btn from "../../util/reuseBtn.jsx";
+import Paths from "../../assets/pathsData.jsx"
 import { useAuth } from "../common/AuthContext.jsx";
+
+import "../../../dist/assets/pages/login.css";
+import pathsData from "../../assets/pathsData.jsx";
 
 function Login({data}) {
 
@@ -43,7 +47,7 @@ function Login({data}) {
     // submit 버튼 클릭 시 fetch 통해 로그인 컨트롤러에 데이터 요청
     const handleFormSubmit = async (e) => {
         e.preventDefault();// 이벤트 버블링 방지
-
+    console.log("login------");
         const userCredentials = {
             clientId: clientId,
             password: password,
@@ -101,37 +105,51 @@ function Login({data}) {
     return (
         <>
            Received data: {JSON.stringify(data)}
-            <form onSubmit={handleFormSubmit}>
-                <label>
-                    아이디:
-                    <input
-                        type="text"
-                        name="clientId"
-                        placeholder="아이디"
-                        value={clientId}
-                        onChange={handleIdChange} // id 상태 업데이트
-                    />
-                </label>
-                <br />
-                <label>
-                    비밀번호:
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="비밀번호"
-                        value={password}
-                        onChange={handlePasswordChange} // password 상태 업데이트
-                    />
-                </label>
-                <br />
-                <button type="submit">로그인</button>
-            </form>
+            <div className="login-form text-center">
+                 <span className="title">로그인</span>
+                <form onSubmit={handleFormSubmit}>
+                    <div className="row mb-3">
+                        <label htmlFor="clientId" className="col-sm-2 col-form-label">ID</label>
+                        <div className="col-sm-10">
+                            <input
+                                className="form-control"
+                                type="text"
+                                name="clientId"
+                                id="clientId"
+                                placeholder="아이디"
+                                value={clientId}
+                                onChange={handleIdChange} // id 상태 업데이트
+                            />
+                        </div>
+                    </div>
+                    <div className="row mb-3">
+                        <label htmlFor="password" className="col-sm-2 col-form-label">PW </label>
+                        <div className="col-sm-10">
+                            <input
+                                className="form-control"
+                                type="password"
+                                name="password"
+                                id="password"
+                                placeholder="비밀번호"
+                                value={password}
+                                onChange={handlePasswordChange} // password 상태 업데이트
+                            />
+                        </div>
+                    </div>
+                    <div className="btn-group-vertical">
+                      <Btn className={"login btn btn-secondary"} text={"로그인"}
+                           type="submit"/>
+                       <Btn className={"signup btn btn-primary"} text={"회원가입"}
+                                 path={pathsData.page.signup}/>
+                    </div>
+                </form>
 
-            <Btn text="회원가입" type="" path="/signup"/>
-            {loginError && <div className="msg error">{loginError}</div>} {/* 실패 메시지 표시 */}
+                {loginError && <div className="msg error"><p>{loginError}</p></div>} {/* 실패 메시지 표시 */}
+            </div>
         </>
     );
 }
+
 //hashedPassword 는 json 코드로 서버로 전송됨
 export default Login;
 

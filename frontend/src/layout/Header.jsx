@@ -51,10 +51,11 @@ const Header = () => {
 
 
     return (
-        <header className="header">
+        <header className="header d-flex justify-content-between align-items-center">
             {/*글로벌 메뉴*/}
             <Gnb userData={userData}/>
             <div>
+                <ul className="d-flex align-items-center">
                 {isAuthenticated ? ( // 시큐리티 인증이 true이면
                         <>
                             <li> {userData?.roles && (
@@ -66,7 +67,9 @@ const Header = () => {
                                 </span>
                             )}
                             </li>
-                            <li><Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
+                            <li>
+                                <Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
+
                             </li>
                         </>
                     ) :
@@ -75,13 +78,14 @@ const Header = () => {
                             {!hideContent && (<>
                                     <li><Btn className={"login"}  text={"로그인"}
                                              path={pathsData.page.login}/></li>
-                                    <li><Btn className={"signup"}  text={"회원가입"}
+                                    <li><Btn className={"signup"} text={"회원가입"}
                                              path={pathsData.page.signup}/></li>
                                 </>
                             )}
                         </>
                     )
                 }
+                </ul>
             </div>
         </header>
     )

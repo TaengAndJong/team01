@@ -10,11 +10,11 @@ const Gnb=({userData})=>{
     // userData가 null이 아닌지 확인 후, roles에 접근
     if (!userData) {
         return (  <>
-                    <span className="logo">
+                    <h1 className="logo">
                         <Link to={PathsData.page.main}>testLogo</Link> {/* a 태그를 Link로 변경 */}
-                    </span>
+                    </h1>
             <nav className="header-nav">
-                <ul>
+                <ul className="d-flex">
                     <li><Link to={PathsData.page.book}>도서</Link></li>
                     <li><Link to={PathsData.page.board}>게시판</Link></li>
                     <li><Link to={PathsData.page.myPage}>마이페이지</Link></li>
@@ -36,7 +36,7 @@ const Gnb=({userData})=>{
                             <Link to={PathsData.page.admin}>testLogo</Link> {/* a 태그를 Link로 변경 */}
                         </span>
                         <nav className="header-nav">
-                            <ul>
+                            <ul className="d-flex">
                                 <li><Link to={PathsData.page.book}>도서</Link></li>
                                 <li><Link to={PathsData.page.adminBoard}>게시판관리</Link></li>
                                 <li><Link to={PathsData.page.myPage}>마이페이지</Link></li>
@@ -51,7 +51,7 @@ const Gnb=({userData})=>{
                         <Link to={PathsData.page.main}>testLogo</Link> {/* a 태그를 Link로 변경 */}
                     </span>
                     <nav className="header-nav">
-                        <ul>
+                        <ul className="d-flex">
                             <li><Link to={PathsData.page.book}>도서</Link></li>
                             <li><Link to={PathsData.page.board}>게시판</Link></li>
                             <li><Link to={PathsData.page.myPage}>마이페이지</Link></li>

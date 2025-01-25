@@ -14,7 +14,7 @@ public class BookVO {
     private String isbn;// 보류
     private String publishDate; // 출판일
     private String userId; // 회원아이디
-    private String roleId; // 회원의 역할 : 사원 / 관리자/ 일반회원
+    private String roleId; // 회원의 역할 : 사원 / 관리자/ 일반회원 ==> 도서 등록자명
     private String cateId; // 도서 카테고리 고유번호
     private String cateName; // 도서 카테고리 고유번호
     private String cateDepth; // 도서 카테고리 고유번호

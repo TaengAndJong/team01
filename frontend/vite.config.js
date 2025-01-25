@@ -6,7 +6,9 @@ import react from '@vitejs/plugin-react-swc'
 // https://vite.dev/config/
 export default defineConfig({
  // base: "/api", // 기본 경로,
+
   plugins: [react()],
+
   build: {// 빌드 결과물이 생성되는 경로
     outDir: '../src/main/resources/static'
   },
