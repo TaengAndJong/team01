@@ -11,7 +11,7 @@ public class BookVO {
     private byte[] bookImg;//도서이미지
     private int stock;// 재고수량
     private String stockStatus;//품절상태
-    private String isbn;// 보류
+   // private String isbn;// 보류
     private String publishDate; // 출판일
     private String userId; // 회원아이디
     private String roleId; // 회원의 역할 : 사원 / 관리자/ 일반회원 ==> 도서 등록자명

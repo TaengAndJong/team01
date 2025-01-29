@@ -22,5 +22,5 @@ public interface BookDao {
     //도서 삭제
     public int deleteOneBook(String bookId);
 
-
+    //
 }

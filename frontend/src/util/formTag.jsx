@@ -1,8 +1,12 @@
 
-const FormTag = ({ label,id, name, value, onChange, type = "text", checked, msg }) => {
+const FormTag = ({ label,labelClass,id, name, value, onChange,className,
+                     type = "text", checked, msg,
+                     disabled = false, readOnly = false }) => {
+
     return (
-        <div className="input-field">
-            <label htmlFor={name}>{label}</label>
+    <>
+            {/* labelClass가 null이나 undefined 이면 "" (빈문자열 반환) */}
+            <label htmlFor={name} className={ labelClass? labelClass: ""}>{label}</label>
             <input
                 id={id}
                 name={name}
@@ -10,12 +14,14 @@ const FormTag = ({ label,id, name, value, onChange, type = "text", checked, msg 
                 value={value}
                 onChange={onChange}
                 checked={checked}
-                className={msg ? "msg" : ""}
+                className={msg ? "msg" : className}
+                disabled={disabled}
+                readOnly={readOnly}
                 {...(type === "password" ? { autoComplete: "new-password" } : {})}
                 {...(type === "name" ? { autoComplete: "name" } : {})}
             />
             {msg && <span className="msg">{msg}</span>}
-        </div>
+    </>
     );
 };
 

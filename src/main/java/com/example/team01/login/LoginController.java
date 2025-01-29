@@ -8,6 +8,7 @@ import com.example.team01.security.handler.CustomAuthenticationSuccessHandler;
 import com.example.team01.vo.LoginVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,7 +43,7 @@ public class LoginController {
         return data;
     }
     @PostMapping()
-    public void  postLogin(@RequestBody LoginVO user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void  postLogin(@RequestBody LoginVO user, HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
 
         log.info("PostMapping------------22222 :{}", user);
         //프론트에서 넘어 온  파라미터를 변수에 저장해서 가져오기
@@ -71,15 +73,20 @@ public class LoginController {
                         userInfo, password, userInfo.getAuthorities());
                 log.info("받은 데이터-----------888  authentication : {}", authentication);
 
+                //securityContext에서 에러나고 있는데 처리필요
                 // 인증 성공 후 SecurityContext에 인증 정보 설정
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContext securityContext =   SecurityContextHolder.getContext();
+                securityContext.setAuthentication(authentication);
+                // 인증 정보를 세션에 저장 (JSESSIONID 생성) --> 스프링에서 세션 자동관리가 안되고있음
+                session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
                 //직접 successHandler 호출
                 customAuthenticationSuccessHandler.onAuthenticationSuccess(request, response, authentication);
 
-                log.info("customAuthenticationSuccessHandler---------------------:{}", request);
-                log.info("customAuthenticationSuccessHandler---------------------:{}", response);
-                log.info("customAuthenticationSuccessHandler---------------------:{}", authentication);
+                request.getSession().setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+//                log.info("customAuthenticationSuccessHandler---------------------:{}", request);
+//                log.info("customAuthenticationSuccessHandler---------------------:{}", response);
+//                log.info("customAuthenticationSuccessHandler---------------------:{}", authentication);
 
 
             } else {

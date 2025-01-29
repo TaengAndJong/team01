@@ -43,6 +43,7 @@ const SignUpInfo = ({formData,setFormData}) => {
 //
     };
 
+
 // 비밀번호 데이터가 변경될 때마다 갱신
     useEffect(() => {
         // 비밀번호 동일 여부 확인 , 바로 데이터를 파라미터로 넘겨주기
@@ -263,7 +264,7 @@ const SignUpInfo = ({formData,setFormData}) => {
             <form>
                 {/*id*/}
                 <div>
-                    <FormTag label="아이디" name="clientId"
+                    <FormTag label="아이디" name="clientId" type="text"
                              value={formData.clientId}
                              onChange={handleInputChange} msg={msg.errorId}/>
                     <Btn text="중복확인" type="button" onClick={() => {
@@ -276,9 +277,13 @@ const SignUpInfo = ({formData,setFormData}) => {
                     <FormTag label="비밀번호" name="password" type="password"
                              value={formData.password}
                              onChange={handleInputChange} msg={msg.errorpwd}/>
-                    <FormTag label="비밀번호확인" name="passwordConfirm"  type="password"
-                             value={formData.passwordConfirm }
+                </div>
+                <div>
+                    <FormTag label="비밀번호확인" name="passwordConfirm" type="password"
+                             value={formData.passwordConfirm}
                              onChange={handleInputChange} msg={msg.errorpwdConfirm}/>
+                </div>
+                <div>
                     <FormTag label="이름" name="clientName"
                              value={formData.clientName}
                              onChange={handleInputChange}/>
@@ -319,11 +324,11 @@ const SignUpInfo = ({formData,setFormData}) => {
                         id="FirstTelNum"
                         onChange={(selectedOption) => {
                             console.log("selectedOption", selectedOption);
-                            handleTelChange({ target: { name:"FirstTelNum", value: selectedOption.value } });
+                            handleTelChange({target: {name: "FirstTelNum", value: selectedOption.value}});
                         }}
                         options={[
-                            { value: '직접선택', label: '직접선택' },
-                            { value: '010', label: '010' },
+                            {value: '직접선택', label: '직접선택'},
+                            {value: '010', label: '010'},
                         ]}
                     />
                     <span>-</span>
@@ -361,22 +366,20 @@ const SignUpInfo = ({formData,setFormData}) => {
                         onChange={handleEmailChange}
                         placeholder="ex) 이메일주소"
                     />
-
                     <Select
                         name="emailAddrSelect"
-                        value={{ value: emailData.emailAddrSelect, label: emailData.emailAddrSelect }}
+                        value={{value: emailData.emailAddrSelect, label: emailData.emailAddrSelect}}
                         onChange={(selectedOption) => {
                             console.log("selectedOption", selectedOption);
-                            handleEmailChange({ target: { name: 'emailAddrSelect', value: selectedOption.value } });
+                            handleEmailChange({target: {name: 'emailAddrSelect', value: selectedOption.value}});
                         }}
                         options={[
-                            { value: '직접선택', label: '직접선택' },
-                            { value: 'naver.com', label: 'naver.com' },
-                            { value: 'google.com', label: 'google.com' },
-                            { value: 'daum.net', label: 'daum.net' },
+                            {value: '직접선택', label: '직접선택'},
+                            {value: 'naver.com', label: 'naver.com'},
+                            {value: 'google.com', label: 'google.com'},
+                            {value: 'daum.net', label: 'daum.net'},
                         ]}
                     />
-
                 </div>
 
                 {/*주소*/}
@@ -388,6 +391,7 @@ const SignUpInfo = ({formData,setFormData}) => {
                         placeholder="주소"
                         onChange={handleInputChange}
                     />
+
                     <FormTag
                         label="우편번호"
                         name="zoneCode"
@@ -395,7 +399,9 @@ const SignUpInfo = ({formData,setFormData}) => {
                         placeholder="우편번호"
                         onChange={handleInputChange}
                     />
-                    <DaumPostcode onAddressSelect={handleAddressSelect} />
+                </div>
+                <div>
+                    <DaumPostcode onAddressSelect={handleAddressSelect}/>
                     <FormTag
                         label="상세주소"
                         name="detailAddr"

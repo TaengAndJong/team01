@@ -3,7 +3,7 @@ package com.example.team01.security.handler;
 import com.example.team01.common.service.ClientService;
 import com.example.team01.vo.ClientVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +31,25 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
+
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            log.info("Session ID: {}", session.getId());
+            log.info("Session Creation Time: {}", session.getCreationTime());
+
+            SecurityContext securityContext = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
+            if (securityContext != null) {
+                log.info("SecurityContext found in session: {}", securityContext);
+            } else {
+                log.warn("SecurityContext not found in session.");
+            }
+        } else {
+            log.warn("No session created.");
+        }
+
+
         log.info("authentication-------------------onAuthenticationSuccess :{}",authentication);
     //시큐리티나, 클라이언트가 content-type을 text/html로 보낼 수 있기때문에 명시적으로 설정
         response.setContentType("application/json");
@@ -40,15 +58,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         //실제 로그인 성공 후의 로직 처리 하는 메소드
         log.info("onAuthenticationSuccess9999-------------------로그인성공");
 
-        // 인증 정보를 세션에 저장 (JSESSIONID 생성)
-        request.getSession().setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-        log.info("onAuthenticationSuccess------10------------------");
         // 로그인 성공시 roleId가 Role_Admin 일때 redirection 주소 관리자로 아니면 /로
         // 사용자 권한 정보 가져오기
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
         String redirectUrl = isAdmin ? "/admin" : "/";
 
+        log.info("onAuthenticationSuccess------10------------------");
         // session 정보 및 로그인 사용자 정보 response에 담기
         //1. 로그인 사용자 정보 가져오기
         String username = authentication.getName(); // 사용자 이름

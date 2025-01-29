@@ -24,6 +24,7 @@ public class WebConfig {
         config.addAllowedOrigin("http://localhost:5174");
         config.addAllowedOrigin("http://localhost:5175");
         config.addAllowedOrigin("http://localhost:5176");
+        config.addAllowedOrigin("http://localhost:5177");
         // 허용할 HTTP 메서드를 배열로 전달
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.addAllowedHeader("*");  // 허용할 모든 헤더

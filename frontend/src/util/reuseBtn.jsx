@@ -8,8 +8,15 @@ const Button = ({text, type, onClick, className, isLoading, isDisabled, confirmM
     const btnType = [
         "submit",//제출
         ].includes(type) ? type : "button";
+
     //클래스명이 2개 이상일 때 첫번째 클래스를 아이디값으로 가져옴
-        const id = className.split(' ').length > 1 ? className.split(' ')[0] : className;
+    let id;
+    //클래스가 존재하고, 클래스 네임이 2개 이상일 때
+    if(className && className.split(' ').length > 1){ // 단일 클래스는 여기 조건 안 봄
+        id = className.split(' ')[0] // 버튼의  id는 클래스네임의 첫번째값
+    }else{ // 아니면 그냥 클래스 네임
+        id = className;
+    }
     // const classNn =[
     //     //기본 버튼
     //     "search",//검색
