@@ -20,8 +20,12 @@ public class AdminController {
 
     @GetMapping
     public Map<String, Object> adminHandler(HttpSession session) {
-
         Object authentication = session.getAttribute("SPRING_SECURITY_CONTEXT");
+
+        if (authentication == null) {
+            log.warn("사용자가 인증되지 않았습니다.");
+        }
+
         log.info("Authentication in session: {}", authentication);
 
         Map<String, Object> response = new HashMap<>();
@@ -29,6 +33,7 @@ public class AdminController {
         response.put("timestamp", new java.util.Date());
         return response;
     }
+
 
 
 }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import Btn from "../../util/reuseBtn.jsx";
-import Paths from "../../assets/pathsData.jsx"
 import { useAuth } from "../common/AuthContext.jsx";
 
 import "../../../dist/assets/pages/login.css";
@@ -47,7 +46,7 @@ function Login({data}) {
     // submit 버튼 클릭 시 fetch 통해 로그인 컨트롤러에 데이터 요청
     const handleFormSubmit = async (e) => {
         e.preventDefault();// 이벤트 버블링 방지
-    console.log("login------");
+        console.log("login------");
         const userCredentials = {
             clientId: clientId,
             password: password,
@@ -62,21 +61,22 @@ function Login({data}) {
             body: JSON.stringify(userCredentials),
             credentials: 'include',  // 쿠키를 포함시키기 위해 'include' 설정
         });
-        console.log("userCredentials",userCredentials);
-        console.log("response----------",response);
+      //  console.log("userCredentials",userCredentials);
+       // console.log("response----------",response);
 
         const contentType = response.headers.get("Content-Type");
         let data;
         //백엔드 서버로부터 응답 받기
         if(response.ok){
+            const cookies = response.headers.get('set-cookie');
+            console.log('Set-Cookie:', cookies); // 쿠키 확인
             //Json과 text 데이터 요청 받는데 성공하면 실행되는 로직
-            console.log("contentType",contentType);
-            console.log("json /text 분기전 응답",response);
+
             if (contentType && contentType.includes("application/json")) {
                 data = await response.json();
 
               //로그인 성공여부에 따른 리다이렉션 로직
-                console.log("data",data);
+                 console.log("data",data);
                 if (data.status === "success") {
                     handleLoginSuccess(data); // 로그인 성공 처리
                 } else if (data.status === "error") {
@@ -89,8 +89,8 @@ function Login({data}) {
             } else {
 
                 data = await response.text();// 텍스트 응답일 경우
-                console.log("텍스트data",data);
-                console.log("텍스트mgs",data.message);
+              //  console.log("텍스트data",data);
+              //  console.log("텍스트mgs",data.message);
                 return data;
             }
 

@@ -1,7 +1,9 @@
 
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import FormTag from "../../../util/formTag.jsx";
 import Btn from "../../../util/reuseBtn.jsx";
+import PathsData from "../../../assets/pathsData.jsx";
+import {BookDispatchContext} from "../adminBookComponent.jsx";
 
 
 
@@ -11,53 +13,64 @@ import Btn from "../../../util/reuseBtn.jsx";
 
 const AdminBookCreate = () => {
 
-    const [bookData, setBookData] = useState(null);  // 데이터를 상태로 관리
+    const {onCreate} = useContext(BookDispatchContext);
 
-    useEffect( () => {
-        // 데이터 fetch 요청
-         fetch("/api/admin/book/bookCreate", {
-            // POST 요청시 header 추가 필요
-        })
-            .then(response => {
-                if (response.ok) {
-                    // 제이슨 객체(Object Prototype)
-                   return response.json();
-                } else {
-                    console.error('Failed to fetch');
-                    throw new Error('Failed to fetch');
-                }
-            }).then(data => {
+    // 서버로 전송해야할 데이터를 모아야하는 함수
+    const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
 
-              let resData = data;
-                setBookData(resData);  // 데이터 로딩 완료 후 상태 업데이트
+    const fetchBookData = async ()=>{
+        try{
+            fetch("/api/admin/book/bookCreate", {
+                // POST 요청시 header 추가 필요
+
             })
-            .catch(err => {
-                console.log("err------", err);
-            });
-    }, []);  // 컴포넌트가 처음 렌더링될 때만 호출됨
+                .then(response => {
+                    if (response.ok) {
+                        // 제이슨 객체(Object Prototype)
+                        return response.json();
+                    } else {
+                        console.error('Failed to fetch');
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                }).then(data => {
+
+                let resData = data;
+                setBookCategory(resData);  // 데이터 로딩 완료 후 상태 업데이트
+                })
+                .catch(err => {
+                    console.log("err------", err);
+                });
+
+        }catch(error){
+            console.error("Error fetching data:", error);
+        }
+
+    }// 데이터 fetch 요청
+
+
+    useEffect(() => {
+        fetchBookData();  // 컴포넌트가 처음 마운트될 때 실행
+    }, []);
 
 
     //setData이후에 새로 반영해야하기때문에, 재사용 data가 업데이트될 때마다 확인하는 useEffect 추가
     // 데이터가 갱신될 때마다 확인하는 useEffect
     useEffect(() => {
 
-        if(bookData){ //  null , undefined 에러 방지
+        if(bookCategory){ //  null , undefined 에러 방지
 
-            console.log("bookData",bookData);
-            console.log("bookData--444",bookData.data);
-           // console.log("bookData--444",bookData.data.A.children.secondLevelId,bookData.data.A.children.secondLevelName);
+            console.log("bookCategory",bookCategory);
+            console.log("bookCategory--444",bookCategory.data);
+           // console.log("bookCategory--444",bookCategory.data.A.children.secondLevelId,bookCategory.data.A.children.secondLevelName);
         }
 
-    }, [bookData]); // data가 변경될 때마다 실행됨
+    }, [bookCategory]); // data가 변경될 때마다 실행됨
 
 
+    const onSubmit = (e) => {
 
-    if (!bookData) {
-        return <div>Loading...</div>;  // 데이터가 없을 때 로딩 화면
+
     }
-
-
-
 
     return(
         <>
@@ -65,7 +78,7 @@ const AdminBookCreate = () => {
 
             <div className="page bookcreate">
                 {/*onSubmit={handleInputChange}*/}
-                <form className="bookCreateForm">
+                <form className="bookCreateForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
                     <div className="d-flex align-items-center">
                         <strong className="">도서분류</strong>
@@ -77,7 +90,7 @@ const AdminBookCreate = () => {
                         <label htmlFor="category1" className="visually-hidden">1차 카테고리</label>
                         <select className="form-select" name="category1">
                             <option value="1차카테고리">1차카테고리</option>
-                            {bookData.data
+                            {bookCategory?.data
                                 .filter(book => book.cateDepthLevel.trim() === "1") // cateDepthLevel이 "1"인 항목만 필터링
                                 .map(book => (
                                     <option key={book.cateId} value={book.cateName}>{book.cateName}</option>
@@ -88,7 +101,7 @@ const AdminBookCreate = () => {
                         <label htmlFor="category2" className="visually-hidden">2차 카테고리</label>
                         <select className="form-select" name="category2">
                             <option value="2차카테고리">2차카테고리</option>
-                            {bookData.data
+                            {bookCategory?.data
                                 .filter(book => book.cateDepthLevel.trim() === "2") // cateDepthLevel이 "1"인 항목만 필터링
                                 .map(book => (
                                     <option key={book.cateId} value={book.cateName}>{book.cateName}</option>
@@ -99,7 +112,7 @@ const AdminBookCreate = () => {
                         <label htmlFor="category3" className="visually-hidden">3차 카테고리</label>
                         <select className="form-select" name="category3">
                             <option value="3차카테고리">3차카테고리</option>
-                            {bookData.data
+                            {bookCategory.data
                                 .filter(book => book.cateDepthLevel.trim() === "3") // cateDepthLevel이 "1"인 항목만 필터링
                                 .map(book => (
                                     <option key={book.cateId} value={book.cateName}>{book.cateName}</option>
@@ -129,11 +142,9 @@ const AdminBookCreate = () => {
                             <span>원</span>
                         </div>
                         <div className="d-flex align-items-center">
-                            <label htmlFor="stockStatus">재고</label>
-                            <select id="stockStatus" className="form-select" name="stockStatus">
-                                <option value="0">0</option>
-                                <option value="10">10</option>
-                            </select>
+                            <FormTag label="재고" className="form-control" name="stockStatus" type="text"
+                                     placeholder="재고입력"/>
+                            <span>개</span>
                         </div>
                     </div>
 
@@ -160,7 +171,7 @@ const AdminBookCreate = () => {
                     </div>
                 </form>
                 <div className="d-flex align-items-center justify-content-center">
-                    <Btn className={"login btn btn-secondary"} text={"취소"}/>
+                    <Btn path={PathsData.page.adminBook} className={"login btn btn-secondary"} text={"취소"}/>
                     <Btn className={"signup btn btn-primary"} text={"완료"} type="submit"/>
                 </div>
             </div>

@@ -58,7 +58,7 @@ const Header = () => {
                 <ul className="d-flex align-items-center">
                 {isAuthenticated ? ( // 시큐리티 인증이 true이면
                         <>
-                            <li> {userData?.roles && (
+                            <li> {userData.roles && (
                                 <span>{userData.roles[0] === "ROLE_ADMIN" ?
                                     `${userData.clientName}관리자(${userData.clientId})`
                                     : userData.roles[0] === "ROLE_MEMBER"

@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class UserDetailCustomServiceImple implements UserDetailsService  {
+public class PrincipalDetailsService implements UserDetailsService  {
 
     private  LoginDao loginDao;
 
-    public UserDetailCustomServiceImple(LoginDao loginDao) {
+    public PrincipalDetailsService(LoginDao loginDao) {
         this.loginDao = loginDao;
     }
 
@@ -26,15 +26,15 @@ public class UserDetailCustomServiceImple implements UserDetailsService  {
     @Override
     public  UserDetails loadUserByUsername(String clientId) throws UsernameNotFoundException {
 
-        log.info("loadUserByUsername-----------444:{}",clientId);
+        //log.info("loadUserByUsername-----------444:{}",clientId);
 
         //3. 해당아이디에 대한 정보 조회
         LoginVO loginUser = loginDao.selectClientId(clientId);
-        log.info("loginUser------------555:{}",loginUser);
+        //log.info("loginUser------------555:{}",loginUser);
         //4.null 값 확인
         if (loginUser == null) {
-            log.info("정보없음-----------6666:{}",loginUser);
-            throw new UsernameNotFoundException("User not found with clientId: " + clientId);
+        //    log.info("정보없음-----------6666:{}",loginUser);
+            throw new UsernameNotFoundException("clientId를 찾을 수 없습니다.: " + clientId);
         }
     
         
@@ -45,9 +45,10 @@ public class UserDetailCustomServiceImple implements UserDetailsService  {
         userData.setIdentiNum(loginUser.getIdentiNum());
         userData.setRoleId(loginUser.getRoleId());
 
-        log.info("userData-----------777:{}",userData);
-
-        return new UserDetailsImple(userData);
+       // log.info("userData-----------777:{}",userData);
+        
+        //인증객체에 userData 담아서 반환
+        return new PrincipalDetails(userData);
 
     }
 //end

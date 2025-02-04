@@ -28,7 +28,7 @@ const Gnb=({userData})=>{
 
     return(
         <>
-            { (userData.roles[0] === "ROLE_ADMIN" || userData.roles[0] === "ROLE_MEMBER")?
+            { (role === "ROLE_ADMIN" || role === "ROLE_MEMBER")?
                 (
                     //관리자, 사원인 회원
                     <>

@@ -4,6 +4,7 @@ import com.example.team01.common.service.ClientService;
 import com.example.team01.vo.ClientVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -34,29 +36,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
 
 
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            log.info("Session ID: {}", session.getId());
-            log.info("Session Creation Time: {}", session.getCreationTime());
 
-            SecurityContext securityContext = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
-            if (securityContext != null) {
-                log.info("SecurityContext found in session: {}", securityContext);
-            } else {
-                log.warn("SecurityContext not found in session.");
-            }
-        } else {
-            log.warn("No session created.");
-        }
-
-
-        log.info("authentication-------------------onAuthenticationSuccess :{}",authentication);
     //시큐리티나, 클라이언트가 content-type을 text/html로 보낼 수 있기때문에 명시적으로 설정
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        log.info("onAuthenticationSuccess-------------------인증성공 :{}",response);
+
         //실제 로그인 성공 후의 로직 처리 하는 메소드
-        log.info("onAuthenticationSuccess9999-------------------로그인성공");
 
         // 로그인 성공시 roleId가 Role_Admin 일때 redirection 주소 관리자로 아니면 /로
         // 사용자 권한 정보 가져오기
@@ -64,15 +49,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
         String redirectUrl = isAdmin ? "/admin" : "/";
 
-        log.info("onAuthenticationSuccess------10------------------");
-        // session 정보 및 로그인 사용자 정보 response에 담기
         //1. 로그인 사용자 정보 가져오기
         String username = authentication.getName(); // 사용자 이름
         Collection<? extends GrantedAuthority> roles = authentication.getAuthorities(); // 권한 목록
 
         // clientId를 이용하여 추가 사용자 정보를 가져오기
         ClientVO clientInfo = clientService.getClientWithRole(username);
-
 
         // 2. JSON 응답 생성
         Map<String, Object> responseData = new HashMap<>();
@@ -86,17 +68,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         responseData.put("userStatus", clientInfo.getStatus()); // 회원,사원,관리자
         // responseData.put("sessionId", request.getSession().getId()); // 세션 ID
 
-        log.info("responseData-------------------:{}",responseData); //json 응답 반환
 
        //Jackson 라이브러리의 ObjectMapper를 사용하여 Map 객체를 JSON 문자열로 변환
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString(responseData);
-        log.info("jsonResponse-------------------jsonResponse:{}",jsonResponse); //json 응답 반환
+
         // response.getWriter().write()를 사용하여 JSON 응답을 클라이언트로 반환
-        response.getWriter().write(jsonResponse); 
+        response.getWriter().write(jsonResponse);
 
     }
 // class end
+
+
 
 }
 

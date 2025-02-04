@@ -11,9 +11,9 @@ export const AuthProvider = ({ children }) => {
 
 
     useEffect(() => {
-        // 페이지 새로고침 후 localStorage에서 인증 정보 읽기
-        console.log("localStorage-----------",localStorage);
-        console.log("userData-----------",userData);
+       // 페이지 새로고침 후 localStorage에서 인증 정보 읽기
+       console.log("localStorage-----------",localStorage);
+       console.log("userData-----------",userData);
 
         const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
         const storedUserData = JSON.parse(localStorage.getItem('userData'));

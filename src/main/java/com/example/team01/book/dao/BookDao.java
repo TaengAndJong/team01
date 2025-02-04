@@ -4,6 +4,8 @@ package com.example.team01.book.dao;
 import com.example.team01.vo.BookVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 
 // Mybatis와 연결할 Data access Object 로 Mapper 지정 -> BooKMapper.xml 연결
 
@@ -11,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface BookDao {
 
     //도서목록
-    public BookVO selectAllBook();
+    public List<BookVO> selectAllBook();
     //도서상세페이지 ( id로 특정 데이터 조회후 특정데이터 레코드 전부 반환 ==> BookVO사용)
     public BookVO selectOneBook(String bookId);
 
