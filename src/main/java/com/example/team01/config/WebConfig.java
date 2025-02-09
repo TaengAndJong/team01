@@ -37,7 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
         config.addAllowedOrigin("http://localhost:5177");
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.addAllowedHeader("*");
-        config.setAllowCredentials(true);
+        config.setAllowCredentials(true); // 쿠키포함허용
         source.registerCorsConfiguration("/**", config);
         return source;
     }

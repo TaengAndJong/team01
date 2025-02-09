@@ -16,10 +16,12 @@ function Admin() {
             try {
                 const response = await fetch("/api/admin", {
                     method: "GET",
+                    mode: 'cors',  // CORS 모드 명시
                     credentials: 'include',  // 쿠키와 인증 정보를 포함한 요청
                 });
 
                 if (response.ok) {
+
                     const contentType = response.headers.get("Content-Type");
 
                     if (contentType && contentType.includes("application/json")) {

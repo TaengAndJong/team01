@@ -21,7 +21,7 @@ public class AdminController {
     @GetMapping
     public Map<String, Object> adminHandler(HttpSession session) {
         Object authentication = session.getAttribute("SPRING_SECURITY_CONTEXT");
-
+        log.info("authentication-----------------: {}", authentication);
         if (authentication == null) {
             log.warn("사용자가 인증되지 않았습니다.");
         }

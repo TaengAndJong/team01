@@ -1,6 +1,7 @@
 package com.example.team01.security;
 
 
+import com.example.team01.login.dao.LoginDao;
 import com.example.team01.vo.LoginVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,8 @@ import java.util.Collection;
 public class PrincipalDetails implements UserDetails {
     //dao에서 사용할 데이터 가져오기
 
-   private  LoginVO userData;
+   private LoginVO userData;
+   private LoginDao dao;
 
    //인증 객체
    public PrincipalDetails(LoginVO userData) {
@@ -48,8 +50,16 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public String getPassword() {
        //비밀번호 불일치 시 로직 추가 ?
-        //log.info("getPassword222----------------------------:{}",userData.getPassword());
+       log.info("getPassword----------------------------:{}",userData.getPassword());
         return userData.getPassword();
+    }
+
+    // 추가: userData 반환 메서드
+    public LoginVO getUserData() {
+        log.info("userData----------------------------:{}",userData);
+        // 사용자 이름, 역할 이름 추가설정
+
+        return userData; // 세션에 저장할 사용자 정보
     }
 
     //계정만료 되었는지 , true 는 계정만료 안됨

@@ -22,6 +22,7 @@ public class LoginVO implements Serializable {
 
     @Id
     private String clientId;  // 사용자 아이디 (예: 이메일 또는 사용자 이름)
+    private String clientName;  // 사용자 아이디 (예: 이메일 또는 사용자 이름)
     private String password;  // 비밀번호
     private String identiNum;//주민등록번호
     private String email;     // 이메일 (선택사항)
@@ -29,6 +30,7 @@ public class LoginVO implements Serializable {
     
     //로그인 시 유저의 역할에 따라 권한 설정에 필요
     private String roleId;     // 사용자 역할 (예: ROLE_ADMIN, ROLE_CLIENT,ROEL_MEMBER 등)
+    private String roleName;     // 사용자 역할 (예: ROLE_ADMIN, ROLE_CLIENT,ROEL_MEMBER 등)
 
 
 

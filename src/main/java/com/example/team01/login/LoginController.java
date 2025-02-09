@@ -1,5 +1,6 @@
 package com.example.team01.login;
 
+import com.example.team01.security.PrincipalDetails;
 import com.example.team01.security.handler.CustomAuthenticationFailureHandler;
 import com.example.team01.security.handler.CustomAuthenticationSuccessHandler;
 import com.example.team01.vo.LoginVO;
@@ -19,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 // 프론트 주소로 매핑
@@ -29,10 +32,8 @@ import java.io.IOException;
 public class LoginController {
 
 
-    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final AuthenticationManager authenticationManager;
-
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @GetMapping()
     public String getLogin() {
@@ -42,41 +43,27 @@ public class LoginController {
 
 
     @PostMapping()
-    public void  postLogin(@RequestBody LoginVO user, HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
+    public void postLogin(@RequestBody LoginVO user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
 
         //프론트에서 넘어 온  파라미터를 변수에 저장해서 가져오기
         String clientId = user.getClientId();
         String password = user.getPassword();
-        //시큐리티 인증 시도
-        try{
-            // 1. UsernamePasswordAuthenticationToken 생성
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(clientId, password);
 
-            // 2. AuthenticationManager를 사용하여 인증 시도
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        log.info("id:{},pw:{}1111111------------------", clientId, password);
+        // 시큐리티 필터체인에게 넘겨주기
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(clientId, password);
+        log.info("authenticationToken222222-----------------:{}", authenticationToken);
 
-            // 3. 인증이 성공하면 SecurityContext에 인증 정보 저장
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            //4.직접 successHandler 호출l
-           customAuthenticationSuccessHandler.onAuthenticationSuccess(request, response, authentication);
-            // session 정보 및 로그인 사용자 정보(인증정보) response에 담기
-            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-
-
-
-        } catch (AuthenticationException e) {
-            // 아이디 비밀번호정보가 데이터베이스와 매칭이  안되면 실행
-            //1)  비밀번호 매칭 실패 시 AuthenticationException 생성
-            AuthenticationException exception = new BadCredentialsException("Invalid credentials");
-            //2) failuerHandler 로그인 실패 처리 핸들러 호출
-            customAuthenticationFailureHandler.onAuthenticationFailure(request,response,exception);
-            log.warn("Authentication failed for clientId------------------------: {}", user.getClientId());
-        }
-
-
+        // AuthenticationManager에게 인증 요청
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        log.info("authentication33333-------------:{}", authentication);
+        // 인증 성공 후 SecurityContext에 인증 정보 저장
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        log.info("SecurityContext에 인증 정보 저장44444-------------:");
+        // 로그인후 성공핸들러 처리 위임
+       customAuthenticationSuccessHandler.onAuthenticationSuccess(request, response, authentication);
     }
-
 
 
     @GetMapping("/loginError")
@@ -85,12 +72,6 @@ public class LoginController {
         return data;
     }
 
-    private void deleteExistingCookie(HttpServletResponse response, String cookieName) {
-        Cookie cookie = new Cookie(cookieName, null);
-        cookie.setPath("/"); // 쿠키 경로를 설정
-        cookie.setMaxAge(0); // 쿠키 만료 시간을 0으로 설정하여 삭제
-        response.addCookie(cookie);
-    }
 
 }
 

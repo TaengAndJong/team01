@@ -59,6 +59,7 @@ function Login({data}) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(userCredentials),
+            mode: 'cors',  // CORS 모드 명시
             credentials: 'include',  // 쿠키를 포함시키기 위해 'include' 설정
         });
       //  console.log("userCredentials",userCredentials);
@@ -68,8 +69,7 @@ function Login({data}) {
         let data;
         //백엔드 서버로부터 응답 받기
         if(response.ok){
-            const cookies = response.headers.get('set-cookie');
-            console.log('Set-Cookie:', cookies); // 쿠키 확인
+
             //Json과 text 데이터 요청 받는데 성공하면 실행되는 로직
 
             if (contentType && contentType.includes("application/json")) {
