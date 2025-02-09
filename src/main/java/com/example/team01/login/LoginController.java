@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -59,10 +60,14 @@ public class LoginController {
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         log.info("authentication33333-------------:{}", authentication);
         // 인증 성공 후 SecurityContext에 인증 정보 저장
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("SecurityContext에 인증 정보 저장44444-------------:");
+       SecurityContextHolder.getContext().setAuthentication(authentication);
+       log.info("SecurityContext에 인증 정보 저장44444-------------:");
+       request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                SecurityContextHolder.getContext());
+        log.info("sessiondp 인증 정보 저장55555-------------:");
         // 로그인후 성공핸들러 처리 위임
-       customAuthenticationSuccessHandler.onAuthenticationSuccess(request, response, authentication);
+        customAuthenticationSuccessHandler.onAuthenticationSuccess(request, response, authentication);
+
     }
 
 

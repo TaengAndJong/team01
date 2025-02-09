@@ -39,8 +39,7 @@ public class SecurityConfig {
     private final WebConfig webConfig;
     // UserDetailsService 구현체 주입
     private final PrincipalDetailsService userDetailCustomServiceImple;
-    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
 
 
     @Bean
@@ -54,14 +53,18 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasAnyRole(Role.ADMIN.name(),Role.MEMBER.name())
                         .requestMatchers("/login/**", "/mypage/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MEMBER.name())
                         .anyRequest().authenticated()) // 나머지 요청 인증 필요)
-                .formLogin(form -> form.loginPage("/login")// 프론트 주소 (로그인을 요청할 URL)
+                .formLogin(form ->
+                        form.loginPage("/login")// 프론트 주소 (로그인을 요청할 URL)
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .loginProcessingUrl("/api/login") // 실제 인증처리되는 백엔드주소 (엔드포인트)
+                        .defaultSuccessUrl("/") // 로그인 성공 시 리디렉션 URL
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout") // 백엔드 주소 (로그아웃 요청을 실행할 백엔드 주소?)
+                        .invalidateHttpSession(true) // 로그아웃 시 세션 무효화
+                        .deleteCookies("JSESSIONID") // 로그아웃 시 쿠키 삭제
                         .logoutSuccessUrl("/")
                         .permitAll()
                 );
