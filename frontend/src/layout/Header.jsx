@@ -11,9 +11,9 @@ import Gnb from "./Gnb.jsx"
 const Header = () => {
 
 // 로그인 상태와 사용자 데이터 가져오기
-    const { isAuthenticated, userData } = useAuth();
-    const {logout} = useAuth();
+    const { isAuthenticated, userData,logout } = useAuth();
     const navigate = useNavigate();
+
 
 
 

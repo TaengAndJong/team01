@@ -52,24 +52,22 @@ function Login({data}) {
         formData.append("clientId", clientId);
         formData.append("password", password);
 
-        // 로그인 요청 백엔드 서버로 보내기
-        const response = await fetch("/api/login",{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: formData.toString(), // .toString()변환; application/x-www-form-urlencoded 형식으로 데이터를 변환하기 위해서
-            mode: 'cors',  // CORS 모드 명시
-            credentials: 'include',  // 쿠키를 포함시키기 위해 'include' 설정
-        });
-      console.log("formData",formData.get("clientId"),formData.get("password"));
-       console.log("response----------",response);
+       // 로그인 요청 백엔드 서버로 보내기
+       const response = await fetch("/api/login",{
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/x-www-form-urlencoded',
+           },
+           body: formData.toString(), // .toString()변환; application/x-www-form-urlencoded 형식으로 데이터를 변환하기 위해서
+           mode: 'cors',  // CORS 모드 명시
+           credentials: 'include',  // 쿠키를 포함시키기 위해 'include' 설정
+       });
+
 
         const contentType = response.headers.get("Content-Type");
         let data;
         //백엔드 서버로부터 응답 받기
         if(response.ok){
-
             //Json과 text 데이터 요청 받는데 성공하면 실행되는 로직
 
             if (contentType && contentType.includes("application/json")) {
@@ -84,6 +82,7 @@ function Login({data}) {
                     setLoginError(data.message);//에러 메시지 갱신
                 } else {
                     console.error("알 수 없는 상태:", data.status);
+                    handleLoginFailure(); // 로그인 실패 처리
                 }
 
             } else {
