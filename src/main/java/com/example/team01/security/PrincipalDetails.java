@@ -62,6 +62,8 @@ public class PrincipalDetails implements UserDetails {
         return userData; // 세션에 저장할 사용자 정보
     }
 
+
+
     //계정만료 되었는지 , true 는 계정만료 안됨
     @Override
     public boolean isAccountNonExpired() {

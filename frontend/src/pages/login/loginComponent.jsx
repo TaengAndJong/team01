@@ -47,23 +47,23 @@ function Login({data}) {
     const handleFormSubmit = async (e) => {
         e.preventDefault();// 이벤트 버블링 방지
         console.log("login------");
-        const userCredentials = {
-            clientId: clientId,
-            password: password,
-        };
+        //application/x-www-form-urlencoded 형식으로 보내기 위해 사용
+        const formData = new URLSearchParams();
+        formData.append("clientId", clientId);
+        formData.append("password", password);
 
         // 로그인 요청 백엔드 서버로 보내기
         const response = await fetch("/api/login",{
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify(userCredentials),
+            body: formData.toString(), // .toString()변환; application/x-www-form-urlencoded 형식으로 데이터를 변환하기 위해서
             mode: 'cors',  // CORS 모드 명시
             credentials: 'include',  // 쿠키를 포함시키기 위해 'include' 설정
         });
-      //  console.log("userCredentials",userCredentials);
-       // console.log("response----------",response);
+      console.log("formData",formData.get("clientId"),formData.get("password"));
+       console.log("response----------",response);
 
         const contentType = response.headers.get("Content-Type");
         let data;

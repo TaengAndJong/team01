@@ -16,8 +16,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -32,9 +35,9 @@ import java.util.Map;
 @RestController
 public class LoginController {
 
-
-    private final AuthenticationManager authenticationManager;
-    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+//    private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
+//    private final AuthenticationManager authenticationManager;
+//    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @GetMapping()
     public String getLogin() {
@@ -43,32 +46,31 @@ public class LoginController {
     }
 
 
-    @PostMapping()
-    public void postLogin(@RequestBody LoginVO user, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-
-        //프론트에서 넘어 온  파라미터를 변수에 저장해서 가져오기
-        String clientId = user.getClientId();
-        String password = user.getPassword();
-
-        log.info("id:{},pw:{}1111111------------------", clientId, password);
-        // 시큐리티 필터체인에게 넘겨주기
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(clientId, password);
-        log.info("authenticationToken222222-----------------:{}", authenticationToken);
-
-        // AuthenticationManager에게 인증 요청
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        log.info("authentication33333-------------:{}", authentication);
-        // 인증 성공 후 SecurityContext에 인증 정보 저장
-       SecurityContextHolder.getContext().setAuthentication(authentication);
-       log.info("SecurityContext에 인증 정보 저장44444-------------:");
-       request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-                SecurityContextHolder.getContext());
-        log.info("sessiondp 인증 정보 저장55555-------------:");
-        // 로그인후 성공핸들러 처리 위임
-        customAuthenticationSuccessHandler.onAuthenticationSuccess(request, response, authentication);
-
-    }
+//    @PostMapping()
+//    public void postLogin(@RequestBody LoginVO user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+//
+//
+//        //프론트에서 넘어 온  파라미터를 변수에 저장해서 가져오기
+//        String clientId = user.getClientId();
+//        String password = user.getPassword();
+//
+//        log.info("id:{},pw:{}1111111------------------", clientId, password);
+//
+//        // 시큐리티 필터체인 인증 토큰 생성해 넘겨주기
+//        UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken.unauthenticated(
+//                clientId,password);
+//        // AuthenticationManager에게 인증 요청 및 처리
+//        Authentication authentication = authenticationManager.authenticate(token);
+//        // SecurityContext 생성 및  인증 정보 설정
+//        SecurityContext context = SecurityContextHolder.createEmptyContext();
+//        context.setAuthentication(authentication);
+//        // 인증 성공 후 SecurityContext에 인증 정보 저장
+//        SecurityContextHolder.setContext(context);
+//
+//        // 로그인후 성공핸들러 처리 위임
+//        customAuthenticationSuccessHandler.onAuthenticationSuccess(request, response, authentication);
+//
+//    }
 
 
     @GetMapping("/loginError")
