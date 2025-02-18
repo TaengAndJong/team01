@@ -36,11 +36,13 @@ const AdminBook = () => {
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [bookdata, dispatch] = useReducer(reducer, []);
 
-    const onCreate = () => {
-
+    const onCreate = (createBook) => {
+        console.log("createBook--------------????",createBook);
         dispatch({
             type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
-            data: {}
+            data: {
+
+            }
         });
     }
 

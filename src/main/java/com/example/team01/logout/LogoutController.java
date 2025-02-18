@@ -20,17 +20,6 @@ import java.util.Map;
 public class LogoutController {
 
 
-    @PostMapping()
-    public Map<String,Object> logout(HttpServletRequest request) {
-        log.info("request logout=----------:{}",request);
-
-//    스프링 시큐리티 로그아웃필터 어떻게 진입?
-
-        Map<String,Object> logoutInfo = new HashMap<>();
-        logoutInfo.put("message","로그아웃성공");
-
-        return logoutInfo;
-    }
 
 
 }

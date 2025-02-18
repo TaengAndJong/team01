@@ -1,18 +1,14 @@
 package com.example.team01.config;
 
 import com.example.team01.common.Enum.Role;
+import com.example.team01.logout.handler.AddLogoutHandler;
 import com.example.team01.security.PrincipalDetailsService;
-
-
 import com.example.team01.security.handler.CustomAuthenticationFailureHandler;
 import com.example.team01.security.handler.CustomAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,15 +16,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
-import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
-
-import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.*;
 
 
 @Slf4j
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
@@ -38,17 +29,12 @@ public class SecurityConfig {
     // UserDetailsService 구현체 주입
     private final PrincipalDetailsService userDetailCustomServiceImple;
 
-    //maximumSessions(1) 설정을 사용할 때 필요
-    @Bean
-    public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
-        return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
-    }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, AddLogoutHandler addLogoutHandler) throws Exception {
         String[] allowedPaths = { "/", "/login", "/signUp/**", "/page", "/test/**" };
 
-        http.cors(cors-> cors.configurationSource(webConfig.corsFilter()))
+        http.cors(cors-> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorizeReq ->
                         authorizeReq.requestMatchers(allowedPaths).permitAll() // 로그인 없이 접근 가능
@@ -60,22 +46,18 @@ public class SecurityConfig {
                         .usernameParameter("clientId")//프론트에서 넘어오는 ID(보낸 파라미터 이름에 맞춤)
                         .passwordParameter("password")
                         .loginProcessingUrl("/login") // 실제 인증처리되는 브라우저 주소 (엔드포인트)
-                                .successHandler(customAuthenticationSuccessHandler)
-                                .failureHandler(customAuthenticationFailureHandler)
+                                .successHandler(customAuthenticationSuccessHandler) // 로그인 성공 핸들러
+                                .failureHandler(customAuthenticationFailureHandler) // 로그인 실패 핸들러
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout") // 백엔드 주소 (로그아웃 요청을 실행할 백엔드 주소?)
                         .logoutSuccessUrl("/")
-                        .addLogoutHandler(new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(COOKIES)))
+                        .addLogoutHandler(addLogoutHandler)//로그아웃 시 기타 처리 핸들러
                         .permitAll()
-                ).sessionManagement(session
-                        -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                        .sessionFixation().newSession()
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(true)
-                        .expiredUrl("/login") // 세션 만료 후 리디렉션할 URL
-                );
+                ).sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                                .invalidSessionUrl("/login"));
 
         return http.build();
     }
@@ -101,4 +83,4 @@ public class SecurityConfig {
 
 }
 
- //.addLogoutHandler(addLogoutHandler)// 로그아웃 성공시 리다이렉트 할 URL
+

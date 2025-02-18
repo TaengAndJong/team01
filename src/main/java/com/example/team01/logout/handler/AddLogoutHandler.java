@@ -38,7 +38,7 @@ public class AddLogoutHandler implements LogoutHandler {
 
         // SecurityContextHolder에 저장된 인증 정보 삭제
         SecurityContextHolder.clearContext();  // 인증 정보 삭제
-        log.info("SecurityContextHolder cleared.");
+        log.info("SecurityContextHolder cleared.-----------END");
 
     }
 

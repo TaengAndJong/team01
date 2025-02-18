@@ -4,6 +4,8 @@ import FormTag from "../../../util/formTag.jsx";
 import Btn from "../../../util/reuseBtn.jsx";
 import PathsData from "../../../assets/pathsData.jsx";
 import {BookDispatchContext} from "../adminBookComponent.jsx";
+import {useAuth} from "../../common/AuthContext.jsx";
+import {validID} from "../../../util/validation.jsx";
 
 
 
@@ -14,12 +16,30 @@ import {BookDispatchContext} from "../adminBookComponent.jsx";
 const AdminBookCreate = () => {
 
     const {onCreate} = useContext(BookDispatchContext);
+    const {userData} = useAuth();
+    console.log("userData---------",userData);
+
+    const [createBook, setCreateBook] = useState({
+          bookName:'',
+            bookDesc:'',
+          author: '',
+          bookPrice:'0',
+          stock: '0',
+          stockStatus: '품절',
+          publishDate:'',
+        firstCategory:'',
+        secondCategory:'',
+        thirdCategory:'',
+       // writer:userData.clientName,
+       // userId:userData.clientId,
+       // role:userData.role,
+    })
+
 
     // 서버로 전송해야할 데이터를 모아야하는 함수
     const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
+    const bookCateList = async ()=>{
 
-    const fetchBookData = async ()=>{
-        try{
             fetch("/api/admin/book/bookCreate", {
                 // POST 요청시 header 추가 필요
 
@@ -33,43 +53,49 @@ const AdminBookCreate = () => {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                 }).then(data => {
-
-                let resData = data;
+                //도서 카테고리 목록 받아서 카테고리 상태 관리 함수에 반환,설정
+                let resData = data.cateData;
+                console.log("resData---------------------",resData);
+                console.log("resData[0]---------------------",resData[0].cateDepthLevel);
                 setBookCategory(resData);  // 데이터 로딩 완료 후 상태 업데이트
                 })
                 .catch(err => {
-                    console.log("err------", err);
+                    console.log("카테고리 데이터가 없습니다", err);
                 });
 
-        }catch(error){
-            console.error("Error fetching data:", error);
-        }
 
     }// 데이터 fetch 요청
 
-
     useEffect(() => {
-        fetchBookData();  // 컴포넌트가 처음 마운트될 때 실행
+        bookCateList();  // 컴포넌트가 처음 마운트될 때 실행
     }, []);
 
 
-    //setData이후에 새로 반영해야하기때문에, 재사용 data가 업데이트될 때마다 확인하는 useEffect 추가
-    // 데이터가 갱신될 때마다 확인하는 useEffect
-    useEffect(() => {
 
-        if(bookCategory){ //  null , undefined 에러 방지
+// 공통 onChange 핸들러
+const handleChange = (e) => {
+    const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
 
-            console.log("bookCategory",bookCategory);
-            console.log("bookCategory--444",bookCategory.data);
-           // console.log("bookCategory--444",bookCategory.data.A.children.secondLevelId,bookCategory.data.A.children.secondLevelName);
-        }
+    setCreateBook({
+        ...createBook, //기존에 있는 데이터들 스프레드 연산자로 합쳐주기
+        [e.target.name]:e.target.value, //  카테고리를 target.name에 따라 추가
 
-    }, [bookCategory]); // data가 변경될 때마다 실행됨
+        // 재고수량에 따른 재고상태값 변화 조건 , 스프레드 연산자로  객체 항목 추가
+        ...(name === 'stock' && {
+            stockStatus: value !== '0' && value !== '' ? '재고있음' : '재고없음', // stock 값에 따라 stockStatus 변경
+        }),
 
+    })
+
+};
+
+    console.log("createBook-----------",createBook);
 
     const onSubmit = (e) => {
-
-
+        e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
+        console.log("onSubmit-----------",createBook);
+        // 변수 createBook 폼데이터를 모아 담은 객체를 onCreate로 전달
+        onCreate(createBook);
     }
 
     return(
@@ -83,39 +109,43 @@ const AdminBookCreate = () => {
                     <div className="d-flex align-items-center">
                         <strong className="">도서분류</strong>
                         {/*1차 카테고리만 데이터 */}
-                        {/*{data[0]?.depthTreeList?.[0]?.cateName}*/}
-                        {/*data의 49개 리스트에서 depthTreeList의 0번째의 cateName */}
 
-
-                        <label htmlFor="category1" className="visually-hidden">1차 카테고리</label>
-                        <select className="form-select" name="category1">
+                        <label htmlFor="firstCategory" className="visually-hidden">1차 카테고리</label>
+                        <select className="form-select" name="firstCategory" onChange={handleChange}>
                             <option value="1차카테고리">1차카테고리</option>
-                            {bookCategory?.data
-                                .filter(book => book.cateDepthLevel.trim() === "1") // cateDepthLevel이 "1"인 항목만 필터링
-                                .map(book => (
-                                    <option key={book.cateId} value={book.cateName}>{book.cateName}</option>
+                            {bookCategory && bookCategory
+                                .filter(cate => parseInt(cate.cateDepthLevel) === 1)
+                                .map(cate => (
+                                    <option key={cate.cateId} value={cate.cateName}>
+                                        {cate.cateName}
+                                    </option>
                                 ))}
+
                         </select>
 
                         {/*2차 카테고리만 데이터 */}
-                        <label htmlFor="category2" className="visually-hidden">2차 카테고리</label>
-                        <select className="form-select" name="category2">
+                        <label htmlFor="secondCategory" className="visually-hidden">2차 카테고리</label>
+                        <select className="form-select" name="secondCategory" onChange={handleChange}>
                             <option value="2차카테고리">2차카테고리</option>
-                            {bookCategory?.data
-                                .filter(book => book.cateDepthLevel.trim() === "2") // cateDepthLevel이 "1"인 항목만 필터링
-                                .map(book => (
-                                    <option key={book.cateId} value={book.cateName}>{book.cateName}</option>
+                            {bookCategory && bookCategory
+                                .filter(cate => parseInt(cate.cateDepthLevel) === 2)
+                                .map(cate => (
+                                    <option key={cate.cateId} value={cate.cateName}>
+                                        {cate.cateName}
+                                    </option>
                                 ))}
                         </select>
 
                         {/*3차 카테고리만 데이터 */}
-                        <label htmlFor="category3" className="visually-hidden">3차 카테고리</label>
-                        <select className="form-select" name="category3">
+                        <label htmlFor="thirdCategory" className="visually-hidden">3차 카테고리</label>
+                        <select className="form-select" name="thirdCategory" onChange={handleChange}>
                             <option value="3차카테고리">3차카테고리</option>
-                            {bookCategory.data
-                                .filter(book => book.cateDepthLevel.trim() === "3") // cateDepthLevel이 "1"인 항목만 필터링
-                                .map(book => (
-                                    <option key={book.cateId} value={book.cateName}>{book.cateName}</option>
+                            {bookCategory && bookCategory
+                                .filter(cate => parseInt(cate.cateDepthLevel) === 3)
+                                .map(cate => (
+                                    <option key={cate.cateId} value={cate.cateName}>
+                                        {cate.cateName}
+                                    </option>
                                 ))}
                         </select>
                     </div>
@@ -124,11 +154,11 @@ const AdminBookCreate = () => {
                     <div className="d-flex align-items-center">
                         <div className="d-flex align-items-center">
                             <FormTag label="도서명" className="form-control" name="bookName" type="text"
-                                     placeholder="도서명 입력"/>
+                                     placeholder="도서명 입력"  onChange={handleChange}/>
                         </div>
                         <div className="d-flex align-items-center">
                             <FormTag label="저자" className="form-control" name="author" type="text"
-                                     placeholder="저자입력"/>
+                                     placeholder="저자입력" onChange={handleChange}/>
                         </div>
                     </div>
                     {/*저자*/}
@@ -137,13 +167,18 @@ const AdminBookCreate = () => {
                     <div className="d-flex align-items-center">
                         <div className="d-flex align-items-center">
                             {/*할인적용할 겨 ? 말겨? */}
-                            <FormTag label="도서가격"  className="form-control" name="bookPrice" type="text"
-                                     placeholder="도서가격입력"/>
+                            <FormTag label="도서가격" className="form-control" name="bookPrice" type="text"
+                                     placeholder="도서가격입력" value={createBook.bookPrice} onChange={handleChange}/>
                             <span>원</span>
                         </div>
                         <div className="d-flex align-items-center">
-                            <FormTag label="재고" className="form-control" name="stockStatus" type="text"
-                                     placeholder="재고입력"/>
+                            <FormTag label="재고" className="form-control" name="stock" type="text"
+                                     placeholder="재고입력" value={createBook.stock} onChange={handleChange}/>
+                            <span>개</span>
+                        </div>
+                        <div className="d-flex align-items-center">
+                            <FormTag label="재고상태" className="form-control" name="stockStatus" type="text"
+                                     placeholder="재고상태" value={createBook.stockStatus} readOnly={true}/>
                             <span>개</span>
                         </div>
                     </div>
@@ -151,14 +186,14 @@ const AdminBookCreate = () => {
                     {/*작성자*/}
                     <div className="d-flex align-items-center">
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
-                        <FormTag label="작성자"  className="form-control" name="writer" type="text"
-                                 placeholder="저자입력" readOnly={true}/>
+                        <FormTag label="작성자" className="form-control" name="writer" type="text"
+                                 placeholder="작성자"  value={userData?.clientName} readOnly={true}/>
                     </div>
                     {/*도서설명*/}
                     <div className="">
                         <label htmlFor="bookDesc">도서설명</label>
                         <textarea id="bookDesc" className="form-control" name="bookDesc" type="text"
-                                  placeholder="도서설명 100글자 이내로 입력" aria-describedby="bookDescHelp" maxLength="100"  required/>
+                                  placeholder="도서설명 100글자 이내로 입력" aria-describedby="bookDescHelp" maxLength="100"  required onChange={handleChange}/>
                     {/*100글자 넘어가면 에러메시지 출력 */}
                     </div>
 
@@ -172,7 +207,7 @@ const AdminBookCreate = () => {
                 </form>
                 <div className="d-flex align-items-center justify-content-center">
                     <Btn path={PathsData.page.adminBook} className={"login btn btn-secondary"} text={"취소"}/>
-                    <Btn className={"signup btn btn-primary"} text={"완료"} type="submit"/>
+                    <Btn className={"signup btn btn-primary"} text={"완료"} type="submit" onClick={onSubmit}/>
                 </div>
             </div>
 

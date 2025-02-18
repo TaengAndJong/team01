@@ -28,11 +28,12 @@ public class AdminBookController {
     @GetMapping("/bookCreate")
     public Map<String,Object> getBookCreate(){
 
-        List<CategoryVO> data  = categoryService.getAllCategories();
-        log.info("data-------------------:{}",categoryService.getAllCategories());
-        //json형태로 반환
+        //도서 카테고리 목록 조회
+        List<CategoryVO> cateData  = categoryService.getAllCategories();
+
+        //클라이언트로 json 반환 Map 인터페이스
         Map<String,Object> response = new HashMap<>();
-        response.put("data",data);
+        response.put("cateData",cateData);
         return response;
     }
 

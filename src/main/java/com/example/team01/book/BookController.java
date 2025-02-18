@@ -28,6 +28,8 @@ public class BookController {
 
     @GetMapping("/bookCreate")
     public List<CategoryVO> getBookCreate(){
+
+
         List<CategoryVO> data = dao.categoryList();
         log.info("data-------------------",data);
         return data;

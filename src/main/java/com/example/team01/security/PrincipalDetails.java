@@ -54,13 +54,6 @@ public class PrincipalDetails implements UserDetails {
         return userData.getPassword();
     }
 
-    // 추가: userData 반환 메서드
-    public LoginVO getUserData() {
-        log.info("userData----------------------------:{}",userData);
-        // 사용자 이름, 역할 이름 추가설정
-
-        return userData; // 세션에 저장할 사용자 정보
-    }
 
 
 

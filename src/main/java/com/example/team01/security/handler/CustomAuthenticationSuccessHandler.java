@@ -42,22 +42,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-//        //실제 로그인 성공 후의 로직 처리 하는 메소드
-//        HttpSession jsession = request.getSession(false); // 기존 세션이 없으면 null을 반환
-//        if (jsession == null) {
-//            jsession = request.getSession(); // 새 세션을 생성
-//        }
-//        String sessionId = jsession.getId();
-//        log.info("sessionId:-----------{}", sessionId);
-//
-//        // 응담헤더에 쿠키 설정
-//        Cookie sessionCookie = new Cookie("JSESSIONID", sessionId);
-//        sessionCookie.setPath("/"); // 쿠키가 적용될 경로
-//        sessionCookie.setHttpOnly(true); // JavaScript에서 접근할 수 없도록 설정
-//        sessionCookie.setSecure(false); // HTTPS 설정 여부
-//        sessionCookie.setMaxAge(60 * 60); // 1시간 동안 유효한 쿠키
-//        response.addCookie(sessionCookie); // 쿠키를 응답에 추가
-
         // 로그인 성공시 roleId가 Role_Admin 일때 redirection 주소 관리자로 아니면 /로
         // 사용자 권한 정보 가져오기
         boolean isAdmin = authentication.getAuthorities().stream()
