@@ -41,7 +41,8 @@ const AdminBook = () => {
         dispatch({
             type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
             data: {
-
+                // 도서 등록 페이지에서 onSubmit 함수를 실행해 받아온 createBook 데이터 전부 입력
+                ...createBook,
             }
         });
     }

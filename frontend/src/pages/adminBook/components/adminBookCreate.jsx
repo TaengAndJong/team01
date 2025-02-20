@@ -5,7 +5,7 @@ import Btn from "../../../util/reuseBtn.jsx";
 import PathsData from "../../../assets/pathsData.jsx";
 import {BookDispatchContext} from "../adminBookComponent.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
-import {validID} from "../../../util/validation.jsx";
+import FileUpload from "./fileUpload.jsx";
 
 
 
@@ -20,17 +20,18 @@ const AdminBookCreate = () => {
     console.log("userData---------",userData);
 
     const [createBook, setCreateBook] = useState({
-          bookName:'',
-            bookDesc:'',
-          author: '',
-          bookPrice:'0',
-          stock: '0',
-          stockStatus: '품절',
-          publishDate:'',
+
         firstCategory:'',
         secondCategory:'',
-        thirdCategory:'',
-       // writer:userData.clientName,
+        thirdCategory: '',
+        bookName: '',
+        author:'',
+        bookPrice: '0',
+        stock: '0',
+        stockStatus:'품절',
+        writer: userData?.clientName,
+        bookDesc: '',
+        bookImg: [], // 다중 파일 업로드라면 배열로 설정
        // userId:userData.clientId,
        // role:userData.role,
     })
@@ -70,10 +71,9 @@ const AdminBookCreate = () => {
         bookCateList();  // 컴포넌트가 처음 마운트될 때 실행
     }, []);
 
-
-
-// 공통 onChange 핸들러
-const handleChange = (e) => {
+    
+    // 공통 onChange 핸들러
+    const handleChange = (e) => {
     const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
 
     setCreateBook({
@@ -89,14 +89,29 @@ const handleChange = (e) => {
 
 };
 
-    console.log("createBook-----------",createBook);
+    // 파일목록관리
+    const [files, setFiles] = useState([]);
+    //files 객체 bookCreate의 bookImg에 배열로 담는 핸들러
+    const handleFilesChange = (files) => {
+        setCreateBook((prev) => ({
+            ...prev,
+            bookImg: files, // 파일 목록 갱신
+        }));
+    };
 
+
+//전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
         console.log("onSubmit-----------",createBook);
         // 변수 createBook 폼데이터를 모아 담은 객체를 onCreate로 전달
         onCreate(createBook);
+    
+        // fetch Post요청으로 컨트롤러로 데이터 전송하기
+
     }
+
+
 
     return(
         <>
@@ -154,11 +169,11 @@ const handleChange = (e) => {
                     <div className="d-flex align-items-center">
                         <div className="d-flex align-items-center">
                             <FormTag label="도서명" className="form-control" name="bookName" type="text"
-                                     placeholder="도서명 입력"  onChange={handleChange}/>
+                                     placeholder="도서명 입력" value={createBook.bookName} onChange={handleChange}/>
                         </div>
                         <div className="d-flex align-items-center">
                             <FormTag label="저자" className="form-control" name="author" type="text"
-                                     placeholder="저자입력" onChange={handleChange}/>
+                                     placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
                         </div>
                     </div>
                     {/*저자*/}
@@ -193,16 +208,18 @@ const handleChange = (e) => {
                     <div className="">
                         <label htmlFor="bookDesc">도서설명</label>
                         <textarea id="bookDesc" className="form-control" name="bookDesc" type="text"
-                                  placeholder="도서설명 100글자 이내로 입력" aria-describedby="bookDescHelp" maxLength="100"  required onChange={handleChange}/>
+                                  placeholder="도서설명 100글자 이내로 입력" value={createBook.bookDesc} aria-describedby="bookDescHelp" maxLength="100"  required onChange={handleChange}/>
                     {/*100글자 넘어가면 에러메시지 출력 */}
                     </div>
 
                     {/*도서이미지
-                        이미지 파일 업로드 안하면 그냥 기본 이미지로 등록
+                        이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요
                     */}
                     <div className="d-flex align-items-center input-group">
-                        <FormTag label="도서이미지" labelClass="input-group-text"  className="form-control" name="bookImg" type="file"
-                                 placeholder="도서 이미지 파일업로드" multiple/>
+                        {/*갱신값과 초기값을 전달하기 위해서 둘 다
+                            부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
+                        */}
+                        <FileUpload files={files} setFiles={setFiles} handleFilesChange={handleFilesChange}/>
                     </div>
                 </form>
                 <div className="d-flex align-items-center justify-content-center">
@@ -217,3 +234,4 @@ const handleChange = (e) => {
 }
 
 export default AdminBookCreate;
+

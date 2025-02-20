@@ -7,9 +7,7 @@ import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CategoryVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +25,20 @@ public class AdminBookController {
 
     @GetMapping("/bookCreate")
     public Map<String,Object> getBookCreate(){
+
+        //도서 카테고리 목록 조회
+        List<CategoryVO> cateData  = categoryService.getAllCategories();
+
+        //클라이언트로 json 반환 Map 인터페이스
+        Map<String,Object> response = new HashMap<>();
+        response.put("cateData",cateData);
+        return response;
+    }
+
+    @PostMapping("/bookCreate")
+    public  Map<String,Object> postBookCreate(@RequestBody BookVO createBook){
+
+        log.info("BookVO createBook-------------",createBook);
 
         //도서 카테고리 목록 조회
         List<CategoryVO> cateData  = categoryService.getAllCategories();
