@@ -40,8 +40,8 @@ const FileUpload =({files,setFiles,handleFilesChange})=>{//부모한테 받은 p
             <FormTag label="도서이미지" labelClass="input-group-text" className="form-control" name="bookImg" type="file"
                      placeholder="도서 이미지 파일업로드"
                      onChange={handleImgUpload}
-
-                     multiple/>
+                     multiple={true}
+            />
             {/* 선택된 파일 목록 표시 (파일이 있을 때만) */}
             {files.length > 0 && (
                 <ul>

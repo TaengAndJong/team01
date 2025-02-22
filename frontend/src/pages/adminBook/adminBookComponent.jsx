@@ -45,7 +45,12 @@ const AdminBook = () => {
                 ...createBook,
             }
         });
+
+
+
     }
+
+console.log("bookdata--------------------",bookdata);
 
 
 

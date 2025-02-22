@@ -8,7 +8,7 @@ public class BookVO {
     private String bookDesc;//도서설명
     private String author;//저자
     private int bookPrice;//도서가격
-    private byte[] bookImg;//도서이미지
+    private byte[] bookImg;//도서이미지 파일은 byte[]로 저장
     private int stock;// 재고수량
     private String stockStatus;//품절상태
    // private String isbn;// 보류

@@ -87,7 +87,7 @@ const AdminBookCreate = () => {
 
     })
 
-};
+    };
 
     // 파일목록관리
     const [files, setFiles] = useState([]);
@@ -100,19 +100,51 @@ const AdminBookCreate = () => {
     };
 
 
-//전송
-    const onSubmit = (e) => {
-        e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
-        console.log("onSubmit-----------",createBook);
-        // 변수 createBook 폼데이터를 모아 담은 객체를 onCreate로 전달
-        onCreate(createBook);
-    
-        // fetch Post요청으로 컨트롤러로 데이터 전송하기
+    const handleSubmit = async () => {
+        //  formData 객체에 데이터 담기 및 fetch Post요청으로 컨트롤러로 데이터 전송하기
+        const formData = new FormData(); //
+
+        // 텍스트 데이터 추가 (bookImg 제외)
+        formData.append("createBook", new Blob([JSON.stringify(createBook)], { type: "application/json" }));
+
+        // 이미지 파일 추가 (파일이 존재할 경우,다중 파일 지원)
+        if (createBook.bookImg && createBook.bookImg.length > 0) {
+            createBook.bookImg.forEach((file) => {
+                formData.append("bookImg", file);
+            });
+        }
+        console.log("formData----------------", formData);
+
+
+        // 서버로 전송하기
+        try{
+            const response =await fetch("/api/admin/book/bookCreate", {
+                method: "POST",
+                body: formData // 파일 객체 데이터가 있는경우, json.stringify 사용 불가, 서버에서 문자열과 파일 객체를 나눠줘야함
+            });
+
+            if (!response.ok) {
+                throw new Error(`도서 등록 실패: ${response.status}`);
+            }
+            console.log("도서 등록 성공!");
+
+
+        }catch(err){
+            console.error("서버 요청 오류 발생",err);
+        }
 
     }
 
 
-
+//전송
+    const onSubmit = (e) => {
+        e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
+        console.log("onSubmit-----------", createBook);
+        // 변수 createBook 폼데이터를 모아 담은 객체를 onCreate로 전달
+        onCreate(createBook);
+        handleSubmit();
+    }
+//return start
     return(
         <>
         {/* 도서 등록 구조 작성 */}
