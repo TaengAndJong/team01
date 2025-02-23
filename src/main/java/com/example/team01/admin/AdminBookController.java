@@ -7,10 +7,14 @@ import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CategoryVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +31,6 @@ public class AdminBookController {
 
     @GetMapping("/bookCreate")
     public Map<String,Object> getBookCreate(){
-
         //도서 카테고리 목록 조회
         List<CategoryVO> cateData  = categoryService.getAllCategories();
 
@@ -37,19 +40,23 @@ public class AdminBookController {
         return response;
     }
 
-    @PostMapping(value = "/bookCreate", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void postBookCreate( @ModelAttribute BookVO createBook){
+    @PostMapping(value = "/bookCreate")
+    public ResponseEntity<?> postBookCreate(@ModelAttribute BookVO createBook,
+                                            @RequestParam("bookImg") List<MultipartFile> bookImg){
+        // @ModelAttribute 사용하면 createBook 객체로 클라이언트의 모든 필드를 받을 수 있음!
+        log.info("BookVO createBook-------------:{}",createBook.toString());
+
+        // 서비스로 book 정보와 파일을 전달
+        int result = bookService.createBook(createBook, bookImg);
 
 
-        log.info("BookVO createBook-------------:{}",createBook);
-        //파일객체와 문자열 데이터 나누기
+        if (result > 0) {
+            return ResponseEntity.ok("Book created successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Book creation failed");
+        }
 
-        //도서 카테고리 목록 조회
-        List<CategoryVO> cateData  = categoryService.getAllCategories();
-
-        //클라이언트로 json 반환 Map 인터페이스
-        Map<String,Object> response = new HashMap<>();
-        response.put("cateData",cateData);
 
     }
 

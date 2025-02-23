@@ -21,6 +21,10 @@
     </select>
 
 
+    <insert id="" parameterType="">
+
+    </insert>
+
 </mapper>
 
 

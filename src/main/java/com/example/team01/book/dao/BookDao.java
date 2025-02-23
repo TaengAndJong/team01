@@ -3,6 +3,7 @@ package com.example.team01.book.dao;
 
 import com.example.team01.vo.BookVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
