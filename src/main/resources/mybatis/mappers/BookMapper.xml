@@ -5,24 +5,58 @@
 
 <!-- 조회 -->
     <select id="selectAllBook" resultType="BookVO">
-        select "bookId"
-             , "bookName"
-             , "bookDesc"
-             , "author"
-             , "bookPrice"
-             , "bookImg"
-             , "stock"
-             , "stockStatus"
-             , "publishDate"
-             , "userId"
-             , "roleId"
-             , "cateId"
-             , "viewCnt" from book
+        select  "bookId",
+                "bookName",
+                "bookDesc",
+                "author",
+                "bookPrice",
+                "stock",
+                "stockStatus",
+                "publishDate",
+                "roleId",
+                "cateId",
+                "viewCnt",
+                "bookImgPath",
+                "writer"
+        from book
     </select>
 
 
-    <insert id="" parameterType="">
+    <insert id="createBook" parameterType="BookVO">
+        INSERT INTO BOOK (
+        "bookId",
+        "bookName",
+        "bookDesc",
+        "author",
+        "bookPrice",
+        "stock",
+        "stockStatus",
+        "publishDate",
+        "roleId",
+        "cateId",
+        "viewCnt",
+        "bookImgPath",
+        "writer"
+        ) VALUES (
+        #{bookId},
+        #{bookName},
+        #{bookDesc},
+        #{author},
+        #{bookPrice},
+        #{stock},
+        #{stockStatus},
+        #{publishDate},
+        #{roleId},
+        #{cateId},
+        #{viewCnt}
+        #{bookImgPath}
+        #{writer}
+        );
 
+        <!-- BookImage 테이블에 이미지 경로 삽입 -->
+        <foreach collection="bookImgPath" item="path" index="index" open="INSERT INTO BookImage (bookId, imagePath) VALUES " separator=" UNION ALL ">
+            (#{bookId}, #{path})
+        </foreach>
     </insert>
 
 </mapper>

@@ -17,25 +17,35 @@ const AdminBookCreate = () => {
 
     const {onCreate} = useContext(BookDispatchContext);
     const {userData} = useAuth();
-    console.log("userData---------",userData);
+    console.log("userData---------00",userData);
+    //console.log("userData---------",userData.roles[0]);
+
+    let roleId;
+    let writer;
+    if(userData != null ){
+        roleId  = userData.roles[0]; // roleId가 없으면 빈 문자열로 처리
+        writer  = userData.clientName; // clientName이 없으면 빈 문자열로 처리
+    }
 
     const [createBook, setCreateBook] = useState({
 
-        firstCategory:'',
-        secondCategory:'',
-        thirdCategory: '',
         bookName: '',
+        bookDesc: '',
         author:'',
         bookPrice: '0',
         stock: '0',
         stockStatus:'품절',
-        writer: userData?.clientName,
-        bookDesc: '',
+        publishDate:'',
+         roleId:roleId,
+        cateId:'',
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
+        writer: writer,
        // userId:userData.clientId,
        // role:userData.role,
     })
-
+    // firstCategory:'',
+    //     secondCategory:'',
+    //     thirdCategory: '',
 
     // 서버로 전송해야할 데이터를 모아야하는 함수
     const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
@@ -71,23 +81,57 @@ const AdminBookCreate = () => {
         bookCateList();  // 컴포넌트가 처음 마운트될 때 실행
     }, []);
 
-    
+    let allCate = "";
     // 공통 onChange 핸들러
-    const handleChange = (e) => {
-    const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
+    const handleCategory = (e) => {
+        const { name, value } = e.target; // 입력 필드의 name과 value 로 구조분해할당
 
-    setCreateBook({
-        ...createBook, //기존에 있는 데이터들 스프레드 연산자로 합쳐주기
-        [e.target.name]:e.target.value, //  카테고리를 target.name에 따라 추가
+        switch (name) {
+            case "firstCategory":
+                allCate+=value;
+                break;
+            case "secondCategory":
+                if(allCate){ // 우선적으로 선택된 category 값이 있을 경우
+                    allCate +=  ","+ value;
+                }
+                break;
+            case "thirdCategory":
+                if(allCate){
+                    allCate +=  ","+ value;
+                }
+                break;
+            default:
+                break;
+        }
+        console.log("allCate-------------", allCate);
 
-        // 재고수량에 따른 재고상태값 변화 조건 , 스프레드 연산자로  객체 항목 추가
-        ...(name === 'stock' && {
-            stockStatus: value !== '0' && value !== '' ? '재고있음' : '재고없음', // stock 값에 따라 stockStatus 변경
-        }),
+        // allCate의 카테고리가 완성된 후
+        if(allCate.split(",").length === 3){ //","로 구분했을때 카테고리가 3개일 떄
+            setCreateBook((prevState)=>
+                ({
+                    ...prevState,
+                    cateId :allCate,
+                }));
+        }
 
-    })
-
+    //핸들러 끝
     };
+
+
+    const handleChange = (e) => {
+       const { name, value } = e.target;
+        setCreateBook({
+            ...createBook,//기존에 있는 데이터들 스프레드 연산자로 합쳐주기
+            [name] : value,
+            // 재고수량에 따른 재고상태값 변화 조건 , 스프레드 연산자로  객체 항목 추가
+            ...(name === 'stock' && {
+                stockStatus: value !== '0' && value !== '' ? '재고있음' : '재고없음', // stock 값에 따라 stockStatus 변경
+            }),
+        })
+
+    }
+    console.log("createBook -------------- " , createBook);
+
 
     // 파일목록관리
     const [files, setFiles] = useState([]);
@@ -157,7 +201,7 @@ const AdminBookCreate = () => {
                         {/*1차 카테고리만 데이터 */}
 
                         <label htmlFor="firstCategory" className="visually-hidden">1차 카테고리</label>
-                        <select className="form-select" name="firstCategory" onChange={handleChange}>
+                        <select className="form-select" name="firstCategory" onChange={handleCategory}>
                             <option value="1차카테고리">1차카테고리</option>
                             {bookCategory && bookCategory
                                 .filter(cate => parseInt(cate.cateDepthLevel) === 1)
@@ -171,7 +215,7 @@ const AdminBookCreate = () => {
 
                         {/*2차 카테고리만 데이터 */}
                         <label htmlFor="secondCategory" className="visually-hidden">2차 카테고리</label>
-                        <select className="form-select" name="secondCategory" onChange={handleChange}>
+                        <select className="form-select" name="secondCategory" onChange={handleCategory}>
                             <option value="2차카테고리">2차카테고리</option>
                             {bookCategory && bookCategory
                                 .filter(cate => parseInt(cate.cateDepthLevel) === 2)
@@ -184,7 +228,7 @@ const AdminBookCreate = () => {
 
                         {/*3차 카테고리만 데이터 */}
                         <label htmlFor="thirdCategory" className="visually-hidden">3차 카테고리</label>
-                        <select className="form-select" name="thirdCategory" onChange={handleChange}>
+                        <select className="form-select" name="thirdCategory" onChange={handleCategory}>
                             <option value="3차카테고리">3차카테고리</option>
                             {bookCategory && bookCategory
                                 .filter(cate => parseInt(cate.cateDepthLevel) === 3)
