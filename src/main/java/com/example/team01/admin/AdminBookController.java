@@ -48,7 +48,7 @@ public class AdminBookController {
 
         // 서비스로 book 정보와 파일을 전달
         int result = bookService.createBook(createBook, bookImg);
-
+        //
 
         if (result > 0) {
             return ResponseEntity.ok("Book created successfully");

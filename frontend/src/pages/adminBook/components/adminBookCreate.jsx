@@ -6,25 +6,26 @@ import PathsData from "../../../assets/pathsData.jsx";
 import {BookDispatchContext} from "../adminBookComponent.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 import FileUpload from "./fileUpload.jsx";
+import Category from "./category.jsx";
 
 
 
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
-
-
 
 const AdminBookCreate = () => {
 
     const {onCreate} = useContext(BookDispatchContext);
     const {userData} = useAuth();
     console.log("userData---------00",userData);
-    //console.log("userData---------",userData.roles[0]);
-
+  // 호이스팅과 userData의 데이터가 들어오는 렌더링 순서로 인한 조건절 필요
     let roleId;
     let writer;
     if(userData != null ){
         roleId  = userData.roles[0]; // roleId가 없으면 빈 문자열로 처리
         writer  = userData.clientName; // clientName이 없으면 빈 문자열로 처리
+        
+        console.log("roleId--1 ", roleId);
+        console.log("writer--2 ", writer);
     }
 
     const [createBook, setCreateBook] = useState({
@@ -35,88 +36,14 @@ const AdminBookCreate = () => {
         bookPrice: '0',
         stock: '0',
         stockStatus:'품절',
-        publishDate:'',
-         roleId:roleId,
+        publishDate:'', //발행일
+        roleId:roleId,
         cateId:'',
+        cateName:'',
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
         writer: writer,
-       // userId:userData.clientId,
-       // role:userData.role,
+
     })
-    // firstCategory:'',
-    //     secondCategory:'',
-    //     thirdCategory: '',
-
-    // 서버로 전송해야할 데이터를 모아야하는 함수
-    const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
-    const bookCateList = async ()=>{
-
-            fetch("/api/admin/book/bookCreate", {
-                // POST 요청시 header 추가 필요
-
-            })
-                .then(response => {
-                    if (response.ok) {
-                        // 제이슨 객체(Object Prototype)
-                        return response.json();
-                    } else {
-                        console.error('Failed to fetch');
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                }).then(data => {
-                //도서 카테고리 목록 받아서 카테고리 상태 관리 함수에 반환,설정
-                let resData = data.cateData;
-                console.log("resData---------------------",resData);
-                console.log("resData[0]---------------------",resData[0].cateDepthLevel);
-                setBookCategory(resData);  // 데이터 로딩 완료 후 상태 업데이트
-                })
-                .catch(err => {
-                    console.log("카테고리 데이터가 없습니다", err);
-                });
-
-
-    }// 데이터 fetch 요청
-
-    useEffect(() => {
-        bookCateList();  // 컴포넌트가 처음 마운트될 때 실행
-    }, []);
-
-    let allCate = "";
-    // 공통 onChange 핸들러
-    const handleCategory = (e) => {
-        const { name, value } = e.target; // 입력 필드의 name과 value 로 구조분해할당
-
-        switch (name) {
-            case "firstCategory":
-                allCate+=value;
-                break;
-            case "secondCategory":
-                if(allCate){ // 우선적으로 선택된 category 값이 있을 경우
-                    allCate +=  ","+ value;
-                }
-                break;
-            case "thirdCategory":
-                if(allCate){
-                    allCate +=  ","+ value;
-                }
-                break;
-            default:
-                break;
-        }
-        console.log("allCate-------------", allCate);
-
-        // allCate의 카테고리가 완성된 후
-        if(allCate.split(",").length === 3){ //","로 구분했을때 카테고리가 3개일 떄
-            setCreateBook((prevState)=>
-                ({
-                    ...prevState,
-                    cateId :allCate,
-                }));
-        }
-
-    //핸들러 끝
-    };
-
 
     const handleChange = (e) => {
        const { name, value } = e.target;
@@ -132,6 +59,12 @@ const AdminBookCreate = () => {
     }
     console.log("createBook -------------- " , createBook);
 
+    //카테고리 관리 리액트훅
+    const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
+    const handleCategoryChange = (e) => {
+            //setCreateBook 변경된 데이터 업데이트
+
+    }
 
     // 파일목록관리
     const [files, setFiles] = useState([]);
@@ -196,50 +129,7 @@ const AdminBookCreate = () => {
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookCreateForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
-                    <div className="d-flex align-items-center">
-                        <strong className="">도서분류</strong>
-                        {/*1차 카테고리만 데이터 */}
-
-                        <label htmlFor="firstCategory" className="visually-hidden">1차 카테고리</label>
-                        <select className="form-select" name="firstCategory" onChange={handleCategory}>
-                            <option value="1차카테고리">1차카테고리</option>
-                            {bookCategory && bookCategory
-                                .filter(cate => parseInt(cate.cateDepthLevel) === 1)
-                                .map(cate => (
-                                    <option key={cate.cateId} value={cate.cateName}>
-                                        {cate.cateName}
-                                    </option>
-                                ))}
-
-                        </select>
-
-                        {/*2차 카테고리만 데이터 */}
-                        <label htmlFor="secondCategory" className="visually-hidden">2차 카테고리</label>
-                        <select className="form-select" name="secondCategory" onChange={handleCategory}>
-                            <option value="2차카테고리">2차카테고리</option>
-                            {bookCategory && bookCategory
-                                .filter(cate => parseInt(cate.cateDepthLevel) === 2)
-                                .map(cate => (
-                                    <option key={cate.cateId} value={cate.cateName}>
-                                        {cate.cateName}
-                                    </option>
-                                ))}
-                        </select>
-
-                        {/*3차 카테고리만 데이터 */}
-                        <label htmlFor="thirdCategory" className="visually-hidden">3차 카테고리</label>
-                        <select className="form-select" name="thirdCategory" onChange={handleCategory}>
-                            <option value="3차카테고리">3차카테고리</option>
-                            {bookCategory && bookCategory
-                                .filter(cate => parseInt(cate.cateDepthLevel) === 3)
-                                .map(cate => (
-                                    <option key={cate.cateId} value={cate.cateName}>
-                                        {cate.cateName}
-                                    </option>
-                                ))}
-                        </select>
-                    </div>
-
+                    <Category bookCategory={bookCategory} setBookCategory={setBookCategory} />
                     {/*도서명*/}
                     <div className="d-flex align-items-center">
                         <div className="d-flex align-items-center">
@@ -251,8 +141,12 @@ const AdminBookCreate = () => {
                                      placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
                         </div>
                     </div>
-                    {/*저자*/}
 
+                    {/*발행일*/}
+                    <div className="d-flex align-items-center">
+                        <FormTag label="발행일" className="form-control" name="publishDate" type="text"
+                                 placeholder="발행일" value={createBook.publishDate} onChange={handleChange}/>
+                    </div>
                     {/*재고 & 가격*/}
                     <div className="d-flex align-items-center">
                         <div className="d-flex align-items-center">
@@ -277,14 +171,15 @@ const AdminBookCreate = () => {
                     <div className="d-flex align-items-center">
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
                         <FormTag label="작성자" className="form-control" name="writer" type="text"
-                                 placeholder="작성자"  value={userData?.clientName} readOnly={true}/>
+                                 placeholder="작성자" value={userData?.clientName} readOnly={true}/>
                     </div>
                     {/*도서설명*/}
                     <div className="">
                         <label htmlFor="bookDesc">도서설명</label>
                         <textarea id="bookDesc" className="form-control" name="bookDesc" type="text"
-                                  placeholder="도서설명 100글자 이내로 입력" value={createBook.bookDesc} aria-describedby="bookDescHelp" maxLength="100"  required onChange={handleChange}/>
-                    {/*100글자 넘어가면 에러메시지 출력 */}
+                                  placeholder="도서설명 100글자 이내로 입력" value={createBook.bookDesc}
+                                  aria-describedby="bookDescHelp" maxLength="100" required onChange={handleChange}/>
+                        {/*100글자 넘어가면 에러메시지 출력 */}
                     </div>
 
                     {/*도서이미지
@@ -302,7 +197,6 @@ const AdminBookCreate = () => {
                     <Btn className={"signup btn btn-primary"} text={"완료"} type="submit" onClick={onSubmit}/>
                 </div>
             </div>
-
 
         </>
     )

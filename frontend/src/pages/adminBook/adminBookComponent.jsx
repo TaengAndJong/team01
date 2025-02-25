@@ -46,8 +46,6 @@ const AdminBook = () => {
             }
         });
 
-
-
     }
 
 console.log("bookdata--------------------",bookdata);

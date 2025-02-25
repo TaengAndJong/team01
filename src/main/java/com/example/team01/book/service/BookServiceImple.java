@@ -45,12 +45,17 @@ public class BookServiceImple implements BookService{
                         // 고유한 파일명 생성 (데이터베이스에 저장될 부분)
                         String fileName= UUID.randomUUID().toString()+ "_" + saveFile.getOriginalFilename(); //업로드된 파일의 원본 이름
                         //고유한 식별자(UUID)를 추가해서 파일이름 중복 방지
-
+                        log.info("fileName---------111:{}",fileName);
+                        //replaceAll() 사용해서 공백을 _ 또는 다른 문자로 변경
+                        String modifyFileName =fileName.replaceAll("[^a-zA-Z0-9\\.\\-_\\s]", "_");  // 공백도 포함해 대체
+                        log.info("modifyFileName---------111:{}",modifyFileName);
                         //서버 저장 경로 (프로젝트 루트 폴더부터 시작)
-                        String filePath = "/upload/book" + fileName;
+                        String filePath = "C:\\Users\\k\\Desktop\\team01\\upload\\book\\" + modifyFileName;
+                        log.info("filePath---------111:{}",filePath);
 
                         //파일 저장(서버의 디렉토리에 파일을 저장)
                         Path path = Paths.get(filePath); //업로드된 파일을 저장할 경로를 Path 객체로 변환
+                        log.info("path---------111:{}",path);
                         Files.write(path,saveFile.getBytes()); // path라는 경로에 바이너리 형태로 반환된 객체를 저장
 
                         //파일 경로를 리스트에 추가
@@ -69,9 +74,10 @@ public class BookServiceImple implements BookService{
 
             // 2. BookVO 객체에 파일 경로 리스트 추가 ( Mapper로 넘어갈 파라미터를 미리 설정)
             book.setBookImgPath(filePaths);
+            log.info("createBook data-------------1111111:{}", book );
             // 도서 데이터 전달
             cnt = dao.createBook(book);
-           log.info("cnt data:{}", cnt );
+           log.info("cnt data----------111:{}", cnt );
         }
         return cnt;
     }
