@@ -16,18 +16,9 @@ const AdminBookCreate = () => {
 
     const {onCreate} = useContext(BookDispatchContext);
     const {userData} = useAuth();
-    console.log("userData---------00",userData);
-  // 호이스팅과 userData의 데이터가 들어오는 렌더링 순서로 인한 조건절 필요
-    let roleId;
-    let writer;
-    if(userData != null ){
-        roleId  = userData.roles[0]; // roleId가 없으면 빈 문자열로 처리
-        writer  = userData.clientName; // clientName이 없으면 빈 문자열로 처리
-        
-        console.log("roleId--1 ", roleId);
-        console.log("writer--2 ", writer);
-    }
 
+    //리액트는 초기값이 렌더링 되면 상태관리 방식으로인해 값이 고정되어
+    // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
     const [createBook, setCreateBook] = useState({
 
         bookName: '',
@@ -37,13 +28,26 @@ const AdminBookCreate = () => {
         stock: '0',
         stockStatus:'품절',
         publishDate:'', //발행일
-        roleId:roleId,
+        roleId:'',
         cateId:'',
         cateName:'',
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
-        writer: writer,
+        writer: '',
 
     })
+
+    // userData가 변경될 때 roleId와 writer를 업데이트
+    useEffect(() => {
+        if (userData != null) { // userData가 있을 때만 실행
+            setCreateBook(prevState => ({
+                ...prevState,
+                roleId: userData.roles[0],  // 최신 값으로 갱신
+                writer: userData.clientName,
+            }));
+        }
+    }, [userData]);  // userData가 변경될 때 실행
+
+    console.log("userData---------33",userData);
 
     const handleChange = (e) => {
        const { name, value } = e.target;
@@ -55,15 +59,13 @@ const AdminBookCreate = () => {
                 stockStatus: value !== '0' && value !== '' ? '재고있음' : '재고없음', // stock 값에 따라 stockStatus 변경
             }),
         })
-
     }
-    console.log("createBook -------------- " , createBook);
+
 
     //카테고리 관리 리액트훅
     const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
     const handleCategoryChange = (e) => {
             //setCreateBook 변경된 데이터 업데이트
-
     }
 
     // 파일목록관리
@@ -78,7 +80,6 @@ const AdminBookCreate = () => {
         }));
     };
 
-
     const handleSubmit = async () => {
         //  formData 객체에 데이터 담기 및 fetch Post요청으로 컨트롤러로 데이터 전송하기
         const formData = new FormData(); //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있음
@@ -92,9 +93,6 @@ const AdminBookCreate = () => {
                 formData.append(key, value);
             }
         });
-
-        console.log("formData----------------", formData);
-
 
         // 서버로 전송하기
         try{
@@ -112,7 +110,7 @@ const AdminBookCreate = () => {
         }
 
     }
-
+    console.log("createBook -------------- " , createBook);
 //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
@@ -129,7 +127,7 @@ const AdminBookCreate = () => {
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookCreateForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
-                    <Category bookCategory={bookCategory} setBookCategory={setBookCategory} />
+                    <Category bookCategory={bookCategory} setBookCategory={setBookCategory} setCreateBook={setCreateBook}/>
                     {/*도서명*/}
                     <div className="d-flex align-items-center">
                         <div className="d-flex align-items-center">
