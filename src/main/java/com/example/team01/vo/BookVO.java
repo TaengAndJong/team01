@@ -14,7 +14,7 @@ import java.util.List;
 public class BookVO {
 
 
-    private String bookId; //도서등록고유번호
+    private String bookId; //도서등록고유번호 ==> 데이터베이스에서 자동증가
     private String bookName;//도서명
     private String bookDesc;//도서설명
     private String author;//저자

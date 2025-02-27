@@ -31,6 +31,7 @@ const AdminBookCreate = () => {
         roleId:'',
         cateId:'',
         cateName:'',
+        cateDepth:'',
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
         writer: '',
 

@@ -41,7 +41,7 @@ public class AdminBookController {
     }
 
     @PostMapping(value = "/bookCreate")
-    public ResponseEntity<?> postBookCreate(@ModelAttribute BookVO createBook,
+    public ResponseEntity<?> insertBookCreate(@ModelAttribute BookVO createBook,
                                             @RequestParam("bookImg") List<MultipartFile> bookImg){
         // @ModelAttribute 사용하면 createBook 객체로 클라이언트의 모든 필드를 받을 수 있음!
         log.info("BookVO createBook-------------:{}",createBook.toString());

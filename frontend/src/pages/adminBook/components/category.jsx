@@ -84,7 +84,7 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
             ...prevState,
             cateId:selectedCategory.ids,
             cateName :selectedCategory.names,
-            cateDepthLevel:selectedCategory.depth
+            cateDepth:selectedCategory.depth[selectedCategory.depth.length - 1]
         }))
     }
     console.log("selectedCategory---333--",selectedCategory);

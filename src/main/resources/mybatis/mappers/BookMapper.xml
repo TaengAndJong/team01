@@ -23,6 +23,10 @@
 
 
     <insert id="createBook" parameterType="BookVO">
+        <selectKey keyProperty="bookId" resultType="String" order="BEFORE">
+            SELECT BOOK_SECQUENCE.NEXTVAL FROM DUAL
+        </selectKey>
+
         INSERT INTO BOOK (
         "bookId",
         "bookName",
@@ -34,29 +38,23 @@
         "publishDate",
         "roleId",
         "cateId",
-        "viewCnt",
         "bookImgPath",
         "writer"
         ) VALUES (
-        #{bookId},
-        #{bookName},
-        #{bookDesc},
-        #{author},
-        #{bookPrice},
-        #{stock},
-        #{stockStatus},
-        #{publishDate},
-        #{roleId},
-        #{cateId},
-        #{viewCnt}
-        #{bookImgPath}
-        #{writer}
-        );
+        #{bookId}
+        , #{bookName}
+        , #{bookDesc}
+        , #{author}
+        , #{bookPrice}
+        , #{stock}
+        , #{stockStatus}
+        , #{publishDate}
+        , #{roleId}
+        , #{cateId}
+        , #{cateName}
+        , #{writer}
+        )
 
-        <!-- BookImage 테이블에 이미지 경로 삽입 -->
-        <foreach collection="bookImgPath" item="path" index="index" open="INSERT INTO BookImage (bookId, imagePath) VALUES " separator=" UNION ALL ">
-            (#{bookId}, #{path})
-        </foreach>
     </insert>
 
 </mapper>
