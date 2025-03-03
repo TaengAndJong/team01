@@ -30,16 +30,19 @@ public class BookServiceImple implements BookService{
     }
 
     @Override
-    public int createBook(BookVO book,List<MultipartFile> bookImage) {
+    public int createBook(BookVO book,List<MultipartFile> bookImgPath) {
+        log.info("createBook data:{}", book );
+
+
         int cnt = 0; // mybatis의 insert 성공해서 데이터베이스에 저장된 행의 수 반환값을 담기위한 변수,  초기화
         if(book != null) { // 도서데이터 book 객체의 값이 null이 아니면 데이터베이스에 저장하겠다!
-            log.info("createBook data:{}", book );
+            log.info("createBook data:{}", book.toString() );
 
             // 1. 파일 경로 리스트 생성
             List<String> filePaths = new ArrayList<>(); // 업로드된 파일들의 경로를 담을 리스트
 
-            if (bookImage != null && !bookImage.isEmpty()){ //  클라이언트가 전달한 파일 목록이 null 아니고, 비어있어도 안됨
-                for(MultipartFile saveFile : bookImage){ // 향상된 for문을 통해 하나로 분리
+            if (bookImgPath != null && !bookImgPath.isEmpty()){ //  클라이언트가 전달한 파일 목록이 null 아니고, 비어있어도 안됨
+                for(MultipartFile saveFile : bookImgPath){ // 향상된 for문을 통해 하나로 분리
 
                     try{
                         // 고유한 파일명 생성 (데이터베이스에 저장될 부분)
@@ -53,13 +56,14 @@ public class BookServiceImple implements BookService{
                         String filePath = "C:\\Users\\k\\Desktop\\team01\\upload\\book\\" + modifyFileName;
                         log.info("filePath---------111:{}",filePath);
 
-                        //파일 저장(서버의 디렉토리에 파일을 저장)
+                        // 파일 저장(서버의 디렉토리에 파일을 저장)
                         Path path = Paths.get(filePath); //업로드된 파일을 저장할 경로를 Path 객체로 변환
-                        log.info("path---------111:{}",path);
-                        Files.write(path,saveFile.getBytes()); // path라는 경로에 바이너리 형태로 반환된 객체를 저장
+                        log.info("path---------111:{}", path);
+                        Files.write(path, saveFile.getBytes()); // path라는 경로에 바이너리 형태로 반환된 객체를 저장
 
-                        //파일 경로를 리스트에 추가
-                        filePaths.add(filePath);
+                        // 상대 경로로 파일 경로 추가 (예: "/upload/book/파일명")
+                        String fileUrl = "/upload/book/" + modifyFileName;
+                        filePaths.add(fileUrl); // 파일 경로를 리스트에 추가
 
                     } catch (IOException e) {
                         e.printStackTrace(); //에러 출력

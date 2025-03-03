@@ -7,6 +7,7 @@ import {BookDispatchContext} from "../adminBookComponent.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 import FileUpload from "./fileUpload.jsx";
 import Category from "./category.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -16,23 +17,23 @@ const AdminBookCreate = () => {
 
     const {onCreate} = useContext(BookDispatchContext);
     const {userData} = useAuth();
+    const navigate = useNavigate();
 
     //리액트는 초기값이 렌더링 되면 상태관리 방식으로인해 값이 고정되어
     // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
     const [createBook, setCreateBook] = useState({
-
         bookName: '',
+        bookCateName:'',
+        bookCateDepth:'',
         bookDesc: '',
         author:'',
         bookPrice: '0',
         stock: '0',
-        stockStatus:'품절',
+        stockStatus:'재고없음',
         publishDate:'', //발행일
         roleId:'',
         cateId:'',
-        cateName:'',
-        cateDepth:'',
-        bookImg: [], // 다중 파일 업로드라면 배열로 설정
+        bookImgPath: [], // 다중 파일 업로드라면 배열로 설정
         writer: '',
 
     })
@@ -65,19 +66,16 @@ const AdminBookCreate = () => {
 
     //카테고리 관리 리액트훅
     const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
-    const handleCategoryChange = (e) => {
-            //setCreateBook 변경된 데이터 업데이트
-    }
 
     // 파일목록관리
     const [files, setFiles] = useState([]);
-    //files 객체 bookCreate의 bookImg에 배열로 담는 핸들러
+    //files 객체 bookCreate의 bookImgPath에 배열로 담는 핸들러
     const handleFilesChange = (files) => {
         console.log("files 객체확인",files);
 
         setCreateBook((prev) => ({
             ...prev,
-            bookImg: files, // 파일 목록 갱신
+            bookImgPath: files, // 파일 목록 갱신
         }));
     };
 
@@ -86,15 +84,15 @@ const AdminBookCreate = () => {
         const formData = new FormData(); //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있음
 
         Object.entries(createBook).forEach(([key, value]) => {
-            if (key === "bookImg" && Array.isArray(value)) {
+            if (key === "bookImgPath" && Array.isArray(value)) {
                 value.forEach((file) => {
-                    formData.append("bookImg", file); // 배열 요소 개별 추가
+                    formData.append("bookImgPath", file); // 배열 요소 개별 추가
                 });
             } else {
                 formData.append(key, value);
             }
         });
-
+//https://velog.io/@as9587/Spring%EC%97%90%EC%84%9C-FormData-%EB%A5%BC-%ED%8C%8C%EC%8B%B1Parsing-%ED%95%98%EC%A7%80-%EB%AA%BB%ED%95%98%EB%8A%94-%EA%B2%BD%EC%9A%B0
         // 서버로 전송하기
         try{
             const response =await fetch("/api/admin/book/bookCreate", {
@@ -106,19 +104,23 @@ const AdminBookCreate = () => {
                 throw new Error(`도서 등록 실패: ${response.status}`);
             }
             console.log("도서 등록 성공!");
+            // 성공 시 추가 작업 (예: 로그인 페이지로 이동)
+            navigate("/");
+
         }catch(err){
             console.error("서버 요청 오류 발생",err);
         }
 
     }
-    console.log("createBook -------------- " , createBook);
+    console.log("createBook --------------111 " , createBook);
 //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
 
-        onCreate(createBook);
+        //onCreate(createBook);
         handleSubmit();
     }
+    console.log("createBook --------------222 " , createBook);
 //return start
     return(
         <>

@@ -83,8 +83,8 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
         setCreateBook(prevState =>({
             ...prevState,
             cateId:selectedCategory.ids,
-            cateName :selectedCategory.names,
-            cateDepth:selectedCategory.depth[selectedCategory.depth.length - 1]
+            bookCateName :selectedCategory.names,
+            bookCateDepth:selectedCategory.depth[selectedCategory.depth.length - 1]
         }))
     }
     console.log("selectedCategory---333--",selectedCategory);

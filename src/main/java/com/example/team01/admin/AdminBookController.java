@@ -31,9 +31,10 @@ public class AdminBookController {
 
     @GetMapping("/bookCreate")
     public Map<String,Object> getBookCreate(){
+        log.info("getBookCreate------------------------");
         //도서 카테고리 목록 조회
         List<CategoryVO> cateData  = categoryService.getAllCategories();
-
+        log.info("cateData:{}",cateData);
         //클라이언트로 json 반환 Map 인터페이스
         Map<String,Object> response = new HashMap<>();
         response.put("cateData",cateData);
@@ -41,13 +42,17 @@ public class AdminBookController {
     }
 
     @PostMapping(value = "/bookCreate")
-    public ResponseEntity<?> insertBookCreate(@ModelAttribute BookVO createBook,
-                                            @RequestParam("bookImg") List<MultipartFile> bookImg){
+    public ResponseEntity<?> insertBookCreate(
+            @ModelAttribute BookVO createBook,
+            @RequestParam("bookImgPath") List<MultipartFile> bookImgPath) {
+
         // @ModelAttribute 사용하면 createBook 객체로 클라이언트의 모든 필드를 받을 수 있음!
+        log.info("BookVO bookImgPath-------------:{}",bookImgPath);
         log.info("BookVO createBook-------------:{}",createBook.toString());
 
+
         // 서비스로 book 정보와 파일을 전달
-        int result = bookService.createBook(createBook, bookImg);
+        int result = bookService.createBook(createBook, bookImgPath);
         //
 
         if (result > 0) {
@@ -65,7 +70,7 @@ public class AdminBookController {
     public Map<String,Object> getBookList(){
         log.info("도서 목록 API 호출됨");
         List<BookVO> bookList  = bookService.getAllBooks();
-        log.info("data-------------------:{}", bookList);
+        log.info("bookList data-------------------:{}", bookList);
         //json형태로 반환
         Map<String,Object> response = new HashMap<>();
 

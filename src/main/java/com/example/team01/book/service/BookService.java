@@ -8,5 +8,5 @@ import java.util.List;
 public interface BookService {
 
     public List<BookVO> getAllBooks();
-    public int createBook(BookVO book, List<MultipartFile> bookImg);
+    public int createBook(BookVO book, List<MultipartFile> bookImgPath);
 }

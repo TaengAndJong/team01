@@ -32,12 +32,9 @@ const FileUpload =({files,setFiles,handleFilesChange})=>{//부모한테 받은 p
 
     };
 
-
-
-
     return (
         <>
-            <FormTag label="도서이미지" labelClass="input-group-text" className="form-control" name="bookImg" type="file"
+            <FormTag label="도서이미지" labelClass="input-group-text" className="form-control" name="bookImgPath" type="file"
                      placeholder="도서 이미지 파일업로드"
                      onChange={handleImgUpload}
                      multiple={true}

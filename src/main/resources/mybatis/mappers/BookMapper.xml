@@ -3,21 +3,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.team01.book.dao.BookDao">
 
-<!-- 조회 -->
+
     <select id="selectAllBook" resultType="BookVO">
-        select  "bookId",
-                "bookName",
-                "bookDesc",
-                "author",
-                "bookPrice",
-                "stock",
-                "stockStatus",
-                "publishDate",
-                "roleId",
-                "cateId",
-                "viewCnt",
-                "bookImgPath",
-                "writer"
+        select   "bookId"
+             , "bookCateNm"
+             , "bookCateDepth"
+             , "bookName"
+             , "bookDesc"
+             , "author"
+             , "bookPrice"
+             , "stock"
+             , "stockStatus"
+             , "publishDate"
+             , "roleId"
+             , "cateId"
+             , "viewCnt"
+             , "bookImgPath"
+             , "writer"
+             , "createDate"
         from book
     </select>
 
@@ -28,31 +31,39 @@
         </selectKey>
 
         INSERT INTO BOOK (
-        "bookId",
-        "bookName",
-        "bookDesc",
-        "author",
-        "bookPrice",
-        "stock",
-        "stockStatus",
-        "publishDate",
-        "roleId",
-        "cateId",
-        "bookImgPath",
-        "writer"
+        "bookId"
+        , "bookCateNm"
+        , "bookCateDepth"
+        , "bookName"
+        , "bookDesc"
+        , "author"
+        , "bookPrice"
+        , "stock"
+        , "stockStatus"
+        , "publishDate"
+        , "roleId"
+        , "cateId"
+        , "viewCnt"
+        , "bookImgPath"
+        , "writer"
         ) VALUES (
-        #{bookId}
-        , #{bookName}
-        , #{bookDesc}
-        , #{author}
-        , #{bookPrice}
-        , #{stock}
-        , #{stockStatus}
-        , #{publishDate}
-        , #{roleId}
-        , #{cateId}
-        , #{cateName}
-        , #{writer}
+            #{bookId},
+            #{bookCateNm},
+            #{bookCateDepth},
+            #{bookName},
+            #{bookDesc},
+            #{author},
+            #{bookPrice},
+            #{stock},
+            #{stockStatus},
+            #{publishDate},
+            #{roleId},
+            #{cateId},
+            #{viewCnt},
+            <foreach collection="bookImgPath" item="filePath" separator="," open="(" close=")">
+                #{filePath}
+            </foreach>,
+            #{writer}
         )
 
     </insert>

@@ -7,4 +7,5 @@
     <typeAliases>
         <package name="com.example.team01.vo" />
     </typeAliases>
+
 </configuration>
