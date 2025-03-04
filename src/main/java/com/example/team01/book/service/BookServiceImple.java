@@ -30,60 +30,14 @@ public class BookServiceImple implements BookService{
     }
 
     @Override
-    public int createBook(BookVO book,List<MultipartFile> bookImgPath) {
-        log.info("createBook data:{}", book );
-
-
-        int cnt = 0; // mybatis의 insert 성공해서 데이터베이스에 저장된 행의 수 반환값을 담기위한 변수,  초기화
-        if(book != null) { // 도서데이터 book 객체의 값이 null이 아니면 데이터베이스에 저장하겠다!
-            log.info("createBook data:{}", book.toString() );
-
-            // 1. 파일 경로 리스트 생성
-            List<String> filePaths = new ArrayList<>(); // 업로드된 파일들의 경로를 담을 리스트
-
-            if (bookImgPath != null && !bookImgPath.isEmpty()){ //  클라이언트가 전달한 파일 목록이 null 아니고, 비어있어도 안됨
-                for(MultipartFile saveFile : bookImgPath){ // 향상된 for문을 통해 하나로 분리
-
-                    try{
-                        // 고유한 파일명 생성 (데이터베이스에 저장될 부분)
-                        String fileName= UUID.randomUUID().toString()+ "_" + saveFile.getOriginalFilename(); //업로드된 파일의 원본 이름
-                        //고유한 식별자(UUID)를 추가해서 파일이름 중복 방지
-                        log.info("fileName---------111:{}",fileName);
-                        //replaceAll() 사용해서 공백을 _ 또는 다른 문자로 변경
-                        String modifyFileName =fileName.replaceAll("[^a-zA-Z0-9\\.\\-_\\s]", "_");  // 공백도 포함해 대체
-                        log.info("modifyFileName---------111:{}",modifyFileName);
-                        //서버 저장 경로 (프로젝트 루트 폴더부터 시작)
-                        String filePath = "C:\\Users\\k\\Desktop\\team01\\upload\\book\\" + modifyFileName;
-                        log.info("filePath---------111:{}",filePath);
-
-                        // 파일 저장(서버의 디렉토리에 파일을 저장)
-                        Path path = Paths.get(filePath); //업로드된 파일을 저장할 경로를 Path 객체로 변환
-                        log.info("path---------111:{}", path);
-                        Files.write(path, saveFile.getBytes()); // path라는 경로에 바이너리 형태로 반환된 객체를 저장
-
-                        // 상대 경로로 파일 경로 추가 (예: "/upload/book/파일명")
-                        String fileUrl = "/upload/book/" + modifyFileName;
-                        filePaths.add(fileUrl); // 파일 경로를 리스트에 추가
-
-                    } catch (IOException e) {
-                        e.printStackTrace(); //에러 출력
-                       return 0; // 파일 저장 과정 종료
-                    }
-
-                    //
-                }
-                //for end
-            }
-            //if end
-
-            // 2. BookVO 객체에 파일 경로 리스트 추가 ( Mapper로 넘어갈 파라미터를 미리 설정)
-            book.setBookImgPath(filePaths);
-            log.info("createBook data-------------1111111:{}", book );
-            // 도서 데이터 전달
-            cnt = dao.createBook(book);
-           log.info("cnt data----------111:{}", cnt );
+    public int createBook(BookVO book) {
+        log.info("createBook data------------------111:{}", book );
+        int cnt =0;
+        if(book != null) {
+        log.info("createBook data notnull------------222:{}", book );
+            return dao.createBook(book);
         }
-        return cnt;
+        return 0;
     }
 
 

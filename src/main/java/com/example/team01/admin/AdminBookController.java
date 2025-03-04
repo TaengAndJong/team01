@@ -43,16 +43,18 @@ public class AdminBookController {
 
     @PostMapping(value = "/bookCreate")
     public ResponseEntity<?> insertBookCreate(
-            @ModelAttribute BookVO createBook,
-            @RequestParam("bookImgPath") List<MultipartFile> bookImgPath) {
+            @ModelAttribute BookVO createBook,@RequestParam(name="bookImgPath", required = false) List<MultipartFile> bookImgPath) {
 
-        // @ModelAttribute 사용하면 createBook 객체로 클라이언트의 모든 필드를 받을 수 있음!
-        log.info("BookVO bookImgPath-------------:{}",bookImgPath);
+        //VO객체랑 타입이 동일해야 파라미터를 받아올 수 있음
+
         log.info("BookVO createBook-------------:{}",createBook.toString());
-
+        for (MultipartFile multipartFile : bookImgPath) {
+            log.info("bookImgPath:{}",multipartFile.toString());
+        }
 
         // 서비스로 book 정보와 파일을 전달
-        int result = bookService.createBook(createBook, bookImgPath);
+       // int result = bookService.createBook(createBook, bookImgPath);
+        int result = bookService.createBook(createBook);
         //
 
         if (result > 0) {

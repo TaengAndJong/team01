@@ -29,7 +29,7 @@ public class BookVO {
     private String roleId; // 회원의 역할 : 사원 / 관리자/ 일반회원 ==> 도서 등록자명
     private String cateId; // 도서 카테고리 고유번호
     private String viewCnt; // 특정 도서에 대한 조회수
-    private List<String> bookImgPath;  // 다중 파일 업로드
+    private List<MultipartFile> bookImgPath;  // 다중 파일 업로드
     private String writer; // 회원아이디
     private LocalDateTime createDate; // 도서등록일
 

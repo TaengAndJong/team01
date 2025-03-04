@@ -33,7 +33,7 @@ const AdminBookCreate = () => {
         publishDate:'', //발행일
         roleId:'',
         cateId:'',
-        bookImgPath: [], // 다중 파일 업로드라면 배열로 설정
+        bookImgPath: null, // 다중 파일 업로드라면 배열로 설정
         writer: '',
 
     })
@@ -82,16 +82,24 @@ const AdminBookCreate = () => {
     const handleSubmit = async () => {
         //  formData 객체에 데이터 담기 및 fetch Post요청으로 컨트롤러로 데이터 전송하기
         const formData = new FormData(); //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있음
-
+        //createBook의 모든 데이터를 formData에 담아서 서버의 컨트롤러로 전송
         Object.entries(createBook).forEach(([key, value]) => {
             if (key === "bookImgPath" && Array.isArray(value)) {
                 value.forEach((file) => {
-                    formData.append("bookImgPath", file); // 배열 요소 개별 추가
+                    formData.append("bookImgPath", file);
                 });
             } else {
+                // ✅ 일반 문자열 데이터 추가
                 formData.append(key, value);
             }
         });
+
+        // ✅ 디버깅: FormData에 추가된 값 확인
+        for (let pair of formData.entries()) {
+            console.log("FormData 확인:", pair[0], pair[1]);
+        }
+
+
 //https://velog.io/@as9587/Spring%EC%97%90%EC%84%9C-FormData-%EB%A5%BC-%ED%8C%8C%EC%8B%B1Parsing-%ED%95%98%EC%A7%80-%EB%AA%BB%ED%95%98%EB%8A%94-%EA%B2%BD%EC%9A%B0
         // 서버로 전송하기
         try{
@@ -116,7 +124,6 @@ const AdminBookCreate = () => {
 //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
-
         //onCreate(createBook);
         handleSubmit();
     }

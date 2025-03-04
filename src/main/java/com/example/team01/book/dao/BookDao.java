@@ -19,7 +19,7 @@ public interface BookDao {
     public BookVO selectOneBook(String bookId);
 
     //도서 등록 --> mybatis 삭제, 등록, 수정에 대해 int 로 반환
-    public int createBook(BookVO bookVO);
+    public int createBook(BookVO book);
     //도서 수정
     public int modifyOneBook(BookVO book);
     //도서 삭제
