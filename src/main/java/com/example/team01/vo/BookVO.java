@@ -30,6 +30,7 @@ public class BookVO {
     private String cateId; // 도서 카테고리 고유번호
     private String viewCnt; // 특정 도서에 대한 조회수
     private List<MultipartFile> bookImgPath;  // 다중 파일 업로드
+    private String dbImgPath;  // DB 저장 용
     private String writer; // 회원아이디
     private LocalDateTime createDate; // 도서등록일
 

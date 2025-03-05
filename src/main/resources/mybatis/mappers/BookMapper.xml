@@ -17,7 +17,7 @@
              , "publishDate"
              , "roleId"
              , "cateId"
-             , "viewCnt"
+
              , "bookImgPath"
              , "writer"
              , "createDate"
@@ -43,27 +43,24 @@
         , "publishDate"
         , "roleId"
         , "cateId"
-        , "viewCnt"
         , "bookImgPath"
         , "writer"
+
         ) VALUES (
-            #{bookId},
-            #{bookCateNm},
-            #{bookCateDepth},
-            #{bookName},
-            #{bookDesc},
-            #{author},
-            #{bookPrice},
-            #{stock},
-            #{stockStatus},
-            #{publishDate},
-            #{roleId},
-            #{cateId},
-            #{viewCnt},
-            <foreach collection="bookImgPath" item="filePath" separator="," open="(" close=")">
-                #{filePath}
-            </foreach>,
-            #{writer}
+        #{bookId}
+        , #{bookCateNm}
+        , #{bookCateDepth}
+        , #{bookName}
+        , #{bookDesc}
+        , #{author}
+        , #{bookPrice}
+        , #{stock}
+        , #{stockStatus}
+        , #{publishDate}
+        , #{roleId}
+        , #{cateId}
+       ,#{dbImgPath}
+        , #{writer}
         )
 
     </insert>

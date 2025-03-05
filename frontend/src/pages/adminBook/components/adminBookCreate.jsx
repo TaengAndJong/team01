@@ -23,7 +23,7 @@ const AdminBookCreate = () => {
     // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
     const [createBook, setCreateBook] = useState({
         bookName: '',
-        bookCateName:'',
+        bookCateNm:'',
         bookCateDepth:'',
         bookDesc: '',
         author:'',

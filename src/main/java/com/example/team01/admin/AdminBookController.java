@@ -52,6 +52,9 @@ public class AdminBookController {
             log.info("bookImgPath:{}",multipartFile.toString());
         }
 
+        //bookImgPath가 null 일 경우 검증필요
+
+
         // 서비스로 book 정보와 파일을 전달
        // int result = bookService.createBook(createBook, bookImgPath);
         int result = bookService.createBook(createBook);

@@ -31,13 +31,40 @@ public class BookServiceImple implements BookService{
 
     @Override
     public int createBook(BookVO book) {
-        log.info("createBook data------------------111:{}", book );
+        
+        String bookImgPath="";
         int cnt =0;
         if(book != null) {
-        log.info("createBook data notnull------------222:{}", book );
-            return dao.createBook(book);
+            log.info("createBook에 파일 객체도 담겨서 넘어옴:{}", book );
+            log.info("book.file?????:{}", book.getBookImgPath()); // 1개 이상의 파일
+
+            if(!book.getBookImgPath().isEmpty()) {
+                for (MultipartFile file : book.getBookImgPath()) {
+                    String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename(); //랜덤 파일 명칭(중복방지)
+                    log.info("fileName:{}", fileName);
+
+                    if(!bookImgPath.equals("")) {
+                        bookImgPath= bookImgPath +","+fileName;
+                    }else{
+                        bookImgPath = fileName;
+                    }
+                    //실제파일을 프로젝트 내부에(서버) 저장
+                }
+                // List<String> bookImgPath를 하나의 문자열로 변환
+                log.info("bookImgPath---------------------:{}", bookImgPath); // 리스트 객체
+                // 객체를 또 순회해서 문자열로 만들어야함 ?????
+            }else{
+                //null일 떄
+                bookImgPath = "기본이미지없음";
+            }
+
+            log.info(" book객체 설정 후 -------:{}" , book);
+            book.setDbImgPath(bookImgPath);
+            cnt = dao.createBook(book); // 처리가 되면 값이 1로 변경
+            log.info("cnt------------------- : {} ", cnt);
+            return cnt; // 1 반환
         }
-        return 0;
+        return cnt;
     }
 
 
