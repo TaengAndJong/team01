@@ -46,20 +46,22 @@ public class AdminBookController {
             @ModelAttribute BookVO createBook,@RequestParam(name="bookImgPath", required = false) List<MultipartFile> bookImgPath) {
 
         //VO객체랑 타입이 동일해야 파라미터를 받아올 수 있음
-
         log.info("BookVO createBook-------------:{}",createBook.toString());
+        //파일 객체 null || isEmpty() 검증 필요
+        if (bookImgPath == null || bookImgPath.isEmpty()) {
+            System.out.println("파일이 없습니다.");
+            return ResponseEntity.ok("파일 없음 처리");
+        }
+        log.info("bookImgPath.size()--------------------:{}",bookImgPath.size());
+        //파일 객체관련 데이터가 존재할경우 실행
         for (MultipartFile multipartFile : bookImgPath) {
             log.info("bookImgPath:{}",multipartFile.toString());
         }
 
-        //bookImgPath가 null 일 경우 검증필요
-
-
         // 서비스로 book 정보와 파일을 전달
        // int result = bookService.createBook(createBook, bookImgPath);
         int result = bookService.createBook(createBook);
-        //
-
+        // 데이터 insert 성공시 결과 반환
         if (result > 0) {
             return ResponseEntity.ok("Book created successfully");
         } else {

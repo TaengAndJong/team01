@@ -49,6 +49,8 @@ public class BookServiceImple implements BookService{
                         bookImgPath = fileName;
                     }
                     //실제파일을 프로젝트 내부에(서버) 저장
+                    Path path = Paths.get(bookImgPath);
+                    log.info("bookImgPath-------------------:{}", path);
                 }
                 // List<String> bookImgPath를 하나의 문자열로 변환
                 log.info("bookImgPath---------------------:{}", bookImgPath); // 리스트 객체
