@@ -13,9 +13,9 @@ import {useNavigate} from "react-router-dom";
 
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
 
-const AdminBookCreate = ({initFetch}) => {
+const AdminBookCreate = () => {
 
-    const {onCreate} = useContext(BookDispatchContext);
+    const {onCreate,onInit} = useContext(BookDispatchContext);
     const {userData} = useAuth();
     const navigate = useNavigate();
 
@@ -113,7 +113,6 @@ const AdminBookCreate = ({initFetch}) => {
             // ✅ 목록 페이지로 이동 (URL에 refresh=true 추가)
             navigate("/admin/book/bookList?refresh=true");
 
-
         }catch(err){
             console.error("서버 요청 오류 발생",err);
         }
@@ -124,8 +123,6 @@ const AdminBookCreate = ({initFetch}) => {
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
         handleSubmit();
-        //전역데이터 갱신 함수 호출
-
     }
     console.log("createBook --------------222 " , createBook);
 //return start

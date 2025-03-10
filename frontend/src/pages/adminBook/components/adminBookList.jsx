@@ -3,34 +3,50 @@
 import React, {useContext, useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
-import {BookStateContext} from "../adminBookComponent.jsx";
+import { BookStateContext} from "../adminBookComponent.jsx";
 import {useLocation} from "react-router-dom";
 
 const AdminBookList = () => {
-
-    //context API로 받아 온 함수나, 상태변수 등을 객체로 받아와 구조분해할당 해야함.
-    const {bookdata,initFetch} = useContext(BookStateContext);
+    const {bookdata} = useContext(BookStateContext);
     const [bookList, setBookList] = useState([]);
     const location = useLocation();
 
-    console.log("📚 최종 bookdata", bookdata);
+    //데이터를 부모컴포넌트로부터 받아 온다.
+    const initFetch = async () => {
+        try {
+            // 서버로 응답 요청
+            const response = await fetch("/api/admin/book/bookList", {
+                method: "GET",
+            });
+            // 돌아온 응답 상태
+            if (!response.ok) { // 응답 상태가 200아니면
+                console.log(response.status)
+                throw new Error("서버 응답 에러");
+            }
+            // 응답 성공시
+            const addData = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
+            console.log("bookdata목록 get 요청 데이터 받아오기-----", addData);// 있음
+            //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
+            setBookList(addData);
+            console.log("데이터 목록 갱신완료")
+        } catch (e) {
+            console.log("catch-Error", e); // 오류 처리
+        }
+
+    }//fetch end
+
     // bookdata가 존재할 때만 bookList 업데이트
     useEffect(() => {
+        console.log("📚 목록페이지 여기 먼저 실행1?", bookdata);
         //1.비동기요청을 보낸다
-        initFetch();
-        // 2. 응답에 대한 데이터가 있다면 bookList 갱신하여 반영
-        if (bookdata !== null && bookdata !== undefined) {
-            console.log("🔄 bookdata 변경 감지됨", bookdata);
-            setBookList(bookdata); // bookList 업데이트
-        } else {
-            // 3. 응답에 데이터가 null, undefined이면 "데이터가 없습니다" 반환
-            console.log("📭 데이터가 없습니다");
-        }
+         initFetch();
+        console.log("📚 목록페이지 여기 먼저 실행2?", bookdata);
+        setBookList(bookdata); // bookList 업데이트
+        console.log("📚 목록페이지 여기 먼저 실행3?", bookdata);
         //3.응답에 데이터가 null, undefined이면 "데이터가 없습니다"반환
-    }, [location.search]);
+    }, [location.search,bookdata]);
 
     console.log("📚 최종 bookList", bookList);
-
 
     return(
         <>
