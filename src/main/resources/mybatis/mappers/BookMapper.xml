@@ -17,13 +17,11 @@
              , "publishDate"
              , "roleId"
              , "cateId"
-
              , "bookImgPath"
              , "writer"
              , "createDate"
         from book
     </select>
-
 
     <insert id="createBook" parameterType="BookVO">
         <selectKey keyProperty="bookId" resultType="String" order="BEFORE">
