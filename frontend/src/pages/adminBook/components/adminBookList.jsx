@@ -4,22 +4,32 @@ import React, {useContext, useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
 import {BookStateContext} from "../adminBookComponent.jsx";
+import {useLocation} from "react-router-dom";
 
 const AdminBookList = () => {
 
-    const bookdata = useContext(BookStateContext);
+    //context API로 받아 온 함수나, 상태변수 등을 객체로 받아와 구조분해할당 해야함.
+    const {bookdata,initFetch} = useContext(BookStateContext);
     const [bookList, setBookList] = useState([]);
+    const location = useLocation();
+
     console.log("📚 최종 bookdata", bookdata);
     // bookdata가 존재할 때만 bookList 업데이트
     useEffect(() => {
-        if (bookdata) {
+        //1.비동기요청을 보낸다
+        initFetch();
+        // 2. 응답에 대한 데이터가 있다면 bookList 갱신하여 반영
+        if (bookdata !== null && bookdata !== undefined) {
             console.log("🔄 bookdata 변경 감지됨", bookdata);
-            setBookList(bookdata);
+            setBookList(bookdata); // bookList 업데이트
+        } else {
+            // 3. 응답에 데이터가 null, undefined이면 "데이터가 없습니다" 반환
+            console.log("📭 데이터가 없습니다");
         }
-    }, [bookdata]);
+        //3.응답에 데이터가 null, undefined이면 "데이터가 없습니다"반환
+    }, [location.search]);
 
     console.log("📚 최종 bookList", bookList);
-   // if (bookList.length === 0) return <div>📚 도서 목록을 불러오는 중...</div>;
 
 
     return(
@@ -72,7 +82,7 @@ const AdminBookList = () => {
 
                                 name={`item${index}`}
                             />
-                            <label htmlFor="item1">항목 1</label>
+                            <label htmlFor="item1">{`항목${index}`}</label>
                         </td>
                         <td className="text-center" id={`bookId${index}`}>{item.bookId}</td>
                         <td className="text-center" id={`bookImg${index}`}>{item.bookImgPath}</td>

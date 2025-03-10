@@ -13,7 +13,7 @@ import {useNavigate} from "react-router-dom";
 
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
 
-const AdminBookCreate = () => {
+const AdminBookCreate = ({initFetch}) => {
 
     const {onCreate} = useContext(BookDispatchContext);
     const {userData} = useAuth();
@@ -98,10 +98,7 @@ const AdminBookCreate = () => {
         for (let pair of formData.entries()) {
             console.log("FormData 확인:", pair[0], pair[1]);
         }
-
-
-//https://velog.io/@as9587/Spring%EC%97%90%EC%84%9C-FormData-%EB%A5%BC-%ED%8C%8C%EC%8B%B1Parsing-%ED%95%98%EC%A7%80-%EB%AA%BB%ED%95%98%EB%8A%94-%EA%B2%BD%EC%9A%B0
-        // 서버로 전송하기
+        //서버 컨트롤러로 전송
         try{
             const response =await fetch("/api/admin/book/bookCreate", {
                 method: "POST",
@@ -112,8 +109,10 @@ const AdminBookCreate = () => {
                 throw new Error(`도서 등록 실패: ${response.status}`);
             }
             console.log("도서 등록 성공!");
-            // 성공 시 추가 작업 (예: 로그인 페이지로 이동)
-            navigate("/");
+
+            // ✅ 목록 페이지로 이동 (URL에 refresh=true 추가)
+            navigate("/admin/book/bookList?refresh=true");
+
 
         }catch(err){
             console.error("서버 요청 오류 발생",err);
@@ -124,8 +123,9 @@ const AdminBookCreate = () => {
 //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
-        //onCreate(createBook);
         handleSubmit();
+        //전역데이터 갱신 함수 호출
+
     }
     console.log("createBook --------------222 " , createBook);
 //return start
