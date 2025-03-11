@@ -6,6 +6,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -34,6 +35,15 @@ public class WebConfig implements WebMvcConfigurer {
         // cors cofig 설정하여 담아준 source 반환
         return source;
     }
+
+ //정적 리소스 허용 설정 보류
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        WebMvcConfigurer.super.addResourceHandlers(registry);
+//        registry.addResourceHandler("/uploads/**")
+//                .addResourceLocations("file:src/main/resources/uploads/");
+//    }
+
 }
 
 

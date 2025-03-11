@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//컨트롤러는 응답과 결과만 반환함
 
 @Slf4j
 @RequiredArgsConstructor
@@ -69,7 +70,6 @@ public class AdminBookController {
                     .body("Book creation failed");
         }
 
-
     }
 
 
@@ -78,6 +78,9 @@ public class AdminBookController {
         log.info("도서 목록 API 호출됨");
         List<BookVO> bookList  = bookService.getAllBooks();
         log.info("bookList data-------------------:{}", bookList);
+
+        //실제이미지 파일 bookList 객체에 담아주기 (배열일 경우 ","를 기준을 나누기)
+
         //json형태로 반환
         Map<String,Object> response = new HashMap<>();
 

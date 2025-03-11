@@ -49,6 +49,7 @@ const AdminBookList = () => {
     console.log("📚 최종 bookList", bookList);
     return(
         <>
+
             <table className="table">
                 <caption className="sr-only">
                     등록된 도서상품 테이블
@@ -83,52 +84,53 @@ const AdminBookList = () => {
                 </tr>
                 </thead>
 
-                <tbody>
+                <tbody className="">
+                {/* undefined 와 데이터의 개수 검증*/}
+                {!bookList?.data || bookList.data.length === 0 ? (
+                    <tr>
+                        <td colSpan="12" className="text-center">데이터가 없습니다.</td>
+                    </tr>
+                ) : (
+                    bookList.data.map((item, index) => (
+                        <tr key={index}>
+                            <td className="text-center">
+                                <input
+                                    type="checkbox"
+                                    id={`item${index}`}
+
+                                    name={`item${index}`}
+                                />
+                                <label htmlFor="item1">{`항목${index}`}</label>
+                            </td>
+                            <td className="text-center" id={`bookId${index}`}>{item.bookId}</td>
+
+                            <td className="text-center" id={`bookImg${index}`}>
+                                <img src={`${item.bookImgPath}`} alt={`${item.bookName}도서 이미지`}/>
+                            </td>
+
+                            <td className="text-center" id={`bookCateNm${index}`}>{item.bookCateNm}</td>
+                            <td className="text-left" id={`bookNm${index}`}>{item.bookName}</td>
+                            <td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>
+                            <td className="text-center" id={`bookAuthor${index}`}>{item.author}</td>
+                            <td className="text-center" id={`bookPrice${index}`}>{item.bookPrice}원</td>
+                            <td className="text-center" id={`bookPublishDt${index}`}>{item.publishDate}</td>
+                            <td className="text-center" id={`bookWriter${index}`}>{item.writer}</td>
+                            <td className="text-center" id={`bookPublishDt${index}`}>{item.createDate}</td>
+                            <td className="text-center" id={`bookStock${index}`}>{item.stock}</td>
+                        </tr>
+                    ))
+                )}
 
                 </tbody>
-
-                  <tbody className="">
-                  {/* undefined 와 데이터의 개수 검증*/}
-                  { !bookList?.data || bookList.data.length === 0 ?(
-                      <tr>
-                          <td colSpan="12" className="text-center">데이터가 없습니다.</td>
-                      </tr>
-                  ):(
-                      bookList.data.map((item,index) => (
-                          <tr key={index}>
-                      <td className="text-center">
-                          <input
-                              type="checkbox"
-                              id={`item${index}`}
-
-                              name={`item${index}`}
-                          />
-                          <label htmlFor="item1">{`항목${index}`}</label>
-                      </td>
-                      <td className="text-center" id={`bookId${index}`}>{item.bookId}</td>
-                      <td className="text-center" id={`bookImg${index}`}>{item.bookImgPath}</td>
-                      <td className="text-center" id={`bookCateNm${index}`}>{item.cateName}</td>
-                      <td className="text-left" id={`bookNm${index}`}>{item.bookName}</td>
-                      <td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>
-                      <td className="text-center" id={`bookAuthor${index}`}>{item.author}</td>
-                      <td className="text-center" id={`bookPrice${index}`}>{item.bookPrice}원</td>
-                      <td className="text-center" id={`bookPublishDt${index}`}>{item.publishDate}</td>
-                      <td className="text-center" id={`bookWriter${index}`}>{item.writer}</td>
-                      <td className="text-center" id={`bookPublishDt${index}`}>{item.createDate}</td>
-                      <td className="text-center" id={`bookStock${index}`}>{item.stock}</td>
-                      </tr>
-                    ))
-                  )}
-
-                  </tbody>
 
 
             </table>
             <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                <img src="http://localhost:5173/book/a13efe0f-5f91-4826-95ce-7fd4f9f8846c_address.png" alt="테스트이미지"/>
                 <Btn className={"create btn btn-primary"} type={"button"} path={pathsData.page.adminBookCreate}
                      text="도서등록"/>
             </div>
-
+           
         </>
     )
 }
