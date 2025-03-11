@@ -69,8 +69,8 @@ function App() {
                     <Route path={PathData.page.adminBook} element={<AdminBook/>}>
                         <Route path="bookList" element={<AdminBookList/>}/>
                         <Route path="bookCreate" element={<AdminBookCreate/>}/>
-                        <Route path="bookDetail" element={<AdminBookDetail/>}/>
-                        <Route path="bookModify" element={<AdminBookModify/>}/>
+                        <Route path="bookDetail/:id" element={<AdminBookDetail/>}/>
+                        <Route path="bookModify/:id" element={<AdminBookModify/>}/>
                     </Route>
 
                 </Route>

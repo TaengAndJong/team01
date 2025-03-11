@@ -33,9 +33,11 @@ const AdminBookList = () => {
         } catch (e) {
             console.log("catch-Error", e); // 오류 처리
         }
-
-            console.log("imgPath" , bookList.data[0].bookImgList);
     }//fetch end
+
+    const serverUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+    console.log("현재 서버 주소:", serverUrl);
+
 
     // bookdata가 존재할 때만 bookList 업데이트
     useEffect(() => {
@@ -114,7 +116,7 @@ const AdminBookList = () => {
 
                             <td className="text-center" id={`bookCateNm${index}`}>{item.bookCateNm}</td>
                             <td className="text-left" id={`bookNm${index}`}>
-                                <a href="">{item.bookName}</a>
+                                <a href={`/adminBook/bookDetail/${item.bookId}`} target="_self" title={`${item.bookName} 상세페이지로 이동`}>{item.bookName}</a>
                             </td>
                             {/*<td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>*/}
                             <td className="text-center" id={`bookAuthor${index}`}>{item.author}</td>
