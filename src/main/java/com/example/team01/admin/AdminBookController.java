@@ -44,18 +44,18 @@ public class AdminBookController {
 
     @PostMapping(value = "/bookCreate")
     public ResponseEntity<?> insertBookCreate(
-            @ModelAttribute BookVO createBook,@RequestParam(name="bookImgPath", required = false) List<MultipartFile> bookImgPath) {
+            @ModelAttribute BookVO createBook,@RequestParam(name="bookImg", required = false) List<MultipartFile> bookImg) {
 
         //VO객체랑 타입이 동일해야 파라미터를 받아올 수 있음
         log.info("BookVO createBook-------------:{}",createBook.toString());
         //파일 객체 null || isEmpty() 검증 필요
-        if (bookImgPath == null || bookImgPath.isEmpty()) {
+        if (bookImg == null || bookImg.isEmpty()) {
             System.out.println("파일이 없습니다.");
             return ResponseEntity.ok("파일 없음 처리");
         }
-        log.info("bookImgPath.size()--------------------:{}",bookImgPath.size());
+        log.info("bookImgPath.size()--------------------:{}",bookImg.size());
         //파일 객체관련 데이터가 존재할경우 실행
-        for (MultipartFile multipartFile : bookImgPath) {
+        for (MultipartFile multipartFile : bookImg) {
             log.info("bookImgPath:{}",multipartFile.toString());
         }
 

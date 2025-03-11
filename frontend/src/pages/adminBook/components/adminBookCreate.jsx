@@ -33,7 +33,7 @@ const AdminBookCreate = () => {
         publishDate:'', //발행일
         roleId:'',
         cateId:'',
-        bookImgPath: null, // 다중 파일 업로드라면 배열로 설정
+        bookImg: null, // 다중 파일 업로드라면 배열로 설정
         writer: '',
 
     })
@@ -69,13 +69,13 @@ const AdminBookCreate = () => {
 
     // 파일목록관리
     const [files, setFiles] = useState([]);
-    //files 객체 bookCreate의 bookImgPath에 배열로 담는 핸들러
+    //files 객체 bookCreate의 bookImg에 배열로 담는 핸들러
     const handleFilesChange = (files) => {
         console.log("files 객체확인",files);
 
         setCreateBook((prev) => ({
             ...prev,
-            bookImgPath: files, // 파일 목록 갱신
+            bookImg: files, // 파일 목록 갱신
         }));
     };
 
@@ -84,9 +84,9 @@ const AdminBookCreate = () => {
         const formData = new FormData(); //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있음
         //createBook의 모든 데이터를 formData에 담아서 서버의 컨트롤러로 전송
         Object.entries(createBook).forEach(([key, value]) => {
-            if (key === "bookImgPath" && Array.isArray(value)) {
+            if (key === "bookImg" && Array.isArray(value)) {
                 value.forEach((file) => {
-                    formData.append("bookImgPath", file);
+                    formData.append("bookImg", file);
                 });
             } else {
                 // ✅ 일반 문자열 데이터 추가

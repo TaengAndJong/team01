@@ -1,5 +1,6 @@
 package com.example.team01.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -13,7 +14,8 @@ import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
+    @Value("${file.upload-dir}")
+    private String uploadDir;
     //전역 CORS 설정
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
@@ -37,12 +39,12 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
  //정적 리소스 허용 설정 보류
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        WebMvcConfigurer.super.addResourceHandlers(registry);
-//        registry.addResourceHandler("/uploads/**")
-//                .addResourceLocations("file:src/main/resources/uploads/");
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        WebMvcConfigurer.super.addResourceHandlers(registry);
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:" + uploadDir);
+    }
 
 }
 

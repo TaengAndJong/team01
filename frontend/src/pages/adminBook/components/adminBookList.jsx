@@ -29,10 +29,12 @@ const AdminBookList = () => {
             //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
             setBookList(addData);
             console.log("데이터 목록 갱신완료")
+
         } catch (e) {
             console.log("catch-Error", e); // 오류 처리
         }
 
+            console.log("imgPath" , bookList.data[0].bookImgList);
     }//fetch end
 
     // bookdata가 존재할 때만 bookList 업데이트
@@ -47,6 +49,8 @@ const AdminBookList = () => {
     }, [location.search,bookdata]);
 
     console.log("📚 최종 bookList", bookList);
+
+
     return(
         <>
 
@@ -92,12 +96,12 @@ const AdminBookList = () => {
                     </tr>
                 ) : (
                     bookList.data.map((item, index) => (
+
                         <tr key={index}>
                             <td className="text-center">
                                 <input
                                     type="checkbox"
                                     id={`item${index}`}
-
                                     name={`item${index}`}
                                 />
                                 <label htmlFor="item1">{`항목${index}`}</label>
@@ -105,12 +109,14 @@ const AdminBookList = () => {
                             <td className="text-center" id={`bookId${index}`}>{item.bookId}</td>
 
                             <td className="text-center" id={`bookImg${index}`}>
-                                <img src={`${item.bookImgPath}`} alt={`${item.bookName}도서 이미지`}/>
+                                <img src={`http://localhost:8081\/uploads\/book\/${item.bookImgList[0]}`} alt={`${item.bookName}도서 이미지`}/>
                             </td>
 
                             <td className="text-center" id={`bookCateNm${index}`}>{item.bookCateNm}</td>
-                            <td className="text-left" id={`bookNm${index}`}>{item.bookName}</td>
-                            <td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>
+                            <td className="text-left" id={`bookNm${index}`}>
+                                <a href="">{item.bookName}</a>
+                            </td>
+                            {/*<td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>*/}
                             <td className="text-center" id={`bookAuthor${index}`}>{item.author}</td>
                             <td className="text-center" id={`bookPrice${index}`}>{item.bookPrice}원</td>
                             <td className="text-center" id={`bookPublishDt${index}`}>{item.publishDate}</td>
@@ -126,7 +132,6 @@ const AdminBookList = () => {
 
             </table>
             <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                <img src="http://localhost:5173/book/a13efe0f-5f91-4826-95ce-7fd4f9f8846c_address.png" alt="테스트이미지"/>
                 <Btn className={"create btn btn-primary"} type={"button"} path={pathsData.page.adminBookCreate}
                      text="도서등록"/>
             </div>

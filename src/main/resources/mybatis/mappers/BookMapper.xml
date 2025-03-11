@@ -57,7 +57,7 @@
         , #{publishDate}
         , #{roleId}
         , #{cateId}
-       ,#{dbImgPath}
+       ,#{bookImgPath}
         , #{writer}
         )
 
