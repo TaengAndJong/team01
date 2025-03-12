@@ -28,9 +28,9 @@ const PathsData = // 객체 데이터 구조 미완성
             adminBook:"/admin/book", // 관리자 등록된 도서 목록게시판
             adminBookList:"/admin/book/bookList", // 상품 등록
             adminBookCreate:"/admin/book/bookCreate", // 상품 등록
-            adminBookEdit:"/admin/book/bookEdit:id", // 상품 수정
-            adminBookModify:"/admin/book/bookModify:id", // 상품 수정
-            adminBookDetail:"/admin/book/bookDetail:id", // 상품 수정
+            adminBookEdit:"/admin/book/bookEdit/:id", // 상품 수정
+            adminBookModify:"/admin/book/bookModify/:id", // 상품 수정
+            adminBookDetail:"/admin/book/bookDetail/:id", // 상품 수정
 
         },
     }

@@ -9,5 +9,6 @@ public interface BookService {
 
     public List<BookVO> getAllBooks();
     //public int createBook(BookVO book, List<MultipartFile> bookImgPath);
+    public BookVO deTailBook(String bookId);
     public int createBook(BookVO book);
 }

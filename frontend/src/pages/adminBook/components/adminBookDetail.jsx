@@ -1,12 +1,80 @@
-//전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
-
+import {useParams} from "react-router-dom";
+import { useEffect, useState} from "react";
 
 
 const AdminBookDetail = () => {
+    const { bookId } = useParams(); // URL 파라미터에서 bookId 가져오기
+    const [bookDetail, setBookDetail] = useState([]);
+    
+    console.log("bookId0------------------",bookId);
+    console.log("bookDetail0------------------detail",bookDetail);
+    // bookId가 없으면 API 요청을 보내지 않도록 처리
+    if (!bookId) {
+        console.error("bookId is missing. API request not sent.");
+        return; // 요청을 보내지 않음
+    }
+    //서버의 컨트롤러에 비동기 데이터 요청
+    const getbookData = async () => {
 
+    try{
+        //await 을 사용하지 않으면 서버로부터 받는 response(응답)객체의 응답상태 확인과 응답객체에 대한 json 변환이 안될 수 있음
+        const response = await fetch(`/api/admin/book/bookDetail/${bookId}`,{
+           method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if(!response.ok){
+            console.log(response.status);
+            throw new Error("서버응답에러");
+        }
+        //응답 성공시
+        const bookData = await response.json(); 
+        // 제이슨 문자 데이터로 변환 ==> 담겨야할 데이터 bookId에 해당하는 정보 서버에서 반환받기
+        console.log("bookData----------상세페이지",bookData);
+        setBookDetail(bookData);
+
+    }catch(err){
+        console.log("catch-Error", err); // 오류 처리
+    }
+
+}
+    
+    // 리액트 마운트 시 get요청으로 데이터 얻어오기
+    useEffect(() => {
+        console.log("bookDetail1-------------",bookDetail);
+        getbookData();
+        console.log("bookDetail2-------------",bookDetail);
+    },[])
+
+    console.log("최종 bookDetail3----------",bookDetail);
     return(
         <>
-            AdminBookDetail
+            <h2>AdminBookDetail</h2>
+            <div className="bookDetail">
+                <ul className="swiper">
+                    <li className="">
+                        <div className="imgCard">
+                            <div className="imgCardInner">
+                                <img src="" alt="도서이미지"/>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div className="bookDesc">
+                    <ul>
+                        <li>
+                            <span>도서명</span>아기고양이이
+                        </li>
+                        <li><span>저자</span>김아무개</li>
+                        <li><span>발행일</span>2024.05.04</li>
+                        <li><span>가격</span>2000<span>원</span></li>
+                    </ul>
+                {/*bookDesc end */}
+                </div>
+                 {/*bookDetail end */}
+            </div>
         </>
     )
 }

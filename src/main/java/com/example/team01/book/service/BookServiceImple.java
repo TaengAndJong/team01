@@ -60,6 +60,13 @@ public class BookServiceImple implements BookService{
     }
 
     @Override
+    public BookVO deTailBook(String bookId) {
+        log.info("detaiaBook------:{}",dao.selectOneBook(bookId));
+        //bookId에 해당하는 레코드만 반환
+        return dao.selectOneBook(bookId);
+    }
+
+    @Override
     public int createBook(BookVO book) {
 
         String bookImgPath=""; // 데이터베이스에 담을 파일명 담는 문자열 변수

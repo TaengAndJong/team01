@@ -5,7 +5,7 @@
 
 
     <select id="selectAllBook" resultType="BookVO">
-        select   "bookId"
+        select   trim("bookId") as "bookId"
              , "bookCateNm"
              , "bookCateDepth"
              , "bookName"
@@ -23,6 +23,29 @@
         from book
     </select>
 
+    <select id="selectOneBook" resultType="BookVO" parameterType="String">
+        select   trim("bookId") as "bookId"
+             , "bookCateNm"
+             , "bookCateDepth"
+             , "bookName"
+             , "bookDesc"
+             , "author"
+             , "bookPrice"
+             , "stock"
+             , "stockStatus"
+             , "publishDate"
+             , "roleId"
+             , "cateId"
+             , "bookImgPath"
+             , "writer"
+             , "createDate"
+        from book
+        where "bookId"=${bookId}
+    </select>
+    <!-- 인덱스 역할을 하는 파라미터를 String으로 하면 #{} 이 인식을 못할 경우 , ${} 사용하기
+    마이바티스가 #{}바인딩 변수를 사용해서 문자열을 치환하면 varchar 타입으로 변환해 char 타입일 경우 인식이
+    안될 수도 있음. ==> cast 사용해도 안되는 경우에는 ??
+    -->
     <insert id="createBook" parameterType="BookVO">
         <selectKey keyProperty="bookId" resultType="String" order="BEFORE">
             SELECT BOOK_SECQUENCE.NEXTVAL FROM DUAL

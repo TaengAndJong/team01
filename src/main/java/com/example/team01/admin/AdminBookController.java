@@ -95,6 +95,23 @@ public class AdminBookController {
 
     }
 
+// 인덱스와 primary key 역할을 겸한다면 long type으로 설정해야 데이터베이스 성능이 좋아짐
+
+    @GetMapping("/bookDetail/{bookId}")
+    public Map<String,Object> getBookDetail(@PathVariable String bookId){
+        log.info("bookId :{}", bookId);
+        log.info("도서 상세페이지 API 호출됨");
+        // 아이디를 파라미터로 데이터베이스에 넘겨서 데이터 받아오기
+        BookVO bookInfo = bookService.deTailBook(bookId);
+        log.info("bookInfo--------------- :{}", bookInfo);
+        //json 형태의 key, value 값으로 데이터 담아서 반환하기
+        Map<String,Object> response = new HashMap<>();
+        response.put("bookInfo",bookInfo);
+        log.info("response------------:{}",response);
+        // 조회된 데이터 반환하기
+        return response;
+    }
+
 
 
 }

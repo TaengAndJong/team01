@@ -4,7 +4,7 @@ import React, {useContext, useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
 import { BookStateContext} from "../adminBookComponent.jsx";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 const AdminBookList = () => {
     const {bookdata} = useContext(BookStateContext);
@@ -30,8 +30,8 @@ const AdminBookList = () => {
             setBookList(addData);
             console.log("데이터 목록 갱신완료")
 
-        } catch (e) {
-            console.log("catch-Error", e); // 오류 처리
+        } catch (err) {
+            console.log("catch-Error", err); // 오류 처리
         }
     }//fetch end
 
@@ -116,7 +116,7 @@ const AdminBookList = () => {
 
                             <td className="text-center" id={`bookCateNm${index}`}>{item.bookCateNm}</td>
                             <td className="text-left" id={`bookNm${index}`}>
-                                <a href={`/adminBook/bookDetail/${item.bookId}`} target="_self" title={`${item.bookName} 상세페이지로 이동`}>{item.bookName}</a>
+                                <Link to={`/admin/book/bookDetail/${item.bookId}`} title={`${item.bookName} 상세페이지로 이동`}>{item.bookName}</Link>
                             </td>
                             {/*<td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>*/}
                             <td className="text-center" id={`bookAuthor${index}`}>{item.author}</td>
