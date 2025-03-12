@@ -72,7 +72,6 @@ const AdminBookCreate = () => {
     //files 객체 bookCreate의 bookImg에 배열로 담는 핸들러
     const handleFilesChange = (files) => {
         console.log("files 객체확인",files);
-
         setCreateBook((prev) => ({
             ...prev,
             bookImg: files, // 파일 목록 갱신
@@ -84,6 +83,9 @@ const AdminBookCreate = () => {
         const formData = new FormData(); //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있음
         //createBook의 모든 데이터를 formData에 담아서 서버의 컨트롤러로 전송
         Object.entries(createBook).forEach(([key, value]) => {
+               // Array.isArray(value) ==> file 객체
+            // bookImg가 값이 비어있거나 없을 경우 noImg 파일 가져와서
+            // 파일 객체로 만들어 bookImg에 배열로 담아 서버로 넘겨야 함 
             if (key === "bookImg" && Array.isArray(value)) {
                 value.forEach((file) => {
                     formData.append("bookImg", file);
@@ -123,6 +125,8 @@ const AdminBookCreate = () => {
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
         handleSubmit();
+
+
     }
     console.log("createBook --------------222 " , createBook);
 //return start

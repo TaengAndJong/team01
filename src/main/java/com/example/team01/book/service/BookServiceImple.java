@@ -28,8 +28,14 @@ import java.util.UUID;
 public class BookServiceImple implements BookService{
 
     private final BookDao dao;
+
+
     @Autowired
     private FileUtils fileUtils; // FileUtils를 주입
+
+    @Value("${file.upload-dir}")
+    private String uploadPath;
+
 
     @Override
     public List<BookVO> getAllBooks() {
@@ -61,9 +67,18 @@ public class BookServiceImple implements BookService{
 
     @Override
     public BookVO deTailBook(String bookId) {
-        log.info("detaiaBook------:{}",dao.selectOneBook(bookId));
-        //bookId에 해당하는 레코드만 반환
-        return dao.selectOneBook(bookId);
+        BookVO bookVO = dao.selectOneBook(bookId);
+        // 텍스트 이미지경로 to ArrayList 이미지경로
+        log.info("detaiaBook------:{}",bookVO);
+        //bookImgPath  배열로 변경해서 넣어야함
+        log.info("detailBookImgpath:{}",bookVO.getBookImgPath());
+        // 텍스트 이미지 split(",") 사용해서 문자 배열로 변경
+        String[] bookImgPaths = bookVO.getBookImgPath().split(",");
+        // bookVO의 bookImgList에 String 배열을 List 배열로 변경해 담아주기
+        bookVO.setBookImgList(Arrays.asList(bookImgPaths));
+        //데이터 반환
+        log.info("detaiaBook--------:{}",bookVO );
+      return bookVO;
     }
 
     @Override
@@ -74,7 +89,13 @@ public class BookServiceImple implements BookService{
         if(book != null) {
             log.info("createBook에 파일 객체도 담겨서 넘어옴:{}", book );
             log.info("book.file?????:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
-            bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
+            if(book.getBookImg()!=null && !book.getBookImg().isEmpty()){
+                bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
+            }else{
+                //book.getBookImg()가 null이거나 비어있을 때 
+                log.info("이미지 파일 객체가 비어있음");
+            }
+
 
             log.info("bookImgPath--------------------- 파일 유틸 반환값 확인: {}",bookImgPath);
            // log.info(" book객체 설정 후 -------:{}" , book);

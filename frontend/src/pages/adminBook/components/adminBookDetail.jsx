@@ -1,5 +1,7 @@
 import {useParams} from "react-router-dom";
-import { useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
+import Btn from "../../../util/reuseBtn.jsx";
+import pathsData from "../../../assets/pathsData.jsx";
 
 
 const AdminBookDetail = () => {
@@ -33,14 +35,12 @@ const AdminBookDetail = () => {
         const bookData = await response.json(); 
         // 제이슨 문자 데이터로 변환 ==> 담겨야할 데이터 bookId에 해당하는 정보 서버에서 반환받기
         console.log("bookData----------상세페이지",bookData);
-        setBookDetail(bookData);
+        setBookDetail(bookData.bookInfo);
 
     }catch(err){
         console.log("catch-Error", err); // 오류 처리
     }
-
 }
-    
     // 리액트 마운트 시 get요청으로 데이터 얻어오기
     useEffect(() => {
         console.log("bookDetail1-------------",bookDetail);
@@ -48,32 +48,48 @@ const AdminBookDetail = () => {
         console.log("bookDetail2-------------",bookDetail);
     },[])
 
-    console.log("최종 bookDetail3----------",bookDetail);
+    console.log("최종 ----------bookDetail",bookDetail);
     return(
         <>
             <h2>AdminBookDetail</h2>
             <div className="bookDetail">
-                <ul className="swiper">
-                    <li className="">
-                        <div className="imgCard">
-                            <div className="imgCardInner">
-                                <img src="" alt="도서이미지"/>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div className="bookDesc">
-                    <ul>
-                        <li>
-                            <span>도서명</span>아기고양이이
-                        </li>
-                        <li><span>저자</span>김아무개</li>
-                        <li><span>발행일</span>2024.05.04</li>
-                        <li><span>가격</span>2000<span>원</span></li>
+                <div className="box">
+                    <ul className="swiper">
+                        {bookDetail?.bookImgList?.map((item, index) => {
+                            return (
+                                <li key={index} className="">
+                                    <div className="imgCard">
+                                        <div className="imgCardInner">
+                                            <img src={`http://localhost:8081\/uploads\/book\/${item}`} alt="도서이미지"/>
+                                        </div>
+                                    </div>
+                                </li>
+                            )
+                        })}
                     </ul>
-                {/*bookDesc end */}
+                    <div className="bookInfo">
+                        <ul>
+                            <li>
+                                <span>도서명</span>아기고양이이
+                            </li>
+                            <li><span>저자</span>{bookDetail.author}</li>
+                            <li><span>발행일</span>{bookDetail.publishDate}</li>
+                            <li><span>가격</span>{bookDetail.bookPrice}<span>원</span></li>
+                        </ul>
+                    {/*bookDesc end */}
+                    </div>
+                </div>
+                <div className="box">
+                    <h4 className="h4">도서설명</h4>
+                    {bookDetail.bookDesc}
                 </div>
                  {/*bookDetail end */}
+
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <Btn className={"modify btn btn-primary"} type={"button"} path={pathsData.page.adminBookModify}
+                         text="수정"/>
+                </div>
+
             </div>
         </>
     )
