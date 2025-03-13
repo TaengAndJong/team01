@@ -2,6 +2,8 @@ import {useParams} from "react-router-dom";
 import React, { useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
+import AdminBookSlide from "../../common/adminBookSplide.jsx";
+
 
 
 const AdminBookDetail = () => {
@@ -53,20 +55,11 @@ const AdminBookDetail = () => {
         <>
             <h2>AdminBookDetail</h2>
             <div className="bookDetail">
+                <div className="swiperSlideEX">
+                </div>
                 <div className="box">
-                    <ul className="swiper">
-                        {bookDetail?.bookImgList?.map((item, index) => {
-                            return (
-                                <li key={index} className="">
-                                    <div className="imgCard">
-                                        <div className="imgCardInner">
-                                            <img src={`http://localhost:8081\/uploads\/book\/${item}`} alt="도서이미지"/>
-                                        </div>
-                                    </div>
-                                </li>
-                            )
-                        })}
-                    </ul>
+                      <AdminBookSlide  bookDetail={bookDetail}/>
+
                     <div className="bookInfo">
                         <ul>
                             <li>
