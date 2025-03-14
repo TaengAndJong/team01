@@ -67,16 +67,7 @@ const AdminBookCreate = () => {
     //카테고리 관리 리액트훅
     const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
 
-    // 파일목록관리
-    const [files, setFiles] = useState([]);
-    //files 객체 bookCreate의 bookImg에 배열로 담는 핸들러
-    const handleFilesChange = (files) => {
-        console.log("files 객체확인",files);
-        setCreateBook((prev) => ({
-            ...prev,
-            bookImg: files, // 파일 목록 갱신
-        }));
-    };
+
 
     const handleSubmit = async () => {
         //  formData 객체에 데이터 담기 및 fetch Post요청으로 컨트롤러로 데이터 전송하기
@@ -124,6 +115,9 @@ const AdminBookCreate = () => {
 //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
+        //파일 객체  [] 배열이면 기본으로 이미지 추가하기
+
+
         handleSubmit();
 
 
@@ -142,35 +136,35 @@ const AdminBookCreate = () => {
                     {/*도서명*/}
                     <div className="d-flex align-items-center">
                         <div className="d-flex align-items-center">
-                            <FormTag label="도서명" className="form-control" name="bookName" type="text"
+                            <FormTag id="bookName" label="도서명" className="form-control" name="bookName" type="text"
                                      placeholder="도서명 입력" value={createBook.bookName} onChange={handleChange}/>
                         </div>
                         <div className="d-flex align-items-center">
-                            <FormTag label="저자" className="form-control" name="author" type="text"
+                            <FormTag id="author" label="저자" className="form-control" name="author" type="text"
                                      placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
                         </div>
                     </div>
 
                     {/*발행일*/}
                     <div className="d-flex align-items-center">
-                        <FormTag label="발행일" className="form-control" name="publishDate" type="text"
+                        <FormTag id="publishDate" label="발행일" className="form-control" name="publishDate" type="text"
                                  placeholder="발행일" value={createBook.publishDate} onChange={handleChange}/>
                     </div>
                     {/*재고 & 가격*/}
                     <div className="d-flex align-items-center">
                         <div className="d-flex align-items-center">
                             {/*할인적용할 겨 ? 말겨? */}
-                            <FormTag label="도서가격" className="form-control" name="bookPrice" type="text"
+                            <FormTag id="bookPrice" label="도서가격" className="form-control" name="bookPrice" type="text"
                                      placeholder="도서가격입력" value={createBook.bookPrice} onChange={handleChange}/>
                             <span>원</span>
                         </div>
                         <div className="d-flex align-items-center">
-                            <FormTag label="재고" className="form-control" name="stock" type="text"
+                            <FormTag id="stock" label="재고" className="form-control" name="stock" type="text"
                                      placeholder="재고입력" value={createBook.stock} onChange={handleChange}/>
                             <span>개</span>
                         </div>
                         <div className="d-flex align-items-center">
-                            <FormTag label="재고상태" className="form-control" name="stockStatus" type="text"
+                            <FormTag id="stockStatus" label="재고상태" className="form-control" name="stockStatus" type="text"
                                      placeholder="재고상태" value={createBook.stockStatus} readOnly={true}/>
                             <span>개</span>
                         </div>
@@ -179,7 +173,7 @@ const AdminBookCreate = () => {
                     {/*작성자*/}
                     <div className="d-flex align-items-center">
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
-                        <FormTag label="작성자" className="form-control" name="writer" type="text"
+                        <FormTag id="writer" label="작성자" className="form-control" name="writer" type="text"
                                  placeholder="작성자" value={userData?.clientName} readOnly={true}/>
                     </div>
                     {/*도서설명*/}
@@ -198,7 +192,7 @@ const AdminBookCreate = () => {
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
-                        <FileUpload files={files} setFiles={setFiles} handleFilesChange={handleFilesChange}/>
+                        <FileUpload  createBook={createBook} setCreateBook={setCreateBook}/>
                     </div>
                 </form>
                 <div className="d-flex align-items-center justify-content-center">

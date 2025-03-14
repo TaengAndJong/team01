@@ -98,7 +98,7 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
                 {/*1차 카테고리만 데이터 */}
 
                 <label htmlFor="firstCategory" className="visually-hidden">1차 카테고리</label>
-                <select className="form-select" name="firstCategory" onChange={handleCategory}>
+                <select id="firstCategory" className="form-select" name="firstCategory" onChange={handleCategory}>
                     <option value="1차카테고리">1차카테고리</option>
                     {bookCategory && bookCategory
                         .filter(cate => parseInt(cate.cateDepthLevel) === 1)
@@ -114,7 +114,7 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
                 {selectedCategory?.depth?.[0]?.includes("1차") && (
                     <>
                         <label htmlFor="secondCategory" className="visually-hidden">2차 카테고리</label>
-                        <select className="form-select" name="secondCategory" onChange={handleCategory}>
+                        <select id="secondCategory" className="form-select" name="secondCategory" onChange={handleCategory}>
                             <option value="2차카테고리">2차카테고리</option>
                             {bookCategory && bookCategory
                                 .filter(cate => parseInt(cate.cateDepthLevel) === 2)
@@ -130,7 +130,7 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
                 {selectedCategory?.depth?.[1]?.includes("2차") && (
                     <>
                         <label htmlFor="thirdCategory" className="visually-hidden">3차 카테고리</label>
-                        <select className="form-select" name="thirdCategory" onChange={handleCategory}>
+                        <select id="thirdCategory" className="form-select" name="thirdCategory" onChange={handleCategory}>
                             <option value="3차카테고리">3차카테고리</option>
                             {bookCategory && bookCategory
                                 .filter(cate => parseInt(cate.cateDepthLevel) === 3)
