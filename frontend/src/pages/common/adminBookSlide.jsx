@@ -8,11 +8,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-// import 'swiper/scss';
-// import 'swiper/scss/navigation';
-// import 'swiper/scss/pagination';
 
-const AdminBookSplide = ({bookDetail}) =>{
+const AdminBookSlide = ({bookDetail}) =>{
     // 받아온 props의 값을 왼쪽의 변수에 구조분해할당해주기( 데이터 분해 방향은 오른쪽에서 왼쪽)
     const {bookImgList,bookCateNm} = bookDetail;
 
@@ -41,19 +38,19 @@ const AdminBookSplide = ({bookDetail}) =>{
                 {bookImgList?.map((item,index)=>{
 
                 return (
-                    <SwiperSlide  key={`slide-${index}`}>
-                        <div className="imgCard">
-                            <div className="imgCardInner">
-                                <img src={`http://localhost:8081/uploads/book/${item}`} alt="도서이미지" />
+                    <SwiperSlide key={`slide-${index}`} >
+                            <div className="img-box">
+                                <div className="img-inner">
+                                    <img className="img" src={`http://localhost:8081/uploads/book/${item}`} alt="도서이미지"/>
+                                </div>
                             </div>
-                        </div>
                     </SwiperSlide>
                 );
-            })}
+                })}
 
             </Swiper>
         </>
     );
 }
 
-export default AdminBookSplide;
+export default AdminBookSlide;

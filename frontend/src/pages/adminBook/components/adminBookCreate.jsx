@@ -33,7 +33,7 @@ const AdminBookCreate = () => {
         publishDate:'', //발행일
         roleId:'',
         cateId:'',
-        bookImg: null, // 다중 파일 업로드라면 배열로 설정
+        bookImg: [], // 다중 파일 업로드라면 배열로 설정
         writer: '',
 
     })
@@ -116,13 +116,15 @@ const AdminBookCreate = () => {
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
         //파일 객체  [] 배열이면 기본으로 이미지 추가하기
+        console.log("데이터 제출하겠따")
+        console.log("데이터제출 createBook",createBook);
+        console.log("데이터제출 createBook.bookImg)",createBook.bookImg);
+        // file 객체 값 이미지객체 빈값인지 확인하는 함수
 
-
-        handleSubmit();
-
+        console.log("데이터제출  후 createBook.bookImg)",createBook.bookImg);
 
     }
-    console.log("createBook --------------222 " , createBook);
+    console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음
 //return start
     return(
         <>

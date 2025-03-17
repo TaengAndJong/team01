@@ -2,7 +2,9 @@ import {useParams} from "react-router-dom";
 import React, { useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
-import AdminBookSlide from "../../common/adminBookSplide.jsx";
+import AdminBookSlide from "../../common/adminBookSlide.jsx";
+// import "../../../../scss/style.scss";
+// import "../../../../dist/assets/css/card.css";
 
 
 
@@ -55,28 +57,34 @@ const AdminBookDetail = () => {
         <>
             <h2>AdminBookDetail</h2>
             <div className="bookDetail">
-                <div className="swiperSlideEX">
-                </div>
-                <div className="box">
-                      <AdminBookSlide  bookDetail={bookDetail}/>
 
-                    <div className="bookInfo">
-                        <ul>
-                            <li>
-                                <span>도서명</span>아기고양이이
-                            </li>
-                            <li><span>저자</span>{bookDetail.author}</li>
-                            <li><span>발행일</span>{bookDetail.publishDate}</li>
-                            <li><span>가격</span>{bookDetail.bookPrice}<span>원</span></li>
-                        </ul>
-                    {/*bookDesc end */}
+                <div className="box">
+
+                    <div className="card horizontal">
+                        <div className="card-header">
+                            <AdminBookSlide bookDetail={bookDetail}/>
+                        </div>
+                        <div className="bookInfo card-body">
+                            <ul class="ul cicleBullets">
+                                <li className="li">
+                                    <span className="tit">도서명</span>{bookDetail.bookName}
+                                </li>
+                                <li className="li"><span className="tit">저자</span>{bookDetail.author}</li>
+                                <li className="li"><span className="tit">발행일</span>{bookDetail.publishDate}</li>
+                                <li className="li"><span className="tit">가격</span>{bookDetail.bookPrice}<span>원</span></li>
+                            </ul>
+                            {/*bookDesc end */}
+                        </div>
                     </div>
+
                 </div>
+
+
                 <div className="box">
                     <h4 className="h4">도서설명</h4>
                     {bookDetail.bookDesc}
                 </div>
-                 {/*bookDetail end */}
+                {/*bookDetail end */}
 
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                     <Btn className={"modify btn btn-primary"} type={"button"} path={pathsData.page.adminBookModify}

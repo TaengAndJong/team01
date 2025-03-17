@@ -1,7 +1,7 @@
 
 import {Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../scss/style.scss";
+import './App.scss';
 
 import SignUp from "./pages/singUp/signUpComponent.jsx";
 import PathData from "./assets/pathsData.jsx";

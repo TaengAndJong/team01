@@ -1,0 +1,35 @@
+/*공통변수*/
+$mainColor: #BED297;
+$subColor: #8B655A;
+$display: inline-block;
+/*폰트*/
+$fontGnbColor: #595959;
+$fontTnbColor: #595959;
+$fontFooterColor: #595959;
+$fontGnbSize: 36px;
+$fontTnbSize: 20px;
+$fontLarge: 30px;
+$fontRegular: 20px;
+$fontSmall: 16px;
+
+/* 레이이아웃 - header & footer*/
+$layoutPadding : 30px; // header, footer 양 여백
+$layoutMargin : 30px;
+
+/*display*/
+
+/*depth*/
+$firstDepthBg:$mainColor;
+$secondDepthBg:$subColor;
+$thirdDepthBg:$subColor;
+
+/*관리자 변수*/
+$adMainColor: #BED297;
+$adSubColor: #8B655A;
+$adGnbColor: #BED297;
+$adFooterColor:#8B655A;
+
+
+/*사용자 변수*/
+$ClMainColor: #BED297;
+$ClSubColor: #8B655A;

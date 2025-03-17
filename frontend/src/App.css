@@ -1,42 +1,129 @@
-/*#root {*/
-/*  max-width: 1280px;*/
-/*  margin: 0 auto;*/
-/*  padding: 2rem;*/
-/*  text-align: center;*/
-/*}*/
+@charset "UTF-8";
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, main, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
 
-/*.logo {*/
-/*  height: 6em;*/
-/*  padding: 1.5em;*/
-/*  will-change: filter;*/
-/*  transition: filter 300ms;*/
-/*}*/
-/*.logo:hover {*/
-/*  filter: drop-shadow(0 0 2em #646cffaa);*/
-/*}*/
-/*.logo.react:hover {*/
-/*  filter: drop-shadow(0 0 2em #61dafbaa);*/
-/*}*/
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section {
+  display: block;
+}
 
-/*@keyframes logo-spin {*/
-/*  from {*/
-/*    transform: rotate(0deg);*/
-/*  }*/
-/*  to {*/
-/*    transform: rotate(360deg);*/
-/*  }*/
-/*}*/
+[hidden] {
+  display: none;
+}
 
-/*@media (prefers-reduced-motion: no-preference) {*/
-/*  a:nth-of-type(2) .logo {*/
-/*    animation: logo-spin infinite 20s linear;*/
-/*  }*/
-/*}*/
+body {
+  line-height: 1;
+}
 
-/*.card {*/
-/*  padding: 2em;*/
-/*}*/
+menu, ol, ul {
+  list-style: none;
+}
 
-/*.read-the-docs {*/
-/*  color: #888;*/
-/*}*/
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:after, blockquote:before {
+  content: "";
+  content: none;
+}
+
+q:after, q:before {
+  content: "";
+  content: none;
+}
+
+table {
+  display: table;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+tr {
+  display: table-row;
+}
+
+th, td {
+  display: table-cell;
+}
+
+* {
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+span, em, i {
+  display: inline-block;
+  font-style: normal;
+}
+
+/*
+local(확장자를 제외한 '폰트명' 입력) => 내 컴퓨터에 설치되어있는 폰트가 존재하는지 먼저 탐색함
+display: swap; 폰트가 로드 되지 않으면 대체폰트가 먼저 보여지고, 사용할 폰트가 로드되면 교체되게 함
+font-weight: normal; => 기본이 되는 폰트의 스타일을 지정
+font-style: normal => font 기울임, 안 기울임 정도 등
+normal = 400
+bold = 700
+*/
+@font-face {
+  font-family: "NanumHumanLight";
+  src: local("NanumHumanLight"), url("/frontend/dist/assets/fonts/NanumHumanLight.woff") format("woff"), url("/frontend/dist/assets/fonts/NanumHumanLight.woff2") format("woff2");
+  font-display: swap;
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NanumHumanRegular";
+  src: local("NanumHumanRegular"), url("/frontend/dist/assets/fonts/NanumHumanRegular.woff") format("woff"), url("/frontend/dist/assets/fonts/NanumHumanRegular.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NanumHumanBold";
+  src: local("NanumHumanBold"), url("/frontend/dist/assets/fonts/NanumHumanBold.woff") format("woff"), url("/frontend/dist/assets/fonts/NanumHumanBold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "TheJamsilRegular";
+  src: local("TheJamsilRegular"), url("/frontend/dist/assets/fonts/TheJamsilRegular.woff") format("woff"), url("/frontend/dist/assets/fonts/TheJamsilRegular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "TheJamsilMedium";
+  src: local("TheJamsilMedium"), url("/frontend/dist/assets/fonts/TheJamsilMedium.woff") format("woff"), url("/frontend/dist/assets/fonts/TheJamsilMedium.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "TheJamsilBold";
+  src: local("TheJamsilBold"), url("/frontend/dist/assets/fonts/TheJamsilBold.woff") format("woff"), url("/frontend/dist/assets/fonts/NanumHumanBold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+* {
+  font-family: NanumHumanRegular;
+}
+
+/*공통변수*/
+/*폰트*/
+/* 레이이아웃 - header & footer*/
+/*display*/
+/*depth*/
+/*관리자 변수*/
+/*사용자 변수*/
+
+/*# sourceMappingURL=App.css.map */

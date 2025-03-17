@@ -56,13 +56,13 @@ const AdminBookList = () => {
     return(
         <>
 
-            <table className="table">
+            <table className="table table-primary">
                 <caption className="sr-only">
                     등록된 도서상품 테이블
                 </caption>
                 <thead>
                 <tr>
-                    <th className="text-center">
+                    <th scope="col" className="text-center">
                         {/*<input*/}
                         {/*    type="checkbox"*/}
                         {/*    id="selectAll"*/}
@@ -76,45 +76,45 @@ const AdminBookList = () => {
                         />
                         <label htmlFor="selectAll">전체 선택</label>
                     </th>
-                    <th className="text-center">No.</th>
-                    <th className="text-center">이미지</th>
-                    <th className="text-center">카테고리</th>
-                    <th className="text-center">도서명</th>
-                    <th className="text-center">설명</th>
-                    <th className="text-center">저자</th>
-                    <th className="text-center">가격</th>
-                    <th className="text-center">발행일</th>
-                    <th className="text-center">등록자</th>
-                    <th className="text-center">등록일</th>
-                    <th className="text-center">재고</th>
+                    <th scope="col" className="text-center">No.</th>
+                    <th scope="col" className="text-center">이미지</th>
+                    <th scope="col" className="text-center">카테고리</th>
+                    <th scope="col" className="text-center">도서명</th>
+                    {/*<th className="text-center">설명</th>*/}
+                    <th scope="col" className="text-center">저자</th>
+                    <th scope="col" className="text-center">가격</th>
+                    <th scope="col" className="text-center">발행일</th>
+                    <th scope="col" className="text-center">등록자</th>
+                    <th scope="col" className="text-center">등록일</th>
+                    <th scope="col" className="text-center">재고</th>
                 </tr>
                 </thead>
 
                 <tbody className="">
                 {/* undefined 와 데이터의 개수 검증*/}
                 {!bookList?.data || bookList.data.length === 0 ? (
-                    <tr>
+                    <tr className="">
                         <td colSpan="12" className="text-center">데이터가 없습니다.</td>
                     </tr>
                 ) : (
                     bookList.data.map((item, index) => (
 
-                        <tr key={index}>
+                        <tr key={index} className="table-light border-bottom">
                             <td className="text-center">
                                 <input
                                     type="checkbox"
                                     id={`item${index}`}
                                     name={`item${index}`}
                                 />
-                                <label htmlFor="item1">{`항목${index}`}</label>
+                                <label htmlFor="item1">{`항목${index+1}`}</label>
                             </td>
-                            <td className="text-center" id={`bookId${index}`}>{item.bookId}</td>
+                            <td className="text-center " id={`bookId${index}`}>{item.bookId}</td>
 
                             <td className="text-center" id={`bookImg${index}`}>
                                 <img src={`http://localhost:8081\/uploads\/book\/${item.bookImgList[0]}`} alt={`${item.bookName}도서 이미지`}/>
                             </td>
 
-                            <td className="text-center" id={`bookCateNm${index}`}>{item.bookCateNm}</td>
+                            <td className="text-left" id={`bookCateNm${index}`}>{item.bookCateNm}</td>
                             <td className="text-left" id={`bookNm${index}`}>
                                 <Link to={`/admin/book/bookDetail/${item.bookId}`} title={`${item.bookName} 상세페이지로 이동`}>{item.bookName}</Link>
                             </td>
@@ -130,7 +130,6 @@ const AdminBookList = () => {
                 )}
 
                 </tbody>
-
 
             </table>
             <div className="d-grid gap-2 d-md-flex justify-content-md-end">
