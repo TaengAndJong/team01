@@ -3,8 +3,6 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
-  font: inherit;
   vertical-align: baseline;
 }
 
@@ -64,11 +62,13 @@ li {
   list-style: none;
 }
 
-span, em, i {
-  display: inline-block;
-  font-style: normal;
-}
-
+/*공통변수*/
+/*폰트*/
+/* 레이이아웃 - header & footer*/
+/*display*/
+/*depth*/
+/*관리자 변수*/
+/*사용자 변수*/
 /*
 local(확장자를 제외한 '폰트명' 입력) => 내 컴퓨터에 설치되어있는 폰트가 존재하는지 먼저 탐색함
 display: swap; 폰트가 로드 되지 않으면 대체폰트가 먼저 보여지고, 사용할 폰트가 로드되면 교체되게 함
@@ -77,53 +77,211 @@ font-style: normal => font 기울임, 안 기울임 정도 등
 normal = 400
 bold = 700
 */
+/* NanumHuman */
 @font-face {
-  font-family: "NanumHumanLight";
-  src: local("NanumHumanLight"), url("/frontend/dist/assets/fonts/NanumHumanLight.woff") format("woff"), url("/frontend/dist/assets/fonts/NanumHumanLight.woff2") format("woff2");
-  font-display: swap;
+  font-family: "NanumHuman";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2501-1@1.1/NanumHumanTTFRegular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: "NanumHumanRegular";
-  src: local("NanumHumanRegular"), url("/frontend/dist/assets/fonts/NanumHumanRegular.woff") format("woff"), url("/frontend/dist/assets/fonts/NanumHumanRegular.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: "NanumHumanBold";
-  src: local("NanumHumanBold"), url("/frontend/dist/assets/fonts/NanumHumanBold.woff") format("woff"), url("/frontend/dist/assets/fonts/NanumHumanBold.woff2") format("woff2");
+  font-family: "NanumHuman";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2501-1@1.1/NanumHumanTTFBold.woff2") format("woff2");
   font-weight: bold;
   font-style: normal;
 }
+/*TheJamsil */
 @font-face {
-  font-family: "TheJamsilRegular";
-  src: local("TheJamsilRegular"), url("/frontend/dist/assets/fonts/TheJamsilRegular.woff") format("woff"), url("/frontend/dist/assets/fonts/TheJamsilRegular.woff2") format("woff2");
+  font-family: "TheJamsil";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil3Regular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: "TheJamsilMedium";
-  src: local("TheJamsilMedium"), url("/frontend/dist/assets/fonts/TheJamsilMedium.woff") format("woff"), url("/frontend/dist/assets/fonts/TheJamsilMedium.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: "TheJamsilBold";
-  src: local("TheJamsilBold"), url("/frontend/dist/assets/fonts/TheJamsilBold.woff") format("woff"), url("/frontend/dist/assets/fonts/NanumHumanBold.woff2") format("woff2");
+  font-family: "TheJamsil";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2") format("woff2");
   font-weight: bold;
   font-style: normal;
 }
-* {
-  font-family: NanumHumanRegular;
+/*
+mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹션에서 @include를 사용하여
+해당 mixin의 style을 호출해 사용하며, 함수의 기능을 가지고 있기때문에 파라미터를 사용할 수 있다.
+@mixin 함수명(파라미터1,파라미터2...){}
+파라미터 개수만큼 전부 채워줘야 함
+*/
+/*
+'@extend + .클래스명 or #아이디명'
+'%' 모듈화 기호
+*/
+.footer-inner, .footer-info {
+  display: block;
+  width: 100%;
+  position: relative;
 }
 
-/*공통변수*/
-/*폰트*/
-/* 레이이아웃 - header & footer*/
-/*display*/
-/*depth*/
-/*관리자 변수*/
-/*사용자 변수*/
+#header {
+  content: "";
+  display: block;
+  overflow: hidden;
+  clear: both;
+  line-height: 0;
+}
+
+.footer-info > li::after, .hoverLeaf::before, .hoverLeaf::after {
+  content: "";
+  display: inline-block;
+}
+
+.gnb .first-depth > li > a:hover span, .gnb .first-depth > li > a:focus span {
+  transition: color 0.3s ease-in-out;
+}
+
+.hoverLeaf {
+  display: flex;
+  width: 100px;
+  height: 40px;
+}
+.hoverLeaf::before, .hoverLeaf::after {
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.hoverLeaf::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='375' height='309' viewBox='0 0 375 309' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_86_360)'%3E%3Cpath d='M340.426 231.213C340.426 231.213 318.516 138.741 255.223 102.297C191.93 65.8519 43.5262 60.2542 43.5262 60.2542C43.5262 60.2542 88.2969 187.925 177.584 239.338C266.872 290.75 340.426 231.213 340.426 231.213Z' fill='%2380CC5F'/%3E%3Cpath d='M45.1876 60.8269C44.8124 60.81 44.4978 60.7962 44.2463 60.7855C44.3204 60.9896 44.411 61.2374 44.518 61.5275C44.8667 62.4724 45.3902 63.8662 46.0884 65.6589C47.4847 69.2445 49.5797 74.426 52.3728 80.8052C57.9593 93.5642 66.3373 111.112 77.5023 130.264C99.8395 168.58 133.3 213.261 177.831 238.903C222.335 264.529 262.902 262.501 292.35 254.073C307.078 249.857 319.025 244.04 327.289 239.277C331.421 236.896 334.631 234.779 336.806 233.258C337.893 232.498 338.722 231.888 339.278 231.467C339.531 231.277 339.727 231.125 339.866 231.017C339.823 230.844 339.762 230.6 339.682 230.289C339.507 229.606 339.241 228.598 338.881 227.302C338.16 224.709 337.059 220.962 335.541 216.351C332.503 207.128 327.794 194.452 321.111 180.64C307.739 153.002 286.494 120.88 254.976 102.732C223.425 84.5643 170.593 74.0614 125.576 68.1059C103.082 65.1299 82.5637 63.2922 67.6687 62.1984C60.2214 61.6516 54.1804 61.2908 50.0017 61.0667C47.9124 60.9546 46.2887 60.8768 45.1876 60.8269Z' stroke='%23333333' stroke-opacity='0.2'/%3E%3C/g%3E%3Cpath d='M113.774 108.643C204.495 124.672 246.097 153.1 302.535 212.073' stroke='%23333333' stroke-opacity='0.2'/%3E%3Cdefs%3E%3Cfilter id='filter0_d_86_360' x='39.5264' y='60.2544' width='304.9' height='208.002' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_86_360'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_86_360' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");
+}
+.hoverLeaf::after {
+  background-image: url("data:image/svg+xml,%3Csvg width='376' height='309' viewBox='0 0 376 309' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_86_361)'%3E%3Cpath d='M34.6534 231.213C34.6534 231.213 56.5641 138.741 119.857 102.297C183.149 65.8519 331.553 60.2542 331.553 60.2542C331.553 60.2542 286.783 187.925 197.495 239.338C108.208 290.75 34.6534 231.213 34.6534 231.213Z' fill='%2380CC5F'/%3E%3Cpath d='M329.892 60.8269C330.267 60.81 330.582 60.7962 330.833 60.7855C330.759 60.9896 330.669 61.2374 330.562 61.5275C330.213 62.4724 329.689 63.8662 328.991 65.6589C327.595 69.2445 325.5 74.426 322.707 80.8052C317.12 93.5642 308.742 111.112 297.577 130.264C275.24 168.58 241.78 213.261 197.249 238.903C152.744 264.529 112.177 262.501 82.7294 254.073C68.0015 249.857 56.0543 244.04 47.7903 239.277C43.6587 236.896 40.4488 234.779 38.2737 233.258C37.1862 232.498 36.3574 231.888 35.8015 231.467C35.5488 231.277 35.3525 231.125 35.214 231.017C35.2567 230.844 35.3178 230.6 35.3976 230.289C35.5727 229.606 35.8381 228.598 36.1985 227.302C36.9194 224.709 38.0202 220.962 39.539 216.351C42.5768 207.128 47.2856 194.452 53.9684 180.64C67.3405 153.002 88.5855 120.88 120.103 102.732C151.654 84.5643 204.486 74.0614 249.503 68.1059C271.997 65.1299 292.516 63.2922 307.411 62.1984C314.858 61.6516 320.899 61.2908 325.078 61.0667C327.167 60.9546 328.791 60.8768 329.892 60.8269Z' stroke='%23333333' stroke-opacity='0.2'/%3E%3C/g%3E%3Cpath d='M261.306 108.643C170.585 124.672 128.982 153.1 72.5446 212.073' stroke='%23333333' stroke-opacity='0.2'/%3E%3Cdefs%3E%3Cfilter id='filter0_d_86_361' x='30.6533' y='60.2544' width='304.9' height='208.002' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_86_361'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_86_361' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");
+}
+
+#header {
+  height: auto;
+}
+
+.header-inner {
+  background-color: #BED297;
+}
+
+.gnb .first-depth > li > a {
+  min-height: 80px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 20px;
+}
+.gnb .first-depth > li > a > span {
+  color: #56453E;
+  font-family: "TheJamsil";
+  font-size: 26px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.gnb .first-depth > li > a .hoverLeaf {
+  width: 40px;
+  height: 12px;
+}
+.gnb .first-depth > li > a:hover span, .gnb .first-depth > li > a:focus span {
+  color: #fff;
+}
+.logo {
+  display: inline-block;
+  width: 150px;
+  height: 60px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.user-info span, .user-info button, .user-info a {
+  color: #fff;
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+}
+.user-info > ul {
+  background-color: #A47763;
+  border-radius: 10px;
+  padding: 11px 15px;
+  float: right;
+  margin: 15px;
+  width: auto;
+}
+.user-info > ul > li:not(:last-child) {
+  margin-right: 15px;
+}
+
+#footer {
+  background: #BED297;
+}
+
+.footer-inner {
+  padding: 30px;
+}
+
+.footer-info > li {
+  display: inline-block;
+  position: relative;
+  padding-right: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.footer-info > li::after {
+  width: 1px;
+  height: 14px;
+  background-color: #333333;
+  position: absolute;
+  top: calc(50% - 6px);
+  right: 0;
+}
+* {
+  font-family: "NanumHuman", sans-serif;
+  word-break: keep-all;
+  font-size: 16px;
+  line-height: 1.3;
+  box-sizing: border-box;
+}
+
+a, span, em, i {
+  display: inline-block;
+  color: #333333;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.bodyWrapper {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+main {
+  min-height: 100%;
+  position: relative;
+}
+
+.img {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+
+.bg-frame {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 223px;
+  background: url("/dist/assets/images/bgFram.png") center center repeat no-repeat;
+}
 
 /*# sourceMappingURL=App.css.map */

@@ -7,56 +7,37 @@ font-style: normal => font 기울임, 안 기울임 정도 등
 normal = 400
 bold = 700
 */
-@font-face {
-  font-family: 'NanumHumanLight';
-  src:local('NanumHumanLight'), url('/frontend/dist/assets/fonts/NanumHumanLight.woff') format('woff'),
-  url('/frontend/dist/assets/fonts/NanumHumanLight.woff2') format('woff2');
-  font-display: swap; // 폰트 미로드 시, 대체 폰트로 텍스트 표현
-  font-weight: normal;
-  font-style: normal; //
-}
+/* NanumHuman */
 
 @font-face {
-  font-family: 'NanumHumanRegular';
-  src: local('NanumHumanRegular'),url('/frontend/dist/assets/fonts/NanumHumanRegular.woff') format('woff'),
-  url('/frontend/dist/assets/fonts/NanumHumanRegular.woff2') format('woff2');
-  font-weight:600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'NanumHumanBold';
-  src: local('NanumHumanBold'), url('/frontend/dist/assets/fonts/NanumHumanBold.woff') format('woff'),
-  url('/frontend/dist/assets/fonts/NanumHumanBold.woff2') format('woff2');
-  font-weight: bold;
-  font-style: normal;
-}
-
-
-// theJamsil
-@font-face {
-  font-family: 'TheJamsilRegular';
-  src: local('TheJamsilRegular'),url('/frontend/dist/assets/fonts/TheJamsilRegular.woff') format('woff'),
-  url('/frontend/dist/assets/fonts/TheJamsilRegular.woff2') format('woff2');
+  font-family: 'NanumHuman';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2501-1@1.1/NanumHumanTTFRegular.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'TheJamsilMedium';
-  src:  local('TheJamsilMedium'),url('/frontend/dist/assets/fonts/TheJamsilMedium.woff') format('woff'),
-  url('/frontend/dist/assets/fonts/TheJamsilMedium.woff2') format('woff2');
-  font-weight:600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'TheJamsilBold';
-  src:  local('TheJamsilBold'),url('/frontend/dist/assets/fonts/TheJamsilBold.woff') format('woff'),
-  url('/frontend/dist/assets/fonts/NanumHumanBold.woff2') format('woff2');
+  font-family: 'NanumHuman';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2501-1@1.1/NanumHumanTTFBold.woff2') format('woff2');
   font-weight: bold;
   font-style: normal;
 }
 
-*{font-family:NanumHumanRegular;}
+/*TheJamsil */
+@font-face {
+  font-family: 'TheJamsil';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil3Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TheJamsil';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+
 

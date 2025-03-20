@@ -6,33 +6,44 @@ const LeftMenu = () => {
 
     return (
 
-      <>
-            <div className="depth depth1">
-                <h2 className="fw-bold">게시판</h2>
-                <ul className="depth depth2">
-                    {/*조회 목록 클릭 후 댓글 작성기능, 처리완료 / 미완료 상태 분류 필요*/}
-                    <li>
-                        <Link to="/admin/board/oneBoard" className="btn">1:1문의</Link>
-                    </li>
-                    <li>
-                        <Link to="/admin/board/deliveryBoard" className="btn">배송문의</Link>
-                    </li>
-                    <li>
-                        <Link to="/admin/board/productBoard" className="btn">상품문의</Link>
-                    </li>
-                </ul>
-            </div>
-          <div className="depth depth1">
-              <h2 className="fw-bold">도서관리</h2>
-              <ul className="depth depth2">
-                    {/*전체선택, 개별 선택*/}
-                    <li>
-                        <Link to="/admin/book/bookList" className="btn">도서조회</Link>
-                    </li>
-                </ul>
-            </div>
+        <>
 
-      </>
+            <aside id="left-menu">
+                <ul className="depth fist-depth">
+                    <li className="dropdown">
+                        {/*2차메뉴 있으면 이동 막고 2차메뉴 첫번재링크로 이동 */}
+                        <button type="button" className="btn dropdown-toggle" title="1차메뉴 닫힘">
+                            게시판
+                        </button>
+                        <ul className="depth second-depth dropdown-menu">
+                            <li>
+                                <Link to="/admin/board/oneBoard" className="link dropdown-item">1:1문의</Link>
+                            </li>
+                            <li>
+                                <Link to="/admin/board/deliveryBoard" className="link dropdown-item">배송문의</Link>
+                            </li>
+                            <li>
+                                <Link to="/admin/board/productBoard" className="link dropdown-item">상품문의</Link>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul className="depth fist-depth">
+                    <li>
+                        {/*2차메뉴 있으면 이동 막고 2차메뉴 첫번재링크로 이동 */}
+                        <button className="btn dropdown">도서관리</button>
+                        <ul className="depth second-depth">
+                            <li>
+                                <Link to="/admin/book/bookList" className="btn">도서조회</Link>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            <section id="content">
+                컨텐츠
+            </section>
+        </>
 
     )
 }
