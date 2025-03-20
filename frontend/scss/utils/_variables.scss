@@ -2,6 +2,8 @@
 $mainColor: #BED297;
 $subColor: #8B655A;
 $color00: #A47763;
+$color01: #89C53B;
+
 $display: inline-block;
 /*폰트*/
 $fontGnbColor: #595959;
@@ -21,7 +23,7 @@ $footerHeight: 300px;
 $gnb-font: 'TheJamsil';
 $gnb-font-color:#56453E;
 $gnb-hover-color:#fff;
-/*display*/
+$pageMaxwidth:calc(100% - 30px);
 
 /*depth*/
 $firstDepthBg:$mainColor;
@@ -34,7 +36,8 @@ $adSubColor: #8B655A;
 $adGnbColor: #BED297;
 $adFooterColor:#8B655A;
 $adBgColor:#E9E9DD;
-
+$adleftWidth: 280px;
+$adContentWidth: calc(100% - ($adleftWidth + 40px));
 
 /*사용자 변수*/
 $ClMainColor: #BED297;

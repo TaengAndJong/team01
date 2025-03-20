@@ -41,13 +41,13 @@ const Layout = () => {
 
     return (
         <>
-            <div className="bodyWrapper">
+            <div className={`bodyWrapper${location?.pathname.startsWith("/admin/")? " sub":""}`}>
                 <AuthProvider>
                     <Header/>
                     {/*메인페이지일 경우 main, 서브페이지일 경우 sub , 삼항 연산자 사용하기
                     incluedes()를 사용하면 모든경로에 포함되는 값을 찾고, 시작값만 찾으려면 startWidth()
                     */}
-                    <main className={location?.pathname.startsWith("/admin/")? "sub":"main"}>
+                    <main className={location?.pathname.startsWith("/admin/")? "sublayout":"mainlayout"}>
                         <Outlet context={{data, setUrl}}/>
                         <div className="bg-frame"></div>
                     </main>

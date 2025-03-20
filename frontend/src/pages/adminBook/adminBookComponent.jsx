@@ -2,6 +2,7 @@ import {Outlet, useNavigate} from "react-router-dom";
 import React, {useEffect, useReducer,useState} from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 
+// 주소에 해당하는 제목 데이터 가져와서 레프트 메뉴 이름과 제목열에 데이터 나열하기
 
 function reducer(state, action) {
 
@@ -73,12 +74,24 @@ const AdminBook = () => {
 
                 {/*링크이동할 사이드메뉴 */}
                 <div className="right">
+                    <section className="content">
+                        <div className="content-inner">
+                            {/*현재경로의 페이지명 */}
+                            <h3 className="sub-title current-title">도서조회</h3>
+                            {/*depth별 네비주소,현재페이지일 경우 표시필요*/}
+                            <ol className="menu-navi d-flex">
+                                <li>{`도서관리 -> `}</li>
+                                <li>도서 조회</li>
+                            </ol>
+                        </div>
+
+                        {/* 제목 */}
                     <BookStateContext.Provider value={bookdata}>
-                        <BookDispatchContext.Provider value={{onCreate,onInit}}>
+                        <BookDispatchContext.Provider value={{onCreate, onInit}}>
                             <Outlet/>
                         </BookDispatchContext.Provider>
                     </BookStateContext.Provider>
-
+                    </section>
                 </div>
             </div>
         </>

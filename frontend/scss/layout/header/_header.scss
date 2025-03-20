@@ -25,7 +25,7 @@
 
 
 #header{height:auto; @extend %clearfix}
-.header-inner{ background-color:$mainColor;}
+.header-inner{ background-color:$mainColor; position: relative;}
 .gnb{
   .first-depth{
     >li{
@@ -37,7 +37,7 @@
            >span{
              color:$gnb-font-color;
              font-family: $gnb-font;
-             font-size:26px;
+             font-size:23px;
              font-weight: bold;
              display:flex;
              flex-direction: column-reverse;

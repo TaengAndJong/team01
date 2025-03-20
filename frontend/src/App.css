@@ -65,7 +65,6 @@ li {
 /*공통변수*/
 /*폰트*/
 /* 레이이아웃 - header & footer*/
-/*display*/
 /*depth*/
 /*관리자 변수*/
 /*사용자 변수*/
@@ -119,15 +118,14 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   position: relative;
 }
 
-#header {
+.sub, .sublayout, .page, .left, .right, .left-menu, .content, #header {
   content: "";
   display: block;
   overflow: hidden;
   clear: both;
-  line-height: 0;
 }
 
-.hoverLeaf::before, .hoverLeaf::after, .footer-info > li::after {
+.hoverLeaf::before, .hoverLeaf::after, .sub-title.first-title::before, .sub-title.first-title::after, .depth.first-depth .depth-menu.first::after, .depth .second-depth > li::before {
   content: "";
   display: inline-block;
 }
@@ -159,6 +157,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 
 .header-inner {
   background-color: #BED297;
+  position: relative;
 }
 
 .gnb .first-depth > li > a {
@@ -171,7 +170,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 .gnb .first-depth > li > a > span {
   color: #56453E;
   font-family: "TheJamsil";
-  font-size: 26px;
+  font-size: 23px;
   font-weight: bold;
   display: flex;
   flex-direction: column-reverse;
@@ -248,6 +247,127 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   top: calc(50% - 6px);
   right: 0;
 }
+.sub {
+  background-color: #E9E9DD;
+}
+
+.sublayout .page {
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: calc(100% - 30px);
+  width: 100%;
+  min-height: 800px;
+}
+.sublayout .left {
+  width: 280px;
+}
+.sublayout .right {
+  width: calc(100% - 320px);
+}
+
+.sub-title {
+  position: relative;
+  font-size: 25px;
+  font-family: theJamsil;
+  color: #56453E;
+  font-weight: bold;
+  padding-bottom: 26px;
+  margin-bottom: 26px;
+}
+.sub-title.first-title::before, .sub-title.first-title::after {
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  left: 0;
+}
+.sub-title.first-title::before {
+  background-color: #89C53B;
+  bottom: 4px;
+}
+.sub-title.first-title::after {
+  background-color: #A37865;
+  bottom: 0;
+}
+
+.left-menu {
+  position: relative;
+  background-color: rgba(216, 224, 193, 0.9);
+  padding: 30px 35px 40px;
+  border-radius: 0 0 20px 20px;
+}
+
+.depth.first-depth {
+  padding: 15px 20px 30px;
+  background-color: #F3F6EC;
+  border-radius: 0 15px 15px 0;
+}
+.depth.first-depth .depth-menu {
+  position: relative;
+  padding: 10px 0;
+  transition: 0.2s;
+}
+.depth.first-depth .depth-menu .arrow.circle-arrow {
+  right: 5px;
+  top: 13px;
+  position: absolute;
+}
+.depth.first-depth .depth-menu.first::after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  transition: 0.3s;
+  background-color: #89C53B;
+}
+.depth.first-depth .depth-menu.first.on .arrow.circle-arrow, .depth.first-depth .depth-menu.first:focus .arrow.circle-arrow {
+  background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 26.5C20.9036 26.5 26.5 20.9036 26.5 14C26.5 7.09644 20.9036 1.5 14 1.5C7.09644 1.5 1.5 7.09644 1.5 14C1.5 20.9036 7.09644 26.5 14 26.5Z' fill='%23A47763' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.05371 12.438L14.0537 18.438L20.0537 12.438' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+}
+.depth.first-depth .depth-menu.first.on::after, .depth.first-depth .depth-menu.first:hover::after, .depth.first-depth .depth-menu.first:focus::after {
+  background-color: #A47763;
+}
+.depth.first-depth .depth-menu:hover, .depth.first-depth .depth-menu:focus, .depth.first-depth .depth-menu.on {
+  font-weight: bold;
+}
+.depth.first-depth .depth-menu.on, .depth.first-depth .depth-menu:focus + .depth {
+  display: block;
+}
+.depth .second-depth {
+  padding: 10px;
+}
+.depth .second-depth > li {
+  padding-left: 15px;
+  position: relative;
+}
+.depth .second-depth > li::before {
+  width: 5px;
+  height: 5px;
+  background: #A47763;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 17px;
+}
+.depth li {
+  width: 100%;
+}
+.depth li a, .depth li button {
+  width: 100%;
+  padding: 0;
+  position: relative;
+  text-align: left;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+.depth .depth-menu.on, .depth .depth-menu:focus + .depth {
+  display: block;
+}
+
+.content-inner {
+  border: 2px solid #A47763;
+}
+
 * {
   font-family: "NanumHuman", sans-serif;
   word-break: keep-all;
@@ -273,20 +393,24 @@ a, span, em, i {
   border: 0;
 }
 
-.bodyWrapper {
-  height: 100vh;
-  overflow-y: auto;
+.arrow {
+  width: 15px;
+  height: 15px;
+  background-image: url("data:image/svg+xml,%3Csvg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.05371 7.43799L7.05371 1.43799L13.0537 7.43799' stroke='%23595959' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
+  transition: 0.3s;
 }
 
-main {
-  min-height: 100%;
-  position: relative;
-}
-
-.img {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
+.arrow.circle-arrow {
+  transition: 0.3s;
+  width: 15px;
+  height: 15px;
+  background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 26.5C20.9036 26.5 26.5 20.9036 26.5 14C26.5 7.09644 20.9036 1.5 14 1.5C7.09644 1.5 1.5 7.09644 1.5 14C1.5 20.9036 7.09644 26.5 14 26.5Z' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.05371 16.438L14.0537 10.438L20.0537 16.438' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
 }
 
 .hoverLeaf {
@@ -315,6 +439,22 @@ main {
   width: 100%;
   height: 223px;
   background: url("/dist/assets/images/bgFram.png") center center repeat no-repeat;
+}
+
+.bodyWrapper {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+main {
+  min-height: 100%;
+  position: relative;
+}
+
+.img {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 
 /*# sourceMappingURL=App.css.map */
