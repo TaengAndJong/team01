@@ -1,1 +1,26 @@
-.footer {}
+//@use "variable" as *; 을 사용해야 , 파일명.변수명 대신 변수명만 사용가능
+@use "../../utils/variables" as *; // 변수
+@use "../../utils/mixins" as *; // 함수
+
+#footer{
+  background:$mainColor;
+
+}
+
+.footer-inner{
+  @extend %box;
+  padding: $layoutPadding;
+}
+
+.footer-info{
+  @extend %box;
+  >li{ display: inline-block; position:relative;padding-right:10px;margin-right:10px;
+    margin-bottom: 5px;
+    &::after{ @include list-seperate(1px,14px,#333333);
+              @include  verticalCenter(6px);
+              right:0;
+            }
+        a,span,em{}
+        >a{}
+  }
+}

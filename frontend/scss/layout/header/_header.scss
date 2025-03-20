@@ -1,0 +1,83 @@
+@use "../../utils/variables" as *; // 변수
+@use "../../utils/mixins" as *; // 함수
+
+//컬러변경필요
+.hoverLeaf{
+  display: flex;
+  width:100px; height:40px;
+  &::before, &::after{
+    width:100%;
+    height:100%;
+    @extend %pseudoEL;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100%;}
+  &::before{background-image: url("data:image/svg+xml,%3Csvg width='375' height='309' viewBox='0 0 375 309' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_86_360)'%3E%3Cpath d='M340.426 231.213C340.426 231.213 318.516 138.741 255.223 102.297C191.93 65.8519 43.5262 60.2542 43.5262 60.2542C43.5262 60.2542 88.2969 187.925 177.584 239.338C266.872 290.75 340.426 231.213 340.426 231.213Z' fill='%2380CC5F'/%3E%3Cpath d='M45.1876 60.8269C44.8124 60.81 44.4978 60.7962 44.2463 60.7855C44.3204 60.9896 44.411 61.2374 44.518 61.5275C44.8667 62.4724 45.3902 63.8662 46.0884 65.6589C47.4847 69.2445 49.5797 74.426 52.3728 80.8052C57.9593 93.5642 66.3373 111.112 77.5023 130.264C99.8395 168.58 133.3 213.261 177.831 238.903C222.335 264.529 262.902 262.501 292.35 254.073C307.078 249.857 319.025 244.04 327.289 239.277C331.421 236.896 334.631 234.779 336.806 233.258C337.893 232.498 338.722 231.888 339.278 231.467C339.531 231.277 339.727 231.125 339.866 231.017C339.823 230.844 339.762 230.6 339.682 230.289C339.507 229.606 339.241 228.598 338.881 227.302C338.16 224.709 337.059 220.962 335.541 216.351C332.503 207.128 327.794 194.452 321.111 180.64C307.739 153.002 286.494 120.88 254.976 102.732C223.425 84.5643 170.593 74.0614 125.576 68.1059C103.082 65.1299 82.5637 63.2922 67.6687 62.1984C60.2214 61.6516 54.1804 61.2908 50.0017 61.0667C47.9124 60.9546 46.2887 60.8768 45.1876 60.8269Z' stroke='%23333333' stroke-opacity='0.2'/%3E%3C/g%3E%3Cpath d='M113.774 108.643C204.495 124.672 246.097 153.1 302.535 212.073' stroke='%23333333' stroke-opacity='0.2'/%3E%3Cdefs%3E%3Cfilter id='filter0_d_86_360' x='39.5264' y='60.2544' width='304.9' height='208.002' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_86_360'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_86_360' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");}
+  &::after{background-image: url("data:image/svg+xml,%3Csvg width='376' height='309' viewBox='0 0 376 309' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_86_361)'%3E%3Cpath d='M34.6534 231.213C34.6534 231.213 56.5641 138.741 119.857 102.297C183.149 65.8519 331.553 60.2542 331.553 60.2542C331.553 60.2542 286.783 187.925 197.495 239.338C108.208 290.75 34.6534 231.213 34.6534 231.213Z' fill='%2380CC5F'/%3E%3Cpath d='M329.892 60.8269C330.267 60.81 330.582 60.7962 330.833 60.7855C330.759 60.9896 330.669 61.2374 330.562 61.5275C330.213 62.4724 329.689 63.8662 328.991 65.6589C327.595 69.2445 325.5 74.426 322.707 80.8052C317.12 93.5642 308.742 111.112 297.577 130.264C275.24 168.58 241.78 213.261 197.249 238.903C152.744 264.529 112.177 262.501 82.7294 254.073C68.0015 249.857 56.0543 244.04 47.7903 239.277C43.6587 236.896 40.4488 234.779 38.2737 233.258C37.1862 232.498 36.3574 231.888 35.8015 231.467C35.5488 231.277 35.3525 231.125 35.214 231.017C35.2567 230.844 35.3178 230.6 35.3976 230.289C35.5727 229.606 35.8381 228.598 36.1985 227.302C36.9194 224.709 38.0202 220.962 39.539 216.351C42.5768 207.128 47.2856 194.452 53.9684 180.64C67.3405 153.002 88.5855 120.88 120.103 102.732C151.654 84.5643 204.486 74.0614 249.503 68.1059C271.997 65.1299 292.516 63.2922 307.411 62.1984C314.858 61.6516 320.899 61.2908 325.078 61.0667C327.167 60.9546 328.791 60.8768 329.892 60.8269Z' stroke='%23333333' stroke-opacity='0.2'/%3E%3C/g%3E%3Cpath d='M261.306 108.643C170.585 124.672 128.982 153.1 72.5446 212.073' stroke='%23333333' stroke-opacity='0.2'/%3E%3Cdefs%3E%3Cfilter id='filter0_d_86_361' x='30.6533' y='60.2544' width='304.9' height='208.002' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_86_361'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_86_361' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");}
+}
+
+
+
+
+
+#header{height:auto; @extend %clearfix}
+.header-inner{ background-color:$mainColor;}
+.gnb{
+  .first-depth{
+    >li{
+
+         >a{ min-height:80px;  display: inline-flex;
+           align-items: center;
+           justify-content: center;
+           padding: 0px 20px;
+           >span{
+             color:$gnb-font-color;
+             font-family: $gnb-font;
+             font-size:26px;
+             font-weight: bold;
+             display:flex;
+             flex-direction: column-reverse;
+           }
+           .hoverLeaf{ width:40px; height:12px;}
+           &:hover,&:focus{
+             span{color:$gnb-hover-color;
+               @extend %hover;}
+
+           }
+         }
+
+    }
+  }
+  .second-depth{}
+  .third-depth{}
+}
+
+.logo{ @include logo(150px,60px,inline-block);
+  position:absolute;
+  left:0;
+  top:0;
+  >a,em,span{}
+}
+
+//main
+.main-header{
+  .logo{}
+}
+
+.user-info{
+  span,button,a{color:#fff; font-size:15px;
+    margin: 0;
+    padding: 0;}
+  > ul{ background-color:$color00; border-radius: 10px;
+    padding:11px 15px; float:right; margin:15px;
+    width: auto;
+    >li{
+      &:not(:last-child) {margin-right: 15px;}
+    }
+  }
+}
+
+
+
+//sub
+.sub-header{}

@@ -10,7 +10,9 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 '%' 모듈화 기호
 */
 %box{display: block; width:100%; position: relative; }
-%clearfix{content:''; display:block; overflow:hidden;lign-height:0;clear:both;}
+%clearfix{content:''; display:block; overflow:hidden;clear:both; line-height:0;}
+%pseudoEL{content:''; display:inline-block; }
+%hover{ transition:color .3s ease-in-out}
 
 @mixin hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
@@ -23,18 +25,18 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   height: $height;
 }
 
-@mixin box($width,$height,$display,$position){
+
+
+
+
+@mixin box($width,$display,$position){
   display: $display;
   width: $width;
-  height: $height;
   position:$position;
   @extend %clearfix; // 모듈 호출
 }
 
 @mixin btn(){}
-@mixin layoutPaddig($layoutPadding){
-  padding:0 $layoutPadding;
-}
 
 @mixin flex($align,$justify){
   display: inline-flex;
@@ -52,6 +54,19 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   border-width: $borderWidth; // 화살표 두께
   border-color: $borderColor; // 화살표 컬러
 }
+
 @mixin arrowHover($arrowColor){
 
+}
+
+@mixin list-seperate($width,$height,$bgcolor){
+  @extend %pseudoEL;
+  width: $width;
+  height: $height;
+  background-color: $bgcolor;
+}
+
+@mixin verticalCenter($height){
+  position: absolute;
+  top:calc(50% - $height);
 }

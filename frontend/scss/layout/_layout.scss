@@ -1,7 +1,27 @@
 
 @use '../common/reset';
-@use '../common/form';
-@use '../utils/fonts';
 @use '../utils/variables';
+@use '../common/form';
+//@use '../common/table';
+//@use '../common/pagenation';
+@use '../utils/fonts';
 @use '../layout/header/header';
 @use '../layout/footer/footer';
+@use '../layout/left/leftMenu';
+@use "../utils/mixins" as *; // 함수
+
+* {font-family:"NanumHuman",sans-serif; word-break:keep-all; font-size:16px;line-height:1.3;box-sizing: border-box;}
+a,span,em,i{display:inline-block;color:#333333;}
+.sr-only { @include hidden;}
+.bodyWrapper{height:100vh;overflow-y: auto;}
+main{min-height:100%;position:relative;}
+.img{display:inline-block;width:100%;height:100%}
+
+.bg-frame{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:223px;
+  background:url("/dist/assets/images/bgFram.png") center center repeat no-repeat;
+}

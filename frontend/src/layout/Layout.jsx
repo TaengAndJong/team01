@@ -2,15 +2,17 @@ import React, {useEffect, useState} from 'react';
 import { AuthProvider } from "../pages/common/AuthContext.jsx";
 import Header from "./Header.jsx"
 import Footer from "./Footer.jsx";
-import {Outlet} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 
 const Layout = () => {
     const [data, setData] = useState('');
     const [url,setUrl] = useState('/api'); // 기본 URL 설정
 
-
+    let location = useLocation();
 
     useEffect(() => {
+        console.log("location",location);
+
         // navigation fetch 경로 동적기능 필요
         fetch(url)
             .then((response) => {
@@ -34,16 +36,20 @@ const Layout = () => {
                 setData(data); // 받은 문자열 상태에 저장
             })
             .catch((error) => console.error('Fetch error:', error));
-    }, [url]);
+    }, [url,location]);
 
 
     return (
         <>
-            <div>
+            <div className="bodyWrapper">
                 <AuthProvider>
                     <Header/>
-                    <main>
+                    {/*메인페이지일 경우 main, 서브페이지일 경우 sub , 삼항 연산자 사용하기
+                    incluedes()를 사용하면 모든경로에 포함되는 값을 찾고, 시작값만 찾으려면 startWidth()
+                    */}
+                    <main className={location?.pathname.startsWith("/admin/")? "sub":"main"}>
                         <Outlet context={{data, setUrl}}/>
+                        <div className="bg-frame"></div>
                     </main>
                     <Footer/>
                 </AuthProvider>

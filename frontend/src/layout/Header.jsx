@@ -51,10 +51,12 @@ const Header = () => {
 
 
     return (
-        <header className="header d-flex justify-content-between align-items-center">
+        <header id="header"  className="main-header">
             {/*글로벌 메뉴*/}
-            <Gnb userData={userData}/>
-            <div>
+            <div className="header-inner d-flex justify-content-center align-items-center">
+                <Gnb userData={userData}/>
+            </div>
+            <div className="user-info">
                 <ul className="d-flex align-items-center">
                 {isAuthenticated ? ( // 시큐리티 인증이 true이면
                         <>
