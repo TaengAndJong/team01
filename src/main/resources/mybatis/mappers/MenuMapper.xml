@@ -4,13 +4,14 @@
 <mapper namespace="com.example.team01.menu.dao.MenuDao">
 
     <select id="selectAllMenu" resultType="MenuVO">
-        select
-            menuId
-            ,menuName
-            ,menuPath
-            ,menuDepth
-        from menu
-        order by menuId;
+        SELECT
+            "menuId"
+             ,"menuName"
+             ,"menuPath"
+             ,"menuDepth"
+            ,"menuType"
+        FROM MENU
+        ORDER BY "menuType"
     </select>
 
 

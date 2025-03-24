@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { AuthProvider } from "../pages/common/AuthContext.jsx";
-import {MenuProvider} from "../pages/common/MenuContext.jsx";
+import {useMenu} from "../pages/common/MenuContext.jsx";
 import Header from "./Header.jsx"
 import Footer from "./Footer.jsx";
 import {Outlet, useLocation} from "react-router-dom";
@@ -8,6 +8,13 @@ import {Outlet, useLocation} from "react-router-dom";
 const Layout = () => {
     const [data, setData] = useState('');
     const [url,setUrl] = useState('/api'); // 기본 URL 설정
+
+    const {menu} = useMenu();
+
+    if(menu){
+        console.log("menu", menu);
+    }
+
 
 
     let location = useLocation();
@@ -47,7 +54,7 @@ const Layout = () => {
         <>
             <div className={`bodyWrapper${location?.pathname.startsWith("/admin/")? " sub":""}`}>
                 <AuthProvider>
-                    {/*<MenuProvider>*/}
+
                         <Header/>
                         {/*메인페이지일 경우 main, 서브페이지일 경우 sub , 삼항 연산자 사용하기
                         incluedes()를 사용하면 모든경로에 포함되는 값을 찾고, 시작값만 찾으려면 startWidth()
@@ -63,7 +70,7 @@ const Layout = () => {
                             </div>
                         </main>
                         <Footer/>
-                    {/*</MenuProvider>*/}
+
                 </AuthProvider>
             </div>
 

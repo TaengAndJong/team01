@@ -3,6 +3,7 @@ package com.example.team01.menu;
 
 import com.example.team01.menu.service.MenuService;
 import com.example.team01.vo.MenuVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,19 +15,18 @@ import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 public class MenuController {
 
-    MenuService menuService;
+    private final MenuService menuService;
     //1. 서버로부터 get 요청을 받음
-    @GetMapping("/**")
-    public Map<String,Objects> getMapping(){
-
+    @GetMapping("/menu")
+    public Map<String, List<MenuVO>> getMapping(){
+        log.info("menu-----------------------");
         //2.service로 전체 메뉴 가져오기
-        List<MenuVO> allMenu = menuService.getSelectAllMenu();
-        log.info("allMenu---------------" , allMenu);
-
-       // 5. ResponseEntity로 응답 반환
-        return null; // 200 OK 상태로 응답 반환
+        Map<String, List<MenuVO>> allMenu = menuService.getSelectAllMenu();
+       // 가공한 데이터 클라이언트로 반환
+        return allMenu;
     }
 }

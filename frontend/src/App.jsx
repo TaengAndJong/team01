@@ -27,15 +27,15 @@ import AdminBookModify from "./pages/adminBook/components/adminBookModify.jsx";
 import AdminBookCreate from "./pages/adminBook/components/adminBookCreate.jsx";
 import AdminBookDetail from "./pages/adminBook/components/adminBookDetail.jsx";
 import AdminBookList from "./pages/adminBook/components/adminBookList.jsx";
-import LeftMenu from "./layout/LeftMenu.jsx";
+import {MenuProvider} from "./pages/common/MenuContext.jsx";
 
 
 
 function App() {
 
-
     return (
         <div className="App">
+            <MenuProvider>
             <Routes>
                 {/* Index 컴포넌트 */}
                 <Route path={PathData.page.index} element={<Index/>}/>
@@ -76,9 +76,11 @@ function App() {
 
                 </Route>
             </Routes>
+            </MenuProvider>
         </div>
     );
 
 }
 
 export default App;
+``
