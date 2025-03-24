@@ -3,16 +3,19 @@
 
 
 //sub
-.sub,.sublayout,.page,.left,.right,.left-menu,.content{
+.sub,.sublayout,.page,.left,.right,.left-menu,.content,.user-info{
   @extend %clearfix;
 }
 
 .sub{ background-color: #E9E9DD;}
 
 .sublayout {
+  margin-top: 100px;
+  padding-bottom: 300px;
   .page {
     justify-content: space-between;
-    @include sublayout($pageMaxwidth,800px)
+    min-height: $subHeight;
+    @include  layoutPadding($layoutPadding);
   }
 
   .left{
@@ -20,6 +23,10 @@
   }
   .right{
     width: $adContentWidth;
+  }
+
+  .left-menu,.content-inner{
+    min-height: 510px;
   }
 
 }
@@ -33,7 +40,7 @@
   font-weight: bold;
   padding-bottom: 26px;
   margin-bottom: 26px;
-  &.first-title{
+  &.title-border{
     &::before,&::after{ @extend %pseudoEL;width:100%;height:1px;position:absolute;left:0}
     &::before{background-color: #89C53B; bottom:4px}
     &::after{background-color: #A37865; bottom:0}
@@ -45,14 +52,15 @@
 
 //leftMenu
 .left-menu{ position:relative; background-color: rgba(216,224,193,90%);
-  padding: 30px 35px 40px; border-radius:0 0 20px 20px
+  padding: 60px 35px 40px; border-radius:0 0 20px 20px
 }
 
 .depth{
    &.first-depth{
      padding: 15px 20px 30px;background-color: #F3F6EC; border-radius:0 15px 15px 0;
       > li {}
-      .depth-menu{
+     //1차메뉴 버튼
+     .depth-menu{
           position: relative;
           padding: 10px 0;
           transition:0.2s;
@@ -67,39 +75,44 @@
               background-color: $color01;
             }
 
-            &.on,&:focus{
+            &.current,&:focus{
               .arrow.circle-arrow{
                 background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 26.5C20.9036 26.5 26.5 20.9036 26.5 14C26.5 7.09644 20.9036 1.5 14 1.5C7.09644 1.5 1.5 7.09644 1.5 14C1.5 20.9036 7.09644 26.5 14 26.5Z' fill='%23A47763' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.05371 12.438L14.0537 18.438L20.0537 12.438' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
               }
             }
 
-            &.on::after,&:hover::after,&:focus::after{
+            &.current::after,&:hover::after,&:focus::after{
               background-color: $color00;}
           }
           //second
-          &.second{}
+
           //third
           &.third{}
-        &:hover,&:focus,&.on{font-weight: bold;}
-
-        &.on,&:focus + .depth{display: block}
+        &:hover,&:focus,&.current{font-weight: bold;}
+       &.current,&:focus + .second-depth{}
       }
+    //2차메뉴 ul
+     .second-depth{
+       height:0;
+       opacity:0;
+       visibility: hidden;
+       transition: height 0.3s ease-in-out 0.5s;
+       padding:10px;
+       >li{padding-left:15px;position:relative;
+         &::before{
+           @include defualtBullet($color00,5px,5px);
+           border-radius: 50%;
+           position: absolute;
+           left:0;
+           top:17px;
+         }
+       }
+       > a, button{ }
+
+     }
+
    }
-  .second-depth{
-    //display: none;
-    padding:10px;
-    >li{padding-left:15px;position:relative;
-      &::before{
-        @include defualtBullet($color00,5px,5px);
-        border-radius: 50%;
-        position: absolute;
-        left:0;
-        top:17px;
-      }
-    }
-    > a, button{ }
 
-  }
  // li
   li{
     width:100%;
@@ -117,7 +130,8 @@
   }
 }
 
-.depth .depth-menu.on,.depth .depth-menu:focus + .depth{display:block;}
+.depth .depth-menu.current + .second-depth, .depth-menu:focus + .second-depth{opacity:1; visibility: visible;
+  height: auto;}
 
 // 2차메뉴 , 3차메뉴있을 경우 공통
 .depth-menu{
@@ -138,7 +152,9 @@
 //content
 .content{}
 .content-inner{
-  border:2px solid $color00;
+  border:3px solid $color00;
+  border-radius: 0 20px 20px;
+  padding:60px 25px 29px 35px;
 }
 
 

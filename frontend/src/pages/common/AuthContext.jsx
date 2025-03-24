@@ -1,10 +1,9 @@
 import React, {createContext, useState, useContext, useEffect} from 'react';
 
-// 로그인 상태를 관리할 Context 생성
+// 1. 로그인 상태를 관리할 Context 생성 == 전역 상태관리 생성
 const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
-
+// 2. Context Provider 생성
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false); // 로그인 여부 상태
     const [userData, setUserData] = useState(null); // 사용자 정보
@@ -52,3 +51,7 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+// 3.커스텀훅 생성
+// AuthContext에 접근하여 현재로그인 상태를 가져오는 역할을 하는 customHook
+export const useAuth = () => useContext(AuthContext);

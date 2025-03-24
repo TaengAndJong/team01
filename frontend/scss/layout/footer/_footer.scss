@@ -14,13 +14,16 @@
 
 .footer-info{
   @extend %box;
-  >li{ display: inline-block; position:relative;padding-right:10px;margin-right:10px;
+  >li{ display: inline-block;
     margin-bottom: 5px;
-    &::after{ @include list-seperate(1px,14px,#333333);
-              @include  verticalCenter(6px);
-              right:0;
-            }
-        a,span,em{}
+    position:relative;padding-right:10px;margin-right:10px;
+    &:not(:last-child)::after{
+      @extend %pseudoEL;
+      @include list-seperate(1px,14px,#333333);
+      @include  verticalCenter(6px);
+      right:0;
+    }
+        a,span,em{display: inline-block;position: relative}
         >a{}
   }
 }

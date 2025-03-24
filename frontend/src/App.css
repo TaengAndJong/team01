@@ -118,14 +118,14 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   position: relative;
 }
 
-.sub, .sublayout, .page, .left, .right, .left-menu, .content, #header {
+.sub, .sublayout, .page, .left, .right, .left-menu, .content, .user-info, header {
   content: "";
   display: block;
   overflow: hidden;
   clear: both;
 }
 
-.hoverLeaf::before, .hoverLeaf::after, .sub-title.first-title::before, .sub-title.first-title::after, .depth.first-depth .depth-menu.first::after, .depth .second-depth > li::before {
+.hoverLeaf::before, .hoverLeaf::after, .sub-title.title-border::before, .sub-title.title-border::after, .depth.first-depth .depth-menu.first::after, .depth.first-depth .second-depth > li::before, .footer-info > li:not(:last-child)::after {
   content: "";
   display: inline-block;
 }
@@ -151,13 +151,19 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
     transform: translateY(0);
   }
 }
-#header {
+header {
   height: auto;
 }
 
-.header-inner {
-  background-color: #BED297;
+header, .header-inner, .gnb {
   position: relative;
+}
+
+.header-inner {
+  padding: 0 30px;
+}
+.header-inner.menu {
+  background-color: #BED297;
 }
 
 .gnb .first-depth > li > a {
@@ -165,7 +171,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0px 20px;
+  padding: 0px 40px;
 }
 .gnb .first-depth > li > a > span {
   color: #56453E;
@@ -177,7 +183,8 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   position: relative;
 }
 .gnb .first-depth > li > a .hoverLeaf {
-  opacity: 0;
+  position: absolute;
+  opacity: 1;
   visibility: hidden;
   width: 40px;
   height: 10px;
@@ -200,12 +207,25 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 }
 .logo {
   display: inline-block;
-  width: 150px;
-  height: 60px;
+  width: 100px;
+  height: 80px;
   position: absolute;
   left: 0;
   top: 0;
+  padding: 12px 10px 8px 0px;
 }
+.logo > a, .logo em, .logo span {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.logo .img {
+  background-image: url("../../dist/assets/images/logo_w.svg");
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: left center;
+}
+
 .user-info span, .user-info button, .user-info a {
   color: #fff;
   font-size: 15px;
@@ -217,7 +237,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   border-radius: 10px;
   padding: 11px 15px;
   float: right;
-  margin: 15px;
+  margin: 20px 0;
   width: auto;
 }
 .user-info > ul > li:not(:last-child) {
@@ -234,12 +254,12 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 
 .footer-info > li {
   display: inline-block;
+  margin-bottom: 5px;
   position: relative;
   padding-right: 10px;
   margin-right: 10px;
-  margin-bottom: 5px;
 }
-.footer-info > li::after {
+.footer-info > li:not(:last-child)::after {
   width: 1px;
   height: 14px;
   background-color: #333333;
@@ -247,22 +267,31 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   top: calc(50% - 6px);
   right: 0;
 }
+.footer-info > li a, .footer-info > li span, .footer-info > li em {
+  display: inline-block;
+  position: relative;
+}
 .sub {
   background-color: #E9E9DD;
 }
 
+.sublayout {
+  margin-top: 100px;
+  padding-bottom: 300px;
+}
 .sublayout .page {
   justify-content: space-between;
-  margin: 0 auto;
-  max-width: calc(100% - 30px);
-  width: 100%;
   min-height: 800px;
+  padding: 0 30px;
 }
 .sublayout .left {
   width: 280px;
 }
 .sublayout .right {
   width: calc(100% - 320px);
+}
+.sublayout .left-menu, .sublayout .content-inner {
+  min-height: 510px;
 }
 
 .sub-title {
@@ -274,17 +303,17 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   padding-bottom: 26px;
   margin-bottom: 26px;
 }
-.sub-title.first-title::before, .sub-title.first-title::after {
+.sub-title.title-border::before, .sub-title.title-border::after {
   width: 100%;
   height: 1px;
   position: absolute;
   left: 0;
 }
-.sub-title.first-title::before {
+.sub-title.title-border::before {
   background-color: #89C53B;
   bottom: 4px;
 }
-.sub-title.first-title::after {
+.sub-title.title-border::after {
   background-color: #A37865;
   bottom: 0;
 }
@@ -292,7 +321,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 .left-menu {
   position: relative;
   background-color: rgba(216, 224, 193, 0.9);
-  padding: 30px 35px 40px;
+  padding: 60px 35px 40px;
   border-radius: 0 0 20px 20px;
 }
 
@@ -320,26 +349,27 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   transition: 0.3s;
   background-color: #89C53B;
 }
-.depth.first-depth .depth-menu.first.on .arrow.circle-arrow, .depth.first-depth .depth-menu.first:focus .arrow.circle-arrow {
+.depth.first-depth .depth-menu.first.current .arrow.circle-arrow, .depth.first-depth .depth-menu.first:focus .arrow.circle-arrow {
   background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 26.5C20.9036 26.5 26.5 20.9036 26.5 14C26.5 7.09644 20.9036 1.5 14 1.5C7.09644 1.5 1.5 7.09644 1.5 14C1.5 20.9036 7.09644 26.5 14 26.5Z' fill='%23A47763' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.05371 12.438L14.0537 18.438L20.0537 12.438' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
 }
-.depth.first-depth .depth-menu.first.on::after, .depth.first-depth .depth-menu.first:hover::after, .depth.first-depth .depth-menu.first:focus::after {
+.depth.first-depth .depth-menu.first.current::after, .depth.first-depth .depth-menu.first:hover::after, .depth.first-depth .depth-menu.first:focus::after {
   background-color: #A47763;
 }
-.depth.first-depth .depth-menu:hover, .depth.first-depth .depth-menu:focus, .depth.first-depth .depth-menu.on {
+.depth.first-depth .depth-menu:hover, .depth.first-depth .depth-menu:focus, .depth.first-depth .depth-menu.current {
   font-weight: bold;
 }
-.depth.first-depth .depth-menu.on, .depth.first-depth .depth-menu:focus + .depth {
-  display: block;
-}
-.depth .second-depth {
+.depth.first-depth .second-depth {
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: height 0.3s ease-in-out 0.5s;
   padding: 10px;
 }
-.depth .second-depth > li {
+.depth.first-depth .second-depth > li {
   padding-left: 15px;
   position: relative;
 }
-.depth .second-depth > li::before {
+.depth.first-depth .second-depth > li::before {
   width: 5px;
   height: 5px;
   background: #A47763;
@@ -360,12 +390,16 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   border: none;
   background-color: transparent;
 }
-.depth .depth-menu.on, .depth .depth-menu:focus + .depth {
-  display: block;
+.depth .depth-menu.current + .second-depth, .depth-menu:focus + .second-depth {
+  opacity: 1;
+  visibility: visible;
+  height: auto;
 }
 
 .content-inner {
-  border: 2px solid #A47763;
+  border: 3px solid #A47763;
+  border-radius: 0 20px 20px;
+  padding: 60px 25px 29px 35px;
 }
 
 * {
@@ -438,7 +472,7 @@ a, span, em, i {
   left: 0;
   width: 100%;
   height: 223px;
-  background: url("/dist/assets/images/bgFram.png") center center repeat no-repeat;
+  background: url(/dist/assets/images/bgFram.png) left top repeat-x;
 }
 
 .bodyWrapper {
@@ -449,12 +483,6 @@ a, span, em, i {
 main {
   min-height: 100%;
   position: relative;
-}
-
-.img {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
 }
 
 /*# sourceMappingURL=App.css.map */

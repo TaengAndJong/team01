@@ -28,11 +28,8 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   height: $height;
 }
 
-@mixin sublayout($maxWidth,$minHeight){
-  margin: 0 auto;
-  max-width: $maxWidth;
-  width: 100%;
-  min-height: $minHeight;
+@mixin layoutPadding($layoutPadding){
+  padding:0 $layoutPadding;
 }
 
 @mixin box($width,$display,$position){
@@ -94,7 +91,6 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 }
 
 @mixin list-seperate($width,$height,$bgcolor){
-
   width: $width;
   height: $height;
   background-color: $bgcolor;

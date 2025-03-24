@@ -1,5 +1,5 @@
 
-import {Routes, Route } from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 
@@ -60,6 +60,7 @@ function App() {
                     <Route index path="dashboard" element={<AdminDashboard/>}/>
 
                     <Route path={PathData.page.adminBoard} element={<AdminBoard/>}>
+                        {/*<Route index element={<Navigate to="oneBoard" replace/>}/>  /!* 첫 페이지를 특정 경로로 이동 *!/*/}
                         <Route path="deliveryBoard" element={<AdminDeliveryBoard/>}/>
                         <Route path="productBoard" element={<AdminProductBoard/>}/>
                         <Route path="oneBoard" element={<AdminOneBoard/>}/>
