@@ -36,20 +36,6 @@ q:after, q:before {
   content: none;
 }
 
-table {
-  display: table;
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-tr {
-  display: table-row;
-}
-
-th, td {
-  display: table-cell;
-}
-
 * {
   color: #333;
 }
@@ -65,10 +51,29 @@ li {
 /*공통변수*/
 /*폰트*/
 /* 레이이아웃 - header & footer*/
-/*display*/
 /*depth*/
 /*관리자 변수*/
 /*사용자 변수*/
+table {
+  display: table;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+tr {
+  display: table-row;
+}
+
+th, td {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.table-custom thead th, .table-custom thead th * {
+  background-color: #BED297;
+  color: #fff;
+}
+
 /*
 local(확장자를 제외한 '폰트명' 입력) => 내 컴퓨터에 설치되어있는 폰트가 존재하는지 먼저 탐색함
 display: swap; 폰트가 로드 되지 않으면 대체폰트가 먼저 보여지고, 사용할 폰트가 로드되면 교체되게 함
@@ -119,15 +124,14 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   position: relative;
 }
 
-#header {
+.sub, .sublayout, .page, .left, .right, .left-menu, .content, .user-info, header {
   content: "";
   display: block;
   overflow: hidden;
   clear: both;
-  line-height: 0;
 }
 
-.hoverLeaf::before, .hoverLeaf::after, .footer-info > li::after {
+.hoverLeaf::before, .hoverLeaf::after, .leaf::after, .sub-title.title-border::before, .sub-title.title-border::after, .depth.first-depth .depth-menu.first::after, .depth.first-depth .second-depth > li::before, .menu-navi > li:not(:last-child)::after, .footer-info > li:not(:last-child)::after {
   content: "";
   display: inline-block;
 }
@@ -153,11 +157,18 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
     transform: translateY(0);
   }
 }
-#header {
+header {
   height: auto;
 }
 
+header, .header-inner, .gnb {
+  position: relative;
+}
+
 .header-inner {
+  padding: 0 30px;
+}
+.header-inner.menu {
   background-color: #BED297;
 }
 
@@ -166,19 +177,20 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0px 20px;
+  padding: 0px 40px;
 }
 .gnb .first-depth > li > a > span {
   color: #56453E;
   font-family: "TheJamsil";
-  font-size: 26px;
+  font-size: 23px;
   font-weight: bold;
   display: flex;
   flex-direction: column-reverse;
   position: relative;
 }
 .gnb .first-depth > li > a .hoverLeaf {
-  opacity: 0;
+  position: absolute;
+  opacity: 1;
   visibility: hidden;
   width: 40px;
   height: 10px;
@@ -201,12 +213,25 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 }
 .logo {
   display: inline-block;
-  width: 150px;
-  height: 60px;
+  width: 100px;
+  height: 80px;
   position: absolute;
   left: 0;
   top: 0;
+  padding: 12px 10px 8px 0px;
 }
+.logo > a, .logo em, .logo span {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.logo .img {
+  background-image: url("../../dist/assets/images/logo_w.svg");
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: left center;
+}
+
 .user-info span, .user-info button, .user-info a {
   color: #fff;
   font-size: 15px;
@@ -218,7 +243,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   border-radius: 10px;
   padding: 11px 15px;
   float: right;
-  margin: 15px;
+  margin: 20px 0;
   width: auto;
 }
 .user-info > ul > li:not(:last-child) {
@@ -235,18 +260,211 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 
 .footer-info > li {
   display: inline-block;
+  margin-bottom: 5px;
   position: relative;
   padding-right: 10px;
   margin-right: 10px;
-  margin-bottom: 5px;
 }
-.footer-info > li::after {
+.footer-info > li:not(:last-child)::after {
   width: 1px;
   height: 14px;
   background-color: #333333;
   position: absolute;
   top: calc(50% - 6px);
   right: 0;
+}
+.footer-info > li a, .footer-info > li span, .footer-info > li em {
+  display: inline-block;
+  position: relative;
+}
+.sub {
+  background-color: #E9E9DD;
+}
+
+.sublayout {
+  margin-top: 100px;
+  padding-bottom: 300px;
+}
+.sublayout .page {
+  justify-content: space-between;
+  min-height: 800px;
+  padding: 0 30px;
+}
+.sublayout .left {
+  width: 280px;
+}
+.sublayout .right {
+  width: calc(100% - 320px);
+}
+.sublayout .left-menu, .sublayout .content-inner {
+  min-height: 510px;
+}
+
+.sub-title {
+  position: relative;
+  font-size: 25px;
+  font-family: theJamsil;
+  color: #56453E;
+  font-weight: bold;
+  padding-bottom: 26px;
+  margin-bottom: 26px;
+}
+.sub-title.title-border::before, .sub-title.title-border::after {
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  left: 0;
+}
+.sub-title.title-border::before {
+  background-color: #89C53B;
+  bottom: 4px;
+}
+.sub-title.title-border::after {
+  background-color: #A37865;
+  bottom: 0;
+}
+
+.left-menu {
+  position: relative;
+  background-color: rgba(216, 224, 193, 0.9);
+  padding: 60px 35px 40px;
+  border-radius: 0 0 20px 20px;
+}
+
+.depth.first-depth {
+  padding: 15px 20px 30px;
+  background-color: #F3F6EC;
+  border-radius: 0 15px 15px 0;
+}
+.depth.first-depth .depth-menu {
+  position: relative;
+  padding: 10px 0;
+  transition: 0.2s;
+}
+.depth.first-depth .depth-menu .arrow.circle-arrow {
+  right: 5px;
+  top: 13px;
+  position: absolute;
+}
+.depth.first-depth .depth-menu.first::after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  transition: 0.3s;
+  background-color: #89C53B;
+}
+.depth.first-depth .depth-menu.first.current .arrow.circle-arrow, .depth.first-depth .depth-menu.first:focus .arrow.circle-arrow {
+  background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 26.5C20.9036 26.5 26.5 20.9036 26.5 14C26.5 7.09644 20.9036 1.5 14 1.5C7.09644 1.5 1.5 7.09644 1.5 14C1.5 20.9036 7.09644 26.5 14 26.5Z' fill='%23A47763' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.05371 12.438L14.0537 18.438L20.0537 12.438' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+}
+.depth.first-depth .depth-menu.first.current::after, .depth.first-depth .depth-menu.first:hover::after, .depth.first-depth .depth-menu.first:focus::after {
+  background-color: #A47763;
+}
+.depth.first-depth .depth-menu:hover, .depth.first-depth .depth-menu:focus, .depth.first-depth .depth-menu.current {
+  font-weight: bold;
+}
+.depth.first-depth .second-depth {
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: height 0.3s ease-in-out 0.5s;
+  padding: 10px;
+}
+.depth.first-depth .second-depth > li {
+  padding-left: 15px;
+  position: relative;
+}
+.depth.first-depth .second-depth > li::before {
+  width: 5px;
+  height: 5px;
+  background: #A47763;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 17px;
+}
+.depth li {
+  width: 100%;
+}
+.depth li a, .depth li button {
+  width: 100%;
+  padding: 0;
+  position: relative;
+  text-align: left;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+.depth .depth-menu.current + .second-depth, .depth-menu:focus + .second-depth {
+  opacity: 1;
+  visibility: visible;
+  height: auto;
+}
+
+.depth-menu.first {
+  display: flex;
+  align-items: center;
+}
+.depth-menu.first .leaf {
+  margin-left: 5px;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  width: 25px;
+  height: 20px;
+}
+.depth-menu.first .leaf::after {
+  transform-origin: bottom center;
+  transform: rotate(45deg) translate(0, 0);
+}
+.depth-menu.first.current .leaf {
+  opacity: 1;
+  visibility: visible;
+}
+.depth-menu.first.current .leaf::after {
+  animation-name: leaf;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+.content-inner {
+  position: relative;
+  border: 3px solid #A47763;
+  border-radius: 0 20px 20px;
+  padding: 60px 25px 29px 35px;
+}
+
+.menu-navi {
+  margin-bottom: 25px;
+}
+.menu-navi li, .menu-navi a, .menu-navi span {
+  display: inline-block;
+  position: relative;
+}
+.menu-navi > li {
+  padding-right: 10px;
+  margin-right: 10px;
+}
+.menu-navi > li:not(:last-child)::after {
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 18L16 12L10 6' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+  width: 15px;
+  height: 15px;
+  background-position: center center;
+  background-size: auto 100%;
+  position: absolute;
+  top: calc(50% - 7.5px);
+  right: -7.5px;
+}
+
+@keyframes leaf {
+  0% {
+    transform: rotate(-10deg) translate(0, 0);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 * {
   font-family: "NanumHuman", sans-serif;
@@ -273,20 +491,28 @@ a, span, em, i {
   border: 0;
 }
 
-.bodyWrapper {
-  height: 100vh;
-  overflow-y: auto;
-}
-
-main {
-  min-height: 100%;
+.icon {
   position: relative;
 }
 
-.img {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
+.arrow {
+  width: 15px;
+  height: 15px;
+  background-image: url("data:image/svg+xml,%3Csvg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.05371 7.43799L7.05371 1.43799L13.0537 7.43799' stroke='%23595959' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
+  transition: 0.3s;
+}
+
+.arrow.circle-arrow {
+  transition: 0.3s;
+  width: 15px;
+  height: 15px;
+  background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 26.5C20.9036 26.5 26.5 20.9036 26.5 14C26.5 7.09644 20.9036 1.5 14 1.5C7.09644 1.5 1.5 7.09644 1.5 14C1.5 20.9036 7.09644 26.5 14 26.5Z' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.05371 16.438L14.0537 10.438L20.0537 16.438' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
 }
 
 .hoverLeaf {
@@ -308,13 +534,36 @@ main {
   background-image: url("data:image/svg+xml,%3Csvg width='212' height='174' viewBox='0 0 212 174' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_111_187)'%3E%3Cpath d='M18.4988 127.56C18.4988 127.56 68.3629 140.722 105.51 123.216C142.657 105.71 192.752 45.4413 192.752 45.4413C192.752 45.4413 119.26 33.298 66.8565 57.9939C14.4531 82.6897 18.4988 127.56 18.4988 127.56Z' fill='%23889F69'/%3E%3Cpath d='M20.7896 132.149C20.7896 132.149 71.859 151.019 109.91 135.128C147.961 119.236 199.282 57.6018 199.282 57.6018C199.282 57.6018 124.012 37.7454 70.3337 60.1641C16.6551 82.5828 20.7896 132.149 20.7896 132.149Z' fill='%23018D36'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_111_187' x='14.4268' y='42.4561' width='188.855' height='107.037' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_111_187'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_111_187' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");
 }
 
+.leaf {
+  width: 30px;
+  height: 30px;
+}
+.leaf::after {
+  width: 100%;
+  height: 100%;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("data:image/svg+xml,%3Csvg width='184' height='98' viewBox='0 0 184 98' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.332264 81.9709C0.332264 81.9709 49.786 96.5993 87.4337 80.1978C125.081 63.7963 176.934 5.03257 176.934 5.03257C176.934 5.03257 103.833 -9.27538 50.7228 13.8626C-2.3869 37.0004 0.332264 81.9709 0.332264 81.9709Z' fill='%23889F69'/%3E%3Cpath d='M2.48689 86.6248C2.48689 86.6248 52.9769 106.995 91.4802 92.2336C129.984 77.4721 183.103 17.3804 183.103 17.3804C183.103 17.3804 108.452 -4.68975 54.1348 16.1343C-0.182347 36.9583 2.48689 86.6248 2.48689 86.6248Z' fill='%23018D36'/%3E%3C/svg%3E%0A");
+}
+
 .bg-frame {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 223px;
-  background: url("/dist/assets/images/bgFram.png") center center repeat no-repeat;
+  background: url(/dist/assets/images/bgFram.png) left top repeat-x;
+}
+
+.bodyWrapper {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+main {
+  min-height: 100%;
+  position: relative;
 }
 
 /*# sourceMappingURL=App.css.map */

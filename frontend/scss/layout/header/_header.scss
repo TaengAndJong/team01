@@ -23,29 +23,33 @@
   }
 }
 
+header{height:auto; @extend %clearfix}
+header,.header-inner,.gnb{position:relative}
+//header
+#header{}
+.header-inner{@include layoutPadding($layoutPadding);
+  &.menu{ background-color:$mainColor; }
+}
 
-#header{height:auto; @extend %clearfix}
-.header-inner{ background-color:$mainColor;}
+//gnb
 .gnb{
   .first-depth{
     >li{
-
          >a{ min-height:80px;  display: inline-flex;
            align-items: center;
            justify-content: center;
-           padding: 0px 20px;
+           padding: 0px 40px;
            >span{
              color:$gnb-font-color;
              font-family: $gnb-font;
-             font-size:26px;
+             font-size:23px;
              font-weight: bold;
              display:flex;
              flex-direction: column-reverse;
              position:relative;
            }
            .hoverLeaf{
-            opacity: 0;
-             visibility: hidden;
+             position: absolute; opacity: 1;visibility: hidden;
              width:40px; height:10px;
             position:absolute;
              top:-12px;
@@ -72,11 +76,14 @@
   .third-depth{}
 }
 
-.logo{ @include logo(150px,60px,inline-block);
+.logo{ @include logo(100px,80px,inline-block);
   position:absolute;
   left:0;
   top:0;
-  >a,em,span{}
+  padding: 12px 10px 8px 0px;
+  >a,em,span{width: 100%;height: 100%; display: block;}
+  .img{background-image: url("../../dist/assets/images/logo_w.svg");
+  background-repeat: no-repeat;background-size: auto 100%; background-position: left center}
 }
 
 //main
@@ -89,7 +96,7 @@
     margin: 0;
     padding: 0;}
   > ul{ background-color:$color00; border-radius: 10px;
-    padding:11px 15px; float:right; margin:15px;
+    padding:11px 15px; float:right; margin:20px 0;
     width: auto;
     >li{
       &:not(:last-child) {margin-right: 15px;}

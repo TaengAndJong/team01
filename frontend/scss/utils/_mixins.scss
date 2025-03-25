@@ -10,9 +10,12 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 '%' 모듈화 기호
 */
 %box{display: block; width:100%; position: relative; }
-%clearfix{content:''; display:block; overflow:hidden;clear:both; line-height:0;}
+%clearfix{content:''; display:block; overflow:hidden;clear:both; }
 %pseudoEL{content:''; display:inline-block; }
 %hover{ transition:color .3s ease-in-out}
+%theJamsil{font-family: 'TheJamsil'; font-weight: bold;}
+%NanumHuman{font-family: 'NanumHuman';}
+
 
 @mixin hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
@@ -25,15 +28,21 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   height: $height;
 }
 
-
-
-
+@mixin layoutPadding($layoutPadding){
+  padding:0 $layoutPadding;
+}
 
 @mixin box($width,$display,$position){
   display: $display;
   width: $width;
   position:$position;
   @extend %clearfix; // 모듈 호출
+}
+
+@mixin sub-title($fontSize,$fontFamily,$fontColor){
+  font-size: $fontSize;
+  font-family: $fontFamily;
+  color: $fontColor;
 }
 
 @mixin btn(){}
@@ -55,12 +64,33 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   border-color: $borderColor; // 화살표 컬러
 }
 
+@mixin bgCover(){
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
+}
+
+@mixin arrow(){
+  width:15px;
+  height:15px;
+  background-image: url("data:image/svg+xml,%3Csvg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.05371 7.43799L7.05371 1.43799L13.0537 7.43799' stroke='%23595959' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+  @include bgCover;
+  transition:0.3s;
+}
+
+@mixin circleArrow(){
+  transition:0.3s;
+  width:15px;
+  height:15px;
+  background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 26.5C20.9036 26.5 26.5 20.9036 26.5 14C26.5 7.09644 20.9036 1.5 14 1.5C7.09644 1.5 1.5 7.09644 1.5 14C1.5 20.9036 7.09644 26.5 14 26.5Z' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.05371 16.438L14.0537 10.438L20.0537 16.438' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A"); @include bgCover;
+}
+
+
 @mixin arrowHover($arrowColor){
 
 }
 
 @mixin list-seperate($width,$height,$bgcolor){
-  @extend %pseudoEL;
   width: $width;
   height: $height;
   background-color: $bgcolor;
@@ -70,3 +100,11 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   position: absolute;
   top:calc(50% - $height);
 }
+
+@mixin defualtBullet($bgColor,$width,$height){
+  @extend %pseudoEL;
+  width: $width;
+  height: $height;
+  background: $bgColor;
+}
+

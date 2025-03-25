@@ -1,10 +1,18 @@
 package com.example.team01.index;
 
 
+import com.example.team01.menu.service.MenuService;
+import com.example.team01.vo.MenuVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 // api 는 localhost:port/api
 // getMapping 은 localhost:port/api 다음의 경로 /test

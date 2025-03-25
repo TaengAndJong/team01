@@ -56,7 +56,7 @@ const AdminBookList = () => {
     return(
         <>
 
-            <table className="table table-primary">
+            <table className="table table-custom">
                 <caption className="sr-only">
                     등록된 도서상품 테이블
                 </caption>

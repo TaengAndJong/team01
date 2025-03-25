@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import Btn from "../../util/reuseBtn.jsx";
 import { useAuth } from "../common/AuthContext.jsx";
-
-import "../../../dist/assets/pages/login.css";
 import pathsData from "../../assets/pathsData.jsx";
 
 function Login({data}) {

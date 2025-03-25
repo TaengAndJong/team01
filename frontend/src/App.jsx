@@ -1,5 +1,5 @@
 
-import {Routes, Route } from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 
@@ -27,15 +27,15 @@ import AdminBookModify from "./pages/adminBook/components/adminBookModify.jsx";
 import AdminBookCreate from "./pages/adminBook/components/adminBookCreate.jsx";
 import AdminBookDetail from "./pages/adminBook/components/adminBookDetail.jsx";
 import AdminBookList from "./pages/adminBook/components/adminBookList.jsx";
-import LeftMenu from "./layout/LeftMenu.jsx";
+import {MenuProvider} from "./pages/common/MenuContext.jsx";
 
 
 
 function App() {
 
-
     return (
         <div className="App">
+            <MenuProvider>
             <Routes>
                 {/* Index 컴포넌트 */}
                 <Route path={PathData.page.index} element={<Index/>}/>
@@ -60,6 +60,8 @@ function App() {
                     <Route index path="dashboard" element={<AdminDashboard/>}/>
 
                     <Route path={PathData.page.adminBoard} element={<AdminBoard/>}>
+                        {/*첫페이지 설정*/}
+                        <Route index element={<Navigate to="oneBoard" replace/>}/>  
                         <Route path="deliveryBoard" element={<AdminDeliveryBoard/>}/>
                         <Route path="productBoard" element={<AdminProductBoard/>}/>
                         <Route path="oneBoard" element={<AdminOneBoard/>}/>
@@ -67,6 +69,7 @@ function App() {
 
 
                     <Route path={PathData.page.adminBook} element={<AdminBook/>}>
+                        <Route index element={<Navigate to="bookList" replace/>}/>
                         <Route path="bookList" element={<AdminBookList/>}/>
                         <Route path="bookCreate" element={<AdminBookCreate/>}/>
                         <Route path="bookDetail/:bookId" element={<AdminBookDetail/>}/>
@@ -75,9 +78,11 @@ function App() {
 
                 </Route>
             </Routes>
+            </MenuProvider>
         </div>
     );
 
 }
 
 export default App;
+``

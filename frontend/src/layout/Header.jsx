@@ -1,22 +1,24 @@
-import React ,{useState,useEffect} from 'react';
+import React  from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 import {useAuth} from "../pages/common/AuthContext.jsx";
+
 import Gnb from "./Gnb.jsx"
-
-
+import {useMenu} from "../pages/common/MenuContext.jsx";
 
 
 const Header = () => {
 
-// 로그인 상태와 사용자 데이터 가져오기
-    const { isAuthenticated, userData,logout } = useAuth();
+    
+    const { isAuthenticated, userData,logout } = useAuth(); // 로그인 상태와 사용자 데이터 가져오는 커스텀훅
+    const {menu} = useMenu(); // 모든 메뉴 가져오는 커스텀훅
     const navigate = useNavigate();
+    let location = useLocation();
+    // const isAdminRoute = location.pathname.startsWith('/admin');
 
 
-
-
+// 로그아웃 fetch 요청
     const handleLogout = async () => {
 
         try {
@@ -44,19 +46,21 @@ const Header = () => {
     };
 
 
-    //현재 경로 가져오기
-    const location = useLocation();
     // 로그인 또는 회원가입 페이지가 아닐 때만 Header를 렌더링
     const hideContent = location.pathname === pathsData.page.login || location.pathname === pathsData.page.signup;
 
 
     return (
-        <header id="header"  className="main-header">
+        <header id="header"  className="header">
             {/*글로벌 메뉴*/}
-            <div className="header-inner d-flex justify-content-center align-items-center">
-                <Gnb userData={userData}/>
+            <div className="header-inner menu">
+                <div className="gnb d-flex justify-content-center align-items-center">
+
+                    <Gnb userData={userData} menu={menu}/>
+
+                 </div>
             </div>
-            <div className="user-info">
+            <div className="header-inner user-info">
                 <ul className="d-flex align-items-center">
                 {isAuthenticated ? ( // 시큐리티 인증이 true이면
                         <>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Outlet} from "react-router-dom";
 import LeftMenu from "../../layout/LeftMenu.jsx"
 import AdminDashboard from "../adminBoard/components/adminDashboard.jsx"
-import "../../../dist/assets/pages/admin/admin.css"
+
 
 
 

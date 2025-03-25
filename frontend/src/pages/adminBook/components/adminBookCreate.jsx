@@ -49,7 +49,6 @@ const AdminBookCreate = () => {
         }
     }, [userData]);  // userData가 변경될 때 실행
 
-    console.log("userData---------33",userData);
 
     const handleChange = (e) => {
        const { name, value } = e.target;
@@ -111,7 +110,7 @@ const AdminBookCreate = () => {
         }
 
     }
-    console.log("createBook --------------111 " , createBook);
+//    console.log("createBook --------------111 " , createBook);
 //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
@@ -120,11 +119,10 @@ const AdminBookCreate = () => {
         console.log("데이터제출 createBook",createBook);
         console.log("데이터제출 createBook.bookImg)",createBook.bookImg);
         // file 객체 값 이미지객체 빈값인지 확인하는 함수
-
         console.log("데이터제출  후 createBook.bookImg)",createBook.bookImg);
 
     }
-    console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음
+        console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음
 //return start
     return(
         <>
