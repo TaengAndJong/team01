@@ -1,0 +1,14 @@
+@use '../utils/variables' as *;
+
+table {
+  display:table;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+tr{display:table-row}
+th, td {display:table-cell; vertical-align:middle;}
+
+.table-custom thead th , .table-custom thead th *{
+  background-color: $adMainColor;
+  color:#fff;
+}

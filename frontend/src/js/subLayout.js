@@ -21,7 +21,7 @@
 // console.log("firstMenu--------",firstMenu);
 
 let firstMenu;
-export  const leftFirstMenuToggle=(e)=>{
+export  const leftFirstMenuToggle=(e,setCurrent)=>{
     firstMenu=e.target;
     const parent = firstMenu.parentElement.parentElement;
     const secondDepth = firstMenu.nextElementSibling;

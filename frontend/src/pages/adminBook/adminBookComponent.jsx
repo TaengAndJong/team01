@@ -1,6 +1,7 @@
-import {Outlet, useNavigate} from "react-router-dom";
+import {Link, Outlet, useLocation, useNavigate} from "react-router-dom";
 import React, {useEffect, useReducer,useState} from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
+import {useMenu} from "../common/MenuContext.jsx";
 
 // 주소에 해당하는 제목 데이터 가져와서 레프트 메뉴 이름과 제목열에 데이터 나열하기
 
@@ -36,10 +37,13 @@ const AdminBook = () => {
     //init 데이터가 변경이 감지되면 초기값변경하기위해 기본값 false
     const [isDataLoaded, setIsDataLoaded] = useState(false); //데이터가 로드되기 전에 컴포넌트가 먼저 렌더링되도록 하기 위함
     const [bookdata, dispatch] = useReducer(reducer, []);
-    console.log("bookdata11111111111 ", bookdata); // 1번째 렌더링 .. 없음
+
+    const {menu,currentPath,standardPoint}  = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
+
+    //console.log("bookComponent standardPoint",standardPoint);
+
 
     useEffect(()=>{
-      console.log("bookdata--- adminBookComponent", bookdata);
         onInit(bookdata);
     },[]) // 마운트 시에 한 번실행 됨
 
@@ -53,7 +57,7 @@ const AdminBook = () => {
         });
     }
     const onCreate = (createBook) => {
-        console.log("createBook-------------",createBook);
+
         dispatch({
             type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
             data: {
@@ -63,6 +67,7 @@ const AdminBook = () => {
         });
 
     }
+
 
 
     return (
@@ -76,12 +81,29 @@ const AdminBook = () => {
                 <div className="right">
                     <section className="content">
                         <div className="content-inner">
-                            {/*현재경로의 페이지명 */}
-                            <h3 className="sub-title current-title title-border">도서조회</h3>
+                            {/*현재경로의 페이지명 depth 2 */}
+                            <h3 className="sub-title current-title title-border">
+                                {
+                                    menu?.adminList?.map((item) => {
+                                        if(item.menuPath.startsWith(`${currentPath}`) ){
+                                            return item.menuName
+                                        }
+                                    })
+                                }
+                            </h3>
                             {/*depth별 네비주소,현재페이지일 경우 표시필요*/}
                             <ol className="menu-navi d-flex">
-                                <li>{`도서관리 -> `}</li>
-                                <li>도서 조회</li>
+                                {/*{*/}
+                                {/*    menu?.adminList?.filter((item)=> item.menuPath.startsWith(standardPoint))*/}
+                                {/*        .reverse().map((item)=> {*/}
+                                {/*            */}
+                                {/*            console.log("menuNavi",item)*/}
+                                {/*        return (*/}
+                                {/*            <li key={item.menuId}><Link to={item.menuPath}><span>{item.menuName}</span></Link></li>*/}
+                                {/*        )*/}
+                                {/*    })*/}
+                                {/*}*/}
+
                             </ol>
                             <BookStateContext.Provider value={bookdata}>
                                 <BookDispatchContext.Provider value={{onCreate, onInit}}>

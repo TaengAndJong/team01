@@ -36,20 +36,6 @@ q:after, q:before {
   content: none;
 }
 
-table {
-  display: table;
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-tr {
-  display: table-row;
-}
-
-th, td {
-  display: table-cell;
-}
-
 * {
   color: #333;
 }
@@ -68,6 +54,26 @@ li {
 /*depth*/
 /*관리자 변수*/
 /*사용자 변수*/
+table {
+  display: table;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+tr {
+  display: table-row;
+}
+
+th, td {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.table-custom thead th, .table-custom thead th * {
+  background-color: #BED297;
+  color: #fff;
+}
+
 /*
 local(확장자를 제외한 '폰트명' 입력) => 내 컴퓨터에 설치되어있는 폰트가 존재하는지 먼저 탐색함
 display: swap; 폰트가 로드 되지 않으면 대체폰트가 먼저 보여지고, 사용할 폰트가 로드되면 교체되게 함
@@ -125,7 +131,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   clear: both;
 }
 
-.hoverLeaf::before, .hoverLeaf::after, .sub-title.title-border::before, .sub-title.title-border::after, .depth.first-depth .depth-menu.first::after, .depth.first-depth .second-depth > li::before, .footer-info > li:not(:last-child)::after {
+.hoverLeaf::before, .hoverLeaf::after, .leaf::after, .sub-title.title-border::before, .sub-title.title-border::after, .depth.first-depth .depth-menu.first::after, .depth.first-depth .second-depth > li::before, .menu-navi > li:not(:last-child)::after, .footer-info > li:not(:last-child)::after {
   content: "";
   display: inline-block;
 }
@@ -396,12 +402,70 @@ header, .header-inner, .gnb {
   height: auto;
 }
 
+.depth-menu.first {
+  display: flex;
+  align-items: center;
+}
+.depth-menu.first .leaf {
+  margin-left: 5px;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  width: 25px;
+  height: 20px;
+}
+.depth-menu.first .leaf::after {
+  transform-origin: bottom center;
+  transform: rotate(45deg) translate(0, 0);
+}
+.depth-menu.first.current .leaf {
+  opacity: 1;
+  visibility: visible;
+}
+.depth-menu.first.current .leaf::after {
+  animation-name: leaf;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
 .content-inner {
+  position: relative;
   border: 3px solid #A47763;
   border-radius: 0 20px 20px;
   padding: 60px 25px 29px 35px;
 }
 
+.menu-navi {
+  margin-bottom: 25px;
+}
+.menu-navi li, .menu-navi a, .menu-navi span {
+  display: inline-block;
+  position: relative;
+}
+.menu-navi > li {
+  padding-right: 10px;
+  margin-right: 10px;
+}
+.menu-navi > li:not(:last-child)::after {
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 18L16 12L10 6' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+  width: 15px;
+  height: 15px;
+  background-position: center center;
+  background-size: auto 100%;
+  position: absolute;
+  top: calc(50% - 7.5px);
+  right: -7.5px;
+}
+
+@keyframes leaf {
+  0% {
+    transform: rotate(-10deg) translate(0, 0);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
 * {
   font-family: "NanumHuman", sans-serif;
   word-break: keep-all;
@@ -425,6 +489,10 @@ a, span, em, i {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+.icon {
+  position: relative;
 }
 
 .arrow {
@@ -464,6 +532,19 @@ a, span, em, i {
 }
 .hoverLeaf::after {
   background-image: url("data:image/svg+xml,%3Csvg width='212' height='174' viewBox='0 0 212 174' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_111_187)'%3E%3Cpath d='M18.4988 127.56C18.4988 127.56 68.3629 140.722 105.51 123.216C142.657 105.71 192.752 45.4413 192.752 45.4413C192.752 45.4413 119.26 33.298 66.8565 57.9939C14.4531 82.6897 18.4988 127.56 18.4988 127.56Z' fill='%23889F69'/%3E%3Cpath d='M20.7896 132.149C20.7896 132.149 71.859 151.019 109.91 135.128C147.961 119.236 199.282 57.6018 199.282 57.6018C199.282 57.6018 124.012 37.7454 70.3337 60.1641C16.6551 82.5828 20.7896 132.149 20.7896 132.149Z' fill='%23018D36'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_111_187' x='14.4268' y='42.4561' width='188.855' height='107.037' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_111_187'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_111_187' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");
+}
+
+.leaf {
+  width: 30px;
+  height: 30px;
+}
+.leaf::after {
+  width: 100%;
+  height: 100%;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("data:image/svg+xml,%3Csvg width='184' height='98' viewBox='0 0 184 98' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.332264 81.9709C0.332264 81.9709 49.786 96.5993 87.4337 80.1978C125.081 63.7963 176.934 5.03257 176.934 5.03257C176.934 5.03257 103.833 -9.27538 50.7228 13.8626C-2.3869 37.0004 0.332264 81.9709 0.332264 81.9709Z' fill='%23889F69'/%3E%3Cpath d='M2.48689 86.6248C2.48689 86.6248 52.9769 106.995 91.4802 92.2336C129.984 77.4721 183.103 17.3804 183.103 17.3804C183.103 17.3804 108.452 -4.68975 54.1348 16.1343C-0.182347 36.9583 2.48689 86.6248 2.48689 86.6248Z' fill='%23018D36'/%3E%3C/svg%3E%0A");
 }
 
 .bg-frame {

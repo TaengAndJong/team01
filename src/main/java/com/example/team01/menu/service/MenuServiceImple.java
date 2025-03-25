@@ -38,6 +38,8 @@ public class MenuServiceImple implements MenuService {
                 adminList.add(vo);
             }else{
             log.info("vo:{}", vo.getMenuType().equals("공통"));
+//                clientList.add(vo);
+//                adminList.add(vo);
                 commonList.add(vo);
             }
         }

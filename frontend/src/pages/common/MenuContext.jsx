@@ -1,14 +1,14 @@
 import {createContext,useState ,useContext, useEffect} from "react";
+import {useLocation} from "react-router-dom";
 
 //1. 전역 상태관리 context 생성
 const MenuContext = createContext();
 
 //2.Provider 생성
-export const MenuProvider = ({ children }) => {
+export const MenuProvider = ({children}) => {
 
     //메뉴 상태관리 state 선언
     const [menu, setMenu] = useState([]);
-
     //getfetch 요청
     const getMenuData= async ()=>{
         console.log("fetch 전체메뉴 요청중");
@@ -33,16 +33,48 @@ export const MenuProvider = ({ children }) => {
 
     }
 
-    //화면 렌더링 시 
+    //현재경로관리
+    const location = useLocation();
+    const currentPath=location.pathname;
+    const [standardPoint, setStandardPoint] = useState("");
+
+    const pathManage  = (currentPath) =>{
+
+       const startPoint = currentPath.split("/");
+       // "" 인 값을 제외한 배열 생성 및 반환
+        const pathDepth = startPoint.filter((item) => item !== "");
+
+        let naviPath="";
+        console.log("length",pathDepth.length);
+        if(pathDepth.length<3){
+            for (let i=0; i<pathDepth.length; i++) {
+                naviPath +="/"+pathDepth[i];
+            }
+
+        }else{
+            for (let i=0; i<pathDepth.length-1; i++) {
+                naviPath +="/"+pathDepth[i];
+            }
+        }
+        // 공백을 제거한 주소 배열에 담기
+        setStandardPoint(naviPath);
+    }
+
+
+    //화면 렌더링 시
     useEffect(() => {
         console.log("전체메뉴 요청 중");
         getMenuData();
+        pathManage(location.pathname); //endpoint 설정 함수 (경로 변경될 때마다 갱신)
         console.log("menu",menu);
-    },[])
+    },[location.pathname]); //경로 변경될 때마다 실행
+
+
+
 
     return (
         <>
-            <MenuContext.Provider value={{menu}}>
+            <MenuContext.Provider value={{menu,currentPath,standardPoint}}>
                 {children}
             </MenuContext.Provider>
         </>

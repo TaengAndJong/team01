@@ -60,7 +60,8 @@ function App() {
                     <Route index path="dashboard" element={<AdminDashboard/>}/>
 
                     <Route path={PathData.page.adminBoard} element={<AdminBoard/>}>
-                        {/*<Route index element={<Navigate to="oneBoard" replace/>}/>  /!* 첫 페이지를 특정 경로로 이동 *!/*/}
+                        {/*첫페이지 설정*/}
+                        <Route index element={<Navigate to="oneBoard" replace/>}/>  
                         <Route path="deliveryBoard" element={<AdminDeliveryBoard/>}/>
                         <Route path="productBoard" element={<AdminProductBoard/>}/>
                         <Route path="oneBoard" element={<AdminOneBoard/>}/>
@@ -68,6 +69,7 @@ function App() {
 
 
                     <Route path={PathData.page.adminBook} element={<AdminBook/>}>
+                        <Route index element={<Navigate to="bookList" replace/>}/>
                         <Route path="bookList" element={<AdminBookList/>}/>
                         <Route path="bookCreate" element={<AdminBookCreate/>}/>
                         <Route path="bookDetail/:bookId" element={<AdminBookDetail/>}/>

@@ -26,9 +26,7 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
             }).then(data => {
             //도서 카테고리 목록 받아서 카테고리 상태 관리 함수에 반환,설정
             let resData = data.cateData;
-            console.log("resData---------------------",resData);
-            console.log("resData[0]---------------------",resData[0].cateDepthLevel);
-            setBookCategory(resData);  // 데이터 로딩 완료 후 상태 업데이트
+                 setBookCategory(resData);  // 데이터 로딩 완료 후 상태 업데이트
         })
             .catch(err => {
                 console.log("카테고리 데이터가 없습니다", err);
@@ -44,14 +42,12 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
 
         // 카테고리 onChange핸들라
     const handleCategory= (e) =>{
-       console.log("e--",e.target);
+
         const selectedOption = e.target.selectedOptions[0]
         const dataCateId  = selectedOption.getAttribute('data-cate-id')
         const cateName = selectedOption.value; // 선택된 카테고리명
 
-        console.log("dataCateId",dataCateId);
-        console.log("cateName",cateName);
-        // 1. 타겟팅된 카테고리 목록이름을 전부 하나로 묶으려면 ?
+ // 1. 타겟팅된 카테고리 목록이름을 전부 하나로 묶으려면 ?
         if(dataCateId!=null){
             //selectCategory 데이터 갱신 함수
             setSelectedCategory(prev =>{ // 기존값 받아올 파라미터
@@ -72,9 +68,9 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
                     updatedCategory.names[index] = cateName;
                     updatedCategory.ids[index] = dataCateId;
                     updatedCategory.depth[index] = `${index+1}차 카테고리`;
-                    console.log("updatedCategory---111--",updatedCategory);
+
                 }
-                console.log("updatedCategory----22-",updatedCategory);
+
                 return updatedCategory; // selectCategory 에 갱신할 데이터 반환
             });
         }
@@ -87,9 +83,6 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
             bookCateDepth:selectedCategory.depth[selectedCategory.depth.length - 1]
         }))
     }
-    console.log("selectedCategory---333--",selectedCategory);
-    console.log("selectedCategory---333--",selectedCategory.depth);
-    console.log("selectedCategory---333--",selectedCategory.depth[0]);
 
     return (
         <>

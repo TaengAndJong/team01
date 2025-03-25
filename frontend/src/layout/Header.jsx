@@ -15,8 +15,7 @@ const Header = () => {
     const {menu} = useMenu(); // 모든 메뉴 가져오는 커스텀훅
     const navigate = useNavigate();
     let location = useLocation();
-    console.log("location gnb", location);
-    const isAdminRoute = location.pathname.startsWith('/admin');
+    // const isAdminRoute = location.pathname.startsWith('/admin');
 
 
 // 로그아웃 fetch 요청
