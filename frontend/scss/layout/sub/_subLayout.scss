@@ -3,20 +3,20 @@
 
 
 //sub
-.sub,.sublayout,.page,.left,.right,.left-menu,.content,.user-info{
-  @extend %clearfix;
-}
 
-.sub{ background-color: #E9E9DD;}
-
-.sublayout {
-  margin-top: 100px;
-  padding-bottom: 300px;
+.sub{ background-color: #E9E9DD;
+  .main {
+    margin-top: 100px;
+    padding-bottom: 300px;
+  }
   .page {
     justify-content: space-between;
     min-height: $subHeight;
     @include  layoutPadding($layoutPadding);
   }
+}
+
+
 
   .left{
     width: $adleftWidth;
@@ -29,7 +29,7 @@
     min-height: 510px;
   }
 
-}
+
 
 
 

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import Btn from "../../util/reuseBtn.jsx";
-import { useAuth } from "../common/AuthContext.jsx";
+import {useAuth} from "../common/AuthContext.jsx";
 import pathsData from "../../assets/pathsData.jsx";
+import "../../../dist/assets/css/login/login.css";
+
 
 function Login({data}) {
 
@@ -10,17 +12,17 @@ function Login({data}) {
     const [clientId, setclientId] = useState(''); // id 상태 추가
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState(""); // 실패 메시지 상태
-    const { login ,loginFailure } = useAuth(); // 로그인 상태 업데이트 함수
+    const {login, loginFailure} = useAuth(); // 로그인 상태 업데이트 함수
     const navigate = useNavigate();
 
 
     const handleIdChange = (e) => {
-        console.log("id" , e.target.value)
+        console.log("id", e.target.value)
         setclientId(e.target.value);
     };
 
     const handlePasswordChange = (e) => {
-        console.log("pwd" , e.target.value)
+        console.log("pwd", e.target.value)
         setPassword(e.target.value);
     };
 
@@ -40,39 +42,38 @@ function Login({data}) {
     };
 
 
-
     // submit 버튼 클릭 시 fetch 통해 로그인 컨트롤러에 데이터 요청
     const handleFormSubmit = async (e) => {
         e.preventDefault();// 이벤트 버블링 방지
-        console.log("login------");
+
         //application/x-www-form-urlencoded 형식으로 보내기 위해 사용
         const formData = new URLSearchParams();
         formData.append("clientId", clientId);
         formData.append("password", password);
 
-       // 로그인 요청 백엔드 서버로 보내기
-       const response = await fetch("/api/login",{
-           method: 'POST',
-           headers: {
-               'Content-Type': 'application/x-www-form-urlencoded',
-           },
-           body: formData.toString(), // .toString()변환; application/x-www-form-urlencoded 형식으로 데이터를 변환하기 위해서
-           mode: 'cors',  // CORS 모드 명시
-           credentials: 'include',  // 쿠키를 포함시키기 위해 'include' 설정
-       });
+        // 로그인 요청 백엔드 서버로 보내기
+        const response = await fetch("/api/login", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData.toString(), // .toString()변환; application/x-www-form-urlencoded 형식으로 데이터를 변환하기 위해서
+            mode: 'cors',  // CORS 모드 명시
+            credentials: 'include',  // 쿠키를 포함시키기 위해 'include' 설정
+        });
 
 
         const contentType = response.headers.get("Content-Type");
         let data;
         //백엔드 서버로부터 응답 받기
-        if(response.ok){
+        if (response.ok) {
             //Json과 text 데이터 요청 받는데 성공하면 실행되는 로직
 
             if (contentType && contentType.includes("application/json")) {
                 data = await response.json();
 
-              //로그인 성공여부에 따른 리다이렉션 로직
-                 console.log("data",data);
+                //로그인 성공여부에 따른 리다이렉션 로직
+                console.log("data", data);
                 if (data.status === "success") {
                     handleLoginSuccess(data); // 로그인 성공 처리
                 } else if (data.status === "error") {
@@ -86,12 +87,10 @@ function Login({data}) {
             } else {
 
                 data = await response.text();// 텍스트 응답일 경우
-              //  console.log("텍스트data",data);
-              //  console.log("텍스트mgs",data.message);
                 return data;
             }
 
-        }else{
+        } else {
             console.error("서버와 통신 중 에러 발생:", error);
             // navigate("/login");  // React Router를 통해 리다이렉트
         }
@@ -101,47 +100,50 @@ function Login({data}) {
 
     return (
         <>
-           Received data: {JSON.stringify(data)}
-            <div className="login-form text-center">
-                 <span className="title">로그인</span>
-                <form onSubmit={handleFormSubmit}>
-                    <div className="row mb-3">
-                        <label htmlFor="clientId" className="col-sm-2 col-form-label">ID</label>
-                        <div className="col-sm-10">
-                            <input
-                                className="form-control"
-                                type="text"
-                                name="clientId"
-                                id="clientId"
-                                placeholder="아이디"
-                                value={clientId}
-                                onChange={handleIdChange} // id 상태 업데이트
-                            />
-                        </div>
-                    </div>
-                    <div className="row mb-3">
-                        <label htmlFor="password" className="col-sm-2 col-form-label">PW </label>
-                        <div className="col-sm-10">
-                            <input
-                                className="form-control"
-                                type="password"
-                                name="password"
-                                id="password"
-                                placeholder="비밀번호"
-                                value={password}
-                                onChange={handlePasswordChange} // password 상태 업데이트
-                            />
-                        </div>
-                    </div>
-                    <div className="btn-group-vertical">
-                      <Btn className={"login btn btn-secondary"} text={"로그인"}
-                           type="submit"/>
-                       <Btn className={"signup btn btn-primary"} text={"회원가입"}
-                                 path={pathsData.page.signup}/>
-                    </div>
-                </form>
 
-                {loginError && <div className="msg error"><p>{loginError}</p></div>} {/* 실패 메시지 표시 */}
+            <div className="page login-inner">
+                <div className="login-form text-center">
+                    Received data: {JSON.stringify(data)}
+                    <h4 className="h4 title">로그인</h4>
+                    <form onSubmit={handleFormSubmit}>
+                        <div className="row my-3">
+                            <label htmlFor="clientId" className="col-sm-2 col-form-label">ID</label>
+                            <div className="col-sm-10">
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    name="clientId"
+                                    id="clientId"
+                                    placeholder="아이디"
+                                    value={clientId}
+                                    onChange={handleIdChange} // id 상태 업데이트
+                                />
+                            </div>
+                        </div>
+                        <div className="row mb-4">
+                            <label htmlFor="password" className="col-sm-2 col-form-label">PW </label>
+                            <div className="col-sm-10">
+                                <input
+                                    className="form-control"
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="비밀번호"
+                                    value={password}
+                                    onChange={handlePasswordChange} // password 상태 업데이트
+                                />
+                            </div>
+                        </div>
+                        <div className="d-flex justify-content-center align-items-center" >
+                            <Btn className={"login btn btn-secondary w-50 me-1"} text={"로그인"}
+                                 type="submit"/>
+                            <Btn className={"signup btn btn-primary w-50 ms-1"} text={"회원가입"}
+                                 path={pathsData.page.signup}/>
+                        </div>
+                    </form>
+
+                    {loginError && <div className="msg error"><p>{loginError}</p></div>} {/* 실패 메시지 표시 */}
+                </div>
             </div>
         </>
     );

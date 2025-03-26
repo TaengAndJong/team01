@@ -43,7 +43,7 @@ function Admin() {
     }, []);
 
     return (
-        <div className="page admin">
+        <div className="page">
                 <div className="top">
                     <h1>관리자 페이지</h1>
                     {data ? (

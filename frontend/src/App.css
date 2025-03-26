@@ -124,7 +124,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   position: relative;
 }
 
-.sub, .sublayout, .page, .left, .right, .left-menu, .content, .user-info, header {
+.main, .page, .left, .right, .left-menu, .content, .user-info, header {
   content: "";
   display: block;
   overflow: hidden;
@@ -140,7 +140,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   transition: color 0.3s ease-in-out;
 }
 
-@keyframes leaf {
+@keyframes dobleleaf {
   0% {
     transform: translateY(0);
   }
@@ -197,7 +197,7 @@ header, .header-inner, .gnb {
   position: absolute;
   top: -12px;
   left: 0;
-  animation-name: leaf;
+  animation-name: dobleleaf;
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
@@ -280,23 +280,25 @@ header, .header-inner, .gnb {
 .sub {
   background-color: #E9E9DD;
 }
-
-.sublayout {
+.sub .main {
   margin-top: 100px;
   padding-bottom: 300px;
 }
-.sublayout .page {
+.sub .page {
   justify-content: space-between;
-  min-height: 800px;
+  min-height: 500px;
   padding: 0 30px;
 }
-.sublayout .left {
+
+.left {
   width: 280px;
 }
-.sublayout .right {
+
+.right {
   width: calc(100% - 320px);
 }
-.sublayout .left-menu, .sublayout .content-inner {
+
+.left-menu, .content-inner {
   min-height: 510px;
 }
 
@@ -493,6 +495,18 @@ a, span, em, i {
 
 .icon {
   position: relative;
+}
+
+.page {
+  z-index: 99;
+  width: 100%;
+  position: relative;
+}
+
+.title {
+  font-family: "TheJamsil", "NanumHuman", sans-serif;
+  word-break: keep-all;
+  font-weight: bold;
 }
 
 .arrow {

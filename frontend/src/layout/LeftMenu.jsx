@@ -39,14 +39,17 @@ const LeftMenu = () => {
                     {
                         menu?.adminList?.filter((item)=> item.menuPath.startsWith(`${standardPoint}/`))
                             .map((item)=>{
-                                return(
-                                    <li key={item.menuId} className="">
-                                        <Link to={item.menuPath} className={`depth-menu first ${currentPath==item.menuPath? "current":""}`}>{item.menuName}
-                                            <i className="leaf icon"></i>
-                                        </Link>
-                                    </li>
-                                )
-                            })
+                                if(item.menuVisible === "Y"){
+                                    return(
+                                        <li key={item.menuId} className="">
+                                            <Link to={item.menuPath} className={`depth-menu first ${currentPath==item.menuPath? "current":""}`}>{item.menuName}
+                                                <i className="leaf icon"></i>
+                                            </Link>
+                                        </li>
+                                    )
+
+                                }
+                        })
                     }
 
                         {/*    문의관리*/}
