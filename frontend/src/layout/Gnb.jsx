@@ -24,7 +24,8 @@ const Gnb=({userData,menu})=>{
                 <ul className="d-flex first-depth">
                     {
                         menu?.clientList?.map((item)=>{
-                            if(item.menuDepth == "1차메뉴" && item.menuType == "사용자"){
+                            console.log("gnb item" ,item);
+                            if(item.menuDepth == "1차메뉴" && item.menuType == "사용자"  && item.menuVisible.includes("Y")){
                                 return (
                                     <li key={item.menuId}>
                                         <Link to={item.menuPath}>
@@ -41,7 +42,7 @@ const Gnb=({userData,menu})=>{
                     {
                     menu?.commonList?.map((item)=>{
 
-                        if(item.menuName != "로그인" && item.menuName !="마이페이지"){
+                        if(item.menuVisible.includes("Y")){
                             return (
                                 <li key={item.menuId}>
                                     <Link to={item.menuPath}>
@@ -74,11 +75,11 @@ const Gnb=({userData,menu})=>{
                             </Link>
                         </h1>
 
-                        <nav id="gnb" className={`gnb ${isAdminRoute?(location.pathname ==='/admin'? "main-gnb":"sub-gnb"):""}`}>
+                        <nav id="gnb" className={`gnb`}>
                             <ul className="d-flex first-depth">
                                 {
                                     menu?.adminList?.map((item)=>{
-                                        if(item.menuDepth == "1차메뉴" && item.menuName !="로그인"){
+                                        if(item.menuDepth == "1차메뉴" && item.menuType == "관리자" && item.menuVisible.includes("Y")){
                                            return (
                                                <li key={item.menuId}>
                                                    <Link to={item.menuPath}><span>
@@ -93,7 +94,7 @@ const Gnb=({userData,menu})=>{
                                 {
                                     menu?.commonList?.map((item)=>{
 
-                                        if(item.menuName == "마이페이지"){
+                                        if(item.menuVisible.includes("Y")){
                                             return (
                                                 <li key={item.menuId}>
                                                     <Link to={item.menuPath}>
@@ -123,7 +124,7 @@ const Gnb=({userData,menu})=>{
                             <ul className="d-flex first-depth">
                                 {
                                     menu?.clientList?.map((item) => {
-                                        if (item.menuDepth == "1차메뉴" && item.menuType == "사용자") {
+                                        if (item.menuDepth == "1차메뉴" && item.menuType == "사용자" && item.menuVisible =="Y" ) {
                                             return (
                                                 <li key={item.menuId}>
                                                     <Link to={item.menuPath}>
@@ -140,7 +141,7 @@ const Gnb=({userData,menu})=>{
                                 {
                                     menu?.commonList?.map((item) => {
 
-                                        if (item.menuDepth == "1차메뉴" && item.menuName != "로그인") {
+                                        if (item.menuVisible.includes("Y")) {
                                             return (
                                                 <li key={item.menuId}>
                                                     <Link to={item.menuPath}>

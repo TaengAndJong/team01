@@ -16,5 +16,6 @@ public class MenuVO implements Serializable {
     private String menuPath; // 메뉴 경로
     private String menuDepth; // 메뉴 쉰위
     private String menuType; // 메뉴 종류 : 관리자, 사용자
+    private String menuVisible; // 메뉴 출력여부
 
 }

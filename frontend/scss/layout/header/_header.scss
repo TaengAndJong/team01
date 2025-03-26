@@ -2,7 +2,7 @@
 @use "../../utils/mixins" as *; // 함수
 
 
-@keyframes leaf {
+@keyframes dobleleaf {
   0%{
     transform: translateY(0);
   }
@@ -54,7 +54,7 @@ header,.header-inner,.gnb{position:relative}
             position:absolute;
              top:-12px;
              left:0;
-             animation-name: leaf;
+             animation-name: dobleleaf;
              animation-duration: 2s;
              animation-iteration-count: infinite;
              animation-timing-function: ease-in-out

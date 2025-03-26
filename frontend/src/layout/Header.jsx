@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
@@ -10,8 +10,8 @@ import {useMenu} from "../pages/common/MenuContext.jsx";
 
 const Header = () => {
 
-    
-    const { isAuthenticated, userData,logout } = useAuth(); // 로그인 상태와 사용자 데이터 가져오는 커스텀훅
+
+    const {isAuthenticated, userData, logout} = useAuth(); // 로그인 상태와 사용자 데이터 가져오는 커스텀훅
     const {menu} = useMenu(); // 모든 메뉴 가져오는 커스텀훅
     const navigate = useNavigate();
     let location = useLocation();
@@ -51,48 +51,57 @@ const Header = () => {
 
 
     return (
-        <header id="header"  className="header">
+        <header id="header" className="header">
             {/*글로벌 메뉴*/}
             <div className="header-inner menu">
                 <div className="gnb d-flex justify-content-center align-items-center">
 
                     <Gnb userData={userData} menu={menu}/>
 
-                 </div>
+                </div>
             </div>
-            <div className="header-inner user-info">
-                <ul className="d-flex align-items-center">
-                {isAuthenticated ? ( // 시큐리티 인증이 true이면
-                        <>
-                            <li> {userData.roles && (
-                                <span>{userData.roles[0] === "ROLE_ADMIN" ?
-                                    `${userData.clientName}관리자(${userData.clientId})`
-                                    : userData.roles[0] === "ROLE_MEMBER"
-                                        ? `${userData.clientName}[${userData.clientId}]사원님`
-                                    : `${userData.clientName}[${userData.clientId}]님`}
-                                </span>
-                            )}
-                            </li>
-                            <li>
-                                <Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
 
-                            </li>
-                        </>
-                    ) :
-                    (<>
-                            {/*   로그인 페이지와 회원가입 페이지 가 아니면  나오게 */}
-                            {!hideContent && (<>
-                                    <li><Btn className={"login"}  text={"로그인"}
-                                             path={pathsData.page.login}/></li>
-                                    <li><Btn className={"signup"} text={"회원가입"}
-                                             path={pathsData.page.signup}/></li>
-                                </>
-                            )}
-                        </>
-                    )
-                }
-                </ul>
-            </div>
+            {isAuthenticated ? ( // 시큐리티 인증이 true이면
+                    <>
+                        <div className="header-inner user-info">
+                            <ul className="d-flex align-items-center">
+                                <li> {userData.roles && (
+                                    <span>{userData.roles[0] === "ROLE_ADMIN" ?
+                                        `${userData.clientName}관리자(${userData.clientId})`
+                                        : userData.roles[0] === "ROLE_MEMBER"
+                                            ? `${userData.clientName}[${userData.clientId}]사원님`
+                                            : `${userData.clientName}[${userData.clientId}]님`}
+                                </span>
+                                )}
+                                </li>
+                                <li>
+                                    <Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </>
+                ) :
+                (<>
+                        {/*   로그인 페이지와 회원가입 페이지 가 아니면  나오게 */}
+                        {!hideContent && (<>
+                                <div className="header-inner user-info">
+                                    <ul className="d-flex align-items-center">
+                                        <li><Btn className={"login"} text={"로그인"}
+                                                 path={pathsData.page.login}/>
+                                        </li>
+                                        <li>
+                                            <Btn className={"signup"} text={"회원가입"}
+                                                 path={pathsData.page.signup}/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </>
+                        )}
+                    </>
+                )
+            }
+
         </header>
     )
         ;

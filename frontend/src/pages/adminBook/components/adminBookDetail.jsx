@@ -3,8 +3,7 @@ import React, { useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
 import AdminBookSlide from "../../common/adminBookSlide.jsx";
-// import "../../../../scss/style.scss";
-// import "../../../../dist/assets/css/card.css";
+import "../../../../dist/assets/css/book/bookDetail.css";
 
 
 
@@ -55,7 +54,7 @@ const AdminBookDetail = () => {
     console.log("최종 ----------bookDetail",bookDetail);
     return(
         <>
-            <h2>AdminBookDetail</h2>
+
             <div className="bookDetail">
 
                 <div className="box">

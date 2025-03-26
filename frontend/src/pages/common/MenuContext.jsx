@@ -14,6 +14,7 @@ export const MenuProvider = ({children}) => {
         console.log("fetch 전체메뉴 요청중");
         const response= await fetch("/api/menu",{
             method: "GET",
+            //credentials: "include", // 세션 쿠키 포함
             headers: {
                 contentType: "application/json", //json으로 데이터 보내달라고 요청
             }
@@ -63,10 +64,9 @@ export const MenuProvider = ({children}) => {
 
     //화면 렌더링 시
     useEffect(() => {
-        console.log("전체메뉴 요청 중");
         getMenuData();
         pathManage(location.pathname); //endpoint 설정 함수 (경로 변경될 때마다 갱신)
-        console.log("menu",menu);
+
     },[location.pathname]); //경로 변경될 때마다 실행
 
 

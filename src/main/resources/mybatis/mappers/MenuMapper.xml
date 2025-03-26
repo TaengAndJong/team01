@@ -9,7 +9,8 @@
              ,"menuName"
              ,"menuPath"
              ,"menuDepth"
-            ,"menuType"
+            ,"menuType",
+             "menuVisible"
         FROM MENU
         ORDER BY "menuType"
     </select>
