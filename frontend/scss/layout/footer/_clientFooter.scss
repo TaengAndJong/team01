@@ -1,0 +1,8 @@
+@use "../../utils/variables" as *;
+// 변수
+@use "../../utils/mixins" as *; // 함수
+
+
+.client{
+  .footer{background: $clFooterColor}
+}

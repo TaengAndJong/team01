@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <footer id="footer" className="main-footer">
+        <footer id="footer" className="footer">
             <div className="footer-inner">
                 <ul className="footer-info de-flex ">
                     <li className="d-inline-flex">

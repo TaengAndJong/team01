@@ -1,6 +1,7 @@
 /*공통변수*/
 $mainColor: #BED297;
 $subColor: #8B655A;
+$GnbColor: #008834;
 $color00: #A47763;
 $color01: #89C53B;
 
@@ -39,7 +40,9 @@ $adFooterColor:#8B655A;
 $adBgColor:#E9E9DD;
 $adleftWidth: 280px;
 $adContentWidth: calc(100% - ($adleftWidth + 40px));
+$adfontGnbColor: #595959;
 
 /*사용자 변수*/
-$ClMainColor: #BED297;
-$ClSubColor: #8B655A;
+$clMainColor:#FFFFDD;
+$clfontGnbColor: #ffffff;
+$clFooterColor:transparent;

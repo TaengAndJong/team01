@@ -90,9 +90,12 @@ const AdminBook = () => {
                                         }
                                     })
                                 }
+
                             </h3>
+
                             {/*depth별 네비주소,현재페이지일 경우 표시필요*/}
-                            <ol className="menu-navi d-flex">
+                            <ol className="menu-navi d-flex title-border">
+                                <li>서브페이지 네입게이션 출력하라고</li>
                                 {/*{*/}
                                 {/*    menu?.adminList?.filter((item)=> item.menuPath.startsWith(standardPoint))*/}
                                 {/*        .reverse().map((item)=> {*/}

@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import React, { useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
@@ -57,21 +57,26 @@ const AdminBookDetail = () => {
 
             <div className="bookDetail">
 
-                <div className="box">
-
+                <div className="box slide">
                     <div className="card horizontal">
                         <div className="card-header">
                             <AdminBookSlide bookDetail={bookDetail}/>
                         </div>
                         <div className="bookInfo card-body">
-                            <ul class="ul cicleBullets">
-                                <li className="li">
-                                    <span className="tit">도서명</span>{bookDetail.bookName}
-                                </li>
+                            <h3 class="book-title title-dotted">{bookDetail.bookName}</h3>
+                            <ul class="ul bullet">
                                 <li className="li"><span className="tit">저자</span>{bookDetail.author}</li>
                                 <li className="li"><span className="tit">발행일</span>{bookDetail.publishDate}</li>
-                                <li className="li"><span className="tit">가격</span>{bookDetail.bookPrice}<span>원</span></li>
+                                <li className="li"><span className="tit">가격</span>{bookDetail.bookPrice}<span>원</span>
+                                </li>
+                                {/*할인적용할건지 */}
+                                <li className="li"><span className="tit">할인가</span><span>원</span>
+                                </li>
                             </ul>
+                            <div className="btn d-flex">
+                                <button className="cart btn btn-primary">장바구니</button>
+                                <button className="buy btn btn-secondary">구매하기</button>
+                            </div>
                             {/*bookDesc end */}
                         </div>
                     </div>
@@ -80,12 +85,12 @@ const AdminBookDetail = () => {
 
 
                 <div className="box">
-                    <h4 className="h4">도서설명</h4>
+                <h4 className="h4 title-dotted">도서설명</h4>
                     {bookDetail.bookDesc}
                 </div>
                 {/*bookDetail end */}
 
-                <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                     <Btn className={"modify btn btn-primary"} type={"button"} path={pathsData.page.adminBookModify}
                          text="수정"/>
                 </div>
