@@ -7,20 +7,21 @@ import {useMenu} from "../pages/common/MenuContext.jsx";
 
 const Layout = () => {
     const [data, setData] = useState('');
-    const [url,setUrl] = useState('/api'); // 기본 URL 설정
-    const {menu,currentPath,standardPoint} = useMenu();
+    const [url, setUrl] = useState('/api'); // 기본 URL 설정
+    const {menu, currentPath, standardPoint} = useMenu();
     let location = useLocation();
+
 
 // body에 /admin 과 /은 main이고 그 외 전부 sub 클래스 출력
     const bodyName = (currentPath) => {
-        if(currentPath ==="/admin" || currentPath == "/"){
+        if (currentPath === "/admin" || currentPath == "/") {
             return "main";
-        }else{
+        } else {
             return "sub"
         }
         // 매칭되는 메뉴가 없을 경우 빈 문자열 반환
     };
-    
+
     const pageName = (standardPoint) => {
         for (let list in menu) {
             const foundItem = menu[list].find((item) => item.menuPath === standardPoint);
@@ -35,7 +36,7 @@ const Layout = () => {
                     case "/signup":
                         return "signup";
                     default:
-                        if(foundItem.menuPath.includes("Detail") || foundItem.menuPath.includes("Modify")){
+                        if (foundItem.menuPath.includes("Detail") || foundItem.menuPath.includes("Modify")) {
 
                             return `${foundItem.menuId}`;
                         }
@@ -56,14 +57,14 @@ const Layout = () => {
         fetch(url)
             .then((response) => {
                 if (!response.ok) {
-                    console.log("???",response.text())
+                    console.log("???", response.text())
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 // 응답의 Content-Type을 확인하여 처리
                 const contentType = response.headers.get("Content-Type");
 
                 if (contentType && contentType.includes("application/json")) {
-                    console.log("layout data 요청 - json",response.json());
+                    console.log("layout data 요청 - json", response.json());
                     // JSON 응답일 경우
                     return response.json();
                 } else {
@@ -77,7 +78,7 @@ const Layout = () => {
                 setData(data); // 받은 문자열 상태에 저장
             })
             .catch((error) => console.error('Fetch error:', error));
-    }, [url,location]);
+    }, [url, location]);
 
     // location?.pathname.startsWith("/admin/")? "sublayout":"mainlayout"
     //${location?.pathname== menu.menuPath? menuId:""}
@@ -96,14 +97,26 @@ const Layout = () => {
                     <main className={`main ${pageName(standardPoint)}`}>
 
                         <Outlet context={{data, setUrl}}/>
-                        
-                        <div className="bg-frame">
-                            {/*<span className="obj cloud1"></span>*/}
-                            {/*<span className="obj cloud2"></span>*/}
-                            {/*<span className="obj cloud3"></span>*/}
-                            {/*<span className="obj cloud4"></span>*/}
-                            {/*<span className="obj cloud5"></span>*/}
-                        </div>
+                        {currentPath.startsWith("/admin") && (
+                            <div className="bg-frame admin">
+                                {/*<span className="obj cloud1"></span>*/}
+                                {/*<span className="obj cloud2"></span>*/}
+                                {/*<span className="obj cloud3"></span>*/}
+                                {/*<span className="obj cloud4"></span>*/}
+                                {/*<span className="obj cloud5"></span>*/}
+                            </div>
+                        )}
+
+                        {!currentPath.startsWith("/admin") && (
+                            <div className="bg-frame client">
+                                {/*<span className="obj cloud1"></span>*/}
+                                {/*<span className="obj cloud2"></span>*/}
+                                {/*<span className="obj cloud3"></span>*/}
+                                {/*<span className="obj cloud4"></span>*/}
+                                {/*<span className="obj cloud5"></span>*/}
+                            </div>
+                        )}
+
                     </main>
                     <Footer/>
                 </AuthProvider>

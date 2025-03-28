@@ -1,5 +1,5 @@
 
-import {Routes, Route, Navigate} from "react-router-dom";
+import {Routes, Route, Navigate, useLocation} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 
@@ -32,9 +32,16 @@ import {MenuProvider} from "./pages/common/MenuContext.jsx";
 
 
 function App() {
+    let location = useLocation();
+    const headerName = () => {
+        if(location.pathname.startsWith("/admin")){
+            return "admin";
+        }
+        return "client"
+    };
 
     return (
-        <div className="App">
+        <div className={`App ${headerName()}`}>
             <MenuProvider>
             <Routes>
                 {/* Index 컴포넌트 */}
