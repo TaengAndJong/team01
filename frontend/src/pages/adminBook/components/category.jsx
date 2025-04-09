@@ -86,12 +86,12 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
 
     return (
         <>
-            <div className="d-flex align-items-center">
-                <strong className="">도서분류</strong>
+            <div className="d-flex align-items-center mb-1">
+                <strong className="form-title">도서분류</strong>
                 {/*1차 카테고리만 데이터 */}
 
-                <label htmlFor="firstCategory" className="visually-hidden">1차 카테고리</label>
-                <select id="firstCategory" className="form-select" name="firstCategory" onChange={handleCategory}>
+                <label htmlFor="firstCategory" className="visually-hidden form-title">1차 카테고리</label>
+                <select id="firstCategory" className="form-select w-auto" name="firstCategory" onChange={handleCategory}>
                     <option value="1차카테고리">1차카테고리</option>
                     {bookCategory && bookCategory
                         .filter(cate => parseInt(cate.cateDepthLevel) === 1)
@@ -106,8 +106,8 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
 
                 {selectedCategory?.depth?.[0]?.includes("1차") && (
                     <>
-                        <label htmlFor="secondCategory" className="visually-hidden">2차 카테고리</label>
-                        <select id="secondCategory" className="form-select" name="secondCategory" onChange={handleCategory}>
+                        <label htmlFor="secondCategory" className="visually-hidden form-title">2차 카테고리</label>
+                        <select id="secondCategory" className="form-select w-auto mx-1" name="secondCategory" onChange={handleCategory}>
                             <option value="2차카테고리">2차카테고리</option>
                             {bookCategory && bookCategory
                                 .filter(cate => parseInt(cate.cateDepthLevel) === 2)
@@ -122,8 +122,8 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
                 {/*3차 카테고리만 데이터 */}
                 {selectedCategory?.depth?.[1]?.includes("2차") && (
                     <>
-                        <label htmlFor="thirdCategory" className="visually-hidden">3차 카테고리</label>
-                        <select id="thirdCategory" className="form-select" name="thirdCategory" onChange={handleCategory}>
+                        <label htmlFor="thirdCategory" className="visually-hidden form-title">3차 카테고리</label>
+                        <select id="thirdCategory" className="form-select w-75" name="thirdCategory" onChange={handleCategory}>
                             <option value="3차카테고리">3차카테고리</option>
                             {bookCategory && bookCategory
                                 .filter(cate => parseInt(cate.cateDepthLevel) === 3)

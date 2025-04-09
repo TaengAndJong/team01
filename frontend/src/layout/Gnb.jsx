@@ -7,8 +7,9 @@ import {Link, useLocation} from "react-router-dom";
 const Gnb=({userData,menu})=>{
 
     let location = useLocation();
-   
+    let logoPath = PathsData.page.main;
     const isAdminRoute = location.pathname.startsWith('/admin'); // boolean 값 반환 ( 현재경로가 '/admin'으로 시작하는지에 대해서);
+    logoPath = isAdminRoute? PathsData.page.admin : logoPath;
 
 
 
@@ -16,7 +17,7 @@ const Gnb=({userData,menu})=>{
     if (!userData) {
         return (<>
             <h1 className="logo">
-                <Link to={PathsData.page.main} className="img logo-img">
+                <Link to={logoPath} className="img logo-img">
                     <em className="sr-only">the book 로고</em>
                 </Link>
             </h1>
@@ -70,8 +71,8 @@ const Gnb=({userData,menu})=>{
                     //관리자, 사원인 회원
                     <>
                         <h1 className="logo">
-                            <Link to={PathsData.page.admin} className="img logo-img">
-                                <em className="sr-only">the book 로고</em>
+                            <Link to={logoPath} className="img logo-img">
+                                <em className="sr-only">the book 관리자 로고</em>
                             </Link>
                         </h1>
 
@@ -91,24 +92,11 @@ const Gnb=({userData,menu})=>{
                                         }
                                     })
                                 }
-                                {
-                                    menu?.commonList?.map((item)=>{
-
-                                        if(item.menuVisible.includes("Y")){
-                                            return (
-                                                <li key={item.menuId}>
-                                                    <Link to={item.menuPath}>
-                                            <span>
-                                                       {item.menuName}
-                                                <i className="hoverLeaf"></i>
-                                            </span>
-                                                    </Link>
-                                                </li>
-                                            )
-                                        }
-                                    })
-                                }
-
+                                <li>
+                                    <Link to={PathsData.page.main}  target="_blank" title="the book 사용자 화면 새창열림">
+                                        <span> the book <i className="hoverLeaf"></i></span>
+                                </Link>
+                                </li>
                             </ul>
                         </nav>
                     </>
@@ -116,7 +104,7 @@ const Gnb=({userData,menu})=>{
                     //일반회원
                     <>
                         <h1 className="logo">
-                            <Link to="/" className="img logo-img">
+                            <Link to={logoPath} className="img logo-img">
                                 <em className="sr-only">the book 로고</em>
                             </Link>
                         </h1>

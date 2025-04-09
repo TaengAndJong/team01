@@ -178,7 +178,7 @@
   margin-bottom: 25px;
   li,a,span{display:inline-block; position: relative}
   > li {padding-right: 10px; margin-right:10px;
-    &:not(:last-child)::after{@extend %pseudoEL; background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 18L16 12L10 6' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+    &:not(:last-child)::before{@extend %pseudoEL; background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 18L16 12L10 6' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
     width:15px; height: 15px; background-position: center center; background-size: auto 100%;
     position: absolute; top:calc(50% - 7.5px); right:-7.5px
     }

@@ -11,7 +11,7 @@ export const MenuProvider = ({children}) => {
     const [menu, setMenu] = useState([]);
     //getfetch 요청
     const getMenuData= async ()=>{
-        console.log("fetch 전체메뉴 요청중");
+
         const response= await fetch("/api/menu",{
             method: "GET",
             //credentials: "include", // 세션 쿠키 포함
@@ -26,7 +26,7 @@ export const MenuProvider = ({children}) => {
             throw Error("서버 응답 에러");
         }
         //서버로부터 응답이 true이면, json 객체로 Parsing 하여 데이터 변수에 저장
-        console.log(response);
+
         const menuData = await response.json();
         // 받아온 데이터를 메뉴 상태관리 변수에 갱신
         setMenu(menuData);
@@ -46,7 +46,7 @@ export const MenuProvider = ({children}) => {
         const pathDepth = startPoint.filter((item) => item !== "");
 
         let naviPath="";
-        console.log("length",pathDepth.length);
+
         if(pathDepth.length<3){
             for (let i=0; i<pathDepth.length; i++) {
                 naviPath +="/"+pathDepth[i];
