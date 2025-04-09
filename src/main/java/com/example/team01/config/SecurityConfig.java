@@ -23,7 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
-    
+
     //cors 설정 webconfig
     private final WebConfig webConfig;
     // UserDetailsService 구현체 주입
@@ -32,23 +32,24 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, AddLogoutHandler addLogoutHandler) throws Exception {
-        String[] allowedPaths = { "/", "/login", "/signUp/**", "/page", "/test/**","/menu" };
+        String[] allowedPaths = {"/", "/login", "/signUp/**", "/page", "/test/**", "/menu"};
 
-        http.cors(cors-> cors.configurationSource(webConfig.corsConfigurationSource()))
+        http.cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorizeReq ->
                         authorizeReq.requestMatchers(allowedPaths).permitAll() // 로그인 없이 접근 가능
-                        .requestMatchers("/admin/**").hasAnyRole(Role.ADMIN.name(),Role.MEMBER.name())
-                        .requestMatchers("/login/**", "/mypage/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MEMBER.name())
-                        .anyRequest().authenticated()) // 나머지 요청 인증 필요)
+                                .requestMatchers("/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name(), Role.MEMBER.name())
+                                .requestMatchers("/admin/**").hasAnyRole(Role.ADMIN.name(), Role.MEMBER.name())
+                                .requestMatchers("/login/**", "/mypage/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MEMBER.name())
+                                .anyRequest().authenticated()) // 나머지 요청 인증 필요)
                 .formLogin(form ->
                         form.loginPage("/login")// 프론트에서 접근하는 페이지(로그인 UI페이지)
-                        .usernameParameter("clientId")//프론트에서 넘어오는 ID(보낸 파라미터 이름에 맞춤)
-                        .passwordParameter("password")
-                        .loginProcessingUrl("/login") // 실제 인증처리되는 브라우저 주소 (엔드포인트)
+                                .usernameParameter("clientId")//프론트에서 넘어오는 ID(보낸 파라미터 이름에 맞춤)
+                                .passwordParameter("password")
+                                .loginProcessingUrl("/login") // 실제 인증처리되는 브라우저 주소 (엔드포인트)
                                 .successHandler(customAuthenticationSuccessHandler) // 로그인 성공 핸들러
                                 .failureHandler(customAuthenticationFailureHandler) // 로그인 실패 핸들러
-                        .permitAll()
+                                .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout") // 백엔드 주소 (로그아웃 요청을 실행할 백엔드 주소?)
@@ -61,8 +62,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-
 
 
     @Bean

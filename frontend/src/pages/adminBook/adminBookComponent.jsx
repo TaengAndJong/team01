@@ -2,6 +2,7 @@ import {Link, Outlet, useLocation, useNavigate} from "react-router-dom";
 import React, {useEffect, useReducer,useState} from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import {useMenu} from "../common/MenuContext.jsx";
+import {menuNavi} from "../../util/menuNavi.jsx";
 
 // 주소에 해당하는 제목 데이터 가져와서 레프트 메뉴 이름과 제목열에 데이터 나열하기
 
@@ -40,7 +41,11 @@ const AdminBook = () => {
 
     const {menu,currentPath,standardPoint}  = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
 
-    //console.log("bookComponent standardPoint",standardPoint);
+
+    let adminMenuTree = menuNavi(menu?.adminList);
+    let adminHome = menu?.adminList?.find(item => item.menuId === "admin")?.menuPath;
+    let subNavi = adminMenuTree?.filter(item => item.menuPath.includes(standardPoint));
+
 
 
     useEffect(()=>{
@@ -85,7 +90,7 @@ const AdminBook = () => {
                             <h3 className="sub-title current-title title-border">
                                 {
                                     menu?.adminList?.map((item) => {
-                                        if(item.menuPath.startsWith(`${currentPath}`) ){
+                                        if (item.menuPath.startsWith(`${currentPath}`)) {
                                             return item.menuName
                                         }
                                     })
@@ -94,18 +99,18 @@ const AdminBook = () => {
                             </h3>
 
                             {/*depth별 네비주소,현재페이지일 경우 표시필요*/}
+
                             <ol className="menu-navi d-flex title-border">
-                                <li>서브페이지 네입게이션 출력하라고</li>
-                                {/*{*/}
-                                {/*    menu?.adminList?.filter((item)=> item.menuPath.startsWith(standardPoint))*/}
-                                {/*        .reverse().map((item)=> {*/}
-                                {/*            */}
-                                {/*            console.log("menuNavi",item)*/}
-                                {/*        return (*/}
-                                {/*            <li key={item.menuId}><Link to={item.menuPath}><span>{item.menuName}</span></Link></li>*/}
-                                {/*        )*/}
-                                {/*    })*/}
-                                {/*}*/}
+                                {/* 서브페이지 네비게이션 */}
+                                <li><Link to={adminHome}>홈</Link></li>
+                                {subNavi?.[0] && (
+                                    <li><Link to={subNavi?.[0].menuPath}>{subNavi?.[0].menuName}</Link></li>
+                                )}
+                                {subNavi?.[0]?.secondChild && (
+                                    <li> {subNavi?.[0].secondChild?.filter(item => (item.menuDepth === "2차메뉴" && item.menuPath.includes(currentPath)))
+                                    .map((item) => item.menuName)}</li>
+                                    )
+                                }
 
                             </ol>
                             <BookStateContext.Provider value={bookdata}>

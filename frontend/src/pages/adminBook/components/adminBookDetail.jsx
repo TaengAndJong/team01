@@ -90,7 +90,9 @@ const AdminBookDetail = () => {
                 </div>
                 {/*bookDetail end */}
 
-                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
+                    <Btn className={"modify btn btn-secondary"} type={"button"} path={pathsData.page.adminBookList}
+                         text="목록"/>
                     <Btn className={"modify btn btn-primary"} type={"button"} path={pathsData.page.adminBookModify}
                          text="수정"/>
                 </div>

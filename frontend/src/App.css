@@ -54,6 +54,53 @@ li {
 /*depth*/
 /*관리자 변수*/
 /*사용자 변수*/
+/*
+mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹션에서 @include를 사용하여
+해당 mixin의 style을 호출해 사용하며, 함수의 기능을 가지고 있기때문에 파라미터를 사용할 수 있다.
+@mixin 함수명(파라미터1,파라미터2...){}
+파라미터 개수만큼 전부 채워줘야 함
+*/
+/*
+'@extend + .클래스명 or #아이디명'
+'%' 모듈화 기호
+*/
+.footer-inner, .footer-info {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.main, .page, .left, .right, .left-menu, .content, .user-info, header {
+  content: "";
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+
+.hoverLeaf::before, .hoverLeaf::after, .leaf::after, .title-border::before, .title-border::after, .bullet > li .tit::before, .depth.first-depth .depth-menu.first::after, .depth.first-depth .second-depth > li::before, .menu-navi > li:not(:last-child)::before, .footer-info > li:not(:last-child)::after, .form-group-title::after, .form-title::after {
+  content: "";
+  display: inline-block;
+}
+
+.gnb .first-depth > li > a:hover span, .gnb .first-depth > li > a:focus span {
+  transition: color 0.3s ease-in-out;
+}
+
+.form-group-title, .form-title {
+  font-weight: bold;
+  min-width: 90px;
+  padding-right: 10px;
+  position: relative;
+}
+.form-group-title::after, .form-title::after {
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  width: 1px;
+  height: 100%;
+  background: #89C53B;
+}
+
 table {
   display: table;
   border-collapse: collapse;
@@ -108,38 +155,6 @@ bold = 700
   font-weight: bold;
   font-style: normal;
 }
-/*
-mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹션에서 @include를 사용하여
-해당 mixin의 style을 호출해 사용하며, 함수의 기능을 가지고 있기때문에 파라미터를 사용할 수 있다.
-@mixin 함수명(파라미터1,파라미터2...){}
-파라미터 개수만큼 전부 채워줘야 함
-*/
-/*
-'@extend + .클래스명 or #아이디명'
-'%' 모듈화 기호
-*/
-.footer-inner, .footer-info {
-  display: block;
-  width: 100%;
-  position: relative;
-}
-
-.main, .page, .left, .right, .left-menu, .content, .user-info, header {
-  content: "";
-  display: block;
-  overflow: hidden;
-  clear: both;
-}
-
-.hoverLeaf::before, .hoverLeaf::after, .leaf::after, .title-border::before, .title-border::after, .bullet > li .tit::before, .depth.first-depth .depth-menu.first::after, .depth.first-depth .second-depth > li::before, .menu-navi > li:not(:last-child)::after, .footer-info > li:not(:last-child)::after {
-  content: "";
-  display: inline-block;
-}
-
-.gnb .first-depth > li > a:hover span, .gnb .first-depth > li > a:focus span {
-  transition: color 0.3s ease-in-out;
-}
-
 @keyframes dobleleaf {
   0% {
     transform: translateY(0);
@@ -213,11 +228,12 @@ header, .header-inner, .gnb {
 }
 .logo {
   display: inline-block;
-  width: 100px;
-  height: 80px;
+  width: 140px;
+  height: 66px;
   position: absolute;
   left: 0;
   top: 0;
+  z-index: 99;
   padding: 12px 10px 8px 0px;
 }
 .logo > a, .logo em, .logo span {
@@ -226,10 +242,10 @@ header, .header-inner, .gnb {
   display: block;
 }
 .logo .img {
-  background-image: url("../../dist/assets/images/logo_w.svg");
+  background-image: url("../../dist/assets/images/clLogo_w.svg");
+  background-size: 100% auto;
   background-repeat: no-repeat;
-  background-size: auto 100%;
-  background-position: left center;
+  background-position: center center;
 }
 
 .user-info span, .user-info button, .user-info a {
@@ -252,9 +268,6 @@ header, .header-inner, .gnb {
 
 .client .menu {
   background-color: #008834;
-}
-.client .logo .img {
-  background-image: url("../../dist/assets/images/clLogo.svg");
 }
 .client .gnb .first-depth > li > a > span {
   color: #ffffff;
@@ -445,7 +458,7 @@ header, .header-inner, .gnb {
   padding-right: 10px;
   margin-right: 10px;
 }
-.menu-navi > li:not(:last-child)::after {
+.menu-navi > li:not(:last-child)::before {
   background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 18L16 12L10 6' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
   width: 15px;
   height: 15px;

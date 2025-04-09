@@ -54,7 +54,7 @@ const Header = () => {
         <header id="header" className="header">
             {/*글로벌 메뉴*/}
             <div className="header-inner menu">
-                <div className="gnb d-flex justify-content-center align-items-center">
+                <div className="gnbWrap d-flex justify-content-center align-items-center">
 
                     <Gnb userData={userData} menu={menu}/>
 

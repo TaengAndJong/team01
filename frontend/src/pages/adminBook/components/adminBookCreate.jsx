@@ -50,6 +50,9 @@ const AdminBookCreate = () => {
     }, [userData]);  // userData가 변경될 때 실행
 
 
+    //체크박스 전체선택 && 단일 선택 상태관리
+
+    //핸들러 값 변경 시 실행되는 함수
     const handleChange = (e) => {
        const { name, value } = e.target;
         setCreateBook({
@@ -120,7 +123,7 @@ const AdminBookCreate = () => {
         console.log("데이터제출 createBook.bookImg)",createBook.bookImg);
         // file 객체 값 이미지객체 빈값인지 확인하는 함수
         console.log("데이터제출  후 createBook.bookImg)",createBook.bookImg);
-
+        handleSubmit();
     }
         console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음
 //return start
@@ -132,53 +135,53 @@ const AdminBookCreate = () => {
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookCreateForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
-                    <Category bookCategory={bookCategory} setBookCategory={setBookCategory} setCreateBook={setCreateBook}/>
+                    <Category bookCategory={bookCategory} setBookCategory={setBookCategory}
+                              setCreateBook={setCreateBook}/>
                     {/*도서명*/}
-                    <div className="d-flex align-items-center">
-                        <div className="d-flex align-items-center">
-                            <FormTag id="bookName" label="도서명" className="form-control" name="bookName" type="text"
+                    <div className="d-flex align-items-center mb-1">
+                            <FormTag id="bookName" label="도서명" labelClass="form-title" className="form-control" name="bookName" type="text"
                                      placeholder="도서명 입력" value={createBook.bookName} onChange={handleChange}/>
-                        </div>
-                        <div className="d-flex align-items-center">
-                            <FormTag id="author" label="저자" className="form-control" name="author" type="text"
-                                     placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
-                        </div>
                     </div>
-
+                    {/*저자명 */}
+                    <div className="d-flex align-items-center mb-1">
+                            <FormTag id="author" label="저자" labelClass="form-title" className="form-control" name="author" type="text"
+                                     placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
+                    </div>
                     {/*발행일*/}
-                    <div className="d-flex align-items-center">
-                        <FormTag id="publishDate" label="발행일" className="form-control" name="publishDate" type="text"
+                    <div className="d-flex align-items-center mb-1">
+                        <FormTag id="publishDate" label="발행일" labelClass="form-title" className="form-control" name="publishDate" type="text"
                                  placeholder="발행일" value={createBook.publishDate} onChange={handleChange}/>
                     </div>
                     {/*재고 & 가격*/}
-                    <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center mb-1">
                         <div className="d-flex align-items-center">
                             {/*할인적용할 겨 ? 말겨? */}
-                            <FormTag id="bookPrice" label="도서가격" className="form-control" name="bookPrice" type="text"
+                            <FormTag id="bookPrice" label="도서가격" labelClass="form-title" className="form-control" name="bookPrice" type="text"
                                      placeholder="도서가격입력" value={createBook.bookPrice} onChange={handleChange}/>
                             <span>원</span>
                         </div>
-                        <div className="d-flex align-items-center">
-                            <FormTag id="stock" label="재고" className="form-control" name="stock" type="text"
+                        <div className="d-flex align-items-center mx-2">
+                            <FormTag id="stock" label="재고" labelClass="form-title" className="form-control" name="stock" type="text"
                                      placeholder="재고입력" value={createBook.stock} onChange={handleChange}/>
                             <span>개</span>
                         </div>
                         <div className="d-flex align-items-center">
-                            <FormTag id="stockStatus" label="재고상태" className="form-control" name="stockStatus" type="text"
+                            <FormTag id="stockStatus" label="재고상태" labelClass="form-title" className="form-control" name="stockStatus"
+                                     type="text"
                                      placeholder="재고상태" value={createBook.stockStatus} readOnly={true}/>
                             <span>개</span>
                         </div>
                     </div>
 
                     {/*작성자*/}
-                    <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center mb-1">
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
-                        <FormTag id="writer" label="작성자" className="form-control" name="writer" type="text"
+                        <FormTag id="writer" label="작성자" labelClass="form-title" className="form-control" name="writer" type="text"
                                  placeholder="작성자" value={userData?.clientName} readOnly={true}/>
                     </div>
                     {/*도서설명*/}
-                    <div className="">
-                        <label htmlFor="bookDesc">도서설명</label>
+                    <div className="d-flex align-items-center mb-1">
+                        <label htmlFor="bookDesc" className="form-title">도서설명</label>
                         <textarea id="bookDesc" className="form-control" name="bookDesc" type="text"
                                   placeholder="도서설명 100글자 이내로 입력" value={createBook.bookDesc}
                                   aria-describedby="bookDescHelp" maxLength="100" required onChange={handleChange}/>
@@ -192,12 +195,12 @@ const AdminBookCreate = () => {
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
-                        <FileUpload  createBook={createBook} setCreateBook={setCreateBook}/>
+                        <FileUpload createBook={createBook} setCreateBook={setCreateBook}/>
                     </div>
                 </form>
-                <div className="d-flex align-items-center justify-content-center">
-                    <Btn path={PathsData.page.adminBook} className={"login btn btn-secondary"} text={"취소"}/>
-                    <Btn className={"signup btn btn-primary"} text={"완료"} type="submit" onClick={onSubmit}/>
+                <div className="d-flex align-items-center justify-content-center mt-4">
+                    <Btn path={PathsData.page.adminBook} className={"login btn btn-secondary mx-1"} text={"취소"}/>
+                    <Btn className={"signup btn btn-primary mx-1"} text={"완료"} type="submit" onClick={onSubmit}/>
                 </div>
             </div>
 
