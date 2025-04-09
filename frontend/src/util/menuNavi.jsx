@@ -1,5 +1,6 @@
 
 export const menuNavi = (menuData) =>{
+    //menuData 인수는 관리자메뉴 배열 또는 클라이언트 메뉴 배열 등을 넣어주면 됨!
 
     const firstMenu = menuData?.filter(item => item.menuDepth === "1차메뉴");
     const secondMenu = menuData?.filter(item => item.menuDepth === "2차메뉴");

@@ -3,7 +3,6 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 import {useAuth} from "../pages/common/AuthContext.jsx";
-
 import Gnb from "./Gnb.jsx"
 import {useMenu} from "../pages/common/MenuContext.jsx";
 

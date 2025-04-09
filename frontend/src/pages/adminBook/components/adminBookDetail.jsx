@@ -46,12 +46,10 @@ const AdminBookDetail = () => {
 }
     // 리액트 마운트 시 get요청으로 데이터 얻어오기
     useEffect(() => {
-        console.log("bookDetail1-------------",bookDetail);
         getbookData();
-        console.log("bookDetail2-------------",bookDetail);
     },[])
 
-    console.log("최종 ----------bookDetail",bookDetail);
+
     return(
         <>
 

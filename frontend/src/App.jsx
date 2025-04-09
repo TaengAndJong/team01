@@ -2,6 +2,8 @@
 import {Routes, Route, Navigate, useLocation} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
+// main.jsx 또는 App.jsx에서 추가
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import SignUp from "./pages/singUp/signUpComponent.jsx";
 import PathData from "./assets/pathsData.jsx";
