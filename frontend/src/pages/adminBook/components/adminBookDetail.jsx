@@ -11,8 +11,8 @@ const AdminBookDetail = () => {
     const { bookId } = useParams(); // URL 파라미터에서 bookId 가져오기
     const [bookDetail, setBookDetail] = useState([]);
     
-    console.log("bookId0------------------",bookId);
-    console.log("bookDetail0------------------detail",bookDetail);
+    console.log("bookId Detail------------------",bookId);
+    console.log("bookDetail Detail-----------------",bookDetail);
     // bookId가 없으면 API 요청을 보내지 않도록 처리
     if (!bookId) {
         console.error("bookId is missing. API request not sent.");
@@ -38,7 +38,7 @@ const AdminBookDetail = () => {
         const bookData = await response.json(); 
         // 제이슨 문자 데이터로 변환 ==> 담겨야할 데이터 bookId에 해당하는 정보 서버에서 반환받기
         console.log("bookData----------상세페이지",bookData);
-        setBookDetail(bookData.bookInfo);
+        setBookDetail(bookData.bookVO);
 
     }catch(err){
         console.log("catch-Error", err); // 오류 처리
@@ -58,11 +58,11 @@ const AdminBookDetail = () => {
                 <div className="box slide">
                     <div className="card horizontal">
                         <div className="card-header">
-                            <AdminBookSlide bookDetail={bookDetail}/>
+                            <AdminBookSlide slideData={bookDetail}/>
                         </div>
                         <div className="bookInfo card-body">
-                            <h3 class="book-title title-dotted">{bookDetail.bookName}</h3>
-                            <ul class="ul bullet">
+                            <h3 className="book-title title-dotted">{bookDetail.bookName}</h3>
+                            <ul className="ul bullet">
                                 <li className="li"><span className="tit">저자</span>{bookDetail.author}</li>
                                 <li className="li"><span className="tit">발행일</span>{bookDetail.publishDate}</li>
                                 <li className="li"><span className="tit">가격</span>{bookDetail.bookPrice}<span>원</span>
@@ -72,7 +72,7 @@ const AdminBookDetail = () => {
                                 </li>
                             </ul>
                             <div className="btn d-flex">
-                                <button className="cart btn btn-primary">장바구니</button>
+                                <button className="cart btn btn-primary me-2">장바구니</button>
                                 <button className="buy btn btn-secondary">구매하기</button>
                             </div>
                             {/*bookDesc end */}
@@ -91,7 +91,7 @@ const AdminBookDetail = () => {
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
                     <Btn className={"modify btn btn-secondary"} type={"button"} path={pathsData.page.adminBookList}
                          text="목록"/>
-                    <Btn className={"modify btn btn-primary"} type={"button"} path={pathsData.page.adminBookModify}
+                    <Btn className={"modify btn btn-primary"} type={"button"} path={`${pathsData.page.adminBookModify}`}
                          text="수정"/>
                 </div>
 

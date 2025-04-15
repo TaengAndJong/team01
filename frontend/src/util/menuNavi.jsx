@@ -15,7 +15,7 @@ export const menuNavi = (menuData) =>{
             const thirdChild = thirdMenu?.filter(thirdItem =>
                 thirdItem.menuPath.startsWith(secondItem.menuPath+"/")
             )
-            console.log("thirdChild---------------------------" ,thirdChild);
+           // console.log("thirdChild---------------------------" ,thirdChild);
             return {
                 ...secondItem, //기존 순회하고 있는 아이템 객체
                 thirdChild
@@ -28,7 +28,7 @@ export const menuNavi = (menuData) =>{
         };
 
     });
-    console.log("menu ---------------------------------------", menu);
+   // console.log("menu ---------------------------------------", menu);
     return menu
 
 }

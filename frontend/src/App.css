@@ -116,6 +116,17 @@ th, td {
   vertical-align: middle;
 }
 
+table .imgbox {
+  aspect-ratio: 1/1;
+  max-width: 200px;
+  width: 100%;
+}
+table .imgbox img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .table-custom thead th, .table-custom thead th * {
   background-color: #BED297;
   color: #fff;

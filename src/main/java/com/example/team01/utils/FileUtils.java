@@ -1,16 +1,24 @@
 package com.example.team01.utils;
+import com.example.team01.vo.BookVO;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value; // 롬복 사용하면 안됨, inMemory에서 가져오려면 이 패키지 사용해야 함
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.example.team01.utils.severUrlUtil.baseImageUrl;
 
 
 /*
@@ -29,24 +37,34 @@ import java.util.UUID;
 @Component
 public class FileUtils {
 
+    /*
+     * inMemory 설정(application.properties)
+     * middlePath : 파일을 저장한 중간 경로 /book/
+     * 고려사항
+     * 파일의 확장자의 대문자 또는 소문자일 경우 하나의 경우의 수로 검증필요 toLowerCase()
+     * 이미지 파일의 확장자가 jpg, png 두 가지 검증 필요 
+     * - 실제파일 스캔 방식 선호
+     *  */
+
+
+
     // inMemory 설정에서 업로드 디렉토리 값 주입
     @Value("${file.upload-dir}")
     private  String uploadDir;
-    /*
-    *
-     * middlePath : 파일을 저장한 중간 경로 /book/
-     *
-     *  */
+    @Value("${file.noImg-dir}")
+    private  String noImgDir;
 
-    public String saveFile(List<MultipartFile> fileObject,String middlePath) {
+
+    public String saveFile(List<MultipartFile> fileObject,String middlePath) throws FileNotFoundException {
         String bookImgPath=""; //반환할 데이터베이스 텍스트경로
-        log.info("bookImgPath ---------11111:{}",bookImgPath);
+
         if(!fileObject.isEmpty()) {
+            log.info("bookImgPath ---------11111:{}",bookImgPath);
             for (MultipartFile file : fileObject) {
                 String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename(); //랜덤 파일 명칭(중복방지)
-                log.info("fileName:{}", fileName);
+                log.info("fileName-----------------------:{}", fileName);
 
-                //2. 데이터베이스에 파일 저장(
+                //2. 데이터베이스에 1개 이상의 파일경로 문자열로 변환과정
                 if(!bookImgPath.equals("")) { // 북이미지 텍스트 배열로 받고 구분하기 위한 조건 ( 텍스트 파일 경로가 존재하면, 기존 경로 + 파일명)
                     bookImgPath= bookImgPath +","+fileName;//랜덤 파일명칭 텍스트로 생성
                     log.info("bookImgPath:{}", bookImgPath);
@@ -69,16 +87,81 @@ public class FileUtils {
                     log.error("파일 저장 실패: {}", e.getMessage());
                 }
 
+                //저장한 후에 서버 주소 추가 ??
+
             }
             // List<String> bookImgPath를 하나의 문자열로 변환
             log.info("bookImgPath---------------------데이터베이스에 저장할 문자열:{}", bookImgPath); // 리스트 객체
             // 객체를 또 순회해서 문자열로 만들어야함 ?????
+        }else{
+            log.info("파일 객체가 널인데 ");
+            //저장은 필요 없고, 서버의 resource 하위 경로에 저장되어있는 이미지파일리소스만 가져와서 bookImgPath에 넣어주기
+            bookImgPath = this.getDefaultImgPath();
+            log.info("noImg booImgPath================:{}",bookImgPath);
         }
+        log.info("최종 이미지 패스 : {}",bookImgPath);
         return bookImgPath; // 여기에서 bookImaPath 반환하여 초기값 갱신
     }
     //method end
 
 
+    // 이미지가 없는 경우 사용할 메소드 , IOException > FileNotFoundException
+    public String getDefaultImgPath(){
+        String noImgPath="";
+        // 파일 객체가 없으면,src/main/resources/static/images에서 noImg.png(jpg) 가져오기
+        log.info(" noImgDir-------------------------- : {}",noImgDir);
+        // png,jpg 파일의 확장자 구분 및 실제 존재여부 확인 ==> 파일객체로 실제 파일을 스캔하여 확인
+        File folder = new File(noImgDir);
+        File[] Files = folder.listFiles();
+        log.info("foler------------:{} , fileList--------- :{}", folder, Files);
 
+        if(Files != null) {
+        log.info("파일 객체 있따----------");
+            for (File file : Files) {
+                String name = file.getName().toLowerCase();
+                log.info("파일 이름과 확장자 전부 소무자로 대체했다 --------------:{} ",name);
+                if(name.equals("noimg.png") || name.equals("noimg.jpg")) {
 
+                   // 서버에서 클라이언트로 이미지를 리소스를 보낼때 상대경로를 사용해야 함
+                    //절대경로는 파일 시스템경로를 반환하기때문에 클라이언에서 사용불가
+                   // noImgPath ="images/" + name;
+                    noImgPath = name;
+                    log.info("noImgPath--------------:{} ",noImgPath);
+                    return noImgPath; // 경로 리턴
+                }
+
+            }
+        }
+        // 실제 이미지 파일 경로, 실제 경로를 디비로 저장해야함
+        return noImgPath;
+    }
+    // file.getAbsolutePath 반환하면 자동으로 noImgPath에 대입 되는가?
+
+    //BookImgList 레코드 값의 배열 조회를 통한 서버주소 추가 후 배열 갱신
+    public BookVO changeImgPath(BookVO bookVO, HttpServletRequest request){
+        List<String> bookImgList = bookVO.getBookImgList();
+        List<String> imgUrlList = new ArrayList<>();
+
+        if (bookImgList != null && !bookImgList.isEmpty()) {
+            for (String fileName : bookImgList) {
+                String imgUrl;
+
+                // 각 이미지가 "noimg"를 포함하는지 확인
+                if (!fileName.contains("noimg")) {
+                    imgUrl = baseImageUrl(request, "uploads/book") + fileName;
+                } else {
+                    imgUrl = baseImageUrl(request, "images") + fileName;
+                }
+
+                imgUrlList.add(imgUrl); // 각 이미지 URL을 리스트에 추가
+            }
+
+            bookVO.setBookImgList(imgUrlList); // 최종적으로 이미지 URL 리스트로 덮어쓰기
+        }
+
+        log.info("이미지 URL 변경완료:{}",bookVO);
+        // 변경된 레코드 반환하기
+        return bookVO;
+    }
+    
 }

@@ -123,7 +123,7 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
                 {selectedCategory?.depth?.[1]?.includes("2차") && (
                     <>
                         <label htmlFor="thirdCategory" className="visually-hidden form-title">3차 카테고리</label>
-                        <select id="thirdCategory" className="form-select w-75" name="thirdCategory" onChange={handleCategory}>
+                        <select id="thirdCategory" className="form-select w-auto" name="thirdCategory" onChange={handleCategory}>
                             <option value="3차카테고리">3차카테고리</option>
                             {bookCategory && bookCategory
                                 .filter(cate => parseInt(cate.cateDepthLevel) === 3)
