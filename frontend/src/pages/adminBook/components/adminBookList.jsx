@@ -35,10 +35,8 @@ const AdminBookList = () => {
         }
     }//fetch end
 
-    const serverUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
-    console.log("현재 서버 주소:", serverUrl);
 
-
+    console.log("bookList----- 이미지 파일 객체 확인하기 ", bookList)
     // bookdata가 존재할 때만 bookList 업데이트
     useEffect(() => {
         console.log("📚 목록페이지 여기 먼저 실행1?", bookdata);
@@ -111,7 +109,9 @@ const AdminBookList = () => {
                             <td className="text-center " id={`bookId${index}`}>{item.bookId}</td>
 
                             <td className="text-center" id={`bookImg${index}`}>
-                                <img src={`http://localhost:8081\/uploads\/book\/${item.bookImgList[0]}`} alt={`${item.bookName}도서 이미지`}/>
+                                <div className="imgbox">
+                                    <img src={`${item.bookImgList[0]}`} alt={`${item.bookName}도서 이미지`}/>
+                                </div>
                             </td>
 
                             <td className="text-left" id={`bookCateNm${index}`}>{item.bookCateNm}</td>

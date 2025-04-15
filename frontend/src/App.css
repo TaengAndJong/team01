@@ -116,6 +116,17 @@ th, td {
   vertical-align: middle;
 }
 
+table .imgbox {
+  aspect-ratio: 1/1;
+  max-width: 200px;
+  width: 100%;
+}
+table .imgbox img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .table-custom thead th, .table-custom thead th * {
   background-color: #BED297;
   color: #fff;
@@ -219,7 +230,7 @@ header, .header-inner, .gnb {
 }
 .gnb .first-depth > li > a:hover span, .gnb .first-depth > li > a:focus span {
   color: #fff;
-  text-shadow: #444444 0px 2px 2px;
+  text-shadow: #595959 0px 1px 1px;
 }
 .gnb .first-depth > li > a:hover .hoverLeaf, .gnb .first-depth > li > a:focus .hoverLeaf {
   opacity: 1;
@@ -231,7 +242,7 @@ header, .header-inner, .gnb {
   width: 140px;
   height: 66px;
   position: absolute;
-  left: 0;
+  left: 30px;
   top: 0;
   z-index: 99;
   padding: 12px 10px 8px 0px;
@@ -267,16 +278,17 @@ header, .header-inner, .gnb {
 }
 
 .client .menu {
-  background-color: #008834;
+  background-color: transparent;
 }
 .client .gnb .first-depth > li > a > span {
-  color: #ffffff;
+  color: #595959;
 }
-.client .gnb .first-depth > li > a .hoverLeaf::before {
-  background-image: url("data:image/svg+xml,%3Csvg width='212' height='175' viewBox='0 0 212 175' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_210_36)'%3E%3Cpath d='M190.284 133.942C190.284 133.942 138.307 141.611 102.354 121.735C66.4005 101.86 21.6314 40.7058 21.6314 40.7058C21.6314 40.7058 97.5025 36.2001 148.222 64.2393C198.941 92.2783 190.284 133.942 190.284 133.942Z' fill='%23FFEEEA'/%3E%3C/g%3E%3Cg filter='url(%23filter1_d_210_36)'%3E%3Cpath d='M187.494 138.028C187.494 138.028 133.714 150.933 96.6796 132.485C59.6449 114.037 13.7683 51.49 13.7683 51.49C13.7683 51.49 92.2273 39.9239 144.472 65.9486C196.717 91.9733 187.494 138.028 187.494 138.028Z' fill='%2383BA0B'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_210_36' x='17.6318' y='40.4395' width='177.213' height='102.958' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_210_36'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_210_36' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter1_d_210_36' x='9.76855' y='48.9287' width='182.354' height='101.488' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_210_36'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_210_36' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");
+.client .user-info > ul {
+  background: #BED297;
 }
-.client .gnb .first-depth > li > a .hoverLeaf::after {
-  background-image: url("data:image/svg+xml,%3Csvg width='212' height='175' viewBox='0 0 212 175' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_210_56)'%3E%3Cpath d='M21.7179 133.942C21.7179 133.942 73.6953 141.611 109.648 121.735C145.601 101.86 190.371 40.7058 190.371 40.7058C190.371 40.7058 114.499 36.2001 63.78 64.2393C13.0609 92.2783 21.7179 133.942 21.7179 133.942Z' fill='%23FFEEEA'/%3E%3C/g%3E%3Cg filter='url(%23filter1_d_210_56)'%3E%3Cpath d='M24.5077 138.028C24.5077 138.028 78.2878 150.933 115.322 132.485C152.357 114.037 198.234 51.49 198.234 51.49C198.234 51.49 119.775 39.9239 67.5296 65.9486C15.2846 91.9733 24.5077 138.028 24.5077 138.028Z' fill='%2383BA0B'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_210_56' x='17.1572' y='40.4395' width='177.213' height='102.958' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_210_56'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_210_56' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter1_d_210_56' x='19.8799' y='48.9287' width='182.354' height='101.488' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_210_56'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_210_56' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");
+.client .user-info span, .client .user-info button, .client .user-info a {
+  color: #595959;
+  font-weight: bold;
 }
 
 .footer {

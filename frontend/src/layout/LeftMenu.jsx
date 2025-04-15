@@ -9,12 +9,6 @@ const LeftMenu = () => {
 
     const {menu,currentPath,standardPoint}  = useMenu();
 
-    console.log("left menu",menu);
-    console.log("left current",currentPath);
-    console.log("left standardPoint",standardPoint);
-
-
-
     useEffect(() => {
 
     },[])

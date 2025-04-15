@@ -64,7 +64,7 @@ const FileUpload =({createBook,setCreateBook})=>{//부모한테 받은 props 객
         console.log("삭제후 파일들 ------",files);
 
     };
-        console.log("files--- 왜 데이터 갱신이 안되냐고2222",files)
+
 
     return (
         <>

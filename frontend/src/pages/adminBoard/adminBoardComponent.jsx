@@ -14,8 +14,8 @@ const AdminBoard = () => {
     let adminMenuTree = menuNavi(menu?.adminList);
     let adminHome = menu?.adminList?.find(item => item.menuId === "admin")?.menuPath;
     let subNavi = adminMenuTree?.filter(item => item.menuPath.includes(standardPoint));
-    console.log("subNavi------------",subNavi)
-    console.log("adminHome------------",adminHome)
+    // console.log("subNavi------------",subNavi)
+    // console.log("adminHome------------",adminHome)
 
     return(
         <>

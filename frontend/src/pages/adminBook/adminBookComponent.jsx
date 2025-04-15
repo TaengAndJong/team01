@@ -49,6 +49,7 @@ const AdminBook = () => {
 
 
     useEffect(()=>{
+        console.log("관리자 북 컴포넌트 북 데이터 ",  bookdata);
         onInit(bookdata);
     },[]) // 마운트 시에 한 번실행 됨
 

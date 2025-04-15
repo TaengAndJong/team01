@@ -1,5 +1,6 @@
 
 export const menuNavi = (menuData) =>{
+    //menuData 인수는 관리자메뉴 배열 또는 클라이언트 메뉴 배열 등을 넣어주면 됨!
 
     const firstMenu = menuData?.filter(item => item.menuDepth === "1차메뉴");
     const secondMenu = menuData?.filter(item => item.menuDepth === "2차메뉴");
@@ -14,7 +15,7 @@ export const menuNavi = (menuData) =>{
             const thirdChild = thirdMenu?.filter(thirdItem =>
                 thirdItem.menuPath.startsWith(secondItem.menuPath+"/")
             )
-            console.log("thirdChild---------------------------" ,thirdChild);
+           // console.log("thirdChild---------------------------" ,thirdChild);
             return {
                 ...secondItem, //기존 순회하고 있는 아이템 객체
                 thirdChild
@@ -27,7 +28,7 @@ export const menuNavi = (menuData) =>{
         };
 
     });
-    console.log("menu ---------------------------------------", menu);
+   // console.log("menu ---------------------------------------", menu);
     return menu
 
 }

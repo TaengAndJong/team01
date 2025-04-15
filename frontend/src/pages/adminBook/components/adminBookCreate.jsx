@@ -19,6 +19,8 @@ const AdminBookCreate = () => {
     const {userData} = useAuth();
     const navigate = useNavigate();
 
+    console.log("onInit", onInit);
+    console.log("onCreate", onCreate);
     //리액트는 초기값이 렌더링 되면 상태관리 방식으로인해 값이 고정되어
     // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
     const [createBook, setCreateBook] = useState({
@@ -84,12 +86,12 @@ const AdminBookCreate = () => {
                     formData.append("bookImg", file);
                 });
             } else {
-                // ✅ 일반 문자열 데이터 추가
+                // 일반 문자열 데이터 추가
                 formData.append(key, value);
             }
         });
 
-        // ✅ 디버깅: FormData에 추가된 값 확인
+        // 디버깅: FormData에 추가된 값 확인
         for (let pair of formData.entries()) {
             console.log("FormData 확인:", pair[0], pair[1]);
         }

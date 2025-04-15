@@ -8,6 +8,19 @@ table {
 tr{display:table-row}
 th, td {display:table-cell; vertical-align:middle;}
 
+table .imgbox{
+      aspect-ratio: 1 / 1;
+      max-width:200px;
+      width:100%;
+  img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+
+
 .table-custom thead th , .table-custom thead th *{
   background-color: $adMainColor;
   color:#fff;
