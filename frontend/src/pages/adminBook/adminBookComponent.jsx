@@ -8,23 +8,28 @@ import {menuNavi} from "../../util/menuNavi.jsx";
 
 function reducer(state, action) {
 
+    console.log(state);
+    console.log(typeof state);
+    console.log(Array.isArray(state));
+    console.log("action.data",action.data);
+    console.log("배열이냐 객체냐",Array.isArray(action.data));
+
+
+    
     switch (action.type) {
-
-        case "INIT" : {
-            return action.data
-        }
-
-        case "CREATE": {
-            const newState = [action.data, ...state];
-            //서버에 한번 insert해야함?
-            return newState;
-        }
-
-
-        case "default": {
+        case "INIT":
+            if(action.data){
+                console.log("INIT action",action.data, Array.isArray(action.data));
+            }
+            // 객체로 초기화
+            return Array.isArray(action.data) ? action.data : [action.data]; // 단일 객체가 들어옴
+        case "CREATE":
+          if(action.data){
+              console.log("create action",action.data, Array.isArray(action.data)); 
+          }
+            return [...state, action.data]; // 새 객체 + 기존 배열, action.data는 단일객체
+        default:
             return state;
-        }
-        //
     }
 //reducer end
 }
@@ -64,7 +69,7 @@ const AdminBook = () => {
                 const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
                 console.log("bookdata목록 get 요청 데이터 받아오기-----", bookVO);// 있음
                 //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
-                onInit(bookVO);
+                onInit(bookVO); // 처음 렌더링 되었을 때 값을 가져옴
                 console.log("초기 데이터 갱신완료",bookVO);
             } catch (err) {
                 console.log("도서 데이터 불러오기 실패", err); // 오류 처리
@@ -72,31 +77,23 @@ const AdminBook = () => {
         }//fetch end
         initFetch();
     },[]) // 마운트 시에 한 번실행 됨
-    console.log("관리자 북 컴포넌트 북 데이xj-------------- ",  bookdata);
-
 
     const onInit =(bookdata) => {
-        console.log("InitBookData", bookdata);
+        console.log("onInit", bookdata);
         dispatch({
             type:"INIT",
-            data:{
-                ...bookdata
-            }
+            data: bookdata
         });
     }
 
     const onCreate = (createBook) => {
-
+        console.log("createBook", createBook);
         dispatch({
             type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
-            data: {
-                // 도서 등록 페이지에서 onSubmit 함수를 실행해 받아온 createBook 데이터 전부 입력
-                ...createBook,
-            }
+            data: createBook
         });
 
     }
-
 
 
     return (

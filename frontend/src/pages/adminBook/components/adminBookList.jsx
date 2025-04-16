@@ -21,7 +21,7 @@ const AdminBookList = () => {
 
     }, [bookdata]);
 
-    console.log("bookList",bookList)
+    console.log("bookList--------------",bookList)
 
     return(
         <>
@@ -62,12 +62,12 @@ const AdminBookList = () => {
 
                 <tbody className="">
                 {/* undefined 와 데이터의 개수 검증*/}
-                {!bookList?.bookVO || bookList.bookVO.length === 0 ? (
+                {!bookList || bookList?.length === 0 ? (
                     <tr className="">
                         <td colSpan="12" className="text-center">데이터가 없습니다.</td>
                     </tr>
                 ) : (
-                    bookList.bookVO.map((item, index) => (
+                    bookList?.map((item, index) => (
 
                         <tr key={index} className="table-light border-bottom">
                             <td className="text-center">

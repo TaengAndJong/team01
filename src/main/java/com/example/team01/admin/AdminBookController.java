@@ -44,6 +44,7 @@ public class AdminBookController {
         List<CategoryVO> cateData  = categoryService.getAllCategories();
         log.info("cateData:{}",cateData);
 
+        // Map에 담을 경우 하나의 객체로 묶어서 데이터가 나감
         Map<String,Object> response = new HashMap<>();
         response.put("cateData",cateData);
         return ResponseEntity.ok(response);
@@ -51,7 +52,7 @@ public class AdminBookController {
 
     @PostMapping(value = "/bookCreate")
     public ResponseEntity<?> insertBookCreate(
-            @ModelAttribute BookVO createBook,@RequestParam(name="bookImg", required = false) List<MultipartFile> bookImg) throws FileNotFoundException {
+            @ModelAttribute BookVO createBook,@RequestParam(name="bookImg", required = false) List<MultipartFile> bookImg,HttpServletRequest request) throws FileNotFoundException {
 
         //VO객체랑 타입이 동일해야 파라미터를 받아올 수 있음
         log.info("BookVO createBook-------------:{}",createBook.toString());
@@ -63,6 +64,8 @@ public class AdminBookController {
         // 데이터 insert 성공시 결과 반환
         if (result > 0) {
             BookVO addBookData = bookService.deTailBook(createBook.getBookId());
+            //파일 경로 서버주소 반영하는 파일Util
+            fileUtils.changeImgPath(addBookData,request);
             return ResponseEntity.ok(addBookData);// 저장된 데이터 전체를 클라이언트에 반환
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -82,10 +85,8 @@ public class AdminBookController {
             fileUtils.changeImgPath(bookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
             log.info("다음:{}",bookVO);
         }
-        // 리스트 객체를 Map에 담아서 보내면 객체의 배열 key명 변경 가능
-        Map<String, Object> response = new HashMap<>();
-        response.put("bookVO", bookList);
-       return  ResponseEntity.ok(response);
+        // 배열 안에 객체 형태로 내보내려면 원본 Map 사용하지 않고 내보내야함
+       return  ResponseEntity.ok(bookList);
 
     }
 
