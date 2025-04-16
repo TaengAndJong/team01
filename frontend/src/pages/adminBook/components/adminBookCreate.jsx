@@ -19,7 +19,6 @@ const AdminBookCreate = () => {
     const {userData} = useAuth();
     const navigate = useNavigate();
 
-    console.log("onCreate", onCreate);
     //리액트는 초기값이 렌더링 되면 상태관리 방식으로인해 값이 고정되어
     // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
     const [createBook, setCreateBook] = useState({
@@ -104,9 +103,10 @@ const AdminBookCreate = () => {
             // 생성 완료 후 목록을 조회할 때  새로운 데이터도 반영되어야 하기때문에 ( 데이터를 반환받지 않으면 이전 상태를  유지)
             const newUpdatingData = await response.json();
             console.log("newUpdatingData" , newUpdatingData);
-            // ✅ 목록 페이지로 이동 (URL에 refresh=true 추가)
-            navigate("/admin/book/bookList?refresh=true");
-
+            // onCreate를 통해 데이터 클라이언트 데이터 갱신?
+            onCreate(newUpdatingData);
+            // 목록 페이지로 이동
+             navigate("/admin/book/bookList");
         }catch(err){
             console.error("서버 요청 오류 발생",err);
         }
@@ -134,8 +134,6 @@ const AdminBookCreate = () => {
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookCreateForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
-                    {/*<Category bookCategory={bookCategory} setBookCategory={setBookCategory}*/}
-                    {/*          setCreateBook={setCreateBook}/>  */}
                     <Category setCreateBook={setCreateBook}/>
                     {/*도서명*/}
                     <div className="d-flex align-items-center mb-1">
