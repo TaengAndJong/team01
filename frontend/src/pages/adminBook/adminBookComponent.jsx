@@ -47,11 +47,33 @@ const AdminBook = () => {
     let subNavi = adminMenuTree?.filter(item => item.menuPath.includes(standardPoint));
 
 
-
     useEffect(()=>{
-        console.log("관리자 북 컴포넌트 북 데이터 ",  bookdata);
-        onInit(bookdata);
+        // 마운트 시 서버 또는 db에서 데이터를 받아온 후 onInit을 실행해야 함
+        const initFetch = async () => {
+            try {
+                // 서버로 응답 요청
+                const response = await fetch("/api/admin/book/bookList", {
+                    method: "GET",
+                });
+                // 돌아온 응답 상태
+                if (!response.ok) { // 응답 상태가 200아니면
+                    console.log(response.status)
+                    throw new Error("서버 응답 에러");
+                }
+                // 응답 성공시
+                const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
+                console.log("bookdata목록 get 요청 데이터 받아오기-----", bookVO);// 있음
+                //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
+                onInit(bookVO);
+                console.log("초기 데이터 갱신완료",bookVO);
+            } catch (err) {
+                console.log("도서 데이터 불러오기 실패", err); // 오류 처리
+            }
+        }//fetch end
+        initFetch();
     },[]) // 마운트 시에 한 번실행 됨
+    console.log("관리자 북 컴포넌트 북 데이xj-------------- ",  bookdata);
+
 
     const onInit =(bookdata) => {
         console.log("InitBookData", bookdata);
@@ -62,6 +84,7 @@ const AdminBook = () => {
             }
         });
     }
+
     const onCreate = (createBook) => {
 
         dispatch({

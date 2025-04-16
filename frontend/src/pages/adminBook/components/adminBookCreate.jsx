@@ -15,11 +15,10 @@ import {useNavigate} from "react-router-dom";
 
 const AdminBookCreate = () => {
 
-    const {onCreate,onInit} = useContext(BookDispatchContext);
+    const {onCreate} = useContext(BookDispatchContext);
     const {userData} = useAuth();
     const navigate = useNavigate();
 
-    console.log("onInit", onInit);
     console.log("onCreate", onCreate);
     //리액트는 초기값이 렌더링 되면 상태관리 방식으로인해 값이 고정되어
     // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
@@ -68,11 +67,6 @@ const AdminBookCreate = () => {
     }
 
 
-    //카테고리 관리 리액트훅
-    const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
-
-
-
     const handleSubmit = async () => {
         //  formData 객체에 데이터 담기 및 fetch Post요청으로 컨트롤러로 데이터 전송하기
         const formData = new FormData(); //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있음
@@ -106,7 +100,10 @@ const AdminBookCreate = () => {
                 throw new Error(`도서 등록 실패: ${response.status}`);
             }
             console.log("도서 등록 성공!");
-
+            // 서버로 보내어 저장 완료된 데이터를 다시 json으로 받아서 Context에  새로 반영
+            // 생성 완료 후 목록을 조회할 때  새로운 데이터도 반영되어야 하기때문에 ( 데이터를 반환받지 않으면 이전 상태를  유지)
+            const newUpdatingData = await response.json();
+            console.log("newUpdatingData" , newUpdatingData);
             // ✅ 목록 페이지로 이동 (URL에 refresh=true 추가)
             navigate("/admin/book/bookList?refresh=true");
 
@@ -137,8 +134,9 @@ const AdminBookCreate = () => {
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookCreateForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
-                    <Category bookCategory={bookCategory} setBookCategory={setBookCategory}
-                              setCreateBook={setCreateBook}/>
+                    {/*<Category bookCategory={bookCategory} setBookCategory={setBookCategory}*/}
+                    {/*          setCreateBook={setCreateBook}/>  */}
+                    <Category setCreateBook={setCreateBook}/>
                     {/*도서명*/}
                     <div className="d-flex align-items-center mb-1">
                             <FormTag id="bookName" label="도서명" labelClass="form-title" className="form-control" name="bookName" type="text"

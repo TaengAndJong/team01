@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
 
 
-const Category=({bookCategory,setBookCategory,setCreateBook})=>{
+const Category=({setCreateBook})=>{
 
+    // 카테고리 관리 리액트훅
+    const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
     const [selectedCategory, setSelectedCategory] = useState({
         names: [], // 1차, 2차, 3차 카테고리 이름
         ids: [], // 1차, 2차, 3차 카테고리 ID
@@ -11,27 +13,23 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
 
     //get 요청 카테고리 목록 데이터 받아오기
     const bookCateList = async ()=>{
-        fetch("/api/admin/book/bookCreate", {
-            // POST 요청시 header 추가 필요
 
-        })
-            .then(response => {
-                if (response.ok) {
-                    // 제이슨 객체(Object Prototype)
-                    return response.json();
-                } else {
-                    console.error('Failed to fetch');
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-            }).then(data => {
-            //도서 카테고리 목록 받아서 카테고리 상태 관리 함수에 반환,설정
-            let resData = data.cateData;
-                 setBookCategory(resData);  // 데이터 로딩 완료 후 상태 업데이트
-        })
-            .catch(err => {
-                console.log("카테고리 데이터가 없습니다", err);
+        try{
+            const response = await fetch("/api/admin/book/bookCategory",{
+                method: "GET",
             });
 
+            if (!response.ok) {
+                console.log("http 상태코드",response.status);
+                throw new Error("서버 응답에러");
+            }
+
+            const data = await response.json();
+            console.log("data-----",data);
+            setBookCategory(data);
+        }catch(e){
+            console.log("카테고리 데이터가 없습니다", e);
+        }
 
     }// 데이터 fetch 요청
 
@@ -39,6 +37,13 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
     useEffect(() => {
         bookCateList();
     }, []);
+
+    console.log("bookCategory------- category",bookCategory)
+    console.log("bookCategory------- category",Array.isArray(bookCategory))
+    console.log("bookCategory------- category",bookCategory?.cateData)
+
+    console.log("selectedCategory------- category",selectedCategory)
+
 
         // 카테고리 onChange핸들라
     const handleCategory= (e) =>{
@@ -84,6 +89,8 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
         }))
     }
 
+    console.log("selectedCategory?.depth?.[0]",selectedCategory?.depth?.[0])
+
     return (
         <>
             <div className="d-flex align-items-center mb-1">
@@ -93,8 +100,9 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
                 <label htmlFor="firstCategory" className="visually-hidden form-title">1차 카테고리</label>
                 <select id="firstCategory" className="form-select w-auto" name="firstCategory" onChange={handleCategory}>
                     <option value="1차카테고리">1차카테고리</option>
-                    {bookCategory && bookCategory
-                        .filter(cate => parseInt(cate.cateDepthLevel) === 1)
+
+                    {bookCategory && bookCategory?.cateData
+                        .filter(value => value.cateDepthLevel === "1")
                         .map(cate => (
                             <option key={cate.cateId} value={cate.cateName} data-cate-id={cate.cateId}>
                                 {cate.cateName}
@@ -109,8 +117,8 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
                         <label htmlFor="secondCategory" className="visually-hidden form-title">2차 카테고리</label>
                         <select id="secondCategory" className="form-select w-auto mx-1" name="secondCategory" onChange={handleCategory}>
                             <option value="2차카테고리">2차카테고리</option>
-                            {bookCategory && bookCategory
-                                .filter(cate => parseInt(cate.cateDepthLevel) === 2)
+                            {bookCategory && bookCategory?.cateData
+                                .filter(value => value.cateDepthLevel === "2")
                                 .map(cate => (
                                     <option key={cate.cateId} value={cate.cateName} data-cate-id={cate.cateId}>
                                         {cate.cateName}
@@ -125,8 +133,8 @@ const Category=({bookCategory,setBookCategory,setCreateBook})=>{
                         <label htmlFor="thirdCategory" className="visually-hidden form-title">3차 카테고리</label>
                         <select id="thirdCategory" className="form-select w-auto" name="thirdCategory" onChange={handleCategory}>
                             <option value="3차카테고리">3차카테고리</option>
-                            {bookCategory && bookCategory
-                                .filter(cate => parseInt(cate.cateDepthLevel) === 3)
+                            {bookCategory && bookCategory?.cateData
+                                .filter(value  => value.cateDepthLevel === "3")
                                 .map(cate => (
                                     <option key={cate.cateId} value={cate.cateName} data-cate-id={cate.cateId}>
                                         {cate.cateName}

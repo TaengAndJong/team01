@@ -7,49 +7,21 @@ import { BookStateContext} from "../adminBookComponent.jsx";
 import {Link, useLocation} from "react-router-dom";
 
 const AdminBookList = () => {
-    const {bookdata} = useContext(BookStateContext);
+    const bookdata = useContext(BookStateContext);
     const [bookList, setBookList] = useState([]);
-    const location = useLocation();
 
     //데이터를 부모컴포넌트로부터 받아 온다.
-    const initFetch = async () => {
-        try {
-            // 서버로 응답 요청
-            const response = await fetch("/api/admin/book/bookList", {
-                method: "GET",
-            });
-            // 돌아온 응답 상태
-            if (!response.ok) { // 응답 상태가 200아니면
-                console.log(response.status)
-                throw new Error("서버 응답 에러");
-            }
-            // 응답 성공시
-            const addData = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-            console.log("bookdata목록 get 요청 데이터 받아오기-----", addData);// 있음
-            //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
-            setBookList(addData);
-            console.log("데이터 목록 갱신완료")
-
-        } catch (err) {
-            console.log("catch-Error", err); // 오류 처리
-        }
-    }//fetch end
-
-
-    console.log("bookList----- 이미지 파일 객체 확인하기 ", bookList)
+    console.log("bookData---관리자 목록",bookdata);
     // bookdata가 존재할 때만 bookList 업데이트
     useEffect(() => {
-        console.log("📚 목록페이지 여기 먼저 실행1?", bookdata);
-        //1.비동기요청을 보낸다
-         initFetch();
-        console.log("📚 목록페이지 여기 먼저 실행2?", bookdata);
-        setBookList(bookdata); // bookList 업데이트
-        console.log("📚 목록페이지 여기 먼저 실행3?", bookdata);
-        //3.응답에 데이터가 null, undefined이면 "데이터가 없습니다"반환
-    }, [location.search,bookdata]);
+        //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
+        if(bookdata){
+            setBookList(bookdata);
+        }
 
-    console.log("📚 최종 bookList", bookList);
+    }, [bookdata]);
 
+    console.log("bookList",bookList)
 
     return(
         <>
@@ -90,12 +62,12 @@ const AdminBookList = () => {
 
                 <tbody className="">
                 {/* undefined 와 데이터의 개수 검증*/}
-                {!bookList?.data || bookList.data.length === 0 ? (
+                {!bookList?.bookVO || bookList.bookVO.length === 0 ? (
                     <tr className="">
                         <td colSpan="12" className="text-center">데이터가 없습니다.</td>
                     </tr>
                 ) : (
-                    bookList.data.map((item, index) => (
+                    bookList.bookVO.map((item, index) => (
 
                         <tr key={index} className="table-light border-bottom">
                             <td className="text-center">
