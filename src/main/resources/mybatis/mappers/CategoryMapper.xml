@@ -6,7 +6,7 @@
 
     <select id="categoryList" resultType="CategoryVO">
         SELECT
-            "cateDepthLevel",
+            trim("cateDepthLevel") as  "cateDepthLevel",
             "cateId",
             "cateName"
         FROM
