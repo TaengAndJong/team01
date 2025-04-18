@@ -21,13 +21,22 @@ function reducer(state, action) {
             if(action.data){
                 console.log("INIT action",action.data, Array.isArray(action.data));
             }
-            // 객체로 초기화
-            return Array.isArray(action.data) ? action.data : [action.data]; // 단일 객체가 들어옴
+            // 서버에서 단일객체{} 또는 여러 개의 객체가  action.data로 넘어오면 배열에 담아줘야 함.
+            return Array.isArray(action.data) ? action.data : [action.data];
         case "CREATE":
           if(action.data){
               console.log("create action",action.data, Array.isArray(action.data)); 
           }
             return [...state, action.data]; // 새 객체 + 기존 배열, action.data는 단일객체
+        case "DELETE":
+            if(action.data){
+                console.log("DELETE action",action.data, Array.isArray(action.data));
+            }
+            return state.filter((item) => { return item.bookId !== action.data.bookId});
+        case "UPDATE":
+            if(action.data){
+                console.log("UPDATE action",action.data, Array.isArray(action.data));
+            }
         default:
             return state;
     }
@@ -92,9 +101,24 @@ const AdminBook = () => {
             type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
             data: createBook
         });
-
     }
 
+    const onDelete = (bookIds) => {
+        console.log("deleteBook", bookIds);
+        console.log("deleteBook", Array.isArray(bookIds));
+        dispatch({
+            type:"DELETE",
+            data:bookIds
+        })
+    }
+
+    const onUpdate=(updateBook) => {
+        console.log("updateBook", updateBook);
+        dispatch({
+            type:"UPDATE",
+            data:updateBook
+        })
+    }
 
     return (
         <>
@@ -135,7 +159,7 @@ const AdminBook = () => {
 
                             </ol>
                             <BookStateContext.Provider value={bookdata}>
-                                <BookDispatchContext.Provider value={{onCreate, onInit}}>
+                                <BookDispatchContext.Provider value={{onInit,onCreate,onDelete,onUpdate}}>
                                     <Outlet/>
                                 </BookDispatchContext.Provider>
                             </BookStateContext.Provider>

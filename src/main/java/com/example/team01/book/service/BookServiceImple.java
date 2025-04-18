@@ -1,6 +1,7 @@
 package com.example.team01.book.service;
 
 import com.example.team01.book.dao.BookDao;
+import com.example.team01.common.exception.BookNotFoundException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.vo.BookVO;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 //파일을 찾고 검증하는 로직은 비즈니스 로직,재사용성을 고려할 때도 서비스 계층이 더 적절
@@ -126,6 +128,31 @@ public class BookServiceImple implements BookService{
         }
         return cnt;
     }
+
+    @Override
+    public int deleteBooks(List<String> bookIds) {
+        log.info("서비스구현체 파라미터오나?-----:{}",bookIds);
+        int cnt;
+        //삭제할 아이디데이터 조회
+        List<String> existBookIds = dao.existBooks(bookIds);
+        log.info("existBookIds-----:{}",existBookIds);
+        //삭제할 아이디데이터와 클라이언트가 삭제하려고 보낸 데이터의 일치여부판단
+        if(existBookIds.size() != bookIds.size()){
+            log.info("삭제할 데이터 개수 일치하지 않음-----:{},{}",existBookIds.size(),bookIds.size());
+            //일치하지 않는 도서 데이터 펼쳐서 필터 후 하나로 묶어서 리스트로 만들기
+            List<String> missingIds = bookIds.stream()
+                    .filter(bookId -> !existBookIds.contains(bookId)).collect(Collectors.toList());
+            //예외처리
+            throw new BookNotFoundException("존재하지 않는 도서 ID: ",missingIds);
+        }
+
+        //존재하는 아이디 값만 넘겨서 삭제성공이면  cnt = 성공한 개수로 반환
+        log.info("existBookIds cnt:{}",existBookIds);
+        cnt = dao.deleteBooks(existBookIds);
+        log.info("delete cnt:{}",cnt);
+        return cnt;
+    }
+
 
 
 }
