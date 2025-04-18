@@ -3,6 +3,7 @@ package com.example.team01.admin;
 import com.example.team01.book.service.BookService;
 import com.example.team01.category.dao.CategoryDao;
 import com.example.team01.category.service.CategoryService;
+import com.example.team01.common.exception.BookNotFoundException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.severUrlUtil;
 import com.example.team01.vo.BookVO;
@@ -115,8 +116,42 @@ public class AdminBookController {
 
     }
 
+    @PostMapping("/bookDelete")
+    public ResponseEntity<?> deleteBook(@RequestBody List<String> bookIds) {
+        //1) 유효성검사  ==> 삭제할 도서 아이디가  데이터베이스에 존재하는지에 대한 여부
+        //2) 예외 처리: 도서가 존재하지 않거나 삭제가 불가능한 상태일 경우 예외 던지기
+        log.info("삭제할 ID들: :{}",bookIds ); // [1, 2, 3]
+
+        if (bookIds == null || bookIds.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", "삭제할 ID가 없습니다."
+            ));
+        }
+
+
+        //Advice 미사용 시, 예외에 대해서 try-catch 구문을 사용해서 처리해주기
+        try {
+            log.info("서비스로 가기 전 ----------:{}",bookIds);
+            int result = bookService.deleteBooks(bookIds);
+            log.info("result ----------:{}",result);
+            return ResponseEntity.ok(Map.of(
+                    "message", "삭제 완료",
+                    "deletedCount", result
+            ));
+        } catch (BookNotFoundException ex) {
+            log.info("ex :{}",ex);
+            // 여기서 예외를 직접 처리!
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", "존재하지 않는 도서가 포함되어 있습니다.",
+                    "missingIds", ex.getMissingIds(),  // 예외 클래스에서 getter 사용
+                    "message", ex.getMessage()
+            ));
+        }
+
+
+    }
 
 }
 
-
+//@ModelAttribute는 formData형태로 넘어올 때 사용하고, 그 외에는 @RequestBody 를 사용해서 Json객체를 Java객체로 맴핑
 
