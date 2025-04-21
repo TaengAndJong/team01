@@ -143,9 +143,8 @@ public class BookServiceImple implements BookService{
             List<String> missingIds = bookIds.stream()
                     .filter(bookId -> !existBookIds.contains(bookId)).collect(Collectors.toList());
             //예외처리
-            throw new BookNotFoundException("존재하지 않는 도서 ID: ",missingIds);
+            throw new BookNotFoundException("존재하지 않는 도서 ID ",missingIds);
         }
-
         //존재하는 아이디 값만 넘겨서 삭제성공이면  cnt = 성공한 개수로 반환
         log.info("existBookIds cnt:{}",existBookIds);
         cnt = dao.deleteBooks(existBookIds);
