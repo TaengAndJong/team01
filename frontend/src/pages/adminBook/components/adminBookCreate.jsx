@@ -153,17 +153,19 @@ const AdminBookCreate = () => {
                     {/*재고 & 가격*/}
                     <div className="d-flex align-items-center mb-1">
                         <div className="d-flex align-items-center">
-                            {/*할인적용할 겨 ? 말겨? */}
+                            {/* 숫자만 입력되게 검증필요 */}
                             <FormTag id="bookPrice" label="도서가격" labelClass="form-title" className="form-control" name="bookPrice" type="text"
                                      placeholder="도서가격입력" value={createBook.bookPrice} onChange={handleChange}/>
                             <span>원</span>
                         </div>
                         <div className="d-flex align-items-center mx-2">
+                            {/* 100개 이상 입력되면 경고문? 아니면 선택박스로 바꾸기*/}
                             <FormTag id="stock" label="재고" labelClass="form-title" className="form-control" name="stock" type="text"
                                      placeholder="재고입력" value={createBook.stock} onChange={handleChange}/>
                             <span>개</span>
                         </div>
                         <div className="d-flex align-items-center">
+                            {/*재고도 셀렉트박스로 바꾸기*/}
                             <FormTag id="stockStatus" label="재고상태" labelClass="form-title" className="form-control" name="stockStatus"
                                      type="text"
                                      placeholder="재고상태" value={createBook.stockStatus} readOnly={true}/>

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 
 //파일을 찾고 검증하는 로직은 비즈니스 로직,재사용성을 고려할 때도 서비스 계층이 더 적절
-
+// Service에서만 Dao 객체 사용
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -147,6 +147,18 @@ public class BookServiceImple implements BookService{
         }
         //존재하는 아이디 값만 넘겨서 삭제성공이면  cnt = 성공한 개수로 반환
         log.info("existBookIds cnt:{}",existBookIds);
+
+        //서버에 저장된 이미지 삭제하기
+        for(String bookId : existBookIds){
+            BookVO bookVO = dao.selectOneBook(bookId);
+            log.info("del img :{}",bookVO.getBookImgPath());
+            //noImg가 포함되어있지 않으면
+            if(!bookVO.getBookImgPath().contains("noImg")){
+                //서버에서 삭제할 이미지파일 파라미터 넘겨주기
+                fileUtils.deleteFiles(bookVO.getBookImgPath(),"book");
+            }
+        }
+        //디비에서 레코드 삭제
         cnt = dao.deleteBooks(existBookIds);
         log.info("delete cnt:{}",cnt);
         return cnt;

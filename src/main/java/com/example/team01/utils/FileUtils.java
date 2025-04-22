@@ -103,8 +103,7 @@ public class FileUtils {
         return bookImgPath; // 여기에서 bookImaPath 반환하여 초기값 갱신
     }
     //method end
-
-
+    
     // 이미지가 없는 경우 사용할 메소드 , IOException > FileNotFoundException
     public String getDefaultImgPath(){
         String noImgPath="";
@@ -164,4 +163,21 @@ public class FileUtils {
         return bookVO;
     }
     
+    //실서버에 저장된 이미지파일 삭제만
+    public String deleteFiles(String fileName,String middlePath) {
+        log.info("fileNames----------del:{}",fileName);
+        // 삭제할 파일 레코드 아이디 받아오기 ==> List<String> fileNames
+        String deleteFilePath = uploadDir + File.separator + middlePath + File.separator + fileName;//운영체제에 맞게 파일 경로 생성하기 위한 코드
+        File file = new File(deleteFilePath); //File 클래스를 사용하는 이유는, 파일시스템에서 해당경로의 파일을 조작하기 위해서 파일 객체를 사용
+        log.info("deltet File:{}",file);
+        //서버에 파일이 존재하는지 확인필요
+        if(file.exists()) {
+            file.delete();
+            log.info("서버에 저장된 파일 삭제했음");
+        }else {
+            log.warn("파일 삭제 실패 또는 없음 file.getPath(): {}", file.getPath());
+        }
+
+       return "이미지파일 삭제";
+    }
 }
