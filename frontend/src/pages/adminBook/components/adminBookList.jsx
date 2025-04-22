@@ -4,7 +4,10 @@ import React, {useContext, useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
 import {BookDispatchContext, BookStateContext} from "../adminBookComponent.jsx";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import StaticModal from "./modal.jsx";
+import ReusableModal from "./modal.jsx";
+
 
 const AdminBookList = () => {
     const bookdata = useContext(BookStateContext);
@@ -12,21 +15,29 @@ const AdminBookList = () => {
     const [bookList, setBookList] = useState([]);
 
     //데이터를 부모컴포넌트로부터 받아 온다.
-    console.log("bookData---관리자 목록",bookdata);
     // bookdata가 존재할 때만 bookList 업데이트
     useEffect(() => {
         //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
         if(bookdata){
             setBookList(bookdata);
+            console.log("bookdata----useEffect",bookdata);
         }
-
     }, [bookdata]);
     //전체선택
     const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
     //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
     const [checkedInput, setCheckedInput] = useState([]);
-    console.log("checkedInput--------------",checkedInput)
+    //모달 상태관리
+    const [show, setShow] = useState(false);
+    const handleClose = () => {
+        console.log("close modal");
+        setShow(false)}
+    const handleShow = () => {
+        console.log("handleShow");
+        setShow(true)}
 
+    const [modalType, setModalType] = useState("confirm");
+    const [errorData, setErrorData] = useState({});
 
     const handleSelectAll = (isChecked) => {
         setSelectAll(isChecked);
@@ -35,17 +46,14 @@ const AdminBookList = () => {
             // 모든 bookId를 배열에 추가
             const allIds = bookList.map((item) => item.bookId);
             setCheckedInput(allIds);
-            console.log("checkedInput--------------111",checkedInput)
         } else {
             // 전부 해제
             setCheckedInput([]);
-            console.log("checkedInput-------------11-",checkedInput)
         }
     };
 
-
     const onChangeCheck = (bookId, isChecked)  => {
-        console.log("onChangeCheck",isChecked);
+
         if (isChecked) {
             setCheckedInput((prev) => [...prev, bookId]);
         } else {
@@ -54,9 +62,6 @@ const AdminBookList = () => {
     }
 
     const onDeleteHandler = async (deleteItems) =>{
-        console.log("deleteHandler",deleteItems);
-        console.log("deleteHandler",deleteItems.toString());
-        console.log("deleteItems 배열?", Array.isArray(deleteItems));
 
         //fetch 요청 보내기
         try{
@@ -72,25 +77,26 @@ const AdminBookList = () => {
             })
 
             if(!response.ok){
+                //삭제하려는 도서가 없을 경우
                 console.log(response.statusText,response.status);
-                throw new Error("Error occured");
+                const errorResponse = await response.json();
+                console.log("errorResponse",errorResponse);
+
             }
             // 삭제성공후 데이터가 한번 갱신되어야 함 (삭제된 아이템들을 제외하고 )
-            console.log("deleteItems",Array.isArray(deleteItems));
-            onDelete(deleteItems);
-            console.log("deleteHandler 삭제성공");
+            console.log("deleteItems 배열?",Array.isArray(deleteItems));
+            onDelete(deleteItems); // 삭제 상태관리
+            setShow(false);
+            console.log("bookData 삭제성공",bookdata);
 
         }catch(err){
-            console.error("서버 요청 오류 발생",err);
+            console.error("요청 실패", err);
         }
 
     }
 
-    console.log("checkedInput--------------3333",checkedInput)
-    console.log("bookList--------------",bookList)
     return(
         <>
-
             <table className="table table-custom">
                 <caption className="sr-only">
                     등록된 도서상품 테이블
@@ -98,14 +104,6 @@ const AdminBookList = () => {
                 <thead>
                 <tr>
                     <th scope="col" className="text-center">
-                        {/*<input*/}
-                        {/*    type="checkbox"*/}
-                        {/*    id="selectAll"*/}
-                        {/*    checked={isSelectAll}*/}
-                        {/*    onChange={handleSelectAllChange}*/}
-                        {/*    aria-checked={isSelectAll}*/}
-                        {/*/>*/}
-
                         <input type="checkbox" id="selectAll"
                                checked={checkedInput.length === bookList.length && bookList.length > 0}
                                onChange={(e) => handleSelectAll(e.target.checked)}
@@ -173,11 +171,22 @@ const AdminBookList = () => {
 
             </table>
             <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                <Btn className={"create btn btn-danger"} type={"button"}  onClick={() => onDeleteHandler(checkedInput)} text="삭제"/>
+                <Btn className={"create btn btn-danger"} type={"button"}  onClick={() => handleShow()}  text="삭제"/>
                 <Btn className={"create btn btn-primary"} type={"button"} path={pathsData.page.adminBookCreate} text="등록"/>
-
             </div>
-           
+            {/*checkedInput만 하면 빈 배열이라도 true로 판정해서 모달이 열리기때문에 요소의 개수로 판단*/}
+            {show && checkedInput.length === 0 && (
+                <ReusableModal show={show}
+                               onClose={handleClose}
+                               modalType="noSelection"/>
+            )}
+
+            {show && checkedInput.length > 0 &&(
+                <ReusableModal show={show}
+                               onClose={handleClose}
+                               onConfirm={() => onDeleteHandler(checkedInput)}
+                               modalType="delete"/>
+            )}
         </>
     )
 }

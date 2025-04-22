@@ -8,9 +8,9 @@ import {menuNavi} from "../../util/menuNavi.jsx";
 
 function reducer(state, action) {
 
-    console.log(state);
-    console.log(typeof state);
-    console.log(Array.isArray(state));
+    console.log("state",state);
+    console.log("typeof",typeof state);
+    console.log("Array",Array.isArray(state));
     console.log("action.data",action.data);
     console.log("배열이냐 객체냐",Array.isArray(action.data));
 
@@ -25,14 +25,17 @@ function reducer(state, action) {
             return Array.isArray(action.data) ? action.data : [action.data];
         case "CREATE":
           if(action.data){
-              console.log("create action",action.data, Array.isArray(action.data)); 
+              console.log("create action",action.data, Array.isArray(action.data));  // 객체로 넘어옴
           }
             return [...state, action.data]; // 새 객체 + 기존 배열, action.data는 단일객체
         case "DELETE":
             if(action.data){
-                console.log("DELETE action",action.data, Array.isArray(action.data));
+                console.log("delete action",action.data);
+                console.log("delete Array", Array.isArray(action.data));
             }
-            return state.filter((item) => { return item.bookId !== action.data.bookId});
+            // action.data가 배열이고(객체일경우, key가 없는 데이터일경우, 키로 접근할수 없음!)
+            return state.filter((item) => { return !action.data.includes(String(item.bookId))})
+
         case "UPDATE":
             if(action.data){
                 console.log("UPDATE action",action.data, Array.isArray(action.data));

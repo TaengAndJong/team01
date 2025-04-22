@@ -128,7 +128,6 @@ public class AdminBookController {
             ));
         }
 
-
         //Advice 미사용 시, 예외에 대해서 try-catch 구문을 사용해서 처리해주기
         try {
             log.info("서비스로 가기 전 ----------:{}",bookIds);

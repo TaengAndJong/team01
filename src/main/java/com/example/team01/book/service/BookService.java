@@ -14,6 +14,4 @@ public interface BookService {
     public BookVO deTailBook(String bookId);
     public int createBook(BookVO book) throws FileNotFoundException;
     public int deleteBooks(List<String> bookIds);
-
-
 }
