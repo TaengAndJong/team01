@@ -6,16 +6,13 @@ import pathsData from "../../../assets/pathsData.jsx";
 import {BookDispatchContext, BookStateContext} from "../adminBookComponent.jsx";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import StaticModal from "./modal.jsx";
+import ReusableModal from "./modal.jsx";
+
 
 const AdminBookList = () => {
     const bookdata = useContext(BookStateContext);
     const {onDelete} = useContext(BookDispatchContext); // 사용할 함수 가져올때 전역설정이면 context 훅 불러와야함
-
-
     const [bookList, setBookList] = useState([]);
-
-
-
 
     //데이터를 부모컴포넌트로부터 받아 온다.
     // bookdata가 존재할 때만 bookList 업데이트
@@ -30,8 +27,17 @@ const AdminBookList = () => {
     const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
     //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
     const [checkedInput, setCheckedInput] = useState([]);
+    //모달 상태관리
+    const [show, setShow] = useState(false);
+    const handleClose = () => {
+        console.log("close modal");
+        setShow(false)}
+    const handleShow = () => {
+        console.log("handleShow");
+        setShow(true)}
 
-
+    const [modalType, setModalType] = useState("confirm");
+    const [errorData, setErrorData] = useState({});
 
     const handleSelectAll = (isChecked) => {
         setSelectAll(isChecked);
@@ -80,6 +86,7 @@ const AdminBookList = () => {
             // 삭제성공후 데이터가 한번 갱신되어야 함 (삭제된 아이템들을 제외하고 )
             console.log("deleteItems 배열?",Array.isArray(deleteItems));
             onDelete(deleteItems); // 삭제 상태관리
+            setShow(false);
             console.log("bookData 삭제성공",bookdata);
 
         }catch(err){
@@ -88,8 +95,6 @@ const AdminBookList = () => {
 
     }
 
-    console.log("checkedInput--------------3333",checkedInput)
-    console.log("bookList--------------",bookList)
     return(
         <>
             <table className="table table-custom">
@@ -166,21 +171,22 @@ const AdminBookList = () => {
 
             </table>
             <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                <Btn className={"create btn btn-danger"} type={"button"}  onClick={() => onDeleteHandler(checkedInput)}  text="삭제"/>
+                <Btn className={"create btn btn-danger"} type={"button"}  onClick={() => handleShow()}  text="삭제"/>
                 <Btn className={"create btn btn-primary"} type={"button"} path={pathsData.page.adminBookCreate} text="등록"/>
             </div>
             {/*checkedInput만 하면 빈 배열이라도 true로 판정해서 모달이 열리기때문에 요소의 개수로 판단*/}
-            {/*{showModal && (*/}
-            {/*    <StaticModal*/}
-            {/*        show={showModal}*/}
-            {/*        onClose={handleClose}*/}
-            {/*        modalType={modalType}*/}
-            {/*        errorData={errorData}*/}
-            {/*        onConfirm={() => onDeleteHandler(checkedInput)}/>*/}
+            {show && checkedInput.length === 0 && (
+                <ReusableModal show={show}
+                               onClose={handleClose}
+                               modalType="noSelection"/>
+            )}
 
-            {/*)}*/}
-
-
+            {show && checkedInput.length > 0 &&(
+                <ReusableModal show={show}
+                               onClose={handleClose}
+                               onConfirm={() => onDeleteHandler(checkedInput)}
+                               modalType="delete"/>
+            )}
         </>
     )
 }
