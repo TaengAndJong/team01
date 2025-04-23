@@ -8,7 +8,7 @@ import {useAuth} from "../../common/AuthContext.jsx";
 import FileUpload from "./fileUpload.jsx";
 import Category from "./category.jsx";
 import {useNavigate} from "react-router-dom";
-
+import {getToday} from "../../../util/dateUtils.jsx";
 
 
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
@@ -35,6 +35,7 @@ const AdminBookCreate = () => {
         cateId:'',
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
         writer: '',
+        createDate:getToday(),
 
     })
 
@@ -78,6 +79,8 @@ const AdminBookCreate = () => {
                 value.forEach((file) => {
                     formData.append("bookImg", file);
                 });
+            } else if(key === "createDate") {
+                createBook["createDate"] = new Date(getToday());
             } else {
                 // 일반 문자열 데이터 추가
                 formData.append(key, value);
@@ -154,29 +157,38 @@ const AdminBookCreate = () => {
                     <div className="d-flex align-items-center mb-1">
                         <div className="d-flex align-items-center">
                             {/* 숫자만 입력되게 검증필요 */}
-                            <FormTag id="bookPrice" label="도서가격" labelClass="form-title" className="form-control" name="bookPrice" type="text"
+                            <FormTag id="bookPrice" label="도서가격" labelClass="form-title" className="form-control"
+                                     name="bookPrice" type="text"
                                      placeholder="도서가격입력" value={createBook.bookPrice} onChange={handleChange}/>
-                            <span>원</span>
+                            <span className="mx-2">원</span>
                         </div>
                         <div className="d-flex align-items-center mx-2">
                             {/* 100개 이상 입력되면 경고문? 아니면 선택박스로 바꾸기*/}
-                            <FormTag id="stock" label="재고" labelClass="form-title" className="form-control" name="stock" type="text"
+                            <FormTag id="stock" label="재고" labelClass="form-title" className="form-control" name="stock"
+                                     type="text"
                                      placeholder="재고입력" value={createBook.stock} onChange={handleChange}/>
-                            <span>개</span>
+                            <span className="mx-2">개</span>
                         </div>
                         <div className="d-flex align-items-center">
                             {/*재고도 셀렉트박스로 바꾸기*/}
-                            <FormTag id="stockStatus" label="재고상태" labelClass="form-title" className="form-control" name="stockStatus"
+                            <FormTag id="stockStatus" label="재고상태" labelClass="form-title" className="form-control"
+                                     name="stockStatus"
                                      type="text"
                                      placeholder="재고상태" value={createBook.stockStatus} readOnly={true}/>
-                            <span>개</span>
+                            <span className="mx-2">개</span>
+                        </div>
+                        <div className="d-flex align-items-center mx-2">
+                            <FormTag id="createDate" label="등록일" labelClass="form-title" className="form-control" name="createDate"
+                                     type="text"
+                                     placeholder="등록일" value={createBook.createDate} readOnly={true}/>
                         </div>
                     </div>
 
                     {/*작성자*/}
                     <div className="d-flex align-items-center mb-1">
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
-                        <FormTag id="writer" label="작성자" labelClass="form-title" className="form-control" name="writer" type="text"
+                        <FormTag id="writer" label="작성자" labelClass="form-title" className="form-control" name="writer"
+                                 type="text"
                                  placeholder="작성자" value={userData?.clientName} readOnly={true}/>
                     </div>
                     {/*도서설명*/}

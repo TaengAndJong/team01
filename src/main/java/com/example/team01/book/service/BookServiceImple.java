@@ -87,8 +87,10 @@ public class BookServiceImple implements BookService{
     @Override
     public int createBook(BookVO book) throws FileNotFoundException {
 
+        log.info("createBook-----------:{}",book);
+
+
         int cnt =0;
-        
         // 여기서부터 노이미지 파일 유틸에 들어가야함, 받을 파라미터는 BookVO book
         String bookImgPath=""; // 데이터베이스에 담을 파일명 담는 문자열 변수
 

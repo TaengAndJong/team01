@@ -7,6 +7,7 @@ import {BookDispatchContext, BookStateContext} from "../adminBookComponent.jsx";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import StaticModal from "./modal.jsx";
 import ReusableModal from "./modal.jsx";
+import {toDate} from "../../../util/dateUtils.jsx";
 
 
 const AdminBookList = () => {
@@ -142,7 +143,7 @@ const AdminBookList = () => {
                                     checked={checkedInput.includes(item.bookId)} // 상태 기반 체크 여부 결정
                                     onChange={(e) => onChangeCheck(`${item.bookId}`, e.target.checked)}
                                 />
-                                <label htmlFor="item1">{`항목${index+1}`}</label>
+                                <label htmlFor={`item${index}`} className="sr-only">{`${item.bookName}`}</label>
                             </td>
                             <td className="text-center " id={`bookId${index}`}>{item.bookId}</td>
 
@@ -161,7 +162,7 @@ const AdminBookList = () => {
                             <td className="text-center" id={`bookPrice${index}`}>{item.bookPrice}원</td>
                             <td className="text-center" id={`bookPublishDt${index}`}>{item.publishDate}</td>
                             <td className="text-center" id={`bookWriter${index}`}>{item.writer}</td>
-                            <td className="text-center" id={`bookPublishDt${index}`}>{item.createDate}</td>
+                            <td className="text-center" id={`bookPublishDt${index}`}>{toDate(item.createDate)}</td>
                             <td className="text-center" id={`bookStock${index}`}>{item.stock}</td>
                         </tr>
                     ))

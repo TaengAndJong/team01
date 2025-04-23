@@ -40,11 +40,8 @@ public class AdminBookController {
 
     @GetMapping("/bookCategory")
     public ResponseEntity<?> getBookCreate(){
-        log.info("getBookCreate------------------------");
         //도서 카테고리 목록 조회
         List<CategoryVO> cateData  = categoryService.getAllCategories();
-        log.info("cateData:{}",cateData);
-
         // Map에 담을 경우 하나의 객체로 묶어서 데이터가 나감
         Map<String,Object> response = new HashMap<>();
         response.put("cateData",cateData);
