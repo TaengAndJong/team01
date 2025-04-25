@@ -70,11 +70,9 @@ const AdminBookCreate = () => {
     //체크박스 전체선택 && 단일 선택 상태관리
     //핸들러 값 변경 시 실행되는 함수
     const handleChange = (e) => {
-        
-        // name이 String 타입일 경우 검증 ( 데이트 객체 받아올 경우 분기점 필요)
-        
-        
-        
+        console.log("e type", typeof  e);
+        console.log("e target", e.target);
+        console.log("e target", e.target.value);
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
        const { name, value } = e.target;
        console.log("handleChange===========", name, value);
@@ -95,8 +93,8 @@ const AdminBookCreate = () => {
         }
 
         if(name === "publishDate"){
-            console.log("publishDate????????????");
 
+            console.log("publishDate",publishDate)
         }
 
         setCreateBook({
