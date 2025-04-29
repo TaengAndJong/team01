@@ -42,6 +42,31 @@ const AdminBookCreate = () => {
         writer: '',
         createDate:getToday(),
     })
+    const [categoryList, setCategoryList] = useState([]);
+
+    //get 요청서 categoryList 받아오기
+    const getCategories = async () => {
+      try{
+          const response = await  fetch("/api/admin/book/bookCreate",{
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json"
+              }
+          });
+
+          if(!response.ok){
+              console.log("통신에러",response.status);
+              throw  Error(response.statusText);
+          }
+          // 요청 성공 시 ,응답 제이슨으로 받아오기
+          const data = await response.json();
+          console.log("data--- createData",data);
+          setCategoryList(data);
+      }catch(err){
+          console.error("getCategories 실패:", err);
+      }
+    }
+
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
@@ -52,6 +77,7 @@ const AdminBookCreate = () => {
                 writer: userData.clientName,
             }));
         }
+        getCategories();
     }, [userData]);  // userData가 변경될 때 실행
     //발행일
     const [publishDate, setPublishDate] = useState(new Date()); // 오늘날짜를 초기값으로
@@ -179,7 +205,7 @@ const AdminBookCreate = () => {
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookCreateForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
-                    <Category setCreateBook={setCreateBook}/>
+                    <Category setDefaultData={setCreateBook} defaultData={createBook} categoryList={categoryList}  />
                     {/*도서명*/}
                     <div className="d-flex align-items-center mb-1">
                             <FormTag id="bookName" label="도서명" labelClass="form-title" className="form-control" name="bookName" type="text"
@@ -225,7 +251,7 @@ const AdminBookCreate = () => {
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
-                        <FileUpload createBook={createBook} setCreateBook={setCreateBook}/>
+                        <FileUpload bookFile={createBook} setBookFile={setCreateBook}/>
                     </div>
                 </form>
                 <div className="d-flex align-items-center justify-content-center mt-4">

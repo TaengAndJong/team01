@@ -69,18 +69,22 @@ public class BookServiceImple implements BookService{
     }
 
     @Override
+    public BookVO modifyBook(String bookId) {
+        int cnt = dao.updateBook(bookId);
+        log.info("modifyBook-----------:{}",cnt);
+        return null;
+    }
+
+    @Override
     public BookVO deTailBook(String bookId) {
         BookVO bookVO = dao.selectOneBook(bookId);
         // 텍스트 이미지경로 to ArrayList 이미지경로
-        log.info("detaiaBook------:{}",bookVO);
         //bookImgPath  배열로 변경해서 넣어야함
-        log.info("detailBookImgpath:{}",bookVO.getBookImgPath());
         // 텍스트 이미지 split(",") 사용해서 문자 배열로 변경
         String[] bookImgPaths = bookVO.getBookImgPath().split(",");
         // bookVO의 bookImgList에 String 배열을 List 배열로 변경해 담아주기
         bookVO.setBookImgList(Arrays.asList(bookImgPaths));
         //데이터 반환
-        log.info("detaiaBook--------:{}",bookVO );
       return bookVO;
     }
 
@@ -165,6 +169,7 @@ public class BookServiceImple implements BookService{
         log.info("delete cnt:{}",cnt);
         return cnt;
     }
+
 
 
 

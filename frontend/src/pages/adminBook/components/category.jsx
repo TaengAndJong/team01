@@ -1,53 +1,31 @@
 import React, {useEffect, useState} from "react";
 
 
-const Category=({setCreateBook})=>{
+const Category=({setDefaultData,defaultData,categoryList})=>{
+    console.log("category --categoryList",categoryList)
+    console.log("category --defaultData",defaultData);
 
-    // 카테고리 관리 리액트훅
-    const [bookCategory, setBookCategory] = useState(null);  // 데이터를 상태로 관리
-    const [selectedCategory, setSelectedCategory] = useState({
-        names: [], // 1차, 2차, 3차 카테고리 이름
-        ids: [], // 1차, 2차, 3차 카테고리 ID
-        depth:[],
+    const [selectedCategory, setSelectedCategory] = useState({ // 카데고리 셀렉트 박스 초기값
+        names:defaultData.bookCateNm || [], // 1차, 2차, 3차 카테고리 이름
+        ids:defaultData.cateId || [], // 1차, 2차, 3차 카테고리 ID
+        depth:defaultData.bookCateDepth? [defaultData.bookCateDepth] :  [], 
+        // undefined 방지 및  정상적인 배열 형태만 만들어 주기 때문에, 후속 로직에서도 안정적으로 .includes() 같은 배열 메서드 사용가능
     });
 
-    //get 요청 카테고리 목록 데이터 받아오기
-    const bookCateList = async ()=>{
-
-        try{
-            const response = await fetch("/api/admin/book/bookCategory",{
-                method: "GET",
-            });
-
-            if (!response.ok) {
-                console.log("http 상태코드",response.status);
-                throw new Error("서버 응답에러");
-            }
-
-            const data = await response.json();
-            console.log("data-----",data);
-            setBookCategory(data);
-        }catch(e){
-            console.log("카테고리 데이터가 없습니다", e);
-        }
-
-    }// 데이터 fetch 요청
-
-    // 컴포넌트가 처음 마운트될 한 번 실행
+    console.log("category --selectedCategory",selectedCategory);
+    //useEffect로 초기값 갱신하기
     useEffect(() => {
-        bookCateList();
-    }, []);
+        if (defaultData?.cateId && defaultData.bookCateNm && defaultData.bookCateDepth) {
+            setSelectedCategory({
+                names: defaultData.bookCateNm,
+                ids: defaultData.cateId,
+                depth: [defaultData.bookCateDepth],
+            });
+        }
+    }, [defaultData]);
 
-    console.log("bookCategory------- category",bookCategory)
-    console.log("bookCategory------- category",Array.isArray(bookCategory))
-    console.log("bookCategory------- category",bookCategory?.cateData)
-
-    console.log("selectedCategory------- category",selectedCategory)
-
-
-        // 카테고리 onChange핸들라
+   // 카테고리 onChange핸들러
     const handleCategory= (e) =>{
-
         const selectedOption = e.target.selectedOptions[0]
         const dataCateId  = selectedOption.getAttribute('data-cate-id')
         const cateName = selectedOption.value; // 선택된 카테고리명
@@ -73,23 +51,24 @@ const Category=({setCreateBook})=>{
                     updatedCategory.names[index] = cateName;
                     updatedCategory.ids[index] = dataCateId;
                     updatedCategory.depth[index] = `${index+1}차 카테고리`;
-
+                    console.log("catename",updatedCategory.names[index] = cateName)
+                    console.log("depth", updatedCategory.depth[index] = `${index+1}차 카테고리`)
                 }
-
                 return updatedCategory; // selectCategory 에 갱신할 데이터 반환
             });
         }
 
+
         // 3. createBook 객체에 데이터 갱신해주기
-        setCreateBook(prevState =>({
-            ...prevState,
+        setDefaultData(prevState =>({
+            ...prevState, // 이전데이터와 병합
             cateId:selectedCategory.ids,
-            bookCateNm :selectedCategory.names,
-            bookCateDepth:selectedCategory.depth[selectedCategory.depth.length - 1]
+            bookCateNm :selectedCategory.names, // depth에 따른 도서명 배열
+            bookCateDepth:selectedCategory.depth[selectedCategory.depth.length] // 1차,2차,3차 배열
         }))
     }
 
-    console.log("selectedCategory?.depth?.[0]",selectedCategory?.depth?.[0])
+    // console.log("selectedCategory?.depth?.[0]",selectedCategory?.depth?.[0])
 
     return (
         <>
@@ -99,50 +78,41 @@ const Category=({setCreateBook})=>{
 
                 <label htmlFor="firstCategory" className="visually-hidden form-title">1차 카테고리</label>
                 <select id="firstCategory" className="form-select w-auto" name="firstCategory" onChange={handleCategory}>
-                    <option value="1차카테고리">1차카테고리</option>
-
-                    {bookCategory && bookCategory?.cateData
-                        .filter(value => value.cateDepthLevel === "1")
-                        .map(cate => (
-                            <option key={cate.cateId} value={cate.cateName} data-cate-id={cate.cateId}>
-                                {cate.cateName}
+                    {categoryList?.firstDepth?.map(cate => (
+                            <option key={cate.cateId} value={cate.cateNames} data-cate-id={cate.cateId}>
+                                {cate.cateNames}
                             </option>
                         ))}
                 </select>
 
                 {/*2차 카테고리만 데이터 */}
-
-                {selectedCategory?.depth?.[0]?.includes("1차") && (
+                {selectedCategory?.depth?.[0] && (
                     <>
                         <label htmlFor="secondCategory" className="visually-hidden form-title">2차 카테고리</label>
                         <select id="secondCategory" className="form-select w-auto mx-1" name="secondCategory" onChange={handleCategory}>
-                            <option value="2차카테고리">2차카테고리</option>
-                            {bookCategory && bookCategory?.cateData
-                                .filter(value => value.cateDepthLevel === "2")
-                                .map(cate => (
-                                    <option key={cate.cateId} value={cate.cateName} data-cate-id={cate.cateId}>
-                                        {cate.cateName}
-                                    </option>
-                                ))}
+                            {categoryList?.secondDepth?.map(cate => (
+                                <option key={cate.cateId} value={cate.cateNames} data-cate-id={cate.cateId}>
+                                    {cate.cateNames}
+                                </option>
+                            ))}
                         </select>
                     </>
                 )}
                 {/*3차 카테고리만 데이터 */}
-                {selectedCategory?.depth?.[1]?.includes("2차") && (
+                {selectedCategory?.depth?.[1] && (
                     <>
                         <label htmlFor="thirdCategory" className="visually-hidden form-title">3차 카테고리</label>
-                        <select id="thirdCategory" className="form-select w-auto" name="thirdCategory" onChange={handleCategory}>
-                            <option value="3차카테고리">3차카테고리</option>
-                            {bookCategory && bookCategory?.cateData
-                                .filter(value  => value.cateDepthLevel === "3")
-                                .map(cate => (
-                                    <option key={cate.cateId} value={cate.cateName} data-cate-id={cate.cateId}>
-                                        {cate.cateName}
-                                    </option>
-                                ))}
+                        <select id="thirdCategory" className="form-select w-auto" name="thirdCategory"
+                                onChange={handleCategory}>
+                            {categoryList?.thirdDepth?.map(cate => (
+                                <option key={cate.cateId} value={cate.cateNames} data-cate-id={cate.cateId}>
+                                    {cate.cateNames}
+                                </option>
+                            ))}
                         </select>
                     </>
                 )}
+
             </div>
         </>
     );

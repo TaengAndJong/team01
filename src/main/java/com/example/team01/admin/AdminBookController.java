@@ -38,15 +38,15 @@ public class AdminBookController {
     private final BookService bookService;
     private final FileUtils fileUtils;
 
-    @GetMapping("/bookCategory")
-    public ResponseEntity<?> getBookCreate(){
-        //도서 카테고리 목록 조회
-        List<CategoryVO> cateData  = categoryService.getAllCategories();
-        // Map에 담을 경우 하나의 객체로 묶어서 데이터가 나감
-        Map<String,Object> response = new HashMap<>();
-        response.put("cateData",cateData);
-        return ResponseEntity.ok(response);
+    @GetMapping("/bookCreate")
+    public ResponseEntity<?> getCreateBook(){
+        log.info("도서 생성 get API 호출됨");
+        //카테고리 목록 가져오기
+        Map<String, List<CategoryVO>> cateData  = categoryService.getAllCategories();
+        log.info("도서 생성 get API cateData:{}",cateData);
+        return  ResponseEntity.ok(cateData);
     }
+
 
     @PostMapping(value = "/bookCreate")
     public ResponseEntity<?> insertBookCreate(
@@ -108,10 +108,22 @@ public class AdminBookController {
     public ResponseEntity<?>  getBookModify(@PathVariable String bookId,HttpServletRequest request){
         log.info("도서 수정 API 호출됨");
         log.info("bookId------------------:{}",bookId);
+        //카테고리 목록 가져오기
+        Map<String, List<CategoryVO>> cateData  = categoryService.getAllCategories();
+        log.info("bookVO--- cateData:{}",cateData);
+        //해당 아이디에 대한 도서 정보 가져오기
+        BookVO bookVO = bookService.deTailBook(bookId);
+        log.info("bookVO--- modify:{}",bookVO);
+        fileUtils.changeImgPath(bookVO, request); // 필요 시 이미지 경로 수정
 
-        return  ResponseEntity.ok("bookModify");
-
+        Map<String,Object> response = new HashMap<>();
+        //해당 아이디에 대한 도서데이터와 , 카테고리 데이터를 클라이언트에게 전송하기!
+        response.put("book", bookVO);
+        response.put("cateData",cateData);
+        log.info("response ----------------:{}",response);
+        return  ResponseEntity.ok(response);
     }
+
 
     @PostMapping("/bookDelete")
     public ResponseEntity<?> deleteBook(@RequestBody List<String> bookIds) {

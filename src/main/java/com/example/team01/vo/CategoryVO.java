@@ -19,8 +19,8 @@ public class CategoryVO implements Serializable {
 
     //기존 테이블에서 존재하는 컬럼
     private String cateId;
-    private String cateName;
-    private String cateDepthLevel;
-
-
+    private String cateNames;
+    private String parentId;
+    private String depthLevel;
+    private String fullPath;
 }

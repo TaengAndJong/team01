@@ -2,7 +2,7 @@ import FormTag from "../../../util/formTag.jsx";
 import React, {useEffect, useRef, useState} from "react";
 
 
-const FileUpload =({createBook,setCreateBook})=>{//부모한테 받은 props 객체 기입
+const FileUpload =({bookFile,setBookFile})=>{//부모한테 받은 props 객체 기입
 
     // 파일목록관리
     const [files, setFiles] = useState([]);
@@ -10,9 +10,9 @@ const FileUpload =({createBook,setCreateBook})=>{//부모한테 받은 props 객
     useEffect(()=>{
         //리액트 훅은 비동기로 상태를 갱신하기 때문에 useEffect로 최신값을 갱신해줘야 함
         console.log("최신상태값 files",files);
-        console.log("최신상태값 createBook",createBook);
+        console.log("최신상태값 bookFile",bookFile);
         //여기에서 createBook의 bookImg의 값 갱신필요
-        setCreateBook((prev) => ({
+        setBookFile((prev) => ({
             ...prev,
             bookImg: files,
         }))
@@ -22,7 +22,7 @@ const FileUpload =({createBook,setCreateBook})=>{//부모한테 받은 props 객
     //files 객체 bookCreate의 bookImg에 배열로 담는 핸들러
     const handleFilesChange = (files) => {
         console.log("handelfilesChang 객체확인",files);
-        setCreateBook((prev) => ({
+        setBookFile((prev) => ({
             ...prev,
             bookImg: files, // 파일 목록 갱신
         }));

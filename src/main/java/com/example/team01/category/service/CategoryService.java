@@ -7,6 +7,6 @@ import java.util.Map;
 
 public interface CategoryService {
 
-        public List<CategoryVO> getAllCategories();
+        public Map<String, List<CategoryVO>> getAllCategories();
 
 }
