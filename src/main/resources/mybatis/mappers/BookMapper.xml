@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.team01.book.dao.BookDao">
 
-
+<!--오라클 char  타입 사용하면  바인딩 파라미터가 값을 못받아서 가변데이터일경우를 포함해서 varchar로 설계해야함!-->
     <select id="selectAllBook" resultType="BookVO">
         select   trim("bookId") as "bookId"
              , "bookCateNm"
@@ -24,7 +24,7 @@
     </select>
 
     <select id="selectOneBook" resultType="BookVO" parameterType="String">
-        select   trim("bookId") as "bookId"
+        select  trim("bookId") as "bookId"
              , "bookCateNm"
              , "bookCateDepth"
              , "bookName"
@@ -40,7 +40,7 @@
              , "writer"
              , "createDate"
         from book
-        where "bookId"=${bookId}
+        where "bookId"=#{bookId}
     </select>
     <!-- 인덱스 역할을 하는 파라미터를 String으로 하면 #{} 이 인식을 못할 경우 , ${} 사용하기
     마이바티스가 #{}바인딩 변수를 사용해서 문자열을 치환하면 varchar 타입으로 변환해 char 타입일 경우 인식이
@@ -102,6 +102,53 @@
            #{bookId}
         </foreach>
     </delete>
+
+    <update id="updateBook" parameterType="BookVO">
+        UPDATE book
+        <set>
+            <if test="bookCateNm != null and bookCateNm != ''">
+                "bookCateNm" = #{bookCateNm},
+            </if>
+            <if test="bookCateDepth != null and bookCateDepth != ''">
+                "bookCateDepth" = #{bookCateDepth},
+            </if>
+            <if test="bookName != null and bookName != ''">
+                "bookName" = #{bookName},
+            </if>
+            <if test="bookDesc != null and bookDesc != ''">
+                "bookDesc" = #{bookDesc},
+            </if>
+            <if test="author != null and author != ''">
+                "author" = #{author},
+            </if>
+            <if test="bookPrice != null">
+                "bookPrice" = #{bookPrice},
+            </if>
+            <if test="stock != null">
+                "stock" = #{stock},
+            </if>
+            <if test="stockStatus != null and stockStatus != ''">
+                "stockStatus" = #{stockStatus},
+            </if>
+            <if test="publishDate != null and publishDate != ''">
+                "publishDate" = #{publishDate},
+            </if>
+            <if test="roleId != null and roleId != ''">
+                "roleId" = #{roleId},
+            </if>
+            <if test="cateId != null and cateId != ''">
+                "cateId" = #{cateId},
+            </if>
+            <if test="bookImgPath != null and bookImgPath != ''">
+                "bookImgPath" = #{bookImgPath},
+            </if>
+            <if test="writer != null and writer != ''">
+                "writer" = #{writer},
+            </if>
+
+        </set>
+        WHERE "bookId" = #{bookId}
+    </update>
 
 
     <!-- collection은 List<String> 타입으로 받아온 리스트 문자열 타입 파라미터명을 입력 -->

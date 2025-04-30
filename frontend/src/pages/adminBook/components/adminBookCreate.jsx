@@ -9,7 +9,10 @@ import FileUpload from "./fileUpload.jsx";
 import Category from "./category.jsx";
 import {useNavigate} from "react-router-dom";
 import {getToday} from "../../../util/dateUtils.jsx";
-
+import PriceStock from "./priceStock.jsx";
+import {validStock} from "../../../util/validation.jsx";
+import ReusableModal from "./modal.jsx";
+import PublishDate from "./publishDate.jsx";
 
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
 
@@ -19,12 +22,14 @@ const AdminBookCreate = () => {
     const {userData} = useAuth();
     const navigate = useNavigate();
 
+
+
     //리액트는 초기값이 렌더링 되면 상태관리 방식으로인해 값이 고정되어
     // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
     const [createBook, setCreateBook] = useState({
         bookName: '',
-        bookCateNm:'',
-        bookCateDepth:'',
+        bookCateNm:[],
+        bookCateDepth:[],
         bookDesc: '',
         author:'',
         bookPrice: '0',
@@ -32,12 +37,38 @@ const AdminBookCreate = () => {
         stockStatus:'재고없음',
         publishDate:'', //발행일
         roleId:'',
-        cateId:'',
+        cateId:[],
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
         writer: '',
         createDate:getToday(),
-
     })
+    const [categoryList, setCategoryList] = useState([]); // 도서 카테고리 상태관리
+    const [bookImg, setBookImg] = useState([]); // 업로드 파일 상태관리
+
+
+
+    //get 요청서 categoryList 받아오기
+    const getCategories = async () => {
+      try{
+          const response = await  fetch("/api/admin/book/bookCreate",{
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json"
+              }
+          });
+
+          if(!response.ok){
+              console.log("통신에러",response.status);
+              throw  Error(response.statusText);
+          }
+          // 요청 성공 시 ,응답 제이슨으로 받아오기
+          const data = await response.json();
+          console.log("data--- createData",data);
+          setCategoryList(data);
+      }catch(err){
+          console.error("getCategories 실패:", err);
+      }
+    }
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
@@ -48,14 +79,52 @@ const AdminBookCreate = () => {
                 writer: userData.clientName,
             }));
         }
+        getCategories();
     }, [userData]);  // userData가 변경될 때 실행
+    //발행일
+    const [publishDate, setPublishDate] = useState(new Date()); // 오늘날짜를 초기값으로
+    //모달 상태관리
+    const [show, setShow] = useState(false);
+    const [errorData, setErrorData] = useState({});
+    const handleClose = () => {
+        console.log("close modal");
+        setShow(false)}
+    const handleShow = () => {
+        console.log("handleShow");
+        setShow(true)}
+    const [modalType, setModalType] = useState("confirm");
 
 
     //체크박스 전체선택 && 단일 선택 상태관리
-
     //핸들러 값 변경 시 실행되는 함수
     const handleChange = (e) => {
+        console.log("e type", typeof  e);
+        console.log("e target", e.target);
+        console.log("e target", e.target.value);
+        //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
        const { name, value } = e.target;
+       console.log("handleChange===========", name, value);
+       //stock 값 숫자인지 검증
+        if(name === "stock" || name === "bookPrice"){
+            //검증 유틸 사용
+            const result = validStock(value);
+            console.log("재고 검증 결과 ----",result)
+            //검증 통과 여부
+            console.log("result.message",result.message)
+            console.log("result.valid",result.valid)
+            if(!result.valid){
+                // 숫자 검증 false 일 경우, 모달 알림 뜸
+                setShow(true);
+                setErrorData(result); // result에 담긴 메시지 모달로 보내기
+            }
+
+        }
+
+        if(name === "publishDate"){
+
+            console.log("publishDate",publishDate)
+        }
+
         setCreateBook({
             ...createBook,//기존에 있는 데이터들 스프레드 연산자로 합쳐주기
             [name] : value,
@@ -66,6 +135,7 @@ const AdminBookCreate = () => {
         })
     }
 
+    console.log("createbook--- stock",createBook);
 
     const handleSubmit = async () => {
         //  formData 객체에 데이터 담기 및 fetch Post요청으로 컨트롤러로 데이터 전송하기
@@ -79,7 +149,21 @@ const AdminBookCreate = () => {
                 value.forEach((file) => {
                     formData.append("bookImg", file);
                 });
-            } else if(key === "createDate") {
+            }else if(key==="bookCateDepth"&& Array.isArray(value)){
+                value.forEach((depth) => {
+                    formData.append("bookCateDepth", depth);
+                })
+            }else if(key==="bookCateNm"&& Array.isArray(value)){
+
+                value.forEach((name) => {
+                    formData.append("bookCateNm", name);
+                })
+            } else if(key==="cateId"&& Array.isArray(value)){
+
+                value.forEach((id) => {
+                    formData.append("cateId", id);
+                })
+            }else if(key === "createDate") {
                 createBook["createDate"] = new Date(getToday());
             } else {
                 // 일반 문자열 데이터 추가
@@ -137,7 +221,7 @@ const AdminBookCreate = () => {
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookCreateForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
-                    <Category setCreateBook={setCreateBook}/>
+                    <Category setDefaultData={setCreateBook} defaultData={createBook} categoryList={categoryList}  />
                     {/*도서명*/}
                     <div className="d-flex align-items-center mb-1">
                             <FormTag id="bookName" label="도서명" labelClass="form-title" className="form-control" name="bookName" type="text"
@@ -149,35 +233,11 @@ const AdminBookCreate = () => {
                                      placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
                     </div>
                     {/*발행일*/}
+                    <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>
                     <div className="d-flex align-items-center mb-1">
-                        <FormTag id="publishDate" label="발행일" labelClass="form-title" className="form-control" name="publishDate" type="text"
-                                 placeholder="발행일" value={createBook.publishDate} onChange={handleChange}/>
-                    </div>
                     {/*재고 & 가격*/}
-                    <div className="d-flex align-items-center mb-1">
+                        <PriceStock bookPrice={createBook.bookPrice} stock={createBook.stock} stockStatus={createBook.stockStatus} handleChange={handleChange}/>
                         <div className="d-flex align-items-center">
-                            {/* 숫자만 입력되게 검증필요 */}
-                            <FormTag id="bookPrice" label="도서가격" labelClass="form-title" className="form-control"
-                                     name="bookPrice" type="text"
-                                     placeholder="도서가격입력" value={createBook.bookPrice} onChange={handleChange}/>
-                            <span className="mx-2">원</span>
-                        </div>
-                        <div className="d-flex align-items-center mx-2">
-                            {/* 100개 이상 입력되면 경고문? 아니면 선택박스로 바꾸기*/}
-                            <FormTag id="stock" label="재고" labelClass="form-title" className="form-control" name="stock"
-                                     type="text"
-                                     placeholder="재고입력" value={createBook.stock} onChange={handleChange}/>
-                            <span className="mx-2">개</span>
-                        </div>
-                        <div className="d-flex align-items-center">
-                            {/*재고도 셀렉트박스로 바꾸기*/}
-                            <FormTag id="stockStatus" label="재고상태" labelClass="form-title" className="form-control"
-                                     name="stockStatus"
-                                     type="text"
-                                     placeholder="재고상태" value={createBook.stockStatus} readOnly={true}/>
-                            <span className="mx-2">개</span>
-                        </div>
-                        <div className="d-flex align-items-center mx-2">
                             <FormTag id="createDate" label="등록일" labelClass="form-title" className="form-control" name="createDate"
                                      type="text"
                                      placeholder="등록일" value={createBook.createDate} readOnly={true}/>
@@ -207,7 +267,7 @@ const AdminBookCreate = () => {
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
-                        <FileUpload createBook={createBook} setCreateBook={setCreateBook}/>
+                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} />
                     </div>
                 </form>
                 <div className="d-flex align-items-center justify-content-center mt-4">
@@ -216,6 +276,12 @@ const AdminBookCreate = () => {
                 </div>
             </div>
 
+            {show && (
+                <ReusableModal show={show}
+                               onClose={handleClose}
+                               errorData={errorData}
+                               modalType="error"/>
+            )}
         </>
     )
 }

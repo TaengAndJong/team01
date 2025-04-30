@@ -13,5 +13,7 @@ public interface BookService {
     //public int createBook(BookVO book, List<MultipartFile> bookImgPath);
     public BookVO deTailBook(String bookId);
     public int createBook(BookVO book) throws FileNotFoundException;
+    public int updateBook(BookVO book) throws FileNotFoundException;
     public int deleteBooks(List<String> bookIds);
+
 }

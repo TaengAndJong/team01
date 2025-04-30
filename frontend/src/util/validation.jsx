@@ -12,15 +12,19 @@ const inputRegexs = {
     telRegex: /^(010|011|02)-\d{4}-\d{4}$/,
     //각 전화번호 : 숫자사용, 자리수는 4자리까지
     telEachRegex:/^\d{0,4}$/,
+    //숫자만
+    numberRegex: /^\d+$/,
 };
 
 // 공통 유효성 검사 함수작성
 export const validateInput = (regex, value,name,type) => {
+   console.log(regex, value,name,type);
     if (!value || value.trim() === "") { // value가 비어있거나 공백만 있을 경우
         return { valid: false,message: `${type}을(를) 입력해 주세요.`  };
     }
 
     if(!regex.test(value)){
+        console.log("!regex.test(value)",!regex.test(value))
         //아이디일 경우 (대소문자 구부없이 )
         if( name.toLowerCase().includes("id")) return {valid:false, message: "영문 또는 숫자 혼합사용가능(최대15글자)"}
         //비밀번호 경우
@@ -28,10 +32,13 @@ export const validateInput = (regex, value,name,type) => {
         // 전화번호일 경우 :  null 또는 undefined일 수 있으므로 안전하게 접근하기 위해 조건 필요
         // ? 옵셔널 체이닝 연산자로 객체나 변수의 속성이나 메서드에 접근하려고 할때 , 해당 값이 null, undefined인 경우 오류 방지하고 undefinde 반환
         if (name?.trim().toLowerCase().includes("secondtelnum") || name?.trim().toLowerCase().includes("lasttelnum") ){
-
             if(!regex.test(value)) {
                 return { valid: false, message: "숫자로 4자리까지만 입력 가능합니다." };
             }
+        }
+        //숫자형식이 아닐 경우
+        if (name.toLowerCase().includes("stock")) {
+                return { valid: false, message: "숫자만 입력해 주세요." };
         }
     }
     return {valid: true, message: "사용가능형식"}
@@ -46,7 +53,7 @@ export const validPW = (pw) => validateInput(inputRegexs.pwRegex, pw,"password",
 export const validEachTel = (name,tel) => validateInput(inputRegexs.telEachRegex, tel, name,"전화번호");
 export const validFullTel = (tel) => validateInput(inputRegexs.telRegex, tel, "전화번호");
 export const validEmail = (email) => validateInput(inputRegexs.emailRegex, email,"이메일");
-
+export const validStock = (stock)=>validateInput(inputRegexs.numberRegex,stock,"stock","재고");
 
 
 
@@ -110,4 +117,3 @@ export const validatePasswordMatch = (password, confirmPassword) => {
     return { valid: true, message: '비밀번호가 일치합니다.' };
 };
 
-//전화번호 확인검사

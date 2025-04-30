@@ -35,7 +35,7 @@ export const getToday = (separator = ".") => {
 
 
 // 한국식 날짜로 변환 ==> 클라이언트에게 보여줄 날짜형식
-export const toDate = (dateStr) => {
+export const formatToDate = (dateStr) => {
     if (!dateStr) return "";
     console.log("dateStr",dateStr); // String type
     console.log("dateStr",typeof dateStr);

@@ -72,15 +72,12 @@ public class BookServiceImple implements BookService{
     public BookVO deTailBook(String bookId) {
         BookVO bookVO = dao.selectOneBook(bookId);
         // 텍스트 이미지경로 to ArrayList 이미지경로
-        log.info("detaiaBook------:{}",bookVO);
         //bookImgPath  배열로 변경해서 넣어야함
-        log.info("detailBookImgpath:{}",bookVO.getBookImgPath());
         // 텍스트 이미지 split(",") 사용해서 문자 배열로 변경
         String[] bookImgPaths = bookVO.getBookImgPath().split(",");
         // bookVO의 bookImgList에 String 배열을 List 배열로 변경해 담아주기
         bookVO.setBookImgList(Arrays.asList(bookImgPaths));
         //데이터 반환
-        log.info("detaiaBook--------:{}",bookVO );
       return bookVO;
     }
 
@@ -131,6 +128,53 @@ public class BookServiceImple implements BookService{
         return cnt;
     }
 
+
+    @Override
+    public int updateBook(BookVO book) throws FileNotFoundException {
+
+        log.info("updateBook-----------:{}",book);
+
+
+        int cnt =0;
+        // 여기서부터 노이미지 파일 유틸에 들어가야함, 받을 파라미터는 BookVO book
+        String bookImgPath=""; // 데이터베이스에 담을 파일명 담는 문자열 변수
+
+        if(book != null) {
+            log.info("updateBook 파일 객체도 담겨서 넘어옴:{}", book );
+            log.info("book.file?????:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
+
+            //파일 유틸 클래스에서 이미지객체 존재 여부에 대해 검증하고 예외처리하기때문에 try - catch 구문 사용, 예외처리 없다면 사용하지 않아도 된다고 함
+            try{
+                bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
+                log.info("bookImgPath--------------------- 파일 유틸 반환값 확인: {}",bookImgPath);
+
+                //반환된 bookImgPath 데이터베이스에 전달할 객체설정
+                book.setBookImgPath(bookImgPath);
+
+            }catch (FileNotFoundException e){
+                log.error("파일이 존재하지 않음: {}", e.getMessage());
+                // 기본 이미지 경로로 대체하거나 에러 응답 처리
+                book.setBookImgPath(fileUtils.getDefaultImgPath());
+
+            } catch (Exception e){
+                log.info("파일 저장 중  Exception :{}",e.getMessage());
+                log.error("파일 저장 중 Exception 발생", e);
+                e.printStackTrace();
+                // 기본 이미지 경로로 대체하거나 에러 응답 처리
+                book.setBookImgPath(fileUtils.getDefaultImgPath());
+            }
+
+            //파일 유틸 끝
+            log.info(" 생성 시 객체 확인 - 파일객체 확인하기 -------------------------------------:{} ",book);
+
+            //공통처리부분
+            cnt = dao.updateBook(book); // 처리가 되면 값이 1로 변경
+            log.info("cnt------------------- : {} ", cnt);
+            return cnt; // 1 반환
+        }
+        return cnt;
+    }
+
     @Override
     public int deleteBooks(List<String> bookIds) {
         log.info("서비스구현체 파라미터오나?-----:{}",bookIds);
@@ -165,6 +209,7 @@ public class BookServiceImple implements BookService{
         log.info("delete cnt:{}",cnt);
         return cnt;
     }
+
 
 
 

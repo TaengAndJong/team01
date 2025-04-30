@@ -40,6 +40,11 @@ function reducer(state, action) {
             if(action.data){
                 console.log("UPDATE action",action.data, Array.isArray(action.data));
             }
+            //state는 새로 들어온 데이터객체를 담고있는 배열
+            // action.data의 bookId가 기존데이터인 book의 bookId와 같으면 새로들어온 action.data로 교체 아니면 기존 데이터 유지
+            return state.map((book) =>
+                book.bookId === action.data.bookId ? action.data : book
+            );
         default:
             return state;
     }

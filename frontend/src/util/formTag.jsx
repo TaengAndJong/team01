@@ -1,3 +1,5 @@
+import DatePicker from "react-datepicker";
+import {ko} from "date-fns/locale";
 
 const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                      type = "text", checked, msg,ref,
@@ -47,7 +49,20 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
 
                );
                break;
-
+           case "datePicker" :
+               return(
+                   <DatePicker
+                       selected={value}
+                       onChange={onChange}
+                       dateFormat="yyyy.MM.dd"
+                       locale={ko}
+                       className={msg ? "msg" : className}
+                       disabled={disabled}
+                       readOnly={readOnly}
+                       required={required}
+                       placeholderText="날짜 선택"
+                   />
+               )
            default:
                return (
                    <input

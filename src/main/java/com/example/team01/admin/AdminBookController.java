@@ -19,10 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.example.team01.utils.severUrlUtil.baseImageUrl;
 
@@ -38,23 +35,37 @@ public class AdminBookController {
     private final BookService bookService;
     private final FileUtils fileUtils;
 
-    @GetMapping("/bookCategory")
-    public ResponseEntity<?> getBookCreate(){
-        //도서 카테고리 목록 조회
-        List<CategoryVO> cateData  = categoryService.getAllCategories();
-        // Map에 담을 경우 하나의 객체로 묶어서 데이터가 나감
-        Map<String,Object> response = new HashMap<>();
-        response.put("cateData",cateData);
-        return ResponseEntity.ok(response);
+    @GetMapping("/bookCreate")
+    public ResponseEntity<?> getCreateBook(){
+        log.info("도서 생성 get API 호출됨");
+        //카테고리 목록 가져오기
+        Map<String, List<CategoryVO>> cateData  = categoryService.getAllCategories();
+        log.info("도서 생성 get API cateData:{}",cateData);
+        return  ResponseEntity.ok(cateData);
     }
+
 
     @PostMapping(value = "/bookCreate")
     public ResponseEntity<?> insertBookCreate(
-            @ModelAttribute BookVO createBook,@RequestParam(name="bookImg", required = false) List<MultipartFile> bookImg,HttpServletRequest request) throws FileNotFoundException {
+            @ModelAttribute BookVO createBook,
+            @RequestParam(name = "bookCateNm") List<String> bookCateNm,
+            @RequestParam(name = "bookCateDepth") List<String> bookCateDepth,
+            @RequestParam(name = "cateId") List<String> cateId,
+            @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg,HttpServletRequest request) throws FileNotFoundException {
 
         //VO객체랑 타입이 동일해야 파라미터를 받아올 수 있음
         log.info("BookVO createBook-------------:{}",createBook.toString());
+        log.info("BookVO getBookCateNm-------------:{}",createBook.getBookCateNm());
         log.info("MultipartFile bookImg-------------:{}",bookImg);
+        log.info(" bookCateNmList-------------:{}",bookCateNm);
+        log.info(" cateId-------------:{}",bookCateDepth);
+        log.info(" bookCateNm-------------:{}",cateId);
+
+        //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
+        createBook.setBookCateNm(String.join(",", bookCateNm));
+        createBook.setBookCateDepth(String.join(",", bookCateDepth));
+        createBook.setCateId(String.join(",", cateId));
+        log.info("BookVO createBook-------------:{}",createBook.toString());
 
         // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
         int result = bookService.createBook(createBook);
@@ -108,10 +119,57 @@ public class AdminBookController {
     public ResponseEntity<?>  getBookModify(@PathVariable String bookId,HttpServletRequest request){
         log.info("도서 수정 API 호출됨");
         log.info("bookId------------------:{}",bookId);
+        //카테고리 목록 가져오기
+        Map<String, List<CategoryVO>> cateData  = categoryService.getAllCategories();
+        log.info("bookVO--- cateData:{}",cateData);
+        //해당 아이디에 대한 도서 정보 가져오기
+        BookVO bookVO = bookService.deTailBook(bookId);
+        fileUtils.changeImgPath(bookVO, request); // 필요 시 이미지 경로 수정
 
-        return  ResponseEntity.ok("bookModify");
+        Map<String,Object> response = new HashMap<>();
+        //해당 아이디에 대한 도서데이터와 , 카테고리 데이터를 클라이언트에게 전송하기!
+        //문자열 데이터 List 형태로 바꿔서 bookVO재설정하기
+
+        // 도서 데이터준비
+        response.put("book", bookVO);
+        //카테고리 데이터
+        response.put("cateData",cateData);
+        log.info("response ----------------:{}",response);
+        return  ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/bookModify/{bookId}")
+    public ResponseEntity<?> updateBookModify(
+            @ModelAttribute BookVO modifyBook,
+            @RequestParam(name = "bookCateNm") List<String> bookCateNm,
+            @RequestParam(name = "bookCateDepth") List<String> bookCateDepth,
+            @RequestParam(name = "cateId") List<String> cateId,
+            @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg,HttpServletRequest request) throws FileNotFoundException {
+
+        //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
+        modifyBook.setBookCateNm(String.join(",", bookCateNm));
+        modifyBook.setBookCateDepth(String.join(",", bookCateDepth));
+        modifyBook.setCateId(String.join(",", cateId));
+        log.info("BookVO modifyBook-------------:{}",modifyBook.toString());
+
+        // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
+        int result = bookService.updateBook(modifyBook);
+        log.info("bookId: {}, type: {}", modifyBook.getBookId(), modifyBook.getBookId().getClass().getName());
+
+        // 데이터 insert 성공시 결과 반환
+        if (result > 0) {
+            BookVO updateData = bookService.deTailBook(modifyBook.getBookId());
+            log.info("updateData---------------- ID :{}",updateData);
+            //파일 경로 서버주소 반영하는 파일Util
+            fileUtils.changeImgPath(updateData,request);
+            return ResponseEntity.ok(updateData);// 저장된 데이터 전체를 클라이언트에 반환
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Book creation failed");
+        }
 
     }
+
 
     @PostMapping("/bookDelete")
     public ResponseEntity<?> deleteBook(@RequestBody List<String> bookIds) {

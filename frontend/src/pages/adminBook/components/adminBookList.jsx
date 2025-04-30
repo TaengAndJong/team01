@@ -4,10 +4,9 @@ import React, {useContext, useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
 import {BookDispatchContext, BookStateContext} from "../adminBookComponent.jsx";
-import {Link, useLocation, useNavigate} from "react-router-dom";
-import StaticModal from "./modal.jsx";
+import {Link} from "react-router-dom";
 import ReusableModal from "./modal.jsx";
-import {toDate} from "../../../util/dateUtils.jsx";
+import {formatToDate} from "../../../util/dateUtils.jsx";
 
 
 const AdminBookList = () => {
@@ -162,7 +161,7 @@ const AdminBookList = () => {
                             <td className="text-center" id={`bookPrice${index}`}>{item.bookPrice}원</td>
                             <td className="text-center" id={`bookPublishDt${index}`}>{item.publishDate}</td>
                             <td className="text-center" id={`bookWriter${index}`}>{item.writer}</td>
-                            <td className="text-center" id={`bookPublishDt${index}`}>{toDate(item.createDate)}</td>
+                            <td className="text-center" id={`bookPublishDt${index}`}>{formatToDate(item.createDate)}</td>
                             <td className="text-center" id={`bookStock${index}`}>{item.stock}</td>
                         </tr>
                     ))
