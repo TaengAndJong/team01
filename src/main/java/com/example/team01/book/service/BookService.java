@@ -10,10 +10,10 @@ import java.util.List;
 public interface BookService {
 
     public List<BookVO> getAllBooks();
-    public BookVO modifyBook(String bookId);
     //public int createBook(BookVO book, List<MultipartFile> bookImgPath);
     public BookVO deTailBook(String bookId);
     public int createBook(BookVO book) throws FileNotFoundException;
+    public int updateBook(BookVO book) throws FileNotFoundException;
     public int deleteBooks(List<String> bookIds);
 
 }

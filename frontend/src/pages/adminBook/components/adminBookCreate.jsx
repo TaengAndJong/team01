@@ -28,8 +28,8 @@ const AdminBookCreate = () => {
     // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
     const [createBook, setCreateBook] = useState({
         bookName: '',
-        bookCateNm:'',
-        bookCateDepth:'',
+        bookCateNm:[],
+        bookCateDepth:[],
         bookDesc: '',
         author:'',
         bookPrice: '0',
@@ -37,12 +37,15 @@ const AdminBookCreate = () => {
         stockStatus:'재고없음',
         publishDate:'', //발행일
         roleId:'',
-        cateId:'',
+        cateId:[],
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
         writer: '',
         createDate:getToday(),
     })
-    const [categoryList, setCategoryList] = useState([]);
+    const [categoryList, setCategoryList] = useState([]); // 도서 카테고리 상태관리
+    const [bookImg, setBookImg] = useState([]); // 업로드 파일 상태관리
+
+
 
     //get 요청서 categoryList 받아오기
     const getCategories = async () => {
@@ -66,7 +69,6 @@ const AdminBookCreate = () => {
           console.error("getCategories 실패:", err);
       }
     }
-
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
@@ -147,7 +149,21 @@ const AdminBookCreate = () => {
                 value.forEach((file) => {
                     formData.append("bookImg", file);
                 });
-            } else if(key === "createDate") {
+            }else if(key==="bookCateDepth"&& Array.isArray(value)){
+                value.forEach((depth) => {
+                    formData.append("bookCateDepth", depth);
+                })
+            }else if(key==="bookCateNm"&& Array.isArray(value)){
+
+                value.forEach((name) => {
+                    formData.append("bookCateNm", name);
+                })
+            } else if(key==="cateId"&& Array.isArray(value)){
+
+                value.forEach((id) => {
+                    formData.append("cateId", id);
+                })
+            }else if(key === "createDate") {
                 createBook["createDate"] = new Date(getToday());
             } else {
                 // 일반 문자열 데이터 추가
@@ -251,7 +267,7 @@ const AdminBookCreate = () => {
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
-                        <FileUpload bookFile={createBook} setBookFile={setCreateBook}/>
+                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} />
                     </div>
                 </form>
                 <div className="d-flex align-items-center justify-content-center mt-4">

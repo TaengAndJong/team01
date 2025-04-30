@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
 import Category from "./category.jsx";
@@ -13,6 +13,7 @@ import {useAuth} from "../../common/AuthContext.jsx";
 import {validStock} from "../../../util/validation.jsx";
 import {getToday} from "../../../util/dateUtils.jsx";
 import category from "./category.jsx";
+import {BookDispatchContext} from "../adminBookComponent.jsx";
 
 const AdminBookModify = () => {
 
@@ -25,6 +26,7 @@ const AdminBookModify = () => {
     * */
     const {bookId} = useParams(); // URL에서 bookId 값 받아오기
     const {userData} = useAuth();// 로그인한 사용자 데이터
+    const {onUpdate} = useContext(BookDispatchContext);
     const navigate = useNavigate();
     console.log("bookId modify", bookId);
     console.log("bookId modify",  typeof bookId);
@@ -32,6 +34,7 @@ const AdminBookModify = () => {
     //도서 정보데이터
     const [modifyBookData, setModifyBookData] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
+    const [bookImg, setBookImg] = useState([]); // 업로드 파일 상태관리
     //fetch 함수 작성하기
     const fetchModify = async()=>{
         try{
@@ -130,6 +133,19 @@ const AdminBookModify = () => {
                 value.forEach((file) => {
                     formData.append("bookImg", file);
                 });
+            }else if(key==="bookCateDepth"&& Array.isArray(value)){
+                value.forEach((depth) => {
+                    formData.append("bookCateDepth", depth);
+                })
+            }else if(key==="bookCateNm"&& Array.isArray(value)){
+                value.forEach((name) => {
+                    formData.append("bookCateNm", name);
+                })
+            }else if(key==="cateId"&& Array.isArray(value)){
+
+                value.forEach((id) => {
+                    formData.append("cateId", id);
+                })
             } else if(key === "createDate") {
                 modifyBookData["createDate"] = new Date(getToday());
             } else {
@@ -158,8 +174,7 @@ const AdminBookModify = () => {
             const newUpdatingData = await response.json();
             console.log("newUpdatingData" , newUpdatingData);
             // onUpdate를 통해 데이터 클라이언트 데이터 갱신?
-          //  onCreate(newUpdatingData);
-            //onUpdate(newUpdatingData);
+            onUpdate(newUpdatingData);
             // 목록 페이지로 이동
             navigate("/admin/book/bookList");
         }catch(err){
@@ -250,7 +265,7 @@ const AdminBookModify = () => {
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
 
-                        <FileUpload bookFile={modifyBookData} setBookFile={setModifyBookData}/>
+                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} />
                     </div>
                 </form>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">

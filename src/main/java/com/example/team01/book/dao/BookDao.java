@@ -22,7 +22,7 @@ public interface BookDao {
     //도서 등록 --> mybatis 삭제, 등록, 수정에 대해 int 로 반환
     public int createBook(BookVO book);
     //도서 수정
-    public int updateBook(String bookId);
+    public int updateBook(BookVO book);
     //도서 존재 여부 판단 ==>넘겨받은 도서아이디 파라미터 데이터베이스에서 조회
     public List<String> existBooks(@Param("bookIds") List<String> bookIds);
     //도서 삭제
