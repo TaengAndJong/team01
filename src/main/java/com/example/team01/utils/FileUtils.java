@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,7 +55,7 @@ public class FileUtils {
     @Value("${file.noImg-dir}")
     private  String noImgDir;
 
-
+//날데이터 받아서 문자열로 경로반환 저장메서드
     public String saveFile(List<MultipartFile> fileObject,String middlePath) throws FileNotFoundException {
         String bookImgPath=""; //반환할 데이터베이스 텍스트경로
 
@@ -164,20 +165,22 @@ public class FileUtils {
     }
     
     //실서버에 저장된 이미지파일 삭제만
-    public String deleteFiles(String fileName,String middlePath) {
-        log.info("fileNames----------del:{}",fileName);
+    public String deleteFiles(String fileNames,String middlePath) {
+        log.info("fileNames----------del:{}",fileNames);
         // 삭제할 파일 레코드 아이디 받아오기 ==> List<String> fileNames
-        String deleteFilePath = uploadDir + File.separator + middlePath + File.separator + fileName;//운영체제에 맞게 파일 경로 생성하기 위한 코드
-        File file = new File(deleteFilePath); //File 클래스를 사용하는 이유는, 파일시스템에서 해당경로의 파일을 조작하기 위해서 파일 객체를 사용
-        log.info("deltet File:{}",file);
-        //서버에 파일이 존재하는지 확인필요
-        if(file.exists()) {
-            file.delete();
-            log.info("서버에 저장된 파일 삭제했음");
-        }else {
-            log.warn("파일 삭제 실패 또는 없음 file.getPath(): {}", file.getPath());
-        }
-
+        String deleteFilePath = uploadDir + File.separator + middlePath + File.separator;//운영체제에 맞게 파일 경로 생성하기 위한 코드
+        //File 클래스를 사용하는 이유는, 파일시스템에서 해당경로의 파일을 조작하기 위해서 파일 객체를 사용
+        Arrays.stream(fileNames.split(","))
+                .map(fileName -> new File(deleteFilePath + fileName))
+                .forEach(file -> {
+                    if (file.exists()) {
+                        boolean deleted = file.delete();
+                        log.info("삭제성공여부:{}",deleted);
+                        log.info("삭제성공여부:{}",file.getPath());
+                    } else {
+                        log.info("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
+                    }
+                });
        return "이미지파일 삭제";
     }
 }

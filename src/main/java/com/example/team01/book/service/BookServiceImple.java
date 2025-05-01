@@ -177,7 +177,7 @@ public class BookServiceImple implements BookService{
 
     @Override
     public int deleteBooks(List<String> bookIds) {
-        log.info("서비스구현체 파라미터오나?-----:{}",bookIds);
+        log.info("서비스구현체 파라미터오나?-----bookIds:{}",bookIds);
         int cnt;
         //삭제할 아이디데이터 조회
         List<String> existBookIds = dao.existBooks(bookIds);
@@ -192,7 +192,7 @@ public class BookServiceImple implements BookService{
             throw new BookNotFoundException("존재하지 않는 도서 ID ",missingIds);
         }
         //존재하는 아이디 값만 넘겨서 삭제성공이면  cnt = 성공한 개수로 반환
-        log.info("existBookIds cnt:{}",existBookIds);
+
 
         //서버에 저장된 이미지 삭제하기
         for(String bookId : existBookIds){

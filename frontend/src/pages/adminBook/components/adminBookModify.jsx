@@ -34,7 +34,14 @@ const AdminBookModify = () => {
     //도서 정보데이터
     const [modifyBookData, setModifyBookData] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
-    const [bookImg, setBookImg] = useState([]); // 업로드 파일 상태관리
+    //파일
+    const [bookImg, setBookImg] = useState({
+        existing: modifyBookData.bookImgPath || [],
+        new: [],
+        removed: [],   // 삭제한 기존 파일
+    });
+
+    //발행일
     //fetch 함수 작성하기
     const fetchModify = async()=>{
         try{
@@ -79,14 +86,12 @@ const AdminBookModify = () => {
     }, [bookId,userData]); //bookId가 변경될 때마다 데이터 변경
 
 
+
     //발행일
     const [publishDate, setPublishDate] = useState(new Date()); // 오늘날짜를 초기값으로
 
     //핸들러 값 변경 시 실행되는 함수
     const handleChange = (e) => {
-        console.log("e type", typeof  e);
-        console.log("e target", e.target);
-        console.log("e target", e.target.value);
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
         const { name, value } = e.target;
         console.log("handleChange===========", name, value);
@@ -105,12 +110,6 @@ const AdminBookModify = () => {
             }
 
         }
-
-        if(name === "publishDate"){
-
-            console.log("publishDate",publishDate)
-        }
-
         setModifyBookData({
             ...modifyBookData,//기존에 있는 데이터들 스프레드 연산자로 합쳐주기
             [name] : value,
@@ -129,10 +128,22 @@ const AdminBookModify = () => {
             // Array.isArray(value) ==> file 객체
             // bookImg가 값이 비어있거나 없을 경우 noImg 파일 가져와서
             // 파일 객체로 만들어 bookImg에 배열로 담아 서버로 넘겨야 함
-            if (key === "bookImg" && Array.isArray(value)) {
-                value.forEach((file) => {
-                    formData.append("bookImg", file);
-                });
+            if (key === "bookImg") {
+                //bookImg.new 는 newFiles라는 새 변수명으로 할당함
+                const { new: newFiles, existing, removed } = bookImg;
+                // 1. 새 파일이 있다면 추가
+                if (Array.isArray(newFiles) && newFiles.length > 0) {
+                    newFiles.forEach((file) => {
+                        formData.append("bookImg", file);
+                    });
+                }
+                // 2. 삭제할 기존 파일이 있다면 추가
+                if (Array.isArray(removed) && removed.length > 0) {
+                    console.log("삭제한 이미지",removed.length);
+                    removed.forEach((file) => {
+                        formData.append("removedBookImg", file.name); // 또는 file이 string이면 그대로
+                    });
+                }
             }else if(key==="bookCateDepth"&& Array.isArray(value)){
                 value.forEach((depth) => {
                     formData.append("bookCateDepth", depth);
@@ -264,8 +275,7 @@ const AdminBookModify = () => {
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
-
-                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} />
+                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} defualtData={modifyBookData.bookImgPath}/>
                     </div>
                 </form>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
