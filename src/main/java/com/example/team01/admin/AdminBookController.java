@@ -56,7 +56,7 @@ public class AdminBookController {
         //VO객체랑 타입이 동일해야 파라미터를 받아올 수 있음
         log.info("BookVO createBook-------------:{}",createBook.toString());
         log.info("BookVO getBookCateNm-------------:{}",createBook.getBookCateNm());
-        log.info("MultipartFile bookImg-------------:{}",bookImg);
+        log.info("MultipartFile bookImg-------------:{}",createBook.getBookImg());
         log.info(" bookCateNmList-------------:{}",bookCateNm);
         log.info(" cateId-------------:{}",bookCateDepth);
         log.info(" bookCateNm-------------:{}",cateId);
@@ -144,12 +144,17 @@ public class AdminBookController {
             @RequestParam(name = "bookCateNm") List<String> bookCateNm,
             @RequestParam(name = "bookCateDepth") List<String> bookCateDepth,
             @RequestParam(name = "cateId") List<String> cateId,
-            @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg,HttpServletRequest request) throws FileNotFoundException {
+            @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg,
+            @RequestParam(name = "removedBookImg", required = false) List<String> removedBookImg,
+            HttpServletRequest request) throws FileNotFoundException {
 
         //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
         modifyBook.setBookCateNm(String.join(",", bookCateNm));
         modifyBook.setBookCateDepth(String.join(",", bookCateDepth));
         modifyBook.setCateId(String.join(",", cateId));
+        log.info("BookVO bookImg-------------:{}",bookImg);
+        log.info("BookVO removedBookImg-------------:{}",removedBookImg);
+        log.info("BookVO bookImg-------------:{}",modifyBook.getBookImg());
         log.info("BookVO modifyBook-------------:{}",modifyBook.toString());
 
         // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
@@ -162,6 +167,7 @@ public class AdminBookController {
             log.info("updateData---------------- ID :{}",updateData);
             //파일 경로 서버주소 반영하는 파일Util
             fileUtils.changeImgPath(updateData,request);
+            fileUtils.deleteFiles(String.join(",", removedBookImg),"book");
             return ResponseEntity.ok(updateData);// 저장된 데이터 전체를 클라이언트에 반환
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

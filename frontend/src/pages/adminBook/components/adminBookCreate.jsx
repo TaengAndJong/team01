@@ -42,9 +42,15 @@ const AdminBookCreate = () => {
         writer: '',
         createDate:getToday(),
     })
+    //카테고리
     const [categoryList, setCategoryList] = useState([]); // 도서 카테고리 상태관리
-    const [bookImg, setBookImg] = useState([]); // 업로드 파일 상태관리
-
+   //파일
+    const [bookImg, setBookImg] = useState({
+        new: [],      // 공통
+    });
+    // 업로드 파일 상태관리
+    //발행일
+    const [publishDate, setPublishDate] = useState(new Date()); // 오늘날짜를 초기값으로
 
 
     //get 요청서 categoryList 받아오기
@@ -81,8 +87,14 @@ const AdminBookCreate = () => {
         }
         getCategories();
     }, [userData]);  // userData가 변경될 때 실행
-    //발행일
-    const [publishDate, setPublishDate] = useState(new Date()); // 오늘날짜를 초기값으로
+
+    useEffect(() => {
+        setCreateBook(prev => ({
+            ...prev,
+            bookImg: bookImg.new,
+        }));
+    }, [bookImg])
+
     //모달 상태관리
     const [show, setShow] = useState(false);
     const [errorData, setErrorData] = useState({});
@@ -138,17 +150,21 @@ const AdminBookCreate = () => {
     console.log("createbook--- stock",createBook);
 
     const handleSubmit = async () => {
+
         //  formData 객체에 데이터 담기 및 fetch Post요청으로 컨트롤러로 데이터 전송하기
         const formData = new FormData(); //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있음
         //createBook의 모든 데이터를 formData에 담아서 서버의 컨트롤러로 전송
         Object.entries(createBook).forEach(([key, value]) => {
-               // Array.isArray(value) ==> file 객체
+              // Array.isArray(value) ==> file 객체
             // bookImg가 값이 비어있거나 없을 경우 noImg 파일 가져와서
             // 파일 객체로 만들어 bookImg에 배열로 담아 서버로 넘겨야 함 
-            if (key === "bookImg" && Array.isArray(value)) {
-                value.forEach((file) => {
-                    formData.append("bookImg", file);
-                });
+            if (key === "bookImg") {
+                console.log("value---",key);
+                console.log(" bookImg.new---", Array.isArray(bookImg.new)); // array
+                bookImg.new.forEach((img)=>{ // 누적값 저장은 forEach(), 새로운 배열 생성은 map()
+                    formData.append("bookImg", img);
+                })
+
             }else if(key==="bookCateDepth"&& Array.isArray(value)){
                 value.forEach((depth) => {
                     formData.append("bookCateDepth", depth);
@@ -204,9 +220,7 @@ const AdminBookCreate = () => {
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
         //파일 객체  [] 배열이면 기본으로 이미지 추가하기
-        console.log("데이터 제출하겠따")
         console.log("데이터제출 createBook",createBook);
-        console.log("데이터제출 createBook.bookImg)",createBook.bookImg);
         // file 객체 값 이미지객체 빈값인지 확인하는 함수
         console.log("데이터제출  후 createBook.bookImg)",createBook.bookImg);
         handleSubmit();
@@ -267,7 +281,7 @@ const AdminBookCreate = () => {
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
-                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} />
+                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} setCreatebook={setCreateBook}/>
                     </div>
                 </form>
                 <div className="d-flex align-items-center justify-content-center mt-4">
