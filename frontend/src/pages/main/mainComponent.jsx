@@ -1,9 +1,5 @@
-import Btn from "../../util/reuseBtn.jsx"
-import pathsData from "../../assets/pathsData.jsx"
-import {Outlet} from "react-router-dom";
 
-
-import "../../../../frontend/dist/assets/css/main.css"
+import "@assets/css/main.css"
 
 const mainComponent = () => {
 

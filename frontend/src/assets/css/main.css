@@ -1,0 +1,26 @@
+
+
+.client main {
+    min-height: auto;
+    width: 100%;
+    padding: 100px 0 200px 0;
+}
+
+.client .bodyWrapper {
+    background: linear-gradient(to top,rgba(190, 210, 151, 1) 15%,rgba(255, 255, 255, 1) 60%);
+    /*padding-top: 90px;*/
+    /*padding-bottom: 107px;*/
+    width: 100%;
+}
+.section,.sc-inner{
+    width: 100%;
+}
+.sc-inner{min-height: 600px; padding: 30px}
+
+/*section Slide*/
+
+/*section tab */
+
+/*section3*/
+
+/*section 4*/
