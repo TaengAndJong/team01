@@ -53,23 +53,16 @@ public class AdminBookController {
             @RequestParam(name = "cateId") List<String> cateId,
             @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg,HttpServletRequest request) throws FileNotFoundException {
 
-        //VO객체랑 타입이 동일해야 파라미터를 받아올 수 있음
-        log.info("BookVO createBook-------------:{}",createBook.toString());
-        log.info("BookVO getBookCateNm-------------:{}",createBook.getBookCateNm());
-        log.info("MultipartFile bookImg-------------:{}",createBook.getBookImg());
-        log.info(" bookCateNmList-------------:{}",bookCateNm);
-        log.info(" cateId-------------:{}",bookCateDepth);
-        log.info(" bookCateNm-------------:{}",cateId);
 
         //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
         createBook.setBookCateNm(String.join(",", bookCateNm));
         createBook.setBookCateDepth(String.join(",", bookCateDepth));
         createBook.setCateId(String.join(",", cateId));
-        log.info("BookVO createBook-------------:{}",createBook.toString());
+
 
         // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
         int result = bookService.createBook(createBook);
-        log.info("result---------------- ID :{}",createBook.getBookId());
+
         // 데이터 insert 성공시 결과 반환
         if (result > 0) {
             BookVO addBookData = bookService.deTailBook(createBook.getBookId());
@@ -96,6 +89,19 @@ public class AdminBookController {
         }
         // 배열 안에 객체 형태로 내보내려면 원본 Map 사용하지 않고 내보내야함
        return  ResponseEntity.ok(bookList);
+    }
+
+    @PostMapping("/bookList")
+    public ResponseEntity<?>  getSearchBookList(@RequestParam String type,
+                                                @RequestParam String field,
+                                                @RequestParam String keyword,
+                                                HttpServletRequest request){
+        log.info("도서 목록 searchkeyword API 호출됨");
+        log.info("type --------------------: {}",type);
+        log.info("field -------------------: {}",field);
+        log.info("keyword -----------------: {}",keyword);
+
+        return  ResponseEntity.ok("검색어 필터 메소드 데이터반환");
 
     }
 
@@ -118,10 +124,10 @@ public class AdminBookController {
     @GetMapping("/bookModify/{bookId}")
     public ResponseEntity<?>  getBookModify(@PathVariable String bookId,HttpServletRequest request){
         log.info("도서 수정 API 호출됨");
-        log.info("bookId------------------:{}",bookId);
+
         //카테고리 목록 가져오기
         Map<String, List<CategoryVO>> cateData  = categoryService.getAllCategories();
-        log.info("bookVO--- cateData:{}",cateData);
+
         //해당 아이디에 대한 도서 정보 가져오기
         BookVO bookVO = bookService.deTailBook(bookId);
         fileUtils.changeImgPath(bookVO, request); // 필요 시 이미지 경로 수정
@@ -129,12 +135,11 @@ public class AdminBookController {
         Map<String,Object> response = new HashMap<>();
         //해당 아이디에 대한 도서데이터와 , 카테고리 데이터를 클라이언트에게 전송하기!
         //문자열 데이터 List 형태로 바꿔서 bookVO재설정하기
-
         // 도서 데이터준비
         response.put("book", bookVO);
         //카테고리 데이터
         response.put("cateData",cateData);
-        log.info("response ----------------:{}",response);
+
         return  ResponseEntity.ok(response);
     }
 
@@ -152,19 +157,16 @@ public class AdminBookController {
         modifyBook.setBookCateNm(String.join(",", bookCateNm));
         modifyBook.setBookCateDepth(String.join(",", bookCateDepth));
         modifyBook.setCateId(String.join(",", cateId));
-        log.info("BookVO bookImg-------------:{}",bookImg);
-        log.info("BookVO removedBookImg-------------:{}",removedBookImg);
-        log.info("BookVO bookImg-------------:{}",modifyBook.getBookImg());
-        log.info("BookVO modifyBook-------------:{}",modifyBook.toString());
+
 
         // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
         int result = bookService.updateBook(modifyBook);
-        log.info("bookId: {}, type: {}", modifyBook.getBookId(), modifyBook.getBookId().getClass().getName());
+
 
         // 데이터 insert 성공시 결과 반환
         if (result > 0) {
             BookVO updateData = bookService.deTailBook(modifyBook.getBookId());
-            log.info("updateData---------------- ID :{}",updateData);
+
             //파일 경로 서버주소 반영하는 파일Util
             fileUtils.changeImgPath(updateData,request);
             fileUtils.deleteFiles(String.join(",", removedBookImg),"book");

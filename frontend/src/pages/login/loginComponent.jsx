@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import Btn from "../../util/reuseBtn.jsx";
 import {useAuth} from "../common/AuthContext.jsx";
 import pathsData from "../../assets/pathsData.jsx";
-import "../../../dist/assets/css/login/login.css";
+import "@assets/css/login/login.css";
 
 
 function Login({data}) {

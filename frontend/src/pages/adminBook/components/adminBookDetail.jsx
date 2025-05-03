@@ -3,7 +3,7 @@ import React, { useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
 import AdminBookSlide from "../../common/adminBookSlide.jsx";
-import "../../../../dist/assets/css/book/bookDetail.css";
+import "@assets/css/book/bookDetail.css";
 
 
 

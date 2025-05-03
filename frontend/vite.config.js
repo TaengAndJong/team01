@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-
+import path from 'path'
 
 
 // https://vite.dev/config/
@@ -8,7 +8,19 @@ export default defineConfig({
  // base: "/api", // 기본 경로,
 
   plugins: [react()],
-
+  // 절대 경로 설정 : vite.config.js가 root의 기준이 됨,따라서 src를 기준으로 해야 함!
+  resolve: {
+    alias : [
+      { find: "@", replacement: "/src" },
+      { find: "@assets", replacement: "/src/assets" },
+      { find: "@config", replacement: "/src/config" },
+      { find: "@js", replacement: "/src/js" },
+      { find: "@layout", replacement: "/src/layout" },
+      { find: "@pages", replacement: "/src/pages" },
+      { find: "@test", replacement: "/src/test" },
+      { find: "@util", replacement: "/src/util" },
+    ],
+  },
   build: {// 빌드 결과물이 생성되는 경로
     outDir: '../src/main/resources/static'
   },

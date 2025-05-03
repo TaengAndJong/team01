@@ -1,0 +1,47 @@
+.sub .main.login {
+    margin: 0;
+}
+
+.sub .page.login-inner {
+    padding-top: 80px;
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    display: inline-block;
+    max-width: 600px;
+    padding: 70px;
+    border: 3px solid #A47763;
+    border-radius: 10px;
+    background: rgba(164, 119, 99, 0.3);
+}
+
+.sub .main.login {
+    margin: 0;
+}
+
+.sub .page.login-inner {
+    padding-top: 80px;
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    display: inline-block;
+    max-width: 600px;
+    padding: 70px;
+    border: 3px solid #A47763;
+    border-radius: 10px;
+    background: rgba(164, 119, 99, 0.3);
+}
