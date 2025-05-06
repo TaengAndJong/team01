@@ -103,10 +103,15 @@ public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) Str
         log.info("keyword -----------------: {}",keyword);
 
         //서비스로 검색 파라미터 넘겨주기
-        List<BookVO> result = bookService.searchBook(type,field,keyword);
-        log.info("result -----------------: {}",result);
+        List<BookVO> bookList = bookService.searchBook(type,field,keyword);
+        for (BookVO bookVO : bookList) {
+            log.info("여기--검색 책목록:{}",bookVO);
+            fileUtils.changeImgPath(bookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+            log.info("다음--검색 책목록:{}",bookVO);
+        }
+        log.info("result -----------------: {}",bookList);
 
-        return  ResponseEntity.ok(result);
+        return  ResponseEntity.ok(bookList);
 
     }
 

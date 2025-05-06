@@ -24,7 +24,7 @@ const SearchBar = ({search,setSearch, handleSearch}) =>{
             }
         )); // 부모에게 전달
     };
-console.log("search", search);
+console.log("search------------", search);
 
     return(
         <>
