@@ -30,13 +30,12 @@ console.log("search", search);
         <>
             <select className="form-control" name="type" value={search?.type || ""} onChange={(e)=>handleSearchChange(e)}>
                 <option value="ALL">전체</option>
-                <option value="DOMESTIC">국내</option>
-                <option value="FOREIGN">국외</option>
+                <option value="국내도서">국내도서</option>
+                <option value="국외도서">국외도서</option>
                 <option value="EBOOK">Ebook</option>
             </select>
             <select className="form-control" name="field" value={search?.field|| ""} onChange={(e)=>handleSearchChange(e)}>
                 <option value="title">도서명</option>
-                <option value="category">카테고리</option>
                 <option value="author">저자</option>
             </select>
             <input className="form-control"

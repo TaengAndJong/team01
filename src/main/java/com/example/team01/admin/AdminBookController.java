@@ -8,6 +8,7 @@ import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.severUrlUtil;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CategoryVO;
+import com.example.team01.vo.SearchVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -92,16 +93,20 @@ public class AdminBookController {
     }
 
     @PostMapping("/bookList")
-    public ResponseEntity<?>  getSearchBookList(@RequestParam String type,
-                                                @RequestParam String field,
-                                                @RequestParam String keyword,
-                                                HttpServletRequest request){
+public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) String type,
+                                             @RequestParam(required = false) String field,
+                                             @RequestParam String keyword,
+                                             HttpServletRequest request){
         log.info("도서 목록 searchkeyword API 호출됨");
         log.info("type --------------------: {}",type);
         log.info("field -------------------: {}",field);
         log.info("keyword -----------------: {}",keyword);
 
-        return  ResponseEntity.ok("검색어 필터 메소드 데이터반환");
+        //서비스로 검색 파라미터 넘겨주기
+        List<BookVO> result = bookService.searchBook(type,field,keyword);
+        log.info("result -----------------: {}",result);
+
+        return  ResponseEntity.ok(result);
 
     }
 

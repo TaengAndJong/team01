@@ -2,6 +2,7 @@ package com.example.team01.book.dao;
 
 
 import com.example.team01.vo.BookVO;
+import com.example.team01.vo.SearchVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,5 +28,6 @@ public interface BookDao {
     public List<String> existBooks(@Param("bookIds") List<String> bookIds);
     //도서 삭제
     public int deleteBooks(@Param("existBookIds") List<String> existBookIds);
-
+    //xml로 여러개의 파라미터를 넘겨주려면 @Param으로 바인딩할 파라미터명을 명시해줘야 함
+    public List<BookVO> searchBook(@Param("type") String type, @Param("field") String field, @Param("keyword") String keyword);
 }
