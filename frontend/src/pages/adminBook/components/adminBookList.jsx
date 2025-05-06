@@ -12,7 +12,7 @@ import SearchBar from "../../../util/searchBar.jsx";
 
 const AdminBookList = () => {
     const bookdata = useContext(BookStateContext);
-    const {onDelete} = useContext(BookDispatchContext); // 사용할 함수 가져올때 전역설정이면 context 훅 불러와야함
+    const {onDelete,onInit} = useContext(BookDispatchContext); // 사용할 함수 가져올때 전역설정이면 context 훅 불러와야함
     const [bookList, setBookList] = useState([]);
 
     //데이터를 부모컴포넌트로부터 받아 온다.
@@ -125,9 +125,9 @@ const AdminBookList = () => {
             }
             //요청 성공
             const data = await response.json();
-            console.log("search",data);
+            console.log("search---------------",data);
             //setbookData에 데이터 갱신 처리 해주어함?
-
+            onInit(data);
         }catch (e){
 
         }
