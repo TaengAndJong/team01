@@ -3,8 +3,12 @@ import {Link, Outlet} from "react-router-dom";
 import React from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import {useMenu} from "../common/MenuContext.jsx";
-import {BookDispatchContext, BookStateContext} from "../adminBook/adminBookComponent.jsx";
 import {menuNavi} from "../../util/menuNavi.jsx";
+
+
+//context 상태관리
+export const BookBoardStateContext = React.createContext();// state 값을 공급하는 context
+export const  BookBoardDispatchContext = React.createContext();// 생성, 수정(갱신), 삭제 값을 공급하는 context
 
 
 const AdminBoard = () => {
@@ -58,6 +62,11 @@ const AdminBoard = () => {
                             </ol>
 
                             {/*  문의관리  1차메뉴일 경우  컨텐츠*/}
+                            <BookBoardStateContext.Provider value={null}>
+                                <BookBoardDispatchContext.Provider value={null}>
+                                    <Outlet />
+                                </BookBoardDispatchContext.Provider>
+                            </BookBoardStateContext.Provider>
 
                             {/*  문의관리 2차메뉴일경우 컨텐츠 */}
 
