@@ -1,29 +1,34 @@
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
 
 import React, {useContext, useEffect, useState} from "react";
-import Btn from "../../../util/reuseBtn.jsx";
-import pathsData from "../../../assets/pathsData.jsx";
-import {BookDispatchContext, BookStateContext} from "../adminBookComponent.jsx";
+import Btn from "@util/reuseBtn.jsx";
+import pathsData from "@assets/pathsData.jsx";
+import {BookDispatchContext, BookStateContext, PaginationContext} from "../adminBookComponent.jsx";
 import {Link} from "react-router-dom";
 import ReusableModal from "./modal.jsx";
-import {formatToDate} from "../../../util/dateUtils.jsx";
-import SearchBar from "../../../util/searchBar.jsx";
+import {formatToDate} from "@util/dateUtils.jsx";
+import SearchBar from "@util/searchBar.jsx";
+import Pagination from "@util/pagination.jsx";
 
 
 const AdminBookList = () => {
     const bookdata = useContext(BookStateContext);
+    const {paginationInfo,onChangePageHandler} = useContext(PaginationContext);
     const {onDelete,onInit} = useContext(BookDispatchContext); // 사용할 함수 가져올때 전역설정이면 context 훅 불러와야함
     const [bookList, setBookList] = useState([]);
 
-    //데이터를 부모컴포넌트로부터 받아 온다.
     // bookdata가 존재할 때만 bookList 업데이트
     useEffect(() => {
         //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
         if(bookdata){
+            console.log("bookdata--------useEffect",bookdata);
             setBookList(bookdata);
-            console.log("bookdata----useEffect",bookdata);
         }
+        //페이지 fetch요청 보내기
+        
     }, [bookdata]);
+    console.log("bookList--------",bookList);
+
     //전체선택
     const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
     //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
@@ -133,11 +138,14 @@ const AdminBookList = () => {
         }
     }
 
+
+
+
     return(
         <>
             <SearchBar search={search} setSearch={setSearch} handleSearch={handleSearch}/>
 
-            <table className="table table-custom">
+            <table className="table table-custom mt-4">
                 <caption className="sr-only">
                     등록된 도서상품 테이블
                 </caption>
@@ -210,6 +218,9 @@ const AdminBookList = () => {
                 </tbody>
 
             </table>
+            {/*pagination*/}
+            <Pagination paginationInfo={paginationInfo} onChangePageHandler={onChangePageHandler}/>
+
             <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                 <Btn className={"create btn btn-danger"} type={"button"}  onClick={() => handleShow()}  text="삭제"/>
                 <Btn className={"create btn btn-primary"} type={"button"} path={pathsData.page.adminBookCreate} text="등록"/>

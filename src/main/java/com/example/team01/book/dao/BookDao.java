@@ -1,11 +1,11 @@
 package com.example.team01.book.dao;
 
 
+
+import com.example.team01.utils.Pagination;
 import com.example.team01.vo.BookVO;
-import com.example.team01.vo.SearchVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public interface BookDao {
 
     //도서목록
-    public List<BookVO> selectAllBook();
+    public List<BookVO> selectAllBook(@Param("pagination") Pagination pagination);
     //도서상세페이지 ( id로 특정 데이터 조회후 특정데이터 레코드 전부 반환 ==> BookVO사용)
     public BookVO selectOneBook(String bookId);
 
@@ -29,5 +29,12 @@ public interface BookDao {
     //도서 삭제
     public int deleteBooks(@Param("existBookIds") List<String> existBookIds);
     //xml로 여러개의 파라미터를 넘겨주려면 @Param으로 바인딩할 파라미터명을 명시해줘야 함
-    public List<BookVO> searchBook(@Param("type") String type, @Param("field") String field, @Param("keyword") String keyword);
+    public List<BookVO> searchBook(@Param("type") String bookType,
+                                   @Param("field") String searchType,
+                                   @Param("keyword") String keyword );
+
+   //totalRecode
+   public int totalRecord(@Param("pagination") Pagination pagination);
+
+
 }
