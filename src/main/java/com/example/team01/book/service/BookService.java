@@ -14,7 +14,7 @@ public interface BookService {
     public int createBook(BookVO book) throws FileNotFoundException;
     public int updateBook(BookVO book) throws FileNotFoundException;
     public int deleteBooks(List<String> bookIds);
-    public List<BookVO> searchBook(String type, String field, String keyword);
+   // public List<BookVO> searchBook(String type, String field, String keyword);
 
 
 }

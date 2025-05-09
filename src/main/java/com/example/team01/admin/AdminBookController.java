@@ -102,35 +102,42 @@ public class AdminBookController {
     }
 
     @PostMapping("/bookList")
-public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) String type,
-                                             @RequestParam(required = false) String field,
-                                             @RequestParam String keyword,
-                                             @RequestParam(defaultValue = "1") int page,
-                                             @RequestParam(defaultValue = "10") int pageSize,
-                                             HttpServletRequest request){
-        log.info("도서 목록 searchkeyword API 호출됨");
-        log.info("type --------------------: {}",type);
-        log.info("field -------------------: {}",field);
-        log.info("keyword -----------------: {}",keyword);
+    public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) String bookType,
+                                                 @RequestParam(required = false) String searchType,
+                                                 @RequestParam String keyword,
+                                                 @RequestParam(defaultValue = "1") int page,
+                                                 @RequestParam(defaultValue = "10") int pageSize,
+                                                 HttpServletRequest request){
+            log.info("도서 목록 searchkeyword API 호출됨");
+            log.info("bookType --------------------: {}",bookType);
+            log.info("searchType -------------------: {}",searchType);
+            log.info("keyword -----------------: {}",keyword);
+            //페이지 계산 클래스 불러오기
+            Pagination pagination = new Pagination(page, pageSize);
+            log.info("pagination -----------------: {}",pagination);
 
-        //페이지 계산 클래스 불러오기
-        Pagination pagination = new Pagination(page, pageSize);
-        log.info("pagination -----------------: {}",pagination);
-        //서비스로 검색 파라미터 넘겨주기
-        List<BookVO> bookList = bookService.searchBook(type,field,keyword);
+            //검색필터 설정해주기
+            pagination.addDetailCondition("bookType", bookType);
+            pagination.addDetailCondition("searchType", searchType);
+            pagination.addDetailCondition("keyword", keyword);
 
-        // 레코드 순회
-        for (BookVO bookVO : bookList) {
-            log.info("여기--검색 책목록:{}",bookVO);
-            fileUtils.changeImgPath(bookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
-            log.info("다음--검색 책목록:{}",bookVO);
+            log.info("DetailContion-----:{}",pagination.getDetailCondition());
+
+            //서비스로 검색 파라미터 넘겨주기
+            List<BookVO> bookList = bookService.getAllBooks(pagination);
+
+            // 레코드 순회
+            for (BookVO bookVO : bookList) {
+                log.info("여기--검색 책목록:{}",bookVO);
+                fileUtils.changeImgPath(bookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+                log.info("다음--검색 책목록:{}",bookVO);
+            }
+            log.info("result -----------------: {}",bookList);
+
+            //응답 반환
+            return  ResponseEntity.ok(bookList);
+
         }
-        log.info("result -----------------: {}",bookList);
-
-        //응답 반환
-        return  ResponseEntity.ok(bookList);
-
-    }
 
 // 인덱스와 primary key 역할을 겸한다면 long type으로 설정해야 데이터베이스 성능이 좋아짐
 

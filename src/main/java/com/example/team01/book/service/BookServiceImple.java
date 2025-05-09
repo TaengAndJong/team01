@@ -215,31 +215,31 @@ public class BookServiceImple implements BookService{
         return cnt;
     }
 
-    @Override
-    public List<BookVO> searchBook(String type, String field, String keyword) {
-
-        List<BookVO> searchBookList = dao.searchBook(type,field,keyword);
-        log.info("searchBookList-----------:{}",searchBookList);
-
-
-        List<String> bookImgePaths = new ArrayList<>();
-        //실제이미지 파일 클라이언트로 전송하는 로직
-        //1.데이터베이스에서 도서 객체 조회
-        for(BookVO bookVO : searchBookList){
-            //한 행의 레코드 하나씩 조회
-            log.info("bookVO-----------------------:{}",bookVO);
-            //2. bookImgPath "," 기준으로 자르고 배열반환
-            String[] getBookImg= bookVO.getBookImgPath().split(",");
-
-            if(bookVO.getBookImgPath()!=null || !bookImgePaths.isEmpty()){
-                log.info("getBookImg ------------: {}",getBookImg);
-            }
-            /// 여기에서 bookVO객체 배열로변경해서 설정해야하는뎅
-            bookVO.setBookImgList(Arrays.asList(getBookImg));
-        }//end
-
-        //5. 전체 객체 반환하기
-        return searchBookList;
-    }
+//    @Override
+//    public List<BookVO> searchBook(String type, String field, String keyword) {
+//
+//        List<BookVO> searchBookList = dao.searchBook(type,field,keyword);
+//        log.info("searchBookList-----------:{}",searchBookList);
+//
+//
+//        List<String> bookImgePaths = new ArrayList<>();
+//        //실제이미지 파일 클라이언트로 전송하는 로직
+//        //1.데이터베이스에서 도서 객체 조회
+//        for(BookVO bookVO : searchBookList){
+//            //한 행의 레코드 하나씩 조회
+//            log.info("bookVO-----------------------:{}",bookVO);
+//            //2. bookImgPath "," 기준으로 자르고 배열반환
+//            String[] getBookImg= bookVO.getBookImgPath().split(",");
+//
+//            if(bookVO.getBookImgPath()!=null || !bookImgePaths.isEmpty()){
+//                log.info("getBookImg ------------: {}",getBookImg);
+//            }
+//            /// 여기에서 bookVO객체 배열로변경해서 설정해야하는뎅
+//            bookVO.setBookImgList(Arrays.asList(getBookImg));
+//        }//end
+//
+//        //5. 전체 객체 반환하기
+//        return searchBookList;
+//    }
 
 }

@@ -36,10 +36,10 @@ const Pagination = ({ paginationInfo, onChangePageHandler}) => {
         pageButtons.push(
             <li
                 key={i}
-                className={`d-inline-block w-25 ${i === paginationInfo.currentPage ? "active" : ""}`}
+                className="d-inline-block"
                 onClick={() => onChangePageHandler(i)}
             >
-                {i}
+                <button className={`btn d-inline-block ${i === paginationInfo.currentPage ? "active" : ""}`}>{i}</button>
             </li>
         );
     }
@@ -47,7 +47,7 @@ const Pagination = ({ paginationInfo, onChangePageHandler}) => {
     return (
         paginationInfo.totalPages > 0 && (
             <div className="pagination">
-                <ul className="pageList d-flex w-100">{pageButtons}</ul>
+                <ul className="pageList d-flex w-100 justify-content-center">{pageButtons}</ul>
             </div>
         )
     );
