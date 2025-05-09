@@ -1,28 +1,22 @@
 package com.example.team01.admin;
 
 import com.example.team01.book.service.BookService;
-import com.example.team01.category.dao.CategoryDao;
 import com.example.team01.category.service.CategoryService;
 import com.example.team01.common.exception.BookNotFoundException;
 import com.example.team01.utils.FileUtils;
-import com.example.team01.utils.severUrlUtil;
+import com.example.team01.utils.Pagination;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CategoryVO;
-import com.example.team01.vo.SearchVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.*;
-
-import static com.example.team01.utils.severUrlUtil.baseImageUrl;
 
 //컨트롤러는 응답과 결과만 반환함
 
@@ -54,7 +48,7 @@ public class AdminBookController {
             @RequestParam(name = "cateId") List<String> cateId,
             @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg,HttpServletRequest request) throws FileNotFoundException {
 
-
+        log.info("bookImg-----create",bookImg);
         //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
         createBook.setBookCateNm(String.join(",", bookCateNm));
         createBook.setBookCateDepth(String.join(",", bookCateDepth));
@@ -79,31 +73,53 @@ public class AdminBookController {
 
 
     @GetMapping("/bookList")
-    public ResponseEntity<?>  getBookList(HttpServletRequest request){
+    public ResponseEntity<?>  getBookList( @RequestParam(defaultValue = "1") int currentPage,
+                                           @RequestParam(defaultValue = "6") int pageSize
+                                            ,HttpServletRequest request){
         log.info("도서 목록 API 호출됨");
-        List<BookVO> bookList  = bookService.getAllBooks();
+        //페이지 계산 클래스 불러오기
+        Pagination pagination = new Pagination(currentPage, pageSize); //현재페이지 && 보여줄 페이지 수
+
+        log.info("pagination -----------------: {} pageSize:{}",currentPage,pageSize);
+        //서비스로 데이터 넘기기
+        List<BookVO> bookList  = bookService.getAllBooks(pagination);
 
         for (BookVO bookVO : bookList) {
             log.info("여기:{}",bookVO);
             fileUtils.changeImgPath(bookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
             log.info("다음:{}",bookVO);
         }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("items", bookList);
+        result.put("currentPage", pagination.getCurrentPage());
+        result.put("pageSize", pagination.getPageSize());
+        result.put("totalPages", pagination.getTotalPages());
+        result.put("totalRecord", pagination.getTotalRecord());
+        log.info("result---get:{}",result);
         // 배열 안에 객체 형태로 내보내려면 원본 Map 사용하지 않고 내보내야함
-       return  ResponseEntity.ok(bookList);
+       return  ResponseEntity.ok(result);
     }
 
     @PostMapping("/bookList")
 public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) String type,
                                              @RequestParam(required = false) String field,
                                              @RequestParam String keyword,
+                                             @RequestParam(defaultValue = "1") int page,
+                                             @RequestParam(defaultValue = "10") int pageSize,
                                              HttpServletRequest request){
         log.info("도서 목록 searchkeyword API 호출됨");
         log.info("type --------------------: {}",type);
         log.info("field -------------------: {}",field);
         log.info("keyword -----------------: {}",keyword);
 
+        //페이지 계산 클래스 불러오기
+        Pagination pagination = new Pagination(page, pageSize);
+        log.info("pagination -----------------: {}",pagination);
         //서비스로 검색 파라미터 넘겨주기
         List<BookVO> bookList = bookService.searchBook(type,field,keyword);
+
+        // 레코드 순회
         for (BookVO bookVO : bookList) {
             log.info("여기--검색 책목록:{}",bookVO);
             fileUtils.changeImgPath(bookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
@@ -111,6 +127,7 @@ public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) Str
         }
         log.info("result -----------------: {}",bookList);
 
+        //응답 반환
         return  ResponseEntity.ok(bookList);
 
     }

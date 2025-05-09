@@ -3,24 +3,18 @@ package com.example.team01.book.service;
 import com.example.team01.book.dao.BookDao;
 import com.example.team01.common.exception.BookNotFoundException;
 import com.example.team01.utils.FileUtils;
+import com.example.team01.utils.Pagination;
 import com.example.team01.vo.BookVO;
-import com.example.team01.vo.SearchVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value; // 롬복 사용하면 안됨, inMemory에서 가져오려면 이 패키지 사용해야 함
-import java.io.File;
+
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -42,12 +36,23 @@ public class BookServiceImple implements BookService{
 
 
     @Override
-    public List<BookVO> getAllBooks() {
+    public List<BookVO> getAllBooks(Pagination pagination) {
+        log.info("컨트롤러에서 받아온 파라미터 pagination:{}", pagination.toString());
+        //전체 데이터 레코드 조회해오기
+        int total = dao.totalRecord(pagination);
+        log.info("서비스 total record-----------:{}", total);
+        // 전체 데이터 페이지네이션 멤버변수 값 설정
+        pagination.setTotalRecord(total);
+        log.info("서비스 pagination 총 레코드 수 -----------:{}", pagination.getTotalRecord());
+        log.info("서비스 pagination 총 getCurrentPage 수 -----------:{}", pagination.getCurrentPage());
+        //startRow && endRow 설정
+        pagination.setLimitRows(pagination.getCurrentPage());
+        log.info("컨트롤러에서 받아온 파라미터 pagination2222:{}", pagination.toString());
 
-        List<BookVO> bookVOList = dao.selectAllBook();
+        // 조회된 전체 데이터의 행의 개수 조회
+        List<BookVO> bookVOList = dao.selectAllBook(pagination);
 
-        log.info("getAllBooks-----------:{}",dao.selectAllBook());
-        log.info("bookVOList-----------:{}",bookVOList);
+       // log.info("서비스 bookVOList-----------:{}",bookVOList);
 
         List<String> bookImgePaths = new ArrayList<>();
         //실제이미지 파일 클라이언트로 전송하는 로직
