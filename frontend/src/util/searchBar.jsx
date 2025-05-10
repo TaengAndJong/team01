@@ -2,9 +2,7 @@
 
 
 //search 컴포넌트
-
-import ReuseBtn from "./reuseBtn.jsx";
-import Btn from "./reuseBtn.jsx";
+import Btn from "@util/reuseBtn.jsx";
 import React from "react";
 
 const SearchBar = ({search,setSearch, handleSearch}) =>{
@@ -28,17 +26,18 @@ console.log("search------------", search);
 
     return(
         <>
-            <select className="form-control" name="type" value={search?.type || ""} onChange={(e)=>handleSearchChange(e)}>
+            <div className="searchBar d-flex justify-content-end">
+            <select className="form-control w-auto" name="bookType" value={search?.bookType || ""} onChange={(e)=>handleSearchChange(e)}>
                 <option value="ALL">전체</option>
                 <option value="국내도서">국내도서</option>
                 <option value="국외도서">국외도서</option>
                 <option value="EBOOK">Ebook</option>
             </select>
-            <select className="form-control" name="field" value={search?.field|| ""} onChange={(e)=>handleSearchChange(e)}>
+            <select className="form-control w-auto" name="searchType" value={search?.searchType|| ""} onChange={(e)=>handleSearchChange(e)}>
                 <option value="title">도서명</option>
                 <option value="author">저자</option>
             </select>
-            <input className="form-control"
+            <input className="form-control w-auto"
                 type="text"
                 name="keyword"
                 value={search?.keyword || ""}
@@ -46,7 +45,7 @@ console.log("search------------", search);
                 placeholder="검색어 입력"
             />
             <Btn className={"search btn btn-primary"} type={"button"}  onClick={() => handleSearch()}  text="검색"/>
-
+            </div>
         </>
     )
 }
