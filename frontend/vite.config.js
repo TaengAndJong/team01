@@ -19,6 +19,7 @@ export default defineConfig({
       { find: "@pages", replacement: "/src/pages" },
       { find: "@test", replacement: "/src/test" },
       { find: "@util", replacement: "/src/util" },
+      { find: "@common", replacement: "/src/pages/common" },
     ],
   },
   build: {// 빌드 결과물이 생성되는 경로
