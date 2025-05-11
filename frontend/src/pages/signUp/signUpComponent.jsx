@@ -9,6 +9,7 @@ import Tel from "./components/tel.jsx";
 import Email from "./components/email.jsx";
 import Address from "./components/address.jsx";
 import StaffConfirm from "./components/staffConfirm.jsx";
+import {checkDuplicate} from "../../util/validation.jsx";
 
 
 const SignUpComponent = () => {
@@ -43,6 +44,7 @@ const SignUpComponent = () => {
         errorBirth:"",
         memberMsg:""
     });
+
 //signUp post로 비동기 요청보내기
     const handleSignUp = async () => {
         try {
@@ -76,23 +78,74 @@ const SignUpComponent = () => {
         }
     };
 
+    //아이디와 검증 핸들러
+    const handleIdConfirm = async (fieldName) => {
+        // 서버와 비동기 통신하여 중복 확인 , field이름은 ""(문자열)
+        const apiAddr = "/api/signUp/checkDuplicate"
+        const params = new URLSearchParams({ [fieldName]: formData[fieldName] });
+        //  const params = new URLSearchParams({ clientId:formInfoData.clientId});
+        // 비동기 함수 호출
+        try {
+            // 비동기 함수 호출 (fieldName과 해당 값을 전달 , 아이디 중복검증 비동기 요청)
+            const userInfo = await checkDuplicate(apiAddr, fieldName, params.get(fieldName));
+            console.log("userInfo-------",userInfo)
+            //사원번호와 아이디 검증 분기점
+            if (userInfo.message.includes("사원번호")) {
+
+                setMsg((prevState) =>(
+                    {
+                        ...prevState,
+                        memberMsg: userInfo.message
+                    }))
+
+                setFormData((prevState) =>(
+                    {
+                        ...prevState,
+                        roleId:userInfo.roleId,
+                        joinDate:userInfo.joinDate,
+                    }
+                ));
+            }else{
+                setMsg((prevState) =>(
+                    {
+                        ...prevState,
+                        errorId: userInfo.message
+                    }))
+            }
+
+
+        } catch (err) {
+            console.error(`중복 확인 중 오류 발생 (${fieldName}):`, err);
+        }
+    };
+
+    console.log("signupComponent ---------------------------------------")
+    console.log("formData :", formData);
+    console.log("msg :",msg)
+    console.log("handleIdConfirm :",handleIdConfirm)
+    console.log("signupComponent ---------------------------------------")
+
+
 
     return (
         <>
-            <div className="text-center custom-border content-inner">
-                <strong className="d-block title-border mb-5">회원가입</strong>
+            <div  className="text-center custom-border content-inner">
                 <form className="">
-                    <IdAndpw formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                    <Birth formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                    <Tel formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                    <Email formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                    <Address formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                    <StaffConfirm formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
+                    <fieldset>
+                        <legend className="d-block title-border mb-5">회원가입</legend>
+                        <IdAndpw formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleIdConfirm={handleIdConfirm}/>
+                        <Birth formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
+                        <Tel formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
+                        <Email formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
+                        <Address formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
+                        <StaffConfirm formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleIdConfirm={handleIdConfirm}/>
+                        <div className="d-flex justify-content-center w-100 mt-4">
+                            <Btn type="submit" text="회원가입" className="btn-primary me-2" id="signup"
+                                 onClick={handleSignUp}/>
+                            <Btn type="reset" text="취소" className="btn-danger" id="reset"/>
+                        </div>
+                    </fieldset>
                 </form>
-                <div className="d-flex justify-content-center w-100 mt-4">
-                    <Btn type="submit" text="회원가입" className="btn-primary me-2" id="signup"  onClick={handleSignUp}/>
-                    <Btn type="reset" text="취소" className="btn-danger" id="reset"  />
-                </div>
             </div>
 
         </>

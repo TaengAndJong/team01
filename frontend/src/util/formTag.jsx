@@ -17,7 +17,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
            );
            case "checkbox":
            case "radio":
-               return <input id={id} name={name} type={type} checked={checked} onChange={onChange}
+               return <input id={id} name={name} type={type} value={value} checked={checked} onChange={onChange}
                              className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required} />
            case "textarea":
                return <textarea id={id} name={name} value={value} onChange={onChange}

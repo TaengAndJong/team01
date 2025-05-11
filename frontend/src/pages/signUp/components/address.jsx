@@ -36,7 +36,7 @@ const Address=({formData,setFormData,msg,setMsg})=>{
         <>
             {/*주소*/}
             <div className="d-flex flex-column mb-3">
-                <div className="d-flex align-items-center w-100 mb-1">
+                <div className="d-flex align-items-center w-100 mb-2">
                     <FormTag
                         label="주소"
                         labelClass="form-title" className="form-control"
@@ -47,7 +47,7 @@ const Address=({formData,setFormData,msg,setMsg})=>{
                     />
                 </div>
 
-                <div className="d-flex align-items-center w-100 mb-1">
+                <div className="d-flex align-items-center w-100 mb-2">
                     <FormTag
                         label="우편번호"
                         labelClass="form-title" className="form-control w-75"
