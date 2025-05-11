@@ -13,20 +13,20 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
            case "text":
                return (
                    <input id={id} name={name} type={type} value={value || ""} onChange={onChange}
-                          className={msg ? "msg" : className} disabled={disabled} readOnly={readOnly} required={required} />
+                          className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required} />
            );
            case "checkbox":
            case "radio":
                return <input id={id} name={name} type={type} checked={checked} onChange={onChange}
-                             className={msg ? "msg" : className} disabled={disabled} readOnly={readOnly} required={required} />
+                             className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required} />
            case "textarea":
                return <textarea id={id} name={name} value={value} onChange={onChange}
-                                className={msg ? "msg" : className} disabled={disabled} readOnly={readOnly} required={required}/>
+                                className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required}/>
            case "password":
                return (
                    <input
                        id={id} name={name} type={type} value={value || ""} onChange={onChange}
-                       className={msg ? "msg" : className}
+                       className={msg ? "msg form-control" : className}
                        required={required}
                        {...(type === "password" ? {autoComplete: "new-password"} : {})}
                        {...(type === "name" ? {autoComplete: "name"} : {})}
@@ -42,7 +42,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                        value={value}
                        onChange={onChange}
                        checked={checked}
-                       className={msg ? "msg" : className}
+                       className={msg ? "msg form-control" : className}
                        readOnly={readOnly}
                        required={required}
                    />
@@ -56,7 +56,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                        onChange={onChange}
                        dateFormat="yyyy.MM.dd"
                        locale={ko}
-                       className={msg ? "msg" : className}
+                       className={msg ? "msg form-control" : className}
                        disabled={disabled}
                        readOnly={readOnly}
                        required={required}
@@ -72,7 +72,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                        value={value || ""}
                        onChange={onChange}
                        checked={checked}
-                       className={msg ? "msg" : className}
+                       className={msg ? "msg form-control" : className}
                        disabled={disabled}
                        readOnly={readOnly}
                        required={required}
@@ -86,7 +86,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
             {/* labelClass가 null이나 undefined 이면 "" (빈문자열 반환) */}
             <label htmlFor={name} className={labelClass ? labelClass : ""}>{label}</label>
             {inputType()}
-            {msg && <span className="msg">{msg}</span>}
+            {msg && <span className="msg tip">{msg}</span>}
         </>
     );
 };

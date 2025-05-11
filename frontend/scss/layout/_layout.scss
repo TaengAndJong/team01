@@ -190,6 +190,11 @@ a,span,em,i{display:inline-block;color:#333333;}
 //  }
 //}
 
+//common
+.custom-border{
+  border:3px solid $color00;
+  border-radius: 0 20px 20px;
+}
 //layout
 .bodyWrapper{height:100vh;overflow-y: auto;}
 

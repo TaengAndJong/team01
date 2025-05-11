@@ -11,10 +11,28 @@ const Layout = () => {
     const {menu, currentPath, standardPoint} = useMenu();
     let location = useLocation();
 
+    console.log("menu ---",menu);
+    const menuItem = () => {
+        for (let list in menu) {
+            console.log("list in menu",list);
+
+        }
+    }
 
 // body에 /admin 과 /은 main이고 그 외 전부 sub 클래스 출력
     const bodyName = (currentPath) => {
-        if (currentPath === "/admin" || currentPath == "/") {
+        console.log("currentPath", currentPath);
+        // switch (currentPath) {
+        //     case "/":return "main"
+        //         break;
+        //     case "/admin": return "admin"
+        //         break;
+        //     case "/signup": return "signup"
+        //         break;
+        //     default: return "sub"
+        //         break;
+        // }
+        if (currentPath === "/admin" || currentPath === "/") {
             return "main";
         } else {
             return "sub"
@@ -23,8 +41,16 @@ const Layout = () => {
     };
 
     const pageName = (standardPoint) => {
+        console.log("standardPoint", standardPoint);
+
         for (let list in menu) {
-            const foundItem = menu[list].find((item) => item.menuPath === standardPoint);
+            console.log("list",list);
+
+           const menuList = menu[list];
+            console.log("menuList",menuList);
+
+            const foundItem = menu[list]?.find((item) => item.menuPath === standardPoint);
+            console.log("foundItem",foundItem);
             if (foundItem) {
                 switch (foundItem.menuPath) {
                     case "/admin":
