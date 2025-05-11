@@ -88,8 +88,9 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 
 .form-group-title, .form-title {
   font-weight: bold;
-  min-width: 90px;
+  min-width: 110px;
   padding-right: 10px;
+  text-align: left;
   position: relative;
 }
 .form-group-title::after, .form-title::after {
@@ -332,7 +333,6 @@ header, .header-inner, .gnb {
 .sub .page {
   justify-content: space-between;
   min-height: 500px;
-  padding: 0 30px;
 }
 
 .left {
@@ -454,9 +454,7 @@ header, .header-inner, .gnb {
 }
 .content-inner {
   position: relative;
-  border: 3px solid #A47763;
-  border-radius: 0 20px 20px;
-  padding: 60px 25px 29px 35px;
+  padding: 60px 50px 29px;
 }
 
 .menu-navi {
@@ -639,6 +637,11 @@ a, span, em, i {
   height: 5px;
   background-color: #89C53B;
   border-radius: 50%;
+}
+
+.custom-border {
+  border: 3px solid #A47763;
+  border-radius: 0 20px 20px;
 }
 
 .bodyWrapper {

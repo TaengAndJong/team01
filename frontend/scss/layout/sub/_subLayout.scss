@@ -2,8 +2,6 @@
 @use "../../utils/mixins" as *; // 함수
 
 
-//client main
-
 
 //sub
 
@@ -15,7 +13,7 @@
   .page {
     justify-content: space-between;
     min-height: $subHeight;
-    @include  layoutPadding($layoutPadding);
+    //@include  layoutPadding($layoutPadding);
   }
 }
 
@@ -168,9 +166,7 @@
 .content{}
 .content-inner{
   position: relative;
-  border:3px solid $color00;
-  border-radius: 0 20px 20px;
-  padding:60px 25px 29px 35px;
+  padding:60px 50px 29px;
 }
 
 //navi

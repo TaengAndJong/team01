@@ -5,31 +5,31 @@ import './App.scss';
 // main.jsx 또는 App.jsx에서 추가
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-import SignUp from "./pages/singUp/signUpComponent.jsx";
+import SignUp from "@pages/signUp/signUpComponent.jsx";
 import PathData from "./assets/pathsData.jsx";
 import Index from "./index.jsx";
-import Main from "./pages/main/mainComponent.jsx";
-import Login from "./pages/login/loginComponent.jsx";
-import Logout from "./pages/logout/logoutComponent.jsx";
-import Mypage from "./pages/myPage/mypageCompoenet.jsx";
-import Cart from "./pages/cart/cartComponent.jsx";
+import Main from "@pages/main/mainComponent.jsx";
+import Login from "@pages/login/loginComponent.jsx";
+import Logout from "@pages/logout/logoutComponent.jsx";
+import Mypage from "@pages/myPage/mypageCompoenet.jsx";
+import Cart from "@pages/cart/cartComponent.jsx";
 
-import Admin from "./pages/admin/adminCoponent.jsx";
-import AdminDashboard from "./pages/adminBoard/components/adminDashboard.jsx";
-import AdminDeliveryBoard from "./pages/adminBoard/components/deliveryBoard.jsx"
-import AdminProductBoard from "./pages/adminBoard/components/productBoard.jsx";
-import AdminOneBoard from "./pages/adminBoard/components/qnaOneBoard.jsx";
-import AdminBoard from "./pages/adminBoard/adminBoardComponent.jsx";
-import AdminBook from "./pages/adminBook/adminBookComponent.jsx";
-import WishList from "./pages/wishList/wishListComponent.jsx";
-import Book from "./pages/book/bookComponent.jsx";
-import Board from "./pages/board/boardComponent.jsx";
+import Admin from "@pages/admin/adminCoponent.jsx";
+import AdminDashboard from "@pages/adminBoard/components/adminDashboard.jsx";
+import AdminDeliveryBoard from "@pages/adminBoard/components/deliveryBoard.jsx"
+import AdminProductBoard from "@pages/adminBoard/components/productBoard.jsx";
+import AdminOneBoard from "@pages/adminBoard/components/qnaOneBoard.jsx";
+import AdminBoard from "@pages/adminBoard/adminBoardComponent.jsx";
+import AdminBook from "@pages/adminBook/adminBookComponent.jsx";
+import WishList from "@pages/wishList/wishListComponent.jsx";
+import Book from "@pages/book/bookComponent.jsx";
+import Board from "@pages/board/boardComponent.jsx";
 import Layout from "./layout/Layout.jsx";
-import AdminBookModify from "./pages/adminBook/components/adminBookModify.jsx";
-import AdminBookCreate from "./pages/adminBook/components/adminBookCreate.jsx";
-import AdminBookDetail from "./pages/adminBook/components/adminBookDetail.jsx";
-import AdminBookList from "./pages/adminBook/components/adminBookList.jsx";
-import {MenuProvider} from "./pages/common/MenuContext.jsx";
+import AdminBookModify from "@pages/adminBook/components/adminBookModify.jsx";
+import AdminBookCreate from "@pages/adminBook/components/adminBookCreate.jsx";
+import AdminBookDetail from "@pages/adminBook/components/adminBookDetail.jsx";
+import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
+import {MenuProvider} from "@pages/common/MenuContext.jsx";
 
 
 
