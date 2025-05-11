@@ -39,7 +39,7 @@ const DaumPostcode  = ({ onAddressSelect }) => {
     };
 
     return (
-        <button type='button' onClick={handleClick}>
+        <button type='button' className="btn btn-primary form-control w-25 ms-1" onClick={handleClick}>
             주소 찾기
         </button>
     );

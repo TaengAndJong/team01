@@ -6,17 +6,17 @@
 
     <select id="categoryList" resultType="CategoryVO">
         SELECT
-            trim(LPAD(' ', LEVEL * 2) || cateName) AS cateNames,
-            cateId,
-            parentId,
-            depthLevel,
+            trim(LPAD(' ', LEVEL * 2) || "cateName") AS cateNames,
+            "cateId",
+            "parentId",
+            "depthLevel",
             LEVEL,
-            SUBSTR(SYS_CONNECT_BY_PATH(cateName, ' > '), 4) AS fullPath
+            SUBSTR(SYS_CONNECT_BY_PATH("cateName", ' > '), 4) AS fullPath
         FROM
             categories
-                START WITH parentId IS NULL
-        CONNECT BY PRIOR cateId = parentId
-        ORDER SIBLINGS BY cateName
+                START WITH "parentId" IS NULL
+        CONNECT BY PRIOR "cateId" = "parentId"
+        ORDER SIBLINGS BY "cateName"
     </select>
 
 </mapper>

@@ -7,7 +7,7 @@ import {BookDispatchContext, BookStateContext, PaginationContext} from "../admin
 import {Link} from "react-router-dom";
 import ReusableModal from "./modal.jsx";
 import {formatToDate} from "@util/dateUtils.jsx";
-import SearchBar from "@util/searchBar.jsx";
+import SearchBar from "@pages/adminBook/components/searchBar.jsx";
 import Pagination from "@util/pagination.jsx";
 
 

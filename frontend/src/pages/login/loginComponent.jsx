@@ -135,9 +135,9 @@ function Login({data}) {
                             </div>
                         </div>
                         <div className="d-flex justify-content-center align-items-center" >
-                            <Btn className={"signup btn btn-primary w-50 me-1"} text={"회원가입"}
+                            <Btn className={"btn-primary w-50 me-1"} id="signup" text={"회원가입"}
                                  path={pathsData.page.signup}/>
-                            <Btn className={"login btn btn-secondary w-50 ms-1"} text={"로그인"}
+                            <Btn className={"btn-secondary w-50 ms-1"} id="login" text={"로그인"}
                                  type="submit"/>
                         </div>
                     </form>
