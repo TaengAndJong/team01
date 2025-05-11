@@ -70,10 +70,10 @@ function App() {
 
                     <Route path={PathData.page.adminBoard} element={<AdminBoard/>}>
                         {/*첫페이지 설정*/}
-                        <Route index element={<Navigate to="oneBoard" replace/>}/>  
+                        <Route index element={<Navigate to="qnaOneList" replace/>}/>
                         <Route path="deliveryBoard" element={<AdminDeliveryBoard/>}/>
                         <Route path="productBoard" element={<AdminProductBoard/>}/>
-                        <Route path="oneBoard" element={<AdminOneBoard/>}/>
+                        <Route path="qnaOneList" element={<AdminOneBoard/>}/>
                     </Route>
 
 

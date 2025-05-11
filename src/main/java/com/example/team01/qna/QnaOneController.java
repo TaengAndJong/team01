@@ -1,8 +1,7 @@
 package com.example.team01.qna;
 
-
-import com.example.team01.qna.service.QnaService;
-import com.example.team01.vo.QnaVO;
+import com.example.team01.qna.service.QnaOneService;
+import com.example.team01.vo.QnaOneVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,22 +10,23 @@ import java.util.List;
 
 
 @Slf4j
-@RequestMapping("/test") // 전역 ResponseBody
+@RequestMapping("/admin/board") // 전역 ResponseBody
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RestController
-public class QnaController {
+public class QnaOneController {
 
-    private final QnaService qnaService; // 의존성 주입
+    private final QnaOneService qnaOneService; // 의존성 주입
 
-    @GetMapping("/qnaList")
-    public List<QnaVO>  getQna(@RequestParam("userId") String userId) {
+    @GetMapping("/qnaOneList") // 1:1 문의 리스트 출력
+    public List<QnaOneVO>  getQnaOne(@RequestParam("clientId") String clientId) {
+        log.info("getQnaOneList client id0-----------: {}", clientId);
         // QnaService를 통해 데이터 조회
-        List<QnaVO> qnaData = qnaService.getUserQnaData(userId);
+        List<QnaOneVO> qnaOneData = qnaOneService.getUserQnaOneData(clientId);
 
         // 로그 출력 (디버깅용)
-        log.info("QnA 데이터 조회: {}", qnaData);
+        log.info("QnA 데이터 조회: {}", qnaOneData);
 
-        return qnaData; // 조회된 데이터를 반환
+        return qnaOneData; // 조회된 데이터를 반환
     }
 
 }

@@ -1,6 +1,33 @@
+import QnaOneItem from "./qnaOneBoardItem.jsx";
 import "@assets/css/board/oneBoard.css";
-const QnaOneBoard = () => {
+import {useEffect ,useState } from "react";
+import axios from "axios";
 
+const QnaOneBoard = () => {
+    const [qnaOneData, setQnaOneData] = useState([]);
+    const [isLoading,setIsLoading] = useState(true);
+
+    useEffect(() => {
+     axios.get('/api/admin/board/qnaOneList', {
+         params: {
+             clientId: 'user01'
+         }
+     })
+     .then(response => {
+         console.log("1:1문의 데이터",response.data);
+         setQnaOneData(response.data);
+     })
+     .catch(error => {
+         console.error('에러:',error);
+     })
+     .finally(() => {
+         setIsLoading(false);
+     });
+    }, []);
+
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
 
     return (
         <>
@@ -16,12 +43,7 @@ const QnaOneBoard = () => {
                     </ul>
                 </div>
                 <div className="oneBoardQuestionBox">
-                    <ul>
-                        <li>문의제목</li>
-                        <li>문의2</li>
-                        <li>문의3</li>
-                        <li>문의4</li>
-                    </ul>
+                    {/*{qnaOneData.map((item ,index) => (<QnaOneItem key={item.qnaOneId || index} data={item}/>))}*/}
                 </div>
                 <div className="boardQnaFinder">
                     <div className="boardQnaFinderBox">

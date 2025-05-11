@@ -31,3 +31,12 @@
 .oneBoardQuestionBox {
     background: white;
 }
+
+.qnaOneItemBox {
+    display: flex;
+    justify-content: space-around;
+}
+
+.qnaOneItem {
+    color: #0dcaf0;
+}
