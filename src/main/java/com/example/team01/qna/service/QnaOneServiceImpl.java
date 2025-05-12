@@ -18,8 +18,9 @@ public class QnaOneServiceImpl implements QnaOneService {
     }
 
     @Override
-    public List<QnaOneVO> getUserQnaOneData(String userId) {
+    public List<QnaOneVO> getAllQnaOneData() {
         // DAO 계층 메서드 호출 및 리턴
-        return qnaOneDao.userQnaDataList(userId);
+        return qnaOneDao.allQnaDataList();
     }
 }
+

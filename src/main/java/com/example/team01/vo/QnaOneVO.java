@@ -3,6 +3,7 @@ package com.example.team01.vo;
 import lombok.*;
 import jakarta.persistence.Id; // 관계형 디비에서 사용
 import java.io.Serializable;
+import java.sql.Clob;
 import java.time.LocalDateTime;
 
 @ToString
@@ -15,7 +16,7 @@ public class QnaOneVO implements Serializable{
     @Id
     private String qnaOneId; // 1:1 문의 index
     private String qnaTitle; // 1:1 문의 제목
-    private String qbaContent; // 1:1 문의 내용
+    private Clob qnaContent; // 1:1 문의 내용
     private String qnaWriter; // 1:1 문의 작성자
     private LocalDateTime qnaDate; // 1:1 문의 날짜 현재시간으로
     private LocalDateTime qnaDel; // 1:1 문의 삭제 여부

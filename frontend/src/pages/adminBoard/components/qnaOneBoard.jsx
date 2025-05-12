@@ -9,9 +9,7 @@ const QnaOneBoard = () => {
 
     useEffect(() => {
      axios.get('/api/admin/board/qnaOneList', {
-         params: {
-             clientId: 'user01'
-         }
+         withCredentials: true
      })
      .then(response => {
          console.log("1:1문의 데이터",response.data);

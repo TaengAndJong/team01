@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface QnaOneService {
 
-    public List<QnaOneVO> getUserQnaOneData(String clientId);
+    public List<QnaOneVO> getAllQnaOneData();
 }
