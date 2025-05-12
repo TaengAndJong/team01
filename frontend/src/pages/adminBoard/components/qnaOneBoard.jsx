@@ -25,6 +25,8 @@ const QnaOneBoard = () => {
      });
     }, []);
 
+
+
     if (isLoading) {
         return <div>로딩 중...</div>;
     }
@@ -43,7 +45,7 @@ const QnaOneBoard = () => {
                     </ul>
                 </div>
                 <div className="oneBoardQuestionBox">
-                    {/*{qnaOneData.map((item ,index) => (<QnaOneItem key={item.qnaOneId || index} data={item}/>))}*/}
+                    {qnaOneData.map((item ,index) => (<QnaOneItem key={item.qnaOneId || index} data={item}/>))}
                 </div>
                 <div className="boardQnaFinder">
                     <div className="boardQnaFinderBox">

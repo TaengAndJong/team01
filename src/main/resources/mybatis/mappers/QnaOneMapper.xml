@@ -4,7 +4,7 @@
 <mapper namespace="com.example.team01.qna.dao.QnaOneDao">  <!--사용하는 Dao 연결-->
     <!--메서드 구현부-->
     <!--id로 특정 사용자 데이터 조회-->
-    <select id="userQnaOneDataList" parameterType="String" resultType="QnaOneVO">
+    <select id="userQnaDataList" parameterType="String" resultType="QnaOneVO">
         SELECT * FROM qnaOne WHERE "clientId" = #{clientId}
     </select>
 </mapper>
