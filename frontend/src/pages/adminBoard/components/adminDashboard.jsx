@@ -18,6 +18,7 @@ function AdminDashboard({ setUrl,data }) {
         <>
         
         대시보드
+
         </>
     );
 }
