@@ -32,7 +32,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, AddLogoutHandler addLogoutHandler) throws Exception {
-        String[] allowedPaths = {"/", "/login", "/signUp/**", "/page", "/menu", "/admin/board/**"};
+        String[] allowedPaths = {"/", "/login", "/signUp/**", "/page", "/menu"};
 
         http.cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())

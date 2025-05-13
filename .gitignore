@@ -33,6 +33,11 @@ build/
 ### VS Code ###
 .vscode/
 
+## Inmemory##
+*.properties
 
 ### img ###
 /src/main/resources/static/uploads/**
+
+### security ###
+/src/main/java/com/example/team01/config/SecurityConfig.java
