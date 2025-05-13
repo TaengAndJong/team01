@@ -12,21 +12,14 @@ const StaffConfirm =({formData,setFormData,msg,setMsg,handleConfirm}) =>{
     const handleStaffChange = (e) => {
         console.log("handleStaffChange e.target.value :", e.target.value);
         setIsStaff(e.target.value);
+
     };
 
+    console.log("handleStaffChange isStaff:",isStaff);
     //input onChange 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
         setFormData({ ...formData, [name]: value });
-
-        // 아이디 유효성 검사
-        if (name === "clientId") {
-            const idValidation = validID(value);
-            setMsg((prev) => ({
-                ...prev,
-                errorId: idValidation.valid ? "" : idValidation.message,
-            }));
-        }
 
     };
 

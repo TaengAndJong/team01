@@ -1,6 +1,6 @@
 
 import {Link, Outlet} from "react-router-dom";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import {useMenu} from "../common/MenuContext.jsx";
 import {BookDispatchContext, BookStateContext} from "../adminBook/adminBookComponent.jsx";
@@ -16,6 +16,10 @@ const AdminBoard = () => {
     let subNavi = adminMenuTree?.filter(item => item.menuPath.includes(standardPoint));
     // console.log("subNavi------------",subNavi)
     // console.log("adminHome------------",adminHome)
+
+
+
+
 
     return(
         <>

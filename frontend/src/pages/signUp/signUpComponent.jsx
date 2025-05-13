@@ -78,49 +78,19 @@ const SignUpComponent = () => {
         }
     };
 
-    //아이디와 검증 핸들러
-    const handleConfirm = async (fieldName) => {
-        // 서버와 비동기 통신하여 중복 확인 , field이름은 ""(문자열)
-        const apiAddr = "/api/signUp/validate";
+    const handleConfirm = async (key,value) => {
+        //formData에 입력된 객체의 값을 가져와서 , URLSearchparams를 이용해 쿼리스트링으로 변경해 서버로 전송해야 함
+        console.log(key,value);
+        const params= new URLSearchParams(key,value);
+        console.log("params--------",params);
 
-        console.log("formData[filedName]",formData[fieldName]);
-        // 쿼리스트링으로 넘겨주기위해서 URLsearchParams에 넘겨줄 데이터들을 key, value 형태의 문자열 객체 데이터로 변환
-        const params = new URLSearchParams({ [fieldName]: formData[fieldName] });
-        console.log("params-------: ", params);
-        // 비동기 함수 호출
-        try {
-            // 비동기 함수 호출 (fieldName과 해당 값을 전달 , 아이디 중복검증 비동기 요청)
-            const userInfo = await checkDuplicate(apiAddr, fieldName, params.get(fieldName));
-            console.log("userInfo-------",userInfo)
-            //사원번호와 아이디 검증 분기점
-            if (userInfo.message.includes("사원번호")) {
+        // 쿼리스트링으로 서버로 검증할 파라미터 fetch로 넘겨주기
 
-                setMsg((prevState) =>(
-                    {
-                        ...prevState,
-                        memberMsg: userInfo.message
-                    }))
+        const response = await fetch("/api/signUp", {
+            method: "get",
+        })
 
-                setFormData((prevState) =>(
-                    {
-                        ...prevState,
-                        roleId:userInfo.roleId,
-                        joinDate:userInfo.joinDate,
-                    }
-                ));
-            }else{
-                setMsg((prevState) =>(
-                    {
-                        ...prevState,
-                        errorId: userInfo.message
-                    }))
-            }
-
-
-        } catch (err) {
-            console.error(`중복 확인 중 오류 발생 (${fieldName}):`, err);
-        }
-    };
+    }
 
     console.log("signupComponent ---------------------------------------")
     console.log("formData :", formData);
