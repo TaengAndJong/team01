@@ -1,21 +1,59 @@
 
 import {Link, Outlet} from "react-router-dom";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import {useMenu} from "../common/MenuContext.jsx";
-import {BookDispatchContext, BookStateContext} from "../adminBook/adminBookComponent.jsx";
 import {menuNavi} from "../../util/menuNavi.jsx";
+
+
+//context 상태관리
+export const BookBoardStateContext = React.createContext();// state 값을 공급하는 context
+export const  BookBoardDispatchContext = React.createContext();// 생성, 수정(갱신), 삭제 값을 공급하는 context
 
 
 const AdminBoard = () => {
 
     const {menu,currentPath,standardPoint}  = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
+    const [qnaOneData, setQnaOneData] = useState([]); // 1:1 문의 데이터가 들어갈 State
+    // const [isLoading,setIsLoading] = useState(true);
 
     let adminMenuTree = menuNavi(menu?.adminList);
     let adminHome = menu?.adminList?.find(item => item.menuId === "admin")?.menuPath;
     let subNavi = adminMenuTree?.filter(item => item.menuPath.includes(standardPoint));
-    // console.log("subNavi------------",subNavi)
-    // console.log("adminHome------------",adminHome)
+
+
+    const initFetch = async () => {
+        try {
+            // 서버로 응답 요청
+            const response = await fetch(`/api/admin/board/qnaOneList`, {
+                method: "GET",
+            });
+            // 돌아온 응답 상태
+            if (!response.ok) { // 응답 상태가 200아니면
+                console.log(response.status)
+                throw new Error("서버 응답 에러");
+            }
+            // 응답 성공시
+            const data = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
+            console.log("-------------------- 1:1문의 데이터 -----", data);// 있음
+            setQnaOneData(data);
+        } catch (err) {
+            console.log("도서 데이터 불러오기 실패", err); // 오류 처리
+        }
+    }//fetch end
+
+
+    useEffect(() => {
+        console.log("adminBoard------------------")
+        initFetch();
+    }, []);
+
+
+
+    // if (isLoading) {
+    //     return <div>로딩 중...</div>;
+    // }
+
 
     return(
         <>
@@ -50,7 +88,7 @@ const AdminBoard = () => {
                                   subNavi?.[0].secondChild?.filter(item => (item.menuDepth === "2차메뉴" && item.menuPath === currentPath))
                                         .map((item) => {
                                             return (
-                                                <li> <Link to={item.menuPath}>{item.menuName}</Link></li>
+                                                <li key={item.menuName}> <Link to={item.menuPath}>{item.menuName}</Link></li>
                                             )
                                         })
                                     )
@@ -58,6 +96,11 @@ const AdminBoard = () => {
                             </ol>
 
                             {/*  문의관리  1차메뉴일 경우  컨텐츠*/}
+                            <BookBoardStateContext.Provider value={qnaOneData}>
+                                <BookBoardDispatchContext.Provider value={null}>
+                                    <Outlet />
+                                </BookBoardDispatchContext.Provider>
+                            </BookBoardStateContext.Provider>
 
                             {/*  문의관리 2차메뉴일경우 컨텐츠 */}
 
