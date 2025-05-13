@@ -90,14 +90,13 @@ public class SignUpController {
     }
 
 
-    //
 
-    @GetMapping("/checkDuplicate")
-    public Map<String,Object> idCheck(@RequestParam(value = "clientId", required = false) String clientId,
-                                      @RequestParam(value = "staffId", required = false) String staffId,
+
+    @GetMapping("/validate")
+    public Map<String,Object> checkUserInfo(@RequestParam(value = "clientId", required = false) String clientId,
+                                            @RequestParam(value = "staffId", required = false) String staffId,
                                       @RequestParam(value = "email",required = false) String email) {
         log.info("idCheck------------------: {}",clientId);
-        log.info("staffIdCheck------------------:{}", staffId);
         log.info("email------------------:{}", email);
 
         //json 형식 key 와 value 로 형식으로 바꿔주기위해 Map 사용
@@ -105,13 +104,13 @@ public class SignUpController {
 
         // clientId 처리
         if (clientId != null) {
-            checkDuplicateId("clientId",clientId,response);
+            checkDuplicate("clientId",clientId,response);
         }
 
         // staffId 처리
         if (staffId != null) {
             // 검증할 staffId가 넘어옴
-            checkDuplicateId("staffId",staffId,response);
+            checkDuplicate("staffId",staffId,response);
         }
 
         //이메일 검증
@@ -126,12 +125,14 @@ public class SignUpController {
         return response;
     }
 
+
+
     //Function<T, R>는 Java 의 java.util.function 패키지에 포함된 람다식이나 메서드 참조를 사용할 수 있는 함수형 인터페이스
     //T: 입력 타입 (여기서는 String, 즉 ID 값)
     //R: 반환 타입 (여기서는 Integer, 즉 중복 여부)
     //즉, Function<String, Integer>는 "String 값을 입력받아 Integer 를 반환하는 함수"를 의미
 
-   public void checkDuplicateId(String key, String checkValue, Map<String, Object> response) {
+   public void checkDuplicate(String key, String checkValue, Map<String, Object> response) {
             log.info("resposeEmail--- :{}",response);
             int isDuplicate;
             //check Value 가 있고

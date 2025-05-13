@@ -3,7 +3,7 @@ import FormTag from "../../../util/formTag.jsx";
 import Btn from "../../../util/reuseBtn.jsx";
 import {validID} from "../../../util/validation.jsx";
 
-const StaffConfirm =({formData,setFormData,msg,setMsg,handleIdConfirm}) =>{
+const StaffConfirm =({formData,setFormData,msg,setMsg,handleConfirm}) =>{
     // 사원여부
     const [isStaff, setIsStaff] = useState("no"); // 기본값을 "no"(아니오)로 설정
     console.log("isStaff : ",isStaff);
@@ -79,7 +79,7 @@ const StaffConfirm =({formData,setFormData,msg,setMsg,handleIdConfirm}) =>{
                         type="button"
                         className="btn-primary ms-1 w-25"
                         onClick={() => {
-                            handleIdConfirm("staffId", formData.staffId);
+                            handleConfirm("staffId", formData.staffId);
                         }}
                     />
                 </div>

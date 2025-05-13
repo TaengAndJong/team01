@@ -33,6 +33,8 @@ build/
 ### VS Code ###
 .vscode/
 
+## Inmemory##
+*.properties
 
 ### img ###
 /src/main/resources/static/uploads/**

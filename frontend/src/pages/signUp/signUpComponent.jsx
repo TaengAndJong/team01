@@ -79,11 +79,14 @@ const SignUpComponent = () => {
     };
 
     //아이디와 검증 핸들러
-    const handleIdConfirm = async (fieldName) => {
+    const handleConfirm = async (fieldName) => {
         // 서버와 비동기 통신하여 중복 확인 , field이름은 ""(문자열)
-        const apiAddr = "/api/signUp/checkDuplicate"
+        const apiAddr = "/api/signUp/validate";
+
+        console.log("formData[filedName]",formData[fieldName]);
+        // 쿼리스트링으로 넘겨주기위해서 URLsearchParams에 넘겨줄 데이터들을 key, value 형태의 문자열 객체 데이터로 변환
         const params = new URLSearchParams({ [fieldName]: formData[fieldName] });
-        //  const params = new URLSearchParams({ clientId:formInfoData.clientId});
+        console.log("params-------: ", params);
         // 비동기 함수 호출
         try {
             // 비동기 함수 호출 (fieldName과 해당 값을 전달 , 아이디 중복검증 비동기 요청)
@@ -121,8 +124,7 @@ const SignUpComponent = () => {
 
     console.log("signupComponent ---------------------------------------")
     console.log("formData :", formData);
-    console.log("msg :",msg)
-    console.log("handleIdConfirm :",handleIdConfirm)
+    //console.log("msg :",msg)
     console.log("signupComponent ---------------------------------------")
 
 
@@ -133,12 +135,12 @@ const SignUpComponent = () => {
                 <form className="">
                     <fieldset>
                         <legend className="d-block title-border mb-5">회원가입</legend>
-                        <IdAndpw formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleIdConfirm={handleIdConfirm}/>
+                        <IdAndpw formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleConfirm={handleConfirm}/>
                         <Birth formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
                         <Tel formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
                         <Email formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
                         <Address formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                        <StaffConfirm formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleIdConfirm={handleIdConfirm}/>
+                        <StaffConfirm formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleConfirm={handleConfirm}/>
                         <div className="d-flex justify-content-center w-100 mt-4">
                             <Btn type="submit" text="회원가입" className="btn-primary me-2" id="signup"
                                  onClick={handleSignUp}/>

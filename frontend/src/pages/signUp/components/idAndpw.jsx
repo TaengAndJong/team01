@@ -4,7 +4,7 @@ import {validID, validPW,checkDuplicate, validatePasswordMatch} from "@util/vali
 import {useEffect} from "react";
 
 
-const IdAndPw = ({formData,setFormData,msg,setMsg,handleIdConfirm})=>{
+const IdAndPw = ({formData,setFormData,msg,setMsg,handleConfirm})=>{
         //부모한테서 formData와 inputChangeHandlerl, Msg , Error?
 
         console.log("아이디 패스워드 formData",formData)
@@ -53,7 +53,7 @@ const IdAndPw = ({formData,setFormData,msg,setMsg,handleIdConfirm})=>{
                         value={formData.clientId}
                         onChange={handleInputChange} msg={msg.errorId}/>
                <Btn className="btn-primary ms-1 w-25"  id="confirm" type="button" text="중복확인" onClick={() => {
-                   handleIdConfirm("clientId", formData.clientId)
+                   handleConfirm("clientId", formData.clientId)
                }}/>
            </div>
 
