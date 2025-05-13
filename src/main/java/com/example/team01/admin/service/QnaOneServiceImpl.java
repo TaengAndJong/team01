@@ -1,6 +1,6 @@
-package com.example.team01.qna.service;
+package com.example.team01.admin.service;
 
-import com.example.team01.qna.dao.QnaOneDao;
+import com.example.team01.admin.dao.QnaOneDao;
 import com.example.team01.vo.QnaOneVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

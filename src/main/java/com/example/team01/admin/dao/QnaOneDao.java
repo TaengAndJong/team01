@@ -1,4 +1,4 @@
-package com.example.team01.qna.dao;
+package com.example.team01.admin.dao;
 
 import com.example.team01.vo.QnaOneVO;
 import org.apache.ibatis.annotations.Mapper;

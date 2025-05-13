@@ -1,4 +1,4 @@
-package com.example.team01.qna.service;
+package com.example.team01.admin.service;
 import com.example.team01.vo.QnaOneVO;
 import java.util.List;
 

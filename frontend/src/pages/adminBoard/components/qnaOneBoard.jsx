@@ -1,34 +1,26 @@
-import QnaOneItem from "./qnaOneBoardItem.jsx";
 import "@assets/css/board/oneBoard.css";
-import {useEffect ,useState } from "react";
-import axios from "axios";
+import {useContext, useEffect, useState} from "react";
+import QnaOneItem from "../components/qnaOneBoardItem.jsx";
+import {BookBoardStateContext} from "../adminBoardComponent.jsx";
 
 const QnaOneBoard = () => {
-    const [qnaOneData, setQnaOneData] = useState([]);
-    const [isLoading,setIsLoading] = useState(true);
 
-    useEffect(() => {
-     axios.get('/api/admin/board/qnaOneList', {
-         withCredentials: true
-     })
-     .then(response => {
-         console.log("1:1문의 데이터",response.data);
-         setQnaOneData(response.data);
-     })
-     .catch(error => {
-         console.error('에러:',error);
-     })
-     .finally(() => {
-         setIsLoading(false);
-     });
-    }, []);
+    const qnaOneData = useContext(BookBoardStateContext);
+    console.log("qnaOneData",qnaOneData);
+    const [boardList, setBoarList] = useState([]);
 
+    // boardData 존재할 때만 bookList 업데이트
+        useEffect(() => {
+            //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
+            if(qnaOneData){
+                console.log("bookdata--------useEffect",qnaOneData);
+                setBoarList(qnaOneData);
+            }
+            //페이지 fetch요청 보내기
 
+        }, [qnaOneData]);
 
-    if (isLoading) {
-        return <div>로딩 중...</div>;
-    }
-
+        console.log("boardList",boardList);
     return (
         <>
             <h3>1:1 문의 목록</h3>
@@ -43,7 +35,7 @@ const QnaOneBoard = () => {
                     </ul>
                 </div>
                 <div className="oneBoardQuestionBox">
-                    {qnaOneData.map((item ,index) => (<QnaOneItem key={item.qnaOneId || index} data={item}/>))}
+                    {boardList.map((item ,index) => (<QnaOneItem key={item.qnaOneId || index} data={item}/>))}
                 </div>
                 <div className="boardQnaFinder">
                     <div className="boardQnaFinderBox">
