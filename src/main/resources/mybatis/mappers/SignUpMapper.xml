@@ -19,12 +19,14 @@
         WHERE "clientId" = #{clientId}
     </select>
 
-    <!-- staff 아이디 중복 확인 -->
-    <select id="selectDuplicateStaffId" parameterType="String" resultType="int">
-        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
-        FROM EMP
-        WHERE "staffId" = #{staffId}
-    </select>
+<!--    &lt;!&ndash; staff 아이디 중복 확인 &ndash;&gt;-->
+<!--    <select id="selectDuplicateStaffId" parameterType="SignUpVO" resultType="int">-->
+<!--        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate-->
+<!--        FROM EMP-->
+<!--        WHERE "staffId" = #{staffId}-->
+<!--          AND "staffName" = #{staffName}-->
+<!--          AND "tel" = #{tel}-->
+<!--    </select>-->
 
     <!-- staff 사원 정보 -->
     <select id="selectStaffInfo" parameterType="String" resultType="SignUpVO">

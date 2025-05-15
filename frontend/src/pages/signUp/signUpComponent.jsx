@@ -1,5 +1,5 @@
 
-import { useState} from "react";
+import React, { useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Btn from "@util/reuseBtn.jsx";
 import IdAndpw from "@pages/signUp/components/idAndpw.jsx";
@@ -10,6 +10,7 @@ import Email from "./components/email.jsx";
 import Address from "./components/address.jsx";
 import StaffConfirm from "./components/staffConfirm.jsx";
 import {checkDuplicate} from "../../util/validation.jsx";
+import ReusableModal from "../adminBook/components/modal.jsx";
 
 
 const SignUpComponent = () => {
@@ -45,8 +46,14 @@ const SignUpComponent = () => {
         memberMsg:""
     });
 
+    //modal
+
+    const [errorData, setErrorData] = useState("");
+
+
 //signUp post로 비동기 요청보내기
-    const handleSignUp = async () => {
+    const handleSignUp = async (e) => {
+        e.preventDefault();
         try {
             const response = await fetch("/api/signUp", {
                 method: "POST",
@@ -77,24 +84,55 @@ const SignUpComponent = () => {
             alert("회원가입 중 오류가 발생했습니다.");
         }
     };
-
-    const handleConfirm = async (key,value) => {
+    
+    // 아이디, 회원번호 검증
+    const handleConfirm = async (key, value,addData = {}) => {
+        console.log(key, value);
         //formData에 입력된 객체의 값을 가져와서 , URLSearchparams를 이용해 쿼리스트링으로 변경해 서버로 전송해야 함
-        console.log(key,value);
-        const params= new URLSearchParams(key,value);
+        //URLSearchparams는 문자열을 파라미터로 받아야 함 ==> 객체에 담아서 key=value 형태로 담아야 함
+        const params= new URLSearchParams({[key]:value});
+
+        // 추가 데이터가 있다면 파라미터에 append
+        for (const [addKey, addValue] of Object.entries(addData)) { // 객체데이터를 배열구조로 구조분해할당하여 추가 데이터 params에 담아주기
+            if (addValue !== undefined && addValue !== null && addValue !== "") {
+                console.log("addKye, addValue-----------------",addKey, addValue);
+                params.append(addKey, addValue);
+            }
+        }
+
         console.log("params--------",params);
+        console.log("params--------",params.toString());
 
-        // 쿼리스트링으로 서버로 검증할 파라미터 fetch로 넘겨주기
+        try{
+            // 쿼리스트링으로 서버로 검증할 파라미터 fetch로 넘겨주기
+            const response = await fetch(`/api/signUp/validate?${params.toString()}`, {
+                method: "get",
+            })
+            //통신 실패
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+            //통신 성공시 받아오는 결과 데이터
+            const result = await response.json(); // 서버에서 반환된 JSON 데이터 처리
+            console.log("result-------backend to front",result); // 서버에서 받은 응답 확인
+            //모달 띄우기  ==>  true 이면 중복인 상태, false이면 사용가능한 상태
+            if(result){
+                console.log("result.message",result.message);
+                //객체 형태
+                setErrorData({
+                    message: result.message,
+                })
+            }
+            console.log("errorData ",errorData);
 
-        const response = await fetch("/api/signUp", {
-            method: "get",
-        })
-
+        }catch(err){
+            console.error(err);
+        }
+        //end
     }
 
     console.log("signupComponent ---------------------------------------")
     console.log("formData :", formData);
-    //console.log("msg :",msg)
     console.log("signupComponent ---------------------------------------")
 
 
@@ -105,12 +143,12 @@ const SignUpComponent = () => {
                 <form className="">
                     <fieldset>
                         <legend className="d-block title-border mb-5">회원가입</legend>
-                        <IdAndpw formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleConfirm={handleConfirm}/>
+                        <IdAndpw formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} errorData={errorData} handleConfirm={handleConfirm}/>
                         <Birth formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
                         <Tel formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
                         <Email formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
                         <Address formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                        <StaffConfirm formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleConfirm={handleConfirm}/>
+                        {/*<StaffConfirm formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleConfirm={handleConfirm}/>*/}
                         <div className="d-flex justify-content-center w-100 mt-4">
                             <Btn type="submit" text="회원가입" className="btn-primary me-2" id="signup"
                                  onClick={handleSignUp}/>
@@ -118,6 +156,7 @@ const SignUpComponent = () => {
                         </div>
                     </fieldset>
                 </form>
+
             </div>
 
         </>

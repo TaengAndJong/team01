@@ -1,15 +1,25 @@
 import FormTag from "@util/formTag.jsx";
 import Btn from "@util/reuseBtn.jsx";
 import {validID, validPW,checkDuplicate, validatePasswordMatch} from "@util/validation.jsx";
-import {useEffect} from "react";
+import React, {useEffect, useState} from "react";
+import ReusableModal from "../../adminBook/components/modal.jsx";
 
 
-const IdAndPw = ({formData,setFormData,msg,setMsg,handleConfirm})=>{
-        //부모한테서 formData와 inputChangeHandlerl, Msg , Error?
+const IdAndPw = ({formData,setFormData,msg,setMsg,handleConfirm,errorData})=>{
+    //부모한테서 formData와 inputChangeHandlerl, Msg , Error?
+    console.log("아이디 패스워드 formData",formData)
+    console.log("아이디 패스워드 errorData",errorData);
 
-        console.log("아이디 패스워드 formData",formData)
+    //modal
+    const [show, setShow] = useState(false);
+    const handleClose = () => {
+        console.log("close modal");
+        setShow(false)}
+    const handleShow = () => {
+        console.log("handleShow");
+        setShow(true)}
 
-  //  비밀번호 데이터가 변경될 때마다 갱신
+    //  비밀번호 데이터가 변경될 때마다 갱신
     useEffect(() => {
         // 비밀번호 동일 여부 확인 , 바로 데이터를 파라미터로 넘겨주기
         const pwdConfirm = validatePasswordMatch(formData.password, formData.passwordConfirm);
@@ -24,7 +34,20 @@ const IdAndPw = ({formData,setFormData,msg,setMsg,handleConfirm})=>{
             ...prev,
             errorpwd: pwValidation.valid ? "" : pwValidation.message,
         }));
-    }, [formData.password, formData.passwordConfirm]);
+        //errorData가 있으면
+
+    }, [formData.password, formData.passwordConfirm,errorData]);
+
+    //erroData useEffect
+    useEffect(() => {
+
+        if (!errorData) {
+            handleClose();
+        } else {
+            console.log("error", errorData);
+            handleShow(); // 값이 있을 때만 모달 열기
+        }
+    },[errorData]);
 
 //input onChange 핸들러
     const handleInputChange = (e) => {
@@ -41,7 +64,6 @@ const IdAndPw = ({formData,setFormData,msg,setMsg,handleConfirm})=>{
         }
 
     };
-
 
 
 
@@ -73,6 +95,14 @@ const IdAndPw = ({formData,setFormData,msg,setMsg,handleConfirm})=>{
                         value={formData.clientName}
                         onChange={handleInputChange}/>
            </div>
+
+
+           {show && (
+               <ReusableModal show={show}
+                              onClose={handleClose}
+                              errorData={errorData}
+                              modalType="error"/>
+           )}
        </>
     )
 

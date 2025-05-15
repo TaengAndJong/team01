@@ -6,7 +6,7 @@ public interface SignUpService {
 
     int insertUserData(SignUpVO signUpVO);
     int selectDuplicateId(String clientId);
-    int selectDuplicateStaffId(String staffId);
+    //int selectDuplicateStaffId(String staffId,String staffName,String tel);
     SignUpVO selectStaffInfo(String staffId);
     int selectDuplicateEmail(String email);
 }

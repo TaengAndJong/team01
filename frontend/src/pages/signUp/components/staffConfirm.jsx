@@ -72,7 +72,10 @@ const StaffConfirm =({formData,setFormData,msg,setMsg,handleConfirm}) =>{
                         type="button"
                         className="btn-primary ms-1 w-25"
                         onClick={() => {
-                            handleConfirm("staffId", formData.staffId);
+                            handleConfirm("staffId", formData.staffId,{
+                                clientName: formData.clientName,
+                                tel: formData.tel
+                            });
                         }}
                     />
                 </div>
