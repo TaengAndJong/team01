@@ -1,5 +1,5 @@
 import React from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 import {useAuth} from "../pages/common/AuthContext.jsx";
@@ -14,8 +14,13 @@ const Header = () => {
     const navigate = useNavigate();
     let location = useLocation();
 
-
-
+    const commonMenu = menu?.commonList;
+    // ["cart", "mypage"].includes(item.menuId) ==> item.menuId에 cart,mypage를 포함하고 있는지
+    const commonMenuItems =commonMenu?.filter((item)=>(
+        ["cart", "mypage"].includes(item.menuId)
+    ));
+    console.log("commonMenu",commonMenu);
+    console.log("commonMenuItems",commonMenuItems);
 
 // 로그아웃 fetch 요청
     const handleLogout = async () => {
@@ -43,6 +48,9 @@ const Header = () => {
             console.error("로그아웃 요청 중 오류 발생", error);
         }
     };
+
+
+
 
 
     // 로그인 또는 회원가입 페이지가 아닐 때만 Header를 렌더링
@@ -73,9 +81,17 @@ const Header = () => {
                                 </span>
                                 )}
                                 </li>
+                                {commonMenuItems && (
+                                    commonMenuItems.map((item,index) => {
+                                        return (
+                                            <li key={index}>
+                                                <Link to={item.menuPath}>{item.menuName}</Link>
+                                            </li>
+                                        )
+                                    })
+                                )}
                                 <li>
                                     <Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
-
                                 </li>
                             </ul>
                         </div>
