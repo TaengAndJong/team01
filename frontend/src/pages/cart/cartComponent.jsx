@@ -3,8 +3,7 @@
 const Cart = () => {
 
     return(
-        <>
-            Cart
+        <>자앙바구니
         </>
     )
 }
