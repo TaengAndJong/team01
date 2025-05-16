@@ -7,12 +7,15 @@ import com.example.team01.vo.ClientVO;
 import com.example.team01.vo.SignUpVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -90,87 +93,89 @@ public class SignUpController {
     }
 
 
-    //
 
-    @GetMapping("/checkDuplicate")
-    public Map<String,Object> idCheck(@RequestParam(value = "clientId", required = false) String clientId,
-                                      @RequestParam(value = "staffId", required = false) String staffId,
-                                      @RequestParam(value = "email",required = false) String email) {
-        log.info("idCheck------------------: {}",clientId);
-        log.info("staffIdCheck------------------:{}", staffId);
-        log.info("email------------------:{}", email);
+    //String 타입 (문자열) 로 받을 때는 @ModelAttribute를 사용해서 하나의 객체로 파라미터를 받아올 수 있음
+    @GetMapping("/validate")
+    public Map<String,Object> checkUserInfo(@RequestParam(name="clientId", required = false) String clientId,
+                                            @RequestParam(name="staffId", required = false) String staffId,
+                                            @RequestParam(name="tel", required = false) String tel,
+                                            @RequestParam(name="clientName", required = false) String clientName) {
 
-        //json 형식 key 와 value 로 형식으로 바꿔주기위해 Map 사용
+        // 클라이언트에서 받아오는 검증할 데이터들
+        log.info("getClientId: {}",clientId);
+
+
+        //json 형식 key 와 value 로 형식으로 바꿔주기위해 Map 사용 ==> 클라이언트로 보내는 결과값
         Map<String, Object> response = new HashMap<>();
 
-        // clientId 처리
+        // 1. clientId 중복 여부 확인
         if (clientId != null) {
-            checkDuplicateId("clientId",clientId,response);
+            Map<String, Object> clientMap = Map.of("clientId", clientId);
+            boolean isDuplicate = checkDuplicate(clientMap);
+            log.info("isDuplicate: {}", isDuplicate);//true
+          //  log.info("isDuplicate: {}", !isDuplicate);//false
+
+            if(isDuplicate) { //true
+                response.put("message", "아이디가 중복되었습니다."); // true = 사용 가능
+            }else{//false
+                response.put("message", "사용가능한 아이디입니다.");
+            }
         }
 
-        // staffId 처리
-        if (staffId != null) {
-            // 검증할 staffId가 넘어옴
-            checkDuplicateId("staffId",staffId,response);
-        }
-
-        //이메일 검증
-        if(email != null){
-            int isDuplicate =  signUpService.selectDuplicateEmail(email);
-            log.info("isDuplicate --------:{}",isDuplicate);
-            response.put("isDuplicate",isDuplicate);
-        }
-
-        log.info("response------------------: {}",response);
+        // 2. staffId 존재 여부 확인
+//        if (staffId != null) {
+//            Map<String, Object> staffMap = new HashMap<>();
+//            staffMap.put("staffId", staffId);
+//            if (clientName != null && tel != null) {
+//                staffMap.put("staffName", clientName);
+//                staffMap.put("tel", tel);
+//            }
+//            boolean isExist = checkDuplicate(staffMap);
+//            log.info("isExist: {}", isExist);
+//            response.put("success", isExist); // true = 존재함
+//        }
 
         return response;
     }
+
+
 
     //Function<T, R>는 Java 의 java.util.function 패키지에 포함된 람다식이나 메서드 참조를 사용할 수 있는 함수형 인터페이스
     //T: 입력 타입 (여기서는 String, 즉 ID 값)
     //R: 반환 타입 (여기서는 Integer, 즉 중복 여부)
     //즉, Function<String, Integer>는 "String 값을 입력받아 Integer 를 반환하는 함수"를 의미
 
-   public void checkDuplicateId(String key, String checkValue, Map<String, Object> response) {
-            log.info("resposeEmail--- :{}",response);
-            int isDuplicate;
-            //check Value 가 있고
-            if(checkValue != null) {
-                // clientId 이면
-                if(key.equals("clientId")) {
-                    isDuplicate = signUpService.selectDuplicateId(checkValue);
-                    log.info("isDuplicate-----checkValue--:{},{}",isDuplicate,checkValue);
-                    response.put("isDuplicate", isDuplicate > 0);
-                }
-                // staffId 이면
-                if(key.equals("staffId")) {
-                    // 1. 존재하는 사원인지 검증 ( EMP에서 )
-                    SignUpVO staffInfo =signUpService.selectStaffInfo(checkValue);
-                    // 2. 조회한 사원 번호가 있으면, 클라이언트 테이블에서 동일한 사원번호가 있는지 확인
-                    if(staffInfo != null) {
-                        //2. 회원가입이 되어있는 회원인지 확인 (CLIENT에서)
-                        // 조회가 있으면 중복되었끼 때문에 중복응답보내기
-                        isDuplicate =  clientService.selectDuplicateClientStaff(checkValue);
-                        log.info("isDuplicate-----checkValue--:{},{}",isDuplicate,checkValue);
+   public boolean checkDuplicate(Map<String,Object> checkValue) {
 
-                        // 중복 여부 반환
-                        if (isDuplicate > 0) {
-                            response.put("isDuplicate", true);  // 중복된 사원번호가 있으면 true
-                        } else {
-                            response.put("isDuplicate", false);  // 중복된 사원번호가 없으면 false
-                            response.put("staffInfo", staffInfo);
-                            log.info("22222-------------:{}",staffInfo);
-                        }
+        log.info("checkValue--------------:{}",checkValue);
 
-                    //
-                    }
-                    //If end
+        //중복 조회결과 타입 1(true),0(false)
+        int isDuplicate;
 
-                }
-                //staff If end
+        boolean result = false;
+
+        if (checkValue.get("clientId") != null) {
+           String clientId = (String) checkValue.get("clientId");
+           isDuplicate = signUpService.selectDuplicateId(clientId);
+           log.info("isDuplicate--clientId:{}",isDuplicate);
+            if(isDuplicate > 0){
+                result = true; //중복아이디 있음
             }
-    //if end
-   }
+        }
+
+//        if(checkValue.get("staffId") != null){
+//            String staffId = (String) checkValue.get("staffId");
+//            String staffName = (String) checkValue.get("staffName");
+//            String tel = (String) checkValue.get("tel");
+//            isDuplicate = signUpService.selectDuplicateStaffId(staffId, staffName, tel); // 여기서 계속 0이 반환됨
+//            log.info("staffId 컨트롤러 :{}",isDuplicate); //0이 반환되는데
+//            if(isDuplicate > 0){
+//                result = true;//검색된 회원 있음
+//            }
+//        }
+
+       return result; // 어떤 값도 없으면 그냥 false 반환
+    }
 
 // checkduplicate end
 }

@@ -30,23 +30,22 @@ public class SignUpServiceImple implements SignUpService {
     public int selectDuplicateId(String clientId) {
         int cnt;
         if (clientId != null) {
-            log.info("insert user data:{}", clientId );
-            log.info("insert user dao:{}", dao.selectDuplicateId(clientId));
+            log.info("selectDuplicateId user data:{}", clientId );
+            log.info("selectDuplicateId user dao:{}", dao.selectDuplicateId(clientId));
             return cnt =  dao.selectDuplicateId(clientId);
         }
         return 0;
     }
 
-    @Override
-    public int selectDuplicateStaffId(String staffId) {
-        int cnt;
-        if (staffId != null) {
-            log.info("insert user data:{}", staffId );
-            log.info("insert user dao----------:{}", dao.selectDuplicateStaffId(staffId));
-            return cnt =  dao.selectDuplicateStaffId(staffId);
-        }
-        return 0;
-    }
+//    @Override
+//    public int selectDuplicateStaffId(String staffId,String staffName,String tel) {
+//        int cnt;
+//        if (staffId != null) {
+//            log.info("selectDuplicateStaffId----------:{}", dao.selectDuplicateStaffId(staffId,staffName,tel));
+//            return cnt =  dao.selectDuplicateStaffId(staffId,staffName,tel);
+//        }
+//        return 0;
+//    }
 
     @Override
     public SignUpVO selectStaffInfo(String staffId) {
