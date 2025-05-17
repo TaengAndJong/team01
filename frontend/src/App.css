@@ -48,6 +48,40 @@ li {
   list-style: none;
 }
 
+/*
+local(확장자를 제외한 '폰트명' 입력) => 내 컴퓨터에 설치되어있는 폰트가 존재하는지 먼저 탐색함
+display: swap; 폰트가 로드 되지 않으면 대체폰트가 먼저 보여지고, 사용할 폰트가 로드되면 교체되게 함
+font-weight: normal; => 기본이 되는 폰트의 스타일을 지정
+font-style: normal => font 기울임, 안 기울임 정도 등
+normal = 400
+bold = 700
+*/
+/* NanumHuman */
+@font-face {
+  font-family: "NanumHuman";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2501-1@1.1/NanumHumanTTFRegular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NanumHuman";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2501-1@1.1/NanumHumanTTFBold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+/*TheJamsil */
+@font-face {
+  font-family: "TheJamsil";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil3Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "TheJamsil";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
 /*공통변수*/
 /*폰트*/
 /* 레이이아웃 - header & footer*/
@@ -133,40 +167,6 @@ table .imgbox img {
   color: #fff;
 }
 
-/*
-local(확장자를 제외한 '폰트명' 입력) => 내 컴퓨터에 설치되어있는 폰트가 존재하는지 먼저 탐색함
-display: swap; 폰트가 로드 되지 않으면 대체폰트가 먼저 보여지고, 사용할 폰트가 로드되면 교체되게 함
-font-weight: normal; => 기본이 되는 폰트의 스타일을 지정
-font-style: normal => font 기울임, 안 기울임 정도 등
-normal = 400
-bold = 700
-*/
-/* NanumHuman */
-@font-face {
-  font-family: "NanumHuman";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2501-1@1.1/NanumHumanTTFRegular.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "NanumHuman";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2501-1@1.1/NanumHumanTTFBold.woff2") format("woff2");
-  font-weight: bold;
-  font-style: normal;
-}
-/*TheJamsil */
-@font-face {
-  font-family: "TheJamsil";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil3Regular.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "TheJamsil";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2") format("woff2");
-  font-weight: bold;
-  font-style: normal;
-}
 @keyframes dobleleaf {
   0% {
     transform: translateY(0);
@@ -254,7 +254,7 @@ header, .header-inner, .gnb {
   display: block;
 }
 .logo .img {
-  background-image: url("../../dist/assets/images/clLogo_w.svg");
+  background-image: url("../../src/assets/images/clLogo_w.svg");
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: center center;
@@ -487,6 +487,36 @@ header, .header-inner, .gnb {
     transform: rotate(0deg);
   }
 }
+.img-box {
+  width: 100%; /* 또는 고정 width */
+  max-width: 200px;
+  height: 100%;
+  aspect-ratio: 1/1; /* 또는 1 / 1, 16 / 9 등 */
+  overflow: hidden;
+}
+
+.img-inner {
+  width: 100%;
+  height: 100%;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* contain, fill, none, scale-down 도 가능 */
+  display: block;
+}
+
+.default-border {
+  border: 1px solid #8B655A;
+  border-radius: 5px;
+}
+
+.custom-border {
+  border: 3px solid #A47763;
+  border-radius: 0 20px 20px;
+}
+
 * {
   font-family: "NanumHuman", sans-serif;
   word-break: keep-all;
@@ -637,11 +667,6 @@ a, span, em, i {
   height: 5px;
   background-color: #89C53B;
   border-radius: 50%;
-}
-
-.custom-border {
-  border: 3px solid #A47763;
-  border-radius: 0 20px 20px;
 }
 
 .bodyWrapper {

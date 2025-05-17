@@ -1,0 +1,6 @@
+
+.cart-item .item-inner:first-child{flex-wrap: wrap}
+.cart-item .check-one{top:10%; left:3%}
+.cart-item .card-header{ padding: 0;}
+
+

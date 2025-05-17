@@ -11,7 +11,7 @@ import 'swiper/css/pagination';
 
 const AdminBookSlide = ({slideData}) =>{
     // 받아온 props의 값을 왼쪽의 변수에 구조분해할당해주기( 데이터 분해 방향은 오른쪽에서 왼쪽)
-    const {bookImgList,bookCateNm} = slideData;
+    const {imgList} = slideData; // 객체 형식의 구조분해할당
     const swiperRef = useRef(null);
 
 
@@ -20,9 +20,9 @@ const AdminBookSlide = ({slideData}) =>{
             swiperRef.current.update(); // 슬라이드 상태 갱신, 정지상태
             swiperRef.current.slideNext(); // 슬라이드 초기값이 다음으로 이동
         }
-    }, [bookImgList]);
+    }, [imgList]);
 
-    console.log("bookImgList---------",bookImgList);
+    console.log("imgList---------",imgList);
 
     return (
         <>
@@ -40,7 +40,7 @@ const AdminBookSlide = ({slideData}) =>{
                 pagination={{
                     type: 'fraction',//숫자
                 }}
-                loop={bookImgList?.length>1}
+                loop={imgList?.length>1}
                 centeredSlides={true}
                 autoplay={{ delay: 2000, disableOnInteraction: false }}
                 speed={700}
@@ -51,7 +51,7 @@ const AdminBookSlide = ({slideData}) =>{
                 }}
             >
                 {/*객체를 할당 받으면 반드시 데이터 null || undefined 체크하기위해 옵셔널체이닝 사용하기*/}
-                {bookImgList?.map((item,index)=>{
+                {imgList?.map((item,index)=>{
 
                 return (
                     <SwiperSlide key={`slide-${index}`} >

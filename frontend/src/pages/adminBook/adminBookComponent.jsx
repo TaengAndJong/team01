@@ -13,8 +13,6 @@ function reducer(state, action) {
     console.log("Array",Array.isArray(state));
     console.log("action.data",action.data);
     console.log("배열이냐 객체냐",Array.isArray(action.data));
-
-
     
     switch (action.type) {
         case "INIT":
