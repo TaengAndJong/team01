@@ -1,16 +1,18 @@
 
 @use '../common/reset';
+@use '../utils/fonts';
 @use '../utils/variables';
 @use '../common/form';
 @use '../common/table';
 @use '../common/btn';
 @use '../common/pagination';
-@use '../utils/fonts';
 @use '../layout/header/header';
 @use '../layout/footer/footer';
 @use '../layout/footer/clientFooter';
 @use 'sub/subLayout';
 @use 'sub/clientSublayout';
+@use '../common/custom';
+
 @use "../utils/mixins" as *; // 함수
 @use "../utils/variables" as *;
 //common
@@ -190,11 +192,7 @@ a,span,em,i{display:inline-block;color:#333333;}
 //  }
 //}
 
-//common
-.custom-border{
-  border:3px solid $color00;
-  border-radius: 0 20px 20px;
-}
+
 //layout
 .bodyWrapper{height:100vh;overflow-y: auto;}
 
