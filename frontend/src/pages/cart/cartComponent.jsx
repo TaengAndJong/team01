@@ -30,7 +30,7 @@ const Cart = () => {
 
     return(
         <>
-            <div className="page cart">
+            <div className="page">
                 <section className="content">
                     <div className="content-inner custom-border">
                         <cartStateContext.Provider value={null}>

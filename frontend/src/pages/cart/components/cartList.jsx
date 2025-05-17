@@ -11,12 +11,15 @@ const CartList = () => {
                     {/*배송지 선택  title-dotted */}
                     <div className="select-address mt-4 mb-5">
                         <h5 className="title my-3">배송지</h5>
-                        <dl className="d-flex border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50">
-                            <dt className="title">분류</dt>
-                            <dd>집</dd>
-                            <dt className="title">상세주소</dt>
-                            <dd>배송 주소등록한 배송지 기준 빠른배송 상품을 보실 수 있습니다.</dd>
+                        <dl className="d-flex border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50 align-items-center">
+                            <dt className="title me-3">분류</dt>
+                            <dd className="border-end pe-4">집</dd>
+                            <dt className="title me-3 ms-4">상세주소</dt>
+                            <dd>배송 주소등록한 배송지 기준 빠른배송 상품을 보실 수 있습니다.
+                                <button aria-label="배송지변경" className="btn btn-sm btn-primary ms-3">변경</button>
+                            </dd>
                         </dl>
+
                     </div>
 
 
