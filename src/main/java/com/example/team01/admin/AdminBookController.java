@@ -1,11 +1,12 @@
 package com.example.team01.admin;
 
-import com.example.team01.book.service.BookService;
+
+import com.example.team01.admin.service.AdminBookService;
 import com.example.team01.category.service.CategoryService;
 import com.example.team01.common.exception.BookNotFoundException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
-import com.example.team01.vo.BookVO;
+import com.example.team01.vo.AdminBookVO;
 import com.example.team01.vo.CategoryVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ import java.util.*;
 public class AdminBookController {
 
     private final CategoryService categoryService;
-    private final BookService bookService;
+    private final AdminBookService bookService;
     private final FileUtils fileUtils;
 
     @GetMapping("/bookCreate")
@@ -42,7 +43,7 @@ public class AdminBookController {
 
     @PostMapping(value = "/bookCreate")
     public ResponseEntity<?> insertBookCreate(
-            @ModelAttribute BookVO createBook,
+            @ModelAttribute AdminBookVO createBook,
             @RequestParam(name = "bookCateNm") List<String> bookCateNm,
             @RequestParam(name = "bookCateDepth") List<String> bookCateDepth,
             @RequestParam(name = "cateId") List<String> cateId,
@@ -60,7 +61,7 @@ public class AdminBookController {
 
         // 데이터 insert 성공시 결과 반환
         if (result > 0) {
-            BookVO addBookData = bookService.deTailBook(createBook.getBookId());
+            AdminBookVO addBookData = bookService.deTailBook(createBook.getBookId());
             //파일 경로 서버주소 반영하는 파일Util
             fileUtils.changeImgPath(addBookData,request);
             return ResponseEntity.ok(addBookData);// 저장된 데이터 전체를 클라이언트에 반환
@@ -82,12 +83,12 @@ public class AdminBookController {
 
         log.info("pagination -----------------: {} pageSize:{}",currentPage,pageSize);
         //서비스로 데이터 넘기기
-        List<BookVO> bookList  = bookService.getAllBooks(pagination);
+        List<AdminBookVO> bookList  = bookService.getAllBooks(pagination);
 
-        for (BookVO bookVO : bookList) {
-            log.info("여기:{}",bookVO);
-            fileUtils.changeImgPath(bookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
-            log.info("다음:{}",bookVO);
+        for (AdminBookVO adminBookVO : bookList) {
+            log.info("여기:{}", adminBookVO);
+            fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+            log.info("다음:{}", adminBookVO);
         }
 
         Map<String, Object> result = new HashMap<>();
@@ -124,13 +125,13 @@ public class AdminBookController {
             log.info("DetailContion-----:{}",pagination.getDetailCondition());
 
             //서비스로 검색 파라미터 넘겨주기
-            List<BookVO> bookList = bookService.getAllBooks(pagination);
+            List<AdminBookVO> bookList = bookService.getAllBooks(pagination);
 
             // 레코드 순회
-            for (BookVO bookVO : bookList) {
-                log.info("여기--검색 책목록:{}",bookVO);
-                fileUtils.changeImgPath(bookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
-                log.info("다음--검색 책목록:{}",bookVO);
+            for (AdminBookVO adminBookVO : bookList) {
+                log.info("여기--검색 책목록:{}", adminBookVO);
+                fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+                log.info("다음--검색 책목록:{}", adminBookVO);
             }
             log.info("result -----------------: {}",bookList);
 
@@ -147,11 +148,11 @@ public class AdminBookController {
         log.info("도서 상세페이지 API 호출됨");
 
         // 아이디를 파라미터로 데이터베이스에 넘겨서 데이터 받아오기
-        BookVO bookVO = bookService.deTailBook(bookId);
-        fileUtils.changeImgPath(bookVO,request);
+        AdminBookVO adminBookVO = bookService.deTailBook(bookId);
+        fileUtils.changeImgPath(adminBookVO,request);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("bookVO", bookVO);
+        response.put("bookVO", adminBookVO);
         return  ResponseEntity.ok(response);
     }
 
@@ -163,14 +164,14 @@ public class AdminBookController {
         Map<String, List<CategoryVO>> cateData  = categoryService.getAllCategories();
 
         //해당 아이디에 대한 도서 정보 가져오기
-        BookVO bookVO = bookService.deTailBook(bookId);
-        fileUtils.changeImgPath(bookVO, request); // 필요 시 이미지 경로 수정
+        AdminBookVO adminBookVO = bookService.deTailBook(bookId);
+        fileUtils.changeImgPath(adminBookVO, request); // 필요 시 이미지 경로 수정
 
         Map<String,Object> response = new HashMap<>();
         //해당 아이디에 대한 도서데이터와 , 카테고리 데이터를 클라이언트에게 전송하기!
         //문자열 데이터 List 형태로 바꿔서 bookVO재설정하기
         // 도서 데이터준비
-        response.put("book", bookVO);
+        response.put("book", adminBookVO);
         //카테고리 데이터
         response.put("cateData",cateData);
 
@@ -179,7 +180,7 @@ public class AdminBookController {
 
     @PostMapping("/bookModify/{bookId}")
     public ResponseEntity<?> updateBookModify(
-            @ModelAttribute BookVO modifyBook,
+            @ModelAttribute AdminBookVO modifyBook,
             @RequestParam(name = "bookCateNm") List<String> bookCateNm,
             @RequestParam(name = "bookCateDepth") List<String> bookCateDepth,
             @RequestParam(name = "cateId") List<String> cateId,
@@ -199,7 +200,7 @@ public class AdminBookController {
 
         // 데이터 insert 성공시 결과 반환
         if (result > 0) {
-            BookVO updateData = bookService.deTailBook(modifyBook.getBookId());
+            AdminBookVO updateData = bookService.deTailBook(modifyBook.getBookId());
 
             //파일 경로 서버주소 반영하는 파일Util
             fileUtils.changeImgPath(updateData,request);

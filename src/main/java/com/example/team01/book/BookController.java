@@ -1,16 +1,13 @@
 package com.example.team01.book;
 
-
-import com.example.team01.book.service.BookService;
-import com.example.team01.category.dao.CategoryDao;
-import com.example.team01.vo.CategoryVO;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 
 
@@ -20,19 +17,13 @@ import java.util.List;
 @RestController
 public class BookController {
 
-    private final BookService bookService;
-    CategoryDao dao;
-    // bookList Json으로 반환할 GetMapping 메소드
-    
-    // bookList 수정, 삭제, 등록할 PostMapping 메소드
 
-    @GetMapping("/bookCreate")
-    public List<CategoryVO> getBookCreate(){
+    @GetMapping()
+    public ResponseEntity<?> getBook(@RequestParam(defaultValue = "1") int currentPage,
+                                     @RequestParam(defaultValue = "6") int pageSize
+            , HttpServletRequest request){
 
-
-        List<CategoryVO> data = dao.categoryList();
-        log.info("data-------------------",data);
-        return data;
+        return null;
     }
 
 }
