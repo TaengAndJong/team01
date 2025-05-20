@@ -7,13 +7,12 @@ import FormTag from "../../../util/formTag.jsx";
 import PublishDate from "./publishDate.jsx";
 import PriceStock from "./priceStock.jsx";
 import FileUpload from "./fileUpload.jsx";
-import PathsData from "../../../assets/pathsData.jsx";
 import ReusableModal from "./modal.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 import {validStock} from "../../../util/validation.jsx";
 import {getToday} from "../../../util/dateUtils.jsx";
-import category from "./category.jsx";
 import {BookDispatchContext} from "../adminBookComponent.jsx";
+import "@assets/css/book/adminbookModify.css";
 
 const AdminBookModify = () => {
 

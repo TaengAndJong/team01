@@ -29,7 +29,6 @@ public class AdminBookVO {
     private String publishDate; // 출판일
     private String roleId; // 회원의 역할 : 사원 / 관리자/ 일반회원 ==> 도서 등록자명
     private String cateId; // 도서 카테고리 고유번호 (배열로 변경)
-    private String viewCnt; // 특정 도서에 대한 조회수
     private List<MultipartFile> bookImg;  // 다중 파일 업로드
     private List<String> bookImgList;
     private String bookImgPath;  // DB 저장 용
@@ -37,6 +36,8 @@ public class AdminBookVO {
     private LocalDateTime createDate; // 도서등록일
 
 
+    //정규화로 테이블 따로 만들건지 고려 필요
+    private String viewCnt; // 특정 도서에 대한 조회수
     private String wishID;  // 찜 목록 아이디
 
 

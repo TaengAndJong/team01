@@ -25,6 +25,7 @@ function reducer(state, action) {
           if(action.data){
               console.log("create action",action.data, Array.isArray(action.data));  // 객체로 넘어옴
           }
+
             return [...state, action.data]; // 새 객체 + 기존 배열, action.data는 단일객체
         case "DELETE":
             if(action.data){

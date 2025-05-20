@@ -4,6 +4,7 @@ package com.example.team01.book.dao;
 
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
+import com.example.team01.vo.BookVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,7 +16,6 @@ import java.util.List;
 @Mapper
 public interface BookDao {
 
-
-
+ public List<BookVO> selectAllBooks();
 
 }

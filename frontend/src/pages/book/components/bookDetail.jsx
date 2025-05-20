@@ -1,56 +1,45 @@
 import {useParams} from "react-router-dom";
-import React, { useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import AdminBookSlide from "../../common/adminBookSlide.jsx";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
-import AdminBookSlide from "../../common/adminBookSlide.jsx";
-import "@assets/css/book/adminbookDetail.css";
 
-
-
-const AdminBookDetail = () => {
-    const { bookId } = useParams(); // URL 파라미터에서 bookId 가져오기
+const BookDetail = () => {
+    //useParams()로 url의 파라미터로 넘어온 bookId 가져오기
+    const {bookId} = useParams();
+    console.log("클라이언드 도서 상세----bookId",bookId);
+    //detail 상태관리변수  ==> 초기값은 [](배열)로 해야 map함수를 바로 사용할 수 있음!
     const [bookDetail, setBookDetail] = useState([]);
-    
-    console.log("bookId Detail------------------",bookId);
-    console.log("bookDetail Detail-----------------",bookDetail);
-    // bookId가 없으면 API 요청을 보내지 않도록 처리
-    if (!bookId) {
-        console.error("bookId is missing. API request not sent.");
-        return; // 요청을 보내지 않음
-    }
-    //서버의 컨트롤러에 비동기 데이터 요청
-    const getbookData = async () => {
 
-    try{
-        //await 을 사용하지 않으면 서버로부터 받는 response(응답)객체의 응답상태 확인과 응답객체에 대한 json 변환이 안될 수 있음
-        const response = await fetch(`/api/admin/book/bookDetail/${bookId}`,{
-           method: "GET",
-            headers: {
-                "Content-Type": "application/json"
+    //해당 bookId에 대한 비동기 fetch 요청을 보내어 서버로부터 데이터를 받아온다
+    const fetchBookDetails = async () => {
+        //try,catch를 사용하는 이유 => 코드실행 중 발생하는 에러로 인해 앱이 멈추는 상황을 안전하게 처리하기위해서!
+        try{
+            const response = await fetch(`/api/book/bookDetail/${bookId}`, {
+                method: "GET"
+            });
+
+            if(!response.ok){
+                throw new Error(response.statusText);
             }
-        });
 
-        if(!response.ok){
-            console.log(response.status);
-            throw new Error("서버응답에러");
+            const data = await response.json();
+            setBookDetail(data);
+
+        }catch(e){
+
         }
-        //응답 성공시
-        const bookData = await response.json(); 
-        // 제이슨 문자 데이터로 변환 ==> 담겨야할 데이터 bookId에 해당하는 정보 서버에서 반환받기
-        console.log("bookData----------상세페이지",bookData);
-        setBookDetail(bookData.bookVO);
 
-    }catch(err){
-        console.log("catch-Error", err); // 오류 처리
     }
-}
-    // 리액트 마운트 시 get요청으로 데이터 얻어오기
+
     useEffect(() => {
-        getbookData();
-    },[])
+        fetchBookDetails();
+        console.log("상세페이지 렌더링")
+    },[]) // 렌더링(마운트) 시 한번 실행
 
+    console.log("bookDetail--------", bookDetail);
 
-    return(
+    return (
         <>
             <div className="bookDetail">
 
@@ -82,7 +71,7 @@ const AdminBookDetail = () => {
 
 
                 <div className="box">
-                <h4 className="h4 title-dotted">도서설명</h4>
+                    <h4 className="h4 title-dotted">도서설명</h4>
                     {bookDetail.bookDesc}
                 </div>
                 {/*bookDetail end */}
@@ -90,13 +79,15 @@ const AdminBookDetail = () => {
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
                     <Btn className={"modify btn btn-secondary"} type={"button"} path={pathsData.page.adminBookList}
                          text="목록"/>
-                    <Btn className={"modify btn btn-primary"} type={"button"} path={`${pathsData.page.adminBookModify}/${bookId}`}
+                    <Btn className={"modify btn btn-primary"} type={"button"}
+                         path={`${pathsData.page.adminBookModify}/${bookId}`}
                          text="수정"/>
                 </div>
 
             </div>
+
         </>
     )
 }
 
-export default AdminBookDetail;
+export default BookDetail;

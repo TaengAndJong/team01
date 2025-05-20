@@ -38,6 +38,7 @@ q:after, q:before {
 
 * {
   color: #333;
+  word-break: keep-all;
 }
 
 a {

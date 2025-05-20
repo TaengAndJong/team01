@@ -1,0 +1,27 @@
+.main.book .card{border:none; border-radius: 0;}
+
+.book-list{
+    padding: 0 30px;
+}
+
+.book-list-inner{
+    width: 100%;
+}
+
+.book-item-list{
+    width: calc(100% + 16px);
+    margin: 0 -8px;
+}
+
+.book-item{
+    background: #fff;
+    width:calc((100%/2)  - 16px);
+    margin: 0 2px;
+}
+.book-item .card-header{
+    min-width: 200px;
+    width: 200px;
+}
+.book-item .card-body {
+    width: calc(100% - 20px);
+}

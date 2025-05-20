@@ -5,6 +5,7 @@ import com.example.team01.common.exception.BookNotFoundException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
+import com.example.team01.vo.BookVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,13 @@ import java.util.stream.Collectors;
 @Service
 public class BookServiceImple implements BookService{
 
+    private final BookDao dao;
+
+    @Override
+    public List<BookVO> selectAllBooks() {
+        log.info("selectAllBooks : {}",dao.selectAllBooks());
+        return dao.selectAllBooks();
+    }
 
 
 }

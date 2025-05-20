@@ -1,21 +1,25 @@
 import BookList from "./components/bookList.jsx";
-import {createContext, useEffect, useReducer} from "react";
+import React, {createContext, useEffect, useReducer} from "react";
+import {Outlet} from "react-router-dom";
 
 
 //판매하는 도서 목록 전역상태관리 컨텍스트
-export const bookStatusContext = createContext();
+export const BookStateContext = createContext();
 //판매도서 crud 상태관리 context
-export const bookDispatchContext = createContext();
+export const BookDispatchContext = createContext();
 
 // reducer를 이용한 상태관리 함수
 const reducer = (state, action) => {
 
     switch (action.type) {
         case "INIT" :
-            if(action.data){ // 배열인지 확인
+            if(action.data){
                 console.log("INIT action",action.data, Array.isArray(action.data));
             }
-            return "INIT"
+            // 서버에서 단일객체{} 또는 여러 개의 객체가  action.data로 넘어오면 배열에 담아줘야 함.
+            return Array.isArray(action.data) ? action.data : [action.data];
+        default:
+            return state;
     }
 
 
@@ -56,19 +60,22 @@ const Book = () => {
     }
 
     useEffect(()=>{
-        bookListFetch(); // 도서데이터 요청
-    },[bookData]); // 도서 데이터 변경 시, 재반영
 
-    console.log("bookData ----client Book",bookData);
+        bookListFetch(); // 도서데이터 요청
+
+    },[]); // 처음 렌더링 시에만 한 번 실행
+
+    console.log("bookData 최상위 부모 컴포넌트",bookData);
 
     return(
         <>
             <div className="hoverLeaf"></div>
-            <bookStatusContext.Provider value={bookData}>
-                <bookDispatchContext.Provider>
-                    <BookList bookData={bookData} onInit={onInit}/>
-                </bookDispatchContext.Provider>
-            </bookStatusContext.Provider>
+
+            <BookStateContext.Provider value={bookData}>
+                <BookDispatchContext.Provider value={{onInit}}>
+                    <Outlet/>
+                </BookDispatchContext.Provider>
+            </BookStateContext.Provider>
 
         </>
     )

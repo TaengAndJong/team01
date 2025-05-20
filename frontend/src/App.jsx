@@ -30,6 +30,9 @@ import AdminBookCreate from "@pages/adminBook/components/adminBookCreate.jsx";
 import AdminBookDetail from "@pages/adminBook/components/adminBookDetail.jsx";
 import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
 import {MenuProvider} from "@pages/common/MenuContext.jsx";
+import BookList from "@pages/book/components/bookList.jsx";
+import BookDetail from "@pages/book/components/bookDetail.jsx";
+
 
 
 
@@ -61,7 +64,12 @@ function App() {
 
                     {/* 클라이언트 전용 라우트 */}
                     <Route index path={PathData.page.main} element={<Main/>}/>
-                    <Route path={PathData.page.book} element={<Book/>}/>
+                    <Route path={PathData.page.book} element={<Book/>}>
+                        <Route index path="" element={<BookList/>}/>
+                        <Route path="bookDetail/:bookId" element={<BookDetail/>}/>
+                        {/*<Route index element={<Navigate to="bookList" replace/>}/>*/}
+                        {/*<Route path="bookList" element={<BookList/>} />*/}
+                    </Route>
                     <Route path={PathData.page.board} element={<Board/>}/>
 
                     {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
@@ -75,7 +83,6 @@ function App() {
                         <Route path="productBoard" element={<AdminProductBoard/>}/>
                         <Route path="qnaOneList" element={<AdminOneBoard/>}/>
                     </Route>
-
 
                     <Route path={PathData.page.adminBook} element={<AdminBook/>}>
                         <Route index element={<Navigate to="bookList" replace/>}/>
@@ -94,4 +101,3 @@ function App() {
 }
 
 export default App;
-``
