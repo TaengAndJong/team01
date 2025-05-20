@@ -9,7 +9,7 @@ import {menuNavi} from "../../util/menuNavi.jsx";
 //context 상태관리
 export const BookBoardStateContext = React.createContext();// state 값을 공급하는 context
 export const  BookBoardDispatchContext = React.createContext();// 생성, 수정(갱신), 삭제 값을 공급하는 context
-
+export const PaginationContext = React.createContext()
 
 const AdminBoard = () => {
 
@@ -20,6 +20,13 @@ const AdminBoard = () => {
     let adminMenuTree = menuNavi(menu?.adminList);
     let adminHome = menu?.adminList?.find(item => item.menuId === "admin")?.menuPath;
     let subNavi = adminMenuTree?.filter(item => item.menuPath.includes(standardPoint));
+
+    const [paginationInfo, setPaginationInfo] = useState({
+        currentPage: 1,
+        totalPages: 0,
+        totalRecord: 0,
+        pageSize: 6
+    });
 
 
     const initFetch = async () => {
@@ -48,6 +55,16 @@ const AdminBoard = () => {
         initFetch();
     }, []);
 
+    //페이지버튼 클릭시 실행되는 핸들러
+    const onChangePageHandler = (page) => {
+        console.log("changePage----",page);
+        //pagination의 currentPage 값 갱신
+        setPaginationInfo((prev) =>({
+            ...prev,
+            currentPage: page
+        }))
+
+    }
 
 
     // if (isLoading) {
@@ -102,7 +119,9 @@ const AdminBoard = () => {
                             {/*  문의관리  1차메뉴일 경우  컨텐츠*/}
                             <BookBoardStateContext.Provider value={qnaOneData}>
                                 <BookBoardDispatchContext.Provider value={null}>
+                                    <PaginationContext value={{onChangePageHandler}}>
                                     <Outlet />
+                                    </PaginationContext>
                                 </BookBoardDispatchContext.Provider>
                             </BookBoardStateContext.Provider>
 

@@ -29,6 +29,6 @@ public class QnaOneController {
             return ResponseEntity.ok(qnaOneData);
         }
 
-
+//        @PostMapping("/qnaOneList")
 }
 
