@@ -1,9 +1,7 @@
 package com.example.team01.utils;
-import com.example.team01.vo.BookVO;
+import com.example.team01.vo.AdminBookVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value; // 롬복 사용하면 안됨, inMemory에서 가져오려면 이 패키지 사용해야 함
@@ -138,8 +136,8 @@ public class FileUtils {
     // file.getAbsolutePath 반환하면 자동으로 noImgPath에 대입 되는가?
 
     //BookImgList 레코드 값의 배열 조회를 통한 서버주소 추가 후 배열 갱신
-    public BookVO changeImgPath(BookVO bookVO, HttpServletRequest request){
-        List<String> bookImgList = bookVO.getBookImgList();
+    public AdminBookVO changeImgPath(AdminBookVO adminBookVO, HttpServletRequest request){
+        List<String> bookImgList = adminBookVO.getBookImgList();
         List<String> imgUrlList = new ArrayList<>();
 
         if (bookImgList != null && !bookImgList.isEmpty()) {
@@ -156,12 +154,12 @@ public class FileUtils {
                 imgUrlList.add(imgUrl); // 각 이미지 URL을 리스트에 추가
             }
 
-            bookVO.setBookImgList(imgUrlList); // 최종적으로 이미지 URL 리스트로 덮어쓰기
+            adminBookVO.setBookImgList(imgUrlList); // 최종적으로 이미지 URL 리스트로 덮어쓰기
         }
 
-        log.info("이미지 URL 변경완료:{}",bookVO);
+        log.info("이미지 URL 변경완료:{}", adminBookVO);
         // 변경된 레코드 반환하기
-        return bookVO;
+        return adminBookVO;
     }
     
     //실서버에 저장된 이미지파일 삭제만

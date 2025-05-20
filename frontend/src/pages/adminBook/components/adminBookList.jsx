@@ -222,8 +222,8 @@ const AdminBookList = () => {
             <Pagination paginationInfo={paginationInfo} onChangePageHandler={onChangePageHandler}/>
 
             <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                <Btn className={"create btn btn-danger"} type={"button"}  onClick={() => handleShow()}  text="삭제"/>
-                <Btn className={"create btn btn-primary"} type={"button"} path={pathsData.page.adminBookCreate} text="등록"/>
+                <Btn className={"delete btn btn-danger"} id={"deleteBtn"} type={"button"}  onClick={() => handleShow()}  text="삭제"/>
+                <Btn className={"create btn btn-primary"} id={"createBtn"} type={"button"}  path={pathsData.page.adminBookCreate} text="등록"/>
             </div>
             {/*checkedInput만 하면 빈 배열이라도 true로 판정해서 모달이 열리기때문에 요소의 개수로 판단*/}
             {show && checkedInput.length === 0 && (

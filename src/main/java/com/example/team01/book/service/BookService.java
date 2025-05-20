@@ -1,6 +1,7 @@
 package com.example.team01.book.service;
 
 import com.example.team01.utils.Pagination;
+import com.example.team01.vo.AdminBookVO;
 import com.example.team01.vo.BookVO;
 
 import java.io.FileNotFoundException;
@@ -8,13 +9,9 @@ import java.util.List;
 
 public interface BookService {
 
-    public List<BookVO> getAllBooks(Pagination pagination);
+    //book 전체 조회
+    public List<BookVO> selectAllBooks();
 
-    public BookVO deTailBook(String bookId);
-    public int createBook(BookVO book) throws FileNotFoundException;
-    public int updateBook(BookVO book) throws FileNotFoundException;
-    public int deleteBooks(List<String> bookIds);
-   // public List<BookVO> searchBook(String type, String field, String keyword);
-
+    //book 국내, 국외, 전자로 나누어 조회
 
 }

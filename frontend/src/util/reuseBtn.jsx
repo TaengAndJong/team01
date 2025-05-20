@@ -14,7 +14,6 @@ const Button = ({text, type, onClick, className, id,isLoading, isDisabled, confi
         try{
             if (confirmMessage && !window.confirm(confirmMessage)) return;
 
-
         // 수정된 코드
         if (path) {
             navigate(path);
@@ -32,7 +31,7 @@ const Button = ({text, type, onClick, className, id,isLoading, isDisabled, confi
     return (
         <button
             className={`btn ${className}`}
-            id={`${id}Btn`}
+            id={`${id}`}
             type={btnType}
             onClick={handleClick}
             disabled={isDisabled || isLoading}
