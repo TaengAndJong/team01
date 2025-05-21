@@ -1,8 +1,10 @@
 import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import AdminBookSlide from "../../common/adminBookSlide.jsx";
+
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
+import BookSlide from "../../common/bookSlide.jsx";
+
 
 const BookDetail = () => {
     //useParams()로 url의 파라미터로 넘어온 bookId 가져오기
@@ -16,7 +18,10 @@ const BookDetail = () => {
         //try,catch를 사용하는 이유 => 코드실행 중 발생하는 에러로 인해 앱이 멈추는 상황을 안전하게 처리하기위해서!
         try{
             const response = await fetch(`/api/book/bookDetail/${bookId}`, {
-                method: "GET"
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             });
 
             if(!response.ok){
@@ -24,10 +29,11 @@ const BookDetail = () => {
             }
 
             const data = await response.json();
+            console.log("bookDetail-----data", data);
             setBookDetail(data);
 
         }catch(e){
-
+            console.log("catch-Error", err);
         }
 
     }
@@ -46,7 +52,7 @@ const BookDetail = () => {
                 <div className="box slide">
                     <div className="card horizontal">
                         <div className="card-header">
-                            <AdminBookSlide slideData={bookDetail}/>
+                            <BookSlide slideData={bookDetail}/>
                         </div>
                         <div className="bookInfo card-body">
                             <h3 className="book-title title-dotted">{bookDetail.bookName}</h3>

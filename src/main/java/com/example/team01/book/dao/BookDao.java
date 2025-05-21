@@ -17,5 +17,8 @@ import java.util.List;
 public interface BookDao {
 
  public List<BookVO> selectAllBooks();
+ //도서상세페이지 ( id로 특정 데이터 조회후 특정데이터 레코드 전부 반환 ==> BookVO사용)
+ public BookVO selectOneBook(String bookId);
+
 
 }

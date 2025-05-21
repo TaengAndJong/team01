@@ -2,8 +2,8 @@ import {useParams} from "react-router-dom";
 import React, { useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
-import AdminBookSlide from "../../common/adminBookSlide.jsx";
 import "@assets/css/book/adminbookDetail.css";
+import BookSlide from "../../common/bookSlide.jsx";
 
 
 
@@ -49,7 +49,7 @@ const AdminBookDetail = () => {
         getbookData();
     },[])
 
-
+    console.log("bookDetail-----current",bookDetail);
     return(
         <>
             <div className="bookDetail">
@@ -57,7 +57,7 @@ const AdminBookDetail = () => {
                 <div className="box slide">
                     <div className="card horizontal">
                         <div className="card-header">
-                            <AdminBookSlide slideData={bookDetail}/>
+                            <BookSlide slideData={bookDetail}/>
                         </div>
                         <div className="bookInfo card-body">
                             <h3 className="book-title title-dotted">{bookDetail.bookName}</h3>
@@ -88,9 +88,9 @@ const AdminBookDetail = () => {
                 {/*bookDetail end */}
 
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
-                    <Btn className={"modify btn btn-secondary"} type={"button"} path={pathsData.page.adminBookList}
+                    <Btn className={"list btn-secondary"} id={"listBtn"} type={"button"} path={pathsData.page.adminBookList}
                          text="목록"/>
-                    <Btn className={"modify btn btn-primary"} type={"button"} path={`${pathsData.page.adminBookModify}/${bookId}`}
+                    <Btn className={"modify btn-primary"} id={"modifyBtn"} type={"button"} path={`${pathsData.page.adminBookModify}/${bookId}`}
                          text="수정"/>
                 </div>
 

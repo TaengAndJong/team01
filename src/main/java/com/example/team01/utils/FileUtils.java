@@ -1,4 +1,5 @@
 package com.example.team01.utils;
+import com.example.team01.common.support.BookImgChange;
 import com.example.team01.vo.AdminBookVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -135,10 +136,14 @@ public class FileUtils {
     }
     // file.getAbsolutePath 반환하면 자동으로 noImgPath에 대입 되는가?
 
-    //BookImgList 레코드 값의 배열 조회를 통한 서버주소 추가 후 배열 갱신
-    public AdminBookVO changeImgPath(AdminBookVO adminBookVO, HttpServletRequest request){
-        List<String> bookImgList = adminBookVO.getBookImgList();
+    //BookImgList 레코드 값의 배열 조회를 통한 서버주소 추가 후 배열 갱신, 제네릭타입 선언<<<
+    public <T extends BookImgChange> T changeImgPath(T vo, HttpServletRequest request){
+        List<String> bookImgList = vo.getBookImgList();
         List<String> imgUrlList = new ArrayList<>();
+
+        log.info("bookImgList--------------:{}",bookImgList);
+        log.info("bookImgList--------------:{}",baseImageUrl(request,"uploads/book"));
+
 
         if (bookImgList != null && !bookImgList.isEmpty()) {
             for (String fileName : bookImgList) {
@@ -154,12 +159,13 @@ public class FileUtils {
                 imgUrlList.add(imgUrl); // 각 이미지 URL을 리스트에 추가
             }
 
-            adminBookVO.setBookImgList(imgUrlList); // 최종적으로 이미지 URL 리스트로 덮어쓰기
+
+            vo.setBookImgList(imgUrlList); // 최종적으로 이미지 URL 리스트로 덮어쓰기
         }
 
-        log.info("이미지 URL 변경완료:{}", adminBookVO);
+        log.info("이미지 URL 변경완료:{}", vo);
         // 변경된 레코드 반환하기
-        return adminBookVO;
+        return vo;
     }
     
     //실서버에 저장된 이미지파일 삭제만

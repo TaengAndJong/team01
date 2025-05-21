@@ -22,7 +22,9 @@ const PathsData = // 객체 데이터 구조 미완성
             // 게시판 주소 동적 구현 가능?
             adminBook:"/admin/book", // 관리자 등록된 도서 목록게시판
             adminBookCreate:"/admin/book/bookCreate",
-
+            adminBookModify:"/admin/book/bookModify",
+            adminBookList:"/admin/book/bookList",
+            adminBookDetail:"/admin/book/bookDetail",
         },
     }
 export default PathsData;

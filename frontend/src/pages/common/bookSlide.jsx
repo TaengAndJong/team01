@@ -1,4 +1,4 @@
-import {React, useEffect, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 
 import  {Swiper, SwiperSlide} from 'swiper/react';
 import {Autoplay, Navigation, Pagination} from 'swiper/modules';
@@ -9,10 +9,11 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 
-const AdminBookSlide = ({slideData}) =>{
+const BookSlide = ({slideData}) =>{
     // 받아온 props의 값을 왼쪽의 변수에 구조분해할당해주기( 데이터 분해 방향은 오른쪽에서 왼쪽)
-    const {imgList} = slideData; // 객체 형식의 구조분해할당
+    const imgList = slideData.bookImgList; // 배열로 넘어오면 변수에 저장하면 됨!
     const swiperRef = useRef(null);
+
 
 
     useEffect(() => {
@@ -69,4 +70,4 @@ const AdminBookSlide = ({slideData}) =>{
     );
 }
 
-export default AdminBookSlide;
+export default BookSlide;
