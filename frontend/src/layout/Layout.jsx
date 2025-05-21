@@ -11,13 +11,12 @@ const Layout = () => {
     const {menu, currentPath, standardPoint} = useMenu();
     let location = useLocation();
 
-    console.log("menu ---",menu);
-    const menuItem = () => {
-        for (let list in menu) {
-            console.log("list in menu",list);
 
-        }
-    }
+    // const menuItem = () => {
+    //     for (let list in menu) {
+    //         console.log("list in menu",list);
+    //     }
+    // }
 
 // body에 /admin 과 /은 main이고 그 외 전부 sub 클래스 출력
     const bodyName = (currentPath) => {
@@ -41,16 +40,11 @@ const Layout = () => {
     };
 
     const pageName = (standardPoint) => {
-        console.log("standardPoint", standardPoint);
 
         for (let list in menu) {
-            console.log("list",list);
-
            const menuList = menu[list];
-            console.log("menuList",menuList);
+           const foundItem = menu[list]?.find((item) => item.menuPath === standardPoint);
 
-            const foundItem = menu[list]?.find((item) => item.menuPath === standardPoint);
-            console.log("foundItem",foundItem);
             if (foundItem) {
                 switch (foundItem.menuPath) {
                     case "/admin":
@@ -63,7 +57,6 @@ const Layout = () => {
                         return "signup";
                     default:
                         if (foundItem.menuPath.includes("Detail") || foundItem.menuPath.includes("Modify")) {
-
                             return `${foundItem.menuId}`;
                         }
                         return `${foundItem.menuId}`;
@@ -83,18 +76,16 @@ const Layout = () => {
         fetch(url)
             .then((response) => {
                 if (!response.ok) {
-                    console.log("???", response.text())
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 // 응답의 Content-Type을 확인하여 처리
                 const contentType = response.headers.get("Content-Type");
 
                 if (contentType && contentType.includes("application/json")) {
-                    console.log("layout data 요청 - json", response.json());
                     // JSON 응답일 경우
                     return response.json();
                 } else {
-                    console.log("layout data 요청 - text");
+
                     // 텍스트 응답일 경우
                     return response.text();
                 }

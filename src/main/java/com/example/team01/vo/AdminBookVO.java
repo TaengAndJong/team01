@@ -1,5 +1,6 @@
 package com.example.team01.vo;
 
+import com.example.team01.common.support.BookImgChange;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminBookVO {
+public class AdminBookVO implements BookImgChange {
 
 
 
@@ -31,8 +32,8 @@ public class AdminBookVO {
     private String cateId; // 도서 카테고리 고유번호 (배열로 변경)
     private List<MultipartFile> bookImg;  // 다중 파일 업로드
     private List<String> bookImgList;
-    private String bookImgPath;  // DB 저장 용
-    private String writer; // 회원아이디
+    private String bookImgPath;  // DB 저장용
+    private String writer; // 등록한 관리자 아이디
     private LocalDateTime createDate; // 도서등록일
 
 

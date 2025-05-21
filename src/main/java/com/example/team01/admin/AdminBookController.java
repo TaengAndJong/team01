@@ -149,10 +149,14 @@ public class AdminBookController {
 
         // 아이디를 파라미터로 데이터베이스에 넘겨서 데이터 받아오기
         AdminBookVO adminBookVO = bookService.deTailBook(bookId);
+        log.info("adminbookVO ---:{}", adminBookVO);
         fileUtils.changeImgPath(adminBookVO,request);
+
+        log.info("adminBookVO -----------:{}",adminBookVO);
 
         Map<String, Object> response = new HashMap<>();
         response.put("bookVO", adminBookVO);
+        log.info("response -----------:{}",response);
         return  ResponseEntity.ok(response);
     }
 

@@ -19,8 +19,6 @@ const Header = () => {
     const commonMenuItems =commonMenu?.filter((item)=>(
         ["cart", "mypage"].includes(item.menuId)
     ));
-    console.log("commonMenu",commonMenu);
-    console.log("commonMenuItems",commonMenuItems);
 
 // 로그아웃 fetch 요청
     const handleLogout = async () => {
@@ -91,7 +89,7 @@ const Header = () => {
                                     })
                                 )}
                                 <li>
-                                    <Btn className={"logout"} type={"logout"} text={"로그아웃"} onClick={handleLogout}/>
+                                    <Btn className={"logout"}  id={"logoutBtn"} text={"로그아웃"} onClick={handleLogout}/>
                                 </li>
                             </ul>
                         </div>

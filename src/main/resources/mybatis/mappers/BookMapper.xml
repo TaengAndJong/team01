@@ -22,4 +22,24 @@
         FROM book
     </select>
 
+    <select id="selectOneBook" resultType="BookVO">
+        select  trim("bookId") as "bookId"
+             , "bookCateNm"
+             , "bookCateDepth"
+             , "bookName"
+             , "bookDesc"
+             , "author"
+             , "bookPrice"
+             , "stock"
+             , "stockStatus"
+             , "publishDate"
+             , "roleId"
+             , "cateId"
+             , "bookImgPath"
+             , "writer"
+             , "createDate"
+        from book
+        where "bookId"=#{bookId}
+    </select>
+
 </mapper>

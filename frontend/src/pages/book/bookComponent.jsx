@@ -1,6 +1,10 @@
 import BookList from "./components/bookList.jsx";
 import React, {createContext, useEffect, useReducer} from "react";
-import {Outlet} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
+import {useMenu} from "../common/MenuContext.jsx";
+import LeftMenu from "../../layout/LeftMenu.jsx";
+import {PaginationContext} from "../adminBook/adminBookComponent.jsx";
+import {menuNavi} from "../../util/menuNavi.jsx";
 
 
 //판매하는 도서 목록 전역상태관리 컨텍스트
@@ -28,6 +32,7 @@ const reducer = (state, action) => {
 
 const Book = () => {
 
+    const {menu,currentPath,standardPoint}  = useMenu();
     const [bookData,dispatch]= useReducer(reducer, null);
 
     const onInit =(bookData)=>{
@@ -65,17 +70,59 @@ const Book = () => {
 
     },[]); // 처음 렌더링 시에만 한 번 실행
 
-    console.log("bookData 최상위 부모 컴포넌트",bookData);
+    let clientMenuTree = menuNavi(menu?.clientList);
+    let clientHome = menu?.clientList?.find(item => item.menuId === "main")?.menuPath;
+    let subNavi = clientMenuTree?.filter(item => item.menuPath.includes(standardPoint));
 
     return(
         <>
             <div className="hoverLeaf"></div>
 
-            <BookStateContext.Provider value={bookData}>
-                <BookDispatchContext.Provider value={{onInit}}>
-                    <Outlet/>
-                </BookDispatchContext.Provider>
-            </BookStateContext.Provider>
+            <div className="page bookDetail d-flex">
+                <div className="left">
+                    <LeftMenu/>
+                </div>
+
+                {/*링크이동할 사이드메뉴 */}
+                <div className="right">
+                    <section className="content">
+                        <div className="content-inner custom-border">
+                            {/*현재경로의 페이지명 depth 2 */}
+                            <h3 className="sub-title current-title title-border">
+                                {
+                                    menu?.clientList?.map((item) => {
+                                        if (item.menuPath.startsWith(`${currentPath}`)) {
+                                            return item.menuName
+                                        }
+                                    })
+                                }
+
+                            </h3>
+
+                            {/*depth별 네비주소,현재페이지일 경우 표시필요*/}
+
+                            <ol className="menu-navi d-flex title-border">
+                                {/* 서브페이지 네비게이션 */}
+                                <li><Link to={clientHome}>홈</Link></li>
+                                {subNavi?.[0] && (
+                                    <li><Link to={subNavi?.[0].menuPath}>{subNavi?.[0].menuName}</Link></li>
+                                )}
+                                {subNavi?.[0]?.secondChild && (
+                                    <li> {subNavi?.[0].secondChild?.filter(item => (item.menuDepth === "2차메뉴" && item.menuPath.includes(currentPath)))
+                                        .map((item) => item.menuName)}</li>
+                                )
+                                }
+
+                            </ol>
+                            <BookStateContext.Provider value={bookData}>
+                                <BookDispatchContext.Provider value={{onInit}}>
+                                    <Outlet/>
+                                </BookDispatchContext.Provider>
+                            </BookStateContext.Provider>
+                        </div>
+                    </section>
+                </div>
+            </div>
 
         </>
     )

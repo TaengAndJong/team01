@@ -31,7 +31,32 @@ public class BookServiceImple implements BookService{
     @Override
     public List<BookVO> selectAllBooks() {
         log.info("selectAllBooks : {}",dao.selectAllBooks());
+        //bookImgPath를 bookImgList 배열에 담아주고 setter로 BookVO에 담아주기
+        List<String> bookImgList = new ArrayList<>();
+
+        // bookImgPath 값 나누기
+//        List<String> bookImgPathArray =
+
         return dao.selectAllBooks();
+    }
+
+    @Override
+    public BookVO selectOneBook(String bookId) {
+
+        BookVO bookVO = dao.selectOneBook(bookId);
+        log.info("selectOneBook ------bookVO: {}",bookVO);
+        // 텍스트 이미지경로 to ArrayList 이미지경로
+        //bookImgPath  배열로 변경해서 넣어야함
+        // 텍스트 이미지 split(",") 사용해서 문자 배열로 변경
+        String[] bookImgPaths = bookVO.getBookImgPath().split(",");
+        log.info("bookImgPaths ------: {}",bookImgPaths);
+
+        // bookVO의 bookImgList에 String 배열을 List 배열로 변경해 담아주기
+        bookVO.setBookImgList(Arrays.asList(bookImgPaths));
+        log.info("selectOneBook ------: {}",bookVO);
+        //파일유틸에 경로변경
+
+        return dao.selectOneBook(bookId);
     }
 
 
