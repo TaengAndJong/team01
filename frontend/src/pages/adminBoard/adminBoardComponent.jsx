@@ -31,6 +31,14 @@ const AdminBoard = () => {
 
     const initFetch = async () => {
         try {
+            //page, pageSize
+            const params = new URLSearchParams({
+                currentPage: paginationInfo.currentPage, // 클라이언트가 결정하는 현재페이지, 기본값은 1
+                pageSize:  paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
+            });
+
+            console.log("params.toString()",params.toString());
+
             // 서버로 응답 요청
             const response = await fetch(`/api/admin/board/qnaOneList`, {
                 method: "GET",
@@ -119,9 +127,9 @@ const AdminBoard = () => {
                             {/*  문의관리  1차메뉴일 경우  컨텐츠*/}
                             <BookBoardStateContext.Provider value={qnaOneData}>
                                 <BookBoardDispatchContext.Provider value={null}>
-                                    <PaginationContext value={{onChangePageHandler}}>
+                                    <PaginationContext.Provider  value={{paginationInfo, onChangePageHandler}}>
                                     <Outlet />
-                                    </PaginationContext>
+                                    </PaginationContext.Provider>
                                 </BookBoardDispatchContext.Provider>
                             </BookBoardStateContext.Provider>
 
