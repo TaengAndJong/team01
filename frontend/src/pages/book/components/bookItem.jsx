@@ -14,7 +14,7 @@ const BookItem = ({bookList}) =>{
                                     <div className="card-header border-end rounded-4 overflow-hidden">
                                         <div className="img-box">
                                             <div className="img-inner">
-                                                <img className="img" src="/src/assets/images/noimg.png"
+                                                <img className="img" src={book.bookImgList[0]}
                                                      alt="노이미지"/>
                                             </div>
                                         </div>

@@ -34,8 +34,6 @@ public class BookServiceImple implements BookService{
         //bookImgPath를 bookImgList 배열에 담아주고 setter로 BookVO에 담아주기
         List<String> bookImgList = new ArrayList<>();
 
-        // bookImgPath 값 나누기
-//        List<String> bookImgPathArray =
 
         return dao.selectAllBooks();
     }

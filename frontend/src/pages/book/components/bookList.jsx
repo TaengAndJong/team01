@@ -23,7 +23,7 @@ const BookList = () => {
         }
     })
 
-    // console.log("bookList 자식컴포넌트------------------",bookList);
+    console.log("bookList 자식컴포넌트------------------",bookList);
 
     return (
         <>

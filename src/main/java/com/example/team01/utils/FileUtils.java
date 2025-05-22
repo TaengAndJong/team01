@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.example.team01.utils.severUrlUtil.baseImageUrl;
 
@@ -138,36 +139,36 @@ public class FileUtils {
 
     //BookImgList 레코드 값의 배열 조회를 통한 서버주소 추가 후 배열 갱신, 제네릭타입 선언<<<
     public <T extends BookImgChange> T changeImgPath(T vo, HttpServletRequest request){
+
         List<String> bookImgList = vo.getBookImgList();
-        List<String> imgUrlList = new ArrayList<>();
+        //vo.getBookImgList() 가 null 일 경우와 아닌 경우 분리하기
 
         log.info("bookImgList--------------:{}",bookImgList);
         log.info("bookImgList--------------:{}",baseImageUrl(request,"uploads/book"));
 
-
-        if (bookImgList != null && !bookImgList.isEmpty()) {
-            for (String fileName : bookImgList) {
-                String imgUrl;
-
-                // 각 이미지가 "noimg"를 포함하는지 확인
-                if (!fileName.contains("noimg")) {
-                    imgUrl = baseImageUrl(request, "uploads/book") + fileName;
-                } else {
-                    imgUrl = baseImageUrl(request, "images") + fileName;
-                }
-
-                imgUrlList.add(imgUrl); // 각 이미지 URL을 리스트에 추가
-            }
-
-
-            vo.setBookImgList(imgUrlList); // 최종적으로 이미지 URL 리스트로 덮어쓰기
+        // 1. bookImgList가 비었을 경우, bookImgPath로부터 리스트 생성
+        if (bookImgList == null || bookImgList.isEmpty()) {
+            bookImgList = Arrays.stream(vo.getBookImgPath().split(","))
+                    .map(String::trim)
+                    .filter(item -> !item.isEmpty())
+                    .collect(Collectors.toList());
+            log.info("bookImgList 비어있을 경우 재구성됨: {}", bookImgList);
         }
 
-        log.info("이미지 URL 변경완료:{}", vo);
-        // 변경된 레코드 반환하기
+        // 2. 공통 URL 생성 처리
+        List<String> imgUrlList = bookImgList.stream()
+                .map(fileName -> {
+                    String folder = fileName.toLowerCase().contains("noimg") ? "images" : "uploads/book";
+                    return baseImageUrl(request, folder) + fileName;
+                })
+                .collect(Collectors.toList());
+
+        vo.setBookImgList(imgUrlList);
+        log.info("이미지 URL 최종 변환 완료: {}", vo);
         return vo;
     }
-    
+
+
     //실서버에 저장된 이미지파일 삭제만
     public String deleteFiles(String fileNames,String middlePath) {
         log.info("fileNames----------del:{}",fileNames);
