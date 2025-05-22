@@ -30,7 +30,7 @@ const BookDetail = () => {
 
             const data = await response.json();
             console.log("bookDetail-----data", data);
-            setBookDetail(data);
+            setBookDetail(data.bookVO);
 
         }catch(e){
             console.log("catch-Error", err);

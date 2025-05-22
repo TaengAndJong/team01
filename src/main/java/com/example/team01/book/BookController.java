@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -30,13 +32,16 @@ public class BookController {
 
     // get요청에 바인딩되는 bookId는 메소드의 PathVariable로 받아와야 함
     @GetMapping()
-    public ResponseEntity<?> getBookList(){
+    public ResponseEntity<?> getBookList(HttpServletRequest request){
 
         List<BookVO> allBooksService =  bookService.selectAllBooks();
         log.info("클라이언트 북 :{}", allBooksService);
+      // Stream,map 이용해 각 BookVO에 changeImgPath 적용
+        List<BookVO> bookVO = allBooksService.stream().map(book -> fileUtils.changeImgPath(book,request))
+                .collect(Collectors.toList());
+        log.info("bookVO :{}", bookVO );
 
-
-        return ResponseEntity.ok(allBooksService);
+        return ResponseEntity.ok(bookVO);
     }
 
     // get요청에 바인딩되는 bookId는 메소드의 PathVariable로 받아와야 함
@@ -51,6 +56,9 @@ public class BookController {
         log.info("result ---:{}", bookVO);
         //이미지파일 경로 변경 실행 ( 서버주소 + 이미지 경로)
         fileUtils.changeImgPath(bookVO,request);
+        //이미지 bookList 객체 값 확인하기
+        log.info("result ---:{}", bookVO);
+        
         // Json 형식으로 반환
         Map<String, Object> response = new HashMap<>();
         response.put("bookVO", bookVO);
