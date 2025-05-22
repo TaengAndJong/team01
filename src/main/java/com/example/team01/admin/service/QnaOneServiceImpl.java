@@ -2,6 +2,7 @@ package com.example.team01.admin.service;
 
 import com.example.team01.admin.dao.QnaOneDao;
 import com.example.team01.vo.QnaOneVO;
+import com.example.team01.utils.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,7 +19,11 @@ public class QnaOneServiceImpl implements QnaOneService {
     }
 
     @Override
-    public List<QnaOneVO> getAllQnaOneData() {
+    public List<QnaOneVO> getAllQnaOneData(Pagination pagination) {
+
+        log.info("컨트롤러에서 받아온 파라미터 pagination:{}", pagination.toString());
+        //전체 데이터 레코드 조회해오기
+
         // DAO 계층 메서드 호출 및 리턴
         return qnaOneDao.allQnaDataList();
     }
