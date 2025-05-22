@@ -19,7 +19,7 @@ import java.util.Map;
 @ToString
 @Slf4j
 public class Pagination {
-    
+    // 속성
     private  final int currentPage;//현재 페이지
     private  final int pageSize;// 보여줄 페이지 개수
     private int startRow;    // 조회 시작 행 번호
@@ -27,7 +27,7 @@ public class Pagination {
     private  int totalRecord; // 필터가 적용된 데이터베이스의 전체 데이터(행의)개수
     private  int totalPages;// 페이지 버튼 UI 사용할 개수
 
-    //생성자는 멤버변수를 초기화하기위해 사용!( 멤버변수 값 설정_)
+    //생성자는 멤버변수를 초기화하기위해 사용!( 멤버변수 값 설정_) 생성자는 클래스명과 동일
     public Pagination(int currentPage, int pageSize) {
         this.currentPage =  (currentPage <= 0) ? 1 : currentPage;
         this.pageSize = (pageSize <= 0 || pageSize > 100) ? 10 : pageSize; // 데이터 100개 이상 요청 못하게 제한

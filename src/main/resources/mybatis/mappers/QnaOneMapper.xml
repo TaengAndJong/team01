@@ -8,6 +8,31 @@
         SELECT * FROM qnaOne
     </select>
 
+        <select id="getAllQnaOneList" resultType="QnaOneVO" parameterType="com.example.team01.utils.Pagination">
+
+        WITH filterData AS (
+        SELECT ROWNUM AS rnum, a.*
+        FROM (
+        SELECT
+        "qnaOneId",
+        "qnaTitle",
+        "qnaContent",
+        "qnaWriter",
+        "qnaDate",
+        "qnaDel",
+        "qnaStatus",
+        "clientId",
+        "roleId",
+        "attachmentID"
+        FROM qnaOne
+        ORDER BY "qnaOneId" DESC
+        ) a
+        )
+
+        SELECT *
+        FROM filterData
+        WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+    </select>
 
 </mapper>
 

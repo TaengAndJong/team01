@@ -6,6 +6,6 @@ import java.util.List;
 
 
 public interface QnaOneService {
-
-    public List<QnaOneVO> getAllQnaOneData(Pagination pagenation);
+    //                                        클래스   참조변수
+    public List<QnaOneVO> getAllQnaOneList(Pagination pagenation);
 }
