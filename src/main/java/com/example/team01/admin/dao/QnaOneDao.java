@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper
 public interface QnaOneDao {
 
-//    public List<QnaOneVO> allQnaDataList (); // 사용자 id에 해당하는 게시글 전체를 보내 줌
 
     public List<QnaOneVO> getAllQnaOneList(@Param("pagination") Pagination pagination);
 

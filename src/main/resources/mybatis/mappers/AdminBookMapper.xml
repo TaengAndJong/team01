@@ -112,7 +112,7 @@
              , "writer"
              , "createDate"
         from book
-<!--        <include refid="searchFrag" />-->
+        <include refid="searchFrag" />
         ORDER BY "bookId" DESC
 
     </select>

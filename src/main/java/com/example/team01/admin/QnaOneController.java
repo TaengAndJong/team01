@@ -34,6 +34,7 @@ public class QnaOneController {
 
          //서비스로 데이터 넘기기
          List<QnaOneVO> qnaOneList  = qnaOneService.getAllQnaOneList(pagination);
+         log.info("qnaOneList size------------ = {}", qnaOneList.size());
 
             Map<String, Object> result = new HashMap<>();
             result.put("items", qnaOneList);

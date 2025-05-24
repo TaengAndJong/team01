@@ -25,13 +25,21 @@ public class QnaOneServiceImpl implements QnaOneService {
     @Override
     public List<QnaOneVO> getAllQnaOneList(Pagination pagination) {
         log.info("컨트롤러에서 받아온 1:1 문의 파라미터 pagination:{}", pagination.toString());
-        //전체 데이터 레코드 조회해오기
 
+        //전체 데이터 레코드 행 조회해오기
         int total = qnaOneDao.totalRecord(pagination);
         log.info("서비스 total record-----------:{}", total);
+        pagination.setTotalRecord(total);
+        log.info("서비스 pagination 총 레코드 수 -----------:{}", pagination.getTotalRecord());
+        log.info("서비스 pagination 총 getCurrentPage 수 -----------:{}", pagination.getCurrentPage());
+        //startRow && endRow 설정
+        pagination.setLimitRows(pagination.getCurrentPage());
+        log.info("컨트롤러에서 받아온 파라미터 pagination2222:{}", pagination.toString());
 
+        // 1:1 문의 데이터 전체 조회해오기
         List<QnaOneVO> qnaList = qnaOneDao.getAllQnaOneList(pagination);
         log.info("페이지에 해당하는 데이터 리스트 -------:{}", qnaList);
+
 
 
         return qnaList;
