@@ -40,7 +40,7 @@ public class QnaOneServiceImpl implements QnaOneService {
         List<QnaOneVO> qnaList = qnaOneDao.getAllQnaOneList(pagination);
         log.info("페이지에 해당하는 데이터 리스트 -------:{}", qnaList);
 
-
+        // git 확인용 주석
 
         return qnaList;
     }
