@@ -32,6 +32,7 @@ import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
 import {MenuProvider} from "@pages/common/MenuContext.jsx";
 import BookList from "@pages/book/components/bookList.jsx";
 import BookDetail from "@pages/book/components/bookDetail.jsx";
+import CartList from "./pages/cart/components/cartList.jsx";
 
 
 
@@ -58,9 +59,13 @@ function App() {
                     <Route path={PathData.page.login} element={<Login/>}/>
                     <Route path={PathData.page.logout} element={<Logout/>}/>
                     <Route path={PathData.page.myPage} element={<Mypage/>}/>
-                    <Route path={PathData.page.cart} element={<Cart/>}/>
+                    <Route path={PathData.page.cart} element={<Cart/>}>
+                        <Route index path="" element={<CartList/>}/>
+                    </Route>
                     <Route path={PathData.page.wishList} element={<WishList/>}/>
                     <Route path={PathData.page.signup} element={<SignUp/>}/>
+
+
 
                     {/* 클라이언트 전용 라우트 */}
                     <Route index path={PathData.page.main} element={<Main/>}/>
