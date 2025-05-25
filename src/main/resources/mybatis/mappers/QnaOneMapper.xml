@@ -3,9 +3,57 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.team01.admin.dao.QnaOneDao">  <!--사용하는 Dao 연결-->
     <!--메서드 구현부-->
-    <!--1:1문의 데이터 전체 조회-->
-    <select id="allQnaDataList" parameterType="String" resultType="QnaOneVO">
-        SELECT * FROM qnaOne
+   <!--구현 방식 ex) <select id = "Dao에서 정의한 메서드명"></select>-->
+
+    <select id="totalRecord" resultType="int" parameterType="com.example.team01.utils.Pagination">
+        SELECT COUNT(*)
+        FROM QnaOne
+    </select>
+
+    <!--
+    searchFlag 동적 쿼리 , Pagination pagination에 DetailCondition에 검색조건필터를 담아서 받아온 경우
+    detailCondition.bookType 의 형태로 접근해야 함
+-->
+    <sql id="searchFrag">
+        <trim prefix="WHERE" suffixOverrides="AND">
+
+            <!-- bookType이 비어있지 않고 'ALL'이 아닐 때만 필터 적용 -->
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.bookType) and pagination.detailCondition.bookType != 'ALL'">
+                INSTR("bookCateNm", #{pagination.detailCondition.bookType}) > 0 AND
+            </if>
+
+            <!-- keyword가 비어있지 않을 때만 검색조건 적용 -->
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
+                <choose>
+                    <when test="pagination.detailCondition.searchType == 'bookName'">
+                        INSTR("bookName", #{pagination.detailCondition.keyword}) > 0 AND
+                    </when>
+                    <when test="pagination.detailCondition.searchType == 'author'">
+                        INSTR("author", #{pagination.detailCondition.keyword}) > 0 AND
+                    </when>
+                </choose>
+            </if>
+
+        </trim>
+    </sql>
+
+    <select id="getAllQnaOneList" resultType="QnaOneVO" parameterType="com.example.team01.utils.Pagination">
+        with filterData as (
+            select ROWNUM as rnum,a.*
+            from(
+                SELECT TRIM("qnaOneId") AS "qnaOneId"
+                    , "qnaTitle"
+                    , "qnaWriter"
+                    , "qnaStatus"
+                    , "qnaDate"
+                FROM qnaOne
+<!--                <include refid="searchFrag" />-->
+                ORDER BY "qnaOneId" DESC
+            ) a
+        )
+        SELECT *
+        FROM filterData
+        WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
     </select>
 </mapper>
 

@@ -1,31 +1,92 @@
 
 import {Link, Outlet} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useReducer} from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import {useMenu} from "../common/MenuContext.jsx";
 import {menuNavi} from "../../util/menuNavi.jsx";
 
 
+function reducer(state, action) {
+
+    console.log("state",state);
+    console.log("typeof",typeof state);
+    console.log("Array",Array.isArray(state));
+    console.log("action.data",action.data);
+    console.log("배열이냐 객체냐",Array.isArray(action.data));
+
+    switch (action.type) {
+        case "INIT":
+            if(action.data){
+                console.log("INIT action",action.data, Array.isArray(action.data));
+            }
+            // 서버에서 단일객체{} 또는 여러 개의 객체가  action.data로 넘어오면 배열에 담아줘야 함.
+            return Array.isArray(action.data) ? action.data : [action.data];
+        case "CREATE":
+            if(action.data){
+                console.log("create action",action.data, Array.isArray(action.data));  // 객체로 넘어옴
+            }
+
+            return [...state, action.data]; // 새 객체 + 기존 배열, action.data는 단일객체
+        case "DELETE":
+            if(action.data){
+                console.log("delete action",action.data);
+                console.log("delete Array", Array.isArray(action.data));
+            }
+            // action.data가 배열이고(객체일경우, key가 없는 데이터일경우, 키로 접근할수 없음!)
+            return state.filter((item) => { return !action.data.includes(String(item.qnaOndId))})
+
+        case "UPDATE":
+            if(action.data){
+                console.log("UPDATE action",action.data, Array.isArray(action.data));
+            }
+            //state는 새로 들어온 데이터객체를 담고있는 배열
+            // action.data의 bookId가 기존데이터인 book의 bookId와 같으면 새로들어온 action.data로 교체 아니면 기존 데이터 유지
+            return state.map((book) =>
+                book.qnaOndId === action.data.qnaOndId ? action.data : book
+            );
+        default:
+            return state;
+    }
+//reducer end
+}
+
 //context 상태관리
 export const BookBoardStateContext = React.createContext();// state 값을 공급하는 context
 export const  BookBoardDispatchContext = React.createContext();// 생성, 수정(갱신), 삭제 값을 공급하는 context
+export const PaginationContext = React.createContext()
 
 
 const AdminBoard = () => {
 
     const {menu,currentPath,standardPoint}  = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
-    const [qnaOneData, setQnaOneData] = useState([]); // 1:1 문의 데이터가 들어갈 State
-    // const [isLoading,setIsLoading] = useState(true);
+
+    const [qnaOneData, dispatch] = useReducer(reducer, null);
 
     let adminMenuTree = menuNavi(menu?.adminList);
     let adminHome = menu?.adminList?.find(item => item.menuId === "admin")?.menuPath;
     let subNavi = adminMenuTree?.filter(item => item.menuPath.includes(standardPoint));
 
 
+    const [paginationInfo, setPaginationInfo] = useState({
+        currentPage: 1,
+        totalPages: 0,
+        totalRecord: 0,
+        pageSize: 4
+    });
+
+
     const initFetch = async () => {
         try {
+            //page, pageSize
+            const params = new URLSearchParams({
+                currentPage: paginationInfo.currentPage, // 클라이언트가 결정하는 현재페이지, 기본값은 1
+                pageSize:  paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
+            });
+
+            console.log("params.toString()",params.toString());
+
             // 서버로 응답 요청
-            const response = await fetch(`/api/admin/board/qnaOneList`, {
+            const response = await fetch(`/api/admin/board/qnaOneList?${params.toString()}`, {
                 method: "GET",
             });
             // 돌아온 응답 상태
@@ -34,9 +95,8 @@ const AdminBoard = () => {
                 throw new Error("서버 응답 에러");
             }
             // 응답 성공시
-            const data = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-            console.log("-------------------- 1:1문의 데이터 -----", data);// 있음
-            setQnaOneData(data);
+            const qnaData = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
+            console.log("1:1문의 데이터 목록 get 요청 데이터 받아오기 -----", qnaData);// 있음
         } catch (err) {
             console.log("도서 데이터 불러오기 실패", err); // 오류 처리
         }
@@ -46,18 +106,52 @@ const AdminBoard = () => {
     useEffect(() => {
         console.log("adminBoard------------------")
         initFetch();
-    }, []);
+    }, [paginationInfo.currentPage]);
+
+    const onInit =(qnaOneData) => {
+        console.log("onInit", qnaOneData);
+        dispatch({
+            type:"INIT",
+            data: qnaOneData
+        });
+    }
+
+    const onCreate = (createBook) => {
+        console.log("createBook", createBook);
+        dispatch({
+            type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
+            data: createBook
+        });
+    }
+
+    const onDelete = (bookIds) => {
+        console.log("deleteBook", bookIds);
+        console.log("deleteBook", Array.isArray(bookIds));
+        dispatch({
+            type:"DELETE",
+            data:bookIds
+        })
+    }
+
+    const onUpdate=(updateBook) => {
+        console.log("updateBook", updateBook);
+        dispatch({
+            type:"UPDATE",
+            data:updateBook
+        })
+    }
 
 
+    //페이지버튼 클릭시 실행되는 핸들러
+    const onChangePageHandler = (page) => {
+        console.log("changePage----",page);
+        //pagination의 currentPage 값 갱신
+        setPaginationInfo((prev) =>({
+            ...prev,
+            currentPage: page
+        }))
 
-    // if (isLoading) {
-    //     return <div>로딩 중...</div>;
-    // }
-
-
-
-
-
+    }
 
     return(
         <>
@@ -101,8 +195,10 @@ const AdminBoard = () => {
 
                             {/*  문의관리  1차메뉴일 경우  컨텐츠*/}
                             <BookBoardStateContext.Provider value={qnaOneData}>
-                                <BookBoardDispatchContext.Provider value={null}>
+                                <BookBoardDispatchContext.Provider value={{onInit,onCreate,onDelete,onUpdate}}>
+                                    <PaginationContext.Provider  value={{paginationInfo, onChangePageHandler}}>
                                     <Outlet />
+                                    </PaginationContext.Provider>
                                 </BookBoardDispatchContext.Provider>
                             </BookBoardStateContext.Provider>
 

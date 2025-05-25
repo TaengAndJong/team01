@@ -15,5 +15,4 @@ public interface AdminBookService {
     public int updateBook(AdminBookVO book) throws FileNotFoundException;
     public int deleteBooks(List<String> bookIds);
     // public List<BookVO> searchBook(String type, String field, String keyword);
-
 }
