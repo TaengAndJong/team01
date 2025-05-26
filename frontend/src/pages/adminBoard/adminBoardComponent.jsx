@@ -95,8 +95,19 @@ const AdminBoard = () => {
                 throw new Error("서버 응답 에러");
             }
             // 응답 성공시
-            const qnaData = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-            console.log("1:1문의 데이터 목록 get 요청 데이터 받아오기 -----", qnaData);// 있음
+            const qnaOneData = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
+            //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
+            const {currentPage,items,pageSize,totalPages,totalRecord} = qnaOneData;
+            onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
+            console.log("1:1문의 데이터 목록 get 요청 데이터 받아오기 -----", qnaOneData);// 있음
+            //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
+            setPaginationInfo({
+                currentPage:currentPage,
+                pageSize:pageSize,
+                totalPages:totalPages,
+                totalRecord:totalRecord,
+            })
+
         } catch (err) {
             console.log("도서 데이터 불러오기 실패", err); // 오류 처리
         }

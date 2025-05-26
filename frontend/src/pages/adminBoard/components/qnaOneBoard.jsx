@@ -1,14 +1,17 @@
 import "@assets/css/board/oneBoard.css";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import QnaOneItem from "../components/qnaOneBoardItem.jsx";
 import SearchBar from "../components/qnaOneBoardSearchBar.jsx";
 import {BookBoardStateContext} from "../adminBoardComponent.jsx";
+import {PaginationContext} from "../adminBoardComponent.jsx";
+import Pagination from "@util/pagination.jsx";
 
 const QnaOneBoard = () => {
+    const [boardList, setBoarList] = useState([]);
 
     const qnaOneData = useContext(BookBoardStateContext);
-    console.log("qnaOneData",qnaOneData);
-    const [boardList, setBoarList] = useState([]);
+    console.log("BookBoardStateContext---qnaOneData",qnaOneData);
+    const {paginationInfo,onChangePageHandler} = useContext(PaginationContext);
 
     // qnaOneData 존재할 때만 bookList 업데이트
         useEffect(() => {
@@ -81,6 +84,8 @@ const QnaOneBoard = () => {
             <div>
                 <button>삭제</button>
             </div>
+            {/*pagination*/}
+            <Pagination paginationInfo={paginationInfo} onChangePageHandler={onChangePageHandler}/>
         </>
 
     );
