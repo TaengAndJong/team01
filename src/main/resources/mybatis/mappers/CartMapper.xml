@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.team01.cart.dao.CartDao">
+
+    <resultMap id="cartMap" type="cartVO">
+        <result property="quantity" column="quantity"/>
+        <association property="book" javaType="BookVO">
+            <result property="bookCateNm" column="bookCateNm" />
+            <result property="bookName" column="bookName" />
+            <result property="bookCateDepth" column="bookCateDepth" />
+            <result property="author" column="author" />
+            <result property="publishDate" column="publishDate" />
+            <result property="bookPrice" column="bookPrice" />
+            <result property="stock" column="stock" />
+            <result property="bookImgPath" column="bookImgPath" />
+            <result property="wishID" column="wishID" />
+        </association>
+    </resultMap>
+
+    <select id="checkBookCount">
+
+    </select>
+
+    <insert id="insertToCartList">
+
+    </insert>
+
+    <delete id="deleteToCartList">
+
+    </delete>
+
+</mapper>
