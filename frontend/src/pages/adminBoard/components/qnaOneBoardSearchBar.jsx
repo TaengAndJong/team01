@@ -5,7 +5,6 @@ const qnaOneBoardSearchBar = ({search,setSearch,handleSearch}) => {
         const value = e.target.value;
         const name =e.target.name;
 
-        setSearch(value); // 입력 값 저장
         console.log("검색 옵션 :", name);
         console.log("검색 키워드 :", value);
 
@@ -24,8 +23,10 @@ const qnaOneBoardSearchBar = ({search,setSearch,handleSearch}) => {
                 <option value="Waiting">미답변</option>
             </select>
             <div className="boardQnaFinderBox">
-                        <textarea
-                            className="Finder_textArea"
+                        <input
+                            className="Finder_input"
+                            type="text"
+                            name="keyword"
                             placeholder="검색어 입력"
                             value={search?.keyword || ""}
                             onChange={(e) =>searchHandler(e)}
