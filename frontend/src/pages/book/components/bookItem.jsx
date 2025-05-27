@@ -1,11 +1,9 @@
 import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
+import AddCartBtn from "../../cart/components/addCartBtn.jsx";
 
 const BookItem = ({bookList}) =>{
 
-
-//장바구니 버튼 클릭 시 상태관리 객체
-const [addBook,setAddBook]= useState([]);
 //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
 const [bookCount,setBookCount]=useState({}); 
 // 장바구니에 담을 도서 수량버튼 관리 핸들러 ==> 고려사항 각각의 도서에 대한 개별 수량 구분 필요
@@ -50,10 +48,8 @@ const bookCountChangHandler=(bookId,e)=>{
     }
 }
 
-console.log("bookCount",bookCount);
-
 // 도서 수량 입력 input 관리 핸들러
-const bookCountInputHandler=(e)=>{
+const bookCountInputHandler=(bookId,e)=>{
     //input[type=text]로 들어오는 value는 String 타입으로 들어오기 때문에 숫자로 검증필요
     const val = e.target.value;
     console.log("bookCountInput",e.target.value);
@@ -64,7 +60,10 @@ const bookCountInputHandler=(e)=>{
     }
     //값을 지울 경우,  nan 값 방지
     if (val === "") {
-        setBookCount("");
+        setBookCount(prev=>({
+            ...prev,
+            [bookId]:"",// 빈 문자열일 경우
+        }));
         return;
     }
 
@@ -80,28 +79,12 @@ const bookCountInputHandler=(e)=>{
         return; //종료
     }
     // 1 초과 ~ 100 이하 (정상 범위) 값 갱신
-    setBookCount(val);
+    setBookCount(prev=>({
+        ...prev,
+        [bookId]:inputNum,// 10진수로 파싱된 도서수량
+    }));
 }
-
-
-//장밥구니 컨트롤러로 전송할 fetch 함수
-
-
-
-//useEffect
-    useEffect(()=>{
-        //bookCount값이 갱신될 때마다 리렌더링하여 addBook에 반영해주기
-        setAddBook((prev)=>(
-            {
-                ...prev,
-                stock:bookCount,
-            }
-        ));
-        
-    },[bookCount]);
-
-
-    console.log("addBook---",addBook);
+ console.log("bookCount",bookCount);
 
 
     return (
@@ -145,7 +128,7 @@ const bookCountInputHandler=(e)=>{
                                         </button>
                                         {/* input value 상태관리로 관리필요 */}
                                         <input className="form-control" name="bookCountInput" type="text" value={bookCount[book.bookId] ?? 1} min={1}
-                                               title="수량" autoComplete="off" onChange={bookCountInputHandler}/>
+                                               title="수량" autoComplete="off" onChange={(e)=> bookCountInputHandler(book.bookId,e)}/>
                                         <button className="btn btn-light plus" name="plus" type="button" onClick={(e)=>bookCountChangHandler(book.bookId,e)}>
                                             +
                                             <span className="sr-only">도서상품개수 하나씩 증가</span>
@@ -154,13 +137,11 @@ const bookCountInputHandler=(e)=>{
                                 </div>
                                 {/*수량*/}
 
-                                <button type="submit" aria-label="찜하기"
+                                <button type="button" aria-label="찜하기"
                                         className="submit btn btn-danger me-2">찜
                                 </button>
-                                <button type="submit" aria-label="장바구니"
-                                        className="submit btn btn-primary me-2">장바구니
-                                </button>
-                                <button type="submit" aria-label="선택구매"
+                                <AddCartBtn bookId={book.bookId} bookCount={bookCount[book.bookId] ?? 1}  />
+                                <button type="button" aria-label="선택구매"
                                         className="submit btn btn-secondary">선택구매
                                 </button>
                             </div>
