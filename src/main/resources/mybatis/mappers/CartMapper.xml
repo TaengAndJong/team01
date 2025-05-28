@@ -6,6 +6,7 @@
     <resultMap id="cartMap" type="cartVO">
         <result property="quantity" column="quantity"/>
         <association property="book" javaType="BookVO">
+            <result property="bookId" column="bookId" />
             <result property="bookCateNm" column="bookCateNm" />
             <result property="bookName" column="bookName" />
             <result property="bookCateDepth" column="bookCateDepth" />
@@ -18,15 +19,22 @@
         </association>
     </resultMap>
 
-    <select id="checkBookCount">
+    <select id="checkBookCount" parameterType="CartVO">
+        SELECT "stock" - #{quantity} AS checkStock
+        FROM book
+        WHERE "bookId" = #{bookId}
+    </select>
+
+    <select id="selectToCartList" parameterType="CartVO">
+
 
     </select>
 
-    <insert id="insertToCartList">
+<!--    <insert id="insertToCartList">-->
 
-    </insert>
+<!--    </insert>-->
 
-    <delete id="deleteToCartList">
+    <delete id="deleteToCartList" parameterType="String">
 
     </delete>
 
