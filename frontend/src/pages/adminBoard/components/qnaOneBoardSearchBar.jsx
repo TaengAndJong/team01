@@ -18,7 +18,7 @@ const qnaOneBoardSearchBar = ({search,setSearch,handleSearch}) => {
 
     return (<>
         <div className="boardQnaFinder">
-            <select name = "searchOption" value={search ?.searchOption || ""} onChange={(e)=>searchHandler(e)}>
+            <select name = "searchType" value={search ?.searchType || ""} onChange={(e)=>searchHandler(e)}>
                 <option value="Replied">답변</option>
                 <option value="Waiting">미답변</option>
             </select>

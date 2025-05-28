@@ -46,5 +46,30 @@ public class QnaOneController {
             // 배열 안에 객체 형태로 내보내려면 원본 Map 사용하지 않고 내보내야함
             return  ResponseEntity.ok(result);
         }
+
+        @PostMapping(value = "/qnaOneList")
+    public ResponseEntity<?> getSearchQnaOneList(
+            @RequestParam(required = false) String searchType,
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
+            HttpServletRequest request ){
+            log.info("도서 목록 1:1 문의 searchkeyword API 호출됨");
+            log.info("1:1 문의 searchType -------------------: {}",searchType);
+            log.info("1:1 문의 keyword -----------------: {}",keyword);
+
+            //페이지 계산 클래스 불러오기
+            Pagination pagination = new Pagination(page, pageSize);
+            log.info("1:1 문의 pagination -----------------: {}",pagination);
+
+            //검색필터 설정해주기
+            pagination.addDetailCondition("searchType", searchType);
+            pagination.addDetailCondition("keyword", keyword);
+
+            log.info("1:1 문의 DetailContion-----:{}",pagination.getDetailCondition());
+
+            return ResponseEntity.ok("통신 완료");
+    }
+
 }
 
