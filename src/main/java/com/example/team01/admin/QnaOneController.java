@@ -1,7 +1,9 @@
 package com.example.team01.admin;
 import com.example.team01.admin.service.QnaOneService;
 import com.example.team01.utils.Pagination;
+import com.example.team01.vo.AdminBookVO;
 import com.example.team01.vo.QnaOneVO;
+import com.example.team01.utils.FileUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import java.util.Map;
 public class QnaOneController {
 
     private final QnaOneService qnaOneService; // 의존성 주입
+    private final FileUtils fileUtils;
 
         @GetMapping("/qnaOneList")
         public ResponseEntity<?>  getQnaOneList(@RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "6") int pageSize, HttpServletRequest request) {
@@ -67,6 +70,17 @@ public class QnaOneController {
             pagination.addDetailCondition("keyword", keyword);
 
             log.info("1:1 문의 DetailContion-----:{}",pagination.getDetailCondition());
+
+            //서비스로 검색 파라미터 넘겨주기
+            List<QnaOneVO> qnaOneList = qnaOneService.getAllQnaOneList(pagination);
+
+            // 레코드 순회
+            for (QnaOneVO qnaOneVO : qnaOneList) {
+                log.info("여기--검색 책목록:{}", qnaOneVO);
+//                fileUtils.changeImgPath(qnaOneVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+                log.info("다음--검색 책목록:{}", qnaOneVO);
+            }
+            log.info("result -----------------: {}",qnaOneList);
 
             return ResponseEntity.ok("통신 완료");
     }
