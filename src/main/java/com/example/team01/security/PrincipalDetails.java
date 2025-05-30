@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/*
+* 사용자 정보를 담는 인터페이스 UserDetails
+* Spring security가 로그인 성공 시, UserDetails객체를 SecurityContext에 저장
+* UserDetails 객체에서 User관련 데이터를 받아서 사용가능
+* */
+
 
 @Slf4j
 @RequiredArgsConstructor
