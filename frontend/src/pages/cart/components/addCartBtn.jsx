@@ -6,7 +6,7 @@ const AddCartBtn = ({ bookId, bookCount }) => {
     console.log("bookCount",bookCount);
     console.log("bookId",bookId);
 
-    const [toCart, setToCart] = useState([]);
+    const [toCart, setToCart] = useState({});
 
 
     //장밥구니 컨트롤러로 전송할 fetch 함수
@@ -16,11 +16,12 @@ const AddCartBtn = ({ bookId, bookCount }) => {
         console.log("tocart fetch",toCart);
 
         try{
-            const response = await fetch("/api/cart/cartList",{
+            const response = await fetch("/api/cart",{
                 method:"POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: 'include',
                 body: JSON.stringify(toCart) // 서버로 전송할 데이터를 문자열로 파싱,
             })
 
@@ -40,16 +41,13 @@ const AddCartBtn = ({ bookId, bookCount }) => {
     const handleAddToCart = (bookId) => {
         console.log("handleAddToCart",bookId);
         const quantity = bookCount ?? 1;
-
-        const bookToAdd = {
-            bookId:bookId, // 기존 도서 객체 전부 복사
-            quantity: quantity //수량 객체 추가
-        };
-
-        setToCart([bookToAdd]); // 배열로 저장
+        setToCart( {
+            bookId:bookId,
+            quantity: quantity
+        }); // 배열로 저장
         sendCartFetch(); // cart 컨트롤러로 전송
-        console.log("장바구니에 담김:", bookToAdd);
 
+        console.log("장바구니에 담김:", toCart);
     };
 
         console.log("toCart :", toCart);

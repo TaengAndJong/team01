@@ -39,6 +39,8 @@ const Gnb=({userData,menu})=>{
         //pathname과 role의 변경에 따른 menuNavi변경
     },[pathname, role,menu])
 
+    console.log("role---gnb",role);
+
     return(
         <>
             <h1 className="logo">
