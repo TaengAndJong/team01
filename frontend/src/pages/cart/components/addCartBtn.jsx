@@ -21,6 +21,7 @@ const AddCartBtn = ({ bookId, bookCount }) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: 'include',
                 body: JSON.stringify(toCart) // 서버로 전송할 데이터를 문자열로 파싱,
             })
 

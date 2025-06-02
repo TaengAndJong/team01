@@ -19,7 +19,10 @@ public interface CartDao {
     public CartVO selectBookInfo(@Param("bookId") String bookId);
 
     //장바구니에 도서정보 담기
-    public int insertBook(BookVO bookVO);
+    public int insertBook(CartVO bookInfo);
+
+    //장바구니에 담긴 도서 목록 조회
+    public List<CartVO> selectUserBookList(@Param("clientId") String clientId);
 
     //장바구니에서 삭제
     public CartVO deleteToCartList(@Param("cartId") String cartId);

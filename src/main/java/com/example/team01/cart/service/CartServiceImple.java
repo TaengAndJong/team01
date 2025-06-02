@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -35,10 +37,22 @@ public class CartServiceImple implements CartService{
     }
 
     @Override
-    public int insertBook(BookVO book) {
-        log.info("insertBook--------serviceImple:{}",book);
-        int cnt =  dao.insertBook(book);
+    public int insertBook(CartVO bookInfo) {
+        log.info("insertBook--------serviceImple:{}",bookInfo);
+        int cnt =  dao.insertBook(bookInfo);
         return cnt;
+    }
+
+    @Override
+    public List<CartVO> selectUserBookList(String clientId) {
+        log.info("selectUserBookList--------serviceImple:{}",clientId);
+        List<CartVO> bookList = dao.selectUserBookList(clientId);
+        // bookList가 null일 경우
+        if(bookList.isEmpty()){
+            // 빈값 어떻게 내보냄 ?
+        }
+        //장바구니에 List 있으면 bookList반환
+        return bookList;
     }
 
 

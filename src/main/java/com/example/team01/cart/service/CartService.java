@@ -3,6 +3,8 @@ package com.example.team01.cart.service;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
 
+import java.util.List;
+
 
 public interface CartService {
 
@@ -12,7 +14,10 @@ public interface CartService {
     public CartVO selectBookInfo(String bookId);
 
     // 장바구니에 조회된 도서 insert
-    public int insertBook(BookVO book);
+    public int insertBook(CartVO bookInfo);
+
+    //장바구니에 담긴 클라이언트별 장바구니 목록 조회
+    public List<CartVO> selectUserBookList(String clientId);
 
     //장바구니에서 삭제
     public CartVO deleteToCartList(String cartId);

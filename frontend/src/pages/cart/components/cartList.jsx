@@ -1,7 +1,22 @@
 import "@assets/css/cart/cartList.css"
+import {useContext, useEffect, useState} from "react";
+import {CartStateContext} from "../cartComponent.jsx";
 
 
 const CartList = () => {
+
+        const cartData = useContext(CartStateContext);
+        console.log("cartData==== cartLIst", cartData);
+
+        const [cartList, setCartList] = useState([]);
+
+        useEffect(() => {
+            if(cartData){
+                setCartList(cartData);
+            }
+        },[cartData])
+
+    console.log("cartData====cartList",cartData);
 
         return (
             <>

@@ -32,7 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
         // 허용할 HTTP 메서드를 배열로 전달
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.addAllowedHeader("*");  // 허용할 모든 헤더
-        config.setAllowCredentials(true);  // 쿠키를 포함한 요청을 허용할지 여부
+        config.setAllowCredentials(true);  // 쿠키를 포함한 요청을 허용할지 여부로 fetch 요청에서  credentials: 'include' 허용
         source.registerCorsConfiguration("/**", config);  // 모든 경로에 대해 CORS 설정
         // cors cofig 설정하여 담아준 source 반환
         return source;
