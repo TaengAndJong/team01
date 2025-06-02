@@ -57,10 +57,10 @@ const QnaOneBoard = () => {
             //요청 성공
             const data = await response.json();
             console.log("search---------------",data);
-            //setbookData에 데이터 갱신 처리 해주어함?
+            setBoarList(Array.isArray(data) ? data : []); // 또는 적절히 구조 확인 후 갱신
             // onInit(data);
         }catch (e){
-
+            console.log(e,"에러");
         }
     }
     return (
@@ -76,6 +76,7 @@ const QnaOneBoard = () => {
                         <li className="item">등록일</li>
                     </ul>
                 </div>
+                {console.log("boardList map 돌리기 전", boardList)}
                 <div className="oneBoardQuestionBox">
                     {boardList.map((item ,index) => (<QnaOneItem key={item.qnaOneId || index} data={item}/>))}
                 </div>
