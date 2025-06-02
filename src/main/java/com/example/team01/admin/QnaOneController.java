@@ -29,7 +29,7 @@ public class QnaOneController {
         log.info("currentPage = {}, pageSize = {} " , currentPage, pageSize);
         //확인 완료
 
-        log.info("도서 목록 API 호출됨");
+        log.info("도서 목록 API 호출됨 이거");
             //페이지 계산 클래스 불러오기
 
         // 클래스    참조변수  인스턴스생성  생성자호출 (매개 변수 , 매개 변수)
@@ -81,8 +81,7 @@ public class QnaOneController {
                 log.info("다음--검색 책목록:{}", qnaOneVO);
             }
             log.info("result -----------------: {}",qnaOneList);
-
-            return ResponseEntity.ok("통신 완료");
+            return ResponseEntity.ok(qnaOneList);
     }
 
 }

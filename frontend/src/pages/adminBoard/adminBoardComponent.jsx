@@ -71,7 +71,7 @@ const AdminBoard = () => {
         currentPage: 1,
         totalPages: 0,
         totalRecord: 0,
-        pageSize: 4
+        pageSize: 6
     });
 
 
