@@ -4,8 +4,9 @@
 <mapper namespace="com.example.team01.cart.dao.CartDao">
 
     <resultMap id="cartMap" type="cartVO">
+        <result property="bookId" column="bookId"/>
         <result property="quantity" column="quantity"/>
-        <association property="book" javaType="BookVO">
+        <association property="bookVO" javaType="BookVO">
             <result property="bookCateNm" column="bookCateNm" />
             <result property="bookName" column="bookName" />
             <result property="bookCateDepth" column="bookCateDepth" />
@@ -18,15 +19,69 @@
         </association>
     </resultMap>
 
-    <select id="checkBookCount">
-
+    <select id="checkBookCount" parameterType="CartVO" resultType="boolean">
+        SELECT
+            CASE
+               WHEN ("stock" - #{quantity}) >= 0 THEN 1
+               ELSE 0
+            END  AS checkStock
+        FROM book
+        WHERE "bookId" = #{bookId}
     </select>
 
-    <insert id="insertToCartList">
+<!--resultMap의 Id를 파라미터로 넘겨야 1:1 , 1:다 관계로 정의한 컬럼 매핑가능 -->
+    <select id="selectBookInfo" parameterType="String" resultMap="cartMap">
+        SELECT b."bookId"
+             , b."bookName"
+             , b."bookCateNm"
+             , b."bookPrice"
+             , b."stock"
+             , b."bookCateDepth"
+             , b."author"
+             , b."publishDate"
+             , b."bookImgPath"
+             , c."quantity"
+        FROM book b
+                 LEFT JOIN cart c ON b."bookId" = c."bookId"
+        WHERE b."bookId" = #{bookId}
+    </select>
 
+    <insert id="insertBook" parameterType="CartVO">
+        <selectKey keyProperty="cartId" resultType="String" order="BEFORE">
+            SELECT CART_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+
+        INSERT INTO cart (
+        "cartId", "bookId", "quantity", "clientId", "roleId"
+        )
+        VALUES (
+        #{cartId}, #{bookId}, #{quantity}, #{clientId}, #{roleId}
+        )
     </insert>
 
-    <delete id="deleteToCartList">
+    <!-- 장바구니에 담긴 도서목록조회   -->
+    <select id="selectUserBookList" parameterType="String" resultMap="cartMap">
+        select
+            c."cartId"
+             ,c."addCartDate"
+             ,c."quantity"
+             ,c."clientId"
+             ,b."bookId"
+             ,b."bookName"
+             ,b."bookPrice"
+             ,b."bookCateNm"
+             ,b."bookImgPath"
+             ,b."author"
+        from
+            book b join cart c on b."bookId" = c."bookId"
+        where c."clientId"=#{clientId}
+    </select>
+
+<!--    <insert id="insertToCartList">-->
+
+<!--    </insert>-->
+
+    <delete id="deleteToCartList" parameterType="String">
 
     </delete>
 
