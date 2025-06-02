@@ -17,6 +17,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * "/uploads/**","/images/**" 와 같이 
+ * 보통 정적 자원(이미지, JS, CSS 등)은 
+ * 모든 사용자에게 허용해야 하므로, /uploads/** 같은 경로는 예외로 전체 허용하기
+ *
+ * **/
+
+
+
 
 @Slf4j
 @EnableWebSecurity(debug = false)
@@ -32,15 +41,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, AddLogoutHandler addLogoutHandler) throws Exception {
-        String[] allowedPaths = {"/", "/login", "/signUp/**", "/page", "/test/**","/book/**", "/menu"};
+        String[] allowedPaths = {"/", "/login", "/signUp/**", "/page", "/test/**","/book/**", "/menu","/uploads/**","/images/**"};
 
         http.cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorizeReq ->
                         authorizeReq.requestMatchers(allowedPaths).permitAll() // 로그인 없이 접근 가능
-                                .requestMatchers("/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name(), Role.MEMBER.name())
-                                .requestMatchers("/admin/**").hasAnyRole(Role.ADMIN.name(), Role.MEMBER.name())
-                                .requestMatchers("/login/**", "/mypage/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MEMBER.name())
+                                .requestMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getKey(), Role.MEMBER.getKey())
+                                .requestMatchers("/login/**", "/mypage/**","/cart/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
+                                .requestMatchers("/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
                                 .anyRequest().authenticated()) // 나머지 요청 인증 필요)
                 .formLogin(form ->
                         form.loginPage("/login")// 프론트에서 접근하는 페이지(로그인 UI페이지)

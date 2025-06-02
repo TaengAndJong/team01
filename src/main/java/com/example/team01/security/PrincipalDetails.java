@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/*
+* 사용자 정보를 담는 인터페이스 UserDetails
+* Spring security가 로그인 성공 시, UserDetails객체를 SecurityContext에 저장
+* UserDetails 객체에서 User관련 데이터를 받아서 사용가능
+* */
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,21 +34,24 @@ public class PrincipalDetails implements UserDetails {
    public PrincipalDetails(LoginVO userData) {
        //로그인 시 userData 파라미터로 받아오기 
        this.userData = userData;
+       log.info(" this.userData----------------------------:{}", this.userData);
    }
 
    //권한 관련 작업 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        log.info("authorities----------------------------:{}",userData.getRoleId());
 
         //userName(ID) , password , role
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(userData.getRoleId())); // 권한 추가
-
+        log.info("authorities-------------------:{}",authorities);
         return authorities;
     }
 
     @Override
     public String getUsername() {
+        log.info("getUsername----------------------------:{}",userData.getClientId());
        //로그인 시 사용한 아이디 반환
         return userData.getClientId();
     }

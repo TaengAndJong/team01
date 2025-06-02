@@ -28,7 +28,8 @@ public class BookVO implements BookImgChange {
     private List<String> bookImgList; // 서버주소 + 파일명
 
 
-
+    //도서재고수량 확인
+    private Integer checkStock;
 
 
     //정규화로 view 테이블 따로 만들건지 고려 필요
