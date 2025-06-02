@@ -34,21 +34,24 @@ public class PrincipalDetails implements UserDetails {
    public PrincipalDetails(LoginVO userData) {
        //로그인 시 userData 파라미터로 받아오기 
        this.userData = userData;
+       log.info(" this.userData----------------------------:{}", this.userData);
    }
 
    //권한 관련 작업 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        log.info("authorities----------------------------:{}",userData.getRoleId());
 
         //userName(ID) , password , role
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(userData.getRoleId())); // 권한 추가
-
+        log.info("authorities-------------------:{}",authorities);
         return authorities;
     }
 
     @Override
     public String getUsername() {
+        log.info("getUsername----------------------------:{}",userData.getClientId());
        //로그인 시 사용한 아이디 반환
         return userData.getClientId();
     }

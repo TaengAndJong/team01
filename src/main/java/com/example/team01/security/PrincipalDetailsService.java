@@ -30,7 +30,7 @@ public class PrincipalDetailsService implements UserDetailsService  {
 
         //3. 해당아이디에 대한 정보 조회
         LoginVO loginUser = loginDao.selectClientId(clientId);
-        //log.info("loginUser------------555:{}",loginUser);
+        log.info("loginUser------------555:{}",loginUser);
         //4.null 값 확인
         if (loginUser == null) {
         //    log.info("정보없음-----------6666:{}",loginUser);
@@ -45,7 +45,7 @@ public class PrincipalDetailsService implements UserDetailsService  {
         userData.setIdentiNum(loginUser.getIdentiNum());
         userData.setRoleId(loginUser.getRoleId());
 
-       // log.info("userData-----------777:{}",userData);
+       log.info("userData-----------777:{}",userData);
         
         //인증객체에 userData 담아서 반환
         return new PrincipalDetails(userData);
