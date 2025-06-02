@@ -47,9 +47,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorizeReq ->
                         authorizeReq.requestMatchers(allowedPaths).permitAll() // 로그인 없이 접근 가능
-                                .requestMatchers("/admin/**").hasAnyRole(Role.ADMIN.name(), Role.MEMBER.name())
-                                .requestMatchers("/login/**", "/mypage/**","/cart/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MEMBER.name())
-                                .requestMatchers("/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name(), Role.MEMBER.name())
+                                .requestMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getKey(), Role.MEMBER.getKey())
+                                .requestMatchers("/login/**", "/mypage/**","/cart/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
+                                .requestMatchers("/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
                                 .anyRequest().authenticated()) // 나머지 요청 인증 필요)
                 .formLogin(form ->
                         form.loginPage("/login")// 프론트에서 접근하는 페이지(로그인 UI페이지)

@@ -16,7 +16,7 @@ const AddCartBtn = ({ bookId, bookCount }) => {
         console.log("tocart fetch",toCart);
 
         try{
-            const response = await fetch("/api/cart/cartList",{
+            const response = await fetch("/api/cart",{
                 method:"POST",
                 headers: {
                     "Content-Type": "application/json"

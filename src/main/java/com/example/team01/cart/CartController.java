@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,16 +28,16 @@ import java.util.Map;
 public class CartController {
 
     private final CartService cartService;
-
+    //http://localhost:5173/api/cart
 
     @GetMapping()
     public ResponseEntity<?> getCart(@AuthenticationPrincipal PrincipalDetails userDetails){ //securityContext에 저장된 사용자 정보 받아올 매개변수
+
         log.info("get Cart 입니다");
         //로그인한 user 정보
         String clientId = userDetails.getUsername();
         log.info("clientId --- login:{}",clientId);
         //클라이언트별 장바구니 목록에 데이터가 있을 경우
-
 
         //없을 경우
 
@@ -47,6 +48,8 @@ public class CartController {
 
     @PostMapping()
     public ResponseEntity<?> postCart(@RequestBody CartVO cartvo){
+
+
         //cartVO
         String bookId = cartvo.getBookId();
         int quantity = cartvo.getQuantity();
