@@ -207,7 +207,8 @@ const AdminBoard = () => {
                             {/*  문의관리  1차메뉴일 경우  컨텐츠*/}
                             <BookBoardStateContext.Provider value={qnaOneData}>
                                 <BookBoardDispatchContext.Provider value={{onInit,onCreate,onDelete,onUpdate}}>
-                                    <PaginationContext.Provider  value={{paginationInfo, onChangePageHandler}}>
+                                    <PaginationContext.Provider  value={{paginationInfo, onChangePageHandler,
+                                    setPaginationInfo}}>
                                     <Outlet />
                                     </PaginationContext.Provider>
                                 </BookBoardDispatchContext.Provider>
