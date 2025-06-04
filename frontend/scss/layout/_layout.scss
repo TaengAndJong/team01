@@ -8,9 +8,7 @@
 @use '../common/pagination';
 @use '../layout/header/header';
 @use '../layout/footer/footer';
-@use '../layout/footer/clientFooter';
 @use 'sub/subLayout';
-@use 'sub/clientSublayout';
 @use '../common/custom';
 
 @use "../utils/mixins" as *; // 함수

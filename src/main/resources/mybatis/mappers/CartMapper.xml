@@ -56,10 +56,10 @@
         </selectKey>
 
         INSERT INTO cart (
-            "bookId", "quantity", "clientId", "roleId"
+            "cartId","bookId", "quantity", "clientId", "roleId"
         )
         VALUES (
-            #{bookId}, #{quantity}, #{clientId}, #{roleId}
+            #{cartId},#{bookId}, #{quantity}, #{clientId}, #{roleId}
         )
     </insert>
 

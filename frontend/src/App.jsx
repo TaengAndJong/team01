@@ -33,6 +33,11 @@ import {MenuProvider} from "@pages/common/MenuContext.jsx";
 import BookList from "@pages/book/components/bookList.jsx";
 import BookDetail from "@pages/book/components/bookDetail.jsx";
 import CartList from "./pages/cart/components/cartList.jsx";
+import Delivery from "./pages/myPage/delivery/DeliveryAddress.jsx";
+import DeliveryAddress from "./pages/myPage/delivery/DeliveryAddress.jsx";
+import MyPageMain from "./pages/myPage/myPage/MyPageMain.jsx";
+import PaymentHistory from "./pages/myPage/payment/PaymentHistory.jsx";
+import PersonalInfo from "./pages/myPage/personal/PersonalInfo.jsx";
 
 
 
@@ -58,7 +63,13 @@ function App() {
                     {/* 공통 컴포넌트 */}
                     <Route path={PathData.page.login} element={<Login/>}/>
                     <Route path={PathData.page.logout} element={<Logout/>}/>
-                    <Route path={PathData.page.myPage} element={<Mypage/>}/>
+                    <Route path={PathData.page.myPage} element={<Mypage/>}>
+                        <Route  index path="" element={<MyPageMain/>}/>
+                        <Route  path="personal" element={<PersonalInfo/>}/>
+                        <Route  path="address" element={<DeliveryAddress/>}/>
+                        <Route  path="payment" element={<PaymentHistory/>}/>
+                        <Route  path="wishlist" element={<WishList/>}/>
+                    </Route>
                     <Route path={PathData.page.cart} element={<Cart/>}>
                         <Route index path="" element={<CartList/>}/>
                     </Route>
