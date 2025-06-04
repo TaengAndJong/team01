@@ -2,6 +2,7 @@ package com.example.team01.cart.service;
 
 import com.example.team01.book.dao.BookDao;
 import com.example.team01.cart.dao.CartDao;
+import com.example.team01.utils.FileUtils;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 public class CartServiceImple implements CartService{
 
     private final CartDao dao;
+    private final FileUtils fileUtils;
 
 
     @Override
@@ -45,13 +47,10 @@ public class CartServiceImple implements CartService{
 
     @Override
     public List<CartVO> selectUserBookList(String clientId) {
-        log.info("selectUserBookList--------serviceImple:{}",clientId);
+        log.info("장바구니 도서목록 조회:{}",clientId);
         List<CartVO> bookList = dao.selectUserBookList(clientId);
-        // bookList가 null일 경우
-        if(bookList.isEmpty()){
-            // 빈값 어떻게 내보냄 ?
-        }
-        //장바구니에 List 있으면 bookList반환
+
+
         return bookList;
     }
 
