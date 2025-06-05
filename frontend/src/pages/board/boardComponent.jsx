@@ -1,11 +1,10 @@
 import "@assets/css/board/userDashBoard.css"
+import Btn from "@util/reuseBtn.jsx";
 import React from "react";
-
+import pathsData from "@assets/pathsData.jsx";
 const Board = () => {
-    const handleCreate  = (e) => {
-        //페이지 이동
-        e.preventDefault();
-        console.log("생성 이벤트 실행 페이지 이동");
+    const logCheck = () =>{
+        console.log("페이지 이동")
     }
     return (
         <>
@@ -14,7 +13,7 @@ const Board = () => {
                 <div>다른 사용자 들 게시물</div>
                 <div></div>
                 <div>
-                    <button onClick={handleCreate}>게시물 작성</button>
+                    <Btn className={"btn createBoard"} id={"createBtn"} onClick={logCheck} type={"button"}  path={pathsData.page.userCreateBoard} text="게시물 작성"/>
                 </div>
             </div>
         </>

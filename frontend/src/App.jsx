@@ -38,7 +38,7 @@ import DeliveryAddress from "./pages/myPage/delivery/DeliveryAddress.jsx";
 import MyPageMain from "./pages/myPage/myPage/MyPageMain.jsx";
 import PaymentHistory from "./pages/myPage/payment/PaymentHistory.jsx";
 import PersonalInfo from "./pages/myPage/personal/PersonalInfo.jsx";
-
+import CreateBoard from "./pages/board/createBoard/createBoardComponent.jsx"
 
 
 
@@ -86,7 +86,11 @@ function App() {
                         {/*<Route index element={<Navigate to="bookList" replace/>}/>*/}
                         {/*<Route path="bookList" element={<BookList/>} />*/}
                     </Route>
+
                     <Route path={PathData.page.board} element={<Board/>}/>
+
+                    {/*클라이언트 게시물 생성*/}
+                    <Route path="createBoard" element={<CreateBoard/>}/>
 
                     {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
                     <Route path="/admin" element={<Admin/>}/>
