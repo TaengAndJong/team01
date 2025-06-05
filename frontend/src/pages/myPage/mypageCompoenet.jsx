@@ -93,9 +93,8 @@ const Mypage = () => {
                 <div className="right">
                     <section className="content">
                         <div className="content-inner custom-border">
-
                             {/*오른쪽 컨텐츠*/}
-
+                            <Outlet />
                         </div>
                     </section>
                 </div>

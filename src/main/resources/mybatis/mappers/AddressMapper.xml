@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.team01.delivery.dao.AddressDao">
+  
+    <select id="selectAddress" parameterType="String" resultType="List">
+        select
+            a."addrId"
+             , c."clientId"
+             , a."addrType"
+             , a."addr"
+             , a."zoneCode"
+             , a."detailAddr"
+        from Address a join CLIENT c on  a."clientId" = c."clientId"
+        where a."clientId" = #{clientId}
+    </select>
+
+    <insert id="insertAddress" parameterType="AddressVO">
+        <selectKey keyProperty="addrId" resultType="String" order="BEFORE">
+            SELECT ADDRID_SQE.NEXTVAL FROM DUAL
+        </selectKey>
+
+        insert into
+            Address (
+                      "addrId"
+                    ,"clientId"
+                    ,"addrType"
+                    ,"addr"
+                    ,"zoneCode"
+                    ,"detailAddr")
+        values (
+                    #{addrId}
+                    ,#{clientId}
+                   ,#{addrType}
+                   ,#{addr}
+                   ,#{zoneCode}
+                   ,#{detailAddr}
+               )
+    </insert>
+    
+<!--    <update id="updateAddress" parameterType="AddressVO">-->
+
+<!--    </update>-->
+
+<!--    <delete id="deleteAddress" parameterType="String">-->
+
+<!--    </delete>-->
+
+</mapper>
