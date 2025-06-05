@@ -138,6 +138,7 @@ public class FileUtils {
     // file.getAbsolutePath 반환하면 자동으로 noImgPath에 대입 되는가?
 
     //BookImgList 레코드 값의 배열 조회를 통한 서버주소 추가 후 배열 갱신, 제네릭타입 선언<<<
+    // VO객체와 request 파라미터를 넘겨줘야함!
     public <T extends BookImgChange> T changeImgPath(T vo, HttpServletRequest request){
 
         List<String> bookImgList = vo.getBookImgList();

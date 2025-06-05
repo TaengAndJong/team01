@@ -4,8 +4,10 @@ package com.example.team01.cart;
 import com.example.team01.book.service.BookService;
 import com.example.team01.cart.service.CartService;
 import com.example.team01.security.PrincipalDetails;
+import com.example.team01.utils.FileUtils;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +30,11 @@ import java.util.Map;
 public class CartController {
 
     private final CartService cartService;
+    private final FileUtils fileUtils;
     //http://localhost:5173/api/cart
 
     @GetMapping()
-    public ResponseEntity<?> getCart(@AuthenticationPrincipal PrincipalDetails userDetails){ //securityContext에 저장된 사용자 정보 받아올 매개변수
+    public ResponseEntity<?> getCart(@AuthenticationPrincipal PrincipalDetails userDetails, HttpServletRequest request){ //securityContext에 저장된 사용자 정보 받아올 매개변수
 
         log.info("get Cart 입니다");
         //로그인한 user 정보
@@ -42,7 +45,13 @@ public class CartController {
         //없을 경우
 
         List<CartVO> result = cartService.selectUserBookList(clientId);
-        log.info("result -=---cartList :{}",result);
+        log.info("result---cartList 111111:{}",result);
+
+        result.forEach(cartVO -> {
+            BookVO bookVO= cartVO.getBookVO();
+            fileUtils.changeImgPath(bookVO,request); // 클라이언트로 도서이미지 src값 설정 메서드
+        });
+        log.info("result---cartList 22222:{}",result);
         return  ResponseEntity.ok(result);
     }
 

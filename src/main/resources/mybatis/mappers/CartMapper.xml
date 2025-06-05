@@ -4,8 +4,12 @@
 <mapper namespace="com.example.team01.cart.dao.CartDao">
 
     <resultMap id="cartMap" type="cartVO">
+        <result property="cartId" column="cartId"/>
         <result property="bookId" column="bookId"/>
         <result property="quantity" column="quantity"/>
+        <result property="roleId" column="roleId"/>
+        <result property="clientId" column="clientId"/>
+        <result property="addCartDate" column="addCartDate"/>
         <association property="bookVO" javaType="BookVO">
             <result property="bookCateNm" column="bookCateNm" />
             <result property="bookName" column="bookName" />
@@ -52,10 +56,10 @@
         </selectKey>
 
         INSERT INTO cart (
-        "cartId", "bookId", "quantity", "clientId", "roleId"
+            "cartId","bookId", "quantity", "clientId", "roleId"
         )
         VALUES (
-        #{cartId}, #{bookId}, #{quantity}, #{clientId}, #{roleId}
+            #{cartId},#{bookId}, #{quantity}, #{clientId}, #{roleId}
         )
     </insert>
 
@@ -63,15 +67,16 @@
     <select id="selectUserBookList" parameterType="String" resultMap="cartMap">
         select
             c."cartId"
-             ,c."addCartDate"
-             ,c."quantity"
-             ,c."clientId"
-             ,b."bookId"
-             ,b."bookName"
-             ,b."bookPrice"
-             ,b."bookCateNm"
-             ,b."bookImgPath"
-             ,b."author"
+            ,c."addCartDate"
+            ,c."quantity"
+            ,c."clientId"
+            ,c."roleId"
+            ,b."bookId"
+            ,b."bookName"
+            ,b."bookPrice"
+            ,b."bookCateNm"
+            ,b."bookImgPath"
+            ,b."author"
         from
             book b join cart c on b."bookId" = c."bookId"
         where c."clientId"=#{clientId}

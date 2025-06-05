@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.team01.common.dao.DeliveryDao">
+
+    <insert id="insertAddress" parameterType="DeliveryVO">
+        <selectKey keyProperty="delId" resultType="String" order="BEFORE">
+            SELECT DELIVERY_SQC.NEXTVAL FROM DUAL
+        </selectKey>
+
+
+
+    </insert>
+
+    <select id="selectAddress" parameterType="String">
+
+
+    </select>
+    
+    <update id="updateAddress" parameterType="DeliveryVO">
+
+    </update>
+
+    <delete id="deleteAddress" parameterType="String">
+
+    </delete>
+
+
+</mapper>

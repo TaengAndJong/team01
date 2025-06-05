@@ -59,9 +59,9 @@ const Cart = () => {
     const cartList = async() =>{
 
         try{
-            const response = fetch("/api/cart",{
+            const response = await fetch("/api/cart",{
                 method: "GET",
-                credentials: 'include'
+                credentials: 'include' //인증정보
             });
 
             if(!response.ok){

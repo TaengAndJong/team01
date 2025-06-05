@@ -320,10 +320,6 @@ header, .header-inner, .gnb {
   display: inline-block;
   position: relative;
 }
-.client .footer {
-  background: transparent;
-}
-
 .sub {
   background-color: #E9E9DD;
 }
