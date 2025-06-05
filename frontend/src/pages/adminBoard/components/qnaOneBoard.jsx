@@ -57,7 +57,7 @@ const QnaOneBoard = () => {
             //요청 성공
             const data = await response.json();
             console.log("search---------------",data);
-            setBoarList(Array.isArray(data) ? data : []); // 또는 적절히 구조 확인 후 갱신
+            setBoarList(Array.isArray(data) ? data : []); // 서버 데이터 갱신
             // onInit(data);
         }catch (e){
             console.log(e,"에러");
