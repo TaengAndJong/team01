@@ -20,27 +20,34 @@ const Board = () => {
 
 
     return (
-            <div>
-                <LeftMenu/>
-                {!isCreatePage && (
-                    <>
-                        <div className="userBoardHeader">게시판 제목</div>
-                        <div>다른 사용자 들 게시물</div>
-                        <div>
-                            <Btn className={"btn createBoard"} id={"createBtn"} onClick={logCheck} type={"button"}
-                                 path={pathsData.page.userCreateBoard} text="게시물 작성"/>
-                        </div>
-                    </>
-                )}
-                <BoardStateContext.Provider value={null}>
-                    <BoardDispatchContext.Provider value={null}>
-                        <PaginationContext.Provider value={null}>
-                            <Outlet/>
-                        </PaginationContext.Provider>
-                    </BoardDispatchContext.Provider>
-                </BoardStateContext.Provider>
+        <div>
+            <div className="page d-flex">
+                <div className="left">
+                    <LeftMenu/>
+                </div>
+                <div>
+                    {!isCreatePage && (
+                        <>
+                            <div className="userBoardHeader">게시판 제목</div>
+                            <div>다른 사용자 들 게시물</div>
+                            <div>
+                                <Btn className={"btn createBoard"} id={"createBtn"} onClick={logCheck} type={"button"}
+                                     path={pathsData.page.userCreateBoard} text="게시물 작성"/>
+                            </div>
+                        </>
+                    )}
+                    <BoardStateContext.Provider value={null}>
+                        <BoardDispatchContext.Provider value={null}>
+                            <PaginationContext.Provider value={null}>
+                                <Outlet/>
+                            </PaginationContext.Provider>
+                        </BoardDispatchContext.Provider>
+                    </BoardStateContext.Provider>
+                </div>
             </div>
-    );
-};
 
-export default Board;
+            </div>
+            );
+            };
+
+            export default Board;
