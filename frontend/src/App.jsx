@@ -87,10 +87,11 @@ function App() {
                         {/*<Route path="bookList" element={<BookList/>} />*/}
                     </Route>
 
-                    <Route path={PathData.page.board} element={<Board/>}/>
+                    <Route path={PathData.page.board} element={<Board/>}>
+                        {/*클라이언트 게시물 생성*/}
+                        <Route path="createBoard" element={<CreateBoard/>}/>
+                    </Route>
 
-                    {/*클라이언트 게시물 생성*/}
-                    <Route path="createBoard" element={<CreateBoard/>}/>
 
                     {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
                     <Route path="/admin" element={<Admin/>}/>
