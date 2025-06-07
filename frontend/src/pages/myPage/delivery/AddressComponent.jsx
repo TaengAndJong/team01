@@ -10,6 +10,8 @@ const AddressComponent = () =>{
     const [showAddForm, setShowAddForm] = useState(false);
 
     const handleClick = () => {
+        // 최대 3개 제한
+        if (deliveryData.length > 3) return; // 3개 초과면 추가 폼 열지 않음
         setShowAddForm(prev => !prev); // true ↔ false 토글
     };
 
@@ -69,32 +71,35 @@ const AddressComponent = () =>{
                     <h5 className="title my-3">배송지</h5>
                     {/* 배송지 있을경우 UI*/}
                     {deliveryData && deliveryData.length > 0 && (
-                        <dl className="d-flex border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50 align-items-center mb-2">
-                            <AddressItem deliveryData={deliveryData}/>
-                        </dl>
+                        <AddressItem deliveryData={deliveryData}/>
                     )}
                     {/* 배송지 없을 경우 UI*/}
-                    <div className="border border-dark-subtle p-4 rounded-1  bg-white bg-opacity-50 mb-2">
-                        <button type="button" className="btn btn-secondary d-inline-block me-2" onClick={handleClick}>배송지 등록</button>
-                        {!showAddForm && (
+                    {!showAddForm && deliveryData.length < 3  && (
+                        <div className="border border-dark-subtle p-4 rounded-1  bg-white bg-opacity-50 mb-2">
+                            <button type="button" className="btn btn-secondary d-inline-block me-2"
+                                    onClick={handleClick}>배송지 등록
+                            </button>
                             <p className="my-3 p-2 d-inline-block">
-                                등록된 배송지가 없습니다. 배송지를 등록해주세요.
+                                {deliveryData.length === 0
+                                    ? "등록된 배송지가 없습니다. 배송지를 등록해주세요."
+                                    : "배송지 추가"}
                             </p>
-                        )}
-                        {showAddForm && <AddForm setDeliveryData={setDeliveryData} />}
-                    </div>
+                        </div>
+                      )}
+                    {showAddForm && <AddForm setDeliveryData={setDeliveryData} handleClick={handleClick}/> }
+
 
                 </div>
 
-                {/* cartList  */}
-                {/*{cartData && cartData.length > 0 ? addCartList(cartData) : emptyCartList()}*/}
+                        {/* cartList  */}
+                    {/*{cartData && cartData.length > 0 ? addCartList(cartData) : emptyCartList()}*/}
 
-                {/* cartList  */}
+                    {/* cartList  */}
 
             </div>
 
 
-        </>
+            </>
     )
 }
 

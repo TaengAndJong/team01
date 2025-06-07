@@ -3,7 +3,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.team01.delivery.dao.AddressDao">
   
-    <select id="selectAddress" parameterType="String" resultType="List">
+    <resultMap id="addressMap" type="AddressVO">
+        <id property="addrId" column="addrId"/>
+        <result property="addrType" column="addrType"/>
+        <result property="addr" column="addr"/>
+        <result property="zoneCode" column="zoneCode"/>
+        <result property="detailAddr" column="detailAddr"/>
+        <association property="client" javaType="ClientVO">
+            <id property="clientId" column="clientId"/>
+        </association>
+    </resultMap>
+    
+    <select id="selectAddress" parameterType="String" resultMap="addressMap">
         select
             a."addrId"
              , c."clientId"
@@ -12,7 +23,7 @@
              , a."zoneCode"
              , a."detailAddr"
         from Address a join CLIENT c on  a."clientId" = c."clientId"
-        where a."clientId" = #{clientId}
+        where c."clientId" =  #{clientId}
     </select>
 
     <insert id="insertAddress" parameterType="AddressVO">
@@ -22,7 +33,7 @@
 
         insert into
             Address (
-                      "addrId"
+                    "addrId"
                     ,"clientId"
                     ,"addrType"
                     ,"addr"
@@ -30,7 +41,7 @@
                     ,"detailAddr")
         values (
                     #{addrId}
-                    ,#{clientId}
+                    ,#{client.clientId}
                    ,#{addrType}
                    ,#{addr}
                    ,#{zoneCode}

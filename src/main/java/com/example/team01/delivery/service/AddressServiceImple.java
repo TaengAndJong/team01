@@ -20,10 +20,13 @@ public class AddressServiceImple implements AddressService{
     @Override
     public List<AddressVO> selectAddress(String clientId) {
         List<AddressVO> result = dao.selectAddress(clientId);
-        if (result == null) {
-            log.info("selectAddress null------------:{}", result);
-            result = Collections.emptyList(); // null 방지 ==> "비어 있는 리스트"를 리턴
-        }
+        log.info("result---:{}", result);
+
+//        if (result == null) {
+//            log.info("selectAddress null------------:{}", result);
+//            result = Collections.emptyList(); // null 방지 ==> "비어 있는 리스트"를 리턴
+//        }
+
         log.info("selectAddress:{}",result);
         return result;
     }
