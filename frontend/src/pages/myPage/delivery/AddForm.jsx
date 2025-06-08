@@ -1,9 +1,9 @@
 import FormTag from "../../../util/formTag.jsx";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
-import React from "react";
+import React, {useEffect} from "react";
 import ReuseBtn from "../../../util/reuseBtn.jsx";
 
-const AddForm = () => {
+const AddForm = ({deliveryData,setDeliveryData,setShowAddForm}) => {
 
     const [addrData, setAddrData] = React.useState({
         addrType:"",
@@ -40,6 +40,7 @@ const AddForm = () => {
 
     //배송지 등록 저장 시 서버로 보낼 fetch 함수
     const saveAddrFetch = async () => {
+
         //try ,catch 구문을 사용하면 좀 더  세부적으로 에러처리 가능
         try{
 
@@ -59,14 +60,21 @@ const AddForm = () => {
             const data = await response.json();
             //성공여부에 따른 메시지 받아오기
             console.log("저장성공 data",data);
-
+            //추가완료 후 목록 재요청 ==> 이렇게 안하려면 ContextAPI 사용하기
+            const getRequest = await fetch('/api/mypage/address');
+            const updatedList = await getRequest.json();
+            setDeliveryData(updatedList);
+          
         }catch(e){
             console.log(e);
         }
         
     }
-    //저장 버튼 핸들러
 
+    useEffect(() => {
+
+
+    },[deliveryData]);
     return (
         <>
             <div className="my-3 p-2">

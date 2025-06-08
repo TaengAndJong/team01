@@ -47,10 +47,10 @@ public class AddressServiceImple implements AddressService{
     }
 
     @Override
-    public int deleteAddress(String addrId) {
-        log.info("deleteAddress:{}",addrId);
-        int cnt=0;
-
+    public int deleteAddress(String clientId,String addrId) {
+        log.info("서비스 유저아이디:{}",addrId);
+        log.info("서비스 주소아이디:{}",clientId);
+        int cnt = dao.deleteAddress(addrId,clientId);
         return cnt;
     }
 

@@ -17,7 +17,7 @@ public interface AddressService {
     public int updateAddress(AddressVO addressVO);
 
     //유저에 따른 배송지 삭제
-    public int deleteAddress(String addrId);
+    public int deleteAddress(String clientId,String addrId);
 
 
 }

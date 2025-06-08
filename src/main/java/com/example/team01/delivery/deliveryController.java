@@ -52,14 +52,45 @@ public class deliveryController {
         //addressVO로 clientVO 넘겨주기
         addressVO.setClient(clientVO);
         //서비스로 파라미터 넘겨주기
-        int result = addressService.insertAddress(addressVO);
-        log.info("saveAddress--result:{}",result);
+        int insertData = addressService.insertAddress(addressVO);
+        log.info("saveAddress--result:{}",insertData);
 
-        Map<String,Object> dummyList = new HashMap<>();
-        dummyList.put("success",result);
-        log.info("dummyList--result:{}",dummyList);
-        return ResponseEntity.ok(dummyList);
+
+
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("success","배송지 저장성공");
+        result.put("saveData","addressVO");
+
+        log.info("dummyList--result:{}",result);
+        return ResponseEntity.ok(result);
     }
 
+
+    //배송지 삭제
+    @PostMapping("/delete/{addrId}")
+    public ResponseEntity<?> deleteAddress(@PathVariable String addrId,
+                                           @AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        log.info("deleteAddress----------------------:{}",addrId);
+        String clientId = userDetails.getUsername();
+        ClientVO clientVO = new ClientVO();
+        clientVO.setClientId(clientId);
+
+        //삭제 쿼리에 사용할 파라미터 넘겨주기
+        int deleteData =  addressService.deleteAddress(clientId,addrId);
+        log.info("deleteAddress----------------------:{}",deleteData);
+        //응답 시 클라이언트에 전달할 데이터 맵
+        Map<String,Object> result = new HashMap<>();
+       
+        // addrId를 사용하여 삭제 로직 수행
+        if(deleteData>0){
+            result.put("success","해당 배송지 삭제완료");
+
+        }
+
+        log.info("deleteData--result:{}",result);
+        return ResponseEntity.ok(result);
+    }
 
 }

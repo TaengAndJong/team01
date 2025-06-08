@@ -18,6 +18,6 @@ public interface AddressDao {
     public int updateAddress(AddressVO addressVO);
 
     //유저에 따른 배송지 삭제
-    public int deleteAddress(@Param("addrId") String deliveryId);
+    public int deleteAddress( @Param("addrId") String addrId,@Param("clientId") String clientId);
 
 }
