@@ -49,9 +49,24 @@
                )
     </insert>
     
-<!--    <update id="updateAddress" parameterType="AddressVO">-->
-
-<!--    </update>-->
+    <update id="updateAddress" parameterType="AddressVO">
+        UPDATE Address
+        <set>
+            <if test="addrType != null and addrType != ''">
+                "addrType" = #{addrType},
+            </if>
+            <if test="addr != null and addr != ''">
+                "addr" = #{addr},
+            </if>
+            <if test="zoneCode != null and zoneCode != ''">
+                "zoneCode" = #{zoneCode},
+            </if>
+            <if test="detailAddr != null and detailAddr != ''">
+                "detailAddr" = #{detailAddr},
+            </if>
+        </set>
+        where "addrId"=#{addrId}
+    </update>
 
   <delete id="deleteAddress" parameterType="String">
       delete from Address

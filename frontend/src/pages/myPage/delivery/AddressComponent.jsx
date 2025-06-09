@@ -3,6 +3,7 @@ import EditForm from "./EditForm.jsx";
 import AddForm from "./AddForm.jsx";
 import AddressItem from "./AddressItem.jsx";
 import {Outlet} from "react-router-dom";
+import AddressLayout from "./AddressLayout.jsx";
 
 
 export const AddressStatusContext = React.createContext();
@@ -64,7 +65,7 @@ const AddressComponent = () =>{
 
             <AddressStatusContext.Provider value={{deliveryData,setDeliveryData}}>
                 <AddressDispatchContext.Provider value={{onCreate}}>
-                    <AddressItem/>
+                    <AddressLayout/>
                 </AddressDispatchContext.Provider>
             </AddressStatusContext.Provider>
 

@@ -40,16 +40,22 @@ public class AddressServiceImple implements AddressService{
 
     @Override
     public int updateAddress(AddressVO addressVO) {
-        log.info("updateAddress:{}",addressVO);
         int cnt=0;
+        log.info("updateAddress---vo:{}",addressVO);
+        try {
+            cnt =dao.updateAddress(addressVO);
+            log.info("updateAddress--cnt:{}",cnt);
+        } catch (Exception e) {
+            e.printStackTrace(); // 로그가 안 뜨는 예외까지 확인 가능
+        }
+
+
 
         return cnt;
     }
 
     @Override
     public int deleteAddress(String clientId,String addrId) {
-        log.info("서비스 유저아이디:{}",addrId);
-        log.info("서비스 주소아이디:{}",clientId);
         int cnt = dao.deleteAddress(addrId,clientId);
         return cnt;
     }

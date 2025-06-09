@@ -1,10 +1,12 @@
 import FormTag from "../../../util/formTag.jsx";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import ReuseBtn from "../../../util/reuseBtn.jsx";
+import {AddressStatusContext} from "./AddressComponent.jsx";
 
-const AddForm = ({deliveryData,setDeliveryData,setShowAddForm}) => {
+const AddForm = ({setShowAddForm}) => {
 
+    const {deliveryData,setDeliveryData} = useContext(AddressStatusContext);
     const [addrData, setAddrData] = React.useState({
         addrType:"",
         addr:"",

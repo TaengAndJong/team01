@@ -1,12 +1,16 @@
 import {useContext, useEffect, useState} from "react";
 import { AddressStatusContext } from "./AddressComponent";
 import EditForm from "./EditForm.jsx";
+import AddForm from "./AddForm.jsx";
 
 const AddressItem = () => {
 
     const {deliveryData,setDeliveryData} = useContext(AddressStatusContext);
     const [editItem, setEditItem] = useState(null); // 선택된 하나의 주소 객체
-    const [showEidtForm, setShowEidtForm] = useState(false);
+    // 기존 배송 수정폼 상태관리변수
+    const [showEditForm, setShowEditForm] = useState(false);
+
+
 
     //배송지 등록 저장 시 서버로 보낼 fetch 함수
     const deleteFetch = async (addrId) => {
@@ -47,7 +51,7 @@ const AddressItem = () => {
     const openEditForm = (addrId)=>{
         console.log("addrId", addrId);
         console.log("deliveryData",deliveryData);
-
+        setShowEditForm(true);
         //deliveryData는 객체를 담은 배열
         const targetItem = deliveryData?.find(targetAddrId => targetAddrId.addrId == addrId); // find를 통해 조건에 맞는 배열내부의 하나의 객체를 반환
         console.log("targetItem", targetItem.addrId); // 객체의 Id 값을 구체적으로 지칭해야 함
@@ -60,13 +64,24 @@ const AddressItem = () => {
     useEffect(() => {
         console.log("deliveryData--- AddressItem", deliveryData);
         console.log("editItem--- AddressItem", editItem);
+
+
     },[deliveryData,editItem]);
+
+    const addForm = ()=>{
+        console.log(" 추가 폼  UI 출력 ")
+    }
+
+    const editForm = (addrId)=>{
+        console.log(" 수정 폼  UI 출력 ")
+    }
 
     return (
         <>
+
             {deliveryData?.map((item, index) => (
                 <div key={index}
-                    className="d-flex border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50 align-items-center mb-2">
+                     className="d-flex border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50 align-items-center mb-2">
                     <strong className="title me-3">분류</strong>
                     <span className="border-end pe-4">{item.addrType}</span>
                     <strong className="title me-3 ms-4">주소</strong>
@@ -86,13 +101,15 @@ const AddressItem = () => {
                         </button>
                         {/*변경 누르면 하단에 EditForm 출력하고 변경 버튼이 저장버튼으로 바뀌기?? 아니면 기존 폼에서 저장까지처리*/}
                     </div>
+
                     {/*  editItem이 true 임을 만족해야 에러가 발생하지 않음 */}
-                    { editItem  && item.addrId === editItem.addrId && (
-                        <EditForm editItem={editItem} setEditItem={setEditItem} />
+                    { editItem  && item.addrId === editItem.addrId && showEditForm && (
+                        <EditForm editItem={editItem} setEditItem={setEditItem} setShowEditForm={setShowEditForm} />
                     )}
                 </div>
 
             ))}
+
         </>
     )
 }
