@@ -3,9 +3,8 @@ import Btn from "@util/reuseBtn.jsx";
 import pathsData from "@assets/pathsData.jsx";
 import {Link, Outlet, useLocation,} from "react-router-dom";
 import React from "react";
-import LeftMenu from "@layout/LeftMenu.jsx";
 import {useMenu} from "../common/MenuContext.jsx";
-import {menuNavi} from "../../util/menuNavi.jsx";
+
 
 //context 상태관리
 export const BoardStateContext = React.createContext();// state 값을 공급하는 context
@@ -87,24 +86,29 @@ const Board = () => {
                     </div>
                 </aside>
                 {/*링크이동할 사이드메뉴 */}
-                <div>
-                    {!isCreatePage && (
-                        <>
-                            <div className="userBoardHeader">게시판 제목</div>
-                            <div>다른 사용자 들 게시물</div>
-                            <div>
-                                <Btn className={"btn createBoard"} id={"createBtn"} onClick={logCheck} type={"button"}
-                                     path={pathsData.page.userCreateBoard} text="게시물 작성"/>
-                            </div>
-                        </>
-                    )}
-                    <BoardStateContext.Provider value={null}>
-                        <BoardDispatchContext.Provider value={null}>
-                            <PaginationContext.Provider value={null}>
-                                <Outlet/>
-                            </PaginationContext.Provider>
-                        </BoardDispatchContext.Provider>
-                    </BoardStateContext.Provider>
+                <div className="right">
+                    <section className="content">
+                        {!isCreatePage && (
+                            <>
+                                <div className="userBoardHeader">게시판 제목</div>
+                                <div className="boardSection">다른 사용자 들 게시물
+
+                                </div>
+                                <div>
+                                    <Btn className={"btn createBoard"} id={"createBtn"} onClick={logCheck}
+                                         type={"button"}
+                                         path={pathsData.page.clientCreateBoard} text="게시물 작성"/>
+                                </div>
+                            </>
+                        )}
+                        <BoardStateContext.Provider value={null}>
+                            <BoardDispatchContext.Provider value={null}>
+                                <PaginationContext.Provider value={null}>
+                                    <Outlet/>
+                                </PaginationContext.Provider>
+                            </BoardDispatchContext.Provider>
+                        </BoardStateContext.Provider>
+                    </section>
                 </div>
             </div>
         </div>
