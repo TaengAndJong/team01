@@ -1,7 +1,13 @@
 import "@assets/css/board/userBoard.css"
 import Btn from "@util/reuseBtn.jsx";
+import {useContext} from "react";
+import {UserDataContext} from "../boardComponent.jsx";
 
-const createBoardComponent = ()=> {
+
+const CreateBoardComponent = ()=> {
+
+    const userData = useContext(UserDataContext);
+
     return(
         <>
             <div>
@@ -9,14 +15,14 @@ const createBoardComponent = ()=> {
                     <div className="d-flex">
                         <dt className="name">고객명</dt>
                         <dd>
-                            <span>김종호</span>
+                            <span>{userData.clientName}</span>
                         </dd>
 
                     </div>
                     <div className="d-flex">
                         <dt className="id">ID</dt>
                         <dd>
-                            <span>astra9706</span>
+                            <span>{userData.clientId}</span>
                         </dd>
 
                     </div>
@@ -62,4 +68,4 @@ const createBoardComponent = ()=> {
     )
 }
 
-export default createBoardComponent;
+export default CreateBoardComponent;

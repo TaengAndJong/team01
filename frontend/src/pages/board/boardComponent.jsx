@@ -2,7 +2,7 @@ import "@assets/css/board/userBoard.css"
 import Btn from "@util/reuseBtn.jsx";
 import pathsData from "@assets/pathsData.jsx";
 import {Link, Outlet, useLocation,} from "react-router-dom";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useMenu} from "../common/MenuContext.jsx";
 
 
@@ -10,16 +10,29 @@ import {useMenu} from "../common/MenuContext.jsx";
 export const BoardStateContext = React.createContext();// state 값을 공급하는 context
 export const BoardDispatchContext = React.createContext();// 생성, 수정(갱신), 삭제 값을 공급하는 context
 export const PaginationContext = React.createContext();
+export const UserDataContext = React.createContext(); // 사용자 데이터
 
 
 const Board = () => {
-
+    const [userData, setUserData] = useState(null); // 사용자 데이터 저장 할 state
     const location = useLocation();
     const isCreatePage = location.pathname.includes("/board/createBoard");
     const logCheck = () =>{
         console.log("페이지 이동")
     }
 
+    useEffect(()=>{
+        const data = localStorage.getItem("userData");
+        if(data){
+            try {
+                setUserData(JSON.parse(data));
+            } catch (e) {
+                console.error("userData 파싱 실패", e);
+            }
+        }
+    },[])
+    
+    console.log("사용자 데이터 확인 --------------- : ",userData);
     const {currentPath}  = useMenu();
     console.log("currentPath",currentPath);
 
@@ -104,7 +117,9 @@ const Board = () => {
                         <BoardStateContext.Provider value={null}>
                             <BoardDispatchContext.Provider value={null}>
                                 <PaginationContext.Provider value={null}>
-                                    <Outlet/>
+                                    <UserDataContext.Provider value={userData}>
+                                        <Outlet/>
+                                    </UserDataContext.Provider>
                                 </PaginationContext.Provider>
                             </BoardDispatchContext.Provider>
                         </BoardStateContext.Provider>

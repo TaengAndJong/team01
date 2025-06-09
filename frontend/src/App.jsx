@@ -38,7 +38,7 @@ import DeliveryAddress from "./pages/myPage/delivery/DeliveryAddress.jsx";
 import MyPageMain from "./pages/myPage/myPage/MyPageMain.jsx";
 import PaymentHistory from "./pages/myPage/payment/PaymentHistory.jsx";
 import PersonalInfo from "./pages/myPage/personal/PersonalInfo.jsx";
-import CreateBoard from "./pages/board/createBoard/createBoardComponent.jsx"
+import CreateBoard from "./pages/board/createBoard/CreateBoardComponent.jsx"
 
 
 
