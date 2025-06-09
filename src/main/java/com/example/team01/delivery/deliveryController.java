@@ -93,4 +93,31 @@ public class deliveryController {
         return ResponseEntity.ok(result);
     }
 
+
+    //배송지 업데이트
+    @PostMapping("/update/{addrId}")
+    public ResponseEntity<?> updateAddress(@PathVariable String addrId,
+                                           @AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        log.info("updateAddress----------------------:{}",addrId);
+        String clientId = userDetails.getUsername();
+        ClientVO clientVO = new ClientVO();
+        clientVO.setClientId(clientId);
+
+        //삭제 쿼리에 사용할 파라미터 넘겨주기
+        int updateData =  addressService.deleteAddress(clientId,addrId);
+        log.info("updateAddress----------------------:{}",updateData);
+        //응답 시 클라이언트에 전달할 데이터 맵
+        Map<String,Object> result = new HashMap<>();
+
+        // addrId를 사용하여 업데이트 로직 수행
+        if(updateData>0){
+            result.put("success","해당 배송지 삭제완료");
+
+        }
+
+        log.info("updateAddress----result:{}",result);
+        return ResponseEntity.ok(result);
+    }
+    
 }

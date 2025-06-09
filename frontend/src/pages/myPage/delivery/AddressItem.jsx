@@ -1,15 +1,16 @@
-import {map} from "react-bootstrap/ElementChildren";
-import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
+import { AddressStatusContext } from "./AddressComponent";
+import EditForm from "./EditForm.jsx";
 
-const AddressItem = ({deliveryData,setDeliveryData,setShowAddForm}) => {
+const AddressItem = () => {
 
-    console.log("deliveryData--- item", deliveryData)
+    const {deliveryData,setDeliveryData} = useContext(AddressStatusContext);
+    const [editItem, setEditItem] = useState(null); // 선택된 하나의 주소 객체
+    const [showEidtForm, setShowEidtForm] = useState(false);
 
     //배송지 등록 저장 시 서버로 보낼 fetch 함수
-    const addrdelFetch = async (addrId) => {
+    const deleteFetch = async (addrId) => {
         //주소에 파라미터값 담아서 서버로 전송
-
 
         //try ,catch 구문을 사용하면 좀 더  세부적으로 에러처리 가능
         try{
@@ -37,37 +38,59 @@ const AddressItem = ({deliveryData,setDeliveryData,setShowAddForm}) => {
         }
 
     }
+    //delete 핸들러
+    const deleteHandler  = (addrId)=>{
+        // console.log("addrId", addrId);
+        deleteFetch(addrId);
+    }
 
-    const deletehandler = (addrId)=>{
+    const openEditForm = (addrId)=>{
         console.log("addrId", addrId);
-        addrdelFetch(addrId);
+        console.log("deliveryData",deliveryData);
+
+        //deliveryData는 객체를 담은 배열
+        const targetItem = deliveryData?.find(targetAddrId => targetAddrId.addrId == addrId); // find를 통해 조건에 맞는 배열내부의 하나의 객체를 반환
+        console.log("targetItem", targetItem.addrId); // 객체의 Id 값을 구체적으로 지칭해야 함
+        if(targetItem.addrId === addrId) {
+            setEditItem(targetItem); // 해당 아이디의 데이터를 EditForm 에 전달
+        }
+
     }
 
     useEffect(() => {
-        if (deliveryData.length > 3) return; // 3개 초과면 추가 폼 열지 않음
-        setShowAddForm(false); // 재 렌더링 되었을때는 폼 닫기
-    },[deliveryData]);
+        console.log("deliveryData--- AddressItem", deliveryData);
+        console.log("editItem--- AddressItem", editItem);
+    },[deliveryData,editItem]);
 
     return (
         <>
             {deliveryData?.map((item, index) => (
-
-                    <dl key={index} className="d-flex border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50 align-items-center mb-2">
-                        <dt className="title me-3">분류</dt>
-                        <dd className="border-end pe-4">{item.addrType}</dd>
-                        <dt className="title me-3 ms-4">주소</dt>
-                        <dd>
-                            <span>{item.zonecode}</span>
-                            <span className="me-3">{item.addr}</span>
-                            <span>{item.detailAddr}</span>
-                        </dd>
-
-                        <dd>
-                            <button aria-label="배송지변경" className="btn btn-sm btn-primary mx-1">변경</button>
-                            <button aria-label="배송지삭제" className="btn btn-sm btn-danger" onClick={() =>{deletehandler(item.addrId)}}>삭제</button>
-                             {/*변경 누르면 하단에 EditForm 출력하고 변경 버튼이 저장버튼으로 바뀌기?? 아니면 기존 폼에서 저장까지처리*/}
-                        </dd>
-                    </dl>
+                <div key={index}
+                    className="d-flex border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50 align-items-center mb-2">
+                    <strong className="title me-3">분류</strong>
+                    <span className="border-end pe-4">{item.addrType}</span>
+                    <strong className="title me-3 ms-4">주소</strong>
+                    <div>
+                        <span>{item.zonecode}</span>
+                        <span className="me-3">{item.addr}</span>
+                        <span>{item.detailAddr}</span>
+                    </div>
+                    <div>
+                        <button aria-label="배송지변경" className="btn btn-sm btn-primary mx-1" onClick={() => {
+                            openEditForm(item.addrId)
+                        }}>변경
+                        </button>
+                        <button aria-label="배송지삭제" className="btn btn-sm btn-danger" onClick={() => {
+                            deleteHandler(item.addrId)
+                        }}>삭제
+                        </button>
+                        {/*변경 누르면 하단에 EditForm 출력하고 변경 버튼이 저장버튼으로 바뀌기?? 아니면 기존 폼에서 저장까지처리*/}
+                    </div>
+                    {/*  editItem이 true 임을 만족해야 에러가 발생하지 않음 */}
+                    { editItem  && item.addrId === editItem.addrId && (
+                        <EditForm editItem={editItem} setEditItem={setEditItem} />
+                    )}
+                </div>
 
             ))}
         </>

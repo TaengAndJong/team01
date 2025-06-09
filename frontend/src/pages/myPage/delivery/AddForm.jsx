@@ -127,7 +127,7 @@ const AddForm = ({deliveryData,setDeliveryData,setShowAddForm}) => {
                 </form>
                 <div className="d-flex justify-content-center w-100 mt-4">
                     <ReuseBtn type="button" text="저장" className="btn-primary me-2" id="save" onClick={saveAddrFetch}/>
-                    <ReuseBtn type="reset" text="취소" className="btn-danger" id="reset"/>
+                    <ReuseBtn type="reset" text="취소" className="btn-danger" id="reset" onClick={() => setShowAddForm(false)}/>
                 </div>
             </div>
         </>
