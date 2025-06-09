@@ -2,7 +2,7 @@ import "@assets/css/board/userBoard.css"
 import Btn from "@util/reuseBtn.jsx";
 import {useContext} from "react";
 import {UserDataContext} from "../boardComponent.jsx";
-
+import {maskUserId} from "@util/maskingID.jsx";
 
 const CreateBoardComponent = ()=> {
 
@@ -22,7 +22,7 @@ const CreateBoardComponent = ()=> {
                     <div className="d-flex">
                         <dt className="id">ID</dt>
                         <dd>
-                            <span>{userData.clientId}</span>
+                            <span>{maskUserId(userData.clientId)}</span>
                         </dd>
 
                     </div>
