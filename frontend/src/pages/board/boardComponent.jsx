@@ -36,6 +36,7 @@ const Board = () => {
     const {currentPath}  = useMenu();
     console.log("currentPath",currentPath);
 
+
     //마이페이지 타이틀 동적 설정 함수
     const clientTile=(currentPath)=>{
         //마지막 주소값 받도록
