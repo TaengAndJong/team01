@@ -1,11 +1,12 @@
 import {useContext, useEffect, useState} from "react";
-import { AddressStatusContext } from "./AddressComponent";
+import {AddressDispatchContext, AddressStatusContext} from "./AddressComponent";
 import EditForm from "./EditForm.jsx";
-import AddForm from "./AddForm.jsx";
+
 
 const AddressItem = () => {
 
-    const {deliveryData,setDeliveryData} = useContext(AddressStatusContext);
+    const deliveryData = useContext(AddressStatusContext);
+    const {onDelete} = useContext(AddressDispatchContext);
     const [editItem, setEditItem] = useState(null); // 선택된 하나의 주소 객체
     // 기존 배송 수정폼 상태관리변수
     const [showEditForm, setShowEditForm] = useState(false);
@@ -30,12 +31,9 @@ const AddressItem = () => {
             const data = await response.json();
             //성공여부에 따른 메시지 받아오기
             console.log("get 요청 성공 data",data);
-            // 유저에게 성공완료 모달 띄울거?
 
-            //삭제 후 목록 재요청 ==> 이렇게 안하려면 ContextAPI 사용하기
-            const getRequest = await fetch('/api/mypage/address');
-            const updatedList = await getRequest.json();
-            setDeliveryData(updatedList);
+            // 유저에게 성공완료 모달 띄울거?
+           onDelete(data.deleteId);
 
         }catch(e){
             console.log(e);
@@ -68,13 +66,6 @@ const AddressItem = () => {
 
     },[deliveryData,editItem]);
 
-    const addForm = ()=>{
-        console.log(" 추가 폼  UI 출력 ")
-    }
-
-    const editForm = (addrId)=>{
-        console.log(" 수정 폼  UI 출력 ")
-    }
 
     return (
         <>

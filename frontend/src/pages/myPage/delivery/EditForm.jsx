@@ -2,11 +2,11 @@ import FormTag from "../../../util/formTag.jsx";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
 import ReuseBtn from "../../../util/reuseBtn.jsx";
 import React, {useContext, useEffect, useState} from "react";
-import {AddressStatusContext} from "./AddressComponent.jsx";
+import {AddressDispatchContext, AddressStatusContext} from "./AddressComponent.jsx";
 
 const EditForm = ({editItem,setEditItem,setShowEditForm}) => {
 
-    const {setDeliveryData} =useContext(AddressStatusContext);
+    const {onUpdate} =useContext(AddressDispatchContext);
 
     // 저장누르면 서버로 데이터 전송
     const updateFetch = async (addrId) =>{
@@ -27,12 +27,8 @@ const EditForm = ({editItem,setEditItem,setShowEditForm}) => {
         // 폼 닫기
         setShowEditForm(false);
 
-
-      //삭제 후 목록 재요청 ==> 이렇게 안하려면 ContextAPI 사용하기
-        const getRequest = await fetch('/api/mypage/address');
-        const updatedList = await getRequest.json();
-        console.log("updatedList ----- EditForm",updatedList);
-        setDeliveryData(updatedList);
+        //상태관리 업데이트(서버에서 처리된 데이터 받아와서 갱신필요)
+        onUpdate(data.updateData);
 
     }
 

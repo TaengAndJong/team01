@@ -2,11 +2,12 @@ import FormTag from "../../../util/formTag.jsx";
 import DaumPostcode from "../../../util/daumPostcode.jsx";
 import React, {useContext, useEffect} from "react";
 import ReuseBtn from "../../../util/reuseBtn.jsx";
-import {AddressStatusContext} from "./AddressComponent.jsx";
+import {AddressDispatchContext, AddressStatusContext} from "./AddressComponent.jsx";
 
 const AddForm = ({setShowAddForm}) => {
 
-    const {deliveryData,setDeliveryData} = useContext(AddressStatusContext);
+    const deliveryData = useContext(AddressStatusContext);
+    const {onCreate} = useContext(AddressDispatchContext);
     const [addrData, setAddrData] = React.useState({
         addrType:"",
         addr:"",
@@ -62,10 +63,9 @@ const AddForm = ({setShowAddForm}) => {
             const data = await response.json();
             //성공여부에 따른 메시지 받아오기
             console.log("저장성공 data",data);
-            //추가완료 후 목록 재요청 ==> 이렇게 안하려면 ContextAPI 사용하기
-            const getRequest = await fetch('/api/mypage/address');
-            const updatedList = await getRequest.json();
-            setDeliveryData(updatedList);
+
+           // (서버에서 처리된 데이터 받아와서 갱신필요)
+            onCreate(data.addData);
           
         }catch(e){
             console.log(e);
