@@ -33,8 +33,8 @@ import {MenuProvider} from "@pages/common/MenuContext.jsx";
 import BookList from "@pages/book/components/bookList.jsx";
 import BookDetail from "@pages/book/components/bookDetail.jsx";
 import CartList from "./pages/cart/components/cartList.jsx";
-import Delivery from "./pages/myPage/delivery/DeliveryAddress.jsx";
-import DeliveryAddress from "./pages/myPage/delivery/DeliveryAddress.jsx";
+import Delivery from "./pages/myPage/delivery/AddressComponent.jsx";
+import AddressComponent from "./pages/myPage/delivery/AddressComponent.jsx";
 import MyPageMain from "./pages/myPage/myPage/MyPageMain.jsx";
 import PaymentHistory from "./pages/myPage/payment/PaymentHistory.jsx";
 import PersonalInfo from "./pages/myPage/personal/PersonalInfo.jsx";
@@ -66,7 +66,7 @@ function App() {
                     <Route path={PathData.page.myPage} element={<Mypage/>}>
                         <Route  index path="" element={<MyPageMain/>}/>
                         <Route  path="personal" element={<PersonalInfo/>}/>
-                        <Route  path="address" element={<DeliveryAddress/>}/>
+                        <Route  path="address" element={<AddressComponent/>}/>
                         <Route  path="payment" element={<PaymentHistory/>}/>
                         <Route  path="wishlist" element={<WishList/>}/>
                     </Route>
