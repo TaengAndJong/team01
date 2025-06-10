@@ -47,8 +47,9 @@ const CartList = () => {
               {cartList?.map((item,index) => (
                   <li key={index} className="cart-item mb-2">
                       <div className="item-inner d-flex card flex-row default-border position-relative p-4 mb-2 ">
-                          <label className="position-absolute check-one" htmlFor={`check0${index+1}`}><input type="checkbox"
-                                                                                                  id={`check0${index+1}`}></input>선택삭제</label>
+                          <label className="position-absolute check-one" htmlFor={`check0${index+1}`}>
+                              <input type="checkbox" id={`check0${index+1}`}>
+                              </input>선택삭제</label>
                           <div className="card-header border-end rounded-4 overflow-hidden">
                               <div className="img-box">
                                   <div className="img-inner">
