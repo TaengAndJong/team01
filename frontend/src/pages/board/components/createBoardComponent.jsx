@@ -28,7 +28,7 @@ const CreateBoardComponent = ()=> {
     };
     console.log("저장되는 데이터" , formData);
 
-
+    // 사용자가 파일을 선택하면, 그 파일 목록을 배열로 변환하여 formData.files에 저장. 파일 다중 선택
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files); // FileList → 배열
         setFormData((prev) => ({
