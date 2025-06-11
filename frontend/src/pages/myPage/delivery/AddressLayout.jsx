@@ -17,11 +17,10 @@ const AddressLayout = () => {
     return(
         <>
             <div className="cart d-block clearfix">
-                <h3 className="title-border title">장바구니</h3>
+                <h3 className="title-border title">목록</h3>
 
                 {/*배송지 선택  title-dotted */}
                 <div className="select-address mt-4 mb-5">
-                    <h5 className="title my-3">배송지</h5>
                      {/*배송지 있을경우 UI*/}
                     {deliveryData && deliveryData.length > 0 && (
                         <AddressItem setShowAddForm={setShowAddForm}/>

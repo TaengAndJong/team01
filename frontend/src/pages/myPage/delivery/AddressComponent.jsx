@@ -110,12 +110,7 @@ const AddressComponent = () =>{
 
     return (
         <>
-            배송지 목록
-            4) 리렌더링 == 등록폼 닫히고 두 번째 배송지 추가하기 메시지 + 배송지 추가버튼 출력
-            5) 배송지가 있다면 수정하기 버튼 출력
-            6) 수정하기 버튼 클릭 시 수정 폼 등장 및 수정
-            7) 다시 수정 목록등장
-
+            {/*배송지 목록 ==> 수정, 삭제, 새로 저장할 때 모달 창 띄울건가??  보류 */}
             <AddressStatusContext.Provider value={deliveryData}>
                 <AddressDispatchContext.Provider value={{onInit,onCreate,onUpdate,onDelete}}>
                     <AddressLayout/>
