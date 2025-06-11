@@ -1,0 +1,39 @@
+.userBoardHeader {
+    border: solid 1px black;
+}
+
+
+.createBoardBox {
+    border: solid 1px black;
+    padding: 50px;
+    height: auto;
+    margin-right: 50px;
+}
+
+
+{/*게시판 생성 css*/}
+
+dt {
+    margin-top: 32px;
+    width: 135px;
+}
+dd {
+    margin-top: 32px;
+}
+
+
+.createBtnBox {
+    text-align: right;
+}
+.Btn{
+    margin-top: 32px;
+}
+
+
+
+{/**/}
+.boardSection {
+    width : auto;
+    height: 500px;
+    border: solid 1px black;
+}

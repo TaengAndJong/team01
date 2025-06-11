@@ -17,7 +17,6 @@
     <sql id="searchFrag">
         <trim prefix="WHERE" suffixOverrides="AND">
 
-
             <!-- 답변 상태 필터 (searchType에 따라 qnaStatus 필터링) -->
             <choose>
                 <when test="pagination.detailCondition.searchType == 'Replied'">
@@ -34,7 +33,7 @@
                 INSTR("qnaTitle", #{pagination.detailCondition.keyword}) > 0 OR
                 INSTR("qnaWriter", #{pagination.detailCondition.keyword}) > 0 OR
                 INSTR("qnaStatus", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("qnaDate", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR(TO_CHAR("qnaDate", 'YYYY-MM-DD HH24:MI:SS'), #{pagination.detailCondition.keyword}) > 0 OR
                 INSTR("clientId", #{pagination.detailCondition.keyword}) > 0
                 ) AND
             </if>
