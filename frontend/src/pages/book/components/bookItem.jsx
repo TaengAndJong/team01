@@ -3,88 +3,125 @@ import React, {useEffect, useState} from "react";
 import AddCartBtn from "../../cart/components/addCartBtn.jsx";
 
 const BookItem = ({bookList}) =>{
-
-//구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
-const [bookCount,setBookCount]=useState({}); 
-// 장바구니에 담을 도서 수량버튼 관리 핸들러 ==> 고려사항 각각의 도서에 대한 개별 수량 구분 필요
-const bookCountChangHandler=(bookId,e)=>{
-
-    console.log("eventTarget",e.target);
-    console.log("eventTarget",e.target.name);
-
-    const bookIdCount = bookCount[bookId] || 1;
-
-    //button name으로 plus , minus 구분
-    //최소 수량이 1보다 작음 방지 필요, 최대 개수는 100개까지 제한
-    const btnName= e.target.name;
-    switch(btnName){
-        case "minus":
-            if (bookIdCount > 1) {
-                console.log("minus");
-                setBookCount(prev => ({
-                    ...prev,
-                    [bookId]:parseInt(bookIdCount,10) - 1 // 아이디별 도서 수량 반영
-                }));
-            } else {
-                alert("최소 수량은 1개입니다.");
-            }
-            break;//input 숫자 감소 >> 1이 최소값, 내려가려고 하면 알림 모달 필요
-        case "plus":
-           //input 숫자 증가 >> 제한 수량 100까지 >> 100 넘으면 알림 모달 필요
-            if (bookIdCount < 100) {
-                console.log("plus");
-                setBookCount(prev => ({
-                    ...prev,
-                    [bookId]:parseInt(bookIdCount,10) + 1
-                }))
-            } else {
-                alert("최대 수량은 100개까지입니다.");
-            }
-            break;
-        default:
-            //예외처리
-            console.warn("정의되지 않은 버튼 name입니다:", btnName);break;
-
+    //서버에서 클라이언트까지 응답이 도달할 때까지의 상태관리
+    const [isLoading, setIsLoading] = useState(false);
+    //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
+    const [bookCount,setBookCount]=useState({}); 
+    // 장바구니에 담을 도서 수량버튼 관리 핸들러 ==> 고려사항 각각의 도서에 대한 개별 수량 구분 필요
+    const bookCountChangHandler=(bookId,e)=>{
+    
+        console.log("eventTarget",e.target);
+        console.log("eventTarget",e.target.name);
+    
+        const bookIdCount = bookCount[bookId] || 1;
+    
+        //button name으로 plus , minus 구분
+        //최소 수량이 1보다 작음 방지 필요, 최대 개수는 100개까지 제한
+        const btnName= e.target.name;
+        switch(btnName){
+            case "minus":
+                if (bookIdCount > 1) {
+                    console.log("minus");
+                    setBookCount(prev => ({
+                        ...prev,
+                        [bookId]:parseInt(bookIdCount,10) - 1 // 아이디별 도서 수량 반영
+                    }));
+                } else {
+                    alert("최소 수량은 1개입니다.");
+                }
+                break;//input 숫자 감소 >> 1이 최소값, 내려가려고 하면 알림 모달 필요
+            case "plus":
+               //input 숫자 증가 >> 제한 수량 100까지 >> 100 넘으면 알림 모달 필요
+                if (bookIdCount < 100) {
+                    console.log("plus");
+                    setBookCount(prev => ({
+                        ...prev,
+                        [bookId]:parseInt(bookIdCount,10) + 1
+                    }))
+                } else {
+                    alert("최대 수량은 100개까지입니다.");
+                }
+                break;
+            default:
+                //예외처리
+                console.warn("정의되지 않은 버튼 name입니다:", btnName);break;
+    
+        }
     }
-}
-
-// 도서 수량 입력 input 관리 핸들러
-const bookCountInputHandler=(bookId,e)=>{
-    //input[type=text]로 들어오는 value는 String 타입으로 들어오기 때문에 숫자로 검증필요
-    const val = e.target.value;
-    console.log("bookCountInput",e.target.value);
-    //숫자인지 검증필요 숫자(0~9)로 이루어진 문자열(빈 문자열도 포함)을 허용 ==> 문자가 섞이거나 음수(-1) 같은 값은 차단
-    if (!/^\d*$/.test(val)){
-        // 숫자만 입력 알림 필요
-        return;
-    }
-    //값을 지울 경우,  nan 값 방지
-    if (val === "") {
+    
+    // 도서 수량 입력 input 관리 핸들러
+    const bookCountInputHandler=(bookId,e)=>{
+        //input[type=text]로 들어오는 value는 String 타입으로 들어오기 때문에 숫자로 검증필요
+        const val = e.target.value;
+        console.log("bookCountInput",e.target.value);
+        //숫자인지 검증필요 숫자(0~9)로 이루어진 문자열(빈 문자열도 포함)을 허용 ==> 문자가 섞이거나 음수(-1) 같은 값은 차단
+        if (!/^\d*$/.test(val)){
+            // 숫자만 입력 알림 필요
+            return;
+        }
+        //값을 지울 경우,  nan 값 방지
+        if (val === "") {
+            setBookCount(prev=>({
+                ...prev,
+                [bookId]:"",// 빈 문자열일 경우
+            }));
+            return;
+        }
+    
+        const inputNum = parseInt(val, 10); // 10진수로 파싱
+        //입력값의 기본값은 1이고 1미만 100초과는 안됨
+        if(inputNum < 1){
+            alert("최소 수량은 1개입니다.");
+            return; //종료
+        }
+    
+        if(inputNum>100){
+            alert("최대 수량은 100개입니다.");
+            return; //종료
+        }
+        // 1 초과 ~ 100 이하 (정상 범위) 값 갱신
         setBookCount(prev=>({
             ...prev,
-            [bookId]:"",// 빈 문자열일 경우
+            [bookId]:inputNum,// 10진수로 파싱된 도서수량
         }));
-        return;
+    }
+     console.log("bookCount",bookCount);
+
+    //찜목록 비동기 fetch 요청
+    const wishFetch = async(bookId) =>{
+
+        console.log("bookId wishList",bookId);
+        //경로에 bookId 담아서 보내기
+        const response = await fetch(`/api/mypage/wishlist/save/${bookId}`, {
+            method: "POST"
+        });
+      
+        if(!response.ok){
+            console.log("비동기 요청 실패")
+            throw Error(response.statusText);
+        }
+
+        const data =await response.json();
+        console.log("wishFetch ------ data",data);
+        //위시리스트 저장 완료에 대한 데이터를 받아오기 ? 추후 처리 어떻게 ?
     }
 
-    const inputNum = parseInt(val, 10); // 10진수로 파싱
-    //입력값의 기본값은 1이고 1미만 100초과는 안됨
-    if(inputNum < 1){
-        alert("최소 수량은 1개입니다.");
-        return; //종료
-    }
+    //찜목록 핸들러
+    const wishHandler=(bookId)=>{
+        //찜버튼 누르면 전송 되기 전까지 disable 되게  해야하나?
+        if (isLoading) return;      // 클라이언트가 서버로 정보 요청 중이면 중단
+        setIsLoading(true);         // 클라이언트가 서버로 요청 중
 
-    if(inputNum>100){
-        alert("최대 수량은 100개입니다.");
-        return; //종료
+        //bookId를 받아서 비동기요청, 컨트롤러로 전송
+        try{
+            console.log("찜목록 페치요청 보내는 듕")
+            wishFetch(bookId);
+        }catch(e){
+            console.error("찜 토글 실패", e);
+        } finally {
+            setIsLoading(false);      // 응답 완료되면 다시 클릭 가능하게 설정
+        }
     }
-    // 1 초과 ~ 100 이하 (정상 범위) 값 갱신
-    setBookCount(prev=>({
-        ...prev,
-        [bookId]:inputNum,// 10진수로 파싱된 도서수량
-    }));
-}
- console.log("bookCount",bookCount);
 
 
     return (
@@ -136,9 +173,8 @@ const bookCountInputHandler=(bookId,e)=>{
                                     </div>
                                 </div>
                                 {/*수량*/}
-
-                                <button type="button" aria-label="찜하기"
-                                        className="submit btn btn-danger me-2">찜
+                                <button type="button" aria-label="찜하기"  className="submit btn btn-danger me-2 wish-btn" onClick={()=>wishHandler(book.bookId)}>
+                                    찜
                                 </button>
                                 <AddCartBtn bookId={book.bookId} bookCount={bookCount[book.bookId] ?? 1}  />
                                 <button type="button" aria-label="선택구매"
