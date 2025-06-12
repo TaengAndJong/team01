@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class WishListVO {
 
-    private String wishID; //찜한 목록 ID
+    private String wishId; //찜한 목록 ID
     private LocalDateTime wishDate; // 찜한날짜 ==> 자동증가일 경우 insert문 쿼리에 기입 안 해도 됨
     private String clientId; // 클라이언트에서 서버로 데이터를 전송할때 파라미터를 받아오는 인스턴스
     private String roleId; // 클라이언트에서 서버로 데이터를 전송할때 파라미터를 받아오는 인스턴스
