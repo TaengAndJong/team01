@@ -13,7 +13,14 @@
             <id property="roleId" column="roleId"/>
         </association>
     </resultMap>
-    
+
+
+    <!--    null 방지 처리는 Integer 타입 선언 또는 Count로 결과값 반환 -->
+    <select id="existWishList" parameterType="String">
+        SELECT COUNT(*) FROM WISHLIST
+        WHERE "clientId" = #{clientId} AND "bookId" = #{bookId}
+    </select>
+
     <insert id="insertWishList" parameterType="String">
         <selectKey keyProperty="wishId" resultType="String" order="BEFORE">
             SELECT WISH_QEC.NEXTVAL FROM DUAL
@@ -22,5 +29,23 @@
             ("wishId","clientId","bookId")
         values(#{wishId},#{clientId},#{bookId})
     </insert>
+
+
+    <!--행을 삭제하지 않아서 유저의 찜목록 히스토리 추적가능-->
+    <update id="wishListStatus" parameterType="String">
+        update WISHLIST
+        set "wishStatus" =
+            case
+               when"wishStatus"= 'Y'
+                then 'N'
+                else 'Y'
+            end
+        where "clientId"=#{clientId}
+          and "bookId"=#{bookId}
+    </update>
+
+
+
+
 
 </mapper>

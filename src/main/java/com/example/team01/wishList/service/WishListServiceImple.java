@@ -1,5 +1,6 @@
 package com.example.team01.wishList.service;
 
+import com.example.team01.common.Enum.WishStatus;
 import com.example.team01.vo.WishListVO;
 import com.example.team01.wishList.dao.WishListDao;
 import lombok.RequiredArgsConstructor;
@@ -22,22 +23,26 @@ public class WishListServiceImple implements WishListService {
     }
 
     @Override
-    public int insertWishList(String clientId, String bookId) {
+    public WishStatus insertWishList(String clientId, String bookId) {
+        //컨트롤러에게 반환할 cnt (마이바티스는 update, delete, insert 에대해서  int로 반환)
 
-        log.info("insertWishList-----serviceImple: {}, {} ", clientId, bookId );
-        int cnt = 0;
 
-        try{
-           return cnt =  wishListDao.insertWishList(clientId, bookId);
-        }catch (Exception e){
-            e.printStackTrace();
+        // 파리미터를 받아와서 존재여부 판단
+        int exist = wishListDao.existWishList(clientId, bookId);
+        //존재여부 로그 확인
+        log.info("insertWishList-----exist: {} ", exist);
+
+        if (exist > 0) { // 이미 있으면 wishStatus  'Y','N' 갱신
+            log.info("insertWishList-----wishStatus");
+            int result = wishListDao.wishListStatus(clientId, bookId);
+            if(result > 0) return WishStatus.UPDATE;
+        }else{
+            // 디비에 처음부터 존재하지 않으면 insert
+            int result = wishListDao.insertWishList(clientId, bookId);
+            if(result > 0) return WishStatus.INSERT;
         }
-
-        return cnt;
+        return WishStatus.FAIL;
     }
 
-    @Override
-    public int deleteWishList(String clientId, String bookId) {
-        return 0;
-    }
+
 }

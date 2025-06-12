@@ -1,6 +1,7 @@
 package com.example.team01.wishList;
 
 
+import com.example.team01.common.Enum.WishStatus;
 import com.example.team01.security.PrincipalDetails;
 import com.example.team01.wishList.service.WishListService;
 import lombok.RequiredArgsConstructor;
@@ -36,20 +37,23 @@ public class WishListController {
         log.info("saveWishList-------:{}", clientId);
         //클라이언트에게 반환할 값 담아줄 map객체
         Map<String,Object> result = new HashMap<>();
-        
-        // 위시리트스에 정보 저장하기
-        try{
-            int cnt =  wishListService.insertWishList(clientId, bookId);
 
-            if (cnt > 0){
-                result.put("success","찜목록 추가완료");
-                // result에 추가된 객체의 정보를 조회해서 클라이언트에 보여줄 건가 ?
-            }
 
-        }catch (Exception e){
-            e.printStackTrace();
+        //service 로직
+        WishStatus status = wishListService.insertWishList(clientId,bookId);
+
+        //반환되는 Enum 타입에 따른 switch문으로 상태메시지 분기
+        switch(status){
+            case INSERT :
+                result.put("status","찜목록 추가완료");
+                break;
+            case UPDATE :
+                result.put("status","찜목록 변경완료");
+                break;
+            default:
+                result.put("status","처리 실패");
+
         }
-
 
         return ResponseEntity.ok(result);
     }
