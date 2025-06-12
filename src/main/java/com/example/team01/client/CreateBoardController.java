@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -15,14 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CreateBoardController {
     @PostMapping (value= "/createBoard")
-    public ResponseEntity<?> postCreateBoard( @RequestParam("category") String category,
-                                              @RequestParam("title") String title,
-                                              @RequestParam("content") String content){
+    public ResponseEntity<?> postCreateBoard(@RequestParam("category") String category,
+                                             @RequestParam("title") String title,
+                                             @RequestParam("content") String content,
+                                             @RequestParam("file")MultipartFile file){
         log.info("게시판 생성 요청 수신됨"
         );
         log.info("카테고리: {}", category);
         log.info("제목: {}", title);
         log.info("내용: {}", content);
+        log.info("첨부 파일: {}", file);
         return ResponseEntity.ok("통신 완료");
     }
 }
