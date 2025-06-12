@@ -1,14 +1,18 @@
 package com.example.team01.client.service;
 
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import com.example.team01.vo.CreateBoardVO;
 
-@Slf4j
-@Service
-
+/**
+ * 게시글 생성 서비스 인터페이스
+ */
 public interface CreateBoardService {
-   public void createBoard(String category, String title, String content, MultipartFile file);
+    
+    /**
+     * 게시글 생성
+     * @param category 카테고리
+     * @param title 제목
+     * @param content 내용
+     * @param file 첨부파일
+     */
+    void createBoard(String category, String title, String content, MultipartFile file);
 }

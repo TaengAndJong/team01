@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.team01.client.service.CreateBoardService;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +24,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/board")
 @RestController
+
 public class CreateBoardController {
+    
+    private final CreateBoardService createBoardService;
     
     /**
      * 게시글 생성 API
@@ -34,7 +39,10 @@ public class CreateBoardController {
      * @return ResponseEntity 응답 결과
      */
     @PostMapping(value = "/createBoard")
-    public ResponseEntity<?> postCreateBoard(@RequestParam("category") String category,
+    public ResponseEntity<?> postCreateBoard(
+    @RequestParam("clientId")String clientId,    
+    @RequestParam("clientName")String clientName,
+    @RequestParam("category") String category,
                                              @RequestParam("title") String title,
                                              @RequestParam("content") String content,
                                              @RequestParam(value = "file", required = false) MultipartFile file) {
@@ -78,8 +86,8 @@ public class CreateBoardController {
             // 파일 처리
             handleFileUpload(file);
             
-            // TODO: 실제 게시글 저장 로직 구현
-            // boardService.createBoard(category, title, content, file);
+            // 실제 게시글 저장 로직 실행
+            createBoardService.createBoard(category, title, content, file);
             
             // 성공 응답 생성
             Map<String, Object> response = new HashMap<>();
