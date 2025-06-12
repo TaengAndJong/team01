@@ -15,12 +15,12 @@
     </resultMap>
     
     <insert id="insertWishList" parameterType="String">
-        <selectKey>
+        <selectKey keyProperty="wishId" resultType="String" order="BEFORE">
             SELECT WISH_QEC.NEXTVAL FROM DUAL
         </selectKey>
         INSERT INTO WISHLIST
-            ("wishId","clientId","roleId")
-        values(#{wishId},#{clientId},#{roleId});
+            ("wishId","clientId","bookId")
+        values(#{wishId},#{clientId},#{bookId})
     </insert>
 
 </mapper>

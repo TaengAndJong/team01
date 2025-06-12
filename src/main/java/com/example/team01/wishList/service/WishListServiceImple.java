@@ -24,6 +24,7 @@ public class WishListServiceImple implements WishListService {
     @Override
     public int insertWishList(String clientId, String bookId) {
 
+        log.info("insertWishList-----serviceImple: {}, {} ", clientId, bookId );
         int cnt = 0;
 
         try{

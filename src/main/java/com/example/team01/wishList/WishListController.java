@@ -14,11 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/mypage/wishlist")
 @RestController
 public class WishListController {
 
-    WishListService wishListService;
+    private final WishListService wishListService;
 
     @GetMapping()
     public ResponseEntity<?> getWishList() {
