@@ -25,6 +25,10 @@ const PathsData = // 객체 데이터 구조 미완성
             adminBookModify:"/admin/book/bookModify",
             adminBookList:"/admin/book/bookList",
             adminBookDetail:"/admin/book/bookDetail",
+
+            //게시물 생성
+            clientCreateBoard:"/board/createBoard"
+
         },
     }
 export default PathsData;
