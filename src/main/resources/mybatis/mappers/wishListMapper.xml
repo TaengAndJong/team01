@@ -8,11 +8,45 @@
         <result property="wishDate" column="wishDate"/>
         <association property="clientVO" javaType="ClientVO">
             <id property="clientId" column="clientId"/>
+            <result property="clientName" column="clientName"/>
         </association>
-        <association property="roleVO" javaType="RoleVO">
-            <id property="roleId" column="roleId"/>
+        <association property="bookVO" javaType="BookVO">
+            <id property="bookId" column="bookId"/>
+            <result property="bookCateNm" column="bookCateNm"/>
+            <result property="bookName" column="bookName"/>
+            <result property="author" column="author"/>
+            <result property="bookPrice" column="bookPrice"/>
+            <result property="publishDate" column="publishDate"/>
+            <result property="bookImgPath" column="bookImgPath"/>
         </association>
     </resultMap>
+
+    <select id="getWishList" parameterType="String" resultMap="wishListMap">
+        with userWish as (
+            select
+                "wishId",
+                "wishDate",
+                "clientId",
+                "bookId"
+            from
+                wishList
+            where "clientId" = #{clientId})
+
+        select
+            w."wishId",
+            w."wishDate",
+            w."clientId",
+            b."bookId" ,
+            b."bookName",
+            b."bookCateNm",
+            b."author",
+            b."bookPrice",
+            b."publishDate",
+            b."bookImgPath"
+        from userWish w join book b on w."bookId"  = b."bookId"
+        order by w."wishDate" desc
+    </select>
+
 
 
     <!--    null 방지 처리는 Integer 타입 선언 또는 Count로 결과값 반환 -->
@@ -44,7 +78,7 @@
           and "bookId"=#{bookId}
     </update>
 
-
+    <!-- 마이페이지 찜목록  조회-->
 
 
 

@@ -19,7 +19,8 @@ public class WishListServiceImple implements WishListService {
 
     @Override
     public List<WishListVO> getWishList(String clientId) {
-        return List.of();
+        log.info("getWishList----: {} ", clientId);
+        return wishListDao.getWishList(clientId);
     }
 
     @Override

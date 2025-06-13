@@ -3,7 +3,9 @@ package com.example.team01.wishList;
 
 import com.example.team01.common.Enum.WishStatus;
 import com.example.team01.security.PrincipalDetails;
+import com.example.team01.vo.WishListVO;
 import com.example.team01.wishList.service.WishListService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -23,8 +26,22 @@ public class WishListController {
     private final WishListService wishListService;
 
     @GetMapping()
-    public ResponseEntity<?> getWishList() {
-        return null;
+    public ResponseEntity<?> getWishList(@AuthenticationPrincipal PrincipalDetails principalDetails
+            , HttpServletRequest request) {
+
+        //wishList 테이블에 저장된 데이터 조회해 오기
+        //필요 파라미터는 로그인한 유저의 Id == clientId
+        String clientId = principalDetails.getUsername();
+        List< WishListVO> userWishList =wishListService.getWishList(clientId);
+
+//        userWishList.stream().map()
+
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("userWishList",userWishList);
+        log.info("userWishList----controller:{}",userWishList);
+
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/save/{bookId}")
@@ -34,7 +51,7 @@ public class WishListController {
         log.info("saveWishList-------:{}", bookId);
         //클라이언트 정보 시큐리티로부터 받아오기
         String clientId = principalDetails.getUsername();
-        log.info("saveWishList-------:{}", clientId);
+
         //클라이언트에게 반환할 값 담아줄 map객체
         Map<String,Object> result = new HashMap<>();
 
@@ -58,13 +75,6 @@ public class WishListController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/delete/{bookId}")
-    public ResponseEntity<?> deleteWishList(
-            @PathVariable String bookId,
-            @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-        return null;
-    }
 
 
 
