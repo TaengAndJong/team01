@@ -130,7 +130,7 @@ const BookItem = ({bookList}) =>{
                 <ul className="book-item-list clearfix">
                     {bookList?.map((book, index) => (
                         <li key={index} className="book-item mb-3 mx-2 default-border overflow-hidden p-4 float-start">
-                            <Link to={`/book/bookDetail/${book.bookId}`} className="book-link" id={book.bookId}>
+                            <Link to={`/book/bookDetail/${book.bookId}`} className="book-link d-block" id={book.bookId}>
                                 <div className="item-inner d-flex card flex-row  position-relative">
                                     <div className="card-header border-end rounded-4 overflow-hidden">
                                         <div className="img-box">

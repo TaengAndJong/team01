@@ -3,6 +3,8 @@ package com.example.team01.wishList;
 
 import com.example.team01.common.Enum.WishStatus;
 import com.example.team01.security.PrincipalDetails;
+import com.example.team01.utils.FileUtils;
+import com.example.team01.vo.BookVO;
 import com.example.team01.vo.WishListVO;
 import com.example.team01.wishList.service.WishListService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,7 +26,9 @@ import java.util.Map;
 @RestController
 public class WishListController {
 
+    //생성자 주입을 하기위해 final 선언
     private final WishListService wishListService;
+    private final FileUtils fileUtils;
 
     @GetMapping()
     public ResponseEntity<?> getWishList(@AuthenticationPrincipal PrincipalDetails principalDetails
@@ -34,12 +39,17 @@ public class WishListController {
         String clientId = principalDetails.getUsername();
         List< WishListVO> userWishList =wishListService.getWishList(clientId);
 
-//        userWishList.stream().map()
 
+        //stream API를 통해 내부를 순회, map을 통해 사용할 객체를 가져옴 , filter로 null예외 발생 방지
+        userWishList.stream().map(WishListVO::getBookVO).filter(Objects::nonNull)
+                .forEach(vo -> fileUtils.changeImgPath(vo,request));
+
+        log.info("stream after userWishList------:{}",userWishList);
 
         Map<String,Object> result = new HashMap<>();
         result.put("userWishList",userWishList);
-        log.info("userWishList----controller:{}",userWishList);
+
+        log.info("userWishList----result:{}",userWishList);
 
         return ResponseEntity.ok(result);
     }
