@@ -88,7 +88,7 @@ const WishListComponent = () => {
     return (
         <>
             <SearchBar search={search} setSearch={setSearch} handleSearch={handleSearch}/>
-            <WishItem wishList={wishList}/>
+            <WishItem wishList={wishList} setWishList={setWishList}/>
             <Pagination paginationInfo={paginationInfo} onChangePageHandler={onChangePageHandler}/>
         </>
     );

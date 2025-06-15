@@ -37,12 +37,7 @@ public class WishListController {
         //wishList 테이블에 저장된 데이터 조회해 오기
         //필요 파라미터는 로그인한 유저의 Id == clientId
         String clientId = principalDetails.getUsername();
-        List< WishListVO> userWishList =wishListService.getWishList(clientId);
-
-
-        //stream API를 통해 내부를 순회, map을 통해 사용할 객체를 가져옴 , filter로 null예외 발생 방지
-        userWishList.stream().map(WishListVO::getBookVO).filter(Objects::nonNull)
-                .forEach(vo -> fileUtils.changeImgPath(vo,request));
+        List< WishListVO> userWishList =wishListService.getWishList(clientId,request);
 
         log.info("stream after userWishList------:{}",userWishList);
 
@@ -57,10 +52,13 @@ public class WishListController {
     @PostMapping("/save/{bookId}")
     public ResponseEntity<?> saveWishList(
             @PathVariable String bookId,
-            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+            @AuthenticationPrincipal PrincipalDetails principalDetails
+            , HttpServletRequest request) {
         log.info("saveWishList-------:{}", bookId);
         //클라이언트 정보 시큐리티로부터 받아오기
         String clientId = principalDetails.getUsername();
+
+        List< WishListVO> userWishList =wishListService.getWishList(clientId,request);
 
         //클라이언트에게 반환할 값 담아줄 map객체
         Map<String,Object> result = new HashMap<>();

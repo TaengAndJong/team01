@@ -6,6 +6,7 @@
     <resultMap id="wishListMap" type="WishListVO">
         <id property="wishId" column="wishId"/>
         <result property="wishDate" column="wishDate"/>
+        <result property="wishStatus" column="wishStatus"/>
         <association property="clientVO" javaType="ClientVO">
             <id property="clientId" column="clientId"/>
             <result property="clientName" column="clientName"/>
@@ -26,6 +27,7 @@
             select
                 "wishId",
                 "wishDate",
+                "wishStatus",
                 "clientId",
                 "bookId"
             from
@@ -35,6 +37,7 @@
         select
             w."wishId",
             w."wishDate",
+            w."wishStatus",
             w."clientId",
             b."bookId" ,
             b."bookName",
