@@ -7,6 +7,7 @@ import React from "react";
 
 const SearchBar = ({search,setSearch, handleSearch}) =>{
 
+
     const handleSearchChange = (e) => {
         //검색조건 필터에 대해서 이벤트객체로 받아오기
         const name =e.target.name;

@@ -22,33 +22,77 @@
         </association>
     </resultMap>
 
-    <select id="getWishList" parameterType="String" resultMap="wishListMap">
-        with userWish as (
-            select
+
+    <sql id="searchFrag">
+       <trim prefix="AND" suffixOverrides="AND">
+
+            <!-- bookType이 비어있지 않고 'ALL'이 아닐 때만 필터 적용 -->
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.bookType) and pagination.detailCondition.bookType != 'ALL'">
+                INSTR(b."bookCateNm", #{pagination.detailCondition.bookType}) > 0 AND
+            </if>
+
+            <!-- keyword가 비어있지 않을 때만 검색조건 적용 -->
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
+                <choose>
+                    <when test="pagination.detailCondition.searchType == 'bookName'">
+                        INSTR(b."bookName", #{pagination.detailCondition.keyword}) > 0 AND
+                    </when>
+                    <when test="pagination.detailCondition.searchType == 'author'">
+                        INSTR(b."author", #{pagination.detailCondition.keyword}) > 0 AND
+                    </when>
+                </choose>
+            </if>
+
+        </trim>
+    </sql>
+    <!-- 페이지네이션파라미터가 안넘어옴! 파라미터 타입 확인해야함-->
+    <select id="totalRecord" resultType="int" parameterType="com.example.team01.utils.Pagination">
+        SELECT COUNT(*)
+        FROM wishList w
+        JOIN book b ON w."bookId" = b."bookId"
+        WHERE w."clientId" = #{pagination.clientId}
+        AND w."wishStatus" = 'Y'
+        <include refid="searchFrag"/>
+    </select>
+
+
+    <select id="getWishList" resultMap="wishListMap" parameterType="com.example.team01.utils.Pagination" >
+        WITH userWish AS (
+            SELECT
                 "wishId",
                 "wishDate",
                 "wishStatus",
                 "clientId",
                 "bookId"
-            from
-                wishList
-            where "clientId" = #{clientId})
+            FROM wishList
+            WHERE "clientId" = #{pagination.clientId} and "wishStatus" = 'Y'
+        )
 
-        select
-            w."wishId",
-            w."wishDate",
-            w."wishStatus",
-            w."clientId",
-            b."bookId" ,
-            b."bookName",
-            b."bookCateNm",
-            b."author",
-            b."bookPrice",
-            b."publishDate",
-            b."bookImgPath"
-        from userWish w join book b on w."bookId"  = b."bookId"
-        order by w."wishDate" desc
+        select rnum,r.*
+        from (
+                 SELECT
+                     ROWNUM AS rnum,
+                     w."wishId",
+                     w."wishDate",
+                     w."wishStatus",
+                     w."clientId",
+                     b."bookId",
+                     b."bookName",
+                     b."bookCateNm",
+                     b."author",
+                     b."bookPrice",
+                     b."publishDate",
+                     b."bookImgPath"
+
+                 FROM userWish w
+                          JOIN book b ON w."bookId" = b."bookId"
+                WHERE 1=1
+                <include refid="searchFrag" />
+                 ORDER BY w."wishDate" DESC
+             ) r
+        WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
     </select>
+
 
 
 

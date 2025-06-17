@@ -1,37 +1,38 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import SearchBar from "./searchBar.jsx";
 import Pagination from "../../../util/pagination.jsx";
 import WishItem from "./WishItem.jsx";
-
 import "@css/wishList/wishList.css";
+import {PaginationContext, WishStateContext,WishDispatchContext} from "./WishComponent.jsx";
 
-const WishListComponent = () => {
-    //찜목록 상태관리변수
+
+const WishList = () => {
+
+    const InitData = useContext(WishStateContext);
+    const {onInit} = useContext(WishDispatchContext);
+    const {paginationInfo,onChangePageHandler} = useContext(PaginationContext);
     const [wishList, setWishList] = useState(null);
-    //찜목록 검색 상태관리변수
-    const [search,setSearch] = useState([]);
-    //페이징 처리 상태관리변수
-    const [paginationInfo, setPaginationInfo] = useState({
-        currentPage: 1,
-        totalPages: 0,
-        totalRecord: 0,
-        pageSize: 6
-    });
 
-    //찜목록데이터 비동기 get fetch요청
-    const wishFetch = async () => {
-        const response = await fetch("/api/mypage/wishlist", {
-            method: "GET",
-        });
 
-        if (!response.ok) {
-            throw new Error(response.statusText);
+
+    useEffect(() => {
+        //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
+        if(InitData){ // 데이터가 있을경우
+            console.log("InitData--------useEffect",InitData);
+            setWishList(InitData);
         }
+    }, [InitData]);
 
-        const data = await response.json();
-        console.log("wishList-------", data);
-        setWishList(data.userWishList);
-    };
+
+
+
+    //검색어 필터 상태관리 ==> 초기값 빈 배열!
+    const [search,setSearch] = useState({
+        bookType: 'ALL',
+        searchType: 'bookName',   // ✅ 여기서 기본값 설정
+        keyword: ''
+    });
+    console.log("search 상태관리",search);
 
     //찜목록 검색 비동기 Post 요청
     const handleSearch = async ()=>{
@@ -48,7 +49,7 @@ const WishListComponent = () => {
         try{
             //URLSearchParam 객체르 사용해서 url에 쿼리스트링으로 값을 담아 보내기때문에
             // Content-Type,body 사용할 필요 없음 (body는 클라이언트가 데이터를 서버로 보낼 때 필요)
-            const response  = await fetch(`/api/admin/book/bookList?${paramString}`, {
+            const response  = await fetch(`/api/mypage/wishlist?${paramString}`, {
                 method: "POST",
             });
 
@@ -61,28 +62,15 @@ const WishListComponent = () => {
             const data = await response.json();
             console.log("search---------------",data);
             //setbookData에 데이터 갱신 처리 해주어함?
-            setWishList(data);
-        }catch (e){
+            onInit(data.userWishList);
 
+        }catch (e){
+            console.log("검색실패",e);
         }
     }
 
-    //페이지버튼 클릭시 실행되는 핸들러
-    const onChangePageHandler = (page) => {
-        console.log("changePage----",page);
-        //pagination의 currentPage 값 갱신
-        setPaginationInfo((prev) =>({
-            ...prev,
-            currentPage: page
-        }))
-
-    }
-
-    useEffect(() => {
-        wishFetch();
-    }, []); // 또는 [] 만 넣어도 됨
-
-    console.log("wishList-------", wishList);
+    console.log("wishList--------",wishList);
+    console.log("paginationInfo-------", paginationInfo);
 
 
     return (
@@ -94,4 +82,4 @@ const WishListComponent = () => {
     );
 };
 
-export default WishListComponent;
+export default WishList;

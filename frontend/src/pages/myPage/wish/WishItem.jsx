@@ -1,9 +1,13 @@
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import {Link} from "react-router-dom";
+import {WishDispatchContext} from "./WishComponent.jsx";
 
 
 const WishItem = ({wishList,setWishList}) => {
-    console.log("wishListItem",wishList);
+    const {onUpdate} = useContext(WishDispatchContext);
+
+    console.log("wishItems",wishList);
+
 
     //찜해제 비동기요청
     const deleteWishFetch = async (bookId) => {
@@ -20,12 +24,8 @@ const WishItem = ({wishList,setWishList}) => {
 
         const data = await response.json();
         console.log("wishList-------찜상태 변경", data);
-
-        // 전체 찜 목록 새로 받아오기
-        const res = await fetch(`/api/mypage/wishlist`);
-        const newData = await res.json();
-        setWishList(newData.userWishList);
-
+        //변경된 bookId 넘겨야함
+        //onUpdate(data);
 
     };
 

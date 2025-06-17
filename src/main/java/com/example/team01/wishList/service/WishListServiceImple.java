@@ -2,6 +2,7 @@ package com.example.team01.wishList.service;
 
 import com.example.team01.common.Enum.WishStatus;
 import com.example.team01.utils.FileUtils;
+import com.example.team01.utils.Pagination;
 import com.example.team01.vo.WishListVO;
 import com.example.team01.wishList.dao.WishListDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -21,20 +23,36 @@ public class WishListServiceImple implements WishListService {
     private final WishListDao wishListDao;
     private final FileUtils fileUtils;
 
+
+
     @Override
-    public List<WishListVO> getWishList(String clientId, HttpServletRequest request) {
-        
-        log.info("getWishList----: {} ", clientId);
+    public List<WishListVO> getWishList(Pagination pagination,HttpServletRequest request) {
+
+        log.info("getWishList-----------1111:{}",pagination);
+        //전체 데이터 레코드 조회해오기
+       int total = wishListDao.totalRecord(pagination);
+
+        log.info("total-----------1111:{}",total);
+        // 전체페이지  설정해주기
+        pagination.setTotalRecord(total);
+       //startRow && endRow 설정
+        pagination.setLimitRows(pagination.getCurrentPage());
+        log.info("getWishList-----------2222:{}",pagination);
         // 데이터 조회
-        List<WishListVO>  wishList = wishListDao.getWishList(clientId);
-        
+        List<WishListVO>  wishList = wishListDao.getWishList(pagination);
+        log.info("wishListServiceImple---------------:{}",wishList);
+
+
         // 데이터 가져올 때 bookVO의 bookImgPath 변경 필요
         // stream API를 통해 내부를 순회, map을 통해 사용할 객체를 가져옴 , filter로 null예외 발생 방지
+       
         wishList.stream().map(WishListVO::getBookVO).filter(Objects::nonNull)
                 .forEach(vo -> fileUtils.changeImgPath(vo,request));
 
         return wishList;
     }
+
+
 
     @Override
     public WishStatus insertWishList(String clientId, String bookId) {
