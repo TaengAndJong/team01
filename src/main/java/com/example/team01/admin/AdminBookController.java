@@ -104,7 +104,7 @@ public class AdminBookController {
 
     @PostMapping("/bookList")
     public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) String bookType,
-                                                 @RequestParam(required = false) String searchType,
+                                                   @RequestParam(required = false) String searchType,
                                                  @RequestParam String keyword,
                                                  @RequestParam(defaultValue = "1") int page,
                                                  @RequestParam(defaultValue = "10") int pageSize,
