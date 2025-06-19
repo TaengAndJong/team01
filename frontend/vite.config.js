@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import path from 'path'
+
 
 
 // https://vite.dev/config/
@@ -13,6 +13,7 @@ export default defineConfig({
     alias : [
       { find: "@", replacement: "/src" },
       { find: "@assets", replacement: "/src/assets" },
+      { find: "@css", replacement: "/src/assets/css" },
       { find: "@config", replacement: "/src/config" },
       { find: "@js", replacement: "/src/js" },
       { find: "@layout", replacement: "/src/layout" },

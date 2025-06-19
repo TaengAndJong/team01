@@ -1,5 +1,5 @@
 import React, {useEffect, useReducer} from "react";
-import AddressLayout from "./AddressLayout.jsx";
+import AddressList from "./AddressList.jsx";
 
 
 export const AddressStatusContext = React.createContext();
@@ -113,7 +113,7 @@ const AddressComponent = () =>{
             {/*배송지 목록 ==> 수정, 삭제, 새로 저장할 때 모달 창 띄울건가??  보류 */}
             <AddressStatusContext.Provider value={deliveryData}>
                 <AddressDispatchContext.Provider value={{onInit,onCreate,onUpdate,onDelete}}>
-                    <AddressLayout/>
+                    <AddressList/>
                 </AddressDispatchContext.Provider>
             </AddressStatusContext.Provider>
 

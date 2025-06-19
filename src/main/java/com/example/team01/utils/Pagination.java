@@ -19,12 +19,17 @@ import java.util.Map;
 @ToString
 @Slf4j
 public class Pagination {
-    private  final int currentPage;//현재 페이지
-    private  final int pageSize;// 보여줄 페이지 개수
+
+    private int currentPage;//현재 페이지
+    private int pageSize;// 보여줄 페이지 개수
     private int startRow;    // 조회 시작 행 번호
     private int endRow;      // 조회 끝 행 번호
-    private  int totalRecord; // 필터가 적용된 데이터베이스의 전체 데이터(행의)개수
-    private  int totalPages;// 페이지 버튼 UI 사용할 개수
+    private int totalRecord; // 필터가 적용된 데이터베이스의 전체 데이터(행의)개수
+    private int totalPages;// 페이지 버튼 UI 사용할 개수
+    private String clientId;// 로그인한 유저일경우
+
+
+
 
     //생성자는 멤버변수를 초기화하기위해 사용!( 멤버변수 값 설정_) 생성자는 클래스명과 동일
     public Pagination(int currentPage, int pageSize) {
@@ -60,7 +65,8 @@ public class Pagination {
         this.totalRecord = totalRecord;
         this.totalPages = (int) Math.ceil((double) totalRecord / pageSize); 
         // 필터를 통해 조회된 데이터의 전체레코드 수 / UI로 보여줄 페이지네이션 블럭사이즈
-        log.info("totalRecord:{},totalPages:{}",totalRecord,totalPages);
+        log.info("totalRecord:{}",totalRecord);
+        log.info("totalPages:{}",totalPages);
     }
 
     //현재페이지를 기준으로 테이블 데이터 조회할 행 제한
@@ -73,8 +79,19 @@ public class Pagination {
         log.info("startRow:{},endRow:{}",startRow,endRow);
     }
 
+    // 찜목록 반환 값에 대한 페이지 설정에 필요한 메서드 ==> Pagination 생성자의 사용에 대해서 같이 고민해보기
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
 
 
+    public String setClientId(String clientId) {
+       return this.clientId = clientId;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
 
 
 }

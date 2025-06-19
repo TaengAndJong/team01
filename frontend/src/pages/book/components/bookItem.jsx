@@ -90,9 +90,12 @@ const BookItem = ({bookList}) =>{
     //찜목록 비동기 fetch 요청
     const wishFetch = async(bookId) =>{
 
+
+        const UrlSearchParams = new URLSearchParams();
+        UrlSearchParams.append("bookId", bookId);
         console.log("bookId wishList",bookId);
         //경로에 bookId 담아서 보내기
-        const response = await fetch(`/api/mypage/wishlist/save/${bookId}`, {
+        const response = await fetch(`/api/mypage/wishlist/save?${UrlSearchParams.toString()}`, {
             method: "POST"
         });
       
@@ -130,7 +133,7 @@ const BookItem = ({bookList}) =>{
                 <ul className="book-item-list clearfix">
                     {bookList?.map((book, index) => (
                         <li key={index} className="book-item mb-3 mx-2 default-border overflow-hidden p-4 float-start">
-                            <Link to={`/book/bookDetail/${book.bookId}`} className="book-link" id={book.bookId}>
+                            <Link to={`/book/bookDetail/${book.bookId}`} className="book-link d-block" id={book.bookId}>
                                 <div className="item-inner d-flex card flex-row  position-relative">
                                     <div className="card-header border-end rounded-4 overflow-hidden">
                                         <div className="img-box">

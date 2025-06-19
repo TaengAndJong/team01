@@ -24,7 +24,7 @@ const AdminBookList = () => {
             console.log("bookdata--------useEffect",bookdata);
             setBookList(bookdata);
         }
-        //페이지 fetch요청 보내기
+
         
     }, [bookdata]);
     console.log("bookList--------",bookList);
@@ -134,7 +134,7 @@ const AdminBookList = () => {
             //setbookData에 데이터 갱신 처리 해주어함?
             onInit(data);
         }catch (e){
-
+            console.log("검색실패",e);
         }
     }
 

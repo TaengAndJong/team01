@@ -2,7 +2,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import {BookStateContext} from "../bookComponent.jsx";
 import "@assets/css/book/bookList.css";
-import {Link, useParams} from "react-router-dom";
 import SearchBar from "./searchBar.jsx";
 import BookItem from "./bookItem.jsx";
 import Pagination from "@util/pagination.jsx";
@@ -28,7 +27,7 @@ const BookList = () => {
     return (
         <>
             <div className="book-list">
-                {/*<SearchBar search={search} setSearch={setSearch} handleSearch={handleSearch}/>*/}
+
                 <SearchBar/>
                 <BookItem bookList={bookList}/>
                 {/*  페이지네이션 */}

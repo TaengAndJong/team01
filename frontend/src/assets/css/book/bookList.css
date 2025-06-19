@@ -18,10 +18,11 @@
     width:calc((100%/2)  - 16px);
     margin: 0 2px;
 }
-.book-item .card-header{
+.book-item .card-header,.book-item.book-img{
     min-width: 200px;
     width: 200px;
 }
 .book-item .card-body {
     width: calc(100% - 20px);
 }
+

@@ -1,0 +1,3 @@
+.wishList .book-item{
+    width: calc((100%/4)  - 16px)
+}

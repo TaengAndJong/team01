@@ -5,6 +5,9 @@ import './App.scss';
 // main.jsx 또는 App.jsx에서 추가
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+import {MenuProvider} from "@pages/common/MenuContext.jsx";
+import Layout from "./layout/Layout.jsx";
+
 import SignUp from "@pages/signUp/signUpComponent.jsx";
 import PathData from "./assets/pathsData.jsx";
 import Index from "./index.jsx";
@@ -21,24 +24,31 @@ import AdminProductBoard from "@pages/adminBoard/components/productBoard.jsx";
 import AdminOneBoard from "@pages/adminBoard/components/qnaOneBoard.jsx";
 import AdminBoard from "@pages/adminBoard/adminBoardComponent.jsx";
 import AdminBook from "@pages/adminBook/adminBookComponent.jsx";
-import WishList from "@pages/wishList/wishListComponent.jsx";
 import Book from "@pages/book/bookComponent.jsx";
 import Board from "@pages/board/boardComponent.jsx";
-import Layout from "./layout/Layout.jsx";
+
+
 import AdminBookModify from "@pages/adminBook/components/adminBookModify.jsx";
 import AdminBookCreate from "@pages/adminBook/components/adminBookCreate.jsx";
 import AdminBookDetail from "@pages/adminBook/components/adminBookDetail.jsx";
 import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
-import {MenuProvider} from "@pages/common/MenuContext.jsx";
+import CreateBoard from "@pages/board/components/createBoardComponent.jsx"
+
 import BookList from "@pages/book/components/bookList.jsx";
 import BookDetail from "@pages/book/components/bookDetail.jsx";
-import CartList from "./pages/cart/components/cartList.jsx";
-import Delivery from "./pages/myPage/delivery/AddressComponent.jsx";
-import AddressComponent from "./pages/myPage/delivery/AddressComponent.jsx";
-import MyPageMain from "./pages/myPage/myPage/MyPageMain.jsx";
-import PaymentHistory from "./pages/myPage/payment/PaymentHistory.jsx";
-import PersonalInfo from "./pages/myPage/personal/PersonalInfo.jsx";
-import CreateBoard from "./pages/board/components/createBoardComponent.jsx"
+import CartList from "@pages/cart/components/cartList.jsx";
+
+// mypage
+import AddressComponent from "@pages/myPage/delivery/AddressComponent.jsx";
+import WishComponent from "@pages/myPage/wish/WishComponent.jsx";
+import MyPageMain from "@pages/myPage/myPage/MyPageMain.jsx";
+import PaymentHistory from "@pages/myPage/payment/PaymentHistory.jsx";
+import PersonalInfo from "@pages/myPage/personal/PersonalInfo.jsx";
+import WishList from "@pages/myPage/wish/WishList.jsx";
+
+
+
+
 
 
 
@@ -64,16 +74,18 @@ function App() {
                     <Route path={PathData.page.login} element={<Login/>}/>
                     <Route path={PathData.page.logout} element={<Logout/>}/>
                     <Route path={PathData.page.myPage} element={<Mypage/>}>
-                        <Route  index path="" element={<MyPageMain/>}/>
+                        <Route  index  element={<MyPageMain/>}/>
                         <Route  path="personal" element={<PersonalInfo/>}/>
                         <Route  path="address" element={<AddressComponent/>}/>
                         <Route  path="payment" element={<PaymentHistory/>}/>
-                        <Route  path="wishlist" element={<WishList/>}/>
+                        <Route  path="wishlist" element={<WishComponent/>}>
+                            <Route  index  element={<WishList/>}/>
+                        </Route>
                     </Route>
                     <Route path={PathData.page.cart} element={<Cart/>}>
                         <Route index path="" element={<CartList/>}/>
                     </Route>
-                    <Route path={PathData.page.wishList} element={<WishList/>}/>
+
                     <Route path={PathData.page.signup} element={<SignUp/>}/>
 
 

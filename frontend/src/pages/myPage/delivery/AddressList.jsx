@@ -3,7 +3,7 @@ import {AddressStatusContext} from "./AddressComponent.jsx";
 import AddressItem from "./AddressItem.jsx";
 import AddForm from "./AddForm.jsx";
 
-const AddressLayout = () => {
+const AddressList = () => {
 
     const deliveryData = useContext(AddressStatusContext);
     const [showAddForm, setShowAddForm] = useState(false);
@@ -48,4 +48,4 @@ const AddressLayout = () => {
     )
 }
 
-export default AddressLayout;
+export default AddressList;
