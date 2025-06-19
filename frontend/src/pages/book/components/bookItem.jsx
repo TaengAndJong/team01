@@ -90,9 +90,12 @@ const BookItem = ({bookList}) =>{
     //찜목록 비동기 fetch 요청
     const wishFetch = async(bookId) =>{
 
+
+        const UrlSearchParams = new URLSearchParams();
+        UrlSearchParams.append("bookId", bookId);
         console.log("bookId wishList",bookId);
         //경로에 bookId 담아서 보내기
-        const response = await fetch(`/api/mypage/wishlist/save/${bookId}`, {
+        const response = await fetch(`/api/mypage/wishlist/save?${UrlSearchParams.toString()}`, {
             method: "POST"
         });
       

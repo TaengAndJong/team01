@@ -18,15 +18,6 @@ const reducer =(state, action) => {
                 console.log("INIT action",action.data, Array.isArray(action.data));
             }
             return  Array.isArray(action.data) ? action.data : [action.data];
-        case "UPDATE":
-            if(action.data){
-                console.log("UPDATE action",action.data, Array.isArray(action.data));
-            }
-            //state는 새로 들어온 데이터객체를 담고있는 배열
-            // action.data의 bookId가 기존데이터인 book의 bookId와 같으면 새로들어온 action.data로 교체 아니면 기존 데이터 유지
-            return state.map((wish) =>
-                wish.bookId === action.data.bookId ? action.data : wish
-            );
         default:
             return state;
     }
@@ -93,14 +84,6 @@ const WishComponent=()=>{
         });
     }
 
-    const onUpdate=(updateWishList) => {
-        console.log("updateWishList", updateWishList);
-        dispatch({
-            type:"UPDATE",
-            data:updateWishList
-        })
-    }
-
 
     //페이지버튼 클릭시 실행되는 핸들러
     const onChangePageHandler = (page) => {
@@ -124,8 +107,8 @@ const WishComponent=()=>{
     return(
         <>
         <WishStateContext.Provider value={wishdata}>
-            <WishDispatchContext.Provider value={{onInit,onUpdate}}>
-                <PaginationContext.Provider value={{paginationInfo, onChangePageHandler}}>
+            <WishDispatchContext.Provider value={onInit}>
+                <PaginationContext.Provider value={{paginationInfo, setPaginationInfo,onChangePageHandler}}>
                     <Outlet/>
                 </PaginationContext.Provider>
             </WishDispatchContext.Provider>

@@ -1,20 +1,27 @@
 import React, {useContext, useEffect} from "react";
 import {Link} from "react-router-dom";
-import {WishDispatchContext} from "./WishComponent.jsx";
+import {PaginationContext, WishDispatchContext} from "./WishComponent.jsx";
 
 
-const WishItem = ({wishList,setWishList}) => {
-    const {onUpdate} = useContext(WishDispatchContext);
+const WishItem = ({wishList}) => {
+    // 컨텍스트에 value가 하나면 구조분해할당 구조 사용할 필요가 없음, value가 여러개 넘어 올 때 사용해야 함 (에러 유발 주의)
+    const onInit = useContext(WishDispatchContext);
+    const {paginationInfo,setPaginationInfo} = useContext(PaginationContext);
 
-    console.log("wishItems",wishList);
+    console.log("wishItems=-----111",wishList);
+    console.log("paginationInfo currentPage",paginationInfo.currentPage);
 
 
     //찜해제 비동기요청
     const deleteWishFetch = async (bookId) => {
 
+        const UrlSearchParams = new URLSearchParams();
+        UrlSearchParams.append("bookId", bookId);
+        UrlSearchParams.append("currentPage", paginationInfo.currentPage);
+
         console.log("deleteWishFetch---bookId",bookId);
 
-        const response = await fetch(`/api/mypage/wishlist/save/${bookId}`, {
+        const response = await fetch(`/api/mypage/wishlist/save?${UrlSearchParams.toString()}`, {
             method: "POST",
         });
 
@@ -25,9 +32,22 @@ const WishItem = ({wishList,setWishList}) => {
         const data = await response.json();
         console.log("wishList-------찜상태 변경", data);
         //변경된 bookId 넘겨야함
-        //onUpdate(data);
+        const {currentPage,userWishList,pageSize,totalPages,totalRecord} = data;
+        console.log("currentPage",currentPage);
+        console.log("pageSize",pageSize);
+        console.log("totalPages",totalPages);
+        console.log("totalRecord",totalRecord);
+        console.log("userWishList",userWishList);
+        onInit(userWishList);
+        setPaginationInfo({
+            currentPage: currentPage,
+            pageSize: pageSize,
+            totalPages: totalPages,
+            totalRecord:totalRecord,
+        });
 
     };
+    console.log("wishList-------찜상태 변경2", wishList);
 
 
     //찜해제 핸들러
@@ -37,7 +57,9 @@ const WishItem = ({wishList,setWishList}) => {
     }
 
     useEffect(() => {
-        console.log("업데이트된 찜목록:", wishList);
+
+        console.log("업데이트된 찜목록:-- wishItem3", wishList);
+
     },[wishList]);
 
     return (

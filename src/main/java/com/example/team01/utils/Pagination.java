@@ -20,14 +20,13 @@ import java.util.Map;
 @Slf4j
 public class Pagination {
 
-
-    private  final int currentPage;//현재 페이지
-    private  final int pageSize;// 보여줄 페이지 개수
+    private int currentPage;//현재 페이지
+    private int pageSize;// 보여줄 페이지 개수
     private int startRow;    // 조회 시작 행 번호
     private int endRow;      // 조회 끝 행 번호
-    private  int totalRecord; // 필터가 적용된 데이터베이스의 전체 데이터(행의)개수
-    private  int totalPages;// 페이지 버튼 UI 사용할 개수
-    private  String clientId;// 로그인한 유저일경우
+    private int totalRecord; // 필터가 적용된 데이터베이스의 전체 데이터(행의)개수
+    private int totalPages;// 페이지 버튼 UI 사용할 개수
+    private String clientId;// 로그인한 유저일경우
 
 
 
@@ -78,6 +77,11 @@ public class Pagination {
         this.endRow = Math.min(currentPage * pageSize, totalRecord);
         //totalRecord는  dao 메서드를 통해 데이터를 조회한 후 pagination setter로 설정해 줌
         log.info("startRow:{},endRow:{}",startRow,endRow);
+    }
+
+    // 찜목록 반환 값에 대한 페이지 설정에 필요한 메서드 ==> Pagination 생성자의 사용에 대해서 같이 고민해보기
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 
 
