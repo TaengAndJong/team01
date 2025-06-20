@@ -1,18 +1,13 @@
 package com.example.team01.client.service;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
-/**
- * 게시글 생성 서비스 인터페이스
- */
+import org.springframework.web.multipart.MultipartFile;
+import com.example.team01.vo.CreateBoardVO;
+
+
 public interface CreateBoardService {
+
+    void createBoard(CreateBoardVO createBoardVO);
     
-    /**
-     * 게시글 생성
-     * @param category 카테고리
-     * @param title 제목
-     * @param content 내용
-     * @param file 첨부파일
-     */
-    void createBoard(String category, String title, String content, MultipartFile file);
 }
