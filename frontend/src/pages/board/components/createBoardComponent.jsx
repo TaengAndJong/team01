@@ -47,8 +47,6 @@ const CreateBoardComponent = () => {
     form.append("category", formData.category);
     form.append("title", formData.title);
     form.append("content", formData.content);
-    form.append("clientId", userData.clientId);
-    form.append("name", userData.clientName);
     formData.files.forEach((file) => form.append("files", file));
 
     console.log("서버로 전송 할 문의 데이터 ------", formData);
