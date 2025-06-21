@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.util.Collections;
 // 의존성 
 import com.example.team01.client.service.CreateBoardService;
 import com.example.team01.vo.CreateBoardVO;
@@ -50,36 +50,35 @@ public class CreateBoardController {
             @RequestParam("content") String content,
             @RequestParam(value = "files", required = false) List<MultipartFile> files) {
         
+
         log.info("게시글 생성 시작");
-        log.info("clientId: {}", clientId);
-        log.info("clientName: {}", clientName);
-        log.info("category: {}", category);
-        log.info("title: {}", title);
-        log.info("content: {}", content);
-        log.info("files: {}", files);
         
+        CreateBoardVO createBoardVO = new CreateBoardVO(); // 객체 직접 생성
+
         // 🟡 Null 체크 여기서 반드시 먼저 수행
         if (files != null) {
             for (MultipartFile file : files) {
                 log.info("files 타입: {}", file.getClass().getName());
             }
+            createBoardVO.setFiles(files);
         } else {
             log.info("첨부된 파일이 없습니다 (files == null)");
+            createBoardVO.setFiles(Collections.emptyList());
+            createBoardVO.setFileName("첨부파일 없음");
+            log.info("createBoardVO: {}", createBoardVO);
         }
 
-        // CreateBoardVO 객체 생성 및 데이터 설정
-        CreateBoardVO vo = new CreateBoardVO();
-        vo.setClientId(clientId);
-        vo.setClientName(clientName);
-        vo.setCategory(category);
-        vo.setTitle(title);
-        vo.setContent(content);
-        vo.setFiles(files);
-        log.info("VO 객체 데이터: {}", vo);
+        createBoardVO.setClientId(clientId);
+        createBoardVO.setClientName(clientName);
+        createBoardVO.setCategory(category);
+        createBoardVO.setTitle(title);
+        createBoardVO.setContent(content);
+
+        log.info("컨트롤러 VO 객체 데이터: {}", createBoardVO);
 
         try {
             // 게시물 등록 service 호출
-            createBoardService.createBoard(vo);
+            createBoardService.createBoard(createBoardVO);
             log.info("게시물 등록 완료");
             return ResponseEntity.ok("게시물 등록 완료");
         } catch (Exception e) {
