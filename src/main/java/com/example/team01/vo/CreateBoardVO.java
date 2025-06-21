@@ -1,14 +1,18 @@
 package com.example.team01.vo;
 
 import lombok.*;
+
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Data;
 
+@ToString
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class CreateBoardVO implements Serializable {
     private String title; // 게시물 제목
     private String content; // 게시물 내용

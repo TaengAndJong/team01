@@ -25,7 +25,7 @@ public class CreateBoardServiceImple implements CreateBoardService {
     @Override
     public void createBoard(CreateBoardVO createBoardVO) {
         
-        log.info("사용자 VO 객체 데이터: {}", createBoardVO);
+        log.info("서비스 임플 VO 객체 데이터: {}", createBoardVO);
 
         String fileNames = ""; // 전역 설정
         List<MultipartFile> files = createBoardVO.getFiles(); // 첨부파일 데이터 VO 객체에서 가져오기
