@@ -56,12 +56,13 @@ public class FileUtils {
     private  String noImgDir;
 
 //날데이터 받아서 문자열로 경로반환 저장메서드
-    public String saveFile(List<MultipartFile> fileObject,String middlePath) throws FileNotFoundException {
+    public String saveFile(List<MultipartFile> files,String middlePath) throws FileNotFoundException {
+        log.info("saveFile 파일 저장 시작 파일 객체:{}", files);
         String bookImgPath=""; //반환할 데이터베이스 텍스트경로
 
-        if(!fileObject.isEmpty()) {
+        if(!files.isEmpty()) {
             log.info("bookImgPath ---------11111:{}",bookImgPath);
-            for (MultipartFile file : fileObject) {
+            for (MultipartFile file : files) {
                 String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename(); //랜덤 파일 명칭(중복방지)
                 log.info("fileName-----------------------:{}", fileName);
 
