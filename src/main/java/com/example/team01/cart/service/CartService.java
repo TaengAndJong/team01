@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface CartService {
 
-    public boolean checkBookCount(String bookId, int quantity);
+    
+    // 도서의 수량 확인
+    public CartVO checkBookCount(String bookId);
 
     //장바구니에 담을 도서 정보 조회
     public CartVO selectBookInfo(String bookId);

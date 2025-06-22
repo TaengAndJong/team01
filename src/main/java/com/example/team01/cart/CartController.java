@@ -23,18 +23,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/* DI dependency injection ==>  필드 주입과 생성자 주입의 차이점
+
+
+*/
+
+
+
 @Slf4j
 @RequestMapping("/cart")
 @RequiredArgsConstructor
 @RestController
 public class CartController {
 
+    // cartService 생성자 주입
     private final CartService cartService;
+    // FileUtils 생성자 주입
     private final FileUtils fileUtils;
-    //http://localhost:5173/api/cart
+ 
 
     @GetMapping()
-    public ResponseEntity<?> getCart(@AuthenticationPrincipal PrincipalDetails userDetails, HttpServletRequest request){ //securityContext에 저장된 사용자 정보 받아올 매개변수
+    public ResponseEntity<?> getCart(@AuthenticationPrincipal PrincipalDetails userDetails, HttpServletRequest request){
+        //securityContext에 저장된 사용자 정보 받아올 매개변수 = @AuthenticationPrincipal PrincipalDetails userDetails
 
         log.info("get Cart 입니다");
         //로그인한 user 정보
@@ -56,63 +66,23 @@ public class CartController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> postCart(@RequestBody CartVO cartvo){
+    public ResponseEntity<?> postCart(@RequestBody CartVO cartvo,@AuthenticationPrincipal PrincipalDetails userDetails){
 
+        log.info(" postCart  : {}",cartvo);
 
+        //clientId
+        String clientId = userDetails.getUsername();
         //cartVO
-        String bookId = cartvo.getBookId();
-        int quantity = cartvo.getQuantity();
-        //결과값 담아줄 map 
+        log.info(" bookId  : {}",cartvo.getBookId());// 장바구니에 담을 도서 아이디
+        log.info(" quantity  : {}",cartvo.getQuantity());// 장바구니에 담은 수량
+        log.info(" clientId  : {}",clientId);
+
+        //cartService에  파라미터 넘겨주기
+        cartService.insertBook(cartvo);
+
+        //결과값 담아줄 map
         Map<String, Object> result = new HashMap<>();
-
-        try{
-
-            if(bookId != null && !bookId.isEmpty()){
-                //1.구입할 수 있는 수량이 존재하는지 확인
-                boolean checkBookCnt= cartService.checkBookCount(bookId, quantity);
-                log.info("checkBookCnt :{}", checkBookCnt);
-
-                if(checkBookCnt){ //2. true이면  수량이 있다면
-                    log.info("주문가능수량");
-                    //2-1.도서 정보조회 ==> 도서 정보 조회할때 cart와 조인하기
-                    CartVO cartBookInfo = cartService.selectBookInfo(bookId);
-                    log.info("cartBookInfo---1 :{}", cartBookInfo);
-                    //2-2 quantity, roleId, clientId 객체값 설정하기
-                    // quantity
-                    cartBookInfo.setQuantity(quantity);
-                    //clientId
-                    PrincipalDetails usrInfo = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                    cartBookInfo.setClientId(usrInfo.getUsername());
-                    //roleId ==> usrInfo.getAuthorities().toString()으로하면 배열로 조회  ==> [ROLE_ADMIN] (에러유발)
-                    String roleId = usrInfo.getAuthorities()
-                            .stream()
-                            .findFirst()
-                            .map(GrantedAuthority::getAuthority)
-                            .orElse(null);
-                    log.info("roleId---2 :{}", roleId);
-                    cartBookInfo.setRoleId(roleId);
-                    log.info("cartBookInfo---2 :{}", cartBookInfo);
-                    //Cart테이블에 inset 하기 ==> mybatis는 insert, update,delete 성공 시 숫자로 반환
-                    int insertTocart = cartService.insertBook(cartBookInfo);
-                    log.info("insertTocart=== :{}",insertTocart);
-                }
-
-             }else{ //false이면
-                 //3.수량이 없으면
-                    result.put("message","수량부족 판매지점에 문의해주세요.");
-             }
-
-
-        }catch(Exception e){
-            //3.
-
-            log.error("예외 발생: {}", e.getMessage(), e);  // 예외 내용 로그로 출력
-            result.put("status", "error");
-
-        }finally {
-            //4.
-        }
-        //5.
+        result.put("테스트",cartvo);
 
         return  ResponseEntity.ok(result);
 

@@ -23,12 +23,13 @@
         </association>
     </resultMap>
 
-    <select id="checkBookCount" parameterType="CartVO" resultType="boolean">
+<!-- 조회할 VO 객체를 결과 타입으로 선언해야 데이터가 매핑되어 반환됨 -->
+    <select id="checkBookCount" parameterType="String" resultType="BookVO">
         SELECT
-            CASE
-               WHEN ("stock" - #{quantity}) >= 0 THEN 1
-               ELSE 0
-            END  AS checkStock
+        "bookId"
+        ,"bookName"
+        ,"bookCateNm"
+        ,"stock"
         FROM book
         WHERE "bookId" = #{bookId}
     </select>
@@ -50,7 +51,14 @@
         WHERE b."bookId" = #{bookId}
     </select>
 
-    <insert id="insertBook" parameterType="CartVO">
+    <select id="existBook" parameterType="String" resultMap="cartMap">
+
+
+    </select>
+
+
+
+    <insert id="insertCart" parameterType="CartVO">
         <selectKey keyProperty="cartId" resultType="String" order="BEFORE">
             SELECT CART_SEQ.NEXTVAL FROM DUAL
         </selectKey>
@@ -62,6 +70,17 @@
             #{cartId},#{bookId}, #{quantity}, #{clientId}, #{roleId}
         )
     </insert>
+
+    <update id="updateCart" parameterType="CartVO">
+
+        INSERT INTO cart (
+        "cartId","bookId", "quantity", "clientId", "roleId"
+        )
+        VALUES (
+        #{cartId},#{bookId}, #{quantity}, #{clientId}, #{roleId}
+        )
+    </update>
+
 
     <!-- 장바구니에 담긴 도서목록조회   -->
     <select id="selectUserBookList" parameterType="String" resultMap="cartMap">
@@ -82,12 +101,12 @@
         where c."clientId"=#{clientId}
     </select>
 
-<!--    <insert id="insertToCartList">-->
 
-<!--    </insert>-->
 
     <delete id="deleteToCartList" parameterType="String">
 
     </delete>
+
+
 
 </mapper>
