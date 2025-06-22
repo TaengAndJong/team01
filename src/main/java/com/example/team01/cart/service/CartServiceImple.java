@@ -2,6 +2,7 @@ package com.example.team01.cart.service;
 
 import com.example.team01.book.dao.BookDao;
 import com.example.team01.cart.dao.CartDao;
+import com.example.team01.common.exception.CustomCartException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
@@ -20,31 +21,64 @@ public class CartServiceImple implements CartService{
     private final FileUtils fileUtils;
 
 
+    // 장바구니 추가 전 도서 수량 확인 메서드
     @Override
-    public boolean checkBookCount(String bookId, int quantity) {
+    public CartVO checkBookCount(String bookId) {
         //boolean 1이면 true, 0이하면 false
-        boolean result = dao.checkBookCount(bookId, quantity); //true
-        log.info("checkBookCount---result:{}", result);
+        BookVO bookStock = dao.checkBookCount(bookId); //true
+        log.info("bookStock---checkBookCount:{}", bookStock);
 
-        return result;
+        return null;
     }
 
+    // 장바구니에서 도서 데이터 조회할 메서드(단일추가)
     @Override
     public CartVO selectBookInfo(String bookId) {
-
         CartVO bookInfo = dao.selectBookInfo(bookId);
         log.info("selectBookInfo--------serviceImple:{}",bookInfo);
         return bookInfo;
 
     }
 
+
+    // 장바구니에 추가한 도서 데이터 디비에 insert 할 메서드
     @Override
-    public int insertBook(CartVO bookInfo) {
-        log.info("insertBook--------serviceImple:{}",bookInfo);
-        int cnt =  dao.insertBook(bookInfo);
-        return cnt;
+    public int insertBook(CartVO cartVO) {
+
+        int cnt = 0;
+        log.info("insertBook--------serviceImple:{}",cartVO);
+        // 디비 cart 테이블이 도서목록이 존재하는지 확인
+        String bookId = cartVO.getBookId();
+        int quantity = cartVO.getQuantity();
+
+        // 있으면 수량만 갱신 및 도서테이블의 수량 갱신 필요 
+        BookVO bookInfo = dao.checkBookCount(bookId);
+       log.info("insertBook--------serviceImple:{}",bookInfo);
+       
+       //장바구니에 담을 도서의 재고 수량
+        int stock = bookInfo.getStock();
+        log.info("insertBook--------stock:{}",stock);
+
+        // 재고수량이 0이 아닌경우 실행
+        String clientId = cartVO.getClientId();
+        //cart에 이미 있는지 없는지 확인하기 ==> cart 테이블에서 조회
+        CartVO existBook =  dao.existBook(clientId,bookId);
+        log.info("existBook--------serviceImple:{}",existBook);
+        // 장바구니에 존재하지않으면
+        if(existBook == null){
+            log.info("cnt = dao.insertCart(cartVO):{}",dao.insertCart(cartVO));
+            // cartVO 업데이트
+            return cnt = dao.insertCart(cartVO);
+        }else{
+            log.info("dao.updateCart(cartVO):{}",dao.updateCart(cartVO));
+            //장바구니에 존재하면 stock만 update진행
+            return cnt = dao.updateCart(cartVO);
+        }
+
     }
 
+
+    // 로그인한 클라이언트에 해당하는 장바구니의 도서목록 조회 메서드
     @Override
     public List<CartVO> selectUserBookList(String clientId) {
         log.info("장바구니 도서목록 조회:{}",clientId);
@@ -55,8 +89,12 @@ public class CartServiceImple implements CartService{
     }
 
 
+    // 로그인한 클라이언트의 장바구니에 담긴 도서 목록 삭제 메서드
     @Override
     public CartVO deleteToCartList(String cartId) {
         return null;
     }
+
+
+
 }

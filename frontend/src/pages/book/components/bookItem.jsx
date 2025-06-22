@@ -6,7 +6,7 @@ const BookItem = ({bookList}) =>{
     //서버에서 클라이언트까지 응답이 도달할 때까지의 상태관리
     const [isLoading, setIsLoading] = useState(false);
     //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
-    const [bookCount,setBookCount]=useState({}); 
+    const [bookCount,setBookCount]=useState(1);
     // 장바구니에 담을 도서 수량버튼 관리 핸들러 ==> 고려사항 각각의 도서에 대한 개별 수량 구분 필요
     const bookCountChangHandler=(bookId,e)=>{
     
@@ -14,7 +14,8 @@ const BookItem = ({bookList}) =>{
         console.log("eventTarget",e.target.name);
     
         const bookIdCount = bookCount[bookId] || 1;
-    
+
+
         //button name으로 plus , minus 구분
         //최소 수량이 1보다 작음 방지 필요, 최대 개수는 100개까지 제한
         const btnName= e.target.name;
@@ -47,6 +48,8 @@ const BookItem = ({bookList}) =>{
                 console.warn("정의되지 않은 버튼 name입니다:", btnName);break;
     
         }
+
+        console.log("bookCountChangHandler의  bookIdCount---11",bookIdCount);
     }
     
     // 도서 수량 입력 input 관리 핸들러
@@ -84,8 +87,14 @@ const BookItem = ({bookList}) =>{
             ...prev,
             [bookId]:inputNum,// 10진수로 파싱된 도서수량
         }));
+
+
+        console.log("bookCountInputHandler 의 bookCount ----222",bookCount);
     }
-     console.log("bookCount",bookCount);
+
+    console.log("전역 bookCount---------3",bookCount);
+
+
 
     //찜목록 비동기 fetch 요청
     const wishFetch = async(bookId) =>{
@@ -127,6 +136,8 @@ const BookItem = ({bookList}) =>{
     }
 
 
+
+
     return (
         <div className="book-list-inner overflow-hidden mt-4">
             {bookList && (
@@ -159,30 +170,37 @@ const BookItem = ({bookList}) =>{
                             </Link>
                             {/* 수량 및 액션 버튼 영역 */}
                             <div className="item-inner d-flex align-items-center justify-content-end mt-4">
-                                {/*수량*/}
-                                <div className="count w-25">
-                                    <div className="count-inner d-inline-flex">
-                                        <button className="btn btn-light minus" name="minus" type="button" onClick={(e)=>bookCountChangHandler(book.bookId,e)}>
-                                            -
-                                            <span className="sr-only">도서상품개수 하나씩 감소</span>
-                                        </button>
-                                        {/* input value 상태관리로 관리필요 */}
-                                        <input className="form-control" name="bookCountInput" type="text" value={bookCount[book.bookId] ?? 1} min={1}
-                                               title="수량" autoComplete="off" onChange={(e)=> bookCountInputHandler(book.bookId,e)}/>
-                                        <button className="btn btn-light plus" name="plus" type="button" onClick={(e)=>bookCountChangHandler(book.bookId,e)}>
-                                            +
-                                            <span className="sr-only">도서상품개수 하나씩 증가</span>
-                                        </button>
-                                    </div>
-                                </div>
-                                {/*수량*/}
+
                                 <button type="button" aria-label="찜하기"  className="submit btn btn-danger me-2 wish-btn" onClick={()=>wishHandler(book.bookId)}>
                                     찜
                                 </button>
-                                <AddCartBtn bookId={book.bookId} bookCount={bookCount[book.bookId] ?? 1}  />
-                                <button type="button" aria-label="선택구매"
-                                        className="submit btn btn-secondary">선택구매
-                                </button>
+                                {book.stock === 0 ?(
+                                    <p>품절</p>
+                                ):(
+                                    <>
+                                        {/*수량*/}
+                                        <div className="count w-25">
+                                            <div className="count-inner d-inline-flex">
+                                                <button className="btn btn-light minus" name="minus" type="button" onClick={(e)=>bookCountChangHandler(book.bookId,e)}>
+                                                    -
+                                                    <span className="sr-only">도서상품개수 하나씩 감소</span>
+                                                </button>
+                                                {/* input value 상태관리로 관리필요 */}
+                                                <input className="form-control" name="bookCountInput" type="text" value={bookCount[book.bookId] ?? 1} min={1}
+                                                       title="수량" autoComplete="off" onChange={(e)=> bookCountInputHandler(book.bookId,e)}/>
+                                                <button className="btn btn-light plus" name="plus" type="button" onClick={(e)=>bookCountChangHandler(book.bookId,e)}>
+                                                    +
+                                                    <span className="sr-only">도서상품개수 하나씩 증가</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {/*수량*/}
+                                        <AddCartBtn bookId={book.bookId} bookCount={bookCount[book.bookId] ?? 1}  />
+                                        <button type="button" aria-label="선택구매"
+                                                className="submit btn btn-secondary">선택구매
+                                        </button>
+                                    </>
+                                    )}
                             </div>
 
                         </li>

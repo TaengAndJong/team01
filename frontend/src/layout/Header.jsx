@@ -15,6 +15,7 @@ const Header = () => {
     let location = useLocation();
 
     const commonMenu = menu?.commonList;
+    console.log("commonMenu-----------",commonMenu);
     // ["cart", "mypage"].includes(item.menuId) ==> item.menuId에 cart,mypage를 포함하고 있는지
     const commonMenuItems =commonMenu?.filter((item)=>(
         ["cart", "mypage"].includes(item.menuId)
