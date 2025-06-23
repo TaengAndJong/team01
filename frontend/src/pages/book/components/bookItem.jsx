@@ -136,8 +136,6 @@ const BookItem = ({bookList}) =>{
     }
 
 
-
-
     return (
         <div className="book-list-inner overflow-hidden mt-4">
             {bookList && (

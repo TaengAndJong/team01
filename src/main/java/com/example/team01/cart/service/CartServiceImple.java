@@ -46,33 +46,37 @@ public class CartServiceImple implements CartService{
     public int insertBook(CartVO cartVO) {
 
         int cnt = 0;
-        log.info("insertBook--------serviceImple:{}",cartVO);
+        log.info("insertBook--------cartVO:{}",cartVO);
         // 디비 cart 테이블이 도서목록이 존재하는지 확인
         String bookId = cartVO.getBookId();
         int quantity = cartVO.getQuantity();
 
-        // 있으면 수량만 갱신 및 도서테이블의 수량 갱신 필요 
+        // 있으면 수량만 갱신 및 도서테이블의 수량 갱신 필요
         BookVO bookInfo = dao.checkBookCount(bookId);
-       log.info("insertBook--------serviceImple:{}",bookInfo);
-       
-       //장바구니에 담을 도서의 재고 수량
-        int stock = bookInfo.getStock();
-        log.info("insertBook--------stock:{}",stock);
+       log.info("insertBook--------bookInfo:{}",bookInfo);
+       int stock = bookInfo.getStock();
+       // 주문 수량이 재고수량보다 많은 경우 반환 필요
+        if(quantity > stock || stock == 0 ){
+            log.info("insertBook--------stock:{}",stock);
+            throw CustomCartException.outOfStock(bookId);
+        }else { // stock 과 같거나 그 이상일경우  장바구니에 담을 수 있는 경우
+            String clientId = cartVO.getClientId();
+            log.info("insertBook--------clientId:{}",clientId);
 
-        // 재고수량이 0이 아닌경우 실행
-        String clientId = cartVO.getClientId();
-        //cart에 이미 있는지 없는지 확인하기 ==> cart 테이블에서 조회
-        CartVO existBook =  dao.existBook(clientId,bookId);
-        log.info("existBook--------serviceImple:{}",existBook);
-        // 장바구니에 존재하지않으면
-        if(existBook == null){
-            log.info("cnt = dao.insertCart(cartVO):{}",dao.insertCart(cartVO));
-            // cartVO 업데이트
-            return cnt = dao.insertCart(cartVO);
-        }else{
-            log.info("dao.updateCart(cartVO):{}",dao.updateCart(cartVO));
-            //장바구니에 존재하면 stock만 update진행
-            return cnt = dao.updateCart(cartVO);
+            //cart에 이미 있는지 없는지 확인하기 ==> cart 테이블에서 조회
+            int existCart =  dao.existCart(clientId,bookId);
+            log.info("existBook--------existBook:{}",existCart);
+
+            // 장바구니에 존재하지않으면
+            if(existCart == 0){
+                log.info("existBook-----데이터 삽입");
+                // cartVO 업데이트
+                return cnt = dao.insertCart(cartVO);
+            }else{
+                log.info("existBook-----데이터 업데이트");
+                //장바구니에 존재하면 stock만 update진행
+                return cnt = dao.updateCart(bookId,quantity);
+            }
         }
 
     }
