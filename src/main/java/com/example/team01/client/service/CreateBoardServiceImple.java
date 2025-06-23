@@ -35,20 +35,20 @@ public class CreateBoardServiceImple implements CreateBoardService {
         try {
             // 조건: files가 null 또는 비어있을 경우
             if (files == null || files.isEmpty()) {
-                log.info("파일이 첨부되지 않은 업로드.");
+                log.info("파일이 첨부되지 않은 업로드 시작------------------:");
             }
             // 조건: 파일 사이즈가 1일 경우
             else if (files.size() == 1) {
-                log.info("단일 파일 업로드");
+                log.info("단일 파일 업로드 시작");
                 fileNames = fileUtils.saveFile(files, "board");
-                log.info("단일 파일 업로드 fileNames: {}", fileNames);
+                log.info("단일 파일 업로드 완료 fileNames--------------------: {}", fileNames);
                 createBoardVO.setFileName(fileNames);
             }
             // 조건: 파일 사이즈가 2 이상일 경우
             else if (files.size() > 1) {
-                log.info("다중 파일 업로드");
+                log.info("다중 파일 업로드 시작");
                 fileNames = fileUtils.saveFile(files, "board");
-                log.info("다중 파일 업로드 fileNames: {}", fileNames);
+                log.info("다중 파일 업로드 완료 fileNames--------------------: {}", fileNames);
                 createBoardVO.setFileName(fileNames);
             }
             
