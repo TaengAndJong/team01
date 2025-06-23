@@ -7,7 +7,6 @@
         <result property="cartId" column="cartId"/>
         <result property="bookId" column="bookId"/>
         <result property="quantity" column="quantity"/>
-        <result property="roleId" column="roleId"/>
         <result property="clientId" column="clientId"/>
         <result property="addCartDate" column="addCartDate"/>
         <association property="bookVO" javaType="BookVO">
@@ -51,12 +50,12 @@
         WHERE b."bookId" = #{bookId}
     </select>
 
-    <select id="existBook" parameterType="String" resultMap="cartMap">
-
-
+    <select id="existCart" parameterType="String" resultType="int">
+        select
+           count(*)
+        from cart
+        where "bookId" = #{bookId} and "clientId" =#{clientId}
     </select>
-
-
 
     <insert id="insertCart" parameterType="CartVO">
         <selectKey keyProperty="cartId" resultType="String" order="BEFORE">
@@ -64,21 +63,17 @@
         </selectKey>
 
         INSERT INTO cart (
-            "cartId","bookId", "quantity", "clientId", "roleId"
+            "cartId","bookId", "quantity","clientId"
         )
         VALUES (
-            #{cartId},#{bookId}, #{quantity}, #{clientId}, #{roleId}
+            #{cartId},#{bookId}, #{quantity}, #{clientId}
         )
     </insert>
 
     <update id="updateCart" parameterType="CartVO">
-
-        INSERT INTO cart (
-        "cartId","bookId", "quantity", "clientId", "roleId"
-        )
-        VALUES (
-        #{cartId},#{bookId}, #{quantity}, #{clientId}, #{roleId}
-        )
+        UPDATE cart
+            SET "quantity" = #{quantity}
+        WHERE "bookId" = #{bookId}
     </update>
 
 
@@ -89,7 +84,6 @@
             ,c."addCartDate"
             ,c."quantity"
             ,c."clientId"
-            ,c."roleId"
             ,b."bookId"
             ,b."bookName"
             ,b."bookPrice"
@@ -98,7 +92,7 @@
             ,b."author"
         from
             book b join cart c on b."bookId" = c."bookId"
-        where c."clientId"=#{clientId}
+        where c."clientId"= #{clientId}
     </select>
 
 

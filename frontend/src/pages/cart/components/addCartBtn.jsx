@@ -49,9 +49,9 @@ const AddCartBtn = ({ bookId, bookCount }) => {
     //toCart 데이터 변경 감지 시 비동기요청
     useEffect(() => {
 
-        console.log("toCart useEffect out",toCart);
-        console.log("toCart useEffect out",toCart.bookId);
-        console.log("toCart useEffect out",toCart.quantity);
+        console.log("toCart useEffect out ",toCart);
+        console.log("toCart toCart.bookId",toCart.bookId);
+        console.log("toCart toCart.quantity",toCart.quantity);
         // 변경된 데이터가 아래 조건과 같으면 비동기요청 실행
         if( toCart.bookId != null && toCart.quantity >  0 ){
 
