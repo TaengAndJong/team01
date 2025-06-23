@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.team01.client.dao.CreateBoardDao">
+  <!-- <insert id="createBoard" parameterType="com.example.team01.vo.CreateBoardVO">
+    <choose>
+    <when test="category == qnaone ">
+        INSERT INTO qnaone (qnaOneId,
+qnaTitle,
+qnaContent,
+qnaWriter,
+qnaDate,
+qnaDel,
+qnaStatus,
+clientId,
+roleId,
+attachmentID)
+    </when>
+    <when test="category == product ">
+
+    </when>
+    <when test="category == delivery ">
+
+    </when>
+    </choose>
+  </insert> -->
+
+</mapper>
