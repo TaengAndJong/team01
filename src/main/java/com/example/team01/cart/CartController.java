@@ -50,6 +50,7 @@ public class CartController {
         //로그인한 user 정보
         String clientId = userDetails.getUsername();
         log.info("clientId --- login:{}",clientId);
+
         //클라이언트별 장바구니 목록에 데이터가 있을 경우
 
         //없을 경우
@@ -77,6 +78,8 @@ public class CartController {
         log.info(" quantity  : {}",cartvo.getQuantity());// 장바구니에 담은 수량
         log.info(" clientId  : {}",clientId);
 
+        // 서비스 파라미터로 넘길 유저 아이디 설정
+        cartvo.setClientId(clientId);
         //cartService에  파라미터 넘겨주기
         cartService.insertBook(cartvo);
 
