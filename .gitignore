@@ -42,5 +42,3 @@ build/
 ### security ###
 /src/main/java/com/example/team01/config/SecurityConfig.java
 
-### application.properties ###
-application.properties
