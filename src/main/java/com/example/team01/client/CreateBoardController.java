@@ -55,34 +55,34 @@ public class CreateBoardController {
 
         log.info("게시글 생성 시작");
         
-        CreateBoardVO createBoardVO = new CreateBoardVO(); // 객체 직접 생성
+        CreateBoardVO createBoardvo = new CreateBoardVO(); // 객체 직접 생성
 
         // 🟡 Null 체크 여기서 반드시 먼저 수행
         if (files != null) {
             for (MultipartFile file : files) {
                 log.info("files 타입: {}", file.getClass().getName());
             }
-            createBoardVO.setFiles(files);
+            createBoardvo.setFiles(files);
         } else {
             log.info("첨부된 파일이 없습니다 (files == null)");
-            createBoardVO.setFiles(Collections.emptyList());
-            createBoardVO.setFileName("첨부파일 없음");
-            log.info("createBoardVO: {}", createBoardVO);
+            createBoardvo.setFiles(Collections.emptyList());
+            createBoardvo.setFileName("첨부파일 없음");
+            log.info("createBoardVO: {}", createBoardvo);
         }
 
-        createBoardVO.setClientId(clientId);
-        createBoardVO.setClientName(clientName);
-        createBoardVO.setCategory(category);
-        createBoardVO.setTitle(title);
-        createBoardVO.setContent(content);
-<<<<<<< HEAD
-        createBoardVO.setFiles(files);
+        createBoardvo.setClientId(clientId);
+        createBoardvo.setClientName(clientName);
+        createBoardvo.setCategory(category);
+        createBoardvo.setTitle(title);
+        createBoardvo.setContent(content);
 
-        log.info("VO 객체 데이터: {}", createBoardVO);
-=======
+        createBoardvo.setFiles(files);
 
-        log.info("컨트롤러 VO 객체 데이터: {}", createBoardVO);
->>>>>>> pj-bod
+        log.info("VO 객체 데이터: {}", createBoardvo);
+
+
+        log.info("컨트롤러 VO 객체 데이터: {}", createBoardvo);
+
 
         try {
             // 게시물 등록 service 호출
