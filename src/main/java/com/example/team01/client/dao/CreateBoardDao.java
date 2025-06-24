@@ -5,6 +5,8 @@ import com.example.team01.vo.CreateBoardVO;
 
 @Mapper
 public interface CreateBoardDao {
-  void createBoard(CreateBoardVO createBoardVO);
+  void createQnaOneBoard(CreateBoardVO createBoardVO);
+  void createProductBoard(CreateBoardVO createBoardVO);
+  void createDeliveryBoard(CreateBoardVO createBoardVO);
 }
 
