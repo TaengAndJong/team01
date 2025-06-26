@@ -10,7 +10,7 @@
         </selectKey>
         
         INSERT INTO qnaone (
-            "qnaOneId",
+            "qnaDelId",
             "qnaTitle",
             "qnaContent",
             "qnaWriter",
@@ -20,7 +20,7 @@
             "roleId",
             "attachmentID"
         ) VALUES (
-            #{qnaOneId},
+            #{qnaDelId},
             #{title},
             #{content},
             #{clientName},

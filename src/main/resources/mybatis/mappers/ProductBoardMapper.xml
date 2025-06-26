@@ -3,37 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         <mapper namespace="com.example.team01.client.dao.ProductBoardDao">
     
-    <insert id="createProductBoard" parameterType="com.example.team01.vo.ProductBoardVO">
-        <selectKey keyProperty="qnaOneId" resultType="String" order="BEFORE">
-            SELECT 'qnaone' || LPAD(ADDQNAONE_SEQ.NEXTVAL, 4, '0') FROM DUAL
-        </selectKey>
-        
-        INSERT INTO qnaone (
-            "qnaOneId",
-            "qnaTitle",
-            "qnaContent",
-            "qnaWriter",
-            "qnaDate",
-            "qnaStatus",
-            "clientId",
-            "roleId",
-            "attachmentID"
-        ) VALUES (
-            #{qnaOneId},
-            #{title},
-            #{content},
-            #{clientName},
-            SYSDATE,
-            '답변 대기',
-            #{clientId},
-            'ROLE_CLIENT',
-            #{fileName}
-        )
-    </insert>
-
     <insert id="createProductBoard" parameterType="com.example.team01.vo.CreateBoardVO">
         <selectKey keyProperty="qnaProId" resultType="String" order="BEFORE">
-            SELECT 'qnapro' || LPAD(ADDQNAPRO_SEQ.NEXTVAL, 4, '0') FROM DUAL
+            SELECT 'qnapro' || LPAD(ADDPRODUCT_SEQ.NEXTVAL, 4, '0') FROM DUAL
         </selectKey>
 
         INSERT INTO qnapro (
@@ -48,34 +20,6 @@
             attachmentID
         ) VALUES (
             #{qnaProId},
-            #{title},
-            #{content},
-            #{clientName},
-            SYSDATE,
-            '답변 대기',
-            #{clientId},
-            'ROLE_CLIENT',
-            #{fileName}
-        )
-    </insert>
-    
-    <insert id="createDeliveryBoard" parameterType="com.example.team01.vo.CreateBoardVO">
-        <selectKey keyProperty="qnaDelId" resultType="String" order="BEFORE">
-            SELECT 'qnadeliv' || LPAD(ADDQNADELIV_SEQ.NEXTVAL, 4, '0') FROM DUAL
-        </selectKey>
-
-        INSERT INTO qnadeliv (
-            qnaDelId,
-            qnaTitle,
-            qnaContent,
-            qnaWriter,
-            qnaDate,
-            qnaStatus,
-            clientId,
-            roleId,
-            attachmentID
-        ) VALUES (
-            #{qnaDelId},
             #{title},
             #{content},
             #{clientName},
