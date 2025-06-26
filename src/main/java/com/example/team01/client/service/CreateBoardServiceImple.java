@@ -3,8 +3,6 @@ package com.example.team01.client.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -51,9 +49,17 @@ public class CreateBoardServiceImple implements CreateBoardService {
                 log.info("다중 파일 업로드 완료 fileNames--------------------: {}", fileNames);
                 createBoardVO.setFileName(fileNames);
             }
-            
-            createBoardDao.createBoard(createBoardVO);
-            log.info("게시물 등록 완료");
+
+            log.info("file 업로드 후 createBoardVO 객체 데이터: {}", createBoardVO);
+
+            // 조건: 카테고리 별 게시물 등록
+            if(createBoardVO.getCategory().equals("qnaone")){
+                createBoardDao.createQnaOneBoard(createBoardVO);
+            }else if(createBoardVO.getCategory().equals("product")){
+                createBoardDao.createProductBoard(createBoardVO);
+            }else if(createBoardVO.getCategory().equals("delivery")){
+                createBoardDao.createDeliveryBoard(createBoardVO);
+            }
             
         } catch (Exception e) { 
             log.error("게시물 등록 중 오류 발생: {}", e.getMessage());

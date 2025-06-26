@@ -51,22 +51,45 @@ const CreateBoardComponent = () => {
 
     console.log("서버로 전송 할 문의 데이터 ------", formData);
     try {
-      const response = await fetch(`/api/board/createBoard`, {
-        method: "POST",
-        body: form,
-      });
-      if (!response.ok) {
-        console.log("통신에러", response.status);
-        throw Error(response.statusText);
+      if (formData.category === "qnaone") {
+        const response = await fetch(`/api/board/oneBoard`, {
+          method: "POST",
+          body: form,
+        });
+      } else if (formData.category === "product") {
+        const response = await fetch(`/api/board/productBoard`, {
+          method: "POST",
+          body: form,
+        });
+      } else if (formData.category === "delivery") {
+        const response = await fetch(`/api/board/deliveryBoard`, {
+          method: "POST",
+          body: form,
+        });
+      } else {
+        console.log("지원하지 않는 카테고리");
       }
-      //요청 성공
-      const data = await response.json();
-      console.log("데이터---------------", data);
     } catch (e) {
-      console.log(e, "에러");
+      console.log(e, e.message);
     }
-  };
 
+    //   try {
+    //     const response = await fetch(`/api/board/createBoard`, {
+    //       method: "POST",
+    //       body: form,
+    //     });
+    //     if (!response.ok) {
+    //       console.log("통신에러", response.status);
+    //       throw Error(response.statusText);
+    //     }
+    //     //요청 성공
+    //     const data = await response.json();
+    //     console.log("데이터---------------", data);
+    //   } catch (e) {
+    //     console.log(e, "에러");
+    //   }
+    // };
+  };
   return (
     <>
       <div>

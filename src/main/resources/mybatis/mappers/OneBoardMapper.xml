@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.team01.client.dao.CreateBoardDao">
+        <mapper namespace="com.example.team01.client.dao.OneBoardDao">
     
-    <insert id="createQnaOneBoard" parameterType="com.example.team01.vo.CreateBoardVO">
+    <insert id="createQnaOneBoard" parameterType="com.example.team01.vo.OneBoardVO">
         <selectKey keyProperty="qnaOneId" resultType="String" order="BEFORE">
             SELECT 'qnaone' || LPAD(ADDQNAONE_SEQ.NEXTVAL, 4, '0') FROM DUAL
         </selectKey>

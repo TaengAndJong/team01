@@ -1,0 +1,25 @@
+package com.example.team01.vo;
+
+import lombok.*;
+
+import org.springframework.web.multipart.MultipartFile;
+import java.io.Serializable;
+import java.util.List;
+
+
+@ToString
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProductBoardVO implements Serializable {
+    private String title; // 게시물 제목
+    private String content; // 게시물 내용
+    private String clientId; // 사용자 Id
+    private String clientName; // 사용자 실명
+    private String category; // 게시물 카테고리
+    private List<MultipartFile> files; // 첨부파일 (다중)
+    private String fileName;           // 저장된 파일명들 (ex: "a.jpg,b.jpg")
+}
+
+// Date, Del, Status, mapper에서 직접 작성 할 예정

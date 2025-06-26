@@ -12,8 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateBoardVO implements Serializable {
-    private String qnaOneId; // 게시물 아이디
+public class DeliveryBoardVO implements Serializable {
     private String title; // 게시물 제목
     private String content; // 게시물 내용
     private String clientId; // 사용자 Id
@@ -21,8 +20,6 @@ public class CreateBoardVO implements Serializable {
     private String category; // 게시물 카테고리
     private List<MultipartFile> files; // 첨부파일 (다중)
     private String fileName;           // 저장된 파일명들 (ex: "a.jpg,b.jpg")
-
 }
 
-
-
+// Date, Del, Status, mapper에서 직접 작성 할 예정
