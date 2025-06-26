@@ -18,7 +18,6 @@ public class AddressVO implements Serializable {
     private String zoneCode;
     private String detailAddr;
 
-
     // clientId를 client 테이블에서 조인해와야 하기때문에, clientVO객체 필드 작성
     // association을 선언된 필드들은 where 조건절에 값을 담을 수 없어서 ,AddressVO 객체 내부에 clientId 필드를 따로 작성해야함
     // 조인된 결과 (client 테이블의 값이 담김)

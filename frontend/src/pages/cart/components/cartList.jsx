@@ -1,22 +1,27 @@
 import "@assets/css/cart/cartList.css"
 import {useContext, useEffect, useState} from "react";
 import {CartStateContext} from "../cartComponent.jsx";
+import CartAddress from "./cartAddress.jsx";
+import CartAccount from "./cartAccount.jsx";
 
 
 const CartList = () => {
-
+        // cartData 에서 bookList 만
         const cartData = useContext(CartStateContext);
-        console.log("cartData==== cartLIst", cartData);
+        console.log("컴포넌트 렌더링 - cartData:", cartData);
+        // 구조분해 할당을 통한 bookList ==> 구조분해 할당 시,cartdata에 담긴 키명 그대로 받아야함
+        const {bookList, address} = cartData?.[0] || [];
 
-        const [cartList, setCartList] = useState([]);
+        // 삭제 , 갱신 등의 데이터 조작이 필요한 경우 상태관리 변수 사용
+        const [cartList, setCartList] = useState(null);
 
+        //cartData가 변화할 때마다 데이터 갱신
         useEffect(() => {
-            if(cartData){
-                setCartList(cartData);
+            if (cartData) {
+                setCartList(bookList);
             }
         },[cartData])
 
-        console.log("장바구니 데이터 ",cartData);
 
 
         //장바구니 데이터가 빈 배열(빈 값)일 경우 UI반환 함수
@@ -32,6 +37,7 @@ const CartList = () => {
         }
 
     const addCartList = (cartList) => {
+
         return (
       <>
           {/*label 내부에 input 기입 시, htmlFor 기입 불필요*/}
@@ -91,53 +97,23 @@ const CartList = () => {
 
           </ul>
 
-          {/* 합산금액 시작 : 장바구니에 담긴 전체 상품에 대한 계산 */}
-          <div className="cart-count d-block clearfix default-border p-3 bg-white bg-opacity-75">
-              <ul className="cart-count-list  ul bullet  d-flex justify-content-between align-items-center">
-                  <li className="li item-inner d-inline-block  text-cetner">
-                      <strong className="tit">선택상품금액</strong>
-                      <span className="price"><em>2,0000</em>원</span>
-                  </li>
-                  <li className="li item-inner d-inline-block text-cetner">
-                      <strong className="tit">배송금액</strong>
-                      <span className="price"><em>2,000</em>원</span>
-                  </li>
-                  <li className="li item-inner d-inline-block text-cetner">
-                      <strong className="tit">주문금액</strong>
-                      <span className="price"><em>22,000</em>원</span>
-                  </li>
-                  <li className="item-inner d-inline-block text-cetner">
-                      <button type="submit" className="btn btn-primary">전체구매</button>
-                  </li>
-              </ul>
-          </div>
       </>
         )
     }
-
+        console.log("addrCartlist --- cartList",address);
     return (
         <>
             <div className="cart d-block clearfix">
                 <h3 className="title-border title">장바구니</h3>
 
-                {/*배송지 선택  title-dotted */}
-                <div className="select-address mt-4 mb-5">
-                    <h5 className="title my-3">배송지</h5>
-                    <dl className="d-flex border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50 align-items-center">
-                        <dt className="title me-3">분류</dt>
-                        <dd className="border-end pe-4">집</dd>
-                        <dt className="title me-3 ms-4">상세주소</dt>
-                        <dd>배송 주소등록한 배송지 기준 빠른배송 상품을 보실 수 있습니다.
-                            <button aria-label="배송지변경" className="btn btn-sm btn-primary ms-3">변경</button>
-                        </dd>
-                    </dl>
-                </div>
+                {/*배송지 선택  title-dotted , 객체 중첩구조 단순화하여 props넘기기*/}
+                <CartAddress addrList={address}/>
 
                 {/* cartList  */}
-                {cartData && cartData.length > 0 ? addCartList(cartData) : emptyCartList()}
+                {cartData && cartData.length > 0 ? addCartList(bookList) : emptyCartList()}
 
-                {/* cartList  */}
-
+                {/* cartAccount */}
+                <CartAccount />
             </div>
 
         </>

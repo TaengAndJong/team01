@@ -68,10 +68,32 @@
         where "addrId"=#{addrId}
     </update>
 
-  <delete id="deleteAddress" parameterType="String">
+    <delete id="deleteAddress" parameterType="String">
       delete from Address
       where "addrId"=#{addrId}
         and "clientId"=#{clientId}
-  </delete>
+    </delete>
+
+    <select id="selectCartAddress" parameterType="String" resultMap="addressMap">
+        select a."addrId"
+             ,a."addr"
+             ,a."addrType"
+             ,a."detailAddr"
+             ,a."zoneCode"
+             ,c."clientId"
+             ,c."clientName"
+             ,c."email"
+             ,c."tel"
+        from address a join client c
+        on ( a."clientId" = c."clientId")
+        where a."clientId" = #{clientId}
+        order by a."addrId"
+    </select>
+
+    <update id="updateCartAddress" parameterType="String">
+        UPDATE client
+        SET "selecedAddrId" = #{addrId}
+        WHERE "clientID" = #{clientId}
+    </update>
 
 </mapper>
