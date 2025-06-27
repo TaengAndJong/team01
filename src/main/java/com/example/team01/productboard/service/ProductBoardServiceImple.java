@@ -1,5 +1,5 @@
 package com.example.team01.productboard.service;
-
+import com.example.team01.attachment.service.AttachmentService;
 import com.example.team01.vo.ProductBoardVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +17,7 @@ public class ProductBoardServiceImple implements ProductBoardService {
 
     private final FileUtils fileUtils;
     private final ProductBoardDao ProductBoardDao;
+    private final AttachmentService attachmentService;
 
     @Override
     public void CreateProductBoard(ProductBoardVO vo) {
@@ -26,7 +27,7 @@ public class ProductBoardServiceImple implements ProductBoardService {
         List<MultipartFile> files = vo.getFiles(); // 첨부파일 데이터 VO 객체에서 가져오기
 
         log.info("[productBoard 서비스 시작------------------------------------]");
-        
+
         try {
             // 조건: files가 null 또는 비어있을 경우
             if (files == null || files.isEmpty()) {
@@ -51,8 +52,9 @@ public class ProductBoardServiceImple implements ProductBoardService {
             
             // DAO를 통한 게시물 등록
             ProductBoardDao.CreateProductBoard(vo);
+            // attachmentService.insertAttachmentService(null);// 파일첨부 테이블 등록
             log.info("게시물 등록 완료");
-            
+
         } catch (Exception e) {
             log.error("게시물 등록 중 오류 발생", e); 
             throw new RuntimeException("게시물 등록 실패", e);

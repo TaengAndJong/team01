@@ -26,7 +26,7 @@ public class OneBoardServiceImple implements OneBoardService {
         List<MultipartFile> files = vo.getFiles(); // 첨부파일 데이터 VO 객체에서 가져오기
 
         log.info("[oneBoard 서비스 시작------------------------------------]");
-        
+
         try {
             // 조건: files가 null 또는 비어있을 경우
             if (files == null || files.isEmpty()) {
@@ -48,11 +48,11 @@ public class OneBoardServiceImple implements OneBoardService {
             }
 
             log.info("file 업로드 후 oneBoardVO 객체 데이터: {}", vo);
-            
+
             // DAO를 통한 게시물 등록
             OneBoardDao.CreateOneBoard(vo);
             log.info("게시물 등록 완료");
-            
+
         } catch (Exception e) {
             log.error("게시물 등록 중 오류 발생", e); 
             throw new RuntimeException("게시물 등록 실패", e);
