@@ -3,7 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         <mapper namespace="com.example.team01.productboard.dao.ProductBoardDao">
     
+    <!-- 부모 테이블 에 AttachmentID 추가 하는 로직 -->
+    <insert id="UpdateAttachmentIDProduct" parameterType="com.example.team01.vo.ProductBoardVO">
+        UPDATE ATTACHMENTID
+        SET attachmentID = #{attachmentID}
+    </insert>
+
     <insert id="CreateProductBoard" parameterType="com.example.team01.vo.ProductBoardVO">
+        
         <selectKey keyProperty="qnaProId" resultType="String" order="BEFORE">
             SELECT 'qnapro' || LPAD(ADDQNAPRO_SEQ.NEXTVAL, 4, '0') FROM DUAL
         </selectKey>
@@ -27,7 +34,7 @@
             '답변 대기',
             #{clientId},
             'ROLE_CLIENT',
-            #{fileName, jdbcType=VARCHAR}
+            #{attachmentID , jdbcType=VARCHAR}
         )
     </insert>
 </mapper>
