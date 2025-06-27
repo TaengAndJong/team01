@@ -115,7 +115,6 @@ const CartList = () => {
                 {/* cartAccount */}
                 <CartAccount />
             </div>
-
         </>
     )
 

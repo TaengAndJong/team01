@@ -93,7 +93,23 @@
     <update id="updateCartAddress" parameterType="String">
         UPDATE client
         SET "selecedAddrId" = #{addrId}
-        WHERE "clientID" = #{clientId}
+        WHERE "clientId" = #{clientId}
     </update>
+
+    <select id="selectChangeAddress" parameterType="String" resultMap="addressMap">
+        with cl as (select
+                        "clientId"
+                         ,"clientName"
+                         ,"selecedAddrId"
+                    from client
+                    where "clientId" = #{clientId})
+
+        select
+            cl.*,
+            a.*
+        from cl join address a on ( cl."selecedAddrId" = a."addrId")
+        where cl."selecedAddrId" = #{addrId}
+    </select>
+
 
 </mapper>

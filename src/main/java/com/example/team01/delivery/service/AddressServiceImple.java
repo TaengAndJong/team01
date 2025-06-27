@@ -78,8 +78,19 @@ public class AddressServiceImple implements AddressService{
         log.info("장바구니 주소 ------ clientId:{},addrId:{}",clientId,addrId);
 
         int cnt = dao.updateCartAddress(clientId,addrId);
+        log.info("장바구니 주소 ------ cnt:{}",cnt);
 
         return cnt;
+    }
+
+    @Override
+    public AddressVO selectChangeAddress(String clientId, String addrId) {
+
+        log.info("장바구니 주소 ------ clientId:{},addrId:{}",clientId,addrId);
+        AddressVO result = dao.selectChangeAddress(clientId,addrId);
+        log.info("장바구니 주소 ------ result:{}",result);
+
+        return result;
     }
 
 }

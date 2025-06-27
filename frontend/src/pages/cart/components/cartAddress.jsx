@@ -12,6 +12,9 @@ const CartAddress= ({addrList}) =>{
     
     //모달 주소 선택 상태관리 변수
     const [selectAddr, setSelectAddr] = useState(null);
+    //변경할 주소 아이디 상태관리변수
+    const [selectedId, setSelectedId] = useState(null);
+
     //배송지 목록 상태관리 변수
     const [orderAddr, setOrderAddr] = useState(null);
     //모달 상태관리
@@ -54,10 +57,29 @@ const CartAddress= ({addrList}) =>{
     }
 
     //배송지변경버튼 핸들러
-    const changeAddress = (item) => {
-        console.log("변경할 Item info",item);
-        // 비동기 요청
+    const changeAddrFetch = async () => {
 
+       //서버로 비동기 요청보내기
+        const response = await fetch(
+            "/api/cart/addr",
+            {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify({selectedAddrId: selectedId}),
+            }
+        );
+
+        if(!response.ok){
+            throw Error(response.statusText);
+        }
+
+        const data = await response.json();
+        console.log("data----------업데이트된 주소데이터",data);
+        console.log("data----------업데이트된 주소데이터",data.updateAddr);
+        setOrderAddr(data.updateAddr); // 기존 배송주소 데이터 갱신
+        setShow(false);// 모달창 닫기
     }
 
     useEffect(() => {
@@ -111,22 +133,30 @@ const CartAddress= ({addrList}) =>{
                                 <ul>
                                     {selectAddr?.map((item, index) => (
                                         <li key={item.addrId}>
-                                            <button className="btn btn-light text-start my-1"
-                                                    onClick={() => changeAddress(item)}>
+                                            <label key={item.addrId} className="btn btn-outline-primary">
+                                                <input
+                                                    type="radio"
+                                                    name="address"
+                                                    value={item.addrId}
+                                                    checked={selectedId === item.addrId}
+                                                    onChange={() => setSelectedId(item.addrId)}
+                                                />
                                                 <span>{`No.${index + 1}`}</span>
-                                            <span>분류 : {item.addrType}</span>
-                                            <span>우편번호 : {item.zoneCode}</span>
-                                            <span>주소 : {item.addr}</span>
-                                            <span>상세주소 : {item.detailAddr}</span>
-                                        </button>
-                                    </li>
-                                ))}
+                                                <span> addrId : {item.addrId}</span>
+                                                <span>분류 : {item.addrType}</span>
+                                                <span>우편번호 : {item.zoneCode}</span>
+                                                <span>주소 : {item.addr}</span>
+                                                <span>상세주소 : {item.detailAddr}</span>
+                                            </label>
+
+                                        </li>
+                                    ))}
                                 </ul>
                             </Modal.Body>
-                            <Modal.Footer>
-                                <Button onClick={handleClose}>취소</Button>
-                                <Button onClick={handleSubmit}>확인</Button>
-                            </Modal.Footer>
+                        <Modal.Footer>
+                            <Button onClick={handleClose}>취소</Button>
+                            <Button onClick={()=>changeAddrFetch()}>확인</Button>
+                        </Modal.Footer>
                         </Modal.Dialog>
                     </Modal>
                 )}

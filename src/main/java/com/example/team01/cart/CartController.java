@@ -101,9 +101,40 @@ public class CartController {
         //결과값 담아줄 map
         Map<String, Object> result = new HashMap<>();
         result.put("테스트",cartvo);
-
         return  ResponseEntity.ok(result);
 
+    }
+
+
+    //장바구니 주소 선택
+    @PostMapping("/addr")
+    public ResponseEntity<?> updateCartAddress(@RequestBody Map<String,String> selectedAddrId,
+                                               @AuthenticationPrincipal PrincipalDetails userDetails){
+
+        log.info("selectedAddrid API");
+        // update ==> selectedAddrId
+        String clientId = userDetails.getUsername();
+        // 선택된 주소가 없으면 (null)이면 등록된 기본 주소의 첫 번째 주소가 보임
+        log.info("selectedAddrid ---------- : {}",selectedAddrId);
+        String addrId = selectedAddrId.get("selectedAddrId");
+        //client의 selectedId를 업데이트해주기
+        int updateSelectAddress = addressService.updateCartAddress(clientId,addrId);
+        log.info("selectedAddrId ------ result ---------- : {}",updateSelectAddress);
+
+
+        //클라이언트로 반환할 결과
+        Map<String,Object> result = new HashMap<>();
+
+        if(updateSelectAddress < 0 ){
+            return ResponseEntity.ok("주소 업데이트 실패");
+        }
+
+        // 클라이언트가 선택한 주소를 기본 주소로 받아오기
+        AddressVO data= addressService.selectChangeAddress(clientId,addrId);
+        result.put("updateAddr",data);
+        log.info("updateAddr ----------:{}",result);
+
+        return ResponseEntity.ok(result);
     }
 
 }

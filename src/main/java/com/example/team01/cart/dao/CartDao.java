@@ -31,6 +31,8 @@ public interface CartDao {
     //장바구니에서 삭제
     public CartVO deleteToCartList(@Param("cartId") String cartId);
 
+    //배송지 선택 변경 업데이트
+    public int updateCartAddress(@Param("clientId") String clientId,@Param("addrId") String addrId);
 
 
 }
