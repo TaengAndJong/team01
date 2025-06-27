@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-        <mapper namespace="com.example.team01.client.dao.DeliveryBoardDao">
+        <mapper namespace="com.example.team01.deliveryboard.dao.DeliveryBoardDao">
     
-    <insert id="createDeliveryBoard" parameterType="com.example.team01.vo.DeliveryBoardVO">
-        <selectKey keyProperty="qnaOneId" resultType="String" order="BEFORE">
-            SELECT 'qnaone' || LPAD(ADDQNAONE_SEQ.NEXTVAL, 4, '0') FROM DUAL
+    <insert id="CreateDeliveryBoard" parameterType="com.example.team01.vo.DeliveryBoardVO">
+        <selectKey keyProperty="qnaDelId" resultType="String" order="BEFORE">
+            SELECT 'qnadeliv' || LPAD(ADDQNADELIV_SEQ.NEXTVAL, 4, '0') FROM DUAL
         </selectKey>
         
-        INSERT INTO qnaone (
+        INSERT INTO qnadeliv (
             "qnaDelId",
             "qnaTitle",
             "qnaContent",
@@ -28,7 +28,7 @@
             '답변 대기',
             #{clientId},
             'ROLE_CLIENT',
-            #{fileName}
+            #{fileName, jdbcType=VARCHAR}
         )
     </insert>
 </mapper>

@@ -4,4 +4,6 @@ import com.example.team01.vo.ProductBoardVO;
 
 public interface ProductBoardDao {
     void CreateProductBoard(ProductBoardVO vo);
+
+    void UpdateAttachmentIDProduct(ProductBoardVO vo);
 }

@@ -13,11 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OneBoardVO implements Serializable {
+    private String qnaOneId; // 게시물 번호
     private String title; // 게시물 제목
     private String content; // 게시물 내용
     private String clientId; // 사용자 Id
     private String clientName; // 사용자 실명
     private String category; // 게시물 카테고리
     private List<MultipartFile> files; // 첨부파일 (다중)
-    private String fileName;           // 저장된 파일명들 (ex: "a.jpg,b.jpg")
+    private String attachmentID; // 저장된 파일명들 (ex: "a.jpg,b.jpg")
 }

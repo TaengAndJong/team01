@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-        <mapper namespace="com.example.team01.client.dao.ProductBoardDao">
+        <mapper namespace="com.example.team01.productboard.dao.ProductBoardDao">
     
-    <insert id="createProductBoard" parameterType="com.example.team01.vo.CreateBoardVO">
+    <insert id="CreateProductBoard" parameterType="com.example.team01.vo.ProductBoardVO">
         <selectKey keyProperty="qnaProId" resultType="String" order="BEFORE">
-            SELECT 'qnapro' || LPAD(ADDPRODUCT_SEQ.NEXTVAL, 4, '0') FROM DUAL
+            SELECT 'qnapro' || LPAD(ADDQNAPRO_SEQ.NEXTVAL, 4, '0') FROM DUAL
         </selectKey>
 
         INSERT INTO qnapro (
-            qnaProId,
-            qnaTitle,
-            qnaContent,
-            qnaWriter,
-            qnaDate,
-            qnaStatus,
-            clientId,
-            roleId,
-            attachmentID
+            "qnaProId",
+            "qnaTitle",
+            "qnaContent",
+            "qnaWriter",
+            "qnaDate",
+            "qnaStatus",
+            "clientId",
+            "roleId",
+            "attachmentID"
         ) VALUES (
             #{qnaProId},
             #{title},
@@ -27,7 +27,7 @@
             '답변 대기',
             #{clientId},
             'ROLE_CLIENT',
-            #{fileName}
+            #{fileName, jdbcType=VARCHAR}
         )
     </insert>
 </mapper>

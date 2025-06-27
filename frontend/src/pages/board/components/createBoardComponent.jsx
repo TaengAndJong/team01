@@ -56,39 +56,37 @@ const CreateBoardComponent = () => {
           method: "POST",
           body: form,
         });
+        if (!response.ok) {
+          console.error("전송 실패", response.status);
+          return;
+        }
+        alert("1:1 문의 게시물이 등록되었습니다!");
       } else if (formData.category === "product") {
         const response = await fetch(`/api/board/productBoard`, {
           method: "POST",
           body: form,
         });
+        if (!response.ok) {
+          console.error("전송 실패", response.status);
+          return;
+        }
+        alert("상품 문의 게시물이 등록되었습니다!");
       } else if (formData.category === "delivery") {
         const response = await fetch(`/api/board/deliveryBoard`, {
           method: "POST",
           body: form,
         });
+        if (!response.ok) {
+          console.error("전송 실패", response.status);
+          return;
+        }
+        alert("배송 문의 게시물이 등록되었습니다!");
       } else {
         console.log("지원하지 않는 카테고리");
       }
     } catch (e) {
       console.log(e, e.message);
     }
-
-    //   try {
-    //     const response = await fetch(`/api/board/createBoard`, {
-    //       method: "POST",
-    //       body: form,
-    //     });
-    //     if (!response.ok) {
-    //       console.log("통신에러", response.status);
-    //       throw Error(response.statusText);
-    //     }
-    //     //요청 성공
-    //     const data = await response.json();
-    //     console.log("데이터---------------", data);
-    //   } catch (e) {
-    //     console.log(e, "에러");
-    //   }
-    // };
   };
   return (
     <>

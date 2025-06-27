@@ -53,8 +53,8 @@ public class OneBoardServiceImple implements OneBoardService {
             OneBoardDao.CreateOneBoard(vo);
             log.info("게시물 등록 완료");
             
-        } catch (Exception e) { 
-            log.error("게시물 등록 중 오류 발생: {}", e.getMessage());
+        } catch (Exception e) {
+            log.error("게시물 등록 중 오류 발생", e); 
             throw new RuntimeException("게시물 등록 실패", e);
         }
     }

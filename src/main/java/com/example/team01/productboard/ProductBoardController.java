@@ -38,7 +38,7 @@ public class ProductBoardController {
             @RequestParam("title") String title,
             @RequestParam("content") String content,
             @RequestParam(value = "files", required = false) List<MultipartFile> files) {
-                
+            
             log.info("컨트롤러 상품 문의 게시물 등록 통신 시작");
 
         ProductBoardVO vo = new ProductBoardVO(); // 상품 문의 VO 객체 생성
