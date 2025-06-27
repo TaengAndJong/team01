@@ -22,7 +22,7 @@ public class OneBoardServiceImple implements OneBoardService {
     public void CreateOneBoard(OneBoardVO vo) {
         log.info("서비스 임플 VO 객체 데이터: {}", vo);
 
-        String fileNames = ""; // 전역 설정
+        String AttachmentID = ""; // 전역 설정
         List<MultipartFile> files = vo.getFiles(); // 첨부파일 데이터 VO 객체에서 가져오기
 
         log.info("[oneBoard 서비스 시작------------------------------------]");
@@ -35,16 +35,16 @@ public class OneBoardServiceImple implements OneBoardService {
             // 조건: 파일 사이즈가 1일 경우
             else if (files.size() == 1) {
                 log.info("단일 파일 업로드 시작");
-                fileNames = fileUtils.saveFile(files, "board");
-                log.info("단일 파일 업로드 완료 fileNames--------------------: {}", fileNames);
-                vo.setFileName(fileNames);
+                AttachmentID = fileUtils.saveFile(files, "board");
+                log.info("단일 파일 업로드 완료 fileNames--------------------: {}", AttachmentID);
+                vo.setAttachmentID(AttachmentID);
             }
             // 조건: 파일 사이즈가 2 이상일 경우
             else if (files.size() > 1) {
                 log.info("다중 파일 업로드 시작");
-                fileNames = fileUtils.saveFile(files, "board");
-                log.info("다중 파일 업로드 완료 fileNames--------------------: {}", fileNames);
-                vo.setFileName(fileNames);
+                AttachmentID = fileUtils.saveFile(files, "board");
+                log.info("다중 파일 업로드 완료 fileNames--------------------: {}", AttachmentID);
+                vo.setAttachmentID(AttachmentID);
             }
 
             log.info("file 업로드 후 oneBoardVO 객체 데이터: {}", vo);
