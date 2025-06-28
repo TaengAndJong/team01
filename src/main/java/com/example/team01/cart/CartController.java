@@ -106,6 +106,27 @@ public class CartController {
     }
 
 
+    //axios로 delete 요청 시 어노테이션
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteCart(@RequestBody List<String> ids,@AuthenticationPrincipal PrincipalDetails userDetails){
+        log.info("deleteCart API 통신 받는 중");
+        log.info("deleteCart  : {}",ids);
+        int deleteResult= cartService.deleteToCartList(ids);
+        String clientId = userDetails.getUsername();
+
+        //클라이언트로 반환할 결과
+        Map<String,Object> result = new HashMap<>();
+
+        if(deleteResult>0){
+            log.info("삭제 결과 11 반환");
+            //데이터 재조회
+            List<CartVO> bookList = cartService.selectUserBookList(clientId);
+            result.put("bookList",bookList); // 삭제된 후 장바구니 데이터 재조회
+        }
+
+        return  ResponseEntity.ok(result);
+    }
+
     //장바구니 주소 선택
     @PostMapping("/addr")
     public ResponseEntity<?> updateCartAddress(@RequestBody Map<String,String> selectedAddrId,

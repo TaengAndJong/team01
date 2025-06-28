@@ -92,8 +92,9 @@ public class CartServiceImple implements CartService{
 
     // 로그인한 클라이언트의 장바구니에 담긴 도서 목록 삭제 메서드
     @Override
-    public CartVO deleteToCartList(String cartId) {
-        return null;
+    public int deleteToCartList(List<String> deleteIds) {
+        log.info("장바구니 도서삭제 목록:{}",deleteIds);
+        return dao.deleteToCartList(deleteIds);
     }
 
 

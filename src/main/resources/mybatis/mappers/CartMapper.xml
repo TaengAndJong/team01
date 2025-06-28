@@ -95,12 +95,12 @@
         where c."clientId"= #{clientId}
     </select>
 
-
-
-    <delete id="deleteToCartList" parameterType="String">
-
+    <delete id="deleteToCartList" parameterType="List">
+        delete from cart
+        where "cartId" in
+        <foreach item="deleteId" collection="deleteIds" open="(" separator="," close=")">
+                #{deleteId}
+        </foreach>
     </delete>
-
-
 
 </mapper>
