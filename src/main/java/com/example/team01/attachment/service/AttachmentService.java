@@ -7,5 +7,5 @@ import java.util.List;
 
 @Service
 public interface AttachmentService {
-    public void insertAttachmentService(List<MultipartFile> files);
+    public void insertAttachmentService(AttachmentVO attachmentVO);
 }

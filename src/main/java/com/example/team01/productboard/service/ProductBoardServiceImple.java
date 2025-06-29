@@ -1,6 +1,7 @@
 package com.example.team01.productboard.service;
 import com.example.team01.attachment.service.AttachmentService;
 import com.example.team01.vo.ProductBoardVO;
+import com.example.team01.vo.AttachmentVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,14 +19,14 @@ public class ProductBoardServiceImple implements ProductBoardService {
     private final FileUtils fileUtils;
     private final ProductBoardDao ProductBoardDao;
     private final AttachmentService attachmentService;
-
+    
     @Override
     public void CreateProductBoard(ProductBoardVO vo) {
         log.info("서비스 임플 VO 객체 데이터: {}", vo);
 
         String AttachmentID = ""; // 전역 설정
         List<MultipartFile> files = vo.getFiles(); // 첨부파일 데이터 VO 객체에서 가져오기
-
+        AttachmentVO attachmentVO = new AttachmentVO();
         log.info("[productBoard 서비스 시작------------------------------------]");
 
         try {
@@ -49,9 +50,13 @@ public class ProductBoardServiceImple implements ProductBoardService {
             }
             
             log.info("file 업로드 후 productBoardVO 객체 데이터: {}", vo);
-            
-            log.info("파일첨부 테이블 등록 시작");
-            attachmentService.insertAttachmentService(files);// 파일첨부 테이블 등록
+
+
+            log.info("파일첨부 테이블 등록 시작 전 객체 데이터 등록");
+            attachmentVO.setCategory(vo.getCategory());
+            attachmentVO.setAttachmentID(vo.getAttachmentID());
+            attachmentVO.setFiles(vo.getFiles());
+            attachmentService.insertAttachmentService(attachmentVO);// 파일첨부 테이블 등록
             // DAO를 통한 게시물 등록
             ProductBoardDao.CreateProductBoard(vo);
             

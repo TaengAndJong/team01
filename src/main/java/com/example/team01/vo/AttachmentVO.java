@@ -1,7 +1,8 @@
 package com.example.team01.vo;
 
 import java.sql.Timestamp;
-
+import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,4 +19,6 @@ public class AttachmentVO {
     private Timestamp uploadDate;
     private String uploader;
     private String boardType;
+    private String category;
+    private List<MultipartFile> files;
 }
