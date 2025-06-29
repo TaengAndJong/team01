@@ -47,12 +47,14 @@ public class ProductBoardServiceImple implements ProductBoardService {
                 log.info("다중 파일 업로드 완료 fileNames--------------------: {}", AttachmentID);
                 vo.setAttachmentID(AttachmentID);
             }
-
+            
             log.info("file 업로드 후 productBoardVO 객체 데이터: {}", vo);
             
+            log.info("파일첨부 테이블 등록 시작");
+            attachmentService.insertAttachmentService(files);// 파일첨부 테이블 등록
             // DAO를 통한 게시물 등록
             ProductBoardDao.CreateProductBoard(vo);
-            // attachmentService.insertAttachmentService(null);// 파일첨부 테이블 등록
+            
             log.info("게시물 등록 완료");
 
         } catch (Exception e) {

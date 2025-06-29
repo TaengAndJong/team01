@@ -32,8 +32,6 @@ import static com.example.team01.utils.severUrlUtil.baseImageUrl;
 * new 연산자를 선언하여 객체를 생성할 필요가 없기 때문에 ==> 예) FIle.saveFiles(file)
 * */
 
-
-
 @Slf4j
 @Component
 public class FileUtils {
@@ -46,8 +44,6 @@ public class FileUtils {
      * 이미지 파일의 확장자가 jpg, png 두 가지 검증 필요 
      * - 실제파일 스캔 방식 선호
      *  */
-
-
 
     // inMemory 설정에서 업로드 디렉토리 값 주입
     @Value("${file.upload-dir}")
