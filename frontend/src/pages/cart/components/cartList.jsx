@@ -2,9 +2,9 @@ import "@assets/css/cart/cartList.css"
 import {useCallback, useContext, useEffect, useState} from "react";
 import {CartDispatchContext, CartStateContext} from "../cartComponent.jsx";
 import CartAddress from "./cartAddress.jsx";
-import CartAccount from "./cartAccount.jsx";
 import axios from "axios";
-import error from "eslint-plugin-react/lib/util/error.js";
+import CartItemPrice from "./cartItemPrice.jsx";
+import CartAllPrice from "./cartAllPrice.jsx";
 
 
 const CartList = () => {
@@ -15,7 +15,9 @@ const CartList = () => {
 
         // 구조분해 할당을 통한 bookList ==> 구조분해 할당 시,cartdata에 담긴 키명 그대로 받아야함
         const {bookList, address} = cartData?.[0] || [];
-        // 삭제 , 갱신 등의 데이터 조작이 필요한 경우 상태관리 변수 사용
+        // 삭제 , 갱신 등의 데이터 조작이 필요한 경우 상태관리 변수 사용 
+        // ==> 전역데이터를 한 번더 담아주는 이유는 초기 렌더링 시 null, undefined 방지
+        //전역상태 데이터를 바로 사용하면 리렌더링될 때마다 갱신발생, UI상태관리가 힘들어짐
         const [cartList, setCartList] = useState(null);
 
         //목록선택 개별상태관리변수
@@ -96,6 +98,17 @@ const CartList = () => {
             }
         },[cartData])
 
+        //장바구니에 도서 담길 때 전체 선택 자동으로 될 경우
+        useEffect(() => {
+            //carList가 null인지 undefined인지 확인 후 빈 배열 확인
+            if(cartList && cartList.length > 0){
+                const allId = cartList.map(item => item.cartId);
+                //선택 상태관리 변수 갱신
+                setSelectItem(allId);
+            }else{
+                setSelectItem([]);// 없으면 빈배열
+            }
+        },[cartList]) // cartList 가 변경될 때마다 실행
 
         //장바구니 데이터가 빈 배열(빈 값)일 경우 UI반환 함수
         const emptyCartList = () => {
@@ -150,26 +163,10 @@ const CartList = () => {
                                       <li className="li"><span className="tit">가격</span><em>{item.bookVO.bookPrice}</em>원</li>
 
                                   </ul>
-                                  {/* 도서 가격 */}
-                                  <ul className="cart-item-count ul bullet border-top border-bottom py-3 mt-5 d-flex">
-                                      <li className="li d-inline-flex  align-items-center pe-3">
-                                          <span className="me-4">상품금액</span>
-                                          <span className="price"><em>{item.bookVO.bookPrice}</em>원</span>
-                                          <span className="mx-4">수량</span>
-                                          <span className="price"><em>{item.quantity}</em></span>
-                                      </li>
-
-                                      <li className="li d-inline-flex align-items-center px-3">
-                                          <span className="me-4">배송금액</span>
-                                          <span className="price"><em>2,000</em>원</span>
-                                      </li>
-                                      <li className="d-inline-flex align-items-center ms-auto">
-                                          <button type="submit" aria-label="구매하기"
-                                                  className="submit btn btn-secondary">선택도서구매
-                                          </button>
-                                      </li>
-
-                                  </ul>
+                                  {/* 도서 가격  도서가격, 도서수량 */}
+                                  <CartItemPrice  bookPrice={item.bookVO.bookPrice}
+                                                  quantity={item.quantity}
+                                                  deliveryFee={2000}/>
                                   {/* 도서 */}
                               </div>
                           </div>
@@ -182,7 +179,7 @@ const CartList = () => {
           </>
             )
         }
-    console.log("addrCartlist --- cartList",address);
+    console.log("addrCartlist --- cartList", address);
 
     return (
         <>
@@ -196,7 +193,7 @@ const CartList = () => {
                 {cartData && cartData.length > 0 ? addCartList(bookList) : emptyCartList()}
 
                 {/* cartAccount */}
-                <CartAccount />
+                <CartAllPrice cartList={cartList} selectItem={selectItem} deliveryFee={2000} />
             </div>
         </>
     )
