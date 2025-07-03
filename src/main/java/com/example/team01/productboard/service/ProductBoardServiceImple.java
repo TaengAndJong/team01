@@ -56,6 +56,7 @@ public class ProductBoardServiceImple implements ProductBoardService {
             attachmentVO.setCategory(vo.getCategory());
             attachmentVO.setAttachmentID(vo.getAttachmentID());
             attachmentVO.setFiles(vo.getFiles());
+            attachmentVO.setUploader(vo.getClientId());
             attachmentService.insertAttachmentService(attachmentVO);// 파일첨부 테이블 등록
             // DAO를 통한 게시물 등록
             ProductBoardDao.CreateProductBoard(vo);

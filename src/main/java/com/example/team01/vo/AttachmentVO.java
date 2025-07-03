@@ -9,7 +9,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "fileData") // fileData 제외 가능
 public class AttachmentVO {
     private String attachmentID;
     private String fileName;
