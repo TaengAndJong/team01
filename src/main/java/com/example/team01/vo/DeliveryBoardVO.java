@@ -21,4 +21,5 @@ public class DeliveryBoardVO implements Serializable {
     private String category; // 게시물 카테고리
     private List<MultipartFile> files; // 첨부파일 (다중)
     private String attachmentID; // 저장된 파일명들 (ex: "a.jpg,b.jpg")
+    private List<String> attachmentIds; // UUID 저장용
 }

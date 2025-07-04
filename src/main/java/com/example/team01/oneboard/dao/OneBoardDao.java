@@ -4,4 +4,6 @@ import com.example.team01.vo.OneBoardVO;
 
 public interface OneBoardDao {
     void CreateOneBoard(OneBoardVO vo);
+
+    void UpdateAttachmentIDOne(OneBoardVO vo);
 }

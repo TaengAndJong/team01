@@ -2,12 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         <mapper namespace="com.example.team01.productboard.dao.ProductBoardDao">
-    
-    <!-- 부모 테이블 에 AttachmentID 추가 하는 로직 -->
-    <insert id="UpdateAttachmentIDProduct" parameterType="com.example.team01.vo.ProductBoardVO">
-        UPDATE ATTACHMENTID
-        SET attachmentID = #{attachmentID}
-    </insert>
 
     <insert id="CreateProductBoard" parameterType="com.example.team01.vo.ProductBoardVO">
         
