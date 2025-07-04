@@ -50,7 +50,13 @@ public class FileUtils {
     private  String uploadDir;
     @Value("${file.noImg-dir}")
     private  String noImgDir;
+    
+ // MultipartFile 파라미터 받아서 파일 저장 메서드
+    public String saveFile(MultipartFile file, String middlePath) throws FileNotFoundException {
+        return saveFile(List.of(file), middlePath);
+    }
 
+    // 여러 파일 저장 메서드
 //날데이터 받아서 문자열로 경로반환 저장메서드
     public String saveFile(List<MultipartFile> files,String middlePath) throws FileNotFoundException {
         log.info("saveFile 파일 저장 시작 파일 객체:{}", files);
@@ -101,7 +107,7 @@ public class FileUtils {
         return bookImgPath; // 여기에서 bookImaPath 반환하여 초기값 갱신
     }
     //method end
-    
+
     // 이미지가 없는 경우 사용할 메소드 , IOException > FileNotFoundException
     public String getDefaultImgPath(){
         String noImgPath="";

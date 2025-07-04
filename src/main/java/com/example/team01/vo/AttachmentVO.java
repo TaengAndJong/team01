@@ -21,4 +21,5 @@ public class AttachmentVO {
     private String boardType;
     private String category;
     private List<MultipartFile> files;
+    private String savedFileName;
 }

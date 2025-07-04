@@ -4,8 +4,19 @@
 <mapper namespace="com.example.team01.attachment.dao.AttachmentDao">
 
     <insert id="InsertAttachment_ID" parameterType="com.example.team01.vo.AttachmentVO">
-        INSERT INTO ATTACHMENTID (ATTACHMENT_ID, FILE_NAME, FILE_TYPE, FILE_SIZE, FILE_DATA, UPLOAD_DATE, UPLOADER, BOARD_TYPE)
-        VALUES (#{attachmentID}, #{fileName}, #{fileType}, #{fileSize}, #{fileData}, #{uploadDate}, #{uploader}, #{boardType})
+    INSERT INTO attachmentid (
+        "attachmentID", "fileName", "fileType", "fileSize", "fileData", "uploadDate", "uploader", "boardType"
+    )
+    VALUES (
+        #{attachmentID}, 
+        #{fileName}, 
+        #{fileType}, 
+        #{fileSize}, 
+        #{fileData}, 
+        SYSDATE, 
+        #{uploader}, 
+        #{boardType}
+    )
     </insert>
 
 </mapper>

@@ -7,5 +7,5 @@ import java.util.List;
 
 @Service
 public interface AttachmentService {
-    public void insertAttachmentService(AttachmentVO attachmentVO);
+    public List<String> insertAttachmentService(AttachmentVO attachmentVO);
 }
