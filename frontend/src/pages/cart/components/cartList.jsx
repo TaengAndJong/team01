@@ -1,23 +1,114 @@
 import "@assets/css/cart/cartList.css"
-import {useContext, useEffect, useState} from "react";
-import {CartStateContext} from "../cartComponent.jsx";
+import {useCallback, useContext, useEffect, useState} from "react";
+import {CartDispatchContext, CartStateContext} from "../cartComponent.jsx";
+import CartAddress from "./cartAddress.jsx";
+import axios from "axios";
+import CartItemPrice from "./cartItemPrice.jsx";
+import CartAllPrice from "./cartAllPrice.jsx";
 
 
 const CartList = () => {
-
+        // cartData 에서 bookList 만
         const cartData = useContext(CartStateContext);
-        console.log("cartData==== cartLIst", cartData);
+        console.log("컴포넌트 렌더링 - cartData:", cartData);
+        const {onInit} = useContext(CartDispatchContext);
 
-        const [cartList, setCartList] = useState([]);
+        // 구조분해 할당을 통한 bookList ==> 구조분해 할당 시,cartdata에 담긴 키명 그대로 받아야함
+        const {bookList, address} = cartData?.[0] || [];
+        // 삭제 , 갱신 등의 데이터 조작이 필요한 경우 상태관리 변수 사용 
+        // ==> 전역데이터를 한 번더 담아주는 이유는 초기 렌더링 시 null, undefined 방지
+        //전역상태 데이터를 바로 사용하면 리렌더링될 때마다 갱신발생, UI상태관리가 힘들어짐
+        const [cartList, setCartList] = useState(null);
 
+        //목록선택 개별상태관리변수
+        const [selectItem, setSelectItem] = useState([]);
+
+
+        //개별선택 핸들러
+        const selectOneHandler = (cartId,checked)=>{
+            console.log("selectOne-- 개별선택", cartId);
+            console.log("selectOne-- checked", checked);
+            //checked가 true 이면
+            if(checked){
+                console.log("선택 true");
+                //배열로 선택된 아이디 장바구니아이템 담기
+                setSelectItem((prev)=>[
+                    ...prev, // 배열이 담긴 cartId
+                    cartId, // 새로 선택된 cartId
+                ]);
+            }else{
+                console.log("선택 false");
+                //체크가 해제된 cartId를 제외하고 배열에 반환(필터링)
+                setSelectItem((prev)=> prev.filter(item => item !== cartId)) // filter 함수는 배열로 값 반환
+            }
+        }
+
+
+        //전체선택 핸들러
+        const selectAllHandler = (checkedAll)=>{
+            console.log("selectAll-- 전체선택", checkedAll);
+            console.log("selectAll-- selectItem", selectItem);
+            // 이미 담긴 아이디는 담지 않는다 ==> 필터링
+            if(checkedAll){ //전체선택 checked가 true이면
+                //모든 도서 체크박스 체크드 true 해야되는데 어떻게 접근해 ?
+
+                //cartList의 모든 아이디 순회하고
+                //selectItem에 이미 담긴 아이디는 제외한 Id 담기
+                const filterSelectIds= cartList.map((item)=> item.cartId) // cartList의 item의 cartId를  map 함수로 배열로 반환 후
+                    .filter(id => id !== selectItem.includes(id)); // 개별선택으로 배열에 담긴 아이디와 동일하지 않은 Id만 필터링해서 반환
+                console.log("filterSelectIds", filterSelectIds);
+                //selectItem에 데이터 갱신
+                setSelectItem(filterSelectIds);
+            }else{
+                setSelectItem([]); // 빈 배열 리셋
+            }
+        }
+         console.log("selectItem----------Last",selectItem);
+
+        //장바구이 아이템 삭제 handler
+        const deleteItemHandler = async ()=>{
+            console.log("장바구니 아이템 삭제 비동기요청 핸들러");
+            console.log("selectItem----------Last",selectItem);
+
+            try{
+                //axios로 비동기 요청 보내기
+                const response = await axios.delete("/api/cart/delete",{
+                    data:selectItem //body에 데이터 담기
+                })
+                // axios는 response.ok 없음 → HTTP 에러는 catch에서 잡힘
+                console.log("응답성공 클라이언트로 보내진 데이터",response.data);
+                //cartList 데이터 갱신필요
+                const bookList =  response.data.bookList
+                // axios는 response.data를 json으로 파싱해서 promise가 아니므로 await 사용할 필요 없음
+                onInit(bookList);// 전역 데이터 갱신
+                setSelectItem([]);// 삭제선택된 배열 리셋
+            }catch(error){
+                console.error("삭제 실패:", error);
+                // 에러 처리 로직 작성 (알림, 재시도 등)
+            }
+            
+        }
+
+
+        //cartData가 변화할 때마다 데이터 갱신
         useEffect(() => {
-            if(cartData){
-                setCartList(cartData);
+            console.log("CartData---------------useEffect--cartList",cartData);
+            if (cartData) {
+                setCartList(bookList);
             }
         },[cartData])
 
-        console.log("장바구니 데이터 ",cartData);
-
+        //장바구니에 도서 담길 때 전체 선택 자동으로 될 경우
+        useEffect(() => {
+            //carList가 null인지 undefined인지 확인 후 빈 배열 확인
+            if(cartList && cartList.length > 0){
+                const allId = cartList.map(item => item.cartId);
+                //선택 상태관리 변수 갱신
+                setSelectItem(allId);
+            }else{
+                setSelectItem([]);// 없으면 빈배열
+            }
+        },[cartList]) // cartList 가 변경될 때마다 실행
 
         //장바구니 데이터가 빈 배열(빈 값)일 경우 UI반환 함수
         const emptyCartList = () => {
@@ -31,118 +122,94 @@ const CartList = () => {
             )
         }
 
-    const addCartList = (cartList) => {
-        return (
-      <>
-          {/*label 내부에 input 기입 시, htmlFor 기입 불필요*/}
-          <div className="d-flex justify-content-between align-items-center mb-4">
-              <label className="">
-                  <input type="checkbox" name="check-all" aria-label="전체 선택"/>
-                  전체선택
-              </label>
-              <button aria-label="삭제하기" className="cart btn btn-danger">삭제하기</button>
-          </div>
+        const addCartList = (cartList) => {
 
-          <ul className="cart-list">
-              {cartList?.map((item,index) => (
-                  <li key={index} className="cart-item mb-2">
-                      <div className="item-inner d-flex card flex-row default-border position-relative p-4 mb-2 ">
-                          <label className="position-absolute check-one" htmlFor={`check0${index+1}`}>
-                              <input type="checkbox" id={`check0${index+1}`}>
-                              </input>선택삭제</label>
-                          <div className="card-header border-end rounded-4 overflow-hidden">
-                              <div className="img-box">
-                                  <div className="img-inner">
-                                      <img className="img" src={`${item.bookVO.bookImgList[0]}`} alt="노이미지"/>
+            return (
+          <>
+              {/*label 내부에 input 기입 시, htmlFor 기입 불필요*/}
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                  <label className="">
+                      <input type="checkbox" name="check-all" aria-label="전체 선택"
+                             checked={selectItem.length === cartList.length && cartList.length > 0}
+                             onChange={(e)=>{selectAllHandler(e.target.checked)}}/>
+                      전체선택
+                  </label>
+                  <button aria-label="삭제하기" className="cart btn btn-danger" onClick={deleteItemHandler}>삭제하기</button>
+              </div>
+
+              <ul className="cart-list">
+                  {cartList?.map((item,index) => (
+                      <li key={index} className="cart-item mb-2">
+                          <div className="item-inner d-flex card flex-row default-border position-relative p-4 mb-2 ">
+                              <label className="position-absolute check-one" htmlFor={`check0${index+1}`}>
+                                  <input type="checkbox" id={`check0${index+1}`}
+                                         checked={selectItem.includes(item.cartId)}
+                                         onChange={(e)=>{selectOneHandler(item.cartId,e.target.checked)}}>
+                                  </input>선택삭제
+                              </label>
+                              <div className="card-header border-end rounded-4 overflow-hidden">
+                                  <div className="img-box">
+                                      <div className="img-inner">
+                                          <img className="img" src={`${item.bookVO.bookImgList[0]}`} alt="노이미지"/>
+                                      </div>
                                   </div>
                               </div>
+                              {/* 도서 정보*/}
+                              <div className="bookInfo card-body">
+                                  <strong className="book-title title-dotted d-block">{item.bookVO.bookName}</strong>
+                                  <ul className="ul bullet">
+                                      <li className="li"><span className="tit">저자</span>{item.bookVO.author}</li>
+                                      <li className="li"><span className="tit">발행일</span>{item.bookVO.publishDate}</li>
+                                      <li className="li"><span className="tit">가격</span><em>{item.bookVO.bookPrice}</em>원</li>
+
+                                  </ul>
+                                  {/* 도서 가격  도서가격, 도서수량 */}
+                                  <CartItemPrice  bookPrice={item.bookVO.bookPrice}
+                                                  quantity={item.quantity}
+                                                  deliveryFee={2000}/>
+                                  {/* 도서 */}
+                              </div>
                           </div>
-                          {/* 도서 정보*/}
-                          <div className="bookInfo card-body">
-                              <strong className="book-title title-dotted d-block">{item.bookVO.bookName}</strong>
-                              <ul className="ul bullet">
-                                  <li className="li"><span className="tit">저자</span>{item.bookVO.author}</li>
-                                  <li className="li"><span className="tit">발행일</span>{item.bookVO.publishDate}</li>
-                                  <li className="li"><span className="tit">가격</span><em>{item.bookVO.bookPrice}</em>원</li>
 
-                              </ul>
-                              {/* 도서 가격 */}
-                              <ul className="cart-item-count ul bullet border-top border-bottom py-3 mt-5 d-flex">
-                                  <li className="li d-inline-flex  align-items-center pe-3">
-                                      <span className="tit me-4">상품금액</span>
-                                      <span className="price"><em>20,000</em>원</span>
-                                  </li>
-                                  <li className="li d-inline-flex align-items-center px-3">
-                                      <span className="tit me-4">배송금액</span>
-                                      <span className="price"><em>2,000</em>원</span>
-                                  </li>
-                                  <li className="d-inline-flex align-items-center ms-auto">
-                                      <button type="submit" aria-label="구매하기"
-                                              className="submit btn btn-secondary">선택도서구매
-                                      </button>
-                                  </li>
-                              </ul>
-                              {/* 도서 */}
-                          </div>
-                      </div>
+                      </li>
+                  ))}
 
-                  </li>
-              ))}
-
-          </ul>
-
-          {/* 합산금액 시작 : 장바구니에 담긴 전체 상품에 대한 계산 */}
-          <div className="cart-count d-block clearfix default-border p-3 bg-white bg-opacity-75">
-              <ul className="cart-count-list  ul bullet  d-flex justify-content-between align-items-center">
-                  <li className="li item-inner d-inline-block  text-cetner">
-                      <strong className="tit">선택상품금액</strong>
-                      <span className="price"><em>2,0000</em>원</span>
-                  </li>
-                  <li className="li item-inner d-inline-block text-cetner">
-                      <strong className="tit">배송금액</strong>
-                      <span className="price"><em>2,000</em>원</span>
-                  </li>
-                  <li className="li item-inner d-inline-block text-cetner">
-                      <strong className="tit">주문금액</strong>
-                      <span className="price"><em>22,000</em>원</span>
-                  </li>
-                  <li className="item-inner d-inline-block text-cetner">
-                      <button type="submit" className="btn btn-primary">전체구매</button>
-                  </li>
               </ul>
-          </div>
-      </>
-        )
-    }
+
+          </>
+            )
+        }
+    console.log("addrCartlist --- cartList", address);
 
     return (
         <>
             <div className="cart d-block clearfix">
                 <h3 className="title-border title">장바구니</h3>
 
-                {/*배송지 선택  title-dotted */}
-                <div className="select-address mt-4 mb-5">
-                    <h5 className="title my-3">배송지</h5>
-                    <dl className="d-flex border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50 align-items-center">
-                        <dt className="title me-3">분류</dt>
-                        <dd className="border-end pe-4">집</dd>
-                        <dt className="title me-3 ms-4">상세주소</dt>
-                        <dd>배송 주소등록한 배송지 기준 빠른배송 상품을 보실 수 있습니다.
-                            <button aria-label="배송지변경" className="btn btn-sm btn-primary ms-3">변경</button>
-                        </dd>
-                    </dl>
-                </div>
+                {/*배송지 선택  title-dotted , 객체 중첩구조 단순화하여 props넘기기*/}
+                <CartAddress addrList={address}/>
 
                 {/* cartList  */}
-                {cartData && cartData.length > 0 ? addCartList(cartData) : emptyCartList()}
+                {cartData && cartData.length > 0 ? addCartList(bookList) : emptyCartList()}
 
-                {/* cartList  */}
-
+                {/* cartAccount */}
+                <CartAllPrice cartList={cartList} selectItem={selectItem} deliveryFee={2000} />
             </div>
-
         </>
     )
 
 }
 
 export default CartList
+
+/*
+*  <label className="">
+      <input type="checkbox" name="check-all" aria-label="전체 선택"
+             checked={selectItem.length === cartList.length && cartList.length > 0}
+             onChange={(e)=>{selectAllHandler(e.target.checked)}}/>
+      전체선택
+  </label>
+  * 
+  * cartList.length > 0 조건을 주어야 하는 이유는 cartList.length  === 0 일 때 true 상태를 방지하기 위해서
+*
+* */

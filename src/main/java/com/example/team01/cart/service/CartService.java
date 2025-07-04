@@ -2,6 +2,7 @@ package com.example.team01.cart.service;
 
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public interface CartService {
     public List<CartVO> selectUserBookList(String clientId);
 
     //장바구니에서 삭제
-    public CartVO deleteToCartList(String cartId);
+    public int deleteToCartList(List<String> deleteIds);
+
+
 
 }

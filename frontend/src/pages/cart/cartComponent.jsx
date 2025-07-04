@@ -39,6 +39,8 @@ const Cart = () => {
     //4.장바구니 전역관리 상태 함수
     const [cartData, dispatch] = useReducer(reducer,null);
 
+    console.log("cartData------ cart Component", cartData);
+
     //메뉴 받아오기
     const {menu,currentPath,standardPoint}  = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
     let adminMenuTree = menuNavi(menu?.adminList);
@@ -70,7 +72,9 @@ const Cart = () => {
             }
 
             const data = await response.json();
+
             console.log("data------ cartList",data);
+            console.log("data------ cartList",data.bookList);
             onInit(data);
 
         }catch(error){
@@ -80,7 +84,6 @@ const Cart = () => {
     }
 
     useEffect(()=>{
-
         //마운트 시 fetch요청 보내기
         cartList();
     },[]) // 빈 배열일 경우 마운트시 한 번만 실행

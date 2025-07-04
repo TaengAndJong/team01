@@ -20,4 +20,12 @@ public interface AddressDao {
     //유저에 따른 배송지 삭제
     public int deleteAddress( @Param("addrId") String addrId,@Param("clientId") String clientId);
 
+    //장바구니에서 보여줄 주소 (처음 등록된 주소)
+    public List<AddressVO> selectCartAddress(@Param("clientId") String clientId);
+
+    //장바구니 배송지주소 선택변경
+    public int updateCartAddress(@Param("clientId") String clientId, @Param("addrId") String addrId);
+
+    //장바구니에서 보여줄 주소조회 (선택으로 변경된 주소)
+    public AddressVO selectChangeAddress(@Param("clientId") String clientId,@Param("addrId") String addrId);
 }

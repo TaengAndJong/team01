@@ -3,8 +3,10 @@ package com.example.team01.cart;
 
 import com.example.team01.book.service.BookService;
 import com.example.team01.cart.service.CartService;
+import com.example.team01.delivery.service.AddressService;
 import com.example.team01.security.PrincipalDetails;
 import com.example.team01.utils.FileUtils;
+import com.example.team01.vo.AddressVO;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,6 +40,8 @@ public class CartController {
 
     // cartService 생성자 주입
     private final CartService cartService;
+    //배송지
+    private final AddressService addressService;
     // FileUtils 생성자 주입
     private final FileUtils fileUtils;
  
@@ -50,19 +54,30 @@ public class CartController {
         //로그인한 user 정보
         String clientId = userDetails.getUsername();
         log.info("clientId --- login:{}",clientId);
+        //기본 배송지 조회하기
+        AddressVO selectAddr = addressService.selectCartAddress(clientId);
+        log.info("addr------ 장바구니 기본배송지 조회: {}",selectAddr);
+
 
         //클라이언트별 장바구니 목록에 데이터가 있을 경우
 
+
+
         //없을 경우
+        List<CartVO> bookList = cartService.selectUserBookList(clientId);
+        log.info("result---cartList 111111:{}",bookList);
 
-        List<CartVO> result = cartService.selectUserBookList(clientId);
-        log.info("result---cartList 111111:{}",result);
-
-        result.forEach(cartVO -> {
+        bookList.forEach(cartVO -> {
             BookVO bookVO= cartVO.getBookVO();
             fileUtils.changeImgPath(bookVO,request); // 클라이언트로 도서이미지 src값 설정 메서드
         });
-        log.info("result---cartList 22222:{}",result);
+        log.info("result---cartList 22222:{}",bookList);
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("bookList",bookList);
+        result.put("address",selectAddr);
+
+        log.info("result--------- controllerToclient:{}",result);
         return  ResponseEntity.ok(result);
     }
 
@@ -86,9 +101,61 @@ public class CartController {
         //결과값 담아줄 map
         Map<String, Object> result = new HashMap<>();
         result.put("테스트",cartvo);
-
         return  ResponseEntity.ok(result);
 
+    }
+
+
+    //axios로 delete 요청 시 어노테이션
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteCart(@RequestBody List<String> ids,@AuthenticationPrincipal PrincipalDetails userDetails){
+        log.info("deleteCart API 통신 받는 중");
+        log.info("deleteCart  : {}",ids);
+        int deleteResult= cartService.deleteToCartList(ids);
+        String clientId = userDetails.getUsername();
+
+        //클라이언트로 반환할 결과
+        Map<String,Object> result = new HashMap<>();
+
+        if(deleteResult>0){
+            log.info("삭제 결과 11 반환");
+            //데이터 재조회
+            List<CartVO> bookList = cartService.selectUserBookList(clientId);
+            result.put("bookList",bookList); // 삭제된 후 장바구니 데이터 재조회
+        }
+
+        return  ResponseEntity.ok(result);
+    }
+
+    //장바구니 주소 선택
+    @PostMapping("/addr")
+    public ResponseEntity<?> updateCartAddress(@RequestBody Map<String,String> selectedAddrId,
+                                               @AuthenticationPrincipal PrincipalDetails userDetails){
+
+        log.info("selectedAddrid API");
+        // update ==> selectedAddrId
+        String clientId = userDetails.getUsername();
+        // 선택된 주소가 없으면 (null)이면 등록된 기본 주소의 첫 번째 주소가 보임
+        log.info("selectedAddrid ---------- : {}",selectedAddrId);
+        String addrId = selectedAddrId.get("selectedAddrId");
+        //client의 selectedId를 업데이트해주기
+        int updateSelectAddress = addressService.updateCartAddress(clientId,addrId);
+        log.info("selectedAddrId ------ result ---------- : {}",updateSelectAddress);
+
+
+        //클라이언트로 반환할 결과
+        Map<String,Object> result = new HashMap<>();
+
+        if(updateSelectAddress < 0 ){
+            return ResponseEntity.ok("주소 업데이트 실패");
+        }
+
+        // 클라이언트가 선택한 주소를 기본 주소로 받아오기
+        AddressVO data= addressService.selectChangeAddress(clientId,addrId);
+        result.put("updateAddr",data);
+        log.info("updateAddr ----------:{}",result);
+
+        return ResponseEntity.ok(result);
     }
 
 }
