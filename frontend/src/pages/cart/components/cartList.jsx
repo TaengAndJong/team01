@@ -1,10 +1,12 @@
 import "@assets/css/cart/cartList.css"
-import {useCallback, useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState} from "react";
 import {CartDispatchContext, CartStateContext} from "../cartComponent.jsx";
 import CartAddress from "./cartAddress.jsx";
 import axios from "axios";
 import CartItemPrice from "./cartItemPrice.jsx";
 import CartAllPrice from "./cartAllPrice.jsx";
+import {useNavigate} from "react-router-dom";
+
 
 
 const CartList = () => {
@@ -12,6 +14,9 @@ const CartList = () => {
         const cartData = useContext(CartStateContext);
         console.log("컴포넌트 렌더링 - cartData:", cartData);
         const {onInit} = useContext(CartDispatchContext);
+
+        //로딩 상태관리
+        const [loading, setLoading] = useState(false);
 
         // 구조분해 할당을 통한 bookList ==> 구조분해 할당 시,cartdata에 담긴 키명 그대로 받아야함
         const {bookList, address} = cartData?.[0] || [];
@@ -22,7 +27,8 @@ const CartList = () => {
 
         //목록선택 개별상태관리변수
         const [selectItem, setSelectItem] = useState([]);
-
+        //페이지 이동
+        const navigate= useNavigate();
 
         //개별선택 핸들러
         const selectOneHandler = (cartId,checked)=>{
@@ -89,8 +95,38 @@ const CartList = () => {
             
         }
 
+        //총 가격 공통 메서드
+        const totalPrice = (cartList,cartIds) =>{
+            const selectedItems = cartList?.filter(item => cartIds.includes(item.cartId));
 
-        //cartData가 변화할 때마다 데이터 갱신
+            let total = 0;
+            for (let i = 0; i < selectedItems?.length; i++) {
+                total += (selectedItems[i].bookVO.bookPrice * selectedItems[i].quantity);
+            }
+
+            return total;
+        }
+        //결제 핸들러
+        const gotoPayment=(cartList,cartIds)=>{
+            console.log("payment gotoPayment");
+            console.log("cartIds",cartIds);
+
+            const total = totalPrice(cartList,cartIds);
+
+            console.log("cartIds",cartIds);
+            //결제페이지로 이동할 때 필요한 파라미터 navigate객체에 담아서 보내주기
+            navigate("/payment",{
+                state:{
+                    cartIds,
+                    payAccount :total,
+                    addrId: address?.addrId,
+                }
+            });
+
+        }
+
+
+    //cartData가 변화할 때마다 데이터 갱신
         useEffect(() => {
             console.log("CartData---------------useEffect--cartList",cartData);
             if (cartData) {
@@ -123,7 +159,7 @@ const CartList = () => {
         }
 
         const addCartList = (cartList) => {
-
+            console.log("cartList0-----addCartList", cartList);
             return (
           <>
               {/*label 내부에 input 기입 시, htmlFor 기입 불필요*/}
@@ -164,10 +200,11 @@ const CartList = () => {
 
                                   </ul>
                                   {/* 도서 가격  도서가격, 도서수량 */}
-                                  <CartItemPrice  bookPrice={item.bookVO.bookPrice}
-                                                  quantity={item.quantity}
-                                                  deliveryFee={2000}/>
-                                  {/* 도서 */}
+                                  <CartItemPrice cartList={item}
+                                                  deliveryFee={2000}
+                                                  gotoPayment={() => gotoPayment(cartList,item.cartId)}
+                                  />
+
                               </div>
                           </div>
 
@@ -193,8 +230,33 @@ const CartList = () => {
                 {cartData && cartData.length > 0 ? addCartList(bookList) : emptyCartList()}
 
                 {/* cartAccount */}
-                <CartAllPrice cartList={cartList} selectItem={selectItem} deliveryFee={2000} />
+                <CartAllPrice cartList={cartList} selectItem={selectItem} deliveryFee={2000} gotoPayment={gotoPayment}
+                              totalPrice={totalPrice}
+                />
             </div>
+
+            {loading && (
+                <div className="loading-overlay"
+                     style={{
+                         position: "fixed",
+                         top: 0,
+                         left: 0,
+                         width: "100vw",
+                         height: "100vh",
+                         background: "rgba(255,255,255,0.8)",
+                         display: "flex",
+                         justifyContent: "center",
+                         alignItems: "center",
+                         zIndex: 9999,
+                         flexDirection: "column"
+                     }}
+                >
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <p className="mt-3">결제 진행중입니다. 잠시만 기다려 주세요.</p>
+                </div>
+            )}
         </>
     )
 

@@ -12,7 +12,7 @@ const PathsData = // 객체 데이터 구조 미완성
             book: "/book",//도서
             delivery: "/delivery",//배송(주소관리, 배송상태, 시작일, 완료일, 배송비 등)
             board: "/board",//게시판
-
+            payment:"/payment",
 
             //adminAll:"/admin/*", // App.jsx에서 admin 하위 자식 전부 라우팅 허용
             //관리자 컴포넌트에서 사용할 URL

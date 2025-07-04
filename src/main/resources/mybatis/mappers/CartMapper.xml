@@ -90,6 +90,7 @@
             ,b."bookCateNm"
             ,b."bookImgPath"
             ,b."author"
+            ,b."publishDate"
         from
             book b join cart c on b."bookId" = c."bookId"
         where c."clientId"= #{clientId}

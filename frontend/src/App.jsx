@@ -45,6 +45,7 @@ import MyPageMain from "@pages/myPage/myPage/MyPageMain.jsx";
 import PaymentHistory from "@pages/myPage/payment/PaymentHistory.jsx";
 import PersonalInfo from "@pages/myPage/personal/PersonalInfo.jsx";
 import WishList from "@pages/myPage/wish/WishList.jsx";
+import Payment from "@pages/pay/payment.jsx";
 
 
 
@@ -85,7 +86,7 @@ function App() {
                     <Route path={PathData.page.cart} element={<Cart/>}>
                         <Route index path="" element={<CartList/>}/>
                     </Route>
-
+                    <Route path={PathData.page.payment} element={<Payment/>}/>
                     <Route path={PathData.page.signup} element={<SignUp/>}/>
 
 

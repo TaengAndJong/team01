@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.team01.payment.dao.PaymentDao">
+
+<!--    //문자열 clinetId를 받아서 반환되는 데이터들은 목록은 CartVO타입-->
+<!--    public List<CartVO> selectCartList(String clientId);-->
+<!--    // 문자열 clinetId를 받아서 반환되는 데이터들은 PaymentVO 타입-->
+<!--    public PaymentVO selectAddress(String clientId);-->
+
+
+    <!-- 결제 목록 도서 1:다  -->
+    <resultMap id="bookMap" type="CartVO">
+        <id property="cartId" column="cartId"/>
+        <result property="clientId" column="clientId"/>
+        <result property="bookId" column="bookId"/>
+        <result property="quantity" column="quantity"/>
+        <result property="regDate" column="regDate"/>
+        <collection property="bookList" ofType="BookVO">
+            <result property="bookCateNm" column="bookCateNm" />
+            <result property="bookName" column="bookName" />
+            <result property="bookCateDepth" column="bookCateDepth" />
+            <result property="author" column="author" />
+            <result property="publishDate" column="publishDate" />
+            <result property="bookPrice" column="bookPrice" />
+            <result property="stock" column="stock" />
+            <result property="bookImgPath" column="bookImgPath" />
+            <result property="wishID" column="wishID" />
+        </collection>
+    </resultMap>
+
+
+    <!-- 유저와 선택된 배송지는 1:1관계 -->
+    <resultMap id="addressMap" type="paymentVO">
+        <id property="payId" column="payId"></id>
+        <result property="payAccount" column="payAccount"></result>
+        <result property="payStatus" column="payStatus"></result>
+        <result property="paymentMethod" column="paymentMethod"></result>
+        <result property="payDate" column="payDate"></result>
+        <result property="addrId" column="addrId"></result>
+        <association property="addressVO" javaType="AddressVO">
+            <result property="addrType" column="addrType"/>
+            <result property="addr" column="addr"/>
+            <result property="detailAddr" column="detailAddr"/>
+            <result property="zoneCode" column="zoneCode"/>
+        </association>
+    </resultMap>
+
+    
+    
+    <select id="selectCartList" parameterType="String" resultMap="bookMap">
+        select
+            c.*,b.*
+        from
+        (select * from cart
+         where "clientId"=#{clientId}) c
+        join book b on (c."bookId" = b."bookId")
+    </select>
+
+    <!--  client 테이블과 address 테이블 조인해서 selectedId 조회해오기 -->
+    <select id="selectAddress"  parameterType="String" resultMap="addressMap">
+        select
+            c."clientName",
+            c."roleId",
+            c."staffId",
+            a."addrType",
+            a."addr",
+            a."detailAddr",
+            a."zoneCode"
+        from
+            (select
+                 *
+             from client
+             where "clientId"=#{clientId}) c
+                join address a on (c."selecedAddrId" = a."addrId")
+    </select>
+
+</mapper>
