@@ -2,7 +2,7 @@
 
 const CartItemPrice = ({ cartList,gotoPayment, deliveryFee}) => {
 
-    const total = cartList.bookVO.bookPrice * cartList.quantity + deliveryFee;
+    const total = cartList.book.bookPrice * cartList.quantity + deliveryFee;
 
     console.log("totalPrice--- 개별도서 토탈가격",);
     console.log("cartList--- 개별도서 토탈가격",cartList);
@@ -13,7 +13,7 @@ const CartItemPrice = ({ cartList,gotoPayment, deliveryFee}) => {
             <ul className="cart-item-count ul bullet border-top border-bottom py-3 mt-5 d-flex">
                 <li className="li d-inline-flex  align-items-center pe-3">
                     <span className="me-4">결제금액</span>
-                    <span className="price"><em>{cartList.bookVO.bookPrice}</em>원</span>
+                    <span className="price"><em>{cartList.book.bookPrice}</em>원</span>
                 </li>
                 <li className="li d-inline-flex  align-items-center pe-3">
                     <span className="mx-4"> x </span>

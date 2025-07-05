@@ -171,6 +171,38 @@ public class FileUtils {
     }
 
 
+    // DTO를 사용했을 경우 컨트롤러에서 이미지 주소변경 메서드로 해당 DTO에 BookImgChange를 상속해야함
+    public <T extends BookImgChange> T changeImgPathDto(T dto, HttpServletRequest request){
+
+        List<String> bookImgList = dto.getBookImgList();
+        //vo.getBookImgList() 가 null 일 경우와 아닌 경우 분리하기
+
+        log.info("bookImgList--------------:{}",bookImgList);
+        log.info("bookImgList--------------:{}",baseImageUrl(request,"uploads/book"));
+
+        // 1. bookImgList가 비었을 경우, bookImgPath로부터 리스트 생성
+        if (bookImgList == null || bookImgList.isEmpty()) {
+            bookImgList = Arrays.stream(dto.getBookImgPath().split(","))
+                    .map(String::trim)
+                    .filter(item -> !item.isEmpty())
+                    .collect(Collectors.toList());
+            log.info("bookImgList 비어있을 경우 재구성됨: {}", bookImgList);
+        }
+
+        // 2. 공통 URL 생성 처리
+        List<String> imgUrlList = bookImgList.stream()
+                .map(fileName -> {
+                    String folder = fileName.toLowerCase().contains("noimg") ? "images" : "uploads/book";
+                    return baseImageUrl(request, folder) + fileName;
+                })
+                .collect(Collectors.toList());
+
+        dto.setBookImgList(imgUrlList);
+        log.info("이미지 URL 최종 변환 완료: {}", dto);
+        return dto;
+    }
+
+
     //실서버에 저장된 이미지파일 삭제만
     public String deleteFiles(String fileNames,String middlePath) {
         log.info("fileNames----------del:{}",fileNames);

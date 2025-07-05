@@ -101,7 +101,7 @@ const CartList = () => {
 
             let total = 0;
             for (let i = 0; i < selectedItems?.length; i++) {
-                total += (selectedItems[i].bookVO.bookPrice * selectedItems[i].quantity);
+                total += (selectedItems[i].book.bookPrice * selectedItems[i].quantity);
             }
 
             return total;
@@ -186,17 +186,17 @@ const CartList = () => {
                               <div className="card-header border-end rounded-4 overflow-hidden">
                                   <div className="img-box">
                                       <div className="img-inner">
-                                          <img className="img" src={`${item.bookVO.bookImgList[0]}`} alt="노이미지"/>
+                                          <img className="img" src={`${item.book.bookImgList[0]}`} alt="노이미지"/>
                                       </div>
                                   </div>
                               </div>
                               {/* 도서 정보*/}
                               <div className="bookInfo card-body">
-                                  <strong className="book-title title-dotted d-block">{item.bookVO.bookName}</strong>
+                                  <strong className="book-title title-dotted d-block">{item.book.bookName}</strong>
                                   <ul className="ul bullet">
-                                      <li className="li"><span className="tit">저자</span>{item.bookVO.author}</li>
-                                      <li className="li"><span className="tit">발행일</span>{item.bookVO.publishDate}</li>
-                                      <li className="li"><span className="tit">가격</span><em>{item.bookVO.bookPrice}</em>원</li>
+                                      <li className="li"><span className="tit">저자</span>{item.book.author}</li>
+                                      <li className="li"><span className="tit">발행일</span>{item.book.publishDate}</li>
+                                      <li className="li"><span className="tit">가격</span><em>{item.book.bookPrice}</em>원</li>
 
                                   </ul>
                                   {/* 도서 가격  도서가격, 도서수량 */}
@@ -217,6 +217,7 @@ const CartList = () => {
             )
         }
     console.log("addrCartlist --- cartList", address);
+    console.log("addrCartlist --- cartList", cartList);
 
     return (
         <>

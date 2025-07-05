@@ -13,22 +13,39 @@ const Payment = () =>{
     console.log("payAccount----",payAccount);
     console.log("addrId----",addrId);
 
+    //주소 상태관리 ==> 단일 객체로 넘어오면 null이 나을까 {}가 나을까?
+    const [address,setAddress] = useState(null);
+    //주문도서정보관리 ==> 배열로 넘어오니까 null 이 나을까 [] (빈배열이) 나을까..?
+    const [books,setBooks] = useState(null);
+
+
     // 결제컨트롤러로 보낼 비동기요청
     const paymentHandler =()=>{
         //formData 모두 전송
     }
 
     useEffect(() => {
-
-
         axios.get("/api/payment")
             .then((response)=>{
                 console.log("response -- get요청",response);
+                console.log("response -- get요청",response.data);
+               const addr = response.data.address;
+               const books= response.data.bookList;
+                console.log("books--11",books);
+                console.log("books--22",books.bookList);
+                console.log("addr",addr);
+               //주소에 데이터 갱신
+                setAddress(addr);
+                //도서상품 데이터 갱신
+                setBooks(books);
             }).catch((error)=>{
                 console.log("error---",error);
         });
 
-    },[])
+    },[]); //
+
+    console.log("books-------",books);
+    console.log("address-------",address);
 
     return(
         <>
@@ -45,6 +62,7 @@ const Payment = () =>{
                 <section aria-labelledby="cartSectionTitle" className="d-flex align-items-center mb-1">
                     <h5 id="cartSectionTitle" className="">장바구니 목록</h5>
                     <ul className="cart-list">
+
                         <li className="cart-item mb-2">
 
 

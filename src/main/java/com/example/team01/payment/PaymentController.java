@@ -12,7 +12,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,26 +26,24 @@ public class PaymentController {
 
     @GetMapping()
     public ResponseEntity<?> getPayment(@AuthenticationPrincipal PrincipalDetails userDetails ) {
-
-        log.info("getPayment--------- get요청");
-        String clientId = userDetails.getUsername();
-        log.info("getPayment--------- clientId:{}",clientId);
-        List<CartVO> list = paymentService.selectCartList(clientId);
-        //PaymentVO paymentVO = paymentService.selectAddress(clientId); ==> mapper에 resultMap 해야함
-        log.info("getPayment--------- list:{}",list);
-       // log.info("getPayment--------- paymentVO:{}",paymentVO);
-
         // 결제 성공 목록 조회해서 데이터 클라이언트로 보내주기
-        // 1)  클라이언트가 선택한 주소 데이터
+        String clientId = userDetails.getUsername();
         // 2) 결제테이블에추가된 장바구니 목록 정보
+        List<CartVO> bookList = paymentService.selectCartList(clientId);
+        // 1)  클라이언트가 선택한 주소 데이터
+        PaymentVO address = paymentService.selectAddress(clientId);
+        log.info("getPayment--------- list:{}",bookList);
+        log.info("getPayment--------- paymentVO:{}",address);
 
-        //clientId = user02 인 주소 조회 ==> selectedAddrId를 cart 테이블 cartId 와 조인 데이터 조회
-
-        // clientId = user02의 cartId = 26, 24, 25에 해당하는 값 조회
         //장바구니에 담긴 상태값을 컬럼으로 판단하지 않기 때문에 결제 완료후 기록삭제,
         //clientId로만 장바구니 조건 조회하여 장바구니 목록 데이터 조회
 
-        return  ResponseEntity.ok("get요청");
+        Map<String,Object> result = new HashMap<>();
+        result.put("address",address.getAddressVO()); // address 내부 데이터 직접적으로 가져오기
+        result.put("bookList",bookList);
+        log.info("getPayment--------- result:{}",result);
+
+        return  ResponseEntity.ok(result);
     }
 
     @PostMapping()

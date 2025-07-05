@@ -21,12 +21,11 @@ public class PaymentVO implements Serializable {
     private String paymentMethod;
     private LocalDateTime payDate;
 
-
     // 클라이언트에서 파라미터 받아올 용도
     private List<String> cartIds;
     private String addrId;
 
-    // resultMap과 매핑할 객체
+    // resultMap과 매핑할 객체, 데이터베이스의 데이터를 클라이언트로 보내줄 때 사용.
     private AddressVO addressVO; // 1:1
 
 
