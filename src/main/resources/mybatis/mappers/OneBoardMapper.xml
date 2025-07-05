@@ -27,7 +27,7 @@
             '답변 대기',
             #{clientId},
             'ROLE_CLIENT',
-            #{fileName, jdbcType=VARCHAR}
+            #{attachmentID, jdbcType=VARCHAR}
         )
     </insert>
 </mapper>

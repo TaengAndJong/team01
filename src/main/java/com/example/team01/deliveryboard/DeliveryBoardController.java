@@ -48,17 +48,17 @@ public class DeliveryBoardController {
                 log.info("files 타입: {}", file.getClass().getName());
                 vo.setFiles(files);
             }
-            
+        } else {
             log.info("첨부된 파일이 없습니다 (files == null 또는 empty)");
             vo.setFiles(Collections.emptyList());
         }
 
-            // 3) 나머지 필드 세팅
-            vo.setClientId(clientId);
-            vo.setClientName(clientName);
-            vo.setCategory(category);
-            vo.setTitle(title);
-            vo.setContent(content);
+// 3) 나머지 필드 세팅
+vo.setClientId(clientId);
+vo.setClientName(clientName);
+vo.setCategory(category);
+vo.setTitle(title);
+vo.setContent(content);
 
             log.info("최종 확인 컨트롤러 배달 문의 VO: {}", vo);
             try {
