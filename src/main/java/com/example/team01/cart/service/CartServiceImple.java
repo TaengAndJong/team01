@@ -3,14 +3,19 @@ package com.example.team01.cart.service;
 import com.example.team01.book.dao.BookDao;
 import com.example.team01.cart.dao.CartDao;
 import com.example.team01.common.exception.CustomCartException;
+import com.example.team01.dto.book.BookDTO;
+import com.example.team01.dto.cart.CartDTO;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.antlr.v4.runtime.CodePointBuffer;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -84,10 +89,17 @@ public class CartServiceImple implements CartService{
 
     // 로그인한 클라이언트에 해당하는 장바구니의 도서목록 조회 메서드
     @Override
-    public List<CartVO> selectUserBookList(String clientId) {
+    public List<CartDTO> selectUserBookList(String clientId) {
         log.info("장바구니 도서목록 조회:{}",clientId);
         List<CartVO> bookList = dao.selectUserBookList(clientId);
-        return bookList;
+        log.info("bookList------------cartServiceimple :{}",bookList);
+
+        //서비스로직에서 VO 를 DTO로변환하여 반환
+        List<CartDTO> cartDTOList = bookList.stream()// bookList 객체  순회
+                .map(this::convertToDTO)// bookList 내부 각각의 객체에 converToDTO메서드를 호출해 적용하여 변환(메서드 호출)
+                .collect(Collectors.toList()); // 다시 List 객체로 변환
+        log.info("cartDTOList:{}",cartDTOList);
+        return cartDTOList;
     }
 
     // 로그인한 클라이언트의 장바구니에 담긴 도서 목록 삭제 메서드
@@ -95,6 +107,36 @@ public class CartServiceImple implements CartService{
     public int deleteToCartList(List<String> deleteIds) {
         log.info("장바구니 도서삭제 목록:{}",deleteIds);
         return dao.deleteToCartList(deleteIds);
+    }
+
+    //cartVO change to DTO
+    private CartDTO convertToDTO(CartVO vo) {
+        log.info("convertToDTO--------vo:{}",vo);
+
+      //cartVO에 담긴 bookList 데이터를 DTO로
+       BookDTO bookDTO = BookDTO.builder()
+               .bookId(vo.getBookId())
+               .bookName(vo.getBookVO().getBookName())
+               .bookCateNm(vo.getBookVO().getBookCateNm())
+               .bookCateDepth(vo.getBookVO().getBookCateDepth())
+               .author(vo.getBookVO().getAuthor())
+               .publishDate(vo.getBookVO().getPublishDate())
+               .bookPrice(vo.getBookVO().getBookPrice())
+               .stock(vo.getBookVO().getStock())
+               .bookImgPath(vo.getBookVO().getBookImgPath()).build();
+
+       CartDTO cartDto = CartDTO.builder()
+               .cartId(vo.getCartId())
+               .addCartDate(vo.getAddCartDate())
+               .quantity(vo.getQuantity())
+               .clientId(vo.getClientId())
+               .roleId(vo.getRoleId())
+               .book(bookDTO)
+               .build();
+
+        log.info("convertToDTO--------cartDto:{}",cartDto);
+
+        return cartDto;
     }
 
 

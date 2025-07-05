@@ -1,10 +1,12 @@
 package com.example.team01.vo;
 
 
+import com.example.team01.dto.book.BookDTO;
 import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -21,6 +23,7 @@ public class CartVO implements Serializable {
     private String roleId; // 로그인한 유저의 역할
 
     //BookVO 클래스 ==> bookId로 조인하여 도서정보를 가져오기 위함
-    private BookVO bookVO; // Has a 관계( 1:1 )  : cart(부모) 와 book(자식) 테이블 관계
-    
+    private BookVO bookVO;//1:다 // Has a 관계( 1:1 )  : cart(부모) 와 book(자식) 테이블 관계
+    //payment에서 결제할 도서목록들
+    private List<BookVO> bookList;//1:다
 }

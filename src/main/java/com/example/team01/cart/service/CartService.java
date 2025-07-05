@@ -1,5 +1,6 @@
 package com.example.team01.cart.service;
 
+import com.example.team01.dto.cart.CartDTO;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
 import org.apache.ibatis.annotations.Param;
@@ -20,7 +21,7 @@ public interface CartService {
     public int insertBook(CartVO bookInfo);
 
     //장바구니에 담긴 클라이언트별 장바구니 목록 조회
-    public List<CartVO> selectUserBookList(String clientId);
+    public List<CartDTO> selectUserBookList(String clientId);
 
     //장바구니에서 삭제
     public int deleteToCartList(List<String> deleteIds);

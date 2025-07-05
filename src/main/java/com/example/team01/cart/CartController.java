@@ -4,6 +4,8 @@ package com.example.team01.cart;
 import com.example.team01.book.service.BookService;
 import com.example.team01.cart.service.CartService;
 import com.example.team01.delivery.service.AddressService;
+import com.example.team01.dto.book.BookDTO;
+import com.example.team01.dto.cart.CartDTO;
 import com.example.team01.security.PrincipalDetails;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.vo.AddressVO;
@@ -64,12 +66,13 @@ public class CartController {
 
 
         //없을 경우
-        List<CartVO> bookList = cartService.selectUserBookList(clientId);
+        List<CartDTO> bookList = cartService.selectUserBookList(clientId);
         log.info("result---cartList 111111:{}",bookList);
 
-        bookList.forEach(cartVO -> {
-            BookVO bookVO= cartVO.getBookVO();
-            fileUtils.changeImgPath(bookVO,request); // 클라이언트로 도서이미지 src값 설정 메서드
+        bookList.forEach(dto -> {
+            BookDTO bookDto= dto.getBook();
+            log.info("BookDTO ---controller:{}",bookDto);
+            fileUtils.changeImgPathDto(bookDto,request); // 클라이언트로 도서이미지 src값 설정 메서드
         });
         log.info("result---cartList 22222:{}",bookList);
 
@@ -120,7 +123,7 @@ public class CartController {
         if(deleteResult>0){
             log.info("삭제 결과 11 반환");
             //데이터 재조회
-            List<CartVO> bookList = cartService.selectUserBookList(clientId);
+            List<CartDTO> bookList = cartService.selectUserBookList(clientId);
             result.put("bookList",bookList); // 삭제된 후 장바구니 데이터 재조회
         }
 
