@@ -8,6 +8,8 @@ Database연동자료
 https://docs.google.com/document/d/1NYSedU5LV29CLMtiwy9d9Bhih6C_Qk3PxbPpJdEOzS4/edit?tab=t.0#heading=h.g2a10uwzfl6o
 
 --------------------------------개념정리 문서-------------------------------------------
+
+
 리액트
 https://docs.google.com/document/d/1VZGfjIGcRnBR519PFQgvnJ3OoiCS9HrEPYlXVQY_6r8/edit?tab=t.0#heading=h.he8zwhkogvek
 
