@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+        <mapper namespace="com.example.team01.deliveryboard.dao.DeliveryBoardDao">
+    
+    <insert id="CreateDeliveryBoard" parameterType="com.example.team01.vo.DeliveryBoardVO">
+        <selectKey keyProperty="qnaDelId" resultType="String" order="BEFORE">
+            SELECT 'qnadeliv' || LPAD(ADDQNADELIV_SEQ.NEXTVAL, 4, '0') FROM DUAL
+        </selectKey>
+        
+        INSERT INTO qnadeliv (
+            "qnaDelId",
+            "qnaTitle",
+            "qnaContent",
+            "qnaWriter",
+            "qnaDate",
+            "qnaStatus",
+            "clientId",
+            "roleId",
+            "attachmentID"
+        ) VALUES (
+            #{qnaDelId},
+            #{title},
+            #{content},
+            #{clientName},
+            SYSDATE,
+            '답변 대기',
+            #{clientId},
+            'ROLE_CLIENT',
+            #{attachmentID , jdbcType=VARCHAR}
+        )
+    </insert>
+</mapper>
