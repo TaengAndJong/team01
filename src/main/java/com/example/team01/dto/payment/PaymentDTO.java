@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Builder //new연산자 + 생성자()메서드를 생성하지 않고 값 설정 가능하게함
-public class PaymentResponseDTO {
+public class PaymentDTO {
     
     //클라이언트에게 반환할 엔터티만 기입
 
