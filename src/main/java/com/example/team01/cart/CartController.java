@@ -4,6 +4,7 @@ package com.example.team01.cart;
 import com.example.team01.book.service.BookService;
 import com.example.team01.cart.service.CartService;
 import com.example.team01.delivery.service.AddressService;
+import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.dto.book.BookDTO;
 import com.example.team01.dto.cart.CartDTO;
 import com.example.team01.security.PrincipalDetails;
@@ -55,32 +56,22 @@ public class CartController {
         log.info("get Cart 입니다");
         //로그인한 user 정보
         String clientId = userDetails.getUsername();
-        log.info("clientId --- login:{}",clientId);
+
         //기본 배송지 조회하기
-        AddressVO selectAddr = addressService.selectCartAddress(clientId);
-        log.info("addr------ 장바구니 기본배송지 조회: {}",selectAddr);
-
-
-        //클라이언트별 장바구니 목록에 데이터가 있을 경우
-
-
+        AddressDTO selectAddr = addressService.selectCartAddress(clientId);
 
         //없을 경우
         List<CartDTO> bookList = cartService.selectUserBookList(clientId);
-        log.info("result---cartList 111111:{}",bookList);
-
+        //도서상품들 각각 쉰
         bookList.forEach(dto -> {
             BookDTO bookDto= dto.getBook();
-            log.info("BookDTO ---controller:{}",bookDto);
             fileUtils.changeImgPathDto(bookDto,request); // 클라이언트로 도서이미지 src값 설정 메서드
         });
-        log.info("result---cartList 22222:{}",bookList);
 
         Map<String,Object> result = new HashMap<>();
         result.put("bookList",bookList);
         result.put("address",selectAddr);
 
-        log.info("result--------- controllerToclient:{}",result);
         return  ResponseEntity.ok(result);
     }
 

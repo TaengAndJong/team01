@@ -2,6 +2,7 @@ package com.example.team01.delivery;
 
 
 import com.example.team01.delivery.service.AddressService;
+import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.security.PrincipalDetails;
 import com.example.team01.vo.AddressVO;
 import com.example.team01.vo.ClientVO;
@@ -34,7 +35,7 @@ public class deliveryController {
         String clientId = userDetails.getUsername();
         log.info("clientId----------------------:{}", clientId);
         // 해당유저에 대한 배송지 목록 조회해오기
-        List<AddressVO> addrList = addressService.selectAddress(clientId);
+        List<AddressDTO> addrList = addressService.selectAddress(clientId);
         log.info("addrList----------------------:{}", addrList);
         //Json 형식으로 자동 반환
         return ResponseEntity.ok(addrList);
