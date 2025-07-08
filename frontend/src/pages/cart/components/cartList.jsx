@@ -97,21 +97,22 @@ const CartList = () => {
 
         //총 가격 공통 메서드
         const totalPrice = (cartList,cartIds) =>{
+            console.log("totalPrice----cartList",cartList);
             const selectedItems = cartList?.filter(item => cartIds.includes(item.cartId));
-
+            console.log("totalPrice----selectedItems",selectedItems);
             let total = 0;
             for (let i = 0; i < selectedItems?.length; i++) {
                 total += (selectedItems[i].book.bookPrice * selectedItems[i].quantity);
+            console.log("for total ",total);
             }
-
+            console.log("acc total ",total);
             return total;
         }
         //결제 핸들러
         const gotoPayment=(cartList,cartIds)=>{
             console.log("payment gotoPayment");
-            console.log("cartIds",cartIds);
-
             const total = totalPrice(cartList,cartIds);
+            console.log("gotoPayment-----total",total);
 
             console.log("cartIds",cartIds);
             //결제페이지로 이동할 때 필요한 파라미터 navigate객체에 담아서 보내주기

@@ -32,6 +32,8 @@ public class PaymentDTO {
     private List<CartDTO> cartList;
     //
     private AddressDTO address;
+
+
 }
 
 

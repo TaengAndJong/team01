@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /* DI dependency injection ==>  필드 주입과 생성자 주입의 차이점
 
@@ -61,12 +62,23 @@ public class CartController {
         AddressDTO selectAddr = addressService.selectCartAddress(clientId);
 
         //없을 경우
-        List<CartDTO> bookList = cartService.selectUserBookList(clientId);
-        //도서상품들 각각 쉰
-        bookList.forEach(dto -> {
-            BookDTO bookDto= dto.getBook();
-            fileUtils.changeImgPathDto(bookDto,request); // 클라이언트로 도서이미지 src값 설정 메서드
-        });
+        List<CartDTO> cartList = cartService.selectUserBookList(clientId);
+        log.info("bookList:---------------------------{}",cartList);  //cartId 확인하기
+
+        //도서상품들의 이미지 주소 변경해주기
+        List<CartDTO> bookList = cartList.stream()
+                .map(cartDTO -> {
+                    //cartDTO 내부에 book객체 가져오기
+                    BookDTO book = cartDTO.getBook();
+                    //book 이미지 변경
+                    fileUtils.changeImgPathDto(book, request);
+                    //cartDTO에 다시 book객체 설정
+                    cartDTO.setBook(book);
+                    // 수정된 객체 반환
+                    return cartDTO;
+                })// 클라이언트로 도서이미지 src값 설정 메서드
+                .collect(Collectors.toList());
+        log.info("bookList:---------------------------cart Get response : {}",bookList);
 
         Map<String,Object> result = new HashMap<>();
         result.put("bookList",bookList);
