@@ -52,7 +52,7 @@ public class FileUtils {
     private  String noImgDir;
     
  // MultipartFile 파라미터 받아서 파일 저장 메서드
-    public String saveFile(MultipartFile file, String middlePath) throws FileNotFoundException {
+    public String saveSingleMultiPartFile(MultipartFile file, String middlePath) throws FileNotFoundException {
         return saveFile(List.of(file), middlePath);
     }
 

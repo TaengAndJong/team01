@@ -17,8 +17,7 @@
             "qnaDate",
             "qnaStatus",
             "clientId",
-            "roleId",
-            "attachmentID"
+            "roleId"
         ) VALUES (
             #{qnaProId},
             #{title},
@@ -27,8 +26,7 @@
             SYSDATE,
             '답변 대기',
             #{clientId},
-            'ROLE_CLIENT',
-            #{attachmentID , jdbcType=VARCHAR}
+            'ROLE_CLIENT'
         )
     </insert>
 </mapper>

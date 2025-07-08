@@ -40,14 +40,6 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
                 attachmentVO.setUploader(vo.getClientId());
                 attachmentService.insertAttachmentService(attachmentVO);// 파일첨부 테이블 등록
 
-                 // 1. 첨부파일 저장 후 UUID 리스트 받아오기 (한 번만 호출)
-                List<String> savedFileNames = attachmentService.insertAttachmentService(attachmentVO);
-
-                // 2. UUID 리스트를 쉼표로 연결한 문자열로 변환
-                String joinedIds = String.join(",", savedFileNames);
-
-                // 3. ProductBoardVO에 단일 문자열 형태로 설정
-                vo.setAttachmentID(joinedIds);
             }
 
             log.info("file 업로드 후 deliveryBoardVO 객체 데이터: {}", vo);
