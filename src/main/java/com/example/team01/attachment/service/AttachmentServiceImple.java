@@ -3,7 +3,6 @@ package com.example.team01.attachment.service;
 import org.springframework.stereotype.Service;
 import com.example.team01.attachment.dao.AttachmentDao;
 import com.example.team01.vo.AttachmentVO;
-import com.example.team01.attachment.service.AttachmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 @Service
 @Transactional
 public class AttachmentServiceImple implements AttachmentService {
-    
+
     private final AttachmentDao attachmentDao;
     private final FileUtils fileUtils;
     @Override
@@ -37,7 +36,6 @@ public class AttachmentServiceImple implements AttachmentService {
     
                 log.info("업로드된 파일 이름: {}", originFile);
 
-                
                 // 1. 확장자 추출
                 String fileType = "";
                 int dotIndex = originFile.lastIndexOf(".");
@@ -45,7 +43,7 @@ public class AttachmentServiceImple implements AttachmentService {
                     fileType = originFile.substring(dotIndex + 1).toLowerCase();
 
                 // 2. 파일 저장 및 VO 구성
-                String savedFileName = fileUtils.saveFile(file, attachmentVO.getCategory()); // ✅ 파일 저장 및 UUID 기반 이름 획득
+                String savedFileName = fileUtils.saveSingleMultiPartFile(file, attachmentVO.getCategory()); // ✅ 파일 저장 및 UUID 기반 이름 획득
                 savedFileNames.add(savedFileName);
                 if (savedFileName == null) {
                     throw new RuntimeException("파일 저장 실패");
