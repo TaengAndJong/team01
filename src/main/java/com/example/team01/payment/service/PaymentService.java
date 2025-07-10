@@ -11,6 +11,6 @@ import java.util.List;
 public interface PaymentService {
 
     public List<CartDTO> selectCartList(String clientId);
-    public AddressDTO selectAddress(String clientId);
+
 
 }

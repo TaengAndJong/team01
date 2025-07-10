@@ -11,6 +11,8 @@ public interface AddressService {
 
     public List<AddressDTO> selectAddress(String clientId);
 
+    public AddressDTO selectOneAddress(String clientId);
+
     // 유저에 따른 배송지 등록
     public int insertAddress(AddressVO addressVO);
 

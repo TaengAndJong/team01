@@ -1,6 +1,7 @@
 package com.example.team01.payment;
 
 
+import com.example.team01.delivery.service.AddressService;
 import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.dto.book.BookDTO;
 import com.example.team01.dto.cart.CartDTO;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class PaymentController {
 
      private final PaymentService paymentService;
+     private final AddressService addressService;
     private final FileUtils fileUtils;
 
     @GetMapping()
@@ -53,9 +55,9 @@ public class PaymentController {
 
 
         // 1)  클라이언트가 선택한 주소 데이터
-        AddressDTO address = paymentService.selectAddress(clientId);
+        AddressDTO address = addressService.selectOneAddress(clientId);
         log.info("getPayment--------- list:{}",bookList);
-        log.info("getPayment--------- paymentVO:{}",address);
+        log.info("getPayment--------- address:{}",address);
 
         //장바구니에 담긴 상태값을 컬럼으로 판단하지 않기 때문에 결제 완료후 기록삭제,
         //clientId로만 장바구니 조건 조회하여 장바구니 목록 데이터 조회

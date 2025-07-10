@@ -1,6 +1,8 @@
 package com.example.team01.payment.service;
 
 
+import com.example.team01.delivery.dao.AddressDao;
+import com.example.team01.delivery.service.AddressService;
 import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.dto.book.BookDTO;
 import com.example.team01.dto.cart.CartDTO;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 public class PaymentServiceImple implements PaymentService {
 
     private final PaymentDao dao;
+    private final AddressDao addrDao;
 
     @Override
     public List<CartDTO> selectCartList(String clientId) {
@@ -41,23 +44,7 @@ public class PaymentServiceImple implements PaymentService {
         return cartDTOList;
     }
 
-    @Override
-    public AddressDTO selectAddress(String clientId) {
 
-        PaymentVO vo = dao.selectAddress(clientId);
-        log.info("paymentVO-------:{}",vo);
-
-        AddressDTO addrDto = AddressDTO.builder()
-                    .addrId(vo.getAddrId())
-                    .addr(vo.getAddressVO().getAddr())
-                    .addrType(vo.getAddressVO().getAddrType())
-                    .detailAddr(vo.getAddressVO().getDetailAddr())
-                    .build();
-
-        log.info("paymentVO-------addrDto:{}",addrDto);
-
-        return addrDto;
-    }
 
     //결제페이지에 전달할 장바구니 도서목록
     private CartDTO convertToCartDTO(CartVO cartvo) {

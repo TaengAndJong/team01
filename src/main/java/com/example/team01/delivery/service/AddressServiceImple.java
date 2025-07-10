@@ -3,14 +3,9 @@ package com.example.team01.delivery.service;
 import com.example.team01.delivery.dao.AddressDao;
 import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.vo.AddressVO;
-import com.example.team01.vo.CartVO;
-import com.example.team01.vo.DeliveryVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +30,29 @@ public class AddressServiceImple implements AddressService{
         // collect를 사용하여 list로 반환
         log.info("addressDTOList:{}",addressDTOList);
         return addressDTOList;
+    }
+
+
+    @Override
+    public AddressDTO selectOneAddress(String clientId) {
+
+        AddressVO vo = dao.selectOneAddress(clientId);
+        //AddressVO 사용하기
+        log.info("payment-------:{}",vo);
+        log.info("payment-------addrId:{}",vo.getAddrId());
+
+        AddressDTO addrDto = AddressDTO.builder()
+                .addrId(vo.getAddrId())
+                .addr(vo.getAddr())
+                .addrType(vo.getAddrType())
+                .detailAddr(vo.getDetailAddr())
+                .zoneCode(vo.getZoneCode())
+                .clientId(vo.getClient().getClientId())
+                .build();
+
+        log.info("paymentVO-------addrDto:{}",addrDto);
+
+        return addrDto;
     }
 
     @Override

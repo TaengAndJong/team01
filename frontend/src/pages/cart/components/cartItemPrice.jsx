@@ -4,7 +4,6 @@ const CartItemPrice = ({ cartList,gotoPayment, deliveryFee}) => {
 
     const total = cartList.book.bookPrice * cartList.quantity + deliveryFee;
 
-    console.log("totalPrice--- 개별도서 토탈가격",);
     console.log("cartList--- 개별도서 토탈가격",cartList);
 
 

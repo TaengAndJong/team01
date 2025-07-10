@@ -30,24 +30,6 @@
     </resultMap>
 
 
-    <!-- 유저와 선택된 배송지는 1:1관계 -->
-    <resultMap id="addressMap" type="paymentVO">
-        <id property="payId" column="payId"></id>
-        <result property="payAccount" column="payAccount"></result>
-        <result property="payStatus" column="payStatus"></result>
-        <result property="paymentMethod" column="paymentMethod"></result>
-        <result property="payDate" column="payDate"></result>
-        <result property="addrId" column="addrId"></result>
-        <association property="addressVO" javaType="AddressVO">
-            <result property="addrType" column="addrType"/>
-            <result property="addr" column="addr"/>
-            <result property="detailAddr" column="detailAddr"/>
-            <result property="zoneCode" column="zoneCode"/>
-        </association>
-    </resultMap>
-
-    
-    
     <select id="selectCartList" parameterType="String" resultMap="bookMap">
         select
             c.*,b.*
@@ -57,22 +39,6 @@
         join book b on (c."bookId" = b."bookId")
     </select>
 
-    <!--  client 테이블과 address 테이블 조인해서 selectedId 조회해오기 -->
-    <select id="selectAddress"  parameterType="String" resultMap="addressMap">
-        select
-            c."clientName",
-            c."roleId",
-            c."staffId",
-            a."addrType",
-            a."addr",
-            a."detailAddr",
-            a."zoneCode"
-        from
-            (select
-                 *
-             from client
-             where "clientId"=#{clientId}) c
-                join address a on (c."selecedAddrId" = a."addrId")
-    </select>
+
 
 </mapper>
