@@ -46,11 +46,11 @@ const SelectPayment = ({paymentInfo,setPaymentInfo}) =>{
                         {paymentInfo.paymentMethod === 'card' && (
                             <div className="">
                                 <div className="me-2 d-inline-flex align-items-center">
-                                    <label htmlFor="bankName" className="title ms-4 me-3">카드사 선택</label>
+                                    <label htmlFor="cardName" className="title ms-4 me-3">카드사 선택</label>
                                     <select
-                                        id="bankName"
+                                        id="cardName"
                                         className="form-select w-auto"
-                                        name="bankName"
+                                        name="cardName"
                                         value={paymentInfo.cardName}
                                         onChange={handleChange}
                                     >

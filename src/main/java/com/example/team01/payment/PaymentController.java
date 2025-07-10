@@ -74,18 +74,19 @@ public class PaymentController {
     public ResponseEntity<?> postPayment(@RequestBody PaymentVO paymentVO) {
         // 결제한 데이터 결제 테이블에 넣어주기
         log.info("postPayment ------------------paymentVO:{}", paymentVO);
-        //paymentVO:PaymentVO(payId=null, payAccount=40008, payStatus=null, payDate=null, cartIds=[26, 24, 25], addrId=10)
-
         // payment테이블에 결제 데이터 insert
+        
+        //payment_cart 테이블에 데이터 insert
         
         return  ResponseEntity.ok("post요청");
     }
 
-    @PostMapping("success")
+    @PostMapping("/success")
     public ResponseEntity<?> postSuccessPayment(@RequestBody PaymentVO paymentVO) {
-        // 결제한 데이터 결제 테이블에 넣어주기
-        log.info("postSuccessPayment ------------------paymentVO:{}", paymentVO);
 
+        //결제 완료된 목록 조회해오기, vo에서 DTO로 변경해 객체 정리해서 클라이언트로 보내주기
+        log.info("postSuccessPayment ------------------paymentVO:{}", paymentVO);
+        
 
         return  ResponseEntity.ok("post요청");
     }
