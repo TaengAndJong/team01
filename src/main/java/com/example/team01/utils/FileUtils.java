@@ -32,8 +32,6 @@ import static com.example.team01.utils.severUrlUtil.baseImageUrl;
 * new 연산자를 선언하여 객체를 생성할 필요가 없기 때문에 ==> 예) FIle.saveFiles(file)
 * */
 
-
-
 @Slf4j
 @Component
 public class FileUtils {
@@ -47,14 +45,18 @@ public class FileUtils {
      * - 실제파일 스캔 방식 선호
      *  */
 
-
-
     // inMemory 설정에서 업로드 디렉토리 값 주입
     @Value("${file.upload-dir}")
     private  String uploadDir;
     @Value("${file.noImg-dir}")
     private  String noImgDir;
+    
+ // MultipartFile 파라미터 받아서 파일 저장 메서드
+    public String saveSingleMultiPartFile(MultipartFile file, String middlePath) throws FileNotFoundException {
+        return saveFile(List.of(file), middlePath);
+    }
 
+    // 여러 파일 저장 메서드
 //날데이터 받아서 문자열로 경로반환 저장메서드
     public String saveFile(List<MultipartFile> files,String middlePath) throws FileNotFoundException {
         log.info("saveFile 파일 저장 시작 파일 객체:{}", files);
@@ -105,7 +107,7 @@ public class FileUtils {
         return bookImgPath; // 여기에서 bookImaPath 반환하여 초기값 갱신
     }
     //method end
-    
+
     // 이미지가 없는 경우 사용할 메소드 , IOException > FileNotFoundException
     public String getDefaultImgPath(){
         String noImgPath="";
