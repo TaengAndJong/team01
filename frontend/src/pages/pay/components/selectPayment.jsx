@@ -7,14 +7,14 @@ const SelectPayment = ({paymentInfo,setPaymentInfo}) =>{
     const onChangePayMethod =(e)=>{
       //
         console.log("onChangePayMethod e.target.value",e.target.value);
-        const paymentMethod = e.target.value;
+        const payMethod = e.target.value;
         setPaymentInfo(prev => ({
             ...prev,
-            paymentMethod: paymentMethod,
-            cardName: paymentMethod === "card" ? prev.cardName : "",
-            cardNumber: paymentMethod === "card" ? prev.cardNumber : "",
-            bankName: paymentMethod === "bank" ? prev.bankName : "",
-            bankAccount: paymentMethod === "bank" ? prev.bankAccount : "",
+            payMethod: payMethod,
+            cardName: payMethod === "card" ? prev.cardName : "",
+            cardNumber: payMethod === "card" ? prev.cardNumber : "",
+            bankName: payMethod === "bank" ? prev.bankName : "",
+            bankAccount: payMethod === "bank" ? prev.bankAccount : "",
         }));
     }
 
@@ -37,13 +37,13 @@ const SelectPayment = ({paymentInfo,setPaymentInfo}) =>{
                 <ul className="border border-dark-subtle p-4 bg-white bg-opacity-50 rounded-1">
                     <li className="mb-3">
 
-                            <input type="radio" id="card" name="paymentMethod" value="card"
-                                   checked={paymentInfo.paymentMethod === 'card'}
+                            <input type="radio" id="card" name="payMethod" value="card"
+                                   checked={paymentInfo.payMethod === 'card'}
                                    onChange={onChangePayMethod}/>
                             <label htmlFor="card" className="title mx-2 my-2">신용/체크카드</label>
 
                         {/* 신용카드 체크하면 */}
-                        {paymentInfo.paymentMethod === 'card' && (
+                        {paymentInfo.payMethod === 'card' && (
                             <div className="">
                                 <div className="me-2 d-inline-flex align-items-center">
                                     <label htmlFor="cardName" className="title ms-4 me-3">카드사 선택</label>
@@ -78,12 +78,12 @@ const SelectPayment = ({paymentInfo,setPaymentInfo}) =>{
                         )}
                     </li>
                     <li>
-                        <input type="radio" id="bank" name="paymentMethod" value="bank"
-                               checked={paymentInfo.paymentMethod === 'bank'}
+                        <input type="radio" id="bank" name="payMethod" value="bank"
+                               checked={paymentInfo.payMethod === 'bank'}
                                onChange={onChangePayMethod}/>
                         <label htmlFor="card" className="title mx-2 my-2">계좌이체</label>
                         {/* 계좌이체 체크하면 */}
-                        {paymentInfo.paymentMethod === 'bank' && (
+                        {paymentInfo.payMethod === 'bank' && (
                             <div className="">
                                 <div className="me-2 d-inline-flex align-items-center">
                                     <label htmlFor="bankName" className="title ms-4 me-3">은행 선택</label>

@@ -24,14 +24,15 @@ const PaymentComponent = () =>{
     const [books,setBooks] = useState(null);
     // 결제방식 선택 상태관리
     const [paymentInfo, setPaymentInfo] = useState({
-        paymentMethod: "card",
+        payMethod: "card",
         cardName:"",
         cardNumber: "",
         bankName:"",
         bankAccount: "",
         payAccount:"",
         addrId:"",
-        cartList:""
+        quantity:"",
+        cartIds:cartIds
     });
 
     console.log("addrId---------",addrId)
@@ -72,10 +73,14 @@ const PaymentComponent = () =>{
             payAccount: allPrice,
             addrId:address?.addrId, // 요기에서 addrId 와 bookList의 값을 지정해줘야 서버로 넘어감
             bookList:books?.map((item)=>({
-            bookId:item.book.bookId,
-            quantity:item.quantity,
+                bookId:item.book.bookId,
+                quantity:item.quantity,
             }))
         };
+
+        console.log("updatedPaymentInfo",updatedPaymentInfo);
+
+
         //paymentInfo의 payAccount 값 담아주기
         setPaymentInfo(updatedPaymentInfo);
         //여기서 한 번더 검증 필요

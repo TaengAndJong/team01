@@ -39,6 +39,24 @@
         join book b on (c."bookId" = b."bookId")
     </select>
 
+    <insert id="insertPayment" parameterType="PaymentVO">
+        <selectKey keyProperty="payId" resultType="String" order="BEFORE">
+            SELECT PAYID_SQE.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO payment
+            ("payId", "payAccount","payStatus", "payMethod","addrId")
+        VALUES
+            (#{payId}, #{payAccount},#{payStatus}, #{payMethod},#{addrId})
+    </insert>
+
+    <insert id="insertPaymentList" parameterType="PaymentVO">
+        INSERT INTO paymentList
+        ("payId","bookId","quantity")
+        VALUES
+        (#{payId},#{bookId}, #{quantity})
+    </insert>
 
 
 </mapper>
+
+<!--EnumType은  enumType.상수명으로 문자열 꺼내 사용-->

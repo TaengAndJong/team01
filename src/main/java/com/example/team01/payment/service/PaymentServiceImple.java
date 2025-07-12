@@ -1,6 +1,7 @@
 package com.example.team01.payment.service;
 
 
+import com.example.team01.common.Enum.PayStatus;
 import com.example.team01.delivery.dao.AddressDao;
 import com.example.team01.delivery.service.AddressService;
 import com.example.team01.dto.address.AddressDTO;
@@ -45,6 +46,43 @@ public class PaymentServiceImple implements PaymentService {
     }
 
 
+    public int insertPayment(PaymentVO paymentVO){
+        log.info("service insertPayment----------:{}",paymentVO);
+        //검증필요 ==> paymentVO.setPayStatus() ==> 결제완료,결제대기,결제실패
+        //payment이 어떤조건을 기준으로 값을 세팅할 것인가!
+        int cnt = 0;
+        if(paymentVO != null){
+            // payState 값 설정해주기
+            paymentVO.setPayStatus(PayStatus.COMPLETED.getStatus());
+            log.info("insert paymentVO-------:{}",paymentVO);
+            // dao로 넘겨주기
+           return cnt= dao.insertPayment(paymentVO);
+        }
+        log.info("insert dao-------:{}",cnt);
+        return cnt;
+    }
+
+    @Override
+    public int insertPaymentList(PaymentVO PaymentVO) {
+        log.info("service insertPaymentList----------:{}",PaymentVO);
+
+        int cnt = 0;
+        String payId= PaymentVO.getPayId();
+        List<CartVO> bookList = PaymentVO.getBookList();
+//        log.info("service insertPaymentList----------payId:{}",payId);
+//        log.info("service insertPaymentList----------bookList:{}",bookList);
+
+        //bookId 개수만큼 insert 해야함
+        for (CartVO item : bookList) {
+            //insert되는 값 누적
+            log.info("service insertPaymentList----------payId:{},bookId:{},quantity:{}",payId, item.getBookId(), item.getQuantity());
+            cnt += dao.insertPaymentList(payId, item.getBookId(), item.getQuantity());
+        }
+        log.info("service insertPaymentList----------cnt:{}",cnt);
+        //payId, quantity  bookId
+        return cnt;
+    }
+
 
     //결제페이지에 전달할 장바구니 도서목록
     private CartDTO convertToCartDTO(CartVO cartvo) {
@@ -82,11 +120,6 @@ public class PaymentServiceImple implements PaymentService {
         return cartDto;
     }
 
-    //결제완료후 클라이언트로 전달
-//    private PaymentDTO convertToPaymentDTO(PaymentVO vo) {
-//        log.info("PaymentDTO--------vo:{}",vo);
-//        return dto;
-//    }
 
 
 }
