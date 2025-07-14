@@ -86,7 +86,7 @@ public class PaymentController {
         if (paymentVO.getPayAccount() <= 0 ||
                 paymentVO.getPayMethod() == null ||
                 paymentVO.getAddrId() == null ||
-                paymentVO.getBookList() == null || paymentVO.getBookList().isEmpty()) {
+                paymentVO.getBookList() == null ) {
 
             return ResponseEntity.badRequest().body("필수 결제 정보가 누락되었습니다.");
         }
