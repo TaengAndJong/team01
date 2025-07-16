@@ -1,20 +1,26 @@
-import React from "react";
+import React, {useState} from "react";
+import validationPay from "../../../util/validationPay.jsx";
+import ReusableModal from "./modal.jsx";
 
 
-const SelectPayment = ({paymentInfo,setPaymentInfo}) =>{
+const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
     console.log("paymentInfo-------------",paymentInfo)
+    const { show, setShow, errorData, setErrorData, handleClose, modalType, setModalType } = modalState;
+
+
     //라디오 버튼 선택 시 결제방법 상태 업데이트 onchange() 핸들러
     const onChangePayMethod =(e)=>{
       //
         console.log("onChangePayMethod e.target.value",e.target.value);
-        const payMethod = e.target.value;
+        const target = e.target.value;
+
         setPaymentInfo(prev => ({
             ...prev,
-            payMethod: payMethod,
-            cardName: payMethod === "card" ? prev.cardName : "",
-            cardNumber: payMethod === "card" ? prev.cardNumber : "",
-            bankName: payMethod === "bank" ? prev.bankName : "",
-            bankAccount: payMethod === "bank" ? prev.bankAccount : "",
+            payMethod: target,
+            cardName: target === "card" ? prev.cardName : "",
+            cardNumber: target === "card" ? prev.cardNumber : "",
+            bankName: target === "bank" ? prev.bankName : "",
+            bankAccount: target === "bank" ? prev.bankAccount : "",
         }));
     }
 
@@ -23,11 +29,39 @@ const SelectPayment = ({paymentInfo,setPaymentInfo}) =>{
         const { name, value } = e.target;
         console.log("name---------",name);
         console.log(" value--------", value);
+
         setPaymentInfo((prev) => ({
             ...prev,
             [name]: value,
         }));
+
+    //end
     };
+
+
+    const payConfirmHandler = (paymentInfo) =>{
+        console.log("payConfirmHandler",paymentInfo);
+        //
+        const payValid = validationPay(paymentInfo);
+        console.log("payValid==========확인버튼 누르면 ", payValid);
+
+        console.log("payValid.valid",payValid.valid);
+        if(!payValid.valid){
+            setShow(true);
+            setErrorData({
+                message:payValid.message,
+            })
+        }else{
+            // 3초 검증 UI 출력 
+
+            //검증 속성 true로 변경
+            setPaymentInfo((prev) => ({
+                ...prev,
+               payConfirm: true,
+            }));
+
+        }
+    }
 
 
     return (
@@ -72,7 +106,7 @@ const SelectPayment = ({paymentInfo,setPaymentInfo}) =>{
                                     />
                                 </div>
                                 <div className="d-inline-flex align-items-center">
-                                    <button type="button" className="ms-2 btn btn-primary">확인</button>
+                                    <button type="button" className="ms-2 btn btn-primary" onClick={()=>payConfirmHandler(paymentInfo)}>확인</button>
                                 </div>
                             </div>
                         )}
@@ -113,13 +147,20 @@ const SelectPayment = ({paymentInfo,setPaymentInfo}) =>{
                                     />
                                 </div>
                                 <div className="d-inline-flex align-items-center">
-                                    <button type="button" className="ms-2 btn btn-primary">확인</button>
+                                    <button type="button" className="ms-2 btn btn-primary" onClick={()=>payConfirmHandler(paymentInfo)}>확인</button>
                                 </div>
                             </div>
                         )}
                     </li>
                 </ul>
             </fieldset>
+
+            {show && (
+                <ReusableModal show={show}
+                               onClose={handleClose}
+                               errorData={errorData}
+                               modalType="error"/>
+            )}
         </>
     )
 }

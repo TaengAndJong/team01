@@ -208,7 +208,10 @@ public class AdminBookController {
 
             //파일 경로 서버주소 반영하는 파일Util
             fileUtils.changeImgPath(updateData,request);
-            fileUtils.deleteFiles(String.join(",", removedBookImg),"book");
+            //삭제된 이미지 목록이 있을 경우에만 실행
+            if (removedBookImg != null && !removedBookImg.isEmpty()) {
+                fileUtils.deleteFiles(String.join(",", removedBookImg), "book");
+            }
             return ResponseEntity.ok(updateData);// 저장된 데이터 전체를 클라이언트에 반환
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

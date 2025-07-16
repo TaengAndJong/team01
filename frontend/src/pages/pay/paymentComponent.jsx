@@ -6,6 +6,8 @@ import CartItemPrice from "../cart/components/cartItemPrice.jsx";
 import PayItem from "./components/payItem.jsx";
 import SelectPayment from "./components/selectPayment.jsx";
 import PayAllPrice from "./components/payAllPrice.jsx";
+import ReusableModal from "./components/modal.jsx";
+import validationPay from "../../util/validationPay.jsx";
 
 
 const PaymentComponent = () =>{
@@ -14,9 +16,7 @@ const PaymentComponent = () =>{
     console.log("location----",location?.state);
     // location에 담겨온 state 객체들 구조분해할당
     const {cartIds,payAccount,addrId} = location?.state;
-    console.log("cartIds----",cartIds);
-    console.log("payAccount----",payAccount);
-    console.log("addrId----",addrId);
+
 
     //주소 상태관리 ==> 단일 객체로 넘어오면 null이 나을까 {}가 나을까?
     const [address,setAddress] = useState(null);
@@ -31,12 +31,28 @@ const PaymentComponent = () =>{
         bankAccount: "",
         payAccount:"",
         addrId:"",
-        quantity:"",
-        cartIds:cartIds
+       // quantity:"",
+        cartIds:cartIds,
+        payConfirm:"false",
     });
 
-    console.log("addrId---------",addrId)
-    console.log("books---------",books)
+    //모달 상태관리
+    const [show, setShow] = useState(false);
+    const [errorData, setErrorData] = useState({});
+    const handleClose = () => {setShow(false)}
+    const [modalType, setModalType] = useState("confirm");
+    
+    //props 그룹화
+    const modalState = {
+        show,
+        setShow,
+        errorData,
+        setErrorData,
+        modalType,
+        setModalType,
+        handleClose,
+    };
+    
 
     //1.필요한 데이터는 books의 도서들 가격 의 총합 + 배송비
     // 2. 결제버튼 누르면 paymentInfo 서버로 submit할 핸들러 함수
@@ -47,15 +63,19 @@ const PaymentComponent = () =>{
         const eachPrice = item.book.bookPrice;
         const quantity = item.quantity;
         accPrice = accPrice + (eachPrice *  quantity);
+
         return accPrice;
     },0) ?? 0) ; // 계산된 값에 + 배송비
 
     // 결제컨트롤러로 보낼 비동기요청
     const submitPaymentHandler = async (paymentInfo)=>{
+        console.log("submitPaymentHandler",paymentInfo);
 
         try{
             const response=  await  axios.post("/api/payment",paymentInfo)
-            console.log("response",response)
+            console.log("response--------------------------",response)
+            //paySuccess 페이지로 payId 담아서 페이지 이동시키기 ==> location 말고 URLparams 로 사용해야 새로고침해도 사라지지않음
+            
         }catch(error){
             console.log(error);
         }
@@ -78,17 +98,29 @@ const PaymentComponent = () =>{
             }))
         };
 
-        console.log("updatedPaymentInfo",updatedPaymentInfo);
-
+        console.log("updatedPaymentInfop-----onClickPayment",updatedPaymentInfo);
 
         //paymentInfo의 payAccount 값 담아주기
         setPaymentInfo(updatedPaymentInfo);
         //여기서 한 번더 검증 필요
+        const formValid = validationPay(updatedPaymentInfo);
+        console.log("페치요청 마지막 검증",formValid.valid);
 
-        console.log("결제버튼 클릭 ",paymentInfo)
+        if(!formValid.valid){
+            console.log("페치요청 마지막 검증 true??",formValid.valid);
+            //모달띄우기
+            setShow(true);
+            setModalType("error");
+            setErrorData({
+                message:"결제불가",
+                error:"결제정보를 입력해주세요."
+            });
+        }
+
         //서버로 비동기 요청 보낼 함수 실행,  서버로 보내줄 파라미터 넘겨주기
         await submitPaymentHandler(paymentInfo); // 이 핸들러 끝날 때까지 기다려라! ==> async , await 사용안하면 onclick 이벤트가  먼저 끝나버림
         // 이 다음 실행
+
 
         console.log("onClick 끝");
     }
@@ -154,7 +186,7 @@ const PaymentComponent = () =>{
                                 <PayItem books={books}/>
                             </section>
                             {/* 결제 수단 선택 */}
-                            <SelectPayment paymentInfo={paymentInfo} setPaymentInfo={setPaymentInfo}/>
+                            <SelectPayment paymentInfo={paymentInfo} setPaymentInfo={setPaymentInfo} modalState={modalState}/>
                             {/* 총 결제금액*/}
                             <section className="mt-4" aria-labelledby="priceSummary">
                                 <h5 id="priceSummary" className="title my-3">결제 금액 요약</h5>
@@ -170,6 +202,13 @@ const PaymentComponent = () =>{
                     </div>
                 </section>
             </div>
+            {show && (
+                <ReusableModal show={show}
+                               onClose={handleClose}
+                               errorData={errorData}
+                               modalType="error"/>
+            )}
+
 
         </>
 )

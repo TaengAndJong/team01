@@ -10,9 +10,7 @@ const cartAllPrice = ({cartList,selectItem,deliveryFee,gotoPayment,totalPrice}) 
 
 
     const allPayment = () => {
-            console.log("전체가격");
             gotoPayment(cartList,selectItem);
-
     };
 
     //cartList에 담긴 도사 가격만 필터링 해서 계산
