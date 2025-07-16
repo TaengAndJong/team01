@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/payment")
+
 @RestController
 public class PaymentController {
 
@@ -36,7 +36,7 @@ public class PaymentController {
      private final CartService cartService;
     private final FileUtils fileUtils;
 
-    @GetMapping()
+    @GetMapping("/payment")
     public ResponseEntity<?> getPayment(@AuthenticationPrincipal PrincipalDetails userDetails, HttpServletRequest request) {
         // 결제 성공 목록 조회해서 데이터 클라이언트로 보내주기
         String clientId = userDetails.getUsername();
@@ -73,7 +73,7 @@ public class PaymentController {
         return  ResponseEntity.ok(result);
     }
 
-    @PostMapping()
+    @PostMapping("/payment")
     public ResponseEntity<?> postPayment(@RequestBody PaymentVO paymentVO) {
         // 결제한 데이터 결제 테이블에 넣어주기
         log.info("postPayment ------------------paymentVO:{}", paymentVO);
@@ -108,15 +108,6 @@ public class PaymentController {
         return ResponseEntity.ok(Map.of("message", "결제 성공", "payId", paymentVO.getPayId()));
     }
 
-    @PostMapping("/success")
-    public ResponseEntity<?> postSuccessPayment(@RequestBody PaymentVO paymentVO) {
-
-        //결제 완료된 목록 조회해오기, vo에서 DTO로 변경해 객체 정리해서 클라이언트로 보내주기
-        log.info("postSuccessPayment ------------------paymentVO:{}", paymentVO);
-        
-
-        return  ResponseEntity.ok("post요청");
-    }
 
 
 }

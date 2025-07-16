@@ -24,7 +24,7 @@ const Mypage = () => {
             case "address":
                 return "배송지";
                 break;
-            case "payment":
+            case "payHistory":
                 return "결제내역";
                 break;
             case "wishlist":
@@ -69,8 +69,8 @@ const Mypage = () => {
 
                             </li>
                             <li>
-                                <Link to="payment"
-                                      className={`depth-menu first ${currentPath.includes("payment") ? "current" : ""}`}>
+                                <Link to="payHistory"
+                                      className={`depth-menu first ${currentPath.includes("payHistory") ? "current" : ""}`}>
                                     결제내역
                                     <i className="leaf icon"></i>
                                 </Link>

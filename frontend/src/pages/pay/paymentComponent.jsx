@@ -1,4 +1,4 @@
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import "@assets/css/payment.css"
@@ -13,9 +13,11 @@ import validationPay from "../../util/validationPay.jsx";
 const PaymentComponent = () =>{
 
     const location = useLocation();
+    const navigate = useNavigate();
     console.log("location----",location?.state);
     // location에 담겨온 state 객체들 구조분해할당
     const {cartIds,payAccount,addrId} = location?.state;
+
 
 
     //주소 상태관리 ==> 단일 객체로 넘어오면 null이 나을까 {}가 나을까?
@@ -75,6 +77,10 @@ const PaymentComponent = () =>{
             const response=  await  axios.post("/api/payment",paymentInfo)
             console.log("response--------------------------",response)
             //paySuccess 페이지로 payId 담아서 페이지 이동시키기 ==> location 말고 URLparams 로 사용해야 새로고침해도 사라지지않음
+            const payId = response.data.payId;
+            console.log("payId",payId);
+            //서버로부터 받아오느 payId를 가지고 결제성공 페이지로 이동
+            navigate(`/mypage/payment`);
             
         }catch(error){
             console.log(error);

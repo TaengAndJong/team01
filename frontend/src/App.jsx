@@ -47,7 +47,7 @@ import WishList from "@pages/myPage/wish/WishList.jsx";
 import PaymentHistory from "@pages/myPage/payment/PaymentHistory.jsx";
 //payment
 import PaymentComponent from "@pages/pay/paymentComponent.jsx";
-import PaymentSuccess from "./pages/pay/components/paymentSuccess.jsx";
+
 
 
 
@@ -81,7 +81,7 @@ function App() {
                         <Route  index  element={<MyPageMain/>}/>
                         <Route  path="personal" element={<PersonalInfo/>}/>
                         <Route  path="address" element={<AddressComponent/>}/>
-                        <Route  path="payment" element={<PaymentHistory/>}/>
+                        <Route  path="payHistory" element={<PaymentHistory/>}/>
                         <Route  path="wishlist" element={<WishComponent/>}>
                             <Route  index  element={<WishList/>}/>
                         </Route>
@@ -90,7 +90,7 @@ function App() {
                         <Route index path="" element={<CartList/>}/>
                     </Route>
                     <Route path={PathData.page.payment} element={<PaymentComponent/>}/>
-                    <Route path="paySuccess" element={<PaymentSuccess/>}/>  {/*중첩라우팅사용하려면 최상위 부모 컴포넌트에 <Outlet/>을 사용해야 함!*/}
+                    {/*<Route path="paySuccess/:payId" element={<PaymentSuccess/>}/>  /!*중첩라우팅사용하려면 최상위 부모 컴포넌트에 <Outlet/>을 사용해야 함!*!/*/}
                     <Route path={PathData.page.signup} element={<SignUp/>}/>
 
 
