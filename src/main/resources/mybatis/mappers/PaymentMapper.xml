@@ -108,6 +108,7 @@
             b."addrId",
             b."clientId",
             c."addr",
+            c."addrType",
             c."detailAddr",
             c."zoneCode"
         from payAndBook a
@@ -115,7 +116,6 @@
                  join address c on (b."addrId" = c."addrId")
         where b."clientId" = #{clientId}
     </select>
-
 
 </mapper>
 

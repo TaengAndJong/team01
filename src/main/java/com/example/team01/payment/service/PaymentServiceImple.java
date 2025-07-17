@@ -93,19 +93,13 @@ public class PaymentServiceImple implements PaymentService {
         Map<String, List<PaymentListVO>> groupedMap = paymentListVO.stream()
                 .collect(Collectors.groupingBy(PaymentListVO::getPayId));
 
+        log.info("groupeMap--------:{}",groupedMap);
         //결과 담아서 반환할 변수
-        List<PaymentListDTO> result = new ArrayList<>();
-
-        for (Map.Entry<String, List<PaymentListVO>> entry : groupedMap.entrySet()) {
-            String payId = entry.getKey();
-            List<PaymentListVO> paymentInfo = entry.getValue();
-
-            // 그룹 단위로 DTO 생성
-            PaymentListDTO dto = convertToPaymentListDTO(paymentInfo);
-
-            //dto로 변환한 데이터 담아주기
-            result.add(dto);
-        }
+        List<PaymentListDTO> result = groupedMap.entrySet().stream()
+                        .map(entry ->{
+                            PaymentListDTO dto = convertToPaymentListDTO(entry.getValue());
+                            return dto;
+                        }).collect(Collectors.toList());
 
         log.info("PaymentListDTO result:{}",result);
         return result;
@@ -155,6 +149,8 @@ public class PaymentServiceImple implements PaymentService {
         //voList에 담긴 데이터들 중 하나의 객체 가져오기
         PaymentListVO firstObject = voList.get(0);
 
+        log.info("firstObjects---------:{}",firstObject);
+
         //books DTO 설정하기
         List<BookDTO> books = voList.stream().map(vo -> BookDTO.builder()
                 .bookId(vo.getBookId())
@@ -171,6 +167,7 @@ public class PaymentServiceImple implements PaymentService {
         //Address DTO 설정하기
        AddressDTO address = voList.stream().map(vo -> AddressDTO.builder()
                .addrId(vo.getAddrId())
+               .addrType(vo.getAddrType())
                .addr(vo.getAddr())
                .detailAddr(vo.getDetailAddr())
                .zoneCode(vo.getZoneCode()).build()).collect(Collectors.toList()).get(0);
@@ -182,10 +179,12 @@ public class PaymentServiceImple implements PaymentService {
                 .payDate(firstObject.getPayDate())
                 .payStatus(firstObject.getPayStatus())
                 .payUpdateDate(firstObject.getPayUpdateDate())
+                .clientId(firstObject.getClientId())
                 .books(books)
                 .address(address)
                 .build();
 
+        log.info("paymentListDTO---------------------paymentServiceImple:{}",paymentListDTO);
 
         return paymentListDTO;
     }

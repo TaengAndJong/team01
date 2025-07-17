@@ -41,11 +41,13 @@ public class PayHistoryController {
 
         paymentList.forEach(dto -> {
             List<BookDTO> updatedBooks = dto.getBooks().stream()
-                    .map(book -> fileUtils.changeImgPathDto(book, request)) // ✅ 각 BookDTO에 적용
+                    .map(book -> fileUtils.changeImgPathDto(book, request))
                     .collect(Collectors.toList());
-            dto.setBooks(updatedBooks); // ✅ 바뀐 book 리스트를 다시 세팅
+            log.info("updatedBooks--controller:{}",updatedBooks);
+            dto.setBooks(updatedBooks); //
         });
 
+        log.info("paymentList--End:{}",paymentList);
         return ResponseEntity.ok(paymentList);
     }
 
