@@ -23,7 +23,8 @@ public class PaymentVO implements Serializable {
     private LocalDateTime payDate;
     private String addrId;
     private List<String> cartIds;// 클라이언트에서 받아올 cartId들 목록 필드
-    
+    private String clientId;
+
     // resultMap과 매핑할 객체, 데이터베이스의 데이터를 클라이언트로 보내줄 때 사용.
     private AddressVO addressVO; // 1:1
     //도서상품 조회

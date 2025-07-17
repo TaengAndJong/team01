@@ -29,6 +29,29 @@
         </collection>
     </resultMap>
 
+    <resultMap id="PaymentListVOMap" type="PaymentListVO">
+        <result column="payId" property="payId"/>
+        <result column="bookId" property="bookId"/>
+        <result column="quantity" property="quantity"/>
+        <result column="bookCateNm" property="bookCateNm"/>
+        <result column="bookCateDepth" property="bookCateDepth"/>
+        <result column="bookName" property="bookName"/>
+        <result column="author" property="author"/>
+        <result column="bookPrice" property="bookPrice"/>
+        <result column="publishDate" property="publishDate"/>
+        <result column="roleId" property="roleId"/>
+        <result column="cateId" property="cateId"/>
+        <result column="bookImgPath" property="bookImgPath"/>
+        <result column="payAccount" property="payAccount"/>
+        <result column="payStatus" property="payStatus"/>
+        <result column="payDate" property="payDate"/>
+        <result column="payMethod" property="payMethod"/>
+        <result column="payUpdateDate" property="payUpdateDate"/>
+        <result column="addrId" property="addrId"/>
+        <result column="clientId" property="clientId"/>
+    </resultMap>
+
+
 
     <select id="selectCartList" parameterType="String" resultMap="bookMap">
         select
@@ -44,9 +67,9 @@
             SELECT PAYID_SQE.NEXTVAL FROM DUAL
         </selectKey>
         INSERT INTO payment
-            ("payId", "payAccount","payStatus", "payMethod","addrId")
+            ("payId", "payAccount","payStatus", "payMethod","addrId","clientId")
         VALUES
-            (#{payId}, #{payAccount},#{payStatus}, #{payMethod},#{addrId})
+            (#{payId}, #{payAccount},#{payStatus}, #{payMethod},#{addrId},#{clientId})
     </insert>
 
     <insert id="insertPaymentList" parameterType="PaymentVO">
@@ -55,6 +78,43 @@
         VALUES
         (#{payId},#{bookId}, #{quantity})
     </insert>
+
+    <select id="selectPaymentList" parameterType="String" resultMap="PaymentListVOMap">
+        with payAndBook as (
+            select
+                p."payId",
+                p."bookId",
+                p."quantity",
+                b."bookCateNm",
+                b."bookCateDepth",
+                b."bookName",
+                b."author",
+                b."bookPrice",
+                b."publishDate",
+                b."roleId",
+                b."cateId",
+                b."bookImgPath"
+            from paymentList p
+                     join book b
+                          on (p."bookId" = b."bookId")
+        )
+        select
+            a.*,
+            b."payAccount",
+            b."payStatus",
+            b."payDate",
+            b."payMethod",
+            b."payUpdateDate",
+            b."addrId",
+            b."clientId",
+            c."addr",
+            c."detailAddr",
+            c."zoneCode"
+        from payAndBook a
+                 join payment b on (a."payId" = b."payId")
+                 join address c on (b."addrId" = c."addrId")
+        where b."clientId" = #{clientId}
+    </select>
 
 
 </mapper>

@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
-
 @RestController
+@RequestMapping("/payment")
 public class PaymentController {
 
      private final PaymentService paymentService;
@@ -36,7 +36,7 @@ public class PaymentController {
      private final CartService cartService;
     private final FileUtils fileUtils;
 
-    @GetMapping("/payment")
+    @GetMapping()
     public ResponseEntity<?> getPayment(@AuthenticationPrincipal PrincipalDetails userDetails, HttpServletRequest request) {
         // 결제 성공 목록 조회해서 데이터 클라이언트로 보내주기
         String clientId = userDetails.getUsername();
@@ -73,8 +73,8 @@ public class PaymentController {
         return  ResponseEntity.ok(result);
     }
 
-    @PostMapping("/payment")
-    public ResponseEntity<?> postPayment(@RequestBody PaymentVO paymentVO) {
+    @PostMapping()
+    public ResponseEntity<?> postPayment(@RequestBody PaymentVO paymentVO,@AuthenticationPrincipal PrincipalDetails userDetails) {
         // 결제한 데이터 결제 테이블에 넣어주기
         log.info("postPayment ------------------paymentVO:{}", paymentVO);
         // 1. Null 체크
@@ -98,8 +98,9 @@ public class PaymentController {
             }
         }
         //결제완료
+        String clientId = userDetails.getUsername();
         // payment 결제정보테이블에 결제 데이터 insert (목적 : 결제 정보)
-        paymentService.insertPayment(paymentVO);
+        paymentService.insertPayment(paymentVO,clientId);
         //payment_cart 결제내역테이블에 데이터 insert ( 목적: 도서정보조회 , 결제상세내역 조회 )
         paymentService.insertPaymentList(paymentVO);
         // 장바구니 목록에서 delete //cartIds=[26, 24, 25] 파라미터를 List로 전달 ==> IN 절 다중 조회(List 파라미터 IN 절) 사용해서 삭제
@@ -107,6 +108,7 @@ public class PaymentController {
         // 결제 완료 후 payId 넘겨주기 ==> SPA 경우에는 프론트에서 이동을 제어하는게 더 나음, payId를 공통으로 가지고 잇으니까 같이 넘겨줌
         return ResponseEntity.ok(Map.of("message", "결제 성공", "payId", paymentVO.getPayId()));
     }
+
 
 
 

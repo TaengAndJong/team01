@@ -74,7 +74,6 @@ const Mypage = () => {
                                     결제내역
                                     <i className="leaf icon"></i>
                                 </Link>
-
                             </li>
                             <li>
                                 <Link to="wishlist"

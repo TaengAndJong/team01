@@ -80,7 +80,7 @@ const PaymentComponent = () =>{
             const payId = response.data.payId;
             console.log("payId",payId);
             //서버로부터 받아오느 payId를 가지고 결제성공 페이지로 이동
-            navigate(`/mypage/payment`);
+            navigate(`/mypage/payHistory`);
             
         }catch(error){
             console.log(error);

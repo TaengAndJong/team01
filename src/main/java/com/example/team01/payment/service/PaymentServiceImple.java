@@ -8,17 +8,17 @@ import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.dto.book.BookDTO;
 import com.example.team01.dto.cart.CartDTO;
 import com.example.team01.dto.payment.PaymentDTO;
+import com.example.team01.dto.payment.PaymentListDTO;
 import com.example.team01.payment.dao.PaymentDao;
-import com.example.team01.vo.AddressVO;
-import com.example.team01.vo.BookVO;
-import com.example.team01.vo.CartVO;
-import com.example.team01.vo.PaymentVO;
+import com.example.team01.utils.FileUtils;
+import com.example.team01.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,6 +28,7 @@ public class PaymentServiceImple implements PaymentService {
 
     private final PaymentDao dao;
     private final AddressDao addrDao;
+    private final FileUtils fileUtils;
 
     @Override
     public List<CartDTO> selectCartList(String clientId) {
@@ -46,13 +47,14 @@ public class PaymentServiceImple implements PaymentService {
     }
 
 
-    public int insertPayment(PaymentVO paymentVO){
+    public int insertPayment(PaymentVO paymentVO,String clientId){
         log.info("service insertPayment----------:{}",paymentVO);
         //검증필요 ==> paymentVO.setPayStatus() ==> 결제완료,결제대기,결제실패
         //payment이 어떤조건을 기준으로 값을 세팅할 것인가!
         int cnt = 0;
         if(paymentVO != null){
             // payState 값 설정해주기
+            paymentVO.setClientId(clientId);
             paymentVO.setPayStatus(PayStatus.COMPLETED.getStatus());
             log.info("insert paymentVO-------:{}",paymentVO);
             // dao로 넘겨주기
@@ -83,6 +85,31 @@ public class PaymentServiceImple implements PaymentService {
         return cnt;
     }
 
+    public List<PaymentListDTO> selectPaymentList(String clientId){
+
+        List<PaymentListVO> paymentListVO =  dao.selectPaymentList(clientId);
+
+        // Step 1. payId 기준으로 Grouping
+        Map<String, List<PaymentListVO>> groupedMap = paymentListVO.stream()
+                .collect(Collectors.groupingBy(PaymentListVO::getPayId));
+
+        //결과 담아서 반환할 변수
+        List<PaymentListDTO> result = new ArrayList<>();
+
+        for (Map.Entry<String, List<PaymentListVO>> entry : groupedMap.entrySet()) {
+            String payId = entry.getKey();
+            List<PaymentListVO> paymentInfo = entry.getValue();
+
+            // 그룹 단위로 DTO 생성
+            PaymentListDTO dto = convertToPaymentListDTO(paymentInfo);
+
+            //dto로 변환한 데이터 담아주기
+            result.add(dto);
+        }
+
+        log.info("PaymentListDTO result:{}",result);
+        return result;
+    }
 
     //결제페이지에 전달할 장바구니 도서목록
     private CartDTO convertToCartDTO(CartVO cartvo) {
@@ -120,6 +147,48 @@ public class PaymentServiceImple implements PaymentService {
         return cartDto;
     }
 
+    private PaymentListDTO convertToPaymentListDTO(List<PaymentListVO> voList) {
+
+        if (voList == null || voList.isEmpty()) {
+            return new PaymentListDTO();
+        }
+        //voList에 담긴 데이터들 중 하나의 객체 가져오기
+        PaymentListVO firstObject = voList.get(0);
+
+        //books DTO 설정하기
+        List<BookDTO> books = voList.stream().map(vo -> BookDTO.builder()
+                .bookId(vo.getBookId())
+                        .bookCateNm(vo.getBookCateNm())
+                        .bookCateDepth(vo.getBookCateDepth())
+                        .bookName(vo.getBookName())
+                        .author(vo.getAuthor())
+                        .bookPrice(vo.getBookPrice())
+                        .publishDate(vo.getPublishDate())
+                        .bookImgPath(vo.getBookImgPath())
+                .build())
+                .collect(Collectors.toList());
+        
+        //Address DTO 설정하기
+       AddressDTO address = voList.stream().map(vo -> AddressDTO.builder()
+               .addrId(vo.getAddrId())
+               .addr(vo.getAddr())
+               .detailAddr(vo.getDetailAddr())
+               .zoneCode(vo.getZoneCode()).build()).collect(Collectors.toList()).get(0);
+
+        //paymetListDTO 설정하기
+        PaymentListDTO paymentListDTO = PaymentListDTO.builder()
+                .payId(firstObject.getPayId())
+                .payMethod(firstObject.getPayMethod())
+                .payDate(firstObject.getPayDate())
+                .payStatus(firstObject.getPayStatus())
+                .payUpdateDate(firstObject.getPayUpdateDate())
+                .books(books)
+                .address(address)
+                .build();
+
+
+        return paymentListDTO;
+    }
 
 
 }
