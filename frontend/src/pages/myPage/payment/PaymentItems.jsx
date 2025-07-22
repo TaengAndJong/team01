@@ -56,7 +56,6 @@ const PaymentItems = ({paymentProps}) =>{
                         }
                     }
 
-
                 })
                //end
             }
@@ -126,7 +125,6 @@ const PaymentItems = ({paymentProps}) =>{
     console.log("selected------------------33333333",selected);
 
     useEffect(()=>{
-
         if (paymentInfo) {
             const changeArray = Array.isArray(paymentInfo)
                 ? paymentInfo
@@ -150,8 +148,12 @@ const PaymentItems = ({paymentProps}) =>{
                                     <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="text-center">
+                                            {/*개수 비교에서 초기값을 0으로 대체하면 결국 두 조건이 만족이 안되기 때문에 false반환
+                                               undefined , uncontrolled input 방지
+                                            */}
+
                                             <input type="checkbox" id="selectAll"
-                                                   checked={!!(selected[payment.payId]?.length === payment.books?.length)}
+                                                   checked={(selected[payment.payId]?.length || 0) === payment.books?.length}
                                                    onChange={(e) => {
                                                        selectedAll(`${payment.payId}`,e.target.checked);
                                                    }}
@@ -175,7 +177,7 @@ const PaymentItems = ({paymentProps}) =>{
                                                     type="checkbox"
                                                     id={`book${index}`}
                                                     name={`book${index}`}
-                                                    checked={selected[payment.payId]?.includes(book.bookId)} // 상태 기반 체크 여부 결정
+                                                    checked={!!selected[payment.payId]?.includes(book.bookId)} // 상태 기반 체크 여부 결정
                                                     onChange={(e) => selectedOne(`${payment.payId}`, `${book.bookId}`, e.target.checked)}
                                                 />
                                                 <label htmlFor={`book${index}`}
