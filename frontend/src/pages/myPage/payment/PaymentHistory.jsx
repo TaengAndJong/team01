@@ -21,7 +21,7 @@ const PaymentHistory=()=>{
     }
 
     //결제항목선택 상태관리 변수
-    const [selected,setSelected]=useState([]);
+    const [selected,setSelected]=useState({});
     console.log("selected",selected);
 
     const handleCancel = () =>{
