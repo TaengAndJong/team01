@@ -7,6 +7,7 @@ import com.example.team01.delivery.service.AddressService;
 import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.dto.book.BookDTO;
 import com.example.team01.dto.cart.CartDTO;
+import com.example.team01.dto.payment.PaymentCancelDTO;
 import com.example.team01.dto.payment.PaymentDTO;
 import com.example.team01.dto.payment.PaymentListDTO;
 import com.example.team01.payment.dao.PaymentDao;
@@ -47,23 +48,6 @@ public class PaymentServiceImple implements PaymentService {
     }
 
 
-    public int insertPayment(PaymentVO paymentVO,String clientId){
-        log.info("service insertPayment----------:{}",paymentVO);
-        //검증필요 ==> paymentVO.setPayStatus() ==> 결제완료,결제대기,결제실패
-        //payment이 어떤조건을 기준으로 값을 세팅할 것인가!
-        int cnt = 0;
-        if(paymentVO != null){
-            // payState 값 설정해주기
-            paymentVO.setClientId(clientId);
-            paymentVO.setPayStatus(PayStatus.COMPLETED.getStatus());
-            log.info("insert paymentVO-------:{}",paymentVO);
-            // dao로 넘겨주기
-           return cnt= dao.insertPayment(paymentVO);
-        }
-        log.info("insert dao-------:{}",cnt);
-        return cnt;
-    }
-
     @Override
     public int insertPaymentList(PaymentVO PaymentVO) {
         log.info("service insertPaymentList----------:{}",PaymentVO);
@@ -82,6 +66,43 @@ public class PaymentServiceImple implements PaymentService {
         }
         log.info("service insertPaymentList----------cnt:{}",cnt);
         //payId, quantity  bookId
+        return cnt;
+    }
+
+    //mypage paymentList 결제취소 삭제(delete) 파라미터는 payId, bookId들
+    @Override
+    public int deletePaymentList( List<String> payIds, List<String> bookIds) {
+        log.info("deletePaymentList--serviceIMple payId:{},bookIds:{}",payIds,bookIds);
+        int cnt = dao.deletePaymentList(payIds,bookIds);
+
+        log.info("deletePaymentList----------cnt:{}",cnt);
+        return cnt;
+    }
+
+    //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
+    @Override
+    public int UpdatePaymentStatus(List<String> payIds,String clientId) {
+        log.info("UpdatePaymentStatus--serviceIMple payId:{},clientId:{}",payIds,clientId);
+        int cnt = dao.UpdatePaymentStatus(payIds,clientId);
+
+        log.info("UpdatePaymentStatus----------cnt:{}",cnt);
+        return cnt;
+    }
+
+    public int insertPayment(PaymentVO paymentVO,String clientId){
+        log.info("service insertPayment----------:{}",paymentVO);
+        //검증필요 ==> paymentVO.setPayStatus() ==> 결제완료,결제대기,결제실패
+        //payment이 어떤조건을 기준으로 값을 세팅할 것인가!
+        int cnt = 0;
+        if(paymentVO != null){
+            // payState 값 설정해주기
+            paymentVO.setClientId(clientId);
+            paymentVO.setPayStatus(PayStatus.COMPLETED.getStatus());
+            log.info("insert paymentVO-------:{}",paymentVO);
+            // dao로 넘겨주기
+            return cnt= dao.insertPayment(paymentVO);
+        }
+        log.info("insert dao-------:{}",cnt);
         return cnt;
     }
 
@@ -187,6 +208,30 @@ public class PaymentServiceImple implements PaymentService {
         log.info("paymentListDTO---------------------paymentServiceImple:{}",paymentListDTO);
 
         return paymentListDTO;
+    }
+
+    public void cancelPaymentInfos(List<PaymentCancelDTO> dtoList,String clientId){
+
+        log.info("dtoList------------------cancelPaymentInfos:{}",dtoList);
+        log.info("clientId------------------cancelPaymentInfos:{}",clientId);
+        
+        //PayId 와 bookIds를 각각 나눠어 변수에 담아주기
+        /*
+        * dtoList를 streamAPI를 사용해 순회하고, 중간연산 Map함수를 사용하여 PaymentCancenDTO의 PayId를 값을 호출하여 
+        * 결과값을 collect 인터페이스를 사용하여 List 형태로 반환
+        * */
+        List<String> payIds = dtoList.stream().map(PaymentCancelDTO::getPayId).collect(Collectors.toList());
+        /*
+        * flatMap 사용하는 이유는 bookIds가 이미 배열형태이기 때문에 일반적인 map함수를 사용하면 
+        * 이중중첩배열의 구조로 결과가 반환되기때문에 하나의 배열로 평탄화하기 위해서 flatMap함수로 중산연산 처리
+        * */
+        List<String> bookIds = dtoList.stream().flatMap(dto -> dto.getBookIds().stream()).collect(Collectors.toList());
+        log.info("payIds:{},bookIds:{}------------------cancelPaymentInfos:{}",payIds,bookIds);
+
+        //paymentList 테이블 데이터 delete 처리
+        dao.deletePaymentList(payIds,bookIds);
+        //payment 테이블 Update 처리
+        dao.UpdatePaymentStatus(payIds,clientId);
     }
 
 

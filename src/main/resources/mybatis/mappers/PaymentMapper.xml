@@ -117,6 +117,29 @@
         where b."clientId" = #{clientId}
     </select>
 
+    <!--결제취소 paymentList 삭제 파라미터는 payId, bookId들-->
+    <delete id="deletePaymentList" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
+       delete from paymentList
+        where "payId" IN
+            <foreach item="payId" collection="payIds" open="(" separator="," close=")">
+                #{payId}
+            </foreach>
+          and "bookId" IN
+              <foreach item="bookId" collection="bookIds" open="(" separator="," close=")">
+                  #{bookId}
+              </foreach>
+    </delete>
+    <!-- payment 결제취소 상태 갱신 , 파라미터 payId, clientId-->
+    <update id="UpdatePaymentStatus" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
+        update payment
+        set "payStatus" = 'CANCEL'
+        where "payId" IN
+            <foreach item="payId" collection="payIds" open="(" separator="," close=")">
+                #{payId}
+            </foreach>
+        and "clientId"=#{clientId}
+    </update>
+
 </mapper>
 
 <!--EnumType은  enumType.상수명으로 문자열 꺼내 사용-->

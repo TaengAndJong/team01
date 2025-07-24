@@ -21,4 +21,11 @@ public interface PaymentDao {
     //mypage 결제내역 목록들조회
     public List<PaymentListVO> selectPaymentList(String clientId);
 
+    //mypage paymentList 결제취소 삭제(delete) 파라미터는 payId, bookId들
+    public int deletePaymentList(@Param("payIds") List<String> payIds,@Param("bookIds") List<String> bookIds);
+
+    //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
+    public int UpdatePaymentStatus(@Param("payIds") List<String> payIds,@Param("clientId") String clientId);
+
+
 }

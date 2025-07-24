@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {formatToDate} from "../../../util/dateUtils.jsx";
+import CancerPaymentBtn from "./CancerPaymentBtn.jsx";
 
 
 const PaymentItems = ({paymentProps}) =>{
-
     console.log("paymentProps",paymentProps);
-
     const { paymentInfo, selected, setSelected, handleCancel } = paymentProps;
     const [data,setData]=useState([]);
 
@@ -60,7 +59,6 @@ const PaymentItems = ({paymentProps}) =>{
                //end
             }
     }
-
 
     //개별선택 핸들러
     const selectedOne = (payId,bookId,checked) =>{
@@ -137,80 +135,75 @@ const PaymentItems = ({paymentProps}) =>{
     return (
         <>
             <div className="paymentList">
-                <h2 className="title-border title">결제 상세 정보</h2>
-                <div className="border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50">
+                    <h2 className="title-border title">결제 상세 정보</h2>
+                    <div className="border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50">
 
-                        {data.map((payment, i) => (
-                            <div className="table-responsive" key={i}>
-                                <h6 className="title my-3">{`No.${payment.payId} ${formatToDate(payment.payDate)} 결제내역`}</h6>
-                                <table
-                                       className="table table-bordered table-hover align-middle text-center mb-5">
-                                    <thead className="table-light">
-                                    <tr>
-                                        <th scope="col" className="text-center">
-                                            {/*개수 비교에서 초기값을 0으로 대체하면 결국 두 조건이 만족이 안되기 때문에 false반환
-                                               undefined , uncontrolled input 방지
-                                            */}
+                            {data.map((payment, i) => (
+                                <div className="table-responsive" key={i}>
+                                    <h6 className="title my-3">{`No.${payment.payId} ${formatToDate(payment.payDate)} 결제내역`}</h6>
+                                    <table
+                                           className="table table-bordered table-hover align-middle text-center mb-5">
+                                        <thead className="table-light">
+                                        <tr>
+                                            <th scope="col" className="text-center">
+                                                {/*개수 비교에서 초기값을 0으로 대체하면 결국 두 조건이 만족이 안되기 때문에 false반환
+                                                   undefined , uncontrolled input 방지
+                                                */}
 
-                                            <input type="checkbox" id="selectAll"
-                                                   checked={(selected[payment.payId]?.length || 0) === payment.books?.length}
-                                                   onChange={(e) => {
-                                                       selectedAll(`${payment.payId}`,e.target.checked);
-                                                   }}
-                                            />
-                                            <label htmlFor="selectAll" className="sr-only">전체 선택</label>
-                                        </th>
-                                        <th scope="col" className="text-center">이미지</th>
-                                        <th scope="col" className="text-center">상품정보</th>
-                                        <th scope="col" className="text-center">배송지</th>
-                                        <th scope="col" className="text-center">가격</th>
-                                        <th scope="col" className="text-center">결제방식</th>
-                                        <th scope="col" className="text-center">결제상태</th>
-                                        <th scope="col" className="text-center">결제일시</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {payment.books?.map((book, index) => (
-                                        <tr key={index}>
-                                            <td className="text-center">
-                                                <input
-                                                    type="checkbox"
-                                                    id={`book${index}`}
-                                                    name={`book${index}`}
-                                                    checked={!!selected[payment.payId]?.includes(book.bookId)} // 상태 기반 체크 여부 결정
-                                                    onChange={(e) => selectedOne(`${payment.payId}`, `${book.bookId}`, e.target.checked)}
+                                                <input type="checkbox" id="selectAll"
+                                                       checked={(selected[payment.payId]?.length || 0) === payment.books?.length}
+                                                       onChange={(e) => {
+                                                           selectedAll(`${payment.payId}`,e.target.checked);
+                                                       }}
                                                 />
-                                                <label htmlFor={`book${index}`}
-                                                       className="sr-only">{`${book.bookName}`}</label>
-                                            </td>
-                                            <td className="text-center">
-                                                <img
-                                                    src={book.bookImgList[0] || "/default.png"}
-                                                    alt={book.bookName || "도서 이미지"}
-                                                    style={{width: "80px", height: "auto"}}
-                                                />
-                                            </td>
-                                            <td className="text-center">{book.bookName}/{book.author}</td>
-                                            <td className="text-center">{payment.address?.addrType}</td>
-                                            <td className="text-center">{book.bookPrice.toLocaleString()} 원</td>
-                                            <td className="text-center">{payment.payMethod === "card" ? "카드" : "계좌이체"}</td>
-                                            <td className="text-center">{payment.payStatus === "COMPLETED" ? "결제완료" : "결제취소"}</td>
-                                            <td className="text-center">{payment.payDate}</td>
-
+                                                <label htmlFor="selectAll" className="sr-only">전체 선택</label>
+                                            </th>
+                                            <th scope="col" className="text-center">이미지</th>
+                                            <th scope="col" className="text-center">상품정보</th>
+                                            <th scope="col" className="text-center">배송지</th>
+                                            <th scope="col" className="text-center">가격</th>
+                                            <th scope="col" className="text-center">결제방식</th>
+                                            <th scope="col" className="text-center">결제상태</th>
+                                            <th scope="col" className="text-center">결제일시</th>
                                         </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        {payment.books?.map((book, index) => (
+                                            <tr key={index}>
+                                                <td className="text-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        id={`book${index}`}
+                                                        name={`book${index}`}
+                                                        checked={!!selected[payment.payId]?.includes(book.bookId)} // 상태 기반 체크 여부 결정
+                                                        onChange={(e) => selectedOne(`${payment.payId}`, `${book.bookId}`, e.target.checked)}
+                                                    />
+                                                    <label htmlFor={`book${index}`}
+                                                           className="sr-only">{`${book.bookName}`}</label>
+                                                </td>
+                                                <td className="text-center">
+                                                    <img
+                                                        src={book.bookImgList[0] || "/default.png"}
+                                                        alt={book.bookName || "도서 이미지"}
+                                                        style={{width: "80px", height: "auto"}}
+                                                    />
+                                                </td>
+                                                <td className="text-center">{book.bookName}/{book.author}</td>
+                                                <td className="text-center">{payment.address?.addrType}</td>
+                                                <td className="text-center">{book.bookPrice.toLocaleString()} 원</td>
+                                                <td className="text-center">{payment.payMethod === "card" ? "카드" : "계좌이체"}</td>
+                                                <td className="text-center">{payment.payStatus === "COMPLETED" ? "결제완료" : "결제취소"}</td>
+                                                <td className="text-center">{payment.payDate}</td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
 
-                            </div>
-                        ))}
+                                </div>
+                            ))}
 
-            </div>
-                <div className="text-center">
-                    <button className="btn btn-danger" onClick={handleCancel}>
-                        결제 취소
-                    </button>
                 </div>
+                <CancerPaymentBtn handleCancel={handleCancel}/>
             </div>
         </>
     )

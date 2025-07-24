@@ -1,10 +1,16 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import PaymentItems from "./PaymentItems.jsx";
+import {data} from "react-router-dom";
 
 const PaymentHistory=()=>{
 
     const [paymentInfo, setPaymetInfo] = useState({});
+    //결제항목선택 상태관리 변수
+    const [selected,setSelected]=useState({});
+
+    console.log("paymentInfo PayHistory",paymentInfo);
+    
     //getfetch
     const getfetch = async()=>{
 
@@ -20,12 +26,22 @@ const PaymentHistory=()=>{
         }
     }
 
-    //결제항목선택 상태관리 변수
-    const [selected,setSelected]=useState({});
-    console.log("selected",selected);
+    const handleCancel = async() =>{
+        console.log("Cancel---");
+        //컨트롤러로 전달할 필수 데이터는 payId와 payId에 해당하는 bookId들
+        console.log("selected----",selected);
+        //결제취소 컨트롤러로 비동기 요청보내기
+        try{
+            const response = await axios.post("/api/mypage/payCancel",selected);
+            const recievedData = response.data;
+            console.log("recievedData",recievedData);
+            //결제 취소처리 데이터를 받으면, 최종 paymentInfo가 갱신이 되고, 리렌더링 되어야함 => useEffect 처리해야하는가?
+            //setPaymetInfo(recievedData);
+        }catch(e){
+            //에러처리 어떻게 해야 돼 ?
+            console.error(e);
+        }
 
-    const handleCancel = () =>{
-        console.log("Cancel");
     }
 
 
@@ -37,8 +53,11 @@ const PaymentHistory=()=>{
 
     },[])
 
-    console.log("paymentInfo",paymentInfo);
-    console.log("Array?",Array.isArray(paymentInfo));
+    console.log("selected---------- 최상위 컴포넌트",selected);
+
+
+    console.log("paymentInfo start",paymentInfo);
+    // prop들 하나의 객체로 묶기
     const paymentProps = {
         paymentInfo,
         setPaymetInfo,
@@ -46,6 +65,9 @@ const PaymentHistory=()=>{
         setSelected,
         handleCancel,
     };
+
+    console.log("paymentInfo end",paymentInfo);
+
 
     return(
         <>
