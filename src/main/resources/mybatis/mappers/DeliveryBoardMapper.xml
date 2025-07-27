@@ -31,4 +31,8 @@
             #{attachmentID , jdbcType=VARCHAR}
         )
     </insert>
+
+    <select id="GetDelivBoardlist" parameterType="String" resultType="com.example.team01.vo.DeliveryBoardVO">
+        SELECT * FROM qnadeliv WHERE "clientId" = #{userId}
+    </select>
 </mapper>

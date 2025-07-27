@@ -1,11 +1,10 @@
-
-import {Routes, Route, Navigate, useLocation} from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.scss';
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.scss";
 // main.jsx 또는 App.jsx에서 추가
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-import {MenuProvider} from "@pages/common/MenuContext.jsx";
+import { MenuProvider } from "@pages/common/MenuContext.jsx";
 import Layout from "./layout/Layout.jsx";
 
 import SignUp from "@pages/signUp/signUpComponent.jsx";
@@ -19,20 +18,20 @@ import Cart from "@pages/cart/cartComponent.jsx";
 
 import Admin from "@pages/admin/adminCoponent.jsx";
 import AdminDashboard from "@pages/adminBoard/components/adminDashboard.jsx";
-import AdminDeliveryBoard from "@pages/adminBoard/components/deliveryBoard.jsx"
+import AdminDeliveryBoard from "@pages/adminBoard/components/deliveryBoard.jsx";
 import AdminProductBoard from "@pages/adminBoard/components/productBoard.jsx";
 import AdminOneBoard from "@pages/adminBoard/components/qnaOneBoard.jsx";
 import AdminBoard from "@pages/adminBoard/adminBoardComponent.jsx";
 import AdminBook from "@pages/adminBook/adminBookComponent.jsx";
 import Book from "@pages/book/bookComponent.jsx";
 import Board from "@pages/board/boardComponent.jsx";
-
+import ReadBoard from "@pages/board/components/readBoardComponent.jsx";
 
 import AdminBookModify from "@pages/adminBook/components/adminBookModify.jsx";
 import AdminBookCreate from "@pages/adminBook/components/adminBookCreate.jsx";
 import AdminBookDetail from "@pages/adminBook/components/adminBookDetail.jsx";
 import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
-import CreateBoard from "@pages/board/components/createBoardComponent.jsx"
+import CreateBoard from "@pages/board/components/createBoardComponent.jsx";
 
 import BookList from "@pages/book/components/bookList.jsx";
 import BookDetail from "@pages/book/components/bookDetail.jsx";
@@ -47,91 +46,85 @@ import PersonalInfo from "@pages/myPage/personal/PersonalInfo.jsx";
 import WishList from "@pages/myPage/wish/WishList.jsx";
 import Payment from "@pages/pay/payment.jsx";
 
-
-
-
-
-
-
 function App() {
-    let location = useLocation();
-    const headerName = () => {
-        if(location.pathname.startsWith("/admin")){
-            return "admin";
-        }
-        return "client"
-    };
+  let location = useLocation();
+  const headerName = () => {
+    if (location.pathname.startsWith("/admin")) {
+      return "admin";
+    }
+    return "client";
+  };
 
-    return (
-        <div className={`App ${headerName()}`}>
-            <MenuProvider>
-            <Routes>
-                {/* Index 컴포넌트 */}
-                <Route path={PathData.page.index} element={<Index/>}/>
+  return (
+    <div className={`App ${headerName()}`}>
+      <MenuProvider>
+        <Routes>
+          {/* Index 컴포넌트 */}
+          <Route path={PathData.page.index} element={<Index />} />
 
-                {/* 공통 Layout */}
-                <Route path="/" element={<Layout/>}>
-                    {/* 공통 컴포넌트 */}
-                    <Route path={PathData.page.login} element={<Login/>}/>
-                    <Route path={PathData.page.logout} element={<Logout/>}/>
-                    <Route path={PathData.page.myPage} element={<Mypage/>}>
-                        <Route  index  element={<MyPageMain/>}/>
-                        <Route  path="personal" element={<PersonalInfo/>}/>
-                        <Route  path="address" element={<AddressComponent/>}/>
-                        <Route  path="payment" element={<PaymentHistory/>}/>
-                        <Route  path="wishlist" element={<WishComponent/>}>
-                            <Route  index  element={<WishList/>}/>
-                        </Route>
-                    </Route>
-                    <Route path={PathData.page.cart} element={<Cart/>}>
-                        <Route index path="" element={<CartList/>}/>
-                    </Route>
-                    <Route path={PathData.page.payment} element={<Payment/>}/>
-                    <Route path={PathData.page.signup} element={<SignUp/>}/>
+          {/* 공통 Layout */}
+          <Route path="/" element={<Layout />}>
+            {/* 공통 컴포넌트 */}
+            <Route path={PathData.page.login} element={<Login />} />
+            <Route path={PathData.page.logout} element={<Logout />} />
+            <Route path={PathData.page.myPage} element={<Mypage />}>
+              <Route index element={<MyPageMain />} />
+              <Route path="personal" element={<PersonalInfo />} />
+              <Route path="address" element={<AddressComponent />} />
+              <Route path="payment" element={<PaymentHistory />} />
+              <Route path="wishlist" element={<WishComponent />}>
+                <Route index element={<WishList />} />
+              </Route>
+            </Route>
+            <Route path={PathData.page.cart} element={<Cart />}>
+              <Route index path="" element={<CartList />} />
+            </Route>
+            <Route path={PathData.page.payment} element={<Payment />} />
+            <Route path={PathData.page.signup} element={<SignUp />} />
 
+            {/* 클라이언트 전용 라우트 */}
+            <Route index path={PathData.page.main} element={<Main />} />
+            <Route path={PathData.page.book} element={<Book />}>
+              <Route index path="" element={<BookList />} />
+              <Route path="bookDetail/:bookId" element={<BookDetail />} />
+              {/*<Route index element={<Navigate to="bookList" replace/>}/>*/}
+              {/*<Route path="bookList" element={<BookList/>} />*/}
+            </Route>
 
+            <Route path={PathData.page.board} element={<Board />}>
+              {/*클라이언트 게시물 생성*/}
+              <Route path="createBoard" element={<CreateBoard />} />
+              {/*게시물 읽기 페이지*/}
+              <Route
+                path="readBoard/:category/:boardId"
+                element={<ReadBoard />}
+              />
+            </Route>
 
-                    {/* 클라이언트 전용 라우트 */}
-                    <Route index path={PathData.page.main} element={<Main/>}/>
-                    <Route path={PathData.page.book} element={<Book/>}>
-                        <Route index path="" element={<BookList/>}/>
-                        <Route path="bookDetail/:bookId" element={<BookDetail/>}/>
-                        {/*<Route index element={<Navigate to="bookList" replace/>}/>*/}
-                        {/*<Route path="bookList" element={<BookList/>} />*/}
-                    </Route>
+            {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
+            <Route path="/admin" element={<Admin />} />
+            <Route index path="dashboard" element={<AdminDashboard />} />
 
-                    <Route path={PathData.page.board} element={<Board/>}>
-                        {/*클라이언트 게시물 생성*/}
-                        <Route path="createBoard" element={<CreateBoard/>}/>
-                    </Route>
+            <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
+              {/*첫페이지 설정*/}
+              <Route index element={<Navigate to="qnaOneList" replace />} />
+              <Route path="deliveryBoard" element={<AdminDeliveryBoard />} />
+              <Route path="productBoard" element={<AdminProductBoard />} />
+              <Route path="qnaOneList" element={<AdminOneBoard />} />
+            </Route>
 
-
-                    {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
-                    <Route path="/admin" element={<Admin/>}/>
-                    <Route index path="dashboard" element={<AdminDashboard/>}/>
-
-                    <Route path={PathData.page.adminBoard} element={<AdminBoard/>}>
-                        {/*첫페이지 설정*/}
-                        <Route index element={<Navigate to="qnaOneList" replace/>}/>
-                        <Route path="deliveryBoard" element={<AdminDeliveryBoard/>}/>
-                        <Route path="productBoard" element={<AdminProductBoard/>}/>
-                        <Route path="qnaOneList" element={<AdminOneBoard/>}/>
-                    </Route>
-
-                    <Route path={PathData.page.adminBook} element={<AdminBook/>}>
-                        <Route index element={<Navigate to="bookList" replace/>}/>
-                        <Route path="bookList" element={<AdminBookList/>}/>
-                        <Route path="bookCreate" element={<AdminBookCreate/>}/>
-                        <Route path="bookDetail/:bookId" element={<AdminBookDetail/>}/>
-                        <Route path="bookModify/:bookId" element={<AdminBookModify/>}/>
-                    </Route>
-
-                </Route>
-            </Routes>
-            </MenuProvider>
-        </div>
-    );
-
+            <Route path={PathData.page.adminBook} element={<AdminBook />}>
+              <Route index element={<Navigate to="bookList" replace />} />
+              <Route path="bookList" element={<AdminBookList />} />
+              <Route path="bookCreate" element={<AdminBookCreate />} />
+              <Route path="bookDetail/:bookId" element={<AdminBookDetail />} />
+              <Route path="bookModify/:bookId" element={<AdminBookModify />} />
+            </Route>
+          </Route>
+        </Routes>
+      </MenuProvider>
+    </div>
+  );
 }
 
 export default App;

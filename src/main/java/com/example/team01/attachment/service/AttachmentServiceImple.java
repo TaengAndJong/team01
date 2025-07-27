@@ -71,4 +71,12 @@ public class AttachmentServiceImple implements AttachmentService {
         }
         return savedFileNames;
     }
+
+    // 특정 게시물 첨부파일 조회 후 반환
+    public List<AttachmentVO> GetAttachmentList(String userId , String boardType) {
+        log.info("GetAttachmentList 호출");
+        log.info("GetAttachmentList 넘어온 userId: {}", userId);
+        List<AttachmentVO> list = attachmentDao.GetAttachmentList(userId , boardType);
+        return list;
+    }
 }
