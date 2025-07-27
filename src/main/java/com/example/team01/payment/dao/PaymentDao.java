@@ -27,8 +27,13 @@ public interface PaymentDao {
     //mypage paymentList 결제취소 삭제(delete) 파라미터는 payId, bookId들
     public int deletePaymentList(@Param("payIds") List<String> payIds,@Param("bookIds") List<String> bookIds);
 
-    //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
-    public int UpdatePaymentStatus(@Param("payIds") List<String> payIds,@Param("clientId") String clientId);
+    //mypage payment 결제취소 상태 갱신(Update)
+    public int partialCancel(@Param("payId") String payId,@Param("clientId") String clientId,@Param("bookIds")List<String> bookIds);
+    public int allCancel(@Param("payId") String payId,@Param("clientId") String clientId);
+
+    public PaymentListVO  selectCancelBooksInfo (@Param("payId") String payId,@Param("bookIds") List<String> bookIds);
+
+    //public int UpdatePaymentStatus(@Param("payIds") List<String> payIds,@Param("clientId") String clientId,@Param("payStatus") String payStatus);
 
 
 

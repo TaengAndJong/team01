@@ -49,9 +49,9 @@
         <result column="payUpdateDate" property="payUpdateDate"/>
         <result column="addrId" property="addrId"/>
         <result column="clientId" property="clientId"/>
+        <result column="cancelPayAccount" property="cancelPayAccount"/>
+        <result column="resultPayAccount" property="resultPayAccount"/>
     </resultMap>
-
-
 
     <select id="selectCartList" parameterType="String" resultMap="bookMap">
         select
@@ -132,13 +132,40 @@
     <!-- payment 결제취소 상태 갱신 , 파라미터 payId, clientId-->
     <update id="UpdatePaymentStatus" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
         update payment
-        set "payStatus" = 'CANCEL'
-        where "payId" IN
-            <foreach item="payId" collection="payIds" open="(" separator="," close=")">
-                #{payId}
-            </foreach>
-        and "clientId"=#{clientId}
+        set "payStatus" = #{payStatus}
+        where "payId" = #{payId}
+          and "clientId"=#{clientId}
     </update>
+
+    <select id="selectCancelBooksInfo" parameterType="String" resultMap="PaymentListVOMap">
+        select
+        a."payId",
+        a."payAccount",
+        b."bookPrice",
+        a."quantity",
+        SUM(b."bookPrice" * a."quantity") as cancelPayAccount,
+        a."payAccount" - SUM(b."bookPrice" * a."quantity") AS resultPayAccount
+        from
+        (select
+        p."payId",
+        p."payAccount",
+        p."payStatus",
+        p."payDate",
+        p."payMethod",
+        p."clientId",
+        pl."bookId",
+        pl."quantity"
+        from payment p join paymentList pl
+        on (p."payId" = pl."payId")) a join book b
+        on a."bookId" = b."bookId"
+        where a."payId" =#{payId}
+          and a."bookId" IN
+              <foreach collection="bookIds" item="bookId" open="(" separator="," close=")">
+                #{bookId}
+              </foreach>
+        GROUP BY
+        a."payId",a."quantity",a."payAccount",b."bookPrice"
+    </select>
 
 </mapper>
 

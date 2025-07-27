@@ -81,13 +81,42 @@ public class PaymentServiceImple implements PaymentService {
 
     //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
     @Override
-    public int UpdatePaymentStatus(List<String> payIds,String clientId) {
-        log.info("UpdatePaymentStatus--serviceIMple payId:{},clientId:{}",payIds,clientId);
-        int cnt = dao.UpdatePaymentStatus(payIds,clientId);
+    public int partialCancel(String payId,String clientId,Boolean status,List<String> bookIds) {
+        log.info("partialCancel-- payId:{},clientId:{},stauts:{},bookIds:{}",payId,clientId,status,bookIds);
+        //결제 취소한 도서에 대한 정보 및 취소한 값을 제외한 결제내역 계산데이터
+        PaymentListVO cancelInfos = dao.selectCancelBooksInfo(payId,bookIds);
+        log.info("cancelInfos:{}",cancelInfos);
+        log.info("getPayAccount:{}",cancelInfos.getPayAccount());
+        log.info("getCancelPayAccount:{}",cancelInfos.getCancelPayAccount());
+        log.info("getResultPayAccount:{}",cancelInfos.getResultPayAccount());
+        //
+        int remainPayAccount =cancelInfos.getResultPayAccount();
+        log.info("remainPayAccount:{}",remainPayAccount);
 
-        log.info("UpdatePaymentStatus----------cnt:{}",cnt);
+        // 1. payment 에 payAccount 값 갱신
+        //2, payment 에 payStatus 값 갱신 ==> 부분 취소
+        //3. payment 에 UpayUpdateDate 값 갱신 필요 ==> 첫번째 결제 다음 payment 테이블 값이 변경 되었을 경우
+
+
+
+        int cnt =0;
+        // paymentList
+
         return cnt;
     }
+
+
+    @Override
+    public int allCancel(String payId,String clientId,Boolean status) {
+        log.info("allCancel-- payId:{},clientId:{},stauts:{}",payId,clientId,status);
+
+        int cnt =0;
+
+
+        return cnt;
+    }
+
+
 
     // 결제수량 조회
     @Override
@@ -219,32 +248,6 @@ public class PaymentServiceImple implements PaymentService {
         return paymentListDTO;
     }
 
-    public void cancelAllPaymentInfo(List<PaymentCancelDTO> dtoList,String clientId){
-
-        log.info("dtoList------------------cancelPaymentInfos:{}",dtoList);
-        log.info("clientId------------------cancelPaymentInfos:{}",clientId);
-        
-        //PayId 와 bookIds를 각각 나눠어 변수에 담아주기
-        /*
-        * dtoList를 streamAPI를 사용해 순회하고, 중간연산 Map함수를 사용하여 PaymentCancenDTO의 PayId를 값을 호출하여 
-        * 결과값을 collect 인터페이스를 사용하여 List 형태로 반환
-        * */
-        List<String> payIds = dtoList.stream().map(PaymentCancelDTO::getPayId).collect(Collectors.toList());
-        /*
-        * flatMap 사용하는 이유는 bookIds가 이미 배열형태이기 때문에 일반적인 map함수를 사용하면 
-        * 이중중첩배열의 구조로 결과가 반환되기때문에 하나의 배열로 평탄화하기 위해서 flatMap함수로 중산연산 처리
-        * */
-        List<String> bookIds = dtoList.stream().flatMap(dto -> dto.getBookIds().stream()).collect(Collectors.toList());
-        log.info("payIds:{},bookIds:{}------------------cancelPaymentInfos:{}",payIds,bookIds);
-
-        //paymentList 테이블 데이터 delete 처리
-        dao.deletePaymentList(payIds,bookIds);
-        
-        //UpdatePaymentStatus에 전체삭제 조건에 해당될 때, status 상태값 canceled로 변경로직 추가
-        
-        //payment 테이블 Update 처리
-        dao.UpdatePaymentStatus(payIds,clientId);
-    }
 
 
 

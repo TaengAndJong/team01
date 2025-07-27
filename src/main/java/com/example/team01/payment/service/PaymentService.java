@@ -26,10 +26,12 @@ public interface PaymentService {
     public int deletePaymentList(List<String> payIds,List<String> bookIds);
 
     //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
-    public int UpdatePaymentStatus(List<String> payIds,String clientId);
+    //public int UpdatePaymentStatus(String payId,String clientId,Boolean status,List<String> bookIds);
 
-    //mypage payment 전체취소 데이터 처리하는 메서드
-    void cancelAllPaymentInfo(List<PaymentCancelDTO> dtoList, String clientId);
+    public int partialCancel(String payId,String clientId,Boolean status,List<String> bookIds);
+
+    public int allCancel(String payId,String clientId,Boolean status);
+
     public  List<PaymentQuantityVO> selectPaymentQuantity(List<String> payIds);
 
 }

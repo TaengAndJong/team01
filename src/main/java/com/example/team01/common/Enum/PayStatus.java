@@ -18,7 +18,9 @@ import lombok.RequiredArgsConstructor;
 public enum PayStatus {
     //READY("READY", "결제 대기"),
     //FAILED("FAILED", "결제 실패"),
-    COMPLETED("COMPLETED", "결제완료");//status, message
+    COMPLETED("COMPLETED", "결제완료"),//status, message
+    CANCELALL("CANCELALL","전체결제취소"),
+    CANCELPARTIAL("PARTIAL","부분취소");
 
     private final String status;
     private final String message;

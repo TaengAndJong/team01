@@ -67,16 +67,23 @@ public class PayHistoryController {
 
         //여기에 try catch 구문 사용하는게 나은가! ==> 생각해보기
         //************* 전체삭제, 부분삭제 처리 구분 검증 필요
-        Map<String,Boolean> confirm =isCancelAllpayment(dtoList,clientId);
+        Map<String,Boolean> confirm = isCancelAllpayment(dtoList,clientId);
         log.info("confirm--End:{}",confirm);
         // {81=false, 83=true}
         // confirm map객체 순회하여 해당 PayId에 대한 객체 paymentList payStatus 갱신해주기
         confirm.forEach((id,cancelAll)->{
             String payId = id;
             boolean isCancelAll = cancelAll;
-            log.info("payId:{},isCancenAll:{}",payId,isCancelAll);
-            //객체 paymentList payStatus 갱신 쿼리 실행
+            List<String> bookIds = dtoList.stream().filter(dto->dto.getPayId().equals(payId))
+                            .flatMap(dto -> dto.getBookIds().stream()).collect(Collectors.toList());
 
+            log.info("payId:{},isCancenAll:{},bookIds:{}",payId,isCancelAll,bookIds);
+            //isCancelAll 값에 따라 service 호출 메서드 분기
+            if(isCancelAll){ // true 일경우 (전체취소)
+                paymentService.allCancel(payId,clientId,isCancelAll);
+            }else {//false일경우 (부분취소)
+                paymentService.partialCancel(payId, clientId, isCancelAll,bookIds);
+            }
         });
 
         // 위의 서비스 로직이 성공처리되면  selectPaymentList(clientId,request) 실행하여 클라이언트로 데이터를 반환
@@ -126,7 +133,6 @@ public class PayHistoryController {
                         log.info("dto--isCancelAllpayment:{}",dto);
                         return dto.getBookIds().stream();
                     }).count(); // 수량반환
-            
             log.info("cancelBookCount:{}",cancelBookCount);
             //PayId에 해당하는 totalBookCount 와 비교해서 isCancelAllpayment의 true, false반환
             int totalBookCount = vo.getTotalBookCount();
