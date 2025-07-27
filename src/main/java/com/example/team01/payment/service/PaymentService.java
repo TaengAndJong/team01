@@ -7,6 +7,7 @@ import com.example.team01.dto.payment.PaymentDTO;
 import com.example.team01.dto.payment.PaymentListDTO;
 import com.example.team01.vo.CartVO;
 import com.example.team01.vo.PaymentListVO;
+import com.example.team01.vo.PaymentQuantityVO;
 import com.example.team01.vo.PaymentVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,7 +28,8 @@ public interface PaymentService {
     //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
     public int UpdatePaymentStatus(List<String> payIds,String clientId);
 
-    //mypage payment 결제취소  데이터 한번에 처리하는 메서드
-    void cancelPaymentInfos(List<PaymentCancelDTO> dtoList, String clientId);
+    //mypage payment 전체취소 데이터 처리하는 메서드
+    void cancelAllPaymentInfo(List<PaymentCancelDTO> dtoList, String clientId);
+    public  List<PaymentQuantityVO> selectPaymentQuantity(List<String> payIds);
 
 }

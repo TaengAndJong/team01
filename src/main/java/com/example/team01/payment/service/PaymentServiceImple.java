@@ -89,6 +89,15 @@ public class PaymentServiceImple implements PaymentService {
         return cnt;
     }
 
+    // 결제수량 조회
+    @Override
+    public List<PaymentQuantityVO> selectPaymentQuantity(List<String> payIds){
+        List<PaymentQuantityVO> defaultQuantity = dao.selectPaymentQuantity(payIds);
+        log.info("result---selectPaymentQuantity :{}",defaultQuantity);
+        return defaultQuantity;
+    }
+    
+
     public int insertPayment(PaymentVO paymentVO,String clientId){
         log.info("service insertPayment----------:{}",paymentVO);
         //검증필요 ==> paymentVO.setPayStatus() ==> 결제완료,결제대기,결제실패
@@ -210,7 +219,7 @@ public class PaymentServiceImple implements PaymentService {
         return paymentListDTO;
     }
 
-    public void cancelPaymentInfos(List<PaymentCancelDTO> dtoList,String clientId){
+    public void cancelAllPaymentInfo(List<PaymentCancelDTO> dtoList,String clientId){
 
         log.info("dtoList------------------cancelPaymentInfos:{}",dtoList);
         log.info("clientId------------------cancelPaymentInfos:{}",clientId);
@@ -230,9 +239,15 @@ public class PaymentServiceImple implements PaymentService {
 
         //paymentList 테이블 데이터 delete 처리
         dao.deletePaymentList(payIds,bookIds);
+        
+        //UpdatePaymentStatus에 전체삭제 조건에 해당될 때, status 상태값 canceled로 변경로직 추가
+        
         //payment 테이블 Update 처리
         dao.UpdatePaymentStatus(payIds,clientId);
     }
+
+
+
 
 
 }

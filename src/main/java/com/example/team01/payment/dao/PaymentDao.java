@@ -3,6 +3,7 @@ package com.example.team01.payment.dao;
 import com.example.team01.dto.payment.PaymentListDTO;
 import com.example.team01.vo.CartVO;
 import com.example.team01.vo.PaymentListVO;
+import com.example.team01.vo.PaymentQuantityVO;
 import com.example.team01.vo.PaymentVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,12 +21,15 @@ public interface PaymentDao {
 
     //mypage 결제내역 목록들조회
     public List<PaymentListVO> selectPaymentList(String clientId);
+    // 결제상품 수량 조회 (부분취소시 사용)
+    public List<PaymentQuantityVO> selectPaymentQuantity(@Param("payIds")  List<String> payIds);
 
     //mypage paymentList 결제취소 삭제(delete) 파라미터는 payId, bookId들
     public int deletePaymentList(@Param("payIds") List<String> payIds,@Param("bookIds") List<String> bookIds);
 
     //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
     public int UpdatePaymentStatus(@Param("payIds") List<String> payIds,@Param("clientId") String clientId);
+
 
 
 }

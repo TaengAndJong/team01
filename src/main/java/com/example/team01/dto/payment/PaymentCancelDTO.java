@@ -16,7 +16,7 @@ public class PaymentCancelDTO {
 
     private String payId;
     private List<String> bookIds;
-    private List<String> payIds;
+    private List<String> payIds; //전체 결제 취소
 
     public PaymentCancelDTO(String payId, List<String> bookIds) {
         this.payId = payId;

@@ -42,4 +42,6 @@ public class PaymentListVO implements Serializable {
     private String detailAddr;
     private String zoneCode;
 
+    private int totalBookCount;
+
 }

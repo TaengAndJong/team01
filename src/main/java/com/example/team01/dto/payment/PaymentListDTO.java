@@ -23,7 +23,6 @@ public class PaymentListDTO {
     private String payUpdateDate;
     private String clientId;
 
-
     private List<BookDTO> books;
     private AddressDTO address;
 
