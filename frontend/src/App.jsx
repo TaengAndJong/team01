@@ -43,7 +43,7 @@ import WishComponent from "@pages/myPage/wish/WishComponent.jsx";
 import MyPageMain from "@pages/myPage/myPage/MyPageMain.jsx";
 import PersonalInfo from "@pages/myPage/personal/PersonalInfo.jsx";
 import WishList from "@pages/myPage/wish/WishList.jsx";
-import Payment from "@pages/pay/payment.jsx";
+import Payment from "@pages/pay/paymentComponent.jsx";
 
 function App() {
   let location = useLocation();
