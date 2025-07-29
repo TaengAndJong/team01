@@ -111,5 +111,24 @@
         where cl."selecedAddrId" = #{addrId}
     </select>
 
+    <!--  client 테이블과 address 테이블 조인해서 selectedId 조회해오기 -->
+    <select id="selectOneAddress"  parameterType="String" resultMap="addressMap">
+        select
+            c."clientName",
+            c."roleId",
+            c."staffId",
+            c."clientId",
+            a."addrId",
+            a."addrType",
+            a."addr",
+            a."detailAddr",
+            a."zoneCode"
+        from
+            (select
+                 *
+             from client
+             where "clientId"=#{clientId}) c
+                join address a on (c."selecedAddrId" = a."addrId")
+    </select>
 
 </mapper>

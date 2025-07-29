@@ -106,7 +106,13 @@ public class CartServiceImple implements CartService{
     @Override
     public int deleteToCartList(List<String> deleteIds) {
         log.info("장바구니 도서삭제 목록:{}",deleteIds);
-        return dao.deleteToCartList(deleteIds);
+        //로그인한 사용자와 삭제 요청의 연관성 검증
+
+        //파라미터의 값이 null 인지 , 비어있는지 검증 필요
+        if(deleteIds == null || deleteIds.isEmpty()){}
+        int cnt = dao.deleteToCartList(deleteIds);
+
+        return cnt;
     }
 
     //cartVO change to DTO

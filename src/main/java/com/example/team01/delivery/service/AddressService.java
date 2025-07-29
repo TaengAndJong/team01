@@ -1,5 +1,6 @@
 package com.example.team01.delivery.service;
 
+import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.vo.AddressVO;
 import com.example.team01.vo.DeliveryVO;
 import org.apache.ibatis.annotations.Param;
@@ -8,7 +9,9 @@ import java.util.List;
 
 public interface AddressService {
 
-    public List<AddressVO> selectAddress(String clientId);
+    public List<AddressDTO> selectAddress(String clientId);
+
+    public AddressDTO selectOneAddress(String clientId);
 
     // 유저에 따른 배송지 등록
     public int insertAddress(AddressVO addressVO);
@@ -20,7 +23,7 @@ public interface AddressService {
     public int deleteAddress(String clientId,String addrId);
 
     //장바구니에서 보여줄 주소 (처음 등록된 주소)
-    public AddressVO selectCartAddress(String clientId);
+    public AddressDTO selectCartAddress(String clientId);
 
     //장바구니 배송지주소 선택변경
     public int updateCartAddress(String clientId, String addrId);

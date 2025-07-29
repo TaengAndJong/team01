@@ -29,25 +29,30 @@
         </collection>
     </resultMap>
 
-
-    <!-- 유저와 선택된 배송지는 1:1관계 -->
-    <resultMap id="addressMap" type="paymentVO">
-        <id property="payId" column="payId"></id>
-        <result property="payAccount" column="payAccount"></result>
-        <result property="payStatus" column="payStatus"></result>
-        <result property="paymentMethod" column="paymentMethod"></result>
-        <result property="payDate" column="payDate"></result>
-        <result property="addrId" column="addrId"></result>
-        <association property="addressVO" javaType="AddressVO">
-            <result property="addrType" column="addrType"/>
-            <result property="addr" column="addr"/>
-            <result property="detailAddr" column="detailAddr"/>
-            <result property="zoneCode" column="zoneCode"/>
-        </association>
+    <resultMap id="PaymentListVOMap" type="PaymentListVO">
+        <result column="payId" property="payId"/>
+        <result column="bookId" property="bookId"/>
+        <result column="quantity" property="quantity"/>
+        <result column="bookCateNm" property="bookCateNm"/>
+        <result column="bookCateDepth" property="bookCateDepth"/>
+        <result column="bookName" property="bookName"/>
+        <result column="author" property="author"/>
+        <result column="bookPrice" property="bookPrice"/>
+        <result column="publishDate" property="publishDate"/>
+        <result column="roleId" property="roleId"/>
+        <result column="cateId" property="cateId"/>
+        <result column="bookImgPath" property="bookImgPath"/>
+        <result column="payAccount" property="payAccount"/>
+        <result column="payStatus" property="payStatus"/>
+        <result column="payDate" property="payDate"/>
+        <result column="payMethod" property="payMethod"/>
+        <result column="payUpdateDate" property="payUpdateDate"/>
+        <result column="addrId" property="addrId"/>
+        <result column="clientId" property="clientId"/>
+        <result column="cancelPayAccount" property="cancelPayAccount"/>
+        <result column="resultPayAccount" property="resultPayAccount"/>
     </resultMap>
 
-    
-    
     <select id="selectCartList" parameterType="String" resultMap="bookMap">
         select
             c.*,b.*
@@ -57,22 +62,111 @@
         join book b on (c."bookId" = b."bookId")
     </select>
 
-    <!--  client 테이블과 address 테이블 조인해서 selectedId 조회해오기 -->
-    <select id="selectAddress"  parameterType="String" resultMap="addressMap">
+    <insert id="insertPayment" parameterType="PaymentVO">
+        <selectKey keyProperty="payId" resultType="String" order="BEFORE">
+            SELECT PAYID_SQE.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO payment
+            ("payId", "payAccount","payStatus", "payMethod","addrId","clientId")
+        VALUES
+            (#{payId}, #{payAccount},#{payStatus}, #{payMethod},#{addrId},#{clientId})
+    </insert>
+
+    <insert id="insertPaymentList" parameterType="PaymentVO">
+        INSERT INTO paymentList
+        ("payId","bookId","quantity")
+        VALUES
+        (#{payId},#{bookId}, #{quantity})
+    </insert>
+
+    <select id="selectPaymentList" parameterType="String" resultMap="PaymentListVOMap">
+        with payAndBook as (
+            select
+                p."payId",
+                p."bookId",
+                p."quantity",
+                b."bookCateNm",
+                b."bookCateDepth",
+                b."bookName",
+                b."author",
+                b."bookPrice",
+                b."publishDate",
+                b."roleId",
+                b."cateId",
+                b."bookImgPath"
+            from paymentList p
+                     join book b
+                          on (p."bookId" = b."bookId")
+        )
         select
-            c."clientName",
-            c."roleId",
-            c."staffId",
-            a."addrType",
-            a."addr",
-            a."detailAddr",
-            a."zoneCode"
+            a.*,
+            b."payAccount",
+            b."payStatus",
+            b."payDate",
+            b."payMethod",
+            b."payUpdateDate",
+            b."addrId",
+            b."clientId",
+            c."addr",
+            c."addrType",
+            c."detailAddr",
+            c."zoneCode"
+        from payAndBook a
+                 join payment b on (a."payId" = b."payId")
+                 join address c on (b."addrId" = c."addrId")
+        where b."clientId" = #{clientId}
+    </select>
+
+    <!--결제취소 paymentList 삭제 파라미터는 payId, bookId들-->
+    <delete id="deletePaymentList" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
+       delete from paymentList
+        where "payId" IN
+            <foreach item="payId" collection="payIds" open="(" separator="," close=")">
+                #{payId}
+            </foreach>
+          and "bookId" IN
+              <foreach item="bookId" collection="bookIds" open="(" separator="," close=")">
+                  #{bookId}
+              </foreach>
+    </delete>
+    <!-- payment 결제취소 상태 갱신 , 파라미터 payId, clientId-->
+    <update id="UpdatePaymentStatus" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
+        update payment
+        set "payStatus" = #{payStatus}
+        where "payId" = #{payId}
+          and "clientId"=#{clientId}
+    </update>
+
+    <select id="selectCancelBooksInfo" parameterType="String" resultMap="PaymentListVOMap">
+        select
+        a."payId",
+        a."payAccount",
+        b."bookPrice",
+        a."quantity",
+        SUM(b."bookPrice" * a."quantity") as cancelPayAccount,
+        a."payAccount" - SUM(b."bookPrice" * a."quantity") AS resultPayAccount
         from
-            (select
-                 *
-             from client
-             where "clientId"=#{clientId}) c
-                join address a on (c."selecedAddrId" = a."addrId")
+        (select
+        p."payId",
+        p."payAccount",
+        p."payStatus",
+        p."payDate",
+        p."payMethod",
+        p."clientId",
+        pl."bookId",
+        pl."quantity"
+        from payment p join paymentList pl
+        on (p."payId" = pl."payId")) a join book b
+        on a."bookId" = b."bookId"
+        where a."payId" =#{payId}
+          and a."bookId" IN
+              <foreach collection="bookIds" item="bookId" open="(" separator="," close=")">
+                #{bookId}
+              </foreach>
+        GROUP BY
+        a."payId",a."quantity",a."payAccount",b."bookPrice"
     </select>
 
 </mapper>
+
+<!--EnumType은  enumType.상수명으로 문자열 꺼내 사용-->

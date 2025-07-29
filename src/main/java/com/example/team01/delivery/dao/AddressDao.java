@@ -10,6 +10,9 @@ import java.util.List;
 public interface AddressDao {
 
     public List<AddressVO> selectAddress(@Param("clientId") String clientId);
+    
+    //결제 배송지로 선택한 주소 조회
+    public AddressVO selectOneAddress(@Param("clientId") String clientId);
 
     // 유저에 따른 배송지 등록
     public int insertAddress(AddressVO addressVO);
@@ -28,4 +31,6 @@ public interface AddressDao {
 
     //장바구니에서 보여줄 주소조회 (선택으로 변경된 주소)
     public AddressVO selectChangeAddress(@Param("clientId") String clientId,@Param("addrId") String addrId);
+
+
 }

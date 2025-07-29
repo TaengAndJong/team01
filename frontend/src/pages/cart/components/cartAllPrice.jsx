@@ -1,4 +1,5 @@
-
+import ReusableModal from "./modal.jsx";
+import React, {useState} from "react";
 
 
 const cartAllPrice = ({cartList,selectItem,deliveryFee,gotoPayment,totalPrice}) =>{
@@ -8,17 +9,14 @@ const cartAllPrice = ({cartList,selectItem,deliveryFee,gotoPayment,totalPrice}) 
     console.log("cartAllPrice--------deliveryFee",deliveryFee);
 
 
-
     const allPayment = () => {
-        console.log("전체가격")
-        gotoPayment(cartList,selectItem);
+            gotoPayment(cartList,selectItem);
     };
 
     //cartList에 담긴 도사 가격만 필터링 해서 계산
 
     return (
         <>
-
             <ul className="cart-item-count ul bullet border-top border-bottom py-3 mt-5 d-flex">
                 <li className="li d-inline-flex  align-items-center pe-3">
                     <span className="me-4">총 결제금액</span>

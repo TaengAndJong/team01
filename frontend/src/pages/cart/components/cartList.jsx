@@ -1,11 +1,12 @@
 import "@assets/css/cart/cartList.css"
-import { useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState} from "react";
 import {CartDispatchContext, CartStateContext} from "../cartComponent.jsx";
 import CartAddress from "./cartAddress.jsx";
 import axios from "axios";
 import CartItemPrice from "./cartItemPrice.jsx";
 import CartAllPrice from "./cartAllPrice.jsx";
 import {useNavigate} from "react-router-dom";
+import ReusableModal from "./modal.jsx";
 
 
 
@@ -15,10 +16,20 @@ const CartList = () => {
         console.log("컴포넌트 렌더링 - cartData:", cartData);
         const {onInit} = useContext(CartDispatchContext);
 
+
         //로딩 상태관리
         const [loading, setLoading] = useState(false);
 
-        // 구조분해 할당을 통한 bookList ==> 구조분해 할당 시,cartdata에 담긴 키명 그대로 받아야함
+        //모달 상태관리
+        const [show, setShow] = useState(false);
+        const [errorData, setErrorData] = useState({});
+        const handleClose = () => {
+            console.log("close modal");
+            setShow(false)}
+        const [modalType, setModalType] = useState("confirm");
+
+
+    // 구조분해 할당을 통한 bookList ==> 구조분해 할당 시,cartdata에 담긴 키명 그대로 받아야함
         const {bookList, address} = cartData?.[0] || [];
         // 삭제 , 갱신 등의 데이터 조작이 필요한 경우 상태관리 변수 사용 
         // ==> 전역데이터를 한 번더 담아주는 이유는 초기 렌더링 시 null, undefined 방지
@@ -97,34 +108,44 @@ const CartList = () => {
 
         //총 가격 공통 메서드
         const totalPrice = (cartList,cartIds) =>{
+            console.log("totalPrice----cartList",cartList);
             const selectedItems = cartList?.filter(item => cartIds.includes(item.cartId));
-
+            console.log("totalPrice----selectedItems",selectedItems);
             let total = 0;
             for (let i = 0; i < selectedItems?.length; i++) {
                 total += (selectedItems[i].book.bookPrice * selectedItems[i].quantity);
+            console.log("for total ",total);
             }
-
+            console.log("acc total ",total);
             return total;
         }
         //결제 핸들러
         const gotoPayment=(cartList,cartIds)=>{
             console.log("payment gotoPayment");
-            console.log("cartIds",cartIds);
-
             const total = totalPrice(cartList,cartIds);
-
-            console.log("cartIds",cartIds);
-            //결제페이지로 이동할 때 필요한 파라미터 navigate객체에 담아서 보내주기
-            navigate("/payment",{
-                state:{
-                    cartIds,
-                    payAccount :total,
-                    addrId: address?.addrId,
-                }
-            });
-
+            console.log("gotoPayment-----total",total);
+            //여기에서  가격 검증해야하나
+            if(total === 0 || total === null){
+                console.log("결제할 상품이 없다")
+                setShow(true);
+                setErrorData({
+                    message:"결제할 상품이 없습니다",
+                })
+            }else{
+                //결제페이지로 이동할 때 필요한 파라미터 navigate객체에 담아서 보내주기
+                console.log("결제페이지로 이동");
+                console.log("cartIds",cartIds);
+                navigate("/payment",{
+                    state:{
+                        cartIds,
+                        payAccount :total,
+                        addrId: address?.addrId,
+                    }
+                });
+            }
+            //end
         }
-
+        //gotoPayment End
 
     //cartData가 변화할 때마다 데이터 갱신
         useEffect(() => {
@@ -258,6 +279,15 @@ const CartList = () => {
                     <p className="mt-3">결제 진행중입니다. 잠시만 기다려 주세요.</p>
                 </div>
             )}
+
+            {/* 알림모달 */}
+            {show && (
+                <ReusableModal show={show}
+                               onClose={handleClose}
+                               errorData={errorData}
+                               modalType="error"/>
+            )}
+
         </>
     )
 

@@ -41,7 +41,6 @@ import CartList from "@pages/cart/components/cartList.jsx";
 import AddressComponent from "@pages/myPage/delivery/AddressComponent.jsx";
 import WishComponent from "@pages/myPage/wish/WishComponent.jsx";
 import MyPageMain from "@pages/myPage/myPage/MyPageMain.jsx";
-import PaymentHistory from "@pages/myPage/payment/PaymentHistory.jsx";
 import PersonalInfo from "@pages/myPage/personal/PersonalInfo.jsx";
 import WishList from "@pages/myPage/wish/WishList.jsx";
 import Payment from "@pages/pay/payment.jsx";
@@ -71,7 +70,7 @@ function App() {
               <Route index element={<MyPageMain />} />
               <Route path="personal" element={<PersonalInfo />} />
               <Route path="address" element={<AddressComponent />} />
-              <Route path="payment" element={<PaymentHistory />} />
+              {/* <Route path="payment" element={<PaymentHistory />} /> */}
               <Route path="wishlist" element={<WishComponent />}>
                 <Route index element={<WishList />} />
               </Route>

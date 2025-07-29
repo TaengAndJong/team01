@@ -1,4 +1,4 @@
-import CartList from "./components/cartList.jsx";
+
 import React, { useEffect, useReducer} from "react";
 import {useMenu} from "../common/MenuContext.jsx";
 import {menuNavi} from "../../util/menuNavi.jsx";

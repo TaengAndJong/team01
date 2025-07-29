@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.team01.payment.dao.PaymentDao">
+
+    <!--기존 주문 수량 조회 쿼리 -->
+    <select id="selectPaymentQuantity" parameterType="PaymentQuantityVO">
+        SELECT "payId", COUNT("bookId") AS totalBookCount
+        FROM paymentList
+        WHERE "payId" IN
+        <foreach item="payId" collection="payIds" open="(" separator="," close=")">
+            #{payId}
+        </foreach>
+        GROUP BY "payId"
+    </select>
+
+
+</mapper>
