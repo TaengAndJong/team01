@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
 
 // 의존성 
 import com.example.team01.oneboard.service.OneBoardService;
@@ -57,10 +58,10 @@ public class OneBoardController {
 
             // 3) 나머지 필드 세팅
             vo.setClientId(clientId);
-            vo.setClientName(clientName);
+            vo.setQnaWriter(clientName);
             vo.setCategory(category);
-            vo.setTitle(title);
-            vo.setContent(content);
+            vo.setQnaTitle(title);
+            vo.setQnaContent(content);
 
             log.info("최종 확인 컨트롤러 1:1 문의 VO: {}", vo);
             try {
@@ -74,4 +75,15 @@ public class OneBoardController {
                         .body("게시물 등록 실패: " + e.getMessage());
             }
         }
+
+        
+    // 1:1 문의 리스트 조회
+    @GetMapping("/OneBoardlist")
+    public ResponseEntity<?> GetOneBoardList(@RequestParam String userId)
+    {
+        log.info("게시물 리스트 조회 시작");
+        log.info("사용자 ID: " + userId);
+        List<OneBoardVO> list = oneBoardService.GetOneBoardList(userId);
+        return ResponseEntity.ok("통신완료" + userId + ", 1:1 문의 리스트: " + list); // 리스트 반환
+    }
 }

@@ -21,9 +21,9 @@
             "attachmentID"
         ) VALUES (
             #{qnaDelId},
-            #{title},
-            #{content},
-            #{clientName},
+            #{qnaTitle},
+            #{qnaContent},
+            #{qnaWriter},
             SYSDATE,
             '답변 대기',
             #{clientId},

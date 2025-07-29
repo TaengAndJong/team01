@@ -11,10 +11,15 @@ export const BoardStateContext = React.createContext(); // state 값을 공급�
 export const BoardDispatchContext = React.createContext(); // 생성, 수정(갱신), 삭제 값을 공급하는 context
 export const PaginationContext = React.createContext();
 export const UserDataContext = React.createContext(); // 사용자 데이터
+export const BoardListContext = React.createContext(); // 게시물 목록 저장 할 context
 
 const Board = () => {
   const [userData, setUserData] = useState(null); // 사용자 데이터 저장 할 state
-  const [listData, setListData] = useState([]); // 사용자의 게시물 목록 저장 할 state
+  const [boardList, setBoardList] = useState({
+    delivery: [],
+    product: [],
+    one: [],
+  }); // 사용자의 게시물 목록 저장 할 state
   const location = useLocation();
   const isCreatePage = location.pathname.includes("/board/createBoard");
   const logCheck = () => {
@@ -37,14 +42,26 @@ const Board = () => {
   const { currentPath } = useMenu();
   console.log("currentPath", currentPath);
 
-  // 사용자 게시물 목록 조회 하는 Effect
+  // 사용자 게시물 종류 별 조회 Effect
   useEffect(() => {
-    const fetchData = () => {
+    if (!userData) return; // userData가 없으면 실행하지 않음
+    const fetchData = async () => {
       try {
-        const response = axios.get(
-          `/api/board/DelivBoardlist?userId=${userData.clientId}`
-        );
-        console.log("성공:", response.data);
+        const [delivListRes, productListRes, oneListRes] = await Promise.all([
+          axios.get(`/api/board/DelivBoardlist?userId=${userData.clientId}`),
+          axios.get(`/api/board/ProductBoardlist?userId=${userData.clientId}`),
+          axios.get(`/api/board/OneBoardlist?userId=${userData.clientId}`),
+        ]);
+
+        console.log("배달 문의 조회 성공:", delivListRes.data);
+        console.log("상품 문의 조회 성공:", productListRes.data);
+        console.log("1:1 문의 조회 성공:", oneListRes.data);
+
+        setBoardList({
+          delivery: delivListRes.data,
+          product: productListRes.data,
+          one: oneListRes.data,
+        });
       } catch (error) {
         console.error("에러 발생:", error);
       }
@@ -114,7 +131,7 @@ const Board = () => {
                       currentPath.includes("productBoard") ? "current" : ""
                     }`}
                   >
-                    배송지
+                    배송문의
                     <i className="leaf icon"></i>
                   </Link>
                 </li>
@@ -163,7 +180,9 @@ const Board = () => {
               <BoardDispatchContext.Provider value={null}>
                 <PaginationContext.Provider value={null}>
                   <UserDataContext.Provider value={userData}>
-                    <Outlet />
+                    <BoardListContext.Provider value={boardList}>
+                      <Outlet />
+                    </BoardListContext.Provider>
                   </UserDataContext.Provider>
                 </PaginationContext.Provider>
               </BoardDispatchContext.Provider>

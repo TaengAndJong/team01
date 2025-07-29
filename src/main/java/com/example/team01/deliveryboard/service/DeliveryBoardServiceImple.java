@@ -9,17 +9,15 @@ import java.util.List;
 import com.example.team01.vo.AttachmentVO;
 import com.example.team01.deliveryboard.dao.DeliveryBoardDao;
 import com.example.team01.attachment.service.AttachmentService;
-import com.example.team01.vo.DeliveryBoardListVO;
+
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class DeliveryBoardServiceImple implements DeliveryBoardService {
 
-
     private final DeliveryBoardDao DeliveryBoardDao;
     private final AttachmentService attachmentService;
-    // private final DeliveryBoardListVO deliveryBoardListVO;
     // 게시물 등록
     @Override
     public void CreateDeliveryBoard(DeliveryBoardVO vo) {
@@ -60,7 +58,9 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
     public List<DeliveryBoardVO> GetDelivBoardlist(String userId) {
         log.info("serviceimple 배송문의 리스트 조회 시작 ------------------------");
         log.info("사용자 ID: " + userId);
-        DeliveryBoardDao.GetDelivBoardlist(userId); // DAO 호출 사용자 아이디 전달
-        return null;
+        List<DeliveryBoardVO> list = DeliveryBoardDao.GetDelivBoardlist(userId); // DAO 호출 사용자 아이디 전달
+        log.info("serviceimple 배송문의 리스트 조회 완료 ------------------------");
+        log.info("list: {}", list);
+        return list;
     }
 }

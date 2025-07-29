@@ -1,6 +1,9 @@
-const BoardListComponent = (listData) => {
-  console.log("listData", listData);
+import { useContext } from "react";
+import { BoardListContext } from "../boardComponent";
 
+const BoardListComponent = () => {
+  const boardList = useContext(BoardListContext);
+  console.log("boardList", boardList);
   return (
     <>
       <div>

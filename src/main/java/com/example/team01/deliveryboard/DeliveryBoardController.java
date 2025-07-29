@@ -58,10 +58,10 @@ public class DeliveryBoardController {
 
         // 3) 나머지 필드 세팅
         vo.setClientId(clientId);
-        vo.setClientName(clientName);
+        vo.setQnaWriter(clientName);
         vo.setCategory(category);
-        vo.setTitle(title);
-        vo.setContent(content);
+        vo.setQnaTitle(title);
+        vo.setQnaContent(content);
 
             log.info("최종 확인 컨트롤러 배달 문의 VO: {}", vo);
             try {
@@ -84,12 +84,13 @@ public class DeliveryBoardController {
         return ResponseEntity.ok(" 통신 성공! 받은 ID: " + id + ", 받은 카테고리: " + category);
     }
 
+    // 배달 문의 리스트 조회
     @GetMapping("/DelivBoardlist")
     public ResponseEntity<?> GetDelivBoardlist(@RequestParam String userId)
     {
         log.info("게시물 리스트 조회 시작");
         log.info("사용자 ID: " + userId);
         List<DeliveryBoardVO> list = deliveryBoardService.GetDelivBoardlist(userId);
-        return ResponseEntity.ok("통신완료" + userId); // 리스트 반환
+        return ResponseEntity.ok("통신완료" + userId + ", 배송 문의 리스트: " + list); // 리스트 반환
     }
 }
