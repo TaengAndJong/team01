@@ -62,8 +62,11 @@ public class PayHistoryController {
         paymentService.partialCancel(payId,clientId,bookId);
 
         // 위의 서비스 로직이 성공처리되면  selectPaymentList(clientId,request) 실행하여 클라이언트로 데이터를 반환
+        //해당유저의 결제목록,배송지 주소 조회해오기
+        List<PaymentListDTO> paymentList = selectPaymentList(clientId,request);
 
-        return ResponseEntity.ok("결제취소");
+        log.info("paymentList-----postPayCancelList:{}",paymentList);
+        return ResponseEntity.ok(paymentList);
     }
 
     //결제리스트 조회 공통 메서드

@@ -1,35 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {formatToDate} from "../../../util/dateUtils.jsx";
-import CancerPaymentBtn from "./CancerPaymentBtn.jsx";
-import axios from "axios";
+import CancelPaymentBtn from "./CancelPaymentBtn.jsx";
+import AddCartBtn from "./addCartBtn.jsx";
+
 
 
 const PaymentItems = ({paymentProps}) =>{
-    console.log("paymentProps",paymentProps);
-    const { paymentInfo} = paymentProps;
+    console.log("paymentProps----",paymentProps);
+    const {paymentInfo,setPaymetInfo} = paymentProps;
     const [data,setData]=useState([]);
-
-    const handleCancel = async(bookId,payId) =>{
-        console.log("handleCancel---",`bookId:${bookId} && payId : ${payId}`);
-        //컨트롤러로 전달할 필수 데이터는 payId와 payId에 해당하는 bookId들
-        const params = {
-            payId: payId,
-            bookId: bookId,
-        }
-        //결제취소 컨트롤러로 비동기 요청보내기
-        try{
-            const response = await axios.post("/api/mypage/payCancel",params);
-            const recievedData = response.data;
-            console.log("recievedData",recievedData);
-            //결제 취소처리 데이터를 받으면, 최종 paymentInfo가 갱신이 되고, 리렌더링 되어야함 => useEffect 처리해야하는가?
-            //setPaymetInfo(recievedData);
-        }catch(e){
-            //에러처리 어떻게 해야 돼 ?
-            console.error(e);
-        }
-
-    }
-
 
 
 
@@ -49,7 +28,7 @@ const PaymentItems = ({paymentProps}) =>{
 
         switch(status){
             case "COMPLETED": return "결제완료";
-            case "PARTIAL": return "부분취소";
+            case "CANCEL": return "결제취소";
             case "CANCELALL": return "전체취소";
             case "READY": return "결제대기";
             case "FAILED": return "결제실패";
@@ -69,13 +48,14 @@ const PaymentItems = ({paymentProps}) =>{
                                 <div className="table-responsive" key={i}>
                                     <h6 className="title my-3">{`No.${payment.payId} ${formatToDate(payment.payDate)} 결제내역`}</h6>
                                     <table
-                                           className="table table-bordered table-hover align-middle text-center mb-5">
+                                           className="table table-bordered table-hover align-middle text-center">
                                         <thead className="table-light">
                                         <tr>
                                             <th scope="col" className="text-center">이미지</th>
                                             <th scope="col" className="text-center">상품정보</th>
                                             <th scope="col" className="text-center">배송지</th>
                                             <th scope="col" className="text-center">가격</th>
+                                            <th scope="col" className="text-center">수량</th>
                                             <th scope="col" className="text-center">결제방식</th>
                                             <th scope="col" className="text-center">결제상태</th>
                                             <th scope="col" className="text-center">결제일시</th>
@@ -95,19 +75,36 @@ const PaymentItems = ({paymentProps}) =>{
                                                 <td className="text-center">{book.bookName}/{book.author}</td>
                                                 <td className="text-center">{payment.address?.addrType}</td>
                                                 <td className="text-center">{book.bookPrice.toLocaleString()} 원</td>
+                                                <td className="text-center">{book.quantity}개</td>
                                                 <td className="text-center">{payment.payMethod === "card" ? "카드" : "계좌이체"}</td>
-                                                <td className="text-center">{payStatusText(payment.partPayStatus)}</td>
+                                                <td className="text-center">{payStatusText(book.partPayStatus)}</td>
                                                 <td className="text-center">{payment.payDate}</td>
-                                                <td className="text-center"> <CancerPaymentBtn handleCancel={() => handleCancel(book.bookId, payment.payId)}/></td>
+                                                <td className="text-center">
+                                                    {
+                                                        book.partPayStatus === "COMPLETED"
+                                                            ? <CancelPaymentBtn bookId={book.bookId}
+                                                                                payId={payment.payId}
+                                                                                setPaymetInfo={setPaymetInfo}
+                                                            />
+                                                            : <AddCartBtn bookId={book.bookId}
+                                                                          quantity={book.quantity}/>
+                                                    }
+                                                </td>
                                             </tr>
                                         ))}
                                         </tbody>
                                     </table>
-
+                                    {/* 총 결제 금액*/}
+                                    <div className="resultAccount mt-2 mb-5">
+                                        누적합산
+                                        <button className="btn btn-light">
+                                           전체 결제취소
+                                        </button>
+                                    </div>
                                 </div>
                             ))}
 
-                </div>
+                    </div>
 
             </div>
         </>

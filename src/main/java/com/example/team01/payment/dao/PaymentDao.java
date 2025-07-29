@@ -24,19 +24,19 @@ public interface PaymentDao {
     // 결제상품 수량 조회 (부분취소시 사용)
     public List<PaymentQuantityVO> selectPaymentQuantity(@Param("payIds")  List<String> payIds);
 
-    //mypage paymentList 결제취소 삭제(delete) 파라미터는 payId, bookId들
-    public int deletePaymentList(@Param("payIds") List<String> payIds,@Param("bookIds") List<String> bookIds);
 
     //mypage payment 결제취소 상태 갱신(Update)
     public int partialCancel(@Param("payId") String payId,@Param("clientId") String clientId,@Param("bookIds")List<String> bookIds);
     public int allCancel(@Param("payId") String payId,@Param("clientId") String clientId);
 
+    //결제취소 계산 이후 관련 데이터 조회-
     public PaymentListVO  selectCancelBooksInfo (@Param("payId") String payId,@Param("bookId") String bookId);
 
-    public int UpdateCancelPayInfo(@Param("payId") String payId
+    public int UpdateCancelPaymentAccount(@Param("payId") String payId
                                     ,@Param("payAccount") int payAccount
                                     ,@Param("clientId") String clientId);
 
+    //개별 결제취소 상태값 갱신
     public int UpdatePaymentListCancelStatus(@Param("payId") String payId
             ,@Param("bookId") String bookId
             ,@Param("partPayStatus") String partPayStatus);

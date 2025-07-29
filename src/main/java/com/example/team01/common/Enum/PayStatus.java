@@ -20,7 +20,7 @@ public enum PayStatus {
     //FAILED("FAILED", "결제 실패"),
     COMPLETED("COMPLETED", "결제완료"),//status, message
     CANCELALL("CANCELALL","전체결제취소"),
-    CANCELPARTIAL("PARTIAL","부분취소");
+    CANCEL("CANCEL","결제취소");
 
     private final String status;
     private final String message;

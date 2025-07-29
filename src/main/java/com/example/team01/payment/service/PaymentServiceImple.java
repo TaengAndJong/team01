@@ -47,8 +47,23 @@ public class PaymentServiceImple implements PaymentService {
         log.info("cartDTOList-------:{}",cartDTOList);
         return cartDTOList;
     }
-
-
+    @Override
+    public int insertPayment(PaymentVO paymentVO,String clientId){
+        log.info("service insertPayment----------:{}",paymentVO);
+        //검증필요 ==> paymentVO.setPayStatus() ==> 결제완료,결제대기,결제실패
+        //payment이 어떤조건을 기준으로 값을 세팅할 것인가!
+        int cnt = 0;
+        if(paymentVO != null){
+            // payState 값 설정해주기
+            paymentVO.setClientId(clientId);
+            paymentVO.setPayStatus(PayStatus.COMPLETED.getStatus());
+            log.info("insert paymentVO-------:{}",paymentVO);
+            // dao로 넘겨주기
+            return cnt= dao.insertPayment(paymentVO);
+        }
+        log.info("insert dao-------:{}",cnt);
+        return cnt;
+    }
     @Override
     public int insertPaymentList(PaymentVO PaymentVO) {
         log.info("service insertPaymentList----------:{}",PaymentVO);
@@ -69,57 +84,6 @@ public class PaymentServiceImple implements PaymentService {
         //payId, quantity  bookId
         return cnt;
     }
-
-    //mypage paymentList 결제취소 삭제(delete) 파라미터는 payId, bookId들
-    @Override
-    public int deletePaymentList( List<String> payIds, List<String> bookIds) {
-        log.info("deletePaymentList--serviceIMple payId:{},bookIds:{}",payIds,bookIds);
-        int cnt = dao.deletePaymentList(payIds,bookIds);
-
-        log.info("deletePaymentList----------cnt:{}",cnt);
-        return cnt;
-    }
-
-    //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
-    @Override
-    @Transactional//하나의 작업이 취소되면 전부 취소되게 해주는 어노테이션
-    public int partialCancel(String payId,String clientId,String bookId) {
-        log.info("partialCancel-- payId:{},clientId:{},,bookId:{}",payId,clientId,bookId);
-
-        int cnt =0;
-
-        //결제 취소한 도서에 대한 정보 및 취소한 값을 제외한 결제내역 계산데이터
-        PaymentListVO cancelInfos = dao.selectCancelBooksInfo(payId,bookId);
-
-        log.info("cancelInfos-----------------------:{}",cancelInfos);
-
-        int remainPayAccount =cancelInfos.getResultPayAccount();
-        String payStatus = PayStatus.CANCELPARTIAL.getStatus();
-        log.info("취소한 후 데이터 갱신 로그 == remainPayAccount:{},payStatus:{}",remainPayAccount,payStatus);
-        
-        // 취소한 도서 정보 paymentList의 payStatus 값 갱신하기
-        cnt += dao.UpdatePaymentListCancelStatus(payId, bookId,payStatus);
-        log.info("UpdatePaymentListCancelStatus ---cnt : {}",cnt);
-        //payment의 payAccount 데이터 갱신
-        cnt += dao.UpdateCancelPayInfo(payId, remainPayAccount, clientId);
-        log.info("UpdateCancelPayInfo ---cnt : {}",cnt);
-
-        return cnt;
-    }
-
-
-    @Override
-    public int allCancel(String payId,String clientId) {
-        log.info("allCancel-- payId:{},clientId:{}",payId,clientId);
-
-        int cnt =0;
-
-
-        return cnt;
-    }
-
-
-
     // 결제수량 조회
     @Override
     public List<PaymentQuantityVO> selectPaymentQuantity(List<String> payIds){
@@ -127,25 +91,7 @@ public class PaymentServiceImple implements PaymentService {
         log.info("result---selectPaymentQuantity :{}",defaultQuantity);
         return defaultQuantity;
     }
-    
-
-    public int insertPayment(PaymentVO paymentVO,String clientId){
-        log.info("service insertPayment----------:{}",paymentVO);
-        //검증필요 ==> paymentVO.setPayStatus() ==> 결제완료,결제대기,결제실패
-        //payment이 어떤조건을 기준으로 값을 세팅할 것인가!
-        int cnt = 0;
-        if(paymentVO != null){
-            // payState 값 설정해주기
-            paymentVO.setClientId(clientId);
-            paymentVO.setPayStatus(PayStatus.COMPLETED.getStatus());
-            log.info("insert paymentVO-------:{}",paymentVO);
-            // dao로 넘겨주기
-            return cnt= dao.insertPayment(paymentVO);
-        }
-        log.info("insert dao-------:{}",cnt);
-        return cnt;
-    }
-
+    @Override
     public List<PaymentListDTO> selectPaymentList(String clientId){
 
         List<PaymentListVO> paymentListVO =  dao.selectPaymentList(clientId);
@@ -157,14 +103,53 @@ public class PaymentServiceImple implements PaymentService {
         log.info("groupeMap--------:{}",groupedMap);
         //결과 담아서 반환할 변수
         List<PaymentListDTO> result = groupedMap.entrySet().stream()
-                        .map(entry ->{
-                            PaymentListDTO dto = convertToPaymentListDTO(entry.getValue());
-                            return dto;
-                        }).collect(Collectors.toList());
+                .map(entry ->{
+                    PaymentListDTO dto = convertToPaymentListDTO(entry.getValue());
+                    return dto;
+                }).collect(Collectors.toList());
 
         log.info("PaymentListDTO result:{}",result);
         return result;
     }
+
+
+    //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
+    @Override
+    @Transactional//하나의 작업이 취소되면 전부 취소되게 해주는 어노테이션
+    public int partialCancel(String payId,String clientId,String bookId) {
+        log.info("partialCancel-- payId:{},clientId:{},bookId:{}",payId,clientId,bookId);
+
+        int cnt =0;
+        String partPayStatus = PayStatus.CANCEL.getStatus();
+        //결제 취소된 가격
+       PaymentListVO paybookInfo =  dao.selectCancelBooksInfo(payId,bookId);
+       log.info("paybookInfo--:{}",paybookInfo);
+
+        //paymentList의 partPayStatus 상태값 갱신
+        int resutPayAccount = paybookInfo.getResultPayAccount();
+        log.info("resutPayAccount--:{}",resutPayAccount);
+        //payment의 payAccount 값 갱신
+
+        //paymentList partPayStatus 강태값 갱신
+        cnt += dao.UpdatePaymentListCancelStatus(payId,bookId,partPayStatus);
+        log.info("cnt 1: {}",cnt);
+        //payment 테이블 총 결제가격 갱신
+        cnt += dao.UpdateCancelPaymentAccount(payId,resutPayAccount,clientId);
+        log.info("cnt 2: {}",cnt);
+        
+        return cnt;
+    }
+
+    @Override
+    public int allCancel(String payId,String clientId) {
+        log.info("allCancel-- payId:{},clientId:{}",payId,clientId);
+
+        int cnt =0;
+
+
+        return cnt;
+    }
+
 
     //결제페이지에 전달할 장바구니 도서목록
     private CartDTO convertToCartDTO(CartVO cartvo) {
@@ -219,9 +204,11 @@ public class PaymentServiceImple implements PaymentService {
                         .bookCateDepth(vo.getBookCateDepth())
                         .bookName(vo.getBookName())
                         .author(vo.getAuthor())
+                        .quantity(vo.getQuantity())
                         .bookPrice(vo.getBookPrice())
                         .publishDate(vo.getPublishDate())
                         .bookImgPath(vo.getBookImgPath())
+                        .partPayStatus(vo.getPartPayStatus())
                 .build())
                 .collect(Collectors.toList());
         
@@ -240,7 +227,7 @@ public class PaymentServiceImple implements PaymentService {
                 .payDate(firstObject.getPayDate())
                 .payStatus(firstObject.getPayStatus())
                 .payUpdateDate(firstObject.getPayUpdateDate())
-                .partPayStatus(firstObject.getPartPayStatus())
+                .quantity(firstObject.getQuantity())
                 .clientId(firstObject.getClientId())
                 .books(books)
                 .address(address)
