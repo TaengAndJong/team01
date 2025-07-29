@@ -28,11 +28,11 @@
             <result property="wishID" column="wishID" />
         </collection>
     </resultMap>
-
     <resultMap id="PaymentListVOMap" type="PaymentListVO">
         <result column="payId" property="payId"/>
         <result column="bookId" property="bookId"/>
         <result column="quantity" property="quantity"/>
+        <result column="partPayStatus" property="partPayStatus"/>
         <result column="bookCateNm" property="bookCateNm"/>
         <result column="bookCateDepth" property="bookCateDepth"/>
         <result column="bookName" property="bookName"/>
@@ -85,6 +85,7 @@
                 p."payId",
                 p."bookId",
                 p."quantity",
+                p."partPayStatus",
                 b."bookCateNm",
                 b."bookCateDepth",
                 b."bookName",
@@ -130,11 +131,20 @@
               </foreach>
     </delete>
     <!-- payment 결제취소 상태 갱신 , 파라미터 payId, clientId-->
-    <update id="UpdatePaymentStatus" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
+    <update id="UpdateCancelPayInfo" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
         update payment
-        set "payStatus" = #{payStatus}
+        set "payAccount" = #{payAccount}
+            ,"payUpdateDate" = CURRENT_TIMESTAMP
         where "payId" = #{payId}
           and "clientId"=#{clientId}
+    </update>
+
+    <update id="UpdatePaymentListCancelStatus" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
+        update paymentList
+        set "partPayStatus" = #{partPayStatus}
+          ,"cancelDate" = CURRENT_TIMESTAMP
+        where "payId" = #{payId}
+          and "bookId"=#{bookId}
     </update>
 
     <select id="selectCancelBooksInfo" parameterType="String" resultMap="PaymentListVOMap">
@@ -143,6 +153,7 @@
         a."payAccount",
         b."bookPrice",
         a."quantity",
+        a."partPayStatus",
         SUM(b."bookPrice" * a."quantity") as cancelPayAccount,
         a."payAccount" - SUM(b."bookPrice" * a."quantity") AS resultPayAccount
         from
@@ -154,18 +165,17 @@
         p."payMethod",
         p."clientId",
         pl."bookId",
-        pl."quantity"
+        pl."quantity",
+        pl."partPayStatus"
         from payment p join paymentList pl
         on (p."payId" = pl."payId")) a join book b
         on a."bookId" = b."bookId"
         where a."payId" =#{payId}
-          and a."bookId" IN
-              <foreach collection="bookIds" item="bookId" open="(" separator="," close=")">
-                #{bookId}
-              </foreach>
+          and a."bookId" = #{bookId}
         GROUP BY
-        a."payId",a."quantity",a."payAccount",b."bookPrice"
+        a."payId",a."quantity",a."payAccount",b."bookPrice", a."partPayStatus"
     </select>
+
 
 </mapper>
 

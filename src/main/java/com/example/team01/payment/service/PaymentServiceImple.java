@@ -16,6 +16,7 @@ import com.example.team01.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,34 +82,35 @@ public class PaymentServiceImple implements PaymentService {
 
     //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
     @Override
-    public int partialCancel(String payId,String clientId,Boolean status,List<String> bookIds) {
-        log.info("partialCancel-- payId:{},clientId:{},stauts:{},bookIds:{}",payId,clientId,status,bookIds);
-        //결제 취소한 도서에 대한 정보 및 취소한 값을 제외한 결제내역 계산데이터
-        PaymentListVO cancelInfos = dao.selectCancelBooksInfo(payId,bookIds);
-        log.info("cancelInfos:{}",cancelInfos);
-        log.info("getPayAccount:{}",cancelInfos.getPayAccount());
-        log.info("getCancelPayAccount:{}",cancelInfos.getCancelPayAccount());
-        log.info("getResultPayAccount:{}",cancelInfos.getResultPayAccount());
-        //
-        int remainPayAccount =cancelInfos.getResultPayAccount();
-        log.info("remainPayAccount:{}",remainPayAccount);
-
-        // 1. payment 에 payAccount 값 갱신
-        //2, payment 에 payStatus 값 갱신 ==> 부분 취소
-        //3. payment 에 UpayUpdateDate 값 갱신 필요 ==> 첫번째 결제 다음 payment 테이블 값이 변경 되었을 경우
-
-
+    @Transactional//하나의 작업이 취소되면 전부 취소되게 해주는 어노테이션
+    public int partialCancel(String payId,String clientId,String bookId) {
+        log.info("partialCancel-- payId:{},clientId:{},,bookId:{}",payId,clientId,bookId);
 
         int cnt =0;
-        // paymentList
+
+        //결제 취소한 도서에 대한 정보 및 취소한 값을 제외한 결제내역 계산데이터
+        PaymentListVO cancelInfos = dao.selectCancelBooksInfo(payId,bookId);
+
+        log.info("cancelInfos-----------------------:{}",cancelInfos);
+
+        int remainPayAccount =cancelInfos.getResultPayAccount();
+        String payStatus = PayStatus.CANCELPARTIAL.getStatus();
+        log.info("취소한 후 데이터 갱신 로그 == remainPayAccount:{},payStatus:{}",remainPayAccount,payStatus);
+        
+        // 취소한 도서 정보 paymentList의 payStatus 값 갱신하기
+        cnt += dao.UpdatePaymentListCancelStatus(payId, bookId,payStatus);
+        log.info("UpdatePaymentListCancelStatus ---cnt : {}",cnt);
+        //payment의 payAccount 데이터 갱신
+        cnt += dao.UpdateCancelPayInfo(payId, remainPayAccount, clientId);
+        log.info("UpdateCancelPayInfo ---cnt : {}",cnt);
 
         return cnt;
     }
 
 
     @Override
-    public int allCancel(String payId,String clientId,Boolean status) {
-        log.info("allCancel-- payId:{},clientId:{},stauts:{}",payId,clientId,status);
+    public int allCancel(String payId,String clientId) {
+        log.info("allCancel-- payId:{},clientId:{}",payId,clientId);
 
         int cnt =0;
 
@@ -238,6 +240,7 @@ public class PaymentServiceImple implements PaymentService {
                 .payDate(firstObject.getPayDate())
                 .payStatus(firstObject.getPayStatus())
                 .payUpdateDate(firstObject.getPayUpdateDate())
+                .partPayStatus(firstObject.getPartPayStatus())
                 .clientId(firstObject.getClientId())
                 .books(books)
                 .address(address)

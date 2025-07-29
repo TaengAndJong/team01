@@ -15,6 +15,9 @@ import java.util.List;
 public class PaymentCancelDTO {
 
     private String payId;
+    private String bookId;
+    private String partPayStatus;
+
     private List<String> bookIds;
     private List<String> payIds; //전체 결제 취소
 

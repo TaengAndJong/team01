@@ -31,9 +31,15 @@ public interface PaymentDao {
     public int partialCancel(@Param("payId") String payId,@Param("clientId") String clientId,@Param("bookIds")List<String> bookIds);
     public int allCancel(@Param("payId") String payId,@Param("clientId") String clientId);
 
-    public PaymentListVO  selectCancelBooksInfo (@Param("payId") String payId,@Param("bookIds") List<String> bookIds);
+    public PaymentListVO  selectCancelBooksInfo (@Param("payId") String payId,@Param("bookId") String bookId);
 
-    //public int UpdatePaymentStatus(@Param("payIds") List<String> payIds,@Param("clientId") String clientId,@Param("payStatus") String payStatus);
+    public int UpdateCancelPayInfo(@Param("payId") String payId
+                                    ,@Param("payAccount") int payAccount
+                                    ,@Param("clientId") String clientId);
+
+    public int UpdatePaymentListCancelStatus(@Param("payId") String payId
+            ,@Param("bookId") String bookId
+            ,@Param("partPayStatus") String partPayStatus);
 
 
 
