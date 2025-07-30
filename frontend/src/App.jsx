@@ -24,14 +24,17 @@ import AdminOneBoard from "@pages/adminBoard/components/qnaOneBoard.jsx";
 import AdminBoard from "@pages/adminBoard/adminBoardComponent.jsx";
 import AdminBook from "@pages/adminBook/adminBookComponent.jsx";
 import Book from "@pages/book/bookComponent.jsx";
-import Board from "@pages/board/boardComponent.jsx";
-import ReadBoard from "@pages/board/components/readBoardComponent.jsx";
 
 import AdminBookModify from "@pages/adminBook/components/adminBookModify.jsx";
 import AdminBookCreate from "@pages/adminBook/components/adminBookCreate.jsx";
 import AdminBookDetail from "@pages/adminBook/components/adminBookDetail.jsx";
 import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
+
+//board
+import Board from "@pages/board/boardComponent.jsx";
 import CreateBoard from "@pages/board/components/createBoardComponent.jsx";
+import BoardTemplateComponent from "@pages/board/components/BoardTemplateComponent";
+import ReadBoard from "@pages/board/components/readBoardComponent.jsx";
 
 import BookList from "@pages/book/components/bookList.jsx";
 import BookDetail from "@pages/book/components/bookDetail.jsx";
@@ -97,6 +100,18 @@ function App() {
               <Route
                 path="readBoard/:category/:boardId"
                 element={<ReadBoard />}
+              />
+              <Route
+                path="oneBoard"
+                element={<BoardTemplateComponent category="one" />}
+              />
+              <Route
+                path="productBoard"
+                element={<BoardTemplateComponent category="product" />}
+              />
+              <Route
+                path="deliveryBoard"
+                element={<BoardTemplateComponent category="delivery" />}
               />
             </Route>
 
