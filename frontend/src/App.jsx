@@ -96,7 +96,7 @@ function App() {
             <Route path={PathData.page.board} element={<Board />}>
               {/*클라이언트 게시물 생성*/}
               <Route path="createBoard" element={<CreateBoard />} />
-              {/*게시물 읽기 페이지*/}
+              {/*게시물 상세 읽기 페이지*/}
               <Route
                 path="readBoard/:category/:boardId"
                 element={<ReadBoard />}

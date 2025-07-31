@@ -91,6 +91,6 @@ public class DeliveryBoardController {
         log.info("게시물 리스트 조회 시작");
         log.info("사용자 ID: " + userId);
         List<DeliveryBoardVO> list = deliveryBoardService.GetDelivBoardlist(userId);
-        return ResponseEntity.ok("통신완료" + userId + ", 배송 문의 리스트: " + list); // 리스트 반환
+        return ResponseEntity.ok(list); // 리스트 반환
     }
 }

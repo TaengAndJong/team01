@@ -82,6 +82,6 @@ public class ProductBoardController {
             log.info("게시물 리스트 조회 시작");
             log.info("사용자 ID: " + userId);
             List<ProductBoardVO> list = productBoardService.GetProductBoardlist(userId);
-            return ResponseEntity.ok("통신완료" + userId + ", 상품 문의 리스트: " + list); // 리스트 반환
+            return ResponseEntity.ok(list); // 리스트 반환
         }
 }
