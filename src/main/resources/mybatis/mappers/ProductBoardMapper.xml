@@ -20,13 +20,18 @@
             "roleId"
         ) VALUES (
             #{qnaProId},
-            #{title},
-            #{content},
-            #{clientName},
+            #{qnaTitle},
+            #{qnaContent},
+            #{qnaWriter},
             SYSDATE,
             '답변 대기',
             #{clientId},
             'ROLE_CLIENT'
         )
     </insert>
+
+    <select id="GetProductBoardlist" parameterType="String" resultType="com.example.team01.vo.ProductBoardVO">
+        SELECT * FROM qnapro WHERE "clientId" = #{userId}
+    </select>
+
 </mapper>

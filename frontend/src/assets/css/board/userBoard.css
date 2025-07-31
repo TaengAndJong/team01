@@ -1,39 +1,49 @@
 .userBoardHeader {
-    border: solid 1px black;
+  border: solid 1px black;
 }
-
 
 .createBoardBox {
-    border: solid 1px black;
-    padding: 50px;
-    height: auto;
-    margin-right: 50px;
+  border: solid 1px black;
+  padding: 50px;
+  height: auto;
+  margin-right: 50px;
 }
 
-
-{/*게시판 생성 css*/}
+ {
+  /*게시판 생성 css*/
+}
 
 dt {
-    margin-top: 32px;
-    width: 135px;
+  margin-top: 32px;
+  width: 135px;
 }
 dd {
-    margin-top: 32px;
+  margin-top: 32px;
 }
-
 
 .createBtnBox {
-    text-align: right;
+  text-align: right;
 }
-.Btn{
-    margin-top: 32px;
+.Btn {
+  margin-top: 32px;
 }
 
-
-
-{/**/}
 .boardSection {
-    width : auto;
-    height: 500px;
-    border: solid 1px black;
+  width: auto;
+  height: 500px;
+  border: solid 1px black;
+}
+
+ {
+  /*게시판 읽기 css*/
+}
+
+.readBoardBox {
+  border: solid 1px black;
+  padding: 50px;
+  height: auto;
+  margin-right: 50px;
+  width: 50%;
+  justify-content: center;
+  margin: 0 auto;
 }

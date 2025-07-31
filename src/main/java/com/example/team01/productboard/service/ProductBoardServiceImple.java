@@ -51,4 +51,15 @@ public class ProductBoardServiceImple implements ProductBoardService {
             throw new RuntimeException("게시물 등록 실패", e);
         }
     }
+
+    @Override
+    public List<ProductBoardVO> GetProductBoardlist(String userId) {
+        log.info("serviceimple 상품문의 리스트 조회 시작 ------------------------");
+        log.info("사용자 ID: " + userId);
+        List<ProductBoardVO> list = ProductBoardDao.GetProductBoardlist(userId); // DAO 호출 사용자 아이디 전달
+        log.info("serviceimple 상품문의 리스트 조회 완료 ------------------------");
+        log.info("list: {}", list);
+        return list;
+    }
+
 }
