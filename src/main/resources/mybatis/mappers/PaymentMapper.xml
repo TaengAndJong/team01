@@ -118,7 +118,20 @@
         where b."clientId" = #{clientId}
     </select>
 
-
+    <!-- 전체취소할 PaymentList 결제내역 조회    -->
+    <select id="selectAllCancelPaymentList" parameterType="String" resultMap="PaymentListVOMap">
+        select
+            "payId"
+             ,"bookId"
+             ,"quantity"
+             ,"partPayStatus"
+        from paymentList
+        where "payId"=#{payId} and "bookId" IN
+        <foreach collection="bookIds" item="bookId" open="(" separator="," close=")">
+            #{bookId}
+        </foreach>
+        and "partPayStatus" != 'CANCEL'
+    </select>
     <!-- payment 결제취소 상태 갱신 , 파라미터 payId, clientId-->
     <update id="UpdateCancelPaymentAccount" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
         update payment
@@ -168,8 +181,26 @@
         a."payId",a."quantity",a."payAccount",b."bookPrice", a."partPayStatus"
     </select>
 
+    <select id="selectCancelPaymentList" parameterType="String" resultMap="PaymentListVOMap">
+        select
+            "payId",
+            "bookId",
+            "partPayStatus"
+        from paymentList
+        where "payId" = #{payId}
+        and "bookId" IN
+        <foreach collection="bookIds" item="bookId" open="(" separator="," close=")">
+            #{bookId}
+        </foreach>
+    </select>
 
-
+    <!-- 전체취소후 payment의 paystatus 갱신  -->
+    <update id="updateCancelPayment" parameterType="String">
+        update payment
+            set "payStatus"=#{payStatus}
+        where "payId"=#{payId}
+        and "clientId"=#{clientId}
+    </update>
 
 </mapper>
 

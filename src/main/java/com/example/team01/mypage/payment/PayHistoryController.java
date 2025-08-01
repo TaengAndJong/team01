@@ -47,7 +47,7 @@ public class PayHistoryController {
 
     //해당유저의 결제취소 요청 컨트롤러
     @PostMapping("/payCancel")
-    public ResponseEntity<?> postPayCancelList(@RequestBody PaymentListVO params,
+    public ResponseEntity<?> postPayCancel(@RequestBody PaymentListVO params,
                                                @AuthenticationPrincipal PrincipalDetails userInfo,
                                                HttpServletRequest request) {
         // VO나DTO 객체타입으로 매핑하지 않아도 받아올 객체타입 직접 작성가능? 으로 이해해도 될까
@@ -58,7 +58,7 @@ public class PayHistoryController {
         String payId = params.getPayId();
         String bookId = params.getBookId();
 
-        // 결제취소 서비스로 파라미터 전달
+        // 개별결제취소 서비스로 파라미터 전달
         paymentService.partialCancel(payId,clientId,bookId);
 
         // 위의 서비스 로직이 성공처리되면  selectPaymentList(clientId,request) 실행하여 클라이언트로 데이터를 반환
@@ -68,6 +68,36 @@ public class PayHistoryController {
         log.info("paymentList-----postPayCancelList:{}",paymentList);
         return ResponseEntity.ok(paymentList);
     }
+
+
+    @PostMapping("/payAllCancel")
+    public ResponseEntity<?> postAllCancel(@RequestBody  PaymentCancelDTO params,
+                                           @AuthenticationPrincipal PrincipalDetails userInfo,
+                                           HttpServletRequest request){
+        log.info("postAllCancelList params :{}",params);
+        log.info("params.getPayId() :{}",params.getPayId());
+        log.info("params.getBookIds() :{}",params.getBookIds());
+
+        String clientId = userInfo.getUsername();
+    // [PaymentCancelDTO(payId=101, bookId=null, partPayStatus=null, bookIds=[16, 17], payIds=null)]
+    //1.paymentList 테이블에서 partPayStatus가 cancel인경우를 제외하고 partPayStatus 상태 cancel로 갱신하기
+
+        String payId = params.getPayId();
+        List<String> bookIds = params.getBookIds();
+        //서비스로 파라미터 넘겨주기
+        int result =  paymentService.allCancel(payId,bookIds,clientId); //int 탕비
+        log.info("result-----paymentController:{}",result);
+
+        // result가 1이면 어떤거 반환 ?
+        if(result > 0){
+            //해당유저의 결제목록,배송지 주소 조회해오기
+            List<PaymentListDTO> paymentList = selectPaymentList(clientId,request);
+            return ResponseEntity.ok(paymentList);
+        }
+
+        return ResponseEntity.ok("전체결제취소 실패");
+    }
+
 
     //결제리스트 조회 공통 메서드
     public List<PaymentListDTO> selectPaymentList(String clientId,HttpServletRequest request){
