@@ -1,19 +1,23 @@
+import PropTypes from "prop-types";
+import "@assets/css/board/userBoard.css";
+
 const BoardListComponent = ({ categoryListData }) => {
   console.log("categoryListData------------------", categoryListData);
   return (
     <div>
-      <ul>
-        {categoryListData.map((item, index) => (
-          <>
-            <li key={index}>{index + 1}</li>
-            <li>{item.qnaTitle}</li>
-            <li>{item.clientId}</li>
-            <li>{item.qnaDate}</li>
-          </>
-        ))}
+      <ul className="BoardList">
+        <li className="item">{categoryListData.qnaTitle}</li>
+        <li className="item">{categoryListData.clientId}</li>
+        <li className="item">{categoryListData.qnaStatus}</li>
+        <li className="item">{categoryListData.qnaDate}</li>
       </ul>
     </div>
   );
+};
+
+BoardListComponent.propTypes = {
+  categoryListData: PropTypes.object.isRequired,
+  number: PropTypes.number.isRequired,
 };
 
 export default BoardListComponent;

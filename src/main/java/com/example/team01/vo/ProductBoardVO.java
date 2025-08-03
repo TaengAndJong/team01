@@ -17,6 +17,7 @@ public class ProductBoardVO implements Serializable {
     private String qnaTitle; // 게시물 제목
     private String qnaContent; // 게시물 내용
     private String clientId; // 사용자 Id
+    private String qnaStatus; // 게시물 상태
     private String qnaDate; // 게시물 작성일    
     private String qnaWriter; // 사용자 실명
     private String category; // 게시물 카테고리

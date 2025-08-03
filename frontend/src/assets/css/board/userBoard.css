@@ -47,3 +47,31 @@ dd {
   justify-content: center;
   margin: 0 auto;
 }
+
+ {
+  /*게시판 목록 css*/
+}
+.BoardIndex {
+  background: #bed297;
+  display: flex;
+  justify-content: space-around;
+}
+
+.BoardIndex .item {
+  width: 300px;
+  padding: 8px;
+  text-align: center;
+  color: white;
+}
+
+.BoardList {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.BoardList .item {
+  padding: 8px;
+  flex: 1; /* 모든 아이템 동일한 너비 */
+  text-align: center;
+}
