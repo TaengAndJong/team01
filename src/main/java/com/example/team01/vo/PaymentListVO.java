@@ -31,11 +31,13 @@ public class PaymentListVO implements Serializable {
 
     private Integer payAccount; // Integer 타입은 null 방지해줌
     private String payStatus;
+    private String partPayStatus;
     private String payDate;
     private String payMethod;
     private String payUpdateDate;
     private String addrId;
     private String clientId;
+
 
     private String addr;
     private String addrType;
@@ -45,5 +47,6 @@ public class PaymentListVO implements Serializable {
     private int totalBookCount;
     private int cancelPayAccount;
     private int resultPayAccount;
+
 
 }

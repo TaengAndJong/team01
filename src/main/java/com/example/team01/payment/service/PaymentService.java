@@ -22,15 +22,9 @@ public interface PaymentService {
     //mypage 결제내역 목록들조회
     public List<PaymentListDTO> selectPaymentList(String clientId);
 
-    //mypage paymentList 결제취소 삭제(delete) 파라미터는 payId, bookId들
-    public int deletePaymentList(List<String> payIds,List<String> bookIds);
+    public int partialCancel(String payId,String clientId,String bookIds);
 
-    //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
-    //public int UpdatePaymentStatus(String payId,String clientId,Boolean status,List<String> bookIds);
-
-    public int partialCancel(String payId,String clientId,Boolean status,List<String> bookIds);
-
-    public int allCancel(String payId,String clientId,Boolean status);
+    public int allCancel(String payId,String clientId);
 
     public  List<PaymentQuantityVO> selectPaymentQuantity(List<String> payIds);
 

@@ -47,48 +47,26 @@ public class PayHistoryController {
 
     //해당유저의 결제취소 요청 컨트롤러
     @PostMapping("/payCancel")
-    public ResponseEntity<?> postPayCancelList(@RequestBody Map<String,List<String>> paymentInfo,
+    public ResponseEntity<?> postPayCancelList(@RequestBody PaymentListVO params,
                                                @AuthenticationPrincipal PrincipalDetails userInfo,
                                                HttpServletRequest request) {
         // VO나DTO 객체타입으로 매핑하지 않아도 받아올 객체타입 직접 작성가능? 으로 이해해도 될까
         //==> @RequestBody Map<String,List<String>> paymentInfo
         log.info("postPayCancelList:{}",userInfo.getUsername());
-        log.info("postPayCancelList-----paymentInfo:{}",paymentInfo);
+        log.info("postPayCancelList-----params:{}",params);
         String clientId = userInfo.getUsername();
+        String payId = params.getPayId();
+        String bookId = params.getBookId();
 
-        // paymentInfo:{57=[17, 21], 61=[20, 19]} ==> String, List<String> 타입의 데이터를
-        //dtoList:[PaymentCancelDTO(payId=57, bookIds=[17, 21]), PaymentCancelDTO(payId=61, bookIds=[20, 19])]
-        // 반환타입 PaymentCacenDTO 타입으로 데이터 형식을 변형
-        List<PaymentCancelDTO> dtoList = paymentInfo.entrySet().stream()
-                .map(entry -> new PaymentCancelDTO(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toList());
-        log.info("dtoList--End:{}",dtoList);
-
-
-        //여기에 try catch 구문 사용하는게 나은가! ==> 생각해보기
-        //************* 전체삭제, 부분삭제 처리 구분 검증 필요
-        Map<String,Boolean> confirm = isCancelAllpayment(dtoList,clientId);
-        log.info("confirm--End:{}",confirm);
-        // {81=false, 83=true}
-        // confirm map객체 순회하여 해당 PayId에 대한 객체 paymentList payStatus 갱신해주기
-        confirm.forEach((id,cancelAll)->{
-            String payId = id;
-            boolean isCancelAll = cancelAll;
-            List<String> bookIds = dtoList.stream().filter(dto->dto.getPayId().equals(payId))
-                            .flatMap(dto -> dto.getBookIds().stream()).collect(Collectors.toList());
-
-            log.info("payId:{},isCancenAll:{},bookIds:{}",payId,isCancelAll,bookIds);
-            //isCancelAll 값에 따라 service 호출 메서드 분기
-            if(isCancelAll){ // true 일경우 (전체취소)
-                paymentService.allCancel(payId,clientId,isCancelAll);
-            }else {//false일경우 (부분취소)
-                paymentService.partialCancel(payId, clientId, isCancelAll,bookIds);
-            }
-        });
+        // 결제취소 서비스로 파라미터 전달
+        paymentService.partialCancel(payId,clientId,bookId);
 
         // 위의 서비스 로직이 성공처리되면  selectPaymentList(clientId,request) 실행하여 클라이언트로 데이터를 반환
+        //해당유저의 결제목록,배송지 주소 조회해오기
+        List<PaymentListDTO> paymentList = selectPaymentList(clientId,request);
 
-        return ResponseEntity.ok("결제취소");
+        log.info("paymentList-----postPayCancelList:{}",paymentList);
+        return ResponseEntity.ok(paymentList);
     }
 
     //결제리스트 조회 공통 메서드
