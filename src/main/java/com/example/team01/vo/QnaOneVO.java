@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor//기본생성자
 @AllArgsConstructor //파라미터로 받는 생성자 전부 생성, 객체 생성시 모든 필드 초기화
 public class QnaOneVO implements Serializable{
-
     @Id
     private String qnaOneId; // 1:1 문의 index
     private String qnaTitle; // 1:1 문의 제목
