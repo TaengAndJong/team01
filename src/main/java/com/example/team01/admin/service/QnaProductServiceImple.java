@@ -23,11 +23,11 @@ public class QnaProductServiceImple implements QnaProductService {
     }
 
     @Override
-    public List<QnaProductVO> getAllQnaProductList(Pagination pagenation) {
+    public List<QnaProductVO> getAllQnaProductList(Pagination pagination) {
         log.info("컨트롤러에서 받아온 상품 문의 파라미터 pagination:{}", pagination.toString());
 
         //전체 데이터 레코드 행 조회해오기
-        int total = qnaOneDao.totalRecord(pagination);
+        int total = qnaProductDao.totalRecord(pagination);
         log.info("서비스 total record-----------:{}", total);
         pagination.setTotalRecord(total);
         log.info("서비스 pagination 총 레코드 수 -----------:{}", pagination.getTotalRecord());
