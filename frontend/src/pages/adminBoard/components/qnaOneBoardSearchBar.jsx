@@ -1,42 +1,43 @@
+const qnaOneBoardSearchBar = ({ search, setSearch, handleSearch }) => {
+  const searchHandler = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
 
-const qnaOneBoardSearchBar = ({search,setSearch,handleSearch}) => {
+    console.log("검색 옵션 :", name);
+    console.log("검색 키워드 :", value);
 
-    const searchHandler = (e) =>{
-        const value = e.target.value;
-        const name =e.target.name;
+    setSearch((prev) => ({
+      ...prev,
+      [name]: value, //동적 설정
+    })); // 부모에게 전달
+  };
 
-        console.log("검색 옵션 :", name);
-        console.log("검색 키워드 :", value);
-
-        setSearch((prev) =>(
-            {
-                ...prev,
-                [name] : value //동적 설정
-            }
-        )); // 부모에게 전달
-    }
-
-    return (<>
-        <div className="boardQnaFinder">
-            <select name="searchType" value={search?.searchType || ""} onChange={(e) => searchHandler(e)}>
-                <option value="ALL">전체</option>
-                <option value="Replied">답변</option>
-                <option value="Waiting">미답변</option>
-            </select>
-            <div className="boardQnaFinderBox">
-                        <input
-                            className="Finder_input"
-                            type="text"
-                            name="keyword"
-                            placeholder="검색어 입력"
-                            value={search?.keyword || ""}
-                            onChange={(e) =>searchHandler(e)}
-                        />
-            </div>
-            <button onClick={() => handleSearch()}>검색</button>
+  return (
+    <>
+      <div className="boardQnaFinder">
+        <select
+          name="searchType"
+          value={search?.searchType || ""}
+          onChange={(e) => searchHandler(e)}
+        >
+          <option value="ALL">전체</option>
+          <option value="Replied">답변</option>
+          <option value="Waiting">미답변</option>
+        </select>
+        <div className="boardQnaFinderBox">
+          <input
+            className="Finder_input"
+            type="text"
+            name="keyword"
+            placeholder="검색어 입력"
+            value={search?.keyword || ""}
+            onChange={(e) => searchHandler(e)}
+          />
         </div>
-    </>)
-
-}
+        <button onClick={() => handleSearch()}>검색</button>
+      </div>
+    </>
+  );
+};
 
 export default qnaOneBoardSearchBar;

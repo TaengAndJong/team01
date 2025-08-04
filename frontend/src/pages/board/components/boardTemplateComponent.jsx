@@ -21,9 +21,9 @@ const BoardTemplateComponent = ({ category }) => {
         </ul>
       </div>
       <div>
-        {list.map((item, index) => (
+        {/* {list.map((item, index) => (
           <BoardListComponent key={index} categoryListData={item} />
-        ))}
+        ))} */}
       </div>
     </div>
   );
