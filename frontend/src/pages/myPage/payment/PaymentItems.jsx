@@ -101,15 +101,26 @@ const PaymentItems = ({paymentProps}) =>{
             const response =await axios.post("/api/mypage/payAllCancel",params); 
             console.log("response---전체선택 결제취소",response);
             const recievedData = response.data;
-            console.log("recievedData----------",recievedData);
+            console.log("canceledAll----------",recievedData);
+            setPaymetInfo(recievedData);
         }catch(e){
             console.log("response---전체선택 결제취소 e",e);
         }
 
-
     }
 
-
+// 테이블별 합산가격함수
+    const payAccount = (books)=>{
+        console.log("book---- payAccount",books);
+        // 누적합산
+        const total = books.reduce((total,book) => {
+            console.log("book---- total",total);
+            console.log("book---- book",book);
+            // 부분 취소,전체취소 적용시 검증 조건은 book.partStatus
+            return  book.partPayStatus === 'COMPLETED'?  total + (book.quantity * book.bookPrice) : 0;
+        }, 0);
+       return total;
+    }
 
     return (
         <>
@@ -194,12 +205,21 @@ const PaymentItems = ({paymentProps}) =>{
                                         <ul className="d-flex flex-wrap justify-content-end border p-3 btn-outline-info rounded-1">
                                             <li className="mx-3 d-inline-flex align-items-center">
                                                 <span className="mx-3 fw-bold">총 결제금액</span>
-                                                <span>20000원</span>
+                                                {payment?.books && payment.books.length > 0 && // 데이터 undefined 방지
+                                                    (
+                                                        <span>{payAccount(payment.books)}원</span>
+                                                    )}
                                             </li>
                                             <li>
-                                                <button type="button" className="btn btn-secondary ms-auto" onClick={()=> allCancelHandler(selected)}>
-                                                    전체 결제취소
-                                                </button>
+                                                    <button type="button" className="btn btn-secondary ms-auto"
+                                                            onClick={() => allCancelHandler(selected)}
+                                                            aria-disabled={payment?.payStatus !== "COMPLETED"}
+                                                            disabled={payment?.payStatus !== "COMPLETED"}
+                                                            tabIndex={payment?.payStatus !== "COMPLETED" ? 0 : -1}
+                                                    >
+                                                        전체 결제취소
+                                                    </button>
+
                                             </li>
                                         </ul>
                                     </div>
