@@ -4,7 +4,7 @@ import { BookBoardStateContext } from "../adminBoardComponent.jsx";
 // import SearchBar from "./adminBoardSearchBar.jsx";
 // import Pagination from "./pagination.jsx";
 
-const AdminboardTemplateComponent = ({ category }) => {
+const AdminboardTemplateComponent = ({ category, boardList }) => {
   const boardList = useContext(BookBoardStateContext);
 
   return (

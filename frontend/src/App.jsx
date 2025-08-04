@@ -18,7 +18,9 @@ import Cart from "@pages/cart/cartComponent.jsx";
 
 import Admin from "@pages/admin/adminCoponent.jsx";
 import AdminDashboard from "@pages/adminBoard/components/adminDashboard.jsx";
-import AdminboardTemplateComponent from "@pages/adminBoard/components/adminboardTemplateComponent.jsx";
+import AdminDeliveryBoard from "@pages/adminBoard/components/deliveryBoard.jsx";
+import AdminProductBoard from "@pages/adminBoard/components/productBoard.jsx";
+import AdminOneBoard from "@pages/adminBoard/components/qnaOneBoard.jsx";
 import AdminBoard from "@pages/adminBoard/adminBoardComponent.jsx";
 import AdminBook from "@pages/adminBook/adminBookComponent.jsx";
 import Book from "@pages/book/bookComponent.jsx";
@@ -125,19 +127,10 @@ function App() {
 
             <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
               {/*첫페이지 설정*/}
-              {/* <Route index element={<Navigate to="productBoard" replace />} /> */}
-              <Route
-                path="deliveryBoard"
-                element={<AdminboardTemplateComponent category="delivery" />}
-              />
-              <Route
-                path="productBoard"
-                element={<AdminboardTemplateComponent category="product" />}
-              />
-              <Route
-                path="qnaOneList"
-                element={<AdminboardTemplateComponent category="qnaOne" />}
-              />
+              <Route index element={<Navigate to="qnaOneList" replace />} />
+              <Route path="deliveryBoard" element={<AdminDeliveryBoard />} />
+              <Route path="productBoard" element={<AdminProductBoard />} />
+              <Route path="qnaOneList" element={<AdminOneBoard />} />
             </Route>
 
             <Route path={PathData.page.adminBook} element={<AdminBook />}>
