@@ -31,7 +31,7 @@ import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
 //board
 import Board from "@pages/board/boardComponent.jsx";
 import CreateBoard from "@pages/board/components/createBoardComponent.jsx";
-import BoardTemplateComponent from "@pages/board/components/BoardTemplateComponent";
+import BoardTemplateComponent from "@pages/board/components/boardTemplateComponent.jsx";
 import ReadBoard from "@pages/board/components/readBoardComponent.jsx";
 
 import BookList from "@pages/book/components/bookList.jsx";
@@ -44,7 +44,9 @@ import WishComponent from "@pages/myPage/wish/WishComponent.jsx";
 import MyPageMain from "@pages/myPage/myPage/MyPageMain.jsx";
 import PersonalInfo from "@pages/myPage/personal/PersonalInfo.jsx";
 import WishList from "@pages/myPage/wish/WishList.jsx";
-import Payment from "@pages/pay/paymentComponent.jsx";
+import PaymentHistory from "@pages/myPage/payment/PaymentHistory.jsx";
+//payment
+import PaymentComponent from "@pages/pay/paymentComponent.jsx";
 
 function App() {
   let location = useLocation();
@@ -71,7 +73,7 @@ function App() {
               <Route index element={<MyPageMain />} />
               <Route path="personal" element={<PersonalInfo />} />
               <Route path="address" element={<AddressComponent />} />
-              {/* <Route path="payment" element={<PaymentHistory />} /> */}
+              <Route path="payHistory" element={<PaymentHistory />} />
               <Route path="wishlist" element={<WishComponent />}>
                 <Route index element={<WishList />} />
               </Route>
@@ -79,7 +81,11 @@ function App() {
             <Route path={PathData.page.cart} element={<Cart />}>
               <Route index path="" element={<CartList />} />
             </Route>
-            <Route path={PathData.page.payment} element={<Payment />} />
+            <Route
+              path={PathData.page.payment}
+              element={<PaymentComponent />}
+            />
+            {/*<Route path="paySuccess/:payId" element={<PaymentSuccess/>}/>  /!*중첩라우팅사용하려면 최상위 부모 컴포넌트에 <Outlet/>을 사용해야 함!*!/*/}
             <Route path={PathData.page.signup} element={<SignUp />} />
 
             {/* 클라이언트 전용 라우트 */}
