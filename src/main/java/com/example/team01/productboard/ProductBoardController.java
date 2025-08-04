@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
 
 // 의존성 
 import com.example.team01.productboard.service.ProductBoardService;
@@ -55,10 +56,10 @@ public class ProductBoardController {
 
             // 3) 나머지 필드 세팅
             vo.setClientId(clientId);
-            vo.setClientName(clientName);
+            vo.setQnaWriter(clientName);
             vo.setCategory(category);
-            vo.setTitle(title);
-            vo.setContent(content);
+            vo.setQnaTitle(title);
+            vo.setQnaContent(content);
 
             log.info("Controller VO: {}", vo);
 
@@ -72,5 +73,15 @@ public class ProductBoardController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body("게시물 등록 실패: " + e.getMessage());
             }
+        }
+
+        // 상품 문의 리스트 조회
+        @GetMapping("/ProductBoardlist")
+        public ResponseEntity<?> GetProductBoardlist(@RequestParam String userId)
+        {
+            log.info("게시물 리스트 조회 시작");
+            log.info("사용자 ID: " + userId);
+            List<ProductBoardVO> list = productBoardService.GetProductBoardlist(userId);
+            return ResponseEntity.ok(list); // 리스트 반환
         }
 }

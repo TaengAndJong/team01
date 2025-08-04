@@ -10,14 +10,15 @@ import com.example.team01.vo.AttachmentVO;
 import com.example.team01.deliveryboard.dao.DeliveryBoardDao;
 import com.example.team01.attachment.service.AttachmentService;
 
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class DeliveryBoardServiceImple implements DeliveryBoardService {
 
-
     private final DeliveryBoardDao DeliveryBoardDao;
     private final AttachmentService attachmentService;
+    // 게시물 등록
     @Override
     public void CreateDeliveryBoard(DeliveryBoardVO vo) {
         log.info("서비스 임플 VO 객체 데이터: {}", vo);
@@ -39,7 +40,6 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
                 attachmentVO.setFiles(vo.getFiles());
                 attachmentVO.setUploader(vo.getClientId());
                 attachmentService.insertAttachmentService(attachmentVO);// 파일첨부 테이블 등록
-
             }
 
             log.info("file 업로드 후 deliveryBoardVO 객체 데이터: {}", vo);
@@ -52,5 +52,15 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
             log.error("게시물 등록 중 오류 발생", e); 
             throw new RuntimeException("게시물 등록 실패", e);
         }
+    }
+
+    @Override
+    public List<DeliveryBoardVO> GetDelivBoardlist(String userId) {
+        log.info("serviceimple 배송문의 리스트 조회 시작 ------------------------");
+        log.info("사용자 ID: " + userId);
+        List<DeliveryBoardVO> list = DeliveryBoardDao.GetDelivBoardlist(userId); // DAO 호출 사용자 아이디 전달
+        log.info("serviceimple 배송문의 리스트 조회 완료 ------------------------");
+        log.info("list: {}", list);
+        return list;
     }
 }

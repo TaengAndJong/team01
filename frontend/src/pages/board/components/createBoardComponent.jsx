@@ -150,7 +150,7 @@ const CreateBoardComponent = () => {
                 파일 첨부하기
               </a>
               <span>
-                "(<b>최대 5개</b>, 10MB)"
+                &quot;(<b>최대 5개</b>, 10MB)&quot;
               </span>
             </dd>
           </div>

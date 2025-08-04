@@ -20,9 +20,9 @@
             "attachmentID"
         ) VALUES (
             #{qnaOneId},
-            #{title},
-            #{content},
-            #{clientName},
+            #{qnaTitle},
+            #{qnaContent},
+            #{qnaWriter},
             SYSDATE,
             '답변 대기',
             #{clientId},
@@ -30,4 +30,9 @@
             #{attachmentID, jdbcType=VARCHAR}
         )
     </insert>
+
+    <select id="GetOneBoardList" parameterType="String" resultType="com.example.team01.vo.OneBoardVO">
+        SELECT * FROM qnaone WHERE "clientId" = #{userId}
+    </select>
+
 </mapper>

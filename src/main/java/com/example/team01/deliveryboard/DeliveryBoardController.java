@@ -9,10 +9,13 @@ import java.util.Collections;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 
 // 의존성 
 import com.example.team01.deliveryboard.service.DeliveryBoardService;
@@ -53,12 +56,12 @@ public class DeliveryBoardController {
             vo.setFiles(Collections.emptyList());
         }
 
-// 3) 나머지 필드 세팅
-vo.setClientId(clientId);
-vo.setClientName(clientName);
-vo.setCategory(category);
-vo.setTitle(title);
-vo.setContent(content);
+        // 3) 나머지 필드 세팅
+        vo.setClientId(clientId);
+        vo.setQnaWriter(clientName);
+        vo.setCategory(category);
+        vo.setQnaTitle(title);
+        vo.setQnaContent(content);
 
             log.info("최종 확인 컨트롤러 배달 문의 VO: {}", vo);
             try {
@@ -72,4 +75,22 @@ vo.setContent(content);
                         .body("게시물 등록 실패: " + e.getMessage());
             }
         }
+    
+    @GetMapping("/readBoard/{category}/{id}")
+    public ResponseEntity<?> GetDelivBoard(@PathVariable("category") String category, @PathVariable("id") String id)
+    {
+        log.info("컨트롤러 배달 문의 게시물 조회 통신 시작");
+        log.info("카테고리: " + category + ", 아이디: " + id);
+        return ResponseEntity.ok(" 통신 성공! 받은 ID: " + id + ", 받은 카테고리: " + category);
+    }
+
+    // 배달 문의 리스트 조회
+    @GetMapping("/DelivBoardlist")
+    public ResponseEntity<?> GetDelivBoardlist(@RequestParam String userId)
+    {
+        log.info("게시물 리스트 조회 시작");
+        log.info("사용자 ID: " + userId);
+        List<DeliveryBoardVO> list = deliveryBoardService.GetDelivBoardlist(userId);
+        return ResponseEntity.ok(list); // 리스트 반환
+    }
 }
