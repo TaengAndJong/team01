@@ -22,10 +22,13 @@ public interface PaymentService {
     //mypage 결제내역 목록들조회
     public List<PaymentListDTO> selectPaymentList(String clientId);
 
+    //부분취소
     public int partialCancel(String payId,String clientId,String bookIds);
 
-    public int allCancel(String payId,String clientId);
+    //전체취소
+    public int allCancel(String payId,List<String> bookIds,String clientId);
 
+    
     public  List<PaymentQuantityVO> selectPaymentQuantity(List<String> payIds);
 
 }

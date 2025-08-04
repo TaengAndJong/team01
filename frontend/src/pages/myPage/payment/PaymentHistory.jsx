@@ -7,7 +7,7 @@ const PaymentHistory=()=>{
 
     const [paymentInfo, setPaymetInfo] = useState({});
     //결제항목선택 상태관리 변수
-    const [selected,setSelected]=useState({});
+   // const [selected,setSelected]=useState({});
 
     console.log("paymentInfo PayHistory",paymentInfo);
     
@@ -35,8 +35,6 @@ const PaymentHistory=()=>{
 
     },[])
 
-    console.log("selected---------- 최상위 컴포넌트",selected);
-
 
     console.log("paymentInfo start",paymentInfo);
     // prop들 하나의 객체로 묶기
@@ -59,7 +57,7 @@ const PaymentHistory=()=>{
             {/*결제시간*/}
             {/*결제상세목록도 클릭시 등장하게*/}
 
-            <PaymentItems paymentProps={paymentProps} />
+            <PaymentItems paymentProps={paymentProps}  />
 
         </>
     )

@@ -19,12 +19,13 @@ public interface PaymentDao {
     public int insertPayment(PaymentVO paymentVO);
     public int insertPaymentList(@Param("payId") String payId,@Param("bookId") String bookId, @Param("quantity") int quantity);
 
-    //mypage 결제내역 목록들조회
+    //mypage 전체 결제내역 목록들조회
     public List<PaymentListVO> selectPaymentList(String clientId);
     // 결제상품 수량 조회 (부분취소시 사용)
     public List<PaymentQuantityVO> selectPaymentQuantity(@Param("payIds")  List<String> payIds);
-
-
+    //maypage 한 PayId에 해당하는 전첼취소 결제내역 데이터 조회
+    public List<PaymentListVO> selectAllCancelPaymentList(@Param("payId") String payId, @Param("bookIds") List<String> bookIds, String clientId);
+    
     //mypage payment 결제취소 상태 갱신(Update)
     public int partialCancel(@Param("payId") String payId,@Param("clientId") String clientId,@Param("bookIds")List<String> bookIds);
     public int allCancel(@Param("payId") String payId,@Param("clientId") String clientId);
@@ -42,5 +43,14 @@ public interface PaymentDao {
             ,@Param("partPayStatus") String partPayStatus);
 
 
+    //mypage 특정 결제내역, 도서들 목록조회
+    public List<PaymentListVO> selectCancelPaymentList(
+            @Param("payId") String payId
+            ,@Param("bookIds") List<String> bookIds);
+
+    //payment paystatus 값 갱신
+    public int updateCancelPayment(@Param("payId") String payId
+            ,@Param("payStatus") String payStatus
+            ,@Param("clientId") String clientId);
 
 }
