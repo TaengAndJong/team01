@@ -94,8 +94,6 @@ function App() {
                     <Route path={PathData.page.signup} element={<SignUp/>}/>
 
 
-
-
                     {/* 클라이언트 전용 라우트 */}
                     <Route index path={PathData.page.main} element={<Main/>}/>
                     <Route path={PathData.page.book} element={<Book/>}>
@@ -103,11 +101,6 @@ function App() {
                         <Route path="bookDetail/:bookId" element={<BookDetail/>}/>
                         {/*<Route index element={<Navigate to="bookList" replace/>}/>*/}
                         {/*<Route path="bookList" element={<BookList/>} />*/}
-                    </Route>
-
-                    <Route path={PathData.page.board} element={<Board/>}>
-                        {/*클라이언트 게시물 생성*/}
-                        <Route path="createBoard" element={<CreateBoard/>}/>
                     </Route>
 
 
