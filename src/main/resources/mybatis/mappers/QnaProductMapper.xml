@@ -7,7 +7,7 @@
 
     <select id="totalRecord" resultType="int" parameterType="com.example.team01.utils.Pagination">
         SELECT COUNT(*)
-        FROM QnaPro
+        FROM qnaPro
     </select>
 
      <sql id="searchFrag">
@@ -45,7 +45,7 @@
                     , "qnaWriter"
                     , "qnaStatus"
                     , "qnaDate"
-                FROM qnaOne
+                FROM qnaPro
                 <include refid="searchFrag" />
                 ORDER BY "qnaProId" DESC
             ) a

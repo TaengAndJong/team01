@@ -2,26 +2,28 @@ import "@assets/css/board/oneBoard.css";
 import React, { useContext, useEffect, useState } from "react";
 import QnaOneItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/adminBoardSearchBar.jsx";
-import { BookBoardStateContext } from "@pages/adminBoard/adminBoardComponent.jsx";
+import {
+  BookBoardStateContext,
+  BookBoardDispatchContext,
+} from "@pages/adminBoard/adminBoardComponent.jsx";
 import { PaginationContext } from "@pages/adminBoard/adminBoardComponent.jsx";
 import Pagination from "@util/pagination.jsx";
 
 const QnaOneBoard = () => {
   const [boardList, setBoarList] = useState([]);
 
-  const qnaOneData = useContext(BookBoardStateContext);
-  console.log("BookBoardStateContext---qnaOneData", qnaOneData);
+  const { one } = useContext(BookBoardStateContext);
+  const { onInitOne } = useContext(BookBoardDispatchContext);
+  console.log("BookBoardStateContext---one data", one);
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
 
-  // qnaOneData 존재할 때만 bookList 업데이트
+  // one 데이터 존재할 때만 boardList 업데이트
   useEffect(() => {
-    //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
-    if (qnaOneData) {
-      console.log("bookdata--------useEffect", qnaOneData);
-      setBoarList(qnaOneData);
+    if (one && one.length > 0) {
+      console.log("one data--------useEffect", one);
+      setBoarList(one);
     }
-    //페이지 fetch요청 보내기
-  }, [qnaOneData]);
+  }, [one]);
 
   console.log("boardList", boardList);
 
@@ -59,11 +61,12 @@ const QnaOneBoard = () => {
       const data = await response.json();
       console.log("search---------------", data);
       setBoarList(Array.isArray(data) ? data : []); // 서버 데이터 갱신
-      // onInit(data);
+      onInitOne(data);
     } catch (e) {
       console.log(e, "에러");
     }
   };
+
   return (
     <>
       <h3>1:1 문의 목록</h3>
@@ -77,7 +80,7 @@ const QnaOneBoard = () => {
             <li className="item">등록일</li>
           </ul>
         </div>
-        {console.log("boardList map 돌리기 전", boardList)}
+        {console.log("boardList map 1:1 문의 돌리기 전", boardList)}
         <div className="oneBoardQuestionBox">
           {boardList.map((item, index) => (
             <QnaOneItem key={item.qnaOneId || index} data={item} />

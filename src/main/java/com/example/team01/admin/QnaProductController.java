@@ -25,14 +25,11 @@ public class QnaProductController {
     private final FileUtils fileUtils;
     
     @GetMapping("/qnaProductList")
-    public ResponseEntity<?> getQnaProductList(
-            @RequestParam(defaultValue = "1") int currentPage, 
-            @RequestParam(defaultValue = "6") int pageSize, 
-            HttpServletRequest request) {
-        log.info("currentPage = {}, pageSize = {} ", currentPage, pageSize);
+    public ResponseEntity<?> getQnaProductList(@RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "6") int pageSize, HttpServletRequest request) {
+        log.info("currentPage = {}, pageSize = {} " , currentPage, pageSize);
         //확인 완료
 
-        log.info("도서 목록 API 호출됨 이거");
+        log.info("상품 문의 API 호출됨 이거");
         //페이지 계산 클래스 불러오기
 
         // 클래스    참조변수  인스턴스생성  생성자호출 (매개 변수 , 매개 변수)
@@ -61,8 +58,8 @@ public class QnaProductController {
             @RequestParam(defaultValue = "10") int pageSize,
             HttpServletRequest request) {
         log.info("도서 목록 상품 문의 searchkeyword API 호출됨");
-        log.info("1:1 문의 searchType -------------------: {}", searchType);
-        log.info("1:1 문의 keyword -----------------: {}", keyword);
+        log.info("상품 문의 searchType -------------------: {}", searchType);
+        log.info("상품 문의 keyword -----------------: {}", keyword);
 
         //페이지 계산 클래스 불러오기
         Pagination pagination = new Pagination(page, pageSize);

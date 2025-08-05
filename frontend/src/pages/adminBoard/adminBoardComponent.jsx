@@ -4,49 +4,87 @@ import LeftMenu from "../../layout/LeftMenu.jsx";
 import { useMenu } from "../common/MenuContext.jsx";
 import { menuNavi } from "../../util/menuNavi.jsx";
 
-function reducer(state, action) {
-  console.log("state", state);
-  console.log("typeof", typeof state);
-  console.log("Array", Array.isArray(state));
-  console.log("action.data", action.data);
-  console.log("배열이냐 객체냐", Array.isArray(action.data));
+// 3개 카테고리별 상태 관리를 위한 reducer
+function boardReducer(state, action) {
+  console.log("boardReducer state:", state);
+  console.log("boardReducer action:", action);
 
   switch (action.type) {
-    case "INIT":
-      if (action.data) {
-        console.log("INIT action", action.data, Array.isArray(action.data));
-      }
-      // 서버에서 단일객체{} 또는 여러 개의 객체가  action.data로 넘어오면 배열에 담아줘야 함.
-      return Array.isArray(action.data) ? action.data : [action.data];
-    case "CREATE":
-      if (action.data) {
-        console.log("create action", action.data, Array.isArray(action.data)); // 객체로 넘어옴
-      }
-
-      return [...state, action.data]; // 새 객체 + 기존 배열, action.data는 단일객체
-    case "DELETE":
-      if (action.data) {
-        console.log("delete action", action.data);
-        console.log("delete Array", Array.isArray(action.data));
-      }
-      // action.data가 배열이고(객체일경우, key가 없는 데이터일경우, 키로 접근할수 없음!)
-      return state.filter((item) => {
-        return !action.data.includes(String(item.qnaOndId));
-      });
-
-    case "UPDATE":
-      if (action.data) {
-        console.log("UPDATE action", action.data, Array.isArray(action.data));
-      }
-      //state는 새로 들어온 데이터객체를 담고있는 배열
-      // action.data의 bookId가 기존데이터인 book의 bookId와 같으면 새로들어온 action.data로 교체 아니면 기존 데이터 유지
-      return state.map((book) =>
-        book.qnaOndId === action.data.qnaOndId ? action.data : book
-      );
+    case "INIT_ONE":
+      return {
+        ...state,
+        one: Array.isArray(action.data) ? action.data : [action.data],
+      };
+    case "INIT_PRODUCT":
+      return {
+        ...state,
+        product: Array.isArray(action.data) ? action.data : [action.data],
+      };
+    case "INIT_DELIVERY":
+      return {
+        ...state,
+        delivery: Array.isArray(action.data) ? action.data : [action.data],
+      };
+    case "CREATE_ONE":
+      return {
+        ...state,
+        one: [...state.one, action.data],
+      };
+    case "CREATE_PRODUCT":
+      return {
+        ...state,
+        product: [...state.product, action.data],
+      };
+    case "CREATE_DELIVERY":
+      return {
+        ...state,
+        delivery: [...state.delivery, action.data],
+      };
+    case "DELETE_ONE":
+      return {
+        ...state,
+        one: state.one.filter(
+          (item) => !action.data.includes(String(item.qnaOneId))
+        ),
+      };
+    case "DELETE_PRODUCT":
+      return {
+        ...state,
+        product: state.product.filter(
+          (item) => !action.data.includes(String(item.productId))
+        ),
+      };
+    case "DELETE_DELIVERY":
+      return {
+        ...state,
+        delivery: state.delivery.filter(
+          (item) => !action.data.includes(String(item.deliveryId))
+        ),
+      };
+    case "UPDATE_ONE":
+      return {
+        ...state,
+        one: state.one.map((item) =>
+          item.qnaOneId === action.data.qnaOneId ? action.data : item
+        ),
+      };
+    case "UPDATE_PRODUCT":
+      return {
+        ...state,
+        product: state.product.map((item) =>
+          item.productId === action.data.productId ? action.data : item
+        ),
+      };
+    case "UPDATE_DELIVERY":
+      return {
+        ...state,
+        delivery: state.delivery.map((item) =>
+          item.deliveryId === action.data.deliveryId ? action.data : item
+        ),
+      };
     default:
       return state;
   }
-  //reducer end
 }
 
 //context 상태관리
@@ -57,7 +95,14 @@ export const PaginationContext = React.createContext();
 const AdminBoard = () => {
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
 
-  const [qnaOneData, dispatch] = useReducer(reducer, null);
+  // 3개 카테고리별 초기 상태
+  const initialState = {
+    one: [],
+    product: [],
+    delivery: [],
+  };
+
+  const [state, dispatch] = useReducer(boardReducer, initialState);
 
   let adminMenuTree = menuNavi(menu?.adminList);
   let adminHome = menu?.adminList?.find(
@@ -84,38 +129,59 @@ const AdminBoard = () => {
 
       console.log("params.toString()", params.toString());
 
-      // 서버로 응답 요청
-      const response = await fetch(
-        `/api/admin/board/qnaOneList?${params.toString()}`,
-        {
-          method: "GET",
-        }
-      );
-      // 돌아온 응답 상태
-      if (!response.ok) {
-        // 응답 상태가 200아니면
-        console.log(response.status);
-        throw new Error("서버 응답 에러");
-      }
-      // 응답 성공시
-      const qnaOneData = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-      //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
-      const { currentPage, items, pageSize, totalPages, totalRecord } =
-        qnaOneData;
-      onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
-      console.log(
-        "1:1문의 데이터 목록 get 요청 데이터 받아오기 -----",
-        qnaOneData
-      ); // 있음
-      //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
-      setPaginationInfo({
-        currentPage: currentPage,
-        pageSize: pageSize,
-        totalPages: totalPages,
-        totalRecord: totalRecord,
+      // 서버로 응답 요청 - 3개 API 동시 호출
+      const [oneListRes, productListRes, deliveryListRes] = await Promise.all([
+        fetch(`/api/admin/board/qnaOneList?${params.toString()}`),
+        fetch(`/api/admin/board/qnaProductList?${params.toString()}`),
+        fetch(`/api/admin/board/qnaDeliveryList?${params.toString()}`),
+      ]);
+
+      // 각 응답의 상태 확인
+      console.log("API 응답 상태:", {
+        oneListRes: oneListRes.status,
+        productListRes: productListRes.status,
+        deliveryListRes: deliveryListRes.status,
       });
+
+      // 응답이 성공인지 확인
+      if (!oneListRes.ok) {
+        throw new Error(`qnaOneList API 오류: ${oneListRes.status}`);
+      }
+      if (!productListRes.ok) {
+        throw new Error(`productBoardList API 오류: ${productListRes.status}`);
+      }
+      if (!deliveryListRes.ok) {
+        throw new Error(
+          `deliveryBoardList API 오류: ${deliveryListRes.status}`
+        );
+      }
+
+      // 응답 성공시 각각 JSON 파싱
+      const [oneData, productData, deliveryData] = await Promise.all([
+        oneListRes.json(),
+        productListRes.json(),
+        deliveryListRes.json(),
+      ]);
+
+      console.log("API 응답 데이터:", { oneData, productData, deliveryData });
+
+      // 각 카테고리별로 상태 초기화
+      dispatch({ type: "INIT_ONE", data: oneData });
+      dispatch({ type: "INIT_PRODUCT", data: productData });
+      dispatch({ type: "INIT_DELIVERY", data: deliveryData });
+
+      // 페이지네이션 정보 업데이트 (첫 번째 응답의 페이지네이션 정보 사용)
+      if (oneData && oneData.currentPage) {
+        setPaginationInfo({
+          currentPage: oneData.currentPage,
+          pageSize: oneData.pageSize || paginationInfo.pageSize,
+          totalPages: oneData.totalPages,
+          totalRecord: oneData.totalRecord,
+        });
+      }
     } catch (err) {
-      console.log("도서 데이터 불러오기 실패", err); // 오류 처리
+      console.log("문의 게시판 데이터 불러오기 실패", err); // 오류 처리
+      console.log("에러 상세 정보:", err.message);
     }
   }; //fetch end
 
@@ -124,36 +190,103 @@ const AdminBoard = () => {
     initFetch();
   }, [paginationInfo.currentPage]);
 
-  const onInit = (qnaOneData) => {
-    console.log("onInit", qnaOneData);
+  // 각 카테고리별 초기화 함수
+  const onInitOne = (data) => {
+    console.log("onInitOne", data);
     dispatch({
-      type: "INIT",
-      data: qnaOneData,
+      type: "INIT_ONE",
+      data: data,
     });
   };
 
-  const onCreate = (createBook) => {
-    console.log("createBook", createBook);
+  const onInitProduct = (data) => {
+    console.log("onInitProduct", data);
     dispatch({
-      type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
-      data: createBook,
+      type: "INIT_PRODUCT",
+      data: data,
     });
   };
 
-  const onDelete = (bookIds) => {
-    console.log("deleteBook", bookIds);
-    console.log("deleteBook", Array.isArray(bookIds));
+  const onInitDelivery = (data) => {
+    console.log("onInitDelivery", data);
     dispatch({
-      type: "DELETE",
-      data: bookIds,
+      type: "INIT_DELIVERY",
+      data: data,
     });
   };
 
-  const onUpdate = (updateBook) => {
-    console.log("updateBook", updateBook);
+  // 각 카테고리별 생성 함수
+  const onCreateOne = (createData) => {
+    console.log("createOne", createData);
     dispatch({
-      type: "UPDATE",
-      data: updateBook,
+      type: "CREATE_ONE",
+      data: createData,
+    });
+  };
+
+  const onCreateProduct = (createData) => {
+    console.log("createProduct", createData);
+    dispatch({
+      type: "CREATE_PRODUCT",
+      data: createData,
+    });
+  };
+
+  const onCreateDelivery = (createData) => {
+    console.log("createDelivery", createData);
+    dispatch({
+      type: "CREATE_DELIVERY",
+      data: createData,
+    });
+  };
+
+  // 각 카테고리별 삭제 함수
+  const onDeleteOne = (deleteIds) => {
+    console.log("deleteOne", deleteIds);
+    dispatch({
+      type: "DELETE_ONE",
+      data: deleteIds,
+    });
+  };
+
+  const onDeleteProduct = (deleteIds) => {
+    console.log("deleteProduct", deleteIds);
+    dispatch({
+      type: "DELETE_PRODUCT",
+      data: deleteIds,
+    });
+  };
+
+  const onDeleteDelivery = (deleteIds) => {
+    console.log("deleteDelivery", deleteIds);
+    dispatch({
+      type: "DELETE_DELIVERY",
+      data: deleteIds,
+    });
+  };
+
+  // 각 카테고리별 수정 함수
+  const onUpdateOne = (updateData) => {
+    console.log("updateOne", updateData);
+    dispatch({
+      type: "UPDATE_ONE",
+      data: updateData,
+    });
+  };
+
+  const onUpdateProduct = (updateData) => {
+    console.log("updateProduct", updateData);
+    dispatch({
+      type: "UPDATE_PRODUCT",
+      data: updateData,
+    });
+  };
+
+  const onUpdateDelivery = (updateData) => {
+    console.log("updateDelivery", updateData);
+    dispatch({
+      type: "UPDATE_DELIVERY",
+      data: updateData,
     });
   };
 
@@ -224,9 +357,22 @@ const AdminBoard = () => {
               </ol>
 
               {/*  문의관리  1차메뉴일 경우  컨텐츠*/}
-              <BookBoardStateContext.Provider value={qnaOneData}>
+              <BookBoardStateContext.Provider value={state}>
                 <BookBoardDispatchContext.Provider
-                  value={{ onInit, onCreate, onDelete, onUpdate }}
+                  value={{
+                    onInitOne,
+                    onInitProduct,
+                    onInitDelivery,
+                    onCreateOne,
+                    onCreateProduct,
+                    onCreateDelivery,
+                    onDeleteOne,
+                    onDeleteProduct,
+                    onDeleteDelivery,
+                    onUpdateOne,
+                    onUpdateProduct,
+                    onUpdateDelivery,
+                  }}
                 >
                   <PaginationContext.Provider
                     value={{

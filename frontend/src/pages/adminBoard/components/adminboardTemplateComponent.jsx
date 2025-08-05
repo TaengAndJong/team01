@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { BookBoardStateContext } from "../adminBoardComponent.jsx";
+import PropTypes from "prop-types";
 // import adminBoardItem from "./adminBoardItem.jsx";
 // import SearchBar from "./adminBoardSearchBar.jsx";
 // import Pagination from "./pagination.jsx";
 
-const AdminboardTemplateComponent = ({ category, boardList }) => {
+const AdminboardTemplateComponent = ({ category, children }) => {
   const boardList = useContext(BookBoardStateContext);
 
   return (
@@ -42,6 +43,11 @@ const AdminboardTemplateComponent = ({ category, boardList }) => {
       /> */}
     </>
   );
+};
+
+AdminboardTemplateComponent.propTypes = {
+  category: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default AdminboardTemplateComponent;

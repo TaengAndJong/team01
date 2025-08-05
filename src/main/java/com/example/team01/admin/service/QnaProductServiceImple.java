@@ -38,7 +38,7 @@ public class QnaProductServiceImple implements QnaProductService {
 
         // 1:1 문의 데이터 전체 조회해오기
         List<QnaProductVO> qnaProList = qnaProductDao.getAllQnaProductList(pagination);
-        log.info("페이지에 해당하는 데이터 리스트 -------:{}", qnaProList);
+        log.info("페이지에 해당하는 상품 문의 데이터 리스트 -------:{}", qnaProList);
 
         // git 확인용 주석
 
