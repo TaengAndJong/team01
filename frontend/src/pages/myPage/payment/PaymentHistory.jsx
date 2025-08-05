@@ -2,12 +2,13 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import PaymentItems from "./PaymentItems.jsx";
 import {data} from "react-router-dom";
+import Nodata from "../../common/Nodata.jsx";
 
 const PaymentHistory=()=>{
 
     const [paymentInfo, setPaymetInfo] = useState({});
     //결제항목선택 상태관리 변수
-    const [selected,setSelected]=useState({});
+   // const [selected,setSelected]=useState({});
 
     console.log("paymentInfo PayHistory",paymentInfo);
     
@@ -35,17 +36,12 @@ const PaymentHistory=()=>{
 
     },[])
 
-    console.log("selected---------- 최상위 컴포넌트",selected);
-
 
     console.log("paymentInfo start",paymentInfo);
     // prop들 하나의 객체로 묶기
     const paymentProps = {
         paymentInfo,
         setPaymetInfo,
-        // selected,
-        // setSelected,
-
     };
 
     console.log("paymentInfo end",paymentInfo);
@@ -54,13 +50,13 @@ const PaymentHistory=()=>{
     return(
         <>
             {/*마이페이지 결제된 목록 조회*/}
-            {/*결제 취소 기능,*/}
-            {/*결제 상태여부 확인 필요,*/}
-            {/*결제시간*/}
-            {/*결제상세목록도 클릭시 등장하게*/}
-
-            <PaymentItems paymentProps={paymentProps} />
-
+            {paymentInfo && paymentInfo.length > 0 ?
+                (
+                    <PaymentItems paymentProps={paymentProps}  />
+                ) :(
+                    <Nodata/>
+                )
+            }
         </>
     )
 }

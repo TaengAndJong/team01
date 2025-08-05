@@ -29,13 +29,43 @@ public class BookServiceImple implements BookService{
     private final BookDao dao;
 
     @Override
-    public List<BookVO> selectAllBooks() {
-        log.info("selectAllBooks : {}",dao.selectAllBooks());
+    public List<BookVO> selectAllBooks(Pagination pagination) {
+
+
+        //전체 데이터 레코드 조회해오기
+        int total = dao.totalRecord(pagination);
+        log.info("서비스 total record-----------:{}", total);
+        // 전체 데이터 페이지네이션 멤버변수 값 설정
+        pagination.setTotalRecord(total);
+        log.info("서비스 pagination 총 레코드 수 -----------:{}", pagination.getTotalRecord());
+        log.info("서비스 pagination 총 getCurrentPage 수 -----------:{}", pagination.getCurrentPage());
+        //startRow && endRow 설정
+        pagination.setLimitRows(pagination.getCurrentPage());
+        log.info("컨트롤러에서 받아온 파라미터 pagination2222:{}", pagination.toString());
+
+        log.info("selectAllBooks : {}",dao.selectAllBooks(pagination));
         //bookImgPath를 bookImgList 배열에 담아주고 setter로 BookVO에 담아주기
-        List<String> bookImgList = new ArrayList<>();
+        // 조회된 전체 데이터의 행의 개수 조회
+        List<BookVO> bookVOList = dao.selectAllBooks(pagination);
 
+        List<String> bookImgePaths = new ArrayList<>();
+        //실제이미지 파일 클라이언트로 전송하는 로직
+        //1.데이터베이스에서 도서 객체 조회
+        for(BookVO bookVO : bookVOList){
+            //한 행의 레코드 하나씩 조회
+            log.info("bookVO-----------------------:{}", bookVO);
+            //2. bookImgPath "," 기준으로 자르고 배열반환
+            String[] getBookImg= bookVO.getBookImgPath().split(",");
 
-        return dao.selectAllBooks();
+            if(bookVO.getBookImgPath()!=null || !bookImgePaths.isEmpty()){
+                log.info("getBookImg ------------: {}",getBookImg);
+            }
+            /// 여기에서 bookVO객체 배열로변경해서 설정해야하는뎅
+            bookVO.setBookImgList(Arrays.asList(getBookImg));
+        }//end
+
+        //5. 전체 객체 반환하기
+        return bookVOList;
     }
 
     @Override

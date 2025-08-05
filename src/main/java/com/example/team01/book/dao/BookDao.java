@@ -16,9 +16,12 @@ import java.util.List;
 @Mapper
 public interface BookDao {
 
- public List<BookVO> selectAllBooks();
+ public List<BookVO> selectAllBooks(@Param("pagination") Pagination pagination);
  //도서상세페이지 ( id로 특정 데이터 조회후 특정데이터 레코드 전부 반환 ==> BookVO사용)
  public BookVO selectOneBook(String bookId);
+
+ //totalRecode
+ public int totalRecord(@Param("pagination") Pagination pagination); // 페이지의 총 개수
 
 
 }

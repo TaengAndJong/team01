@@ -9,20 +9,17 @@ const SearchBar = ({search,setSearch, handleSearch}) =>{
 
     const handleSearchChange = (e) => {
         //검색조건 필터에 대해서 이벤트객체로 받아오기
-        const name =e.target.name;
-        const value=e.target.value;
-
-        console.log("searchName",name);
-        console.log("searchValue", value);
+        console.log("e.target.name",e.target.name);
+        console.log("e.target.value", e.target.value);
 
         setSearch((prev) =>(
             {
                 ...prev,
-                [name] : value //동적 설정
+                [e.target.name] : e.target.value //동적 설정
             }
         )); // 부모에게 전달
     };
-console.log("search------------", search);
+    console.log("search------------", search);
 
     return(
         <>

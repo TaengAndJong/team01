@@ -6,7 +6,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
 
     //장밥구니 컨트롤러로 전송할 fetch 함수
     const sendCartFetch= async(bookId,quantity)=>{
-        console.log("addCartBtn-------data",data);
+      //  console.log("addCartBtn-------data",data);
         console.log("bookId---------sendCartFetch",bookId);
         console.log("quantity-----------sendCartFetch",quantity);
         try{
@@ -16,7 +16,10 @@ const AddCartBtn = ({bookId,quantity}) =>{
                     "Content-Type": "application/json"
                 },
                 credentials: 'include',
-
+                body: JSON.stringify({
+                    bookId: bookId,
+                    quantity: quantity
+                })
             })
 
             if(!response.ok){

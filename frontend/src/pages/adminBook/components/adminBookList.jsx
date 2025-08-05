@@ -102,7 +102,11 @@ const AdminBookList = () => {
     }
 
     //검색어 필터 상태관리 ==> 초기값 빈 배열!
-    const [search,setSearch] = useState([]);
+    const [search,setSearch] = useState({
+        bookType: 'ALL',         // 전체 / 국내도서 / 국외도서
+        searchType: 'bookName',  // bookName(도서명), author(저자)
+        keyword: ''              // 검색어
+    });
     console.log("search 상태관리",search);
 
     const handleSearch = async ()=>{

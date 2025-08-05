@@ -71,6 +71,7 @@ public class Pagination {
 
     //현재페이지를 기준으로 테이블 데이터 조회할 행 제한
     public void setLimitRows(int currentPage) {
+
         //시작페이지 번호
         this.startRow = (currentPage - 1) * pageSize + 1;
         //마지막 페이지에서 데이터 수보다 큰 번호를 방지, 마지막페이지 번호

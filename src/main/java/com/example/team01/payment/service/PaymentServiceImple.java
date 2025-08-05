@@ -115,7 +115,7 @@ public class PaymentServiceImple implements PaymentService {
 
     //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
     @Override
-    @Transactional//하나의 작업이 취소되면 전부 취소되게 해주는 어노테이션
+    @Transactional//하나의 작업이 취소되면 전부 취소되게 해주는 어노테이션(2개이상작업 있을경우 필요)
     public int partialCancel(String payId,String clientId,String bookId) {
         log.info("partialCancel-- payId:{},clientId:{},bookId:{}",payId,clientId,bookId);
 
@@ -141,12 +141,40 @@ public class PaymentServiceImple implements PaymentService {
     }
 
     @Override
-    public int allCancel(String payId,String clientId) {
-        log.info("allCancel-- payId:{},clientId:{}",payId,clientId);
-
+    @Transactional//하나의 작업이 취소되면 전부 취소되게 해주는 어노테이션(2개이상작업 있을경우 필요)
+    public int allCancel(String payId,List<String> bookIds,String clientId) {
         int cnt =0;
 
+        log.info("allCancel-- payId:{},bookIds:{},clientId:{}",payId,bookIds,clientId);
+        //들어온 paymentList 테이블에서 payId와 bookIds를 파라미터로 해당 데이터 조회
+       List<PaymentListVO> result = dao.selectAllCancelPaymentList(payId,bookIds,clientId);
+        log.info("all Cancel result : {}",result);
+        for (PaymentListVO vo : result) {
+            //vo.getPartPayStatus가 cancel이 아닌경우 partPayStatus 상태값 cancel로 갱신
+           log.info("partPayStatus---------vo:{}", vo.getPartPayStatus());
+           if(PayStatus.COMPLETED.getStatus().equals(vo.getPartPayStatus())){
+                log.info("Enum 비교 시 null 예외 발생방지,항상 유효한 문자열을 반환하기때문에 : null-safe ");
+               //해당 bookId에 대해서 partPayStatus 를 cancel로 변경해주기
+               dao.UpdatePaymentListCancelStatus(vo.getPayId(),vo.getBookId(),PayStatus.CANCEL.getStatus());
+           }
+        }
 
+        // paymentList의 의 해당 payId의 모든 bookIds의 partStaus가 cancel 이면 payment테이블의 payStatus를 cancel로 변경
+        //paymentList 새로 업데이트된 데이터 조회해오기
+        List<PaymentListVO> updatePaymentList = dao.selectCancelPaymentList(payId,bookIds);
+        // 조회한 updatePaymentList 순회하여 partPayStatus 상태값 Cancel 확인 후, 전부 취소상태이면 Payment 테이블 결제상태 갱신
+        boolean allCancelled =
+                updatePaymentList.stream()
+                        .allMatch(vo
+                                -> PayStatus.CANCEL.getStatus().equals(vo.getPartPayStatus()));
+
+        //전부 조건에 맞아 매칭되면 true 반환
+        if(allCancelled){
+            log.info("all canceled:{}",allCancelled);
+            //payment payStatus 값 전체 취소로 갱신
+          cnt= dao.updateCancelPayment(payId,PayStatus.CANCELALL.getStatus(), clientId);
+        }
+        log.info(" 전체취소 cnt:{}",cnt);
         return cnt;
     }
 
