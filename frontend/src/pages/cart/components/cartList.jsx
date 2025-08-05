@@ -5,7 +5,7 @@ import CartAddress from "./cartAddress.jsx";
 import axios from "axios";
 import CartItemPrice from "./cartItemPrice.jsx";
 import CartAllPrice from "./cartAllPrice.jsx";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import ReusableModal from "./modal.jsx";
 
 
@@ -173,14 +173,14 @@ const CartList = () => {
                 <ul className="cart-list">
                     <li className="cart-item mb-2">
                         장바구니에 담긴 상품이 없습니다.
-                        도서 담으러 가기
+                        <Link to="/book">도서보러가기</Link>
                     </li>
                 </ul>
             )
         }
 
         const addCartList = (cartList) => {
-            console.log("cartList0-----addCartList", cartList);
+            console.log("cartList-----addCartList", cartList);
             return (
           <>
               {/*label 내부에 input 기입 시, htmlFor 기입 불필요*/}
@@ -237,8 +237,7 @@ const CartList = () => {
           </>
             )
         }
-    console.log("addrCartlist --- cartList", address);
-    console.log("addrCartlist --- cartList", cartList);
+
 
     return (
         <>
@@ -248,8 +247,8 @@ const CartList = () => {
                 {/*배송지 선택  title-dotted , 객체 중첩구조 단순화하여 props넘기기*/}
                 <CartAddress addrList={address}/>
 
-                {/* cartList  */}
-                {cartData && cartData.length > 0 ? addCartList(bookList) : emptyCartList()}
+                {/* cartList -- cartData의 bookList값이 있을 때 없을때  */}
+                {cartData?.bookList && cartData?.bookList.length > 0 ? addCartList(bookList) : emptyCartList()}
 
                 {/* cartAccount */}
                 <CartAllPrice cartList={cartList} selectItem={selectItem} deliveryFee={2000} gotoPayment={gotoPayment}

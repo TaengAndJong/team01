@@ -2,7 +2,7 @@
 
 
 //search 컴포넌트
-import Btn from "@util/reuseBtn.jsx";
+
 import React from "react";
 
 const SearchBar = ({search,setSearch, handleSearch}) =>{
@@ -45,7 +45,7 @@ console.log("search------------", search);
                 onChange={(e)=>handleSearchChange(e)}
                 placeholder="검색어 입력"
             />
-            <Btn className={"search btn btn-primary"} type={"button"}  onClick={() => handleSearch()}  text="검색"/>
+                <button className={"search btn btn-primary"} type={"button"}  onClick={() => handleSearch()}>검색</button>
             </div>
         </>
     )

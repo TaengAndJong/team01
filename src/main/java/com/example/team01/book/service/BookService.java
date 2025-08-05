@@ -10,9 +10,12 @@ import java.util.List;
 public interface BookService {
 
     //book 전체 조회
-    public List<BookVO> selectAllBooks();
+    public List<BookVO> selectAllBooks(Pagination pagination);
     //book 국내, 국외, 전자로 나누어 조회
         
     //상세페이지
     public BookVO selectOneBook(String bookId);
+
+
+
 }

@@ -95,27 +95,27 @@
     마이바티스가 #{}바인딩 변수를 사용해서 문자열을 치환하면 varchar 타입으로 변환해 char 타입일 경우 인식이
     안될 수도 있음. ==> cast 사용해도 안되는 경우에는 ??
     -->
-    <select id="searchBook" resultType="AdminBookVO" parameterType="SearchConditionVO">
-        select   trim("bookId") as "bookId"
-             , "bookCateNm"
-             , "bookCateDepth"
-             , "bookName"
-             , "bookDesc"
-             , "author"
-             , "bookPrice"
-             , "stock"
-             , "stockStatus"
-             , "publishDate"
-             , "roleId"
-             , "cateId"
-             , "bookImgPath"
-             , "writer"
-             , "createDate"
-        from book
-        <include refid="searchFrag" />
-        ORDER BY "bookId" DESC
+<!--    <select id="searchBook" resultType="AdminBookVO" parameterType="SearchConditionVO">-->
+<!--        select   trim("bookId") as "bookId"-->
+<!--             , "bookCateNm"-->
+<!--             , "bookCateDepth"-->
+<!--             , "bookName"-->
+<!--             , "bookDesc"-->
+<!--             , "author"-->
+<!--             , "bookPrice"-->
+<!--             , "stock"-->
+<!--             , "stockStatus"-->
+<!--             , "publishDate"-->
+<!--             , "roleId"-->
+<!--             , "cateId"-->
+<!--             , "bookImgPath"-->
+<!--             , "writer"-->
+<!--             , "createDate"-->
+<!--        from book-->
+<!--        <include refid="searchFrag" />-->
+<!--        ORDER BY "bookId" DESC-->
 
-    </select>
+<!--    </select>-->
 <!--    OFFSET #{offset} ROWS FETCH NEXT #{pageSize} ROWS ONLY-->
 
     <insert id="createBook" parameterType="AdminBookVO">
