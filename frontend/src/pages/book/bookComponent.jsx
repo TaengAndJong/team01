@@ -1,10 +1,11 @@
 import BookList from "./components/bookList.jsx";
-import React, {createContext, useEffect, useReducer} from "react";
+import React, {createContext, useContext, useEffect, useReducer, useState} from "react";
 import {Link, Outlet} from "react-router-dom";
 import {useMenu} from "../common/MenuContext.jsx";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 
 import {menuNavi} from "../../util/menuNavi.jsx";
+import {PaginationContext} from "../adminBook/adminBookComponent.jsx";
 
 
 //판매하는 도서 목록 전역상태관리 컨텍스트
@@ -32,8 +33,16 @@ const reducer = (state, action) => {
 
 const Book = () => {
 
+
     const {menu,currentPath,standardPoint}  = useMenu();
     const [bookData,dispatch]= useReducer(reducer, null);
+    const [paginationInfo, setPaginationInfo] = useState({
+        currentPage: 1,
+        totalPages: 0,
+        totalRecord: 0,
+        pageSize: 6
+    });
+
 
     const onInit =(bookData)=>{
         console.log("bookList bookData" , bookData);
@@ -43,32 +52,67 @@ const Book = () => {
         })
     }
 
-    const bookListFetch = async ()=> {
-        try{
-            //클라이언트 도서 컨트롤러에 비동기 요청 보내기
-            const response = await fetch("/api/book",{
-                method: "GET",
+
+    //get요청, 페이지번호변경 시 사용하는 fetch요청 함수
+    const initFetch = async () => {
+        try {
+            //page, pageSize
+            const params = new URLSearchParams({
+                currentPage: paginationInfo.currentPage, // 클라이언트가 결정하는 현재페이지, 기본값은 1
+                pageSize:  paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
             });
 
-            if(!response.ok){
-                throw Error(response.statusText);
+            console.log("params.toString()",params.toString());
+
+            // 서버로 응답 요청
+            const response = await fetch(`/api/book?${params.toString()}`, {
+                method: "GET",
+            });
+            // 돌아온 응답 상태
+            if (!response.ok) { // 응답 상태가 200아니면
+                console.log(response.status)
+                throw new Error("서버 응답 에러");
             }
+            // 응답 성공시
+            const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
+            console.log("bookdata목록 get 요청 데이터 받아오기-----", bookVO);// 있음
 
-            const data =await response.json();
-            //초기 데이터를 data가 될 수 있게 파라미터로 넘겨주기
-            onInit(data);
-            console.log("data",data);
-        }catch(err){
+            //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
+            const {currentPage,items,pageSize,totalPages,totalRecord} = bookVO;
+            console.log(`--------${currentPage,items,pageSize,totalPages,totalRecord}`);
+            onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
+            console.log("초기 데이터 갱신완료",bookVO);
+            //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
+            setPaginationInfo({
+                currentPage:currentPage,
+                pageSize:pageSize,
+                totalPages:totalPages,
+                totalRecord:totalRecord,
+            })
 
+        } catch (err) {
+            console.log("도서 데이터 불러오기 실패", err); // 오류 처리
         }
+    }//fetch end
+
+
+
+    //페이지버튼 클릭시 실행되는 핸들러
+    const onChangePageHandler = (page) => {
+        console.log("changePage----",page);
+        //pagination의 currentPage 값 갱신
+        setPaginationInfo((prev) =>({
+            ...prev,
+            currentPage: page
+        }))
 
     }
 
     useEffect(()=>{
+        // 마운트 시 서버 또는 db에서 데이터를 받아온 후 onInit을 실행해야 함
+        initFetch();
+    },[paginationInfo.currentPage]) // 마운트 시에 한 번실행 됨
 
-        bookListFetch(); // 도서데이터 요청
-
-    },[]); // 처음 렌더링 시에만 한 번 실행
 
     let clientMenuTree = menuNavi(menu?.clientList);
     let clientHome = menu?.clientList?.find(item => item.menuId === "main")?.menuPath;
@@ -116,7 +160,9 @@ const Book = () => {
                             </ol>
                             <BookStateContext.Provider value={bookData}>
                                 <BookDispatchContext.Provider value={{onInit}}>
-                                    <Outlet/>
+                                    <PaginationContext.Provider value={{paginationInfo, onChangePageHandler}}>
+                                        <Outlet/>
+                                    </PaginationContext.Provider>
                                 </BookDispatchContext.Provider>
                             </BookStateContext.Provider>
                         </div>

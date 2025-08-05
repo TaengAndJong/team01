@@ -4,6 +4,7 @@ package com.example.team01.admin.dao;
 
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
+import com.example.team01.vo.BookVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,9 +30,9 @@ public interface AdminBookDao {
     //도서 삭제
     public int deleteBooks(@Param("existBookIds") List<String> existBookIds);
     //xml로 여러개의 파라미터를 넘겨주려면 @Param으로 바인딩할 파라미터명을 명시해줘야 함
-    public List<AdminBookVO> searchBook(@Param("type") String bookType,
-                                        @Param("field") String searchType,
-                                        @Param("keyword") String keyword );
+//    public List<BookVO> searchBook(@Param("type") String bookType,
+//                                        @Param("field") String searchType,
+//                                        @Param("keyword") String keyword );
 
    //totalRecode
    public int totalRecord(@Param("pagination") Pagination pagination);
