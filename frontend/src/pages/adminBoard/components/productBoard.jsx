@@ -11,7 +11,6 @@ import Pagination from "@util/pagination.jsx";
 
 const ProductBoard = () => {
   const [boardList, setBoarList] = useState([]);
-
   const { product } = useContext(BookBoardStateContext);
   const { onInitProduct } = useContext(BookBoardDispatchContext);
   console.log("BookBoardStateContext---product data", product);
@@ -19,9 +18,9 @@ const ProductBoard = () => {
 
   // product 데이터 존재할 때만 boardList 업데이트
   useEffect(() => {
-    if (product && product.length > 0) {
-      console.log("product data--------useEffect", product);
-      setBoarList(product);
+    const items = product?.[0]?.items;
+    if (items) {
+      setBoarList(items);
     }
   }, [product]);
 
@@ -76,10 +75,18 @@ const ProductBoard = () => {
             <li className="item">등록일</li>
           </ul>
         </div>
-        {console.log("boardList map 돌리기 전", boardList)}
+        {console.log("boardList map 돌리기 전", product)}
         <div className="oneBoardQuestionBox">
           {boardList.map((item, index) => (
-            <QnaOneItem key={item.productId || index} data={item} />
+            <QnaOneItem
+              key={item.productId || index}
+              data={item}
+              number={
+                (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
+                index +
+                1
+              }
+            />
           ))}
         </div>
       </div>

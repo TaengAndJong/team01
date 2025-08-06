@@ -1,14 +1,7 @@
 import "@assets/css/board/oneBoard.css";
 
-const adminBoardItem = ({ data }) => {
+const adminBoardItem = ({ data, number }) => {
   console.log("adminBoardItem data", data);
-  // 각 카테고리별 ID 필드 매핑
-  const getId = (data) => {
-    if (data.qnaOneId) return data.qnaOneId;
-    if (data.productId) return data.productId;
-    if (data.deliveryId) return data.deliveryId;
-    return data.id || "N/A";
-  };
 
   // 각 카테고리별 제목 필드 매핑
   const getTitle = (data) => {
@@ -46,7 +39,7 @@ const adminBoardItem = ({ data }) => {
     <>
       <div>
         <ul className="qnaOneItemBox">
-          <li className="qnaOneItem">{getId(data)}</li>
+          <li className="qnaOneItem">{number}</li>
           <li className="qnaOneItem">{getTitle(data)}</li>
           <li className="qnaOneItem">{getWriter(data)}</li>
           <li className="qnaOneItem">{getStatus(data)}</li>

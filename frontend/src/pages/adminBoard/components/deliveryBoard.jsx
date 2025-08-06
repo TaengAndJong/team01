@@ -19,9 +19,9 @@ const DeliveryBoard = () => {
 
   // delivery 데이터 존재할 때만 boardList 업데이트
   useEffect(() => {
-    if (delivery && delivery.length > 0) {
-      console.log("delivery data--------useEffect", delivery);
-      setBoarList(delivery);
+    const items = delivery?.[0]?.items;
+    if (items) {
+      setBoarList(items);
     }
   }, [delivery]);
 
@@ -76,7 +76,15 @@ const DeliveryBoard = () => {
         {console.log("boardList map 돌리기 전", boardList)}
         <div className="oneBoardQuestionBox">
           {boardList.map((item, index) => (
-            <QnaOneItem key={item.deliveryId || index} data={item} />
+            <QnaOneItem
+              key={item.deliveryId || index}
+              data={item}
+              number={
+                (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
+                index +
+                1
+              }
+            />
           ))}
         </div>
       </div>

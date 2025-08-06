@@ -19,9 +19,9 @@ const QnaOneBoard = () => {
 
   // one 데이터 존재할 때만 boardList 업데이트
   useEffect(() => {
-    if (one && one.length > 0) {
-      console.log("one data--------useEffect", one);
-      setBoarList(one);
+    const items = one?.[0]?.items;
+    if (items) {
+      setBoarList(items);
     }
   }, [one]);
 
@@ -83,7 +83,15 @@ const QnaOneBoard = () => {
         {console.log("boardList map 1:1 문의 돌리기 전", boardList)}
         <div className="oneBoardQuestionBox">
           {boardList.map((item, index) => (
-            <QnaOneItem key={item.qnaOneId || index} data={item} />
+            <QnaOneItem
+              key={item.qnaOneId || index}
+              data={item}
+              number={
+                (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
+                index +
+                1
+              }
+            />
           ))}
         </div>
       </div>
