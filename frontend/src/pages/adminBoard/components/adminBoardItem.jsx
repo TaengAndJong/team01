@@ -1,4 +1,4 @@
-import "@assets/css/board/oneBoard.css";
+import "@assets/css/board/adminBoard.css";
 
 const adminBoardItem = ({ data, number }) => {
   console.log("adminBoardItem data", data);

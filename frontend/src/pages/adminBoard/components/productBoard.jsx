@@ -1,7 +1,7 @@
-import "@assets/css/board/oneBoard.css";
+import "@assets/css/board/adminBoard.css";
 import React, { useContext, useEffect, useState } from "react";
 import QnaOneItem from "@pages/adminBoard/components/adminBoardItem.jsx";
-import SearchBar from "@pages/adminBoard/components/adminBoardSearchBar.jsx";
+import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import {
   BookBoardStateContext,
   BookBoardDispatchContext,
@@ -41,7 +41,7 @@ const ProductBoard = () => {
     //검색버튼 누르면 서버로 검색 필터 전송
     try {
       const response = await fetch(
-        `/api/board/ProductBoardlist?${paramString}`,
+        `/api/admin/board/qnaProductList?${paramString}`,
         {
           method: "POST",
         }

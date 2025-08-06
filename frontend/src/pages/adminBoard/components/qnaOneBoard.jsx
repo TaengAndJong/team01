@@ -1,7 +1,7 @@
-import "@assets/css/board/oneBoard.css";
+import "@assets/css/board/adminBoard.css";
 import React, { useContext, useEffect, useState } from "react";
 import QnaOneItem from "@pages/adminBoard/components/adminBoardItem.jsx";
-import SearchBar from "@pages/adminBoard/components/adminBoardSearchBar.jsx";
+import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import {
   BookBoardStateContext,
   BookBoardDispatchContext,
