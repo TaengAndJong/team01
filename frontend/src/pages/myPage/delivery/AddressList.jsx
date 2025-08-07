@@ -28,7 +28,7 @@ const AddressList = () => {
                     {/* 배송지 없을 경우 UI*/}
                     {!showAddForm && deliveryData?.length < 3 && (
                         <div className="border border-dark-subtle p-4 rounded-1  bg-white bg-opacity-50 mb-2">
-                            <button type="button" className="btn btn-secondary d-inline-block me-2"
+                            <button type="button" className="btn btn-dark d-inline-block me-2"
                                     onClick={() => {
                                         setShowAddForm(prev => (!prev))
                                     }}>배송지 등록

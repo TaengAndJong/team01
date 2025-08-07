@@ -44,7 +44,7 @@ console.log("search------------", search);
                 onChange={(e)=>handleSearchChange(e)}
                 placeholder="검색어 입력"
             />
-            <Btn className={"search btn btn-primary"} type={"button"}  onClick={() => handleSearch()}  text="검색"/>
+            <Btn className={"search btn btn btn-dark"} type={"button"}  onClick={() => handleSearch()}  text="검색"/>
             </div>
         </>
     )

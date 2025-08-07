@@ -23,57 +23,77 @@
   }
 }
 
-header{height:auto; @extend %clearfix}
+header{height:auto;}
 header,.header-inner,.gnb{position:relative}
 //header
 #header{}
-.header-inner{@include layoutPadding($layoutPadding);
-  &.menu{ background-color:$mainColor; }
+.header-inner{
+    position: relative;
+    .gnbWrap{padding:$layoutPadding;}
+  &.menu{ background-color:$AdminHeaderColor; }
 }
 
 //gnb
 .gnb{
   .first-depth{
     >li{
+        position: relative;
          >a{ min-height:80px;  display: inline-flex;
-           align-items: center;
-           justify-content: center;
-           padding: 2px 40px 0 40px;
-           >span{
-             color:$gnb-font-color;
-             font-family: $gnb-font;
-             font-size:23px;
-             font-weight: bold;
-             display:flex;
-             flex-direction: column-reverse;
-             position:relative;
-           }
-           .hoverLeaf{
-             position: absolute; opacity: 1;visibility: hidden;
-             width:40px; height:13px;
-            position:absolute;
-             top:-14px;
-             left:0;
-             animation-name: dobleleaf;
-             animation-duration: 2s;
-             animation-iteration-count: infinite;
-             animation-timing-function: ease-in-out
-           }
-           &:hover,&:focus{
-             span{color:$gnb-hover-color;
-               @extend %hover; text-shadow: #595959 0px 1px 1px; }
-             .hoverLeaf{
-               opacity: 1;
-               visibility: visible;
-               transition:0.3s;
+             align-items: center;
+             justify-content: center;
+              padding: 0 20px;
+             >span{
+               color:$gnb-font-color;
+               font-family: $gnb-font;
+               font-size:23px;
+               font-weight: bold;
+               display:flex;
+               flex-direction: column-reverse;
+               position:relative;
              }
+             .hoverLeaf{
+               position: absolute; opacity: 1;visibility: hidden;
+               width:40px; height:13px;
+              position:absolute;
+               top:-14px;
+               left:0;
+               animation-name: dobleleaf;
+               animation-duration: 2s;
+               animation-iteration-count: infinite;
+               animation-timing-function: ease-in-out
+             }
+             &:hover,&:focus{
+               span{color:$gnb-hover-color;
+                 @extend %hover; text-shadow: #595959 0px 1px 1px; }
+               .hoverLeaf{
+                 opacity: 1;
+                 visibility: visible;
+                 transition:0.3s;
+               }
            }
          }
-
+          .second-depth{
+            height: 0;
+            border:2px solid $color06;
+            border-radius: 20px;
+            padding: 15px 10px;
+            background-color: $AdminSecondDepthBg;
+            width:100%;height: 0; text-align: center;
+            opacity: 0;visibility: hidden;position: absolute; top:110%;left:0;
+            > li{
+               >a { padding:10px 0;}
+              &:hover >a,
+              &:focus-within >a {font-weight: bold;}
+            }
+          }
+      &:hover .second-depth,
+      &:focus-within  .second-depth{opacity: 1; visibility: visible; height:auto}
     }
   }
-  .second-depth{}
+
   .third-depth{}
+
+
 }
 
 .logo{ @include logo(140px,66px,inline-block);
@@ -94,46 +114,44 @@ header,.header-inner,.gnb{position:relative}
 }
 
 .user-info{
-  span,button,a{color:#fff; font-size:15px;
-    margin: 0;
-    padding: 0;}
-  > ul{ background-color:$color00; border-radius: 10px;
-    padding:11px 15px; float:right; margin:20px 0;
-    width: auto;
+  margin-left: 20px;
+  span,button,a{
+    color:$fontTnbColor;
+    font-size:15px; font-weight:bold; background-color: transparent}
+  > ul{
     >li{
-      &:not(:last-child) {margin-right: 15px;}
+      margin-right: 20px;
+      &:last-child {margin:0}
+    }
+  }
+
+}
+
+//관리자
+.admin{
+  .user-info{
+    //관리자 기본 스타일
+    .default-btn{
+      border-radius: 40px;
+      &:hover,&:focus{background-color: $color01;color:#fff;}
     }
   }
 }
 
-//client
+//클라이언트
 .client {
   .menu {
     background-color: transparent;
   }
 
-  .gnb {
-    .first-depth {
-      > li {
-        > a {
-          > span {
-            color: #595959;
-          }
-          //.hoverLeaf{
-          //  &::before{background-image: url("data:image/svg+xml,%3Csvg width='212' height='175' viewBox='0 0 212 175' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_210_36)'%3E%3Cpath d='M190.284 133.942C190.284 133.942 138.307 141.611 102.354 121.735C66.4005 101.86 21.6314 40.7058 21.6314 40.7058C21.6314 40.7058 97.5025 36.2001 148.222 64.2393C198.941 92.2783 190.284 133.942 190.284 133.942Z' fill='%23FFEEEA'/%3E%3C/g%3E%3Cg filter='url(%23filter1_d_210_36)'%3E%3Cpath d='M187.494 138.028C187.494 138.028 133.714 150.933 96.6796 132.485C59.6449 114.037 13.7683 51.49 13.7683 51.49C13.7683 51.49 92.2273 39.9239 144.472 65.9486C196.717 91.9733 187.494 138.028 187.494 138.028Z' fill='%2383BA0B'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_210_36' x='17.6318' y='40.4395' width='177.213' height='102.958' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_210_36'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_210_36' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter1_d_210_36' x='9.76855' y='48.9287' width='182.354' height='101.488' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_210_36'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_210_36' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");}
-          //  &::after{background-image: url("data:image/svg+xml,%3Csvg width='212' height='175' viewBox='0 0 212 175' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_210_56)'%3E%3Cpath d='M21.7179 133.942C21.7179 133.942 73.6953 141.611 109.648 121.735C145.601 101.86 190.371 40.7058 190.371 40.7058C190.371 40.7058 114.499 36.2001 63.78 64.2393C13.0609 92.2783 21.7179 133.942 21.7179 133.942Z' fill='%23FFEEEA'/%3E%3C/g%3E%3Cg filter='url(%23filter1_d_210_56)'%3E%3Cpath d='M24.5077 138.028C24.5077 138.028 78.2878 150.933 115.322 132.485C152.357 114.037 198.234 51.49 198.234 51.49C198.234 51.49 119.775 39.9239 67.5296 65.9486C15.2846 91.9733 24.5077 138.028 24.5077 138.028Z' fill='%2383BA0B'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_210_56' x='17.1572' y='40.4395' width='177.213' height='102.958' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_210_56'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_210_56' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter1_d_210_56' x='19.8799' y='48.9287' width='182.354' height='101.488' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_210_56'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_210_56' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");}
-          //}
-        }
-      }
-    }
-  }
 
   .user-info{
-    > ul{ background: $mainColor }
     span,button,a{color: $fontGnbColor;font-weight: bold;}
   }
 
 }
+
+
 
 
 //sub

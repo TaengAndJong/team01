@@ -5,12 +5,13 @@
 
 //sub
 
-.sub{ background-color: #E9E9DD;
+.sub{ background-color: #ffffff;
   .main {
     margin-top: 100px;
     padding-bottom: 300px;
   }
   .page {
+    padding:$layoutPadding;
     justify-content: space-between;
     min-height: $subHeight;
     //@include  layoutPadding($layoutPadding);
@@ -18,12 +19,14 @@
 }
 
 
-
   .left{
-    width: $adleftWidth;
+    width: $leftWidth;
   }
   .right{
-    width: $adContentWidth;
+    width: $contentWidth;
+  }
+  .content{
+
   }
 
   .left-menu,.content-inner{
@@ -44,13 +47,13 @@
 
 
 //leftMenu
-.left-menu{ position:relative; background-color: rgba(216,224,193,90%);
+.left-menu{ position:relative; background-color: $AdminLeftColor;
   padding: 60px 35px 40px; border-radius:0 0 20px 20px
 }
 
 .depth{
    &.first-depth{
-     padding: 15px 20px 30px;background-color: #F3F6EC; border-radius:0 15px 15px 0;
+     padding: 15px 20px 30px;background-color: $AdminLeftMenuColor; border-radius:0 15px 15px 0;
       > li {}
      //1차메뉴 버튼
      .depth-menu{
@@ -60,18 +63,22 @@
           .arrow.circle-arrow{right:5px; top:13px; position: absolute}
           //first
           &.first{
-
             &::after{ @extend %pseudoEL;  position: absolute; left: 0; bottom: 0;
-              height: 1px;
-              width: 100%;
+              height: 2px;
+              width: 0%;
               transition:0.3s;
-              background-color: $color01;
+              background-color: $color00;
+              opacity: 0;
+              visibility: hidden;
             }
 
-            &.current,&:focus{
+            &.current,&:focus,&:hover{
+              &::after{opacity: 1;visibility: visible;
+                width: 100%;}
               .arrow.circle-arrow{
                 background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 26.5C20.9036 26.5 26.5 20.9036 26.5 14C26.5 7.09644 20.9036 1.5 14 1.5C7.09644 1.5 1.5 7.09644 1.5 14C1.5 20.9036 7.09644 26.5 14 26.5Z' fill='%23A47763' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.05371 12.438L14.0537 18.438L20.0537 12.438' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
               }
+
             }
 
             &.current::after,&:hover::after,&:focus::after{
@@ -139,7 +146,7 @@
         transform:rotate(45deg) translate(0,0);
       }
     }
-    &.current{
+    &.current,&:hover,&:focus{
       .leaf{opacity: 1;visibility: visible;
 
         &::after{

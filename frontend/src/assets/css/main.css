@@ -1,4 +1,9 @@
+/*header*/
+.client{}
+.client .header{
+    /*background: linear-gradient(to top,rgba(255, 255, 255, 1),rgba(190, 210, 151, 1) 60% );*/
 
+}
 
 .client main {
     min-height: auto;
@@ -7,7 +12,8 @@
 }
 
 .client .bodyWrapper {
-    background: linear-gradient(to top,rgba(190, 210, 151, 1) 15%,rgba(255, 255, 255, 1) 60%);
+    background:#ffffff;
+    /*background: linear-gradient(to top,rgba(190, 210, 151, 1) 15%,rgba(255, 255, 255, 1) 60%);*/
     /*padding-top: 90px;*/
     /*padding-bottom: 107px;*/
     width: 100%;
