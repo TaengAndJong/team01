@@ -178,7 +178,7 @@ const AdminBook = () => {
                 {/*링크이동할 사이드메뉴 */}
                 <div className="right">
                     <section className="content">
-                        <div className="content-inner custom-border">
+                        <div className="content-inner">
                             {/*현재경로의 페이지명 depth 2 */}
                             <h3 className="sub-title current-title title-border">
                                 {
@@ -193,21 +193,23 @@ const AdminBook = () => {
 
                             {/*depth별 네비주소,현재페이지일 경우 표시필요*/}
 
-                            <ol className="menu-navi d-flex title-border">
+                            <ol className="menu-navi title-border">
                                 {/* 서브페이지 네비게이션 */}
-                                <li><Link to={adminHome}>홈</Link></li>
+                                <li>
+                                    <Link to={adminHome} className="home icon"><span className="sr-only">홈</span></Link>
+                                </li>
                                 {subNavi?.[0] && (
                                     <li><Link to={subNavi?.[0].menuPath}>{subNavi?.[0].menuName}</Link></li>
                                 )}
                                 {subNavi?.[0]?.secondChild && (
-                                    <li> {subNavi?.[0].secondChild?.filter(item => (item.menuDepth === "2차메뉴" && item.menuPath.includes(currentPath)))
-                                    .map((item) => item.menuName)}</li>
-                                    )
+                                    <li><span>{subNavi?.[0].secondChild?.filter(item => (item.menuDepth === "2차메뉴" && item.menuPath.includes(currentPath)))
+                                        .map((item) => item.menuName)}</span> </li>
+                                )
                                 }
 
                             </ol>
                             <BookStateContext.Provider value={bookdata}>
-                                <BookDispatchContext.Provider value={{onInit,onCreate,onDelete,onUpdate}}>
+                            <BookDispatchContext.Provider value={{onInit,onCreate,onDelete,onUpdate}}>
                                     <PaginationContext.Provider value={{paginationInfo, onChangePageHandler}}>
                                         <Outlet/>
                                     </PaginationContext.Provider>

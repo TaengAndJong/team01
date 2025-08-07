@@ -8,3 +8,8 @@
   &::after{@extend %pseudoEL; position: absolute; right:10px; top:0px;
     width: 1px; height: 100%; background:#89C53B;}
 }
+
+//searchBar
+.search-bar{
+  .form-control{margin-right: 2px;}
+}

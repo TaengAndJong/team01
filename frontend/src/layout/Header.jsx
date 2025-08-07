@@ -28,7 +28,11 @@ const Header = () => {
             {/*글로벌 메뉴*/}
             <div className="header-inner menu">
                 <div className="gnbWrap d-flex justify-content-end align-items-center">
-                    <Gnb userData={userData} menu={menu} commonMenuItems={commonMenuItems} isAuthenticated={isAuthenticated}/>
+                    <Gnb userData={userData} menu={menu}
+                         commonMenuItems={commonMenuItems}
+                         isAuthenticated={isAuthenticated}
+                         logout={logout}
+                    />
                 </div>
 
             </div>

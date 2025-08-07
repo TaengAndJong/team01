@@ -4,6 +4,7 @@ table {
   display:table;
   border-collapse: collapse;
   border-spacing: 0;
+
 }
 tr{display:table-row}
 th, td {display:table-cell; vertical-align:middle;}
@@ -23,5 +24,6 @@ table .imgbox{
 
 .table-custom thead th , .table-custom thead th *{
   background-color: $tableHeader;
-  color:#fff;
+  padding:20px 10px;
+  color:#333;
 }

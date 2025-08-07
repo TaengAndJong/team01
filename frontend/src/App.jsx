@@ -103,22 +103,10 @@ function App() {
               {/*클라이언트 게시물 생성*/}
               <Route path="createBoard" element={<CreateBoard />} />
               {/*게시물 상세 읽기 페이지*/}
-              <Route
-                path="readBoard/:category/:boardId"
-                element={<ReadBoard />}
-              />
-              <Route
-                path="oneBoard"
-                element={<BoardTemplateComponent category="one" />}
-              />
-              <Route
-                path="productBoard"
-                element={<BoardTemplateComponent category="product" />}
-              />
-              <Route
-                path="deliveryBoard"
-                element={<BoardTemplateComponent category="delivery" />}
-              />
+              <Route path="readBoard/:category/:boardId" element={<ReadBoard />}/>
+              <Route path="oneBoard" element={<BoardTemplateComponent category="one" />}/>
+              <Route path="productBoard"  element={<BoardTemplateComponent category="product" />} />
+              <Route path="deliveryBoard" element={<BoardTemplateComponent category="delivery" />}/>
             </Route>
 
             {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}

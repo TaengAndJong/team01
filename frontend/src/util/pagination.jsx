@@ -47,7 +47,7 @@ const Pagination = ({ paginationInfo, onChangePageHandler}) => {
     return (
         paginationInfo.totalPages > 0 && (
             <div className="pagination">
-                <ul className="pageList d-flex w-100 justify-content-center">{pageButtons}</ul>
+                <ul className="pagelist d-flex w-100 justify-content-center">{pageButtons}</ul>
             </div>
         )
     );

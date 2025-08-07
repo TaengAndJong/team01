@@ -11,8 +11,7 @@ const AdminBookDetail = () => {
     const { bookId } = useParams(); // URL 파라미터에서 bookId 가져오기
     const [bookDetail, setBookDetail] = useState([]);
     
-    console.log("bookId Detail------------------",bookId);
-    console.log("bookDetail Detail-----------------",bookDetail);
+
     // bookId가 없으면 API 요청을 보내지 않도록 처리
     if (!bookId) {
         console.error("bookId is missing. API request not sent.");
@@ -49,7 +48,6 @@ const AdminBookDetail = () => {
         getbookData();
     },[])
 
-    console.log("bookDetail-----current",bookDetail);
     return(
         <>
             <div className="bookDetail">
@@ -71,8 +69,8 @@ const AdminBookDetail = () => {
                                 </li>
                             </ul>
                             <div className="btn d-flex">
-                                <button className="cart btn btn-primary me-2">장바구니</button>
-                                <button className="buy btn btn-secondary">구매하기</button>
+                                <button className="cart btn custom-btn00 me-2">장바구니</button>
+                                <button className="buy btn custom-btn02">구매하기</button>
                             </div>
                             {/*bookDesc end */}
                         </div>

@@ -5,7 +5,7 @@ import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 
 
-const Gnb=({userData,menu,commonMenuItems,isAuthenticated})=>{
+const Gnb=({userData,menu,commonMenuItems,isAuthenticated,logout})=>{
 
     console.log(` 데이터데이터 ${userData,menu,commonMenuItems,isAuthenticated}`);
 

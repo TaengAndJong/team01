@@ -21,3 +21,14 @@
   border-radius: 0 20px 20px;
 }
 
+//modal
+.modal-content{
+  border:none;
+  .modal-header{background-color: $color06;  border:none}
+
+  .modal-title{font-size: 20px;font-weight: bold;}
+  .modal-dialog{
+    margin:0 auto;
+    width: 100%;
+  }
+}

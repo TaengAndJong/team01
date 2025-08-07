@@ -189,7 +189,7 @@ const AdminBoard = () => {
                             {/*브레드 크럼 출력*/}
                             <ol className="menu-navi d-flex">
                                 {/* 서브페이지 네비게이션 */}
-                                <li><Link to={adminHome}>홈</Link></li>
+                                <li><Link to={adminHome} className="home icon"><span className="sr-only">홈</span></Link></li>
                                 {subNavi?.[0].menuId !== "adminBoard" && (
                                     <li><Link to={subNavi?.[0].menuPath}>{subNavi?.[0].menuName}</Link></li>
                                 )}
