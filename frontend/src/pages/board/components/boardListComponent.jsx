@@ -3,6 +3,8 @@ import "@assets/css/board/userBoard.css";
 
 const BoardListComponent = ({ categoryListData }) => {
   console.log("categoryListData------------------", categoryListData);
+
+  // const onClickHandler = () => {}
   return (
     <div>
       <ul className="BoardList">

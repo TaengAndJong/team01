@@ -34,7 +34,7 @@ import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
 import Board from "@pages/board/boardComponent.jsx";
 import CreateBoard from "@pages/board/components/createBoardComponent.jsx";
 import BoardTemplateComponent from "@pages/board/components/boardTemplateComponent.jsx";
-import ReadBoard from "@pages/board/components/readBoardComponent.jsx";
+import DetailBoard from "@assets/sharedComponent/DetailBoard.jsx";
 
 import BookList from "@pages/book/components/bookList.jsx";
 import BookDetail from "@pages/book/components/bookDetail.jsx";
@@ -104,8 +104,8 @@ function App() {
               <Route path="createBoard" element={<CreateBoard />} />
               {/*게시물 상세 읽기 페이지*/}
               <Route
-                path="readBoard/:category/:boardId"
-                element={<ReadBoard />}
+                path="detailBoard/:category/:boardId"
+                element={<DetailBoard userType="client" />}
               />
               <Route
                 path="oneBoard"
@@ -139,6 +139,10 @@ function App() {
               <Route
                 path="qnaOneList"
                 element={<AdminOneBoard category="one" />}
+              />
+              <Route
+                path="detailBoard/:category/:boardId"
+                element={<DetailBoard userType="admin" />}
               />
             </Route>
 

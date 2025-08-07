@@ -83,4 +83,14 @@ public class QnaProductController {
         log.info("result -----------------: {}", qnaProductList);
         return ResponseEntity.ok(qnaProductList);
     }
+
+    // @GetMapping(value = "/qnaDetailBoard/{qnaProductId}")
+    // public ResponseEntity<?> getQnaDetailBoard(@PathVariable int qnaProductId) {
+    //     log.info("상품 문의 상세 조회 API 호출됨");
+    //     log.info("상품 문의 상세 조회 qnaProductId -----------------: {}", qnaProductId);
+
+    //     QnaProductVO qnaProductVO = qnaProductService.getQnaProductById(qnaProductId);
+    //     log.info("상품 문의 상세 조회 qnaProductVO -----------------: {}", qnaProductVO);
+    //     return ResponseEntity.ok(qnaProductVO);
+    // }
 }
