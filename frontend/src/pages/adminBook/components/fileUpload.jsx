@@ -57,16 +57,16 @@ const FileUpload =({bookImg,setBookImg,defualtData,setCreateBook})=>{//부모한
 
     // 파일 리스트 출력
     const renderFileList = (files, type) => (
-        <ul>
-            {files.map((file, index) => (
-                <li key={index}>
-                    {file.name}
-                    <button type="button" onClick={() => handleRemoveFile(file, type)}>
-                        삭제
-                    </button>
-                </li>
-            ))}
-        </ul>
+            <>
+                {files.map((file, index) => (
+                    <div className="file-row d-block w-100 mt-1 py-1 px-3 border-bottom">
+                        {file.name}
+                        <button type="button" className={"btn btn-danger ms-2"} onClick={() => handleRemoveFile(file, type)}>
+                            삭제
+                        </button>
+                    </div>
+                ))}
+            </>
     );
 
     return (

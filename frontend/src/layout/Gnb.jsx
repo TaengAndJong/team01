@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import { menuNavi } from "../util/menuNavi.jsx";
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
@@ -8,7 +8,7 @@ const Gnb = ({ userData, menu, commonMenuItems, isAuthenticated, logout }) => {
   console.log(
     ` 데이터데이터 ${(userData, menu, commonMenuItems, isAuthenticated)}`
   );
-
+  const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
   const role = userData?.roles?.[0] ?? null;

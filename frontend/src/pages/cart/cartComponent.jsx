@@ -94,8 +94,8 @@ const Cart = () => {
     return(
         <>
             <div className="page">
-                <section className="content">
-                    <div className="content-inner custom-border">
+                <section className="content custom-border">
+                    <div className="content-inner">
                         <CartStateContext.Provider value={cartData}>
                             <CartDispatchContext.Provider value={{onInit}}>
                                 <Outlet />

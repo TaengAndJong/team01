@@ -11,7 +11,7 @@ const Header = () => {
 
     const {isAuthenticated, userData, logout} = useAuth(); // 로그인 상태와 사용자 데이터 가져오는 커스텀훅
     const {menu} = useMenu(); // 모든 메뉴 가져오는 커스텀훅
-    const navigate = useNavigate();
+
 
 
     const commonMenu = menu?.commonList;

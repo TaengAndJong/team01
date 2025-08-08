@@ -135,6 +135,11 @@ const Layout = () => {
                         )}
 
                     </main>
+                    <div className="quick">
+                        <button type="button" className="quick-btn">
+                            <span className="sr-only">위로가기</span>
+                        </button>
+                    </div>
                     <Footer/>
                 </AuthProvider>
             </div>

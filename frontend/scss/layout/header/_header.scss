@@ -144,8 +144,17 @@ header,.header-inner,.gnb{position:relative}
   .menu {
     background-color: transparent;
   }
+//gnb
+  .gnb{
+    .first-depth{
+      >li{
+        .second-depth{display: none}
+      }
+    }
+  }
 
 
+//user-info
   .user-info{
     span,button,a{color: $fontGnbColor;font-weight: bold;}
   }

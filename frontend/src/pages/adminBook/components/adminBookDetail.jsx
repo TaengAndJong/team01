@@ -68,10 +68,10 @@ const AdminBookDetail = () => {
                                 <li className="li"><span className="tit">할인가</span><span>원</span>
                                 </li>
                             </ul>
-                            <div className="btn d-flex">
-                                <button className="cart btn custom-btn00 me-2">장바구니</button>
-                                <button className="buy btn custom-btn02">구매하기</button>
-                            </div>
+                            {/*<div className="btn d-flex">*/}
+                            {/*    <button className="cart btn custom-btn00 me-2">장바구니</button>*/}
+                            {/*    <button className="buy btn custom-btn02">구매하기</button>*/}
+                            {/*</div>*/}
                             {/*bookDesc end */}
                         </div>
                     </div>
@@ -88,7 +88,7 @@ const AdminBookDetail = () => {
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
                     <Btn className={"list btn-secondary"} id={"listBtn"} type={"button"} path={pathsData.page.adminBookList}
                          text="목록"/>
-                    <Btn className={"modify btn-primary"} id={"modifyBtn"} type={"button"} path={`${pathsData.page.adminBookModify}/${bookId}`}
+                    <Btn className={"modify custom-btn00"} id={"modifyBtn"} type={"button"} path={`${pathsData.page.adminBookModify}/${bookId}`}
                          text="수정"/>
                 </div>
 

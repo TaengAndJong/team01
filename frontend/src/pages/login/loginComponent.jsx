@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import React, {useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import Btn from "../../util/reuseBtn.jsx";
 import {useAuth} from "../common/AuthContext.jsx";
 import pathsData from "../../assets/pathsData.jsx";
-import "@assets/css/login/login.css";
+
 
 
 function Login({data}) {
@@ -102,8 +102,7 @@ function Login({data}) {
         <>
 
             <div className="page login-inner">
-                <div className="login-form text-center">
-                    Received data: {JSON.stringify(data)}
+                <div className="login-form text-center custom-border">
                     <h4 className="h4 title">로그인</h4>
                     <form onSubmit={handleFormSubmit}>
                         <div className="row my-3">
@@ -135,13 +134,10 @@ function Login({data}) {
                             </div>
                         </div>
                         <div className="d-flex justify-content-center align-items-center" >
-                            <Btn className={"btn-primary w-50 me-1"} id="signup" text={"회원가입"}
-                                 path={pathsData.page.signup}/>
-                            <Btn className={"btn-secondary w-50 ms-1"} id="login" text={"로그인"}
-                                 type="submit"/>
+                            <Link className="btn custom-btn02 w-50 me-1" to={"/signup"}>회원가입</Link>
+                            <button type="submit" className="btn custom-btn00 w-50 ms-1">로그인 </button>
                         </div>
                     </form>
-
                     {loginError && <div className="msg error"><p>{loginError}</p></div>} {/* 실패 메시지 표시 */}
                 </div>
             </div>

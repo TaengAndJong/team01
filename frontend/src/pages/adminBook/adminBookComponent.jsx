@@ -181,10 +181,10 @@ const AdminBook = () => {
 
         {/*링크이동할 사이드메뉴 */}
         <div className="right">
-          <section className="content">
+          <section className="content custom-border">
             <div className="content-inner">
               {/*현재경로의 메뉴명출력 */}
-              {subNavi?.[0].secondChild
+              {subNavi?.[0]?.secondChild
                 ?.filter(
                   (item) =>
                     item.menuDepth === "2차메뉴" &&

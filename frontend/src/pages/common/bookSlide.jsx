@@ -27,12 +27,13 @@ const BookSlide = ({slideData}) =>{
 
     return (
         <>
-            {/*
-             AutoPlay도 module에서  import 하고  옵션에 담아줘야함 
-             loop value true로 하면 pagenation 에러 및 loop length not enough 에러 발생 */}
+            {
+                /*
+AutoPlay도 module에서  import 하고  옵션에 담아줘야함
+loop value true로 하면 pagenation 에러 및 loop length not enough 에러 발생 */}
             <Swiper
                 ref={swiperRef}
-                modules={[Pagination, Navigation,Autoplay]}
+                modules={[Pagination, Navigation, Autoplay]}
                 slidesPerView={1}
                 slidesPerGroup={1}
                 spaceBetween={20}
@@ -41,9 +42,13 @@ const BookSlide = ({slideData}) =>{
                 pagination={{
                     type: 'fraction',//숫자
                 }}
-                loop={imgList?.length>1}
+                navigation={{
+                    nextEl: '.custom-next',
+                    prevEl: '.custom-prev',
+                }}
+                loop={imgList?.length > 1}
                 centeredSlides={true}
-                autoplay={{ delay: 2000, disableOnInteraction: false }}
+                autoplay={{delay: 2000, disableOnInteraction: false}}
                 speed={700}
                 observer={true}
                 observeParents={true}
@@ -52,20 +57,29 @@ const BookSlide = ({slideData}) =>{
                 }}
             >
                 {/*객체를 할당 받으면 반드시 데이터 null || undefined 체크하기위해 옵셔널체이닝 사용하기*/}
-                {imgList?.map((item,index)=>{
+                {imgList?.map((item, index) => {
 
-                return (
-                    <SwiperSlide key={`slide-${index}`} >
+                    return (
+                        <SwiperSlide key={`slide-${index}`}>
                             <div className="img-box">
                                 <div className="img-inner">
                                     <img className="img" src={`${item}`} alt="도서이미지"/>
                                 </div>
                             </div>
-                    </SwiperSlide>
-                );
+                        </SwiperSlide>
+
+                    );
                 })}
 
             </Swiper>
+
+            <button type="button" className="swiper-button custom-prev" aria-label="이전 슬라이드">
+                <span className="sr-only">이전슬라이드</span>
+            </button>
+            <button type="button" className="swiper-button custom-next" aria-label="다음 슬라이드">
+                <span className="sr-only">다음슬라이드</span>
+            </button>
+
         </>
     );
 }

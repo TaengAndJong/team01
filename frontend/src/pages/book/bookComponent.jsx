@@ -129,8 +129,8 @@ const Book = () => {
 
                 {/*링크이동할 사이드메뉴 */}
                 <div className="right">
-                    <section className="content">
-                        <div className="content-inner custom-border">
+                    <section className="content custom-border">
+                        <div className="content-inner">
                             {/*현재경로의 페이지명 depth 2 */}
                             <h3 className="sub-title current-title title-border">
                                 {

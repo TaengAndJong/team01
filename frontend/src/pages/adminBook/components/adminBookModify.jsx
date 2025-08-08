@@ -270,7 +270,7 @@ const AdminBookModify = () => {
                     {/*도서이미지
                         이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요
                     */}
-                    <div className="d-flex align-items-center input-group">
+                    <div className="align-items-center input-group flex-wrap">
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
@@ -278,10 +278,10 @@ const AdminBookModify = () => {
                     </div>
                 </form>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
-                    <Btn className={"modify btn btn-secondary"} type={"button"}
+                    <Btn className={"modify btn custom-btn00"} type={"button"}
                          path={`${pathsData.page.adminBookDetail}/${bookId}`}
                          text="뒤로"/>
-                    <Btn className={"modify btn btn-primary"} type="submit" onClick={onSubmit}
+                    <Btn className={"modify btn btn-dark"} type="submit" onClick={onSubmit}
                          text="확인"/>
                 </div>
             </div>

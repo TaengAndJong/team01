@@ -66,8 +66,8 @@ const BookDetail = () => {
                                 </li>
                             </ul>
                             <div className="btn d-flex">
-                                <button className="cart btn btn-primary me-2">장바구니</button>
-                                <button className="buy btn btn-secondary">구매하기</button>
+                                <button className="cart btn custom-btn00 me-2">장바구니</button>
+                                <button className="buy btn custom-btn02">구매하기</button>
                             </div>
                             {/*bookDesc end */}
                         </div>

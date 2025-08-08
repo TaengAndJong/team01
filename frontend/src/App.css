@@ -88,7 +88,6 @@ bold = 700
 /* 레이이아웃 - header & footer*/
 /*폰트*/
 /*관리자*/
-/*사용자 변수*/
 /*
 mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹션에서 @include를 사용하여
 해당 mixin의 style을 호출해 사용하며, 함수의 기능을 가지고 있기때문에 파라미터를 사용할 수 있다.
@@ -109,14 +108,14 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   position: relative;
 }
 
-.main, .page, .left, .right, .left-menu, .content, .user-info {
+.left, .right, .left-menu, .content, .user-info {
   content: "";
   display: block;
   overflow: hidden;
   clear: both;
 }
 
-.hoverLeaf::before, .hoverLeaf::after, .leaf::after, .title-border::before, .title-border::after, .bullet > li .tit::before, .depth.first-depth .depth-menu.first::after, .depth.first-depth .second-depth > li::before, .menu-navi > li:not(:last-child)::before, .footer-info > li:not(:last-child)::after, .form-group-title::after, .form-title::after {
+.hoverLeaf::before, .hoverLeaf::after, .leaf::after, .title-border::before, .title-border::after, .bullet > li .tit::before, .quick .quick-btn:before, .depth.first-depth .depth-menu.first::after, .depth.first-depth .second-depth > li::before, .menu-navi > li:not(:last-child)::before, .footer .f-tit:after, .footer-info > li:not(:last-child)::after, .admin .footer:before, [class^=swiper-button]:after, .form-group-title::after, .form-title::after {
   content: "";
   display: inline-block;
 }
@@ -247,6 +246,10 @@ table .imgbox img {
   background-image: url("data:image/svg+xml,%3Csvg width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.2002 7.685C1.2002 7.32314 1.38821 6.98366 1.70477 6.77396L9.50477 1.60676C9.92112 1.33095 10.4793 1.33095 10.8956 1.60676L18.6956 6.77396C19.0122 6.98366 19.2002 7.32314 19.2002 7.685V17.3557C19.2002 18.2818 18.3943 19.0325 17.4002 19.0325H3.0002C2.00608 19.0325 1.2002 18.2818 1.2002 17.3557V7.685Z' fill='white'/%3E%3Cpath d='M7.2002 19.0325V12.3251C7.2002 11.7077 7.73745 11.2072 8.4002 11.2072H12.0002C12.6629 11.2072 13.2002 11.7077 13.2002 12.3251V19.0325M9.50477 1.60676L1.70477 6.77396C1.38821 6.98366 1.2002 7.32314 1.2002 7.685V17.3557C1.2002 18.2818 2.00608 19.0325 3.0002 19.0325H17.4002C18.3943 19.0325 19.2002 18.2818 19.2002 17.3557V7.685C19.2002 7.32314 19.0122 6.98366 18.6956 6.77396L10.8956 1.60676C10.4793 1.33095 9.92112 1.33095 9.50477 1.60676Z' stroke='%2389C53B' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E%0A");
 }
 
+.sub .main.login {
+  margin: 0;
+}
+
 .pagination .pagelist li {
   margin: 0 2px;
 }
@@ -266,15 +269,16 @@ table .imgbox img {
 }
 
 .slide .card-header {
+  position: relative;
   padding: 0;
   background-color: #FFE377;
   width: 250px;
   height: 300px;
   margin-right: 30px;
-  overflow: hidden;
   border-radius: 15px;
   border: none;
   box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
 .swiper, .swiper-slide, .slide .img-box, .slide .img-inner, .slide .img-inner .img {
@@ -282,25 +286,72 @@ table .imgbox img {
   height: 100%;
 }
 
+.swiper {
+  overflow: hidden;
+}
+
+.swiper-pagination, .swiper-pagination-current, .swiper-pagination-total {
+  color: #fff;
+  font-weight: bold;
+}
+
 .swiper-pagination {
-  background: rgba(255, 255, 255, 0.6);
-  height: 30px;
-  display: flex;
-  width: 100%;
-  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  height: 50px;
+  display: block;
   justify-content: center;
   padding: 5px;
-  bottom: 0;
+  bottom: 0 !important;
+  color: #fff !important;
+}
+
+.swiper-pagination-current, .swiper-pagination-total {
+  height: auto;
+  margin: 0 4px;
+  line-height: 40px;
 }
 
 [class^=swiper-button] {
-  width: 20px;
-  height: 20px;
+  background-color: #FFE377;
+  transition: background-color 0.2s ease 0.1s;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  bottom: 10px;
+  z-index: 2;
+  border: none;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
 [class^=swiper-button]:after {
-  font-size: 20px;
-  font-weight: bold;
-  color: #fff;
+  width: 8px;
+  height: 12px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+[class^=swiper-button]:hover, [class^=swiper-button]:focus {
+  background-color: #56453E;
+  border: none;
+}
+
+.custom-prev {
+  left: 5px;
+}
+.custom-prev:after {
+  background-image: url("data:image/svg+xml,%3Csvg width='8' height='12' viewBox='0 0 8 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.2002 11L1.2002 6L6.2002 1' stroke='%2356453E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+}
+.custom-prev:hover:after, .custom-prev:focus:after {
+  background-image: url("data:image/svg+xml,%3Csvg width='8' height='12' viewBox='0 0 8 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.2002 11L1.2002 6L6.2002 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+}
+
+.custom-next {
+  right: 5px;
+}
+.custom-next:after {
+  background-image: url("data:image/svg+xml,%3Csvg width='8' height='12' viewBox='0 0 8 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.2002 1L6.2002 6L1.20019 11' stroke='%2356453E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+}
+.custom-next:hover:after, .custom-next:focus:after {
+  background-image: url("data:image/svg+xml,%3Csvg width='8' height='12' viewBox='0 0 8 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.2002 1L6.2002 6L1.20019 11' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
 }
 
 @keyframes dobleleaf {
@@ -457,16 +508,31 @@ header, .header-inner, .gnb {
 .client .menu {
   background-color: transparent;
 }
+.client .gnb .first-depth > li .second-depth {
+  display: none;
+}
 .client .user-info span, .client .user-info button, .client .user-info a {
   color: #333333;
   font-weight: bold;
 }
 
 .footer {
-  padding-top: 100px;
   background: #A4D761;
+  padding: 40px 0;
 }
-
+.footer .logo {
+  margin: 10px 0;
+  position: static;
+  width: 200px;
+  height: 55px;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg width='297' height='55' viewBox='0 0 297 55' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M262.5 53V0.25H272.375V28L283.938 15.375H296.25L282.125 30.8125L296.75 53H285.188L275.688 37.8125L272.375 41.4375V53H262.5Z' fill='white'/%3E%3Cpath d='M231.312 34.1875C231.312 38.3125 232.083 41.25 233.625 43C235.167 44.75 236.875 45.625 238.75 45.625C239.542 45.625 240.312 45.4583 241.062 45.125C241.854 44.75 242.646 44.1875 243.438 43.4375C244.229 42.6458 244.875 41.4583 245.375 39.875C245.875 38.25 246.125 36.3542 246.125 34.1875C246.125 31.9792 245.875 30.0833 245.375 28.5C244.917 26.9167 244.271 25.7292 243.438 24.9375C242.646 24.1458 241.854 23.5833 241.062 23.25C240.312 22.9167 239.542 22.75 238.75 22.75C236.875 22.75 235.167 23.625 233.625 25.375C232.083 27.0833 231.312 30.0208 231.312 34.1875ZM221.062 34.1875C221.062 31.6042 221.396 29.1667 222.062 26.875C222.729 24.5417 223.729 22.4167 225.062 20.5C226.438 18.5833 228.292 17.0625 230.625 15.9375C233 14.8125 235.708 14.25 238.75 14.25C241.792 14.25 244.479 14.8125 246.812 15.9375C249.146 17.0625 250.979 18.5833 252.312 20.5C253.688 22.4167 254.708 24.5417 255.375 26.875C256.042 29.1667 256.375 31.6042 256.375 34.1875C256.375 35.8542 256.229 37.5208 255.938 39.1875C255.646 40.8125 255.083 42.5625 254.25 44.4375C253.458 46.2708 252.438 47.8958 251.188 49.3125C249.938 50.6875 248.229 51.8333 246.062 52.75C243.938 53.6667 241.5 54.125 238.75 54.125C236.042 54.125 233.625 53.6875 231.5 52.8125C229.375 51.9375 227.667 50.8333 226.375 49.5C225.083 48.125 224.021 46.5417 223.188 44.75C222.396 42.9167 221.833 41.1458 221.5 39.4375C221.208 37.7292 221.062 35.9792 221.062 34.1875Z' fill='white'/%3E%3Cpath d='M192.188 34.1875C192.188 38.3125 192.958 41.25 194.5 43C196.042 44.75 197.75 45.625 199.625 45.625C200.417 45.625 201.188 45.4583 201.938 45.125C202.729 44.75 203.521 44.1875 204.312 43.4375C205.104 42.6458 205.75 41.4583 206.25 39.875C206.75 38.25 207 36.3542 207 34.1875C207 31.9792 206.75 30.0833 206.25 28.5C205.792 26.9167 205.146 25.7292 204.312 24.9375C203.521 24.1458 202.729 23.5833 201.938 23.25C201.188 22.9167 200.417 22.75 199.625 22.75C197.75 22.75 196.042 23.625 194.5 25.375C192.958 27.0833 192.188 30.0208 192.188 34.1875ZM181.938 34.1875C181.938 31.6042 182.271 29.1667 182.938 26.875C183.604 24.5417 184.604 22.4167 185.938 20.5C187.312 18.5833 189.167 17.0625 191.5 15.9375C193.875 14.8125 196.583 14.25 199.625 14.25C202.667 14.25 205.354 14.8125 207.688 15.9375C210.021 17.0625 211.854 18.5833 213.188 20.5C214.562 22.4167 215.583 24.5417 216.25 26.875C216.917 29.1667 217.25 31.6042 217.25 34.1875C217.25 35.8542 217.104 37.5208 216.812 39.1875C216.521 40.8125 215.958 42.5625 215.125 44.4375C214.333 46.2708 213.312 47.8958 212.062 49.3125C210.812 50.6875 209.104 51.8333 206.938 52.75C204.812 53.6667 202.375 54.125 199.625 54.125C196.917 54.125 194.5 53.6875 192.375 52.8125C190.25 51.9375 188.542 50.8333 187.25 49.5C185.958 48.125 184.896 46.5417 184.062 44.75C183.271 42.9167 182.708 41.1458 182.375 39.4375C182.083 37.7292 181.938 35.9792 181.938 34.1875Z' fill='white'/%3E%3Cpath d='M139 53V1.8125H158.812C164.562 1.8125 168.833 3.04167 171.625 5.5C174.417 7.91667 175.812 11.2708 175.812 15.5625C175.812 17.8542 175.271 19.8958 174.188 21.6875C173.146 23.4375 171.771 24.8125 170.062 25.8125C171.979 26.6042 173.708 28.0417 175.25 30.125C176.792 32.1667 177.562 34.7083 177.562 37.75C177.562 42.2083 176.125 45.875 173.25 48.75C170.375 51.5833 166.396 53 161.312 53H139ZM149.375 44.125H159.812C161.646 44.125 163.25 43.5833 164.625 42.5C166.042 41.4167 166.75 39.8333 166.75 37.75C166.75 35.8333 166.125 34.25 164.875 33C163.667 31.7083 161.896 31.0625 159.562 31.0625H149.375V44.125ZM149.375 22.3125H158C160.125 22.3125 161.812 21.8125 163.062 20.8125C164.354 19.8125 165 18.3333 165 16.375C165 12.625 162.729 10.75 158.188 10.75H149.375V22.3125Z' fill='white'/%3E%3Cpath d='M81.375 34.0625C81.375 27.9375 83.0833 23.1042 86.5 19.5625C89.9167 16.0208 94.1458 14.25 99.1875 14.25C104.062 14.25 108.188 16.0833 111.562 19.75C114.979 23.375 116.688 28.1458 116.688 34.0625C116.688 35.2708 116.625 36.4792 116.5 37.6875H91.5C91.5 40.0625 92.25 42.0833 93.75 43.75C95.25 45.375 97.2708 46.1875 99.8125 46.1875C101.688 46.1875 103.312 45.7292 104.688 44.8125C106.104 43.8542 107.167 42.6458 107.875 41.1875L116.188 44.125C114.938 46.9167 112.896 49.2917 110.062 51.25C107.229 53.1667 103.708 54.125 99.5 54.125C94.2083 54.125 89.8542 52.3125 86.4375 48.6875C83.0625 45.0625 81.375 40.1875 81.375 34.0625ZM91.5625 30.875H106.5C106.5 28.4583 105.854 26.3958 104.562 24.6875C103.312 22.9375 101.521 22.0625 99.1875 22.0625C96.8125 22.0625 94.9375 22.9375 93.5625 24.6875C92.2292 26.4375 91.5625 28.5 91.5625 30.875Z' fill='white'/%3E%3Cpath d='M44.5625 53V0.25H54.4375V17.8125H54.625C56.875 15.4375 59.75 14.25 63.25 14.25C64.875 14.25 66.3958 14.5 67.8125 15C69.2708 15.5 70.625 16.2917 71.875 17.375C73.1667 18.4167 74.1875 19.9375 74.9375 21.9375C75.6875 23.8958 76.0625 26.2083 76.0625 28.875V53H66.0625V30C66.0625 25.1667 64.5208 22.75 61.4375 22.75C59.3958 22.75 57.7083 23.6667 56.375 25.5C55.0833 27.2917 54.4375 29.4167 54.4375 31.875V53H44.5625Z' fill='white'/%3E%3Cpath d='M0.8125 10.75V1.8125H39.6875V10.75H25.4375V53H15.125V10.75H0.8125Z' fill='white'/%3E%3C/svg%3E%0A");
+}
+.footer .f-tit {
+  margin-right: 10px;
+}
 .footer-inner {
   padding: 0 40px;
 }
@@ -489,13 +555,38 @@ header, .header-inner, .gnb {
 .footer-info > li a, .footer-info > li span, .footer-info > li em {
   display: inline-block;
   position: relative;
+  font-size: 15px;
 }
+.admin .footer {
+  position: relative;
+}
+.admin .footer:before {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 200%;
+  height: 106%;
+  background-image: url("/assets/images/common/bgFram.png");
+  background-size: contain;
+  background-repeat: repeat-x;
+  background-position: left bottom;
+}
+
+.client .footer {
+  background-color: #625B5B;
+}
+.client .footer * {
+  color: #ffffff;
+}
+.client .footer .footer-info > li:not(:last-child)::after {
+  background-color: #ffffff;
+}
+
 .sub {
   background-color: #ffffff;
 }
 .sub .main {
   margin-top: 100px;
-  padding-bottom: 300px;
 }
 .sub .page {
   padding: 0 40px;
@@ -642,6 +733,10 @@ header, .header-inner, .gnb {
   padding: 60px 50px;
 }
 
+.custom-border {
+  border: 1px solid #56453E;
+}
+
 .menu-navi {
   display: flex;
   margin-bottom: 25px;
@@ -692,23 +787,12 @@ header, .header-inner, .gnb {
     transform: rotate(0deg);
   }
 }
-.client .left-menu {
-  background-color: #FFCA00;
-}
-.client .title-border::before {
-  background-color: #D65751;
-}
-.client .title-border::after {
-  background-color: #333;
-}
-.client .custom-border {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: #000;
+.admin .sub .page {
+  padding-bottom: 300px;
 }
 
 .img-box {
   width: 100%; /* 또는 고정 width */
-  max-width: 200px;
   height: 100%;
   aspect-ratio: 1/1; /* 또는 1 / 1, 16 / 9 등 */
   overflow: hidden;
@@ -729,11 +813,6 @@ header, .header-inner, .gnb {
 .default-border {
   border: 1px solid #A47763;
   border-radius: 5px;
-}
-
-.custom-border {
-  border: 3px solid #A47763;
-  border-radius: 0 20px 20px;
 }
 
 .modal-content {
@@ -781,9 +860,9 @@ a, span, em, i {
   position: relative;
 }
 
-.page {
-  z-index: 99;
-  width: 100%;
+body {
+  overflow-x: hidden;
+  height: 100%;
   position: relative;
 }
 
@@ -904,18 +983,39 @@ a, span, em, i {
   border-radius: 50%;
 }
 
-.bodyWrapper {
-  height: 100vh;
-  overflow-y: auto;
+.quick {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  bottom: 130px;
+  right: 40px;
+  z-index: 999;
 }
-
-main {
-  min-height: 100%;
+.quick * {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+.quick .quick-btn {
+  background-color: #56453E;
+  border: none;
+  border-radius: 50%;
   position: relative;
 }
+.quick .quick-btn:before {
+  width: 25px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("data:image/svg+xml,%3Csvg width='38' height='48' viewBox='0 0 38 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18.8259 45.8571L18.8574 2.65525M1.85742 19.1137L18.8574 2.14282L35.8574 19.1137' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 11px);
+}
 
-.admin.bg-frame {
-  background: url(/dist/assets/images/bgFram.png) left top repeat-x;
+.client .quick .quick-btn {
+  background-color: #BED297;
 }
 
 /*# sourceMappingURL=App.css.map */

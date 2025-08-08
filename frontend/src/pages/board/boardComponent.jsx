@@ -134,7 +134,7 @@ const Board = () => {
         {/*링크이동할 사이드메뉴 */}
 
         <div className="right">
-          <section className="content">
+          <section className="content custom-border">
             <BoardStateContext.Provider value={null}>
               <BoardDispatchContext.Provider value={null}>
                 <PaginationContext.Provider value={null}>

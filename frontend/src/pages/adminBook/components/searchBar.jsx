@@ -24,13 +24,13 @@ const SearchBar = ({search,setSearch, handleSearch}) =>{
     return(
         <>
             <div className="search-bar d-flex justify-content-end">
-                <select className="form-control w-auto" name="bookType" value={search?.bookType || ""} onChange={(e)=>handleSearchChange(e)}>
+                <select className="form-control form-select w-auto" name="bookType" value={search?.bookType || ""} onChange={(e)=>handleSearchChange(e)}>
                     <option value="ALL">전체</option>
                     <option value="국내도서">국내도서</option>
                     <option value="국외도서">국외도서</option>
                     <option value="EBOOK">Ebook</option>
                 </select>
-                <select className="form-control w-auto" name="searchType" value={search?.searchType|| ""} onChange={(e)=>handleSearchChange(e)}>
+                <select className="form-control form-select w-auto" name="searchType" value={search?.searchType|| ""} onChange={(e)=>handleSearchChange(e)}>
                     <option value="title">도서명</option>
                     <option value="author">저자</option>
                 </select>
@@ -41,7 +41,7 @@ const SearchBar = ({search,setSearch, handleSearch}) =>{
                     onChange={(e)=>handleSearchChange(e)}
                     placeholder="검색어 입력"
                 />
-                <Btn className={"search btn custom-btn00"} type={"button"}  onClick={() => handleSearch()}  text="검색"/>
+                <Btn className={"search btn btn-dark"} type={"button"}  onClick={() => handleSearch()}  text="검색"/>
             </div>
         </>
     )

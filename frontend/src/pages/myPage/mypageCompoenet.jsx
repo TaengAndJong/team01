@@ -1,8 +1,6 @@
-import LeftMenu from "../../layout/LeftMenu.jsx";
-import {Link, Outlet, useLocation} from "react-router-dom";
+
+import {Link, Outlet} from "react-router-dom";
 import React from "react";
-import {BookDispatchContext, BookStateContext} from "../book/bookComponent.jsx";
-import {menuNavi} from "../../util/menuNavi.jsx";
 import {useMenu} from "../common/MenuContext.jsx";
 
 
