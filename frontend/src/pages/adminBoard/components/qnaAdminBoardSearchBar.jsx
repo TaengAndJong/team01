@@ -14,8 +14,9 @@ const qnaOneBoardSearchBar = ({ search, setSearch, handleSearch }) => {
 
   return (
     <>
-      <div className="boardQnaFinder">
+      <div className="search-bar d-flex justify-content-end">
         <select
+          className="form-form-control w-auto"
           name="searchType"
           value={search?.searchType || ""}
           onChange={(e) => searchHandler(e)}
@@ -24,17 +25,22 @@ const qnaOneBoardSearchBar = ({ search, setSearch, handleSearch }) => {
           <option value="Replied">답변</option>
           <option value="Waiting">미답변</option>
         </select>
-        <div className="boardQnaFinderBox">
-          <input
-            className="Finder_input"
-            type="text"
-            name="keyword"
-            placeholder="검색어 입력"
-            value={search?.keyword || ""}
-            onChange={(e) => searchHandler(e)}
-          />
-        </div>
-        <button onClick={() => handleSearch()}>검색</button>
+
+        <input
+          className="form-form-control w-auto"
+          type="text"
+          name="keyword"
+          placeholder="검색어 입력"
+          value={search?.keyword || ""}
+          onChange={(e) => searchHandler(e)}
+        />
+        <button
+          className={"search btn custom-btn00"}
+          type={"button"}
+          onClick={() => handleSearch()}
+        >
+          검색
+        </button>
       </div>
     </>
   );

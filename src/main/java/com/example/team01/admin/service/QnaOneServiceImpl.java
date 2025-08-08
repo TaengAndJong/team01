@@ -37,12 +37,12 @@ public class QnaOneServiceImpl implements QnaOneService {
         log.info("컨트롤러에서 받아온 파라미터 pagination2222:{}", pagination.toString());
 
         // 1:1 문의 데이터 전체 조회해오기
-        List<QnaOneVO> qnaList = qnaOneDao.getAllQnaOneList(pagination);
-        log.info("페이지에 해당하는 데이터 리스트 -------:{}", qnaList);
+        List<QnaOneVO> qnaOneList = qnaOneDao.getAllQnaOneList(pagination);
+        log.info("페이지에 해당하는 데이터 리스트 -------:{}", qnaOneList);
 
         // git 확인용 주석
 
-        return qnaList;
+        return qnaOneList;
     }
 
 }

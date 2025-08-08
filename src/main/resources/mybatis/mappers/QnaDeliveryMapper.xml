@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.team01.admin.dao.QnaDeliveryDao">  <!--사용하는 Dao 연결-->
+    <!--메서드 구현부-->
+   <!--구현 방식 ex) <select id = "Dao에서 정의한 메서드명"></select>-->
+
+    <select id="totalRecord" resultType="int" parameterType="com.example.team01.utils.Pagination">
+        SELECT COUNT(*)
+        FROM QnaDeliv
+    </select>
+
+    <!--
+    searchFlag 동적 쿼리 , Pagination pagination에 DetailCondition에 검색조건필터를 담아서 받아온 경우
+    detailCondition.bookType 의 형태로 접근해야 함
+-->
+    <sql id="searchFrag">
+        <trim prefix="WHERE" suffixOverrides="AND">
+
+            <!-- 답변 상태 필터 (searchType에 따라 qnaStatus 필터링) -->
+            <choose>
+                <when test="pagination.detailCondition.searchType == 'Replied'">
+                    "qnaStatus" = '답변' AND
+                </when>
+                <when test="pagination.detailCondition.searchType == 'Waiting'">
+                    "qnaStatus" = '미답변' AND
+                </when>
+            </choose>
+
+            <!-- 키워드가 존재할 경우, 전체 컬럼 검색 -->
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
+                (
+                INSTR("qnaTitle", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR("qnaWriter", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR("qnaStatus", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR(TO_CHAR("qnaDate", 'YYYY-MM-DD HH24:MI:SS'), #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR("clientId", #{pagination.detailCondition.keyword}) > 0
+                ) AND
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getAllQnaDeliveryList" resultType="QnaDeliveryVO" parameterType="com.example.team01.utils.Pagination">
+        with filterData as (
+            select ROWNUM as rnum,a.*
+            from(
+                SELECT TRIM("qnaDelId") AS "qnaDelId"
+                    , "qnaTitle"
+                    , "qnaWriter"
+                    , "qnaStatus"
+                    , "qnaDate"
+                FROM qnaDeliv
+                <include refid="searchFrag" />
+                ORDER BY "qnaDelId" DESC
+            ) a
+        )
+        SELECT *
+        FROM filterData
+        WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+    </select>
+</mapper>

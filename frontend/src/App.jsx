@@ -34,7 +34,7 @@ import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
 import Board from "@pages/board/boardComponent.jsx";
 import CreateBoard from "@pages/board/components/createBoardComponent.jsx";
 import BoardTemplateComponent from "@pages/board/components/boardTemplateComponent.jsx";
-import ReadBoard from "@pages/board/components/readBoardComponent.jsx";
+import DetailBoard from "@assets/sharedComponent/DetailBoard.jsx";
 
 import BookList from "@pages/book/components/bookList.jsx";
 import BookDetail from "@pages/book/components/bookDetail.jsx";
@@ -103,10 +103,22 @@ function App() {
               {/*클라이언트 게시물 생성*/}
               <Route path="createBoard" element={<CreateBoard />} />
               {/*게시물 상세 읽기 페이지*/}
-              <Route path="readBoard/:category/:boardId" element={<ReadBoard />}/>
-              <Route path="oneBoard" element={<BoardTemplateComponent category="one" />}/>
-              <Route path="productBoard"  element={<BoardTemplateComponent category="product" />} />
-              <Route path="deliveryBoard" element={<BoardTemplateComponent category="delivery" />}/>
+              <Route
+                path="detailBoard/:category/:boardId"
+                element={<DetailBoard userType="client" />}
+              />
+              <Route
+                path="oneBoard"
+                element={<BoardTemplateComponent category="one" />}
+              />
+              <Route
+                path="productBoard"
+                element={<BoardTemplateComponent category="product" />}
+              />
+              <Route
+                path="deliveryBoard"
+                element={<BoardTemplateComponent category="delivery" />}
+              />
             </Route>
 
             {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
@@ -116,9 +128,22 @@ function App() {
             <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
               {/*첫페이지 설정*/}
               <Route index element={<Navigate to="qnaOneList" replace />} />
-              <Route path="deliveryBoard" element={<AdminDeliveryBoard />} />
-              <Route path="productBoard" element={<AdminProductBoard />} />
-              <Route path="qnaOneList" element={<AdminOneBoard />} />
+              <Route
+                path="deliveryBoard"
+                element={<AdminDeliveryBoard category="delivery" />}
+              />
+              <Route
+                path="productBoard"
+                element={<AdminProductBoard category="product" />}
+              />
+              <Route
+                path="qnaOneList"
+                element={<AdminOneBoard category="one" />}
+              />
+              <Route
+                path="detailBoard/:category/:boardId"
+                element={<DetailBoard userType="admin" />}
+              />
             </Route>
 
             <Route path={PathData.page.adminBook} element={<AdminBook />}>

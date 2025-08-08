@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const ReadBoardComponent = () => {
+const DetailBoard = () => {
   const [boardData, setBoardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -99,4 +99,4 @@ const ReadBoardComponent = () => {
   );
 };
 
-export default ReadBoardComponent;
+export default DetailBoard;
