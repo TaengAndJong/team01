@@ -9,7 +9,7 @@ import {
 import { PaginationContext } from "@pages/adminBoard/adminBoardComponent.jsx";
 import Pagination from "@util/pagination.jsx";
 
-const QnaOneBoard = () => {
+const OneBoard = () => {
   const [boardList, setBoarList] = useState([]);
 
   const { one } = useContext(BookBoardStateContext);
@@ -69,47 +69,68 @@ const QnaOneBoard = () => {
 
   return (
     <>
-      <h3>1:1 문의 목록</h3>
-      <div>
-        <div>
-          <ul className="oneBoardIndex">
-            <li className="item">번호</li>
-            <li className="item">제목</li>
-            <li className="item">작성자</li>
-            <li className="item">상태</li>
-            <li className="item">등록일</li>
-          </ul>
-        </div>
-        {console.log("boardList map 1:1 문의 돌리기 전", boardList)}
-        <div className="oneBoardQuestionBox">
-          {boardList.map((item, index) => (
-            <AdminBoardItem
-              key={item.qnaOneId || index}
-              data={item}
-              number={
-                (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
-                index +
-                1
-              }
-            />
-          ))}
-        </div>
-      </div>
       <SearchBar
         search={search}
         setSearch={setSearch}
         handleSearch={handleSearch}
       />
-      <div>
-        <button>삭제</button>
-      </div>
-      {/*pagination*/}
-      <Pagination
-        paginationInfo={paginationInfo}
-        onChangePageHandler={onChangePageHandler}
-      />
+      {/* 테이블 */}
+
+      <table className="table table-custom mt-4">
+        <caption className="sr-only">등록된 도서상품 테이블</caption>
+        <thead>
+          <tr>
+            <th scope="col" className="text-center">
+              No.
+            </th>
+            <th scope="col" className="text-center">
+              제목
+            </th>
+            <th scope="col" className="text-center">
+              작성자
+            </th>
+            <th scope="col" className="text-center">
+              id
+            </th>
+            <th scope="col" className="text-center">
+              답변여부
+            </th>
+            <th scope="col" className="text-center">
+              등록일
+            </th>
+          </tr>
+        </thead>
+        {console.log("boardList map 1:1 문의 돌리기 전", boardList)}
+        <tbody className="">
+          {/* undefined 와 데이터의 개수 검증*/}
+          {boardList && boardList?.length === 0 ? (
+            <tr className="">
+              <td colSpan="12" className="text-center">
+                데이터가 없습니다.
+              </td>
+            </tr>
+          ) : (
+            boardList.map((item, index) => (
+              <AdminBoardItem
+                key={item.productId || index}
+                data={item}
+                number={
+                  (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
+                  index +
+                  1
+                }
+              />
+            ))
+          )}
+        </tbody>
+        {/*pagination*/}
+        <Pagination
+          paginationInfo={paginationInfo}
+          onChangePageHandler={onChangePageHandler}
+        />
+      </table>
     </>
   );
 };
 
-export default QnaOneBoard;
+export default OneBoard;
