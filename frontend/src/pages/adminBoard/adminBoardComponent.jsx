@@ -311,49 +311,42 @@ const AdminBoard = () => {
         <div className="right">
           <section className="content">
             <div className="content-inner">
-              {/*현재경로의 메뉴명출력 */}
-              {subNavi?.[0].secondChild
-                ?.filter(
-                  (item) =>
-                    item.menuDepth === "2차메뉴" &&
-                    item.menuPath === currentPath
-                )
-                .map((item) => {
-                  return (
-                    <h3 className="sub-title current-title title-border">
-                      {item.menuName}
-                    </h3>
-                  );
+              {/*현재경로의 페이지명 depth 2 */}
+              <h3 className="sub-title current-title title-border">
+                {menu?.adminList?.map((item) => {
+                  if (item.menuPath.startsWith(`${currentPath}`)) {
+                    return item.menuName;
+                  }
                 })}
+              </h3>
 
-              {/*브레드 크럼 출력*/}
-              <ol className="menu-navi d-flex">
+              <ol className="menu-navi title-border">
                 {/* 서브페이지 네비게이션 */}
                 <li>
-                  <Link to={adminHome}>홈</Link>
+                  <Link to={adminHome} className="home icon">
+                    <span className="sr-only">홈</span>
+                  </Link>
                 </li>
-                {subNavi?.[0].menuId !== "adminBoard" && (
+                {subNavi?.[0] && (
                   <li>
                     <Link to={subNavi?.[0].menuPath}>
                       {subNavi?.[0].menuName}
                     </Link>
                   </li>
                 )}
-                {subNavi?.[0]?.secondChild &&
-                  subNavi?.[0].secondChild
-                    ?.filter(
-                      (item) =>
-                        item.menuDepth === "2차메뉴" &&
-                        item.menuPath === currentPath
-                    )
-                    .map((item) => {
-                      return (
-                        <li key={item.menuName}>
-                          {" "}
-                          <Link to={item.menuPath}>{item.menuName}</Link>
-                        </li>
-                      );
-                    })}
+                {subNavi?.[0]?.secondChild && (
+                  <li>
+                    <span>
+                      {subNavi?.[0].secondChild
+                        ?.filter(
+                          (item) =>
+                            item.menuDepth === "2차메뉴" &&
+                            item.menuPath.includes(currentPath)
+                        )
+                        .map((item) => item.menuName)}
+                    </span>{" "}
+                  </li>
+                )}
               </ol>
 
               {/*  문의관리  1차메뉴일 경우  컨텐츠*/}

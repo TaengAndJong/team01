@@ -1,6 +1,6 @@
 import "@assets/css/board/adminBoard.css";
 import React, { useContext, useEffect, useState } from "react";
-import QnaOneItem from "@pages/adminBoard/components/adminBoardItem.jsx";
+import AdminBoardItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import {
   BookBoardStateContext,
@@ -64,45 +64,77 @@ const ProductBoard = () => {
 
   return (
     <>
-      <h3>상품문의 목록</h3>
-      <div>
-        <div>
-          <ul className="oneBoardIndex">
-            <li className="item">번호</li>
-            <li className="item">제목</li>
-            <li className="item">작성자</li>
-            <li className="item">상태</li>
-            <li className="item">등록일</li>
-          </ul>
-        </div>
-        {console.log("boardList map 돌리기 전", product)}
-        <div className="oneBoardQuestionBox">
-          {boardList.map((item, index) => (
-            <QnaOneItem
-              key={item.productId || index}
-              data={item}
-              number={
-                (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
-                index +
-                1
-              }
-            />
-          ))}
-        </div>
-      </div>
+      {/* <h3>상품문의 목록</h3> */}
       <SearchBar
         search={search}
         setSearch={setSearch}
         handleSearch={handleSearch}
       />
-      <div>
-        <button>삭제</button>
-      </div>
-      {/*pagination*/}
-      <Pagination
-        paginationInfo={paginationInfo}
-        onChangePageHandler={onChangePageHandler}
-      />
+
+      {/* 테이블 */}
+
+      <table className="table table-custom mt-4">
+        <caption className="sr-only">등록된 도서상품 테이블</caption>
+        <thead>
+          <tr>
+            <th scope="col" className="text-center">
+              No.
+            </th>
+            <th scope="col" className="text-center">
+              이미지
+            </th>
+            <th scope="col" className="text-center">
+              카테고리
+            </th>
+            <th scope="col" className="text-center">
+              도서명
+            </th>
+            {/*<th className="text-center">설명</th>*/}
+            <th scope="col" className="text-center">
+              저자
+            </th>
+            <th scope="col" className="text-center">
+              가격
+            </th>
+            <th scope="col" className="text-center">
+              발행일
+            </th>
+            <th scope="col" className="text-center">
+              등록자
+            </th>
+            <th scope="col" className="text-center">
+              등록일
+            </th>
+            <th scope="col" className="text-center">
+              재고
+            </th>
+          </tr>
+        </thead>
+
+        <tbody className="">
+          {/* undefined 와 데이터의 개수 검증*/}
+          {boardList || boardList?.length === 0 ? (
+            <tr className="">
+              <td colSpan="12" className="text-center">
+                데이터가 없습니다.
+              </td>
+            </tr>
+          ) : (
+            boardList.map((item, index) => (
+              <AdminBoardItem
+                key={item.productId || index}
+                data={item}
+                number={
+                  (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
+                  index +
+                  1
+                }
+              />
+            ))
+          )}
+        </tbody>
+      </table>
+      {/* 테이블 */}
     </>
   );
 };

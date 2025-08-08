@@ -37,15 +37,14 @@ const adminBoardItem = ({ data, number }) => {
 
   return (
     <>
-      <div>
-        <ul className="qnaOneItemBox">
-          <li className="qnaOneItem">{number}</li>
-          <li className="qnaOneItem">{getTitle(data)}</li>
-          <li className="qnaOneItem">{getWriter(data)}</li>
-          <li className="qnaOneItem">{getStatus(data)}</li>
-          <li className="qnaOneItem">{getDate(data)}</li>
-        </ul>
-      </div>
+      <tr key={data.productId} className="table-light border-bottom">
+        <td className="text-center ">{number}</td>
+
+        <td className="text-left">{getTitle(data)}</td>
+        <td className="text-center ">{getWriter(data)}</td>
+        <td className="text-center ">{getStatus(data)}</td>
+        <td className="text-center ">{getDate(data)}</td>
+      </tr>
     </>
   );
 };

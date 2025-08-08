@@ -1,6 +1,6 @@
 import "@assets/css/board/adminBoard.css";
 import React, { useContext, useEffect, useState } from "react";
-import QnaOneItem from "@pages/adminBoard/components/adminBoardItem.jsx";
+import AdminBoardItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import {
   BookBoardStateContext,
@@ -83,7 +83,7 @@ const QnaOneBoard = () => {
         {console.log("boardList map 1:1 문의 돌리기 전", boardList)}
         <div className="oneBoardQuestionBox">
           {boardList.map((item, index) => (
-            <QnaOneItem
+            <AdminBoardItem
               key={item.qnaOneId || index}
               data={item}
               number={
