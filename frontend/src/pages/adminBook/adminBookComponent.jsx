@@ -183,20 +183,14 @@ const AdminBook = () => {
         <div className="right">
           <section className="content">
             <div className="content-inner">
-              {/*현재경로의 메뉴명출력 */}
-              {subNavi?.[0].secondChild
-                ?.filter(
-                  (item) =>
-                    item.menuDepth === "2차메뉴" &&
-                    item.menuPath === currentPath
-                )
-                .map((item) => {
-                  return (
-                    <h3 className="sub-title current-title title-border">
-                      {item.menuName}
-                    </h3>
-                  );
+              {/*현재경로의 페이지명 depth 2 */}
+              <h3 className="sub-title current-title title-border">
+                {menu?.adminList?.map((item) => {
+                  if (item.menuPath.startsWith(`${currentPath}`)) {
+                    return item.menuName;
+                  }
                 })}
+              </h3>
 
               {/*depth별 네비주소,현재페이지일 경우 표시필요*/}
 
@@ -217,7 +211,7 @@ const AdminBook = () => {
                 {subNavi?.[0]?.secondChild && (
                   <li>
                     <span>
-                      {subNavi?.[0].secondChild
+                      {subNavi?.[0]?.secondChild
                         ?.filter(
                           (item) =>
                             item.menuDepth === "2차메뉴" &&

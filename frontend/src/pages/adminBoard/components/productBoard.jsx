@@ -64,7 +64,6 @@ const ProductBoard = () => {
 
   return (
     <>
-      {/* <h3>상품문의 목록</h3> */}
       <SearchBar
         search={search}
         setSearch={setSearch}
@@ -81,39 +80,26 @@ const ProductBoard = () => {
               No.
             </th>
             <th scope="col" className="text-center">
-              이미지
+              제목
             </th>
             <th scope="col" className="text-center">
-              카테고리
+              작성자
             </th>
             <th scope="col" className="text-center">
-              도서명
-            </th>
-            {/*<th className="text-center">설명</th>*/}
-            <th scope="col" className="text-center">
-              저자
+              id
             </th>
             <th scope="col" className="text-center">
-              가격
-            </th>
-            <th scope="col" className="text-center">
-              발행일
-            </th>
-            <th scope="col" className="text-center">
-              등록자
+              답변여부
             </th>
             <th scope="col" className="text-center">
               등록일
             </th>
-            <th scope="col" className="text-center">
-              재고
-            </th>
           </tr>
         </thead>
-
+        {console.log("boardList map 상품 문의 돌리기 전", boardList)}
         <tbody className="">
           {/* undefined 와 데이터의 개수 검증*/}
-          {boardList || boardList?.length === 0 ? (
+          {boardList && boardList?.length === 0 ? (
             <tr className="">
               <td colSpan="12" className="text-center">
                 데이터가 없습니다.
@@ -133,6 +119,11 @@ const ProductBoard = () => {
             ))
           )}
         </tbody>
+        {/*pagination*/}
+        <Pagination
+          paginationInfo={paginationInfo}
+          onChangePageHandler={onChangePageHandler}
+        />
       </table>
       {/* 테이블 */}
     </>

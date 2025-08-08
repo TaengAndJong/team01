@@ -39,7 +39,6 @@ const adminBoardItem = ({ data, number }) => {
     <>
       <tr key={data.productId} className="table-light border-bottom">
         <td className="text-center ">{number}</td>
-
         <td className="text-left">{getTitle(data)}</td>
         <td className="text-center ">{getWriter(data)}</td>
         <td className="text-center ">{getStatus(data)}</td>

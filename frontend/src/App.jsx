@@ -20,7 +20,7 @@ import Admin from "@pages/admin/adminCoponent.jsx";
 import AdminDashboard from "@pages/adminBoard/components/adminDashboard.jsx";
 import AdminDeliveryBoard from "@pages/adminBoard/components/deliveryBoard.jsx";
 import AdminProductBoard from "@pages/adminBoard/components/productBoard.jsx";
-import AdminOneBoard from "@pages/adminBoard/components/qnaOneBoard.jsx";
+import AdminOneBoard from "@pages/adminBoard/components/OneBoard.jsx";
 import AdminBoard from "@pages/adminBoard/adminBoardComponent.jsx";
 import AdminBook from "@pages/adminBook/adminBookComponent.jsx";
 import Book from "@pages/book/bookComponent.jsx";
@@ -127,7 +127,7 @@ function App() {
 
             <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
               {/*첫페이지 설정*/}
-              <Route index element={<Navigate to="qnaOneList" replace />} />
+              <Route index element={<Navigate to="oneBoard" replace />} />
               <Route
                 path="deliveryBoard"
                 element={<AdminDeliveryBoard category="delivery" />}
@@ -137,7 +137,7 @@ function App() {
                 element={<AdminProductBoard category="product" />}
               />
               <Route
-                path="qnaOneList"
+                path="oneBoard"
                 element={<AdminOneBoard category="one" />}
               />
               <Route
