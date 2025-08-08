@@ -10,7 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 const modalConfig = {
     noSelection: ({ errorData, onClose }) => ({
         body: <p>{errorData?.message || "선택된 데이터가 없습니다."}</p>,
-        footer: <Button onClick={onClose}>확인</Button>,
+        footer: <Button className={"btn custom-btn01"} onClick={onClose}>확인</Button>,
     }),
     notFound: ({ errorData, onClose }) => ({
         body: (
@@ -19,7 +19,7 @@ const modalConfig = {
                 <p>{errorData?.missingIds?.join(", ")}</p>
             </>
         ),
-        footer: <Button onClick={onClose}>확인</Button>,
+        footer: <Button className={"btn custom-btn01"} onClick={onClose}>확인</Button>,
     }),
     error: ({ errorData, onClose }) => ({
         body: (
@@ -28,14 +28,14 @@ const modalConfig = {
                 <p>{errorData?.error}</p>
             </>
         ),
-        footer: <Button onClick={onClose}>닫기</Button>,
+        footer: <Button className={"btn custom-btn01"} onClick={onClose}>닫기</Button>,
     }),
     delete: ({ onClose, onConfirm }) => ({
         body: <p>정말 삭제하시겠습니까?</p>,
         footer: (
             <>
-                <Button variant="danger" onClick={onConfirm}>확인</Button>
-                <Button variant="secondary" onClick={onClose}>취소</Button>
+                <Button className={"btn btn-dark"} variant="danger" onClick={onConfirm}>확인</Button>
+                <Button className={"btn btn-danger"} variant="secondary" onClick={onClose}>취소</Button>
             </>
         ),
     }),
@@ -47,7 +47,7 @@ const ReusableModal = ({ show, onClose, onConfirm, modalType, errorData }) => {
         ? modalConfig[modalType]({ errorData, onClose, onConfirm })
         : {
             body: <p>알 수 없는 모달 유형입니다.</p>,
-            footer: <Button onClick={onClose}>닫기</Button>,
+            footer: <Button className={"btn btn-danger"} onClick={onClose}>닫기</Button>,
         };
 
     return (

@@ -5,7 +5,6 @@ import {Link} from "react-router-dom";
 const mainComponent = () => {
 
     return (<>
-
             <section className="section main">
                 <div className="sc-inner">
                     <div className="sc-content">

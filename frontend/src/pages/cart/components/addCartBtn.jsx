@@ -65,7 +65,7 @@ const AddCartBtn = ({ bookId, bookCount }) => {
     return(
         <>
             <button type="button" aria-label="장바구니"
-                    className="submit btn btn-primary me-2" onClick={()=> handleAddToCart(bookId,bookCount)}>장바구니
+                    className="submit btn custom-btn00 me-2" onClick={()=> handleAddToCart(bookId,bookCount)}>장바구니
             </button>
         </>
     );

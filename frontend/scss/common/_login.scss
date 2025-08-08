@@ -1,6 +1,20 @@
 .sub .main.login {
   margin: 0;
 }
+
+.login-inner{
+    position: relative;
+  >div{  min-height: 500px;}
+}
+.login-form{
+  max-width: 500px;
+  width: 100%;
+  padding-bottom:40px;
+  > .login-row{
+    align-items: center;
+  }
+}
+
 //
 //.sub .page.login-inner {
 //  padding-top: 80px;

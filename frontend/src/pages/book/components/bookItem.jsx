@@ -169,8 +169,8 @@ const BookItem = ({bookList}) =>{
                             {/* 수량 및 액션 버튼 영역 */}
                             <div className="item-inner d-flex align-items-center justify-content-end mt-4">
 
-                                <button type="button" aria-label="찜하기"  className="submit btn btn-danger me-2 wish-btn" onClick={()=>wishHandler(book.bookId)}>
-                                    찜
+                                <button type="button" className="submit btn me-2 icon wish" onClick={()=>wishHandler(book.bookId)}>
+                                    <span className="sr-only">위시리스트에 담기</span>
                                 </button>
                                 {book.stock === 0 ?(
                                     <p>품절</p>
@@ -195,7 +195,7 @@ const BookItem = ({bookList}) =>{
                                         {/*수량*/}
                                         <AddCartBtn bookId={book.bookId} bookCount={bookCount[book.bookId] ?? 1}  />
                                         <button type="button" aria-label="선택구매"
-                                                className="submit btn btn-secondary">선택구매
+                                                className="submit btn btn-dark">선택구매
                                         </button>
                                     </>
                                     )}

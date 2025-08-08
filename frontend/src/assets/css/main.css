@@ -1,32 +1,16 @@
-/*header*/
-.client{}
-.client .header{
-    /*background: linear-gradient(to top,rgba(255, 255, 255, 1),rgba(190, 210, 151, 1) 60% );*/
+.client .header{width:100%;position:absolute;top:0;left:0}
+/*main태그의 class명이 main*/
+.client main.main{min-height:auto;width:100%;padding:100px 0 200px}
+.client .bodyWrapper{width:100%}
+.section,.sc-inner{width:100%}
+.sc-inner{min-height:1080px;padding:30px}
 
+.section.main{}
+.section.main .sc-inner{
+    background: url("assets/images/main/main_cl.jpg") no-repeat center bottom;
+    background-size: cover;
 }
 
-.client main {
-    min-height: auto;
-    width: 100%;
-    padding: 100px 0 200px 0;
+.section.main .sc-content{
+
 }
-
-.client .bodyWrapper {
-    background:#ffffff;
-    /*background: linear-gradient(to top,rgba(190, 210, 151, 1) 15%,rgba(255, 255, 255, 1) 60%);*/
-    /*padding-top: 90px;*/
-    /*padding-bottom: 107px;*/
-    width: 100%;
-}
-.section,.sc-inner{
-    width: 100%;
-}
-.sc-inner{min-height: 600px; padding: 30px}
-
-/*section Slide*/
-
-/*section tab */
-
-/*section3*/
-
-/*section 4*/

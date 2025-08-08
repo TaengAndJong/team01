@@ -74,9 +74,9 @@ const IdAndPw = ({formData,setFormData,msg,setMsg,handleConfirm,errorData})=>{
                <FormTag label="아이디" labelClass="form-title" className="form-control w-75" name="clientId" type="text"
                         value={formData.clientId}
                         onChange={handleInputChange} msg={msg.errorId}/>
-               <Btn className="btn-primary ms-1 w-25"  id="confirm" type="button" text="중복확인" onClick={() => {
+               <button className=" ms-1 w-25 btn custom-btn01"  id="confirm" type="button" onClick={() => {
                    handleConfirm("clientId", formData.clientId)
-               }}/>
+               }}>중복확인</button>
            </div>
 
            {/*pw*/}

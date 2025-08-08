@@ -2,8 +2,10 @@
 @use "../utils/mixins" as *; // 함수
 
 
-.default-btn{background-color: $color01;padding:10px 15px;display:inline-block;
+.custom-btn{background-color: $color01;  color:$color08;
+  padding:10px 15px;display:inline-block;
   transition: background-color 0.3s ease, color 0.3s, font-weight 0.3s;
+  border-radius: 20px;
   &:hover,&:focus{ background-color: $color05; font-weight: bold}
 }
 
@@ -12,7 +14,16 @@
   &:hover,&:focus{ background-color: $color06; font-weight: bold }
 }
 
+.custom-btn01{
+  background-color: $color01; color:$color08;
+  &:hover,&:focus{ background-color: $color06; color:$color01;font-weight: bold }
+}
+
 .custom-btn02{/// 갈색
   background-color: $color01; color:$color08;
   &:hover,&:focus{ background-color: $color00; color:$color08;font-weight: bold }
+}
+
+.wish-btn{
+
 }

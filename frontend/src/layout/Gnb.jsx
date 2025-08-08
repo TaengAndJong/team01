@@ -149,7 +149,7 @@ const Gnb = ({ userData, menu, commonMenuItems, isAuthenticated, logout }) => {
                 })}
               <li>
                 <Btn
-                  className={"logout  default-btn"}
+                  className={"logout  custom-btn"}
                   id={"logout-btn"}
                   text={"로그아웃"}
                   onClick={handleLogout}
@@ -166,18 +166,10 @@ const Gnb = ({ userData, menu, commonMenuItems, isAuthenticated, logout }) => {
               <div className="header-inner user-info">
                 <ul className="d-flex align-items-center">
                   <li>
-                    <Btn
-                      className={"login default-btn"}
-                      text={"로그인"}
-                      path={pathsData.page.login}
-                    />
+                    <Link to={"/login"} className={"login btn custom-btn01"}>로그인</Link>
                   </li>
                   <li>
-                    <Btn
-                      className={"signup default-btn"}
-                      text={"회원가입"}
-                      path={pathsData.page.signup}
-                    />
+                    <Link to={"/signup"} className={"signup btn custom-btn01"}>회원가입</Link>
                   </li>
                 </ul>
               </div>
