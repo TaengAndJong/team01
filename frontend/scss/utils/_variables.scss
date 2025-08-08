@@ -1,47 +1,70 @@
 /*공통변수*/
-$mainColor: #BED297;
-$subColor: #8B655A;
-$GnbColor: #008834;
+
+
+
+/*depth*/
+//$firstDepthBg:$mainColor00;
+//$secondDepthBg:$subColor;
+//$thirdDepthBg:$subColor;
 $color00: #A47763;
-$color01: #89C53B;
-
-
-$display: inline-block;
-/*폰트*/
-$fontGnbColor: #595959;
-$fontTnbColor: #595959;
-$fontFooterColor: #595959;
-$fontGnbSize: 36px;
-$fontTnbSize: 20px;
-$fontLarge: 30px;
-$fontRegular: 20px;
-$fontSmall: 16px;
+$color01: #56453E;
+$color02: #A37865;
+$color03: #89C53B;
+$color04: #A4D761;
+$color05: #BED297;
+$color06: #FFE377;
+$color07: #333333;
+$color08: #ffffff;
+$color09: #F7ECE7;
+$color10:#FFECA4;
 
 /* 레이이아웃 - header & footer*/
-$layoutPadding : 30px; // header, footer 양 여백
+$layoutPadding : 0 40px; // header, footer,content 양 여백
 $layoutMargin : 30px;
 $headerHeight: 50px;
 $footerHeight: 300px;
 $subHeight:500px;
 $gnb-font: 'TheJamsil';
-$gnb-font-color:#56453E;
+$gnb-font-color:$color01;
 $gnb-hover-color:#fff;
 
 
-/*depth*/
-$firstDepthBg:$mainColor;
-$secondDepthBg:$subColor;
-$thirdDepthBg:$subColor;
+/*폰트*/
+$fontGnbColor: $color07; // 대메뉴 폰트 컬러
+$fontTnbColor: $color07; // 상단메뉴 폰트컬러
 
-/*관리자 변수*/
-$adMainColor: #BED297;
-$adSubColor: #8B655A;
-$adGnbColor: #BED297;
-$adFooterColor:#8B655A;
-$adBgColor:#E9E9DD;
-$adleftWidth: 280px;
-$adContentWidth: calc(100% - ($adleftWidth + 40px));
-$adfontGnbColor: #595959;
+$fontGnbSize: 36px; // 대메뉴 폰트 사이즈
+$fontTnbSize: 20px; // 상단메뉴 폰트사이즈
+$fontLarge: 30px;
+$fontRegular: 20px;
+$fontSmall: 16px;
+
+
+
+
+/*관리자*/
+$AdminHeaderColor: $color06; //  관리자 header 배경
+$AdminSecondDepthBg: $color08;
+$AdminFooterColor: $color04; //  관리자 footer 배경
+$AdminFooterFontColor:$color07;
+
+//$AdminTnbColor:$color01;
+$AdminTnbBtn:$color01;
+$AdminTnbFontColor: $color05; //  관리자 header 배경
+
+
+
+$AdminLeftColor:$color09; // 관리자 레프트 1차 메뉴 배경
+$AdminLeftMenuColor:$color10;//관리자 레프트 2차메뉴 배경
+$AdminTitle:#56453E; // 관리자컨텐츠 타이틀
+
+//custom 테이블컬러
+$tableHeader:$color06;
+
+
+$leftWidth: 280px;
+$contentWidth: calc(100% - ($leftWidth + 40px));
+
 
 /*사용자 변수*/
 $clMainColor:#FFFFDD;

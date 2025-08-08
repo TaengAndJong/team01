@@ -5,11 +5,15 @@
 @use '../common/form';
 @use '../common/table';
 @use '../common/btn';
+@use '../common/icon';
 @use '../common/pagination';
+@use '../common/swiperSlide';
 @use '../layout/header/header';
 @use '../layout/footer/footer';
 @use 'sub/subLayout';
+@use 'sub/clientSubLayout';
 @use '../common/custom';
+
 
 @use "../utils/mixins" as *; // 함수
 @use "../utils/variables" as *;

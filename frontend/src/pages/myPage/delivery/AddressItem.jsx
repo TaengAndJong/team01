@@ -82,7 +82,7 @@ const AddressItem = () => {
                         <span>{item.detailAddr}</span>
                     </div>
                     <div>
-                        <button aria-label="배송지변경" className="btn btn-sm btn-primary mx-1" onClick={() => {
+                        <button aria-label="배송지변경" className="btn btn-sm btn-dark mx-1" onClick={() => {
                             openEditForm(item.addrId)
                         }}>변경
                         </button>

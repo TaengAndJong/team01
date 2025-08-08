@@ -1,7 +1,18 @@
-.wish-btn{
-    back
-    &:hover,focus{
+@use "../utils/variables" as *; // 변수
+@use "../utils/mixins" as *; // 함수
 
-    }
+
+.default-btn{background-color: $color01;padding:10px 15px;display:inline-block;
+  transition: background-color 0.3s ease, color 0.3s, font-weight 0.3s;
+  &:hover,&:focus{ background-color: $color05; font-weight: bold}
 }
 
+.custom-btn00{ //초록, 노랑
+  background-color: $color03;color:$color08;
+  &:hover,&:focus{ background-color: $color06; font-weight: bold }
+}
+
+.custom-btn02{/// 갈색
+  background-color: $color01; color:$color08;
+  &:hover,&:focus{ background-color: $color00; color:$color08;font-weight: bold }
+}

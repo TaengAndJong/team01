@@ -160,7 +160,7 @@ const AdminBookList = () => {
                                checked={checkedInput.length === bookList.length && bookList.length > 0}
                                onChange={(e) => handleSelectAll(e.target.checked)}
                         />
-                        <label htmlFor="selectAll">전체 선택</label>
+                        <label htmlFor="selectAll" className="sr-only">전체 선택</label>
                     </th>
                     <th scope="col" className="text-center">No.</th>
                     <th scope="col" className="text-center">이미지</th>
@@ -227,7 +227,7 @@ const AdminBookList = () => {
 
             <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                 <Btn className={"delete btn btn-danger"} id={"deleteBtn"} type={"button"}  onClick={() => handleShow()}  text="삭제"/>
-                <Btn className={"create btn btn-primary"} id={"createBtn"} type={"button"}  path={pathsData.page.adminBookCreate} text="등록"/>
+                <Btn className={"create btn custom-btn02"} id={"createBtn"} type={"button"}  path={pathsData.page.adminBookCreate} text="등록"/>
             </div>
             {/*checkedInput만 하면 빈 배열이라도 true로 판정해서 모달이 열리기때문에 요소의 개수로 판단*/}
             {show && checkedInput.length === 0 && (

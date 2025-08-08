@@ -155,6 +155,11 @@ const CartList = () => {
             }
         },[cartData])
 
+
+
+
+        console.log("CartData----cartList",cartList);
+
         //장바구니에 도서 담길 때 전체 선택 자동으로 될 경우
         useEffect(() => {
             //carList가 null인지 undefined인지 확인 후 빈 배열 확인
@@ -171,16 +176,16 @@ const CartList = () => {
         const emptyCartList = () => {
             return (
                 <ul className="cart-list">
-                    <li className="cart-item mb-2">
-                        장바구니에 담긴 상품이 없습니다.
-                        <Link to="/book">도서보러가기</Link>
+                    <li className="cart-item mb-2 text-center">
+                        <p>장바구니에 담긴 상품이 없습니다.</p>
+                        <Link to="/book" className={"btn btn-secondary"}>도서보러가기</Link>
                     </li>
                 </ul>
             )
         }
 
         const addCartList = (cartList) => {
-            console.log("cartList-----addCartList", cartList);
+            console.log("addCartList-----bookList", cartList); // undefined여서 에러나는데
             return (
           <>
               {/*label 내부에 input 기입 시, htmlFor 기입 불필요*/}
@@ -248,7 +253,7 @@ const CartList = () => {
                 <CartAddress addrList={address}/>
 
                 {/* cartList -- cartData의 bookList값이 있을 때 없을때  */}
-                {cartData?.bookList && cartData?.bookList.length > 0 ? addCartList(bookList) : emptyCartList()}
+                {cartList && cartList?.length > 0 ? addCartList(cartList) : emptyCartList()}
 
                 {/* cartAccount */}
                 <CartAllPrice cartList={cartList} selectItem={selectItem} deliveryFee={2000} gotoPayment={gotoPayment}

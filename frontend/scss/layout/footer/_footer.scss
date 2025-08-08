@@ -3,8 +3,10 @@
 @use "../../utils/mixins" as *; // 함수
 
 .footer{
-  background:$mainColor;
 
+  //background: linear-gradient(to top,rgba(190, 210, 151, 1) 15%,rgba(255, 255, 255, 1) 90%);
+  padding-top: 100px;
+  background: #A4D761;
 }
 
 .footer-inner{
@@ -27,3 +29,4 @@
         >a{}
   }
 }
+

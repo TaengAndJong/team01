@@ -5,12 +5,13 @@
 
 //sub
 
-.sub{ background-color: #E9E9DD;
+.sub{ background-color: #ffffff;
   .main {
     margin-top: 100px;
     padding-bottom: 300px;
   }
   .page {
+    padding:$layoutPadding;
     justify-content: space-between;
     min-height: $subHeight;
     //@include  layoutPadding($layoutPadding);
@@ -18,12 +19,15 @@
 }
 
 
-
   .left{
-    width: $adleftWidth;
+    width: $leftWidth;
+    padding-left: 4px;
   }
   .right{
-    width: $adContentWidth;
+    width: $contentWidth;
+  }
+  .content{
+    border:1px solid $color01;
   }
 
   .left-menu,.content-inner{
@@ -44,13 +48,12 @@
 
 
 //leftMenu
-.left-menu{ position:relative; background-color: rgba(216,224,193,90%);
-  padding: 60px 35px 40px; border-radius:0 0 20px 20px
-}
+.left-menu{ position:relative; background-color: $AdminLeftColor; padding: 60px 35px 40px;}
 
 .depth{
    &.first-depth{
-     padding: 15px 20px 30px;background-color: #F3F6EC; border-radius:0 15px 15px 0;
+
+     padding: 15px 20px 30px;background-color: $AdminLeftMenuColor; border-radius:0 15px 15px 0;
       > li {}
      //1차메뉴 버튼
      .depth-menu{
@@ -60,18 +63,17 @@
           .arrow.circle-arrow{right:5px; top:13px; position: absolute}
           //first
           &.first{
-
-            &::after{ @extend %pseudoEL;  position: absolute; left: 0; bottom: 0;
-              height: 1px;
-              width: 100%;
-              transition:0.3s;
-              background-color: $color01;
-            }
-
-            &.current,&:focus{
+            border-bottom: 1px solid $color07;
+            &::after{
+              @extend %pseudoEL;
+              position: absolute;left:0;bottom: 0;opacity: 0; visibility: hidden; width: 0; height: 2px; background-color: $color07;transition:0.3s;}
+            &.current,&:focus,&:hover{
+              border-bottom:1px solid transparent;
+              &::after{opacity: 1; visibility: visible;  width: 100%;}
               .arrow.circle-arrow{
                 background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 26.5C20.9036 26.5 26.5 20.9036 26.5 14C26.5 7.09644 20.9036 1.5 14 1.5C7.09644 1.5 1.5 7.09644 1.5 14C1.5 20.9036 7.09644 26.5 14 26.5Z' fill='%23A47763' stroke='%23A47763' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.05371 12.438L14.0537 18.438L20.0537 12.438' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
               }
+
             }
 
             &.current::after,&:hover::after,&:focus::after{
@@ -128,9 +130,8 @@
 
 // 2차메뉴 , 3차메뉴있을 경우 공통
 .depth-menu{
-
   &.first{
-    display: flex;
+    display: block;
     align-items: center;
     .leaf{margin-left: 5px;opacity:0;visibility: hidden;transition: 0.3s; width: 25px; height: 20px;
       &::after{
@@ -139,7 +140,7 @@
         transform:rotate(45deg) translate(0,0);
       }
     }
-    &.current{
+    &.current,&:hover,&:focus{
       .leaf{opacity: 1;visibility: visible;
 
         &::after{
@@ -166,19 +167,30 @@
 .content{}
 .content-inner{
   position: relative;
-  padding:60px 50px 29px;
+  padding:60px 50px;
 }
 
 //navi
 .menu-navi{
+  display:flex;
   margin-bottom: 25px;
-  li,a,span{display:inline-block; position: relative}
+  li,a,span{display:inline-block; position: relative; font-weight: normal;}
   > li {padding-right: 10px; margin-right:10px;
-    &:not(:last-child)::before{@extend %pseudoEL; background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 18L16 12L10 6' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
-    width:15px; height: 15px; background-position: center center; background-size: auto 100%;
-    position: absolute; top:calc(50% - 7.5px); right:-7.5px
+        &:last-child > span{color:$color01;font-weight: bold}
+        &:not(:first-child){padding-top:3px;}
+        &:not(:last-child)::before{@extend %pseudoEL; background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 18L16 12L10 6' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+        width:15px; height: 15px; background-position: center center; background-size: auto 100%;
+        position: absolute; top:calc(50% - 5.5px); right:-7.5px;
     }
   }
+
+}
+
+//상세페이지 브래드크러브 삭제 및 여백 조절
+[class*="Detail"]{
+  .menu-navi{display: none;}
+  .content-inner{padding-top: 50px;}
+  .box{margin-bottom:30px;padding-bottom: 30px}
 }
 
 
