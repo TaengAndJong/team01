@@ -18,8 +18,17 @@
 @use "../utils/mixins" as *; // 함수
 @use "../utils/variables" as *;
 //common
-* {font-family:"NanumHuman",sans-serif; word-break:keep-all; font-size:16px;line-height:1.3;box-sizing: border-box;}
-a,span,em,i{display:inline-block;color:#333333;}
+html{
+  font-size: 62.5%;
+  font-family:"NanumHuman",sans-serif; word-break:keep-all;
+  box-sizing: border-box;
+  color:$default-font-color;
+}
+body {
+  font-size: 1.6rem; /* 기본 16px */
+}
+//* { font-size:16px;}
+a,span,em,i{display:inline-block; color:$default-font-color;}
 .sr-only { @include hidden;}
 .icon{position:relative}
 

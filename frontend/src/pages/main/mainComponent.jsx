@@ -7,19 +7,20 @@ const mainComponent = () => {
     return (<>
             <section className="section main">
                 <div className="sc-inner">
-                    <div className="sc-content">
-                        <p className="title bold s-tit">
-                            <span className="text-dot">R</span>
-                            <span className="text-dot">E</span>
-                            <span className="text-dot">A</span>
-                            <span className="text-dot">D</span>
-                            <span>WITH</span>
-                            <span className="text-dot">U</span>
-                            <span className="text-dot">S</span>
-                        </p>
-                        <p className="title bold m-tit">혼자보다, 함께 읽는 감동</p>
-                        <p className="title bold b-tit">Found In The Book</p>
-                    </div>
+                        <div className="text-box">
+                            <p className="title ">
+                                <span className="text-dot text-or s-tit">R</span>
+                                <span className="text-dot text-or s-tit">E</span>
+                                <span className="text-dot text-or s-tit">A</span>
+                                <span className="text-dot text-or s-tit">D</span>
+                                <span className="s-tit">WITH</span>
+                                <span className="text-dot text-gr s-tit">U</span>
+                                <span className="text-dot text-gr s-tit">S</span>
+                            </p>
+                            <p className="title  m-tit">혼자보다, 함께 읽는 감동</p>
+                            <p className="title bold b-tit">Found In The Book</p>
+                        </div>
+                        <Link to={"/book"} className="btn circle-btn"><span>도서보러가기</span></Link>
                 </div>
             </section>
 
