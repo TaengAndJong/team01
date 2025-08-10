@@ -7,7 +7,7 @@
 .sc-inner{min-height:1080px;}
 
 /*title*/
-[class*="-tit"]{line-height: 1}
+[class*="-tit"],[class*="-tit"] > span{line-height: 1;font-weight:bold;}
 .text-or{color:#F28310}
 .text-gr{color:#008834}
 
@@ -15,8 +15,11 @@
 1rem = 10px ,  1.6rem = 16px
 */
 .s-tit{font-size: 5rem}
-.m-tit{font-size: 6rem}
+.m-tit,.sc-tit,.sc-tit > span{font-size: 6rem;}
 .b-tit{font-size: 9rem}
+.sc-tit{margin-bottom: 2rem}
+.desc{font-size:2rem;}
+
 
 .text-dot{
     position:relative;
@@ -29,6 +32,13 @@
 }
 /*button*/
 
+/*nav-tab slide*/
+.nav{}
+.nav .custom-outline-btn{font-size: 2rem; padding: 0.8em;
+    margin:0 0.8rem; border-radius: 3rem;}
+.tab-content{
+    background-color: #FFECA4;
+}
 
 /*main*/
 .section.main{}
@@ -42,10 +52,41 @@
     padding:7rem 4rem;
     background-color: #fff;
 }
+.section.main [class*="-tit"]{
+    margin-bottom: 20px;}
+.section.main .b-tit{}
+.section.main .circle-btn{margin: 4rem; padding: 0.5em}
+.section.main .circle-btn span{font-size: 23px;}
 
-.section.main [class*="-tit"]{}
-
-/*books*/
+    /*books*/
 .section.books{}
-.section.books .sc-inner{}
+.section.books .sc-inner{padding: 20rem 4rem;text-align:center}
 .section.books .sc-tit{}
+.section.books .sc-content{
+    margin-top: 9rem;}
+
+
+.section.skipbtns{}
+.section.skipbtns .sc-inner{padding: 20rem 4rem;text-align:center}
+.skip-btn-list{width: 100%;}
+.skip-btn .skip-btn-con{display:inline-block}
+.skip-btn p{font-weight: bold;font-size: 3rem;
+    margin-bottom:0.5em;}
+.skip-btn .circle-btn{margin-top: 2.8em;}
+.skip-btn{width: 100%; min-height:28rem;padding: 5rem 6rem; background-repeat: no-repeat;
+    position: relative;
+    margin-bottom: 4rem;
+    background-position: left center;
+    background-size: contain;
+    border-radius: 2rem;
+}
+
+.skip-btn.qna{background-color: #E8F1FF;
+    background-image: url("assets/images/main/book01.png");
+}
+.skip-btn.wishlist{background-color: #FFEAEC;
+    background-image: url("assets/images/main/book02.png");
+    background-position: right center;
+}
+.skip-btn.join{background-color: #FFF8D0;
+    background-image: url("assets/images/main/join01.png");}

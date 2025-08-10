@@ -122,7 +122,7 @@ function Login({data}) {
                             </div>
                         </div>
                         <div className="d-flex login-row mb-4">
-                            <label htmlFor="password" className="col-sm-2 col-form-label icon login-pw me-3">
+                            <label htmlFor="password" className="col-sm-1 col-form-label icon login-pw me-3">
                                 <span className="sr-only">비밀번호</span>
                             </label>
                             <div className="col-sm-11">

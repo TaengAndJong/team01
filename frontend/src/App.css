@@ -49,6 +49,10 @@ li {
   list-style: none;
 }
 
+i, em {
+  font-style: normal;
+}
+
 /*
 local(확장자를 제외한 '폰트명' 입력) => 내 컴퓨터에 설치되어있는 폰트가 존재하는지 먼저 탐색함
 display: swap; 폰트가 로드 되지 않으면 대체폰트가 먼저 보여지고, 사용할 폰트가 로드되면 교체되게 함
@@ -124,6 +128,10 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   transition: color 0.3s ease-in-out;
 }
 
+[class*=form-], [class*=-text] {
+  font-size: 1.5rem;
+}
+
 .form-group-title, .form-title {
   font-weight: bold;
   min-width: 110px;
@@ -176,10 +184,15 @@ table .imgbox img {
   color: #333;
 }
 
+.btn {
+  padding: 0.9rem 1rem;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+}
+
 .custom-btn {
   background-color: #56453E;
   color: #ffffff;
-  padding: 10px 15px;
   display: inline-block;
   transition: background-color 0.3s ease, color 0.3s, font-weight 0.3s;
   border-radius: 20px;
@@ -218,36 +231,49 @@ table .imgbox img {
   font-weight: bold;
 }
 
+.custom-outline-btn {
+  border: 1px solid #56453E;
+  background-color: #ffffff;
+  color: #56453E;
+}
+.custom-outline-btn.active, .custom-outline-btn:hover, .custom-outline-btn:focus {
+  background-color: #56453E;
+  color: #ffffff;
+  font-weight: bold;
+}
+
 .circle-btn {
   position: relative;
 }
-.circle-btn > span {
+.circle-btn > span, .circle-btn em, .circle-btn i {
   position: relative;
   z-index: 2;
   font-size: 20px;
-  padding: 0.5em;
+  padding: 0.6em;
   color: #56453E;
   font-weight: bold;
   transition: color 0.2s ease, color 0.2s, font-weight 0.2s;
 }
 .circle-btn:before {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   background-color: #BED297;
   position: absolute;
   left: 0;
-  top: calc(50% - 2.4em);
+  top: calc(50% - 2.1em);
   border-radius: 50%;
   z-index: 1;
   transition: width 0.2s ease, background-color 0.3s;
 }
-.circle-btn:hover span, .circle-btn:focus span {
+.circle-btn:hover > span, .circle-btn:hover em, .circle-btn:hover i, .circle-btn:focus > span, .circle-btn:focus em, .circle-btn:focus i {
   color: #ffffff;
 }
 .circle-btn:hover:before, .circle-btn:focus:before {
   width: 100%;
+  height: 100%;
+  top: 0;
   background-color: #56453E;
-  border-radius: 24px;
+  border-radius: 5rem;
 }
 
 .icon {
@@ -662,9 +688,6 @@ header, .header-inner, .gnb {
 
 .sub {
   background-color: #ffffff;
-}
-.sub .main {
-  margin-top: 100px;
 }
 .sub .page {
   padding: 0 40px;
