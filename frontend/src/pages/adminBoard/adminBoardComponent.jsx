@@ -145,7 +145,7 @@ const AdminBoard = () => {
 
       // 응답이 성공인지 확인
       if (!oneListRes.ok) {
-        throw new Error(`qnaOneList API 오류: ${oneListRes.status}`);
+        throw new Error(`oneBoardList API 오류: ${oneListRes.status}`);
       }
       if (!productListRes.ok) {
         throw new Error(`productBoardList API 오류: ${productListRes.status}`);

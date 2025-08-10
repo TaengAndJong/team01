@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
 import {Link, useLocation, useNavigate} from "react-router-dom";
+=======
+import { Link, useLocation, useNavigate } from "react-router-dom";
+>>>>>>> 1b28e6c9485ab3f5c6e8228cf5d3cd986d37306d
 import { menuNavi } from "../util/menuNavi.jsx";
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";

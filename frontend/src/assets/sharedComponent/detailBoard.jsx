@@ -16,7 +16,7 @@ const DetailBoard = () => {
         try {
           setLoading(true);
           setError(null);
-          const response = await axios.get(`/api/board/readBoard/delivery/2`);
+          const response = await axios.get(`상세조회요청 API`);
           console.log("성공:", response.data);
           setBoardData(response.data);
         } catch (error) {
@@ -38,7 +38,6 @@ const DetailBoard = () => {
   if (error) {
     return <div>에러: {error}</div>;
   }
-
   return (
     <>
       <div>
@@ -93,6 +92,7 @@ const DetailBoard = () => {
               text="수정하기"
             ></Btn>
           </div>
+          {userType === "admin" && <div></div>}
         </div>
       </div>
     </>

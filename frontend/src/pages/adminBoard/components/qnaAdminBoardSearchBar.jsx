@@ -16,7 +16,7 @@ const qnaOneBoardSearchBar = ({ search, setSearch, handleSearch }) => {
     <>
       <div className="search-bar d-flex justify-content-end">
         <select
-          className="form-form-control w-auto"
+          className="form-control form-select w-auto"
           name="searchType"
           value={search?.searchType || ""}
           onChange={(e) => searchHandler(e)}
