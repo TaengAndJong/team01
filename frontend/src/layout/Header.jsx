@@ -11,11 +11,6 @@ const Header = () => {
   const { menu } = useMenu(); // 모든 메뉴 가져오는 커스텀훅
   const navigate = useNavigate();
 
-<<<<<<< HEAD
-    const {isAuthenticated, userData, logout} = useAuth(); // 로그인 상태와 사용자 데이터 가져오는 커스텀훅
-    const {menu} = useMenu(); // 모든 메뉴 가져오는 커스텀훅
-
-
 
     const commonMenu = menu?.commonList;
     console.log("commonMenu-----------",commonMenu);
@@ -42,14 +37,7 @@ const Header = () => {
 
         </header>
     );
-=======
-  const commonMenu = menu?.commonList;
-  console.log("commonMenu-----------", commonMenu);
-  // ["cart", "mypage"].includes(item.menuId) ==> item.menuId에 cart,mypage를 포함하고 있는지
-  const commonMenuItems = commonMenu?.filter((item) =>
-    ["cart", "mypage"].includes(item.menuId)
-  );
->>>>>>> 1b28e6c9485ab3f5c6e8228cf5d3cd986d37306d
+
 
   return (
     <header id="header" className="header">

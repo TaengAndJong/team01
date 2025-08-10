@@ -183,28 +183,14 @@ const AdminBook = () => {
         <div className="right">
           <section className="content custom-border">
             <div className="content-inner">
-<<<<<<< HEAD
-              {/*현재경로의 메뉴명출력 */}
-              {subNavi?.[0]?.secondChild
-                ?.filter(
-                  (item) =>
-                    item.menuDepth === "2차메뉴" &&
-                    item.menuPath === currentPath
-                )
-                .map((item) => {
-                  return (
-                    <h3 className="sub-title current-title title-border">
-                      {item.menuName}
-                    </h3>
-                  );
-=======
+
               {/*현재경로의 페이지명 depth 2 */}
               <h3 className="sub-title current-title title-border">
                 {menu?.adminList?.map((item) => {
                   if (item.menuPath.startsWith(`${currentPath}`)) {
                     return item.menuName;
                   }
->>>>>>> 1b28e6c9485ab3f5c6e8228cf5d3cd986d37306d
+
                 })}
               </h3>
 
