@@ -6,9 +6,6 @@
 //sub
 
 .sub{ background-color: #ffffff;
-  .main {
-    margin-top: 100px;
-  }
   .page {
     padding:$layoutPadding;
     justify-content: space-between;
@@ -185,6 +182,10 @@
         position: absolute; top:calc(50% - 5.5px); right:-7.5px;
     }
   }
+
+}
+//수정페이지 레프트메뉴 삭제
+[class *= "modify"]{
 
 }
 

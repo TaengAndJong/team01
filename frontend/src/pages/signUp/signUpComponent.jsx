@@ -1,6 +1,6 @@
 
 import React, { useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Btn from "@util/reuseBtn.jsx";
 import IdAndpw from "@pages/signUp/components/idAndpw.jsx";
 import "@assets/css/signUp/signUp.css"
@@ -150,9 +150,9 @@ const SignUpComponent = () => {
                         <Address formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
                         {/*<StaffConfirm formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleConfirm={handleConfirm}/>*/}
                         <div className="d-flex justify-content-center w-100 mt-4">
-                            <Btn type="submit" text="회원가입" className="btn-primary me-2" id="signup"
+                            <Btn type="submit" text="회원가입" className="btn btn-dark me-2" id="signup"
                                  onClick={handleSignUp}/>
-                            <Btn type="reset" text="취소" className="btn-danger" id="reset"/>
+                            <Link to="/" className="btn btn-danger">취소</Link>
                         </div>
                     </fieldset>
                 </form>

@@ -1,9 +1,12 @@
 @use "../utils/variables" as *; // 변수
 @use "../utils/mixins" as *; // 함수
 
+.btn{padding: 0.9rem 1rem; font-size: 1.5rem;border-radius: 0.5rem;}
 
-.default-btn{background-color: $color01;padding:10px 15px;display:inline-block;
+.custom-btn{background-color: $color01;  color:$color08;
+  display:inline-block;
   transition: background-color 0.3s ease, color 0.3s, font-weight 0.3s;
+  border-radius: 20px;
   &:hover,&:focus{ background-color: $color05; font-weight: bold}
 }
 
@@ -12,7 +15,49 @@
   &:hover,&:focus{ background-color: $color06; font-weight: bold }
 }
 
+.custom-btn01{
+  background-color: $color01; color:$color08;
+  &:hover,&:focus{ background-color: $color06; color:$color01;font-weight: bold }
+}
+
 .custom-btn02{/// 갈색
   background-color: $color01; color:$color08;
   &:hover,&:focus{ background-color: $color00; color:$color08;font-weight: bold }
 }
+
+.custom-outline-btn{
+  border: 1px solid $color01;
+  background-color: $color08; color:$color01;
+  &.active,&:hover,&:focus{ background-color: $color01; color:$color08; font-weight: bold }
+}
+
+.circle-btn{
+  position: relative;
+
+  > span,em,i{
+    position: relative;
+    z-index: 2;
+    font-size: 20px;//em단위의 기준
+    padding:0.6em; //본인 폰트사이즈 기준
+    color:$color01;
+    font-weight: bold;
+    transition: color 0.2s ease, color 0.2s, font-weight 0.2s;
+  }
+  &:before{@extend  %pseudoEL; width: 60px;height: 60px;background-color:$color05;
+    position: absolute; left:0; top:calc(50% - 2.1em); border-radius: 50%;
+    z-index: 1;
+    transition: width 0.2s ease, background-color 0.3s;
+  }
+
+  &:hover,&:focus{
+    > span,em,i{color: $color08}
+  }
+  &:hover:before,&:focus:before{
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: $color01;
+    border-radius: 5rem;
+  }
+}
+

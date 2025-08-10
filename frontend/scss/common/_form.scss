@@ -2,7 +2,7 @@
 @use "../utils/mixins" as *; // 함수
 @use "../utils/variables" as *;
 
-
+[class*="form-"],[class*="-text"]{font-size: 1.5rem}
 .form-group-title, .form-title{font-weight:bold; min-width: 110px; padding-right:10px; text-align: left;
   position: relative;
   &::after{@extend %pseudoEL; position: absolute; right:10px; top:0px;

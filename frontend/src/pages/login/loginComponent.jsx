@@ -102,12 +102,14 @@ function Login({data}) {
         <>
 
             <div className="page login-inner">
-                <div className="login-form text-center custom-border">
-                    <h4 className="h4 title">로그인</h4>
-                    <form onSubmit={handleFormSubmit}>
-                        <div className="row my-3">
-                            <label htmlFor="clientId" className="col-sm-2 col-form-label">ID</label>
-                            <div className="col-sm-10">
+                <div className="d-flex align-items-center flex-column justify-content-center custom-border p-3">
+                    <h4 className="h4 title mb-3">로그인</h4>
+                    <form onSubmit={handleFormSubmit} className="login-form">
+                        <div className="d-flex login-row my-3">
+                            <label htmlFor="clientId" className="col-sm-1 col-form-label icon login-user me-3">
+                                <span className="sr-only">아이디</span>
+                            </label>
+                            <div className="col-sm-11">
                                 <input
                                     className="form-control"
                                     type="text"
@@ -119,9 +121,11 @@ function Login({data}) {
                                 />
                             </div>
                         </div>
-                        <div className="row mb-4">
-                            <label htmlFor="password" className="col-sm-2 col-form-label">PW </label>
-                            <div className="col-sm-10">
+                        <div className="d-flex login-row mb-4">
+                            <label htmlFor="password" className="col-sm-1 col-form-label icon login-pw me-3">
+                                <span className="sr-only">비밀번호</span>
+                            </label>
+                            <div className="col-sm-11">
                                 <input
                                     className="form-control"
                                     type="password"
@@ -133,7 +137,7 @@ function Login({data}) {
                                 />
                             </div>
                         </div>
-                        <div className="d-flex justify-content-center align-items-center" >
+                        <div className="d-flex justify-content-center align-items-center pt-2" >
                             <Link className="btn custom-btn02 w-50 me-1" to={"/signup"}>회원가입</Link>
                             <button type="submit" className="btn custom-btn00 w-50 ms-1">로그인 </button>
                         </div>

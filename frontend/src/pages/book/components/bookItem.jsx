@@ -137,11 +137,11 @@ const BookItem = ({bookList}) =>{
 
 
     return (
-        <div className="book-list-inner overflow-hidden mt-4">
+        <div className="book-list-inner overflow-hidden">
             {bookList && (
                 <ul className="book-item-list clearfix">
                     {bookList?.map((book, index) => (
-                        <li key={index} className="book-item mb-3 mx-2 default-border overflow-hidden p-4 float-start">
+                        <li key={index} className="book-item mb-3 mx-2 \overflow-hidden p-4 float-start">
                             <Link to={`/book/bookDetail/${book.bookId}`} className="book-link d-block" id={book.bookId}>
                                 <div className="item-inner d-flex card flex-row  position-relative">
                                     <div className="card-header border-end rounded-4 overflow-hidden">
@@ -169,8 +169,8 @@ const BookItem = ({bookList}) =>{
                             {/* 수량 및 액션 버튼 영역 */}
                             <div className="item-inner d-flex align-items-center justify-content-end mt-4">
 
-                                <button type="button" aria-label="찜하기"  className="submit btn btn-danger me-2 wish-btn" onClick={()=>wishHandler(book.bookId)}>
-                                    찜
+                                <button type="button" className="submit btn me-2 icon wish" onClick={()=>wishHandler(book.bookId)}>
+                                    <span className="sr-only">위시리스트에 담기</span>
                                 </button>
                                 {book.stock === 0 ?(
                                     <p>품절</p>
@@ -178,7 +178,7 @@ const BookItem = ({bookList}) =>{
                                     <>
                                         {/*수량*/}
                                         <div className="count w-25">
-                                            <div className="count-inner d-inline-flex">
+                                            <div className="count-inner d-inline-flex mx-2">
                                                 <button className="btn btn-light minus" name="minus" type="button" onClick={(e)=>bookCountChangHandler(book.bookId,e)}>
                                                     -
                                                     <span className="sr-only">도서상품개수 하나씩 감소</span>
@@ -195,7 +195,7 @@ const BookItem = ({bookList}) =>{
                                         {/*수량*/}
                                         <AddCartBtn bookId={book.bookId} bookCount={bookCount[book.bookId] ?? 1}  />
                                         <button type="button" aria-label="선택구매"
-                                                className="submit btn btn-secondary">선택구매
+                                                className="submit btn btn-dark">선택구매
                                         </button>
                                     </>
                                     )}

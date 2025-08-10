@@ -214,7 +214,7 @@ const AdminBook = () => {
                     </Link>
                   </li>
                 )}
-                {subNavi?.[0]?.secondChild && (
+                {subNavi?.[0]?.secondChild?.length > 0  && (
                   <li>
                     <span>
                       {subNavi?.[0].secondChild
