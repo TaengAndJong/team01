@@ -141,7 +141,7 @@ function App() {
                 element={<AdminOneBoard category="one" />}
               />
               <Route
-                path="detailBoard/:category/:boardId"
+                path="detail/:category/:boardId"
                 element={<DetailBoard userType="admin" />}
               />
             </Route>

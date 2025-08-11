@@ -1,48 +1,28 @@
 import "@assets/css/board/adminBoard.css";
+import { Link } from "react-router-dom";
+import DetailBoard from "@assets/sharedComponent/detailBoard.jsx";
 
 const adminBoardItem = ({ data, number }) => {
   console.log("adminBoardItem data", data);
 
-  // 각 카테고리별 제목 필드 매핑
-  const getTitle = (data) => {
-    if (data.qnaTitle) return data.qnaTitle;
-    if (data.productTitle) return data.productTitle;
-    if (data.deliveryTitle) return data.deliveryTitle;
-    return data.title || "N/A";
-  };
-
-  // 각 카테고리별 작성자 필드 매핑
-  const getWriter = (data) => {
-    if (data.qnaWriter) return data.qnaWriter;
-    if (data.productWriter) return data.productWriter;
-    if (data.deliveryWriter) return data.deliveryWriter;
-    return data.writer || "N/A";
-  };
-
-  // 각 카테고리별 상태 필드 매핑
-  const getStatus = (data) => {
-    if (data.qnaStatus) return data.qnaStatus;
-    if (data.productStatus) return data.productStatus;
-    if (data.deliveryStatus) return data.deliveryStatus;
-    return data.status || "N/A";
-  };
-
-  // 각 카테고리별 날짜 필드 매핑
-  const getDate = (data) => {
-    if (data.qnaDate) return data.qnaDate;
-    if (data.productDate) return data.productDate;
-    if (data.deliveryDate) return data.deliveryDate;
-    return data.date || "N/A";
+  //
+  const getCategory = (data) => {
+    if (data.qnaTitle || data.qnaOneId) return "qna";
   };
 
   return (
     <>
       <tr key={data.productId} className="table-light border-bottom">
         <td className="text-center ">{number}</td>
-        <td className="text-left">{getTitle(data)}</td>
-        <td className="text-center ">{getWriter(data)}</td>
-        <td className="text-center ">{getStatus(data)}</td>
-        <td className="text-center ">{getDate(data)}</td>
+        <Link
+          to={`detail/${data.category}/${data.boardId}?userId=${data.userId}`}
+        >
+          <td className="text-left">{data.qnaTitle}</td>
+        </Link>
+        <td className="text-center ">{data.qnaWriter}</td>
+        <td className="text-center ">{data.clientId}</td>
+        <td className="text-center ">{data.qnaDate}</td>
+        <td className="text-center ">{data.qnaStatus}</td>
       </tr>
     </>
   );

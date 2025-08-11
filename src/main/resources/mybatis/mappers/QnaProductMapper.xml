@@ -43,6 +43,7 @@
                 SELECT TRIM("qnaProId") AS "qnaProId"
                     , "qnaTitle"
                     , "qnaWriter"
+                    , "clientId"
                     , "qnaStatus"
                     , "qnaDate"
                 FROM qnaPro

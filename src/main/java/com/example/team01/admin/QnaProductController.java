@@ -84,13 +84,21 @@ public class QnaProductController {
         return ResponseEntity.ok(qnaProductList);
     }
 
-    // @GetMapping(value = "/qnaDetailBoard/{qnaProductId}")
-    // public ResponseEntity<?> getQnaDetailBoard(@PathVariable int qnaProductId) {
-    //     log.info("상품 문의 상세 조회 API 호출됨");
-    //     log.info("상품 문의 상세 조회 qnaProductId -----------------: {}", qnaProductId);
+    // 상세조회 API GET맵핑 사용
+    // api 는? detailBoard/ : {boardId} , {category} , {userId} , 세개 받기?
+    // boardId 는 DB의 Id값 userId 는 검색 키워드 클라이언트 아이디
+    // 현재 관리자 게시판 , 사용자 게시판 구조가 다름 상세조회 만들 때 위 api로 둘다 사용가능한가?
+    @GetMapping("/detail/{category}/{boardId}")  // URL 패턴
+    public ResponseEntity<?> getBoardDetail(
+    @PathVariable String category,    // URL 경로의 {category}
+    @PathVariable String boardId,     // URL 경로의 {boardId}
+    @RequestParam String userId       // 쿼리 파라미터 ?userId=값
+    ){
+    log.info("상세조회 API 호출됨");
+    log.info("상세조회 category -----------------: {}", category);
+    log.info("상세조회 boardId -----------------: {}", boardId);
+    log.info("상세조회 userId -----------------: {}", userId);
 
-    //     QnaProductVO qnaProductVO = qnaProductService.getQnaProductById(qnaProductId);
-    //     log.info("상품 문의 상세 조회 qnaProductVO -----------------: {}", qnaProductVO);
-    //     return ResponseEntity.ok(qnaProductVO);
-    // }
+    return ResponseEntity.ok("상품 상세조회 통신 성공");
+}
 }
