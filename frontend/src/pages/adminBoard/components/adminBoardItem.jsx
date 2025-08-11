@@ -21,8 +21,8 @@ const adminBoardItem = ({ data, number }) => {
         </Link>
         <td className="text-center ">{data.qnaWriter}</td>
         <td className="text-center ">{data.clientId}</td>
-        <td className="text-center ">{data.qnaDate}</td>
         <td className="text-center ">{data.qnaStatus}</td>
+        <td className="text-center ">{data.qnaDate}</td>
       </tr>
     </>
   );
