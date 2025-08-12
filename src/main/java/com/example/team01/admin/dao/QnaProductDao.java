@@ -15,4 +15,6 @@ public interface QnaProductDao {
     public List<QnaProductVO> getAllQnaProductList(@Param("pagination") Pagination pagination);
 
     int totalRecord(@Param("pagination") Pagination pagination);
+
+    public QnaProductVO getProDetailBoard(@Param("boardId") String boardId, @Param("userId") String userId);
 }

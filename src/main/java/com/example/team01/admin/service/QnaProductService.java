@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface QnaProductService {
     public List<QnaProductVO> getAllQnaProductList(Pagination pagenation);
+
+    // 상품 문의 상세 조회
+    public QnaProductVO getQnaProductDetail(String boardId, String userId);
 }

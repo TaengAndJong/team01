@@ -43,6 +43,7 @@
                 SELECT TRIM("qnaProId") AS "qnaProId"
                     , "qnaTitle"
                     , "qnaWriter"
+                    , "clientId"
                     , "qnaStatus"
                     , "qnaDate"
                 FROM qnaPro
@@ -54,4 +55,15 @@
         FROM filterData
         WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
     </select>
+
+
+    <select id="getProDetailBoard" resultType="QnaProductVO" parameterType="map">
+        SELECT *
+        FROM qnaPro
+        WHERE "qnaProId" = #{boardId}
+        AND "clientId" = #{userId}
+        AND ROWNUM = 1
+    </select>
+
+    
 </mapper>
