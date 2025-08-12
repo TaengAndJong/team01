@@ -77,7 +77,7 @@ public class AttachmentServiceImple implements AttachmentService {
     public List<AttachmentVO> GetAttachmentList(String userId , String boardType, LocalDateTime boardDate) {
         log.info("GetAttachmentList 호출");
         log.info("GetAttachmentList 넘어온 userId: {}", userId);
-        List<AttachmentVO> list = attachmentDao.GetAttachmentList(userId , boardType , boardDate);
-        return list;
+        List<AttachmentVO> attachmentList = attachmentDao.GetAttachmentList(userId , boardType , boardDate);
+        return attachmentList;
     }
 }

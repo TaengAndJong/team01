@@ -8,6 +8,7 @@ const DetailBoard = () => {
   const navigate = useNavigate();
   const { category, boardId } = useParams();
   const [searchParams] = useSearchParams();
+
   const userId = searchParams.get("userId");
   console.log("DetailBoard category", category);
   console.log("DetailBoard boardId", boardId);
@@ -28,25 +29,30 @@ const DetailBoard = () => {
     fetchData();
   }, [category, boardId, userId]);
 
-  return (
-    <div
-      style={{ padding: "20px", background: "yellow", border: "2px solid red" }}
-    >
-      <h1>🎯 DetailBoard 컴포넌트 렌더링 성공!</h1>
-      <p>Category: {category}</p>
-      <p>BoardId: {boardId}</p>
-      <p>UserId: {userId}</p>
-      <div>
-        <Btn
-          text="목록"
-          onClick={() => navigate(`/admin/board/${category}Board`)}
-        />
-        <Btn text="삭제" />
-        <Btn text="수정" />
-        <Btn text="답변 등록" />
+  if (!data)
+    return (
+      <div
+        style={{
+          padding: "20px",
+          background: "yellow",
+          border: "2px solid red",
+        }}
+      >
+        <h1>🎯 DetailBoard 컴포넌트 렌더링 성공!</h1>
+        <p>Category: {category}</p>
+        <p>BoardId: {boardId}</p>
+        <p>UserId: {userId}</p>
+        <div>
+          <Btn
+            text="목록"
+            onClick={() => navigate(`/admin/board/${category}Board`)}
+          />
+          <Btn text="삭제" />
+          <Btn text="수정" />
+          <Btn text="답변 등록" />
+        </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default DetailBoard;

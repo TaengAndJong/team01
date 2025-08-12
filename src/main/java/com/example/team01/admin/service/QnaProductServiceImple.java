@@ -2,12 +2,14 @@ package com.example.team01.admin.service;
 
 import com.example.team01.admin.dao.QnaProductDao;
 import com.example.team01.vo.AdminBookVO;
+import com.example.team01.vo.AttachmentVO;
 import com.example.team01.vo.QnaProductVO;
 import com.example.team01.utils.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
 import java.util.List;
 import com.example.team01.attachment.service.AttachmentService;
 import lombok.RequiredArgsConstructor;
@@ -57,10 +59,11 @@ public class QnaProductServiceImple implements QnaProductService {
         
         log.info("상품 상세조회 서비스 구현체 실행 결과:{}", boardData);
 
-        // 2. 가져온 게시물 데이터에서 게시물 날짜 데이터 추출 후
-
-        // 3. attachment 로 첨부파일 데이터 조회
-        // attachmentService.GetAttachmentList(userId, "product", boardData.getQnaDate());
+        // 2. 가져온 게시물 데이터에서 게시물 날짜 데이터 추출
+        // 2. attachment qnaDate, userId, category, 첨부파일 데이터 조회
+        log.info("첨부파일 조회 시작");
+        List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "product", boardData.getQnaDate());
+        log.info("첨부파일 조회 결과:{}", attachmentList);
         // 4. 반환 받은 데이터 넘기기
 
         return boardData;
