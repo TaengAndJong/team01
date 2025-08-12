@@ -9,18 +9,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
+import com.example.team01.attachment.service.AttachmentService;
+import lombok.RequiredArgsConstructor;
 
 @Slf4j
 @Service // 스프링의 서비스 계층 컴포넌트로 등록
+@RequiredArgsConstructor // 생성자 자동 주입
 public class QnaProductServiceImple implements QnaProductService {
 
     private final QnaProductDao qnaProductDao;
-    
-    // 생성자 주입 (권장)
-    @Autowired
-    public QnaProductServiceImple(QnaProductDao qnaProductDao) {
-        this.qnaProductDao = qnaProductDao;
-    }
+    private final AttachmentService attachmentService;
+
 
     @Override
     public List<QnaProductVO> getAllQnaProductList(Pagination pagination) {
@@ -40,8 +39,30 @@ public class QnaProductServiceImple implements QnaProductService {
         List<QnaProductVO> qnaProList = qnaProductDao.getAllQnaProductList(pagination);
         log.info("페이지에 해당하는 상품 문의 데이터 리스트 -------:{}", qnaProList);
 
-        // git 확인용 주석
-
         return qnaProList;
+    }
+
+    @Override
+    public QnaProductVO getQnaProductDetail(String boardId, String userId) {
+        log.info("상품 상세조회 서비스 구현체 실행");
+        log.info("boardId:{}", boardId);
+        log.info("userId:{}", userId);
+        // 1. 게시물 데이터를 가져오기
+        QnaProductVO boardData = qnaProductDao.getProDetailBoard(boardId, userId);
+
+        //1-2 NULL 체크 후 예외 처리
+        if (boardData == null) {
+            throw new IllegalArgumentException("게시물을 찾을 수 없습니다.");
+        }
+        
+        log.info("상품 상세조회 서비스 구현체 실행 결과:{}", boardData);
+
+        // 2. 가져온 게시물 데이터에서 게시물 날짜 데이터 추출 후
+
+        // 3. attachment 로 첨부파일 데이터 조회
+        // attachmentService.GetAttachmentList(userId, "product", boardData.getQnaDate());
+        // 4. 반환 받은 데이터 넘기기
+
+        return boardData;
     }
 }

@@ -83,4 +83,16 @@ public ResponseEntity<?> getSearchQnaDeliveryList(
       return ResponseEntity.ok(qnaDeliveryList);
 }
 
+    // 배송 문의 상세조회 API
+    @GetMapping("/detail/delivery/{boardId}")  // URL 패턴: /admin/board/detail/delivery/123
+    public ResponseEntity<?> getDeliveryBoardDetail(
+    @PathVariable String boardId,     // URL 경로의 {boardId}
+    @RequestParam String userId       // 쿼리 파라미터 ?userId=값
+    ){
+    log.info("🚚 배송 문의 상세조회 API 호출됨");
+    log.info("상세조회 boardId -----------------: {}", boardId);
+    log.info("상세조회 userId -----------------: {}", userId);
+
+    return ResponseEntity.ok("배송 문의 상세조회 통신 성공");
+}
   }

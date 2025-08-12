@@ -34,7 +34,7 @@ import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
 import Board from "@pages/board/boardComponent.jsx";
 import CreateBoard from "@pages/board/components/createBoardComponent.jsx";
 import BoardTemplateComponent from "@pages/board/components/boardTemplateComponent.jsx";
-import DetailBoard from "@assets/sharedComponent/DetailBoard.jsx";
+import DetailBoard from "@assets/sharedComponent/detailBoard.jsx";
 
 import BookList from "@pages/book/components/bookList.jsx";
 import BookDetail from "@pages/book/components/bookDetail.jsx";
@@ -102,11 +102,7 @@ function App() {
             <Route path={PathData.page.board} element={<Board />}>
               {/*클라이언트 게시물 생성*/}
               <Route path="createBoard" element={<CreateBoard />} />
-              {/*게시물 상세 읽기 페이지*/}
-              <Route
-                path="detailBoard/:category/:boardId"
-                element={<DetailBoard userType="client" />}
-              />
+
               <Route
                 path="oneBoard"
                 element={<BoardTemplateComponent category="one" />}
@@ -120,6 +116,12 @@ function App() {
                 element={<BoardTemplateComponent category="delivery" />}
               />
             </Route>
+
+            {/* 관리자 상세 페이지 - 중첩 라우팅 밖으로 이동 */}
+            <Route
+              path="detailBoard/:category/:boardId/:userId"
+              element={<DetailBoard userType="client" />}
+            />
 
             {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
             <Route path="/admin" element={<Admin />} />
@@ -140,11 +142,13 @@ function App() {
                 path="oneBoard"
                 element={<AdminOneBoard category="one" />}
               />
-              <Route
-                path="detail/:category/:boardId"
-                element={<DetailBoard userType="admin" />}
-              />
             </Route>
+
+            {/* 관리자 상세 페이지 - 중첩 라우팅 밖으로 이동 */}
+            <Route
+              path="/admin/board/detail/:category/:boardId/"
+              element={<DetailBoard userType="admin" />}
+            />
 
             <Route path={PathData.page.adminBook} element={<AdminBook />}>
               <Route index element={<Navigate to="bookList" replace />} />

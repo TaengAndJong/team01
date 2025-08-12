@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.team01.utils.FileUtils;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -73,10 +74,10 @@ public class AttachmentServiceImple implements AttachmentService {
     }
 
     // 특정 게시물 첨부파일 조회 후 반환
-    public List<AttachmentVO> GetAttachmentList(String userId , String boardType) {
+    public List<AttachmentVO> GetAttachmentList(String userId , String boardType, LocalDateTime boardDate) {
         log.info("GetAttachmentList 호출");
         log.info("GetAttachmentList 넘어온 userId: {}", userId);
-        List<AttachmentVO> list = attachmentDao.GetAttachmentList(userId , boardType);
+        List<AttachmentVO> list = attachmentDao.GetAttachmentList(userId , boardType , boardDate);
         return list;
     }
 }
