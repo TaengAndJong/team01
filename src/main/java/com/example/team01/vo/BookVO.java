@@ -28,6 +28,7 @@ public class BookVO implements BookImgChange {
     private String bookImgPath; //도서이미지 DB 저장 용
     private List<String> bookImgList; // 서버주소 + 파일명
 
+    private String detailUrl;//메인슬라이드 주소매핑용
 
     //도서재고수량 확인
     private Integer checkStock;
