@@ -12,7 +12,7 @@ import axios from "axios";
 
 const mainComponent = () => {
 
-    //const [slideData,setSlideData] = useState([]); // slide data 배열로 초기값
+    const [books,setBooks] = useState([]); // slide data 배열로 초기값
     //const [crData,setCrData] = useState([]); // slide data 배열로 초기값
 
 
@@ -27,7 +27,7 @@ const mainComponent = () => {
                 }
             });
             console.log("response data",response.data)
-
+            setBooks(response.data);
         }catch(e){
             console.log("booksFetch 에러");
             console.error(e);
@@ -63,7 +63,7 @@ const mainComponent = () => {
             {/* 메인*/}
             <SectionMain/>
             {/*도서 슬라이드*/}
-            <SectionBooks/>
+            <SectionBooks slideData={books || []} />
             {/* 문의, 위시리스트 , 회원가입 */}
             <SectionSkipBtns/>
             {/*인기도서 & 추천도서 */}

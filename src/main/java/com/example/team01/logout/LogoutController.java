@@ -19,6 +19,12 @@ import java.util.Map;
 @RestController
 public class LogoutController {
 
+    @PostMapping
+    public String successLogout(){
+
+        log.info("Logout successful-=-------");
+        return "로그아웃성공";
+    }
 
 
 

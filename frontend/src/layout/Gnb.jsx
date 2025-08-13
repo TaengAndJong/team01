@@ -30,6 +30,8 @@ const Gnb = ({ userData, menu, commonMenuItems, isAuthenticated, logout }) => {
 
   // 로그아웃 fetch 요청
   const handleLogout = async () => {
+    
+   console.log("logout -------- 왜 안돼"); 
     try {
       // 서버로 로그아웃 요청 보내기
       const response = await fetch("/api/logout", {
