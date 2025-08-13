@@ -46,6 +46,8 @@ public class MainServiceImple implements MainService {
         //books를 순회하면서 bookCateNm에 EBOOK,국내도서, 국외도서 있을 경우
         for (BookVO book : books) {
             String cate = book.getBookCateNm();
+            book.setDetailUrl("/book/bookDetail/" + book.getBookId());
+
             //bookCateNm 의 데이터가 "국내도서,로맨스,..." 등의 문자열이기 때문에 contains 메서드를 사용해서 글자가 포함되어잇는지 확인
             if (cate.contains("EBOOK")) {
                 ebook.add(book);

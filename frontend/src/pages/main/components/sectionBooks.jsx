@@ -50,7 +50,7 @@ const SectionBooks= ({slideData})=>{
                         </div>
                         <div className="tab-content">
                             <div className="tab-inner">
-                                <MainBookSlide slideData={slideData[activeTab]} naviId={activeTab}/>
+                                <MainBookSlide slideData={slideData[activeTab]} naviId={activeTab} activeTab={activeTab}/>
                             </div>
                         </div>
                     </div>

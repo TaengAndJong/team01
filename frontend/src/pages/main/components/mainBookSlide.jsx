@@ -7,9 +7,10 @@ import {Autoplay, Navigation, Pagination} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import {Link} from "react-router-dom";
 
 
-const MainBookSlide = ({slideData,naviId}) =>{
+const MainBookSlide = ({slideData,naviId,activeTab}) =>{
 
     console.log("slideData --------slideData",slideData);
     console.log("slideData --------naviId",naviId);
@@ -36,6 +37,13 @@ const MainBookSlide = ({slideData,naviId}) =>{
         // 재생이면 !ture == false , 정지이면 !false == true // 로 상태관리 재설정
     }
 
+    const customPagination = {
+        clickable: true,
+        renderBullet: function (index, className) {
+            return '<span class="' + className + '">' +'<i class="sr-only">'+ (naviId)+'의'+ (index + 1) + '번째 슬라이드</i></span>';
+        },
+    }
+
     //탭이 변경될 때마다 실행
     useEffect(() => {
         if (swiperRef.current) {
@@ -49,7 +57,7 @@ const MainBookSlide = ({slideData,naviId}) =>{
             {/*
                 Swiper 속성
                 1) ref  : DoM요소 참조가 아니라 컴포넌트 자체를 지칭할 수 도 있음
-                2) onSwiper : Swiper 인스턴스를 명확하게 가져올 수 있음. 
+                2) onSwiper : Swiper 인스턴스를 명확하게 가져올 수 있음.
                   - 역할: swiper 컴포넌트를 렌더링 하면 내부적으로 Swiper 클래스 인스턴스가 생성
                         내부에는 autoplay, slideTo, navigation 등 모든 제어 메서드가 담겨잇음
                    **** 중요 ****
@@ -57,13 +65,14 @@ const MainBookSlide = ({slideData,naviId}) =>{
                    현재 구동되는 swiper 슬라이드 객체에 접근이 가능해짐
             */}
 
+
             <Swiper
                 ref={swiperRef}
                 onSwiper={(swiper) => {
                     swiperRef.current = swiper; // Swiper 인스턴스를 저장
                 }}
                 modules={[Pagination, Navigation, Autoplay]}
-                pagination={{ type: "fraction" }}
+                pagination={activeTab === naviId ? customPagination : false}
                 loop={slideData?.length > 1}
                 autoplay={{ delay: 2000, disableOnInteraction: false }}
                 navigation={{ // 각 탭의 슬라이드의 컨트롤을 각각 적용해줘야 기능이 적용됨
@@ -79,15 +88,17 @@ const MainBookSlide = ({slideData,naviId}) =>{
             >
                 {slideData?.map((item, idx) => (
                     <SwiperSlide key={`slide-${idx}`}>
-                        <div className="img-box">
-                            <div className="img-inner">
-                                <img className="img" src={item.bookImgList?.[0]} alt={item.bookName} />
+                        <Link to={item.detailUrl} title={`${item.bookName}도서 상세페이지 바로가기`}>
+                            <div className="img-box">
+                                <div className="img-inner">
+                                    <img className="img" src={item.bookImgList?.[0]} alt={item.bookName} />
+                                </div>
                             </div>
-                        </div>
-                        <div className="txt-box">
-                            <span className="tit bold d-block">{item.bookName}</span>
-                            <span className="tit bold d-block">{item.author}</span>
-                        </div>
+                            <div className="txt-box">
+                                <span className="tit bold d-block">{item.bookName}</span>
+                                <span className="tit bold d-block">{item.author}</span>
+                            </div>
+                        </Link>
                     </SwiperSlide>
                 ))}
             </Swiper>
