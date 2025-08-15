@@ -1,10 +1,10 @@
 import "@assets/css/main.css";
 import { Link } from "react-router-dom";
 import MainBookSlide from "./components/mainBookSlide.jsx";
-// import SectionMain from "./components/sectionMain.jsx";
-// import SectionBooks from "./components/sectionBooks.jsx";
-// import SectionSkipBtns from "./components/sectionSkipBtns.jsx";
-// import SectionCuration from "./components/SectionCuration.jsx";
+import SectionMain from "./components/sectionMain.jsx";
+import SectionBooks from "./components/sectionBooks.jsx";
+import SectionSkipBtns from "./components/sectionSkipBtns.jsx";
+import SectionCuration from "./components/SectionCuration.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
