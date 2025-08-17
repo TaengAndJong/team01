@@ -59,7 +59,7 @@ const WishComponent=()=>{
             }
 
             const data = await response.json();
-            console.log("wishList-------getFetch", data);
+            console.log("wishList-------getFetch----component", data);
             onInit(data.userWishList);
 
             setPaginationInfo({
@@ -77,7 +77,8 @@ const WishComponent=()=>{
 
 //dispatch 함수
     const onInit =(wishList) => {
-        console.log("onInit", wishList);
+        console.log("onInit----------------", wishList);
+        console.log("onInit----------------Array.isArray", Array.isArray(wishList));
         dispatch({
             type:"INIT",
             data: wishList
@@ -99,6 +100,9 @@ const WishComponent=()=>{
     useEffect(()=>{
         // 마운트 시 서버 또는 db에서 데이터를 받아온 후 onInit을 실행해야 함
         wishFetch();
+        console.log("wishData---wishComponent",wishdata)
+        //페이지네이션값 갱신? 해줘야함?
+
     },[paginationInfo.currentPage]) // 마운트 시에 한 번실행 됨
 
     console.log("wishdata ----------init ",wishdata)
@@ -108,7 +112,7 @@ const WishComponent=()=>{
         <>
         <WishStateContext.Provider value={wishdata}>
             <WishDispatchContext.Provider value={onInit}>
-                <PaginationContext.Provider value={{paginationInfo, setPaginationInfo,onChangePageHandler}}>
+                <PaginationContext.Provider value={{paginationInfo,setPaginationInfo,onChangePageHandler}}>
                     <Outlet/>
                 </PaginationContext.Provider>
             </WishDispatchContext.Provider>

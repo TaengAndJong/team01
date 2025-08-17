@@ -51,6 +51,7 @@ public class WishListController {
         //디비로부터 조회해온 데이터들
         log.info("stream after userWishList------:{}",userWishList);
 
+
         Map<String,Object> result = new HashMap<>();
         result.put("userWishList",userWishList);
         result.put("currentPage", pagination.getCurrentPage());
@@ -102,7 +103,10 @@ public class WishListController {
         result.put("userWishList",userWishList);
 
         log.info("userWishList----result:{}",userWishList);
-
+        result.put("currentPage", pagination.getCurrentPage());
+        result.put("pageSize", pagination.getPageSize());
+        result.put("totalPages", pagination.getTotalPages());
+        result.put("totalRecord", pagination.getTotalRecord());
         return ResponseEntity.ok(result);
     }
 

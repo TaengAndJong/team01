@@ -128,6 +128,7 @@ const BookItem = ({bookList}) =>{
         try{
             console.log("찜목록 페치요청 보내는 듕")
             wishFetch(bookId);
+
         }catch(e){
             console.error("찜 토글 실패", e);
         } finally {
