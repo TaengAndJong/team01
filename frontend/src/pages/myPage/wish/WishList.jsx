@@ -8,20 +8,20 @@ import {PaginationContext, WishStateContext,WishDispatchContext} from "./WishCom
 
 const WishList = () => {
 
-    const InitData = useContext(WishStateContext);
-    const {onInit} = useContext(WishDispatchContext);
-    const {paginationInfo,onChangePageHandler} = useContext(PaginationContext);
+    const wishdata = useContext(WishStateContext);
+    const onInit = useContext(WishDispatchContext); // 함수는 구조분해할당하면 안돼!! 주의!
+    const {paginationInfo,setPaginationInfo,onChangePageHandler} = useContext(PaginationContext);
     const [wishList, setWishList] = useState(null);
 
 
 
     useEffect(() => {
         //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
-        if(InitData){ // 데이터가 있을경우
-            console.log("InitData--------useEffect",InitData);
-            setWishList(InitData);
+        if(wishdata){ // 데이터가 있을경우
+            console.log("InitData--------useEffect",wishdata);
+            setWishList(wishdata);
         }
-    }, [InitData]);
+    }, [wishdata]);
 
 
 
@@ -60,17 +60,26 @@ const WishList = () => {
             }
             //요청 성공
             const data = await response.json();
-            console.log("search---------------",data);
+            console.log("search---------------data",data);
+            console.log("data.userWishList---------------",data.userWishList);
+            console.log("data.array.isArray---------------data",Array.isArray(data));
+            console.log("data.array.isArray---------------data.userWishList",Array.isArray(data.userWishList));
             //setbookData에 데이터 갱신 처리 해주어함?
             onInit(data.userWishList);
-
+            setPaginationInfo({
+                currentPage: data.currentPage,
+                pageSize: data.pageSize,
+                totalPages: data.totalPages,
+                totalRecord: data.totalRecord,
+            })
+            console.log("wishList--------useEffect",wishList);
         }catch (e){
             console.log("검색실패",e);
         }
     }
 
-    console.log("wishList--------",wishList);
-    console.log("paginationInfo-------", paginationInfo);
+    console.log("wishList2222--------",wishList);
+    console.log("paginationInfo22-------", paginationInfo);
 
 
     return (
