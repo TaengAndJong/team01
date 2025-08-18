@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { handleFileDownload } from "@util/fileDownload.jsx";
+import "@assets/css/board/adminBoard.css";
 
 const DetailBoard = () => {
   console.log("🔥 DetailBoard 컴포넌트 렌더링됨!");
