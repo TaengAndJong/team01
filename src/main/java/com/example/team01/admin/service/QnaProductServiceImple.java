@@ -64,8 +64,9 @@ public class QnaProductServiceImple implements QnaProductService {
         log.info("첨부파일 조회 시작");
         List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "product", boardData.getQnaDate());
         log.info("첨부파일 조회 결과:{}", attachmentList);
+        boardData.setAttachmentList(attachmentList);
         // 4. 반환 받은 데이터 넘기기
-
+        log.info("상품 상세조회 서비스 구현체 실행 결과:{}", boardData);
         return boardData;
     }
 }

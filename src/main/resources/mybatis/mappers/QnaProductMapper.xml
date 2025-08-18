@@ -56,14 +56,21 @@
         WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
     </select>
 
-
     <select id="getProDetailBoard" resultType="QnaProductVO" parameterType="map">
-        SELECT *
-        FROM qnaPro
-        WHERE "qnaProId" = #{boardId}
-        AND "clientId" = #{userId}
-        AND ROWNUM = 1
+        SELECT "qnaProId",
+        "qnaTitle", 
+        TO_CHAR("qnaContent") as qnaContent,
+        "qnaWriter",
+        "qnaDate",
+        "qnaDel",
+        "qnaStatus",
+        "clientId",
+        "roleId",
+        "attachmentID"
+    FROM qnaPro
+    WHERE "qnaProId" = #{boardId}
+    AND "clientId" = #{userId}
+    AND ROWNUM = 1
     </select>
 
-    
 </mapper>
