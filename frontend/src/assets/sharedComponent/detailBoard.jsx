@@ -50,7 +50,7 @@ const DetailBoard = () => {
                         }
                         key={index}
                       >
-                        {item.attachmentID}
+                        {item.fileName}
                       </li>
                     );
                   })}
