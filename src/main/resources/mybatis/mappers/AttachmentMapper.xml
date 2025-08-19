@@ -18,5 +18,12 @@
         #{boardType}
     )
     </insert>
-
+    <select id="GetAttachmentList" resultType="com.example.team01.vo.AttachmentVO">
+        SELECT * FROM attachmentid
+        WHERE "uploader" = #{userId}
+        AND "boardType" = #{boardType}
+            AND "uploadDate" BETWEEN #{boardDate} - INTERVAL '5' MINUTE 
+            AND #{boardDate} + INTERVAL '5' MINUTE
+        ORDER BY "uploadDate"
+    </select>
 </mapper>

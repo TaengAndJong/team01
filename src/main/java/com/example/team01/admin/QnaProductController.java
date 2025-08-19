@@ -84,13 +84,16 @@ public class QnaProductController {
         return ResponseEntity.ok(qnaProductList);
     }
 
-    // @GetMapping(value = "/qnaDetailBoard/{qnaProductId}")
-    // public ResponseEntity<?> getQnaDetailBoard(@PathVariable int qnaProductId) {
-    //     log.info("상품 문의 상세 조회 API 호출됨");
-    //     log.info("상품 문의 상세 조회 qnaProductId -----------------: {}", qnaProductId);
-
-    //     QnaProductVO qnaProductVO = qnaProductService.getQnaProductById(qnaProductId);
-    //     log.info("상품 문의 상세 조회 qnaProductVO -----------------: {}", qnaProductVO);
-    //     return ResponseEntity.ok(qnaProductVO);
-    // }
+    // 상품 문의 상세조회 API
+    @GetMapping("/detail/product/{boardId}")  // URL 패턴: /admin/board/detail/product/123
+    public ResponseEntity<?> getProductBoardDetail(
+    @PathVariable String boardId,     // URL 경로의 {boardId}
+    @RequestParam String userId       // 쿼리 파라미터 ?userId=값
+    ){
+    log.info("📦 상품 문의 상세조회 API 호출됨");
+    log.info("상세조회 boardId -----------------: {}", boardId);
+    log.info("상세조회 userId -----------------: {}", userId);
+    QnaProductVO boardData = qnaProductService.getQnaProductDetail(boardId, userId);
+    return ResponseEntity.ok(boardData);
+}
 }

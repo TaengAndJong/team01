@@ -36,8 +36,8 @@ public class QnaOneController {
         Pagination pagination = new Pagination(currentPage, pageSize); //현재페이지 && 보여줄 페이지 수
 
          //서비스로 데이터 넘기기
-         List<QnaOneVO> qnaOneList  = qnaOneService.getAllQnaOneList(pagination);
-         log.info("qnaOneList size------------ = {}", qnaOneList.size());
+        List<QnaOneVO> qnaOneList  = qnaOneService.getAllQnaOneList(pagination);
+        log.info("qnaOneList size------------ = {}", qnaOneList.size());
 
             Map<String, Object> result = new HashMap<>();
             result.put("items", qnaOneList);
@@ -83,5 +83,17 @@ public class QnaOneController {
             log.info("result -----------------: {}",qnaOneList);
             return ResponseEntity.ok(qnaOneList);
     }
-
+    
+        // 1:1 문의 상세조회 API
+    @GetMapping("/detail/one/{boardId}")  // URL 패턴: /admin/board/detail/one/123
+    public ResponseEntity<?> getOneBoardDetail(
+    @PathVariable String boardId,     // URL 경로의 {boardId}
+    @RequestParam String userId       // 쿼리 파라미터 ?userId=값
+    ){
+    log.info("🔵 1:1 문의 상세조회 API 호출됨");
+    log.info("상세조회 boardId -----------------: {}", boardId);
+    log.info("상세조회 userId -----------------: {}", userId);
+    
+    return ResponseEntity.ok("1:1 문의 상세조회 통신 성공");
+}
 }

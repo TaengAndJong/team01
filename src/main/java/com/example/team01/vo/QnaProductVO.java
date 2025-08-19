@@ -5,6 +5,7 @@ import jakarta.persistence.Id; // 관계형 디비에서 사용
 import java.io.Serializable;
 import java.sql.Clob;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ToString
 @Getter // 은닉화된 정보를 캡슐화
@@ -15,7 +16,7 @@ public class QnaProductVO {
     @Id
     private String qnaProId; // 상품 문의 index
     private String qnaTitle; // 상품 문의 제목
-    private Clob qnaContent; // 상품 문의 내용
+    private String qnaContent; // 상품 문의 내용
     private String qnaWriter; // 상품 문의 작성자
     private LocalDateTime qnaDate; // 상품 문의 날짜 현재시간으로
     private LocalDateTime qnaDel; // 상품 문의 삭제 여부
@@ -23,4 +24,5 @@ public class QnaProductVO {
     private String clientId; // 상품 문의 작성자 아이디
     private String roleId; // 상품 문의 작성자 권한
     private String attachmentID; // 상품 문의 첨부 이미지
+    private List<AttachmentVO> attachmentList;
 }

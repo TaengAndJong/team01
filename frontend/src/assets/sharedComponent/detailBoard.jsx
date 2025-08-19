@@ -1,102 +1,78 @@
 import Btn from "@util/reuseBtn.jsx";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { handleFileDownload } from "@util/fileDownload.jsx";
+// import "@assets/css/board/adminBoard.css";
 
 const DetailBoard = () => {
-  const [boardData, setBoardData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  console.log("🔥 DetailBoard 컴포넌트 렌더링됨!");
+  const navigate = useNavigate();
   const { category, boardId } = useParams();
+  const [searchParams] = useSearchParams();
 
+  const userId = searchParams.get("userId");
+  console.log("DetailBoard category", category);
+  console.log("DetailBoard boardId", boardId);
+  console.log("DetailBoard userId", userId);
+  const [data, setData] = useState(null);
   useEffect(() => {
-    if (category && boardId) {
-      // 값이 준비됐을 때만 호출
-      const fetchData = async () => {
-        try {
-          setLoading(true);
-          setError(null);
-          const response = await axios.get(`상세조회요청 API`);
-          console.log("성공:", response.data);
-          setBoardData(response.data);
-        } catch (error) {
-          console.error("에러 발생:", error);
-          setError("데이터를 불러오는 중 오류가 발생했습니다.");
-        } finally {
-          setLoading(false);
-        }
-      };
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `/api/admin/board/detail/${category}/${boardId}?userId=${userId}`
+        );
+        setData(response.data);
+        console.log("DetailBoard data", data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [category, boardId, userId]);
 
-      fetchData();
-    }
-  }, [category, boardId]);
-
-  if (loading) {
-    return <div>로딩 중...</div>;
-  }
-
-  if (error) {
-    return <div>에러: {error}</div>;
-  }
-  return (
-    <>
-      <div>
-        <div className="readBoardBox">
-          <div className="d-flex">
-            <dt className="name">고객명</dt>
-            <dd>
-              <span>{boardData?.customerName || "사용자 이름"}</span>
-            </dd>
-          </div>
-          <div className="d-flex">
-            <dt className="id">ID</dt>
-            <dd>
-              <span>{boardData?.userId || "사용자 아이디"}</span>
-            </dd>
-          </div>
-          <div className="d-flex">
-            <dt>문의 종류</dt>
-            <dd>
-              <div>
-                <span>{boardData?.inquiryType || "문의 종류 적혀야 됨"}</span>
+  if (data)
+    return (
+      <>
+        <div className="boardDetailLayout">
+          <div className="boardDetail">
+            <div className="boardDetail-header">
+              <div className="boardDetail-title">
+                <h1>{data.qnaTitle}</h1>
               </div>
-            </dd>
+              <div>{data.qnaContent}</div>
+              <div>
+                <ul>
+                  {data.attachmentList.map((item, index) => {
+                    return (
+                      <li
+                        onClick={() =>
+                          handleFileDownload(item.attachmentID, item.fileData)
+                        }
+                        key={index}
+                      >
+                        {item.fileName}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              <div>
+                <Btn
+                  text="목록"
+                  onClick={() => navigate(`/admin/board/${category}Board`)}
+                />
+                <Btn text="삭제" />
+                <Btn text="수정" />
+                <Btn text="답변 등록" />
+              </div>
+            </div>
+            <div></div>
+            <div></div>
           </div>
-          <div className="d-flex">
-            <dt className="inquireTitle">문의 제목</dt>
-            <dd>
-              <span>{boardData?.title || "사용자가 작성한 제목"}</span>
-            </dd>
-          </div>
-
-          <div className="d-flex">
-            <dt className="inquireContents">문의 내용</dt>
-            <dd>
-              <span>{boardData?.content || "사용자가 작성한 내용"}</span>
-            </dd>
-          </div>
-
-          <div className="d-flex">
-            <dt className="attachfiles">첨부 파일</dt>
-            <dd>
-              <span>{boardData?.attachments || "사용자가 첨부한 파일"}</span>
-            </dd>
-          </div>
-
-          <div className="d-flex"></div>
-          <div className="readBtnBox">
-            <Btn
-              className={"Btn updateBoard "}
-              id={"updateBtn"}
-              onClick={() => {}}
-              text="수정하기"
-            ></Btn>
-          </div>
-          {userType === "admin" && <div></div>}
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
 };
 
 export default DetailBoard;
