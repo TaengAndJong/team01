@@ -3,18 +3,28 @@ import { useState, useEffect } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { handleFileDownload } from "@util/fileDownload.jsx";
-// import "@assets/css/board/adminBoard.css";
+import "@assets/css/board/adminBoard.css";
 
 const DetailBoard = ({ userType }) => {
-  console.log("🔥 DetailBoard 컴포넌트 렌더링됨!");
+  // console.log("🔥 DetailBoard 컴포넌트 렌더링됨!");
   const navigate = useNavigate();
   const { category, boardId } = useParams();
   const [searchParams] = useSearchParams();
+  const [answer, setAnswer] = useState("");
+
+  const handleAnswerChange = (e) => {
+    setAnswer(e.target.value);
+    console.log("답변", answer);
+  };
+
+  const handleAnswerSubmit = (answer) => {
+    console.log("답변 등록", answer);
+  };
 
   const userId = searchParams.get("userId");
-  console.log("DetailBoard category", category);
-  console.log("DetailBoard boardId", boardId);
-  console.log("DetailBoard userId", userId);
+  // console.log("DetailBoard category", category);
+  // console.log("DetailBoard boardId", boardId);
+  // console.log("DetailBoard userId", userId);
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -69,10 +79,15 @@ const DetailBoard = ({ userType }) => {
               <div className="adminAnswer_container">
                 <textarea
                   className="adminAnswer_textarea"
+                  value={answer}
                   placeholder="답변을 입력해주세요."
+                  onChange={handleAnswerChange}
                 ></textarea>
                 <div>
-                  <Btn text="답변 등록" />
+                  <Btn
+                    text="답변 등록"
+                    onClick={() => handleAnswerSubmit(answer)}
+                  />
                 </div>
               </div>
             )}
