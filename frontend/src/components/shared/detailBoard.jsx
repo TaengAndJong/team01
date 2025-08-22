@@ -5,7 +5,7 @@ import axios from "axios";
 import { handleFileDownload } from "@util/fileDownload.jsx";
 // import "@assets/css/board/adminBoard.css";
 
-const DetailBoard = () => {
+const DetailBoard = ({ userType }) => {
   console.log("🔥 DetailBoard 컴포넌트 렌더링됨!");
   const navigate = useNavigate();
   const { category, boardId } = useParams();
@@ -63,12 +63,19 @@ const DetailBoard = () => {
                   onClick={() => navigate(`/admin/board/${category}Board`)}
                 />
                 <Btn text="삭제" />
-                <Btn text="수정" />
-                <Btn text="답변 등록" />
               </div>
             </div>
-            <div></div>
-            <div></div>
+            {userType === "admin" && (
+              <div className="adminAnswer_container">
+                <textarea
+                  className="adminAnswer_textarea"
+                  placeholder="답변을 입력해주세요."
+                ></textarea>
+                <div>
+                  <Btn text="답변 등록" />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </>
