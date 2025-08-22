@@ -47,6 +47,7 @@
                 SELECT TRIM("qnaDelId") AS "qnaDelId"
                     , "qnaTitle"
                     , "qnaWriter"
+                    , "clientId"
                     , "qnaStatus"
                     , "qnaDate"
                 FROM qnaDeliv

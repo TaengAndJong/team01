@@ -19,6 +19,7 @@ export default defineConfig({
       { find: "@test", replacement: "/src/test" },
       { find: "@util", replacement: "/src/util" },
       { find: "@common", replacement: "/src/pages/common" },
+      { find: "@components", replacement: "/src/components" },
     ],
   },
   build: {
