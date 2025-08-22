@@ -931,6 +931,9 @@ header, .header-inner, .gnb {
     transform: rotate(0deg);
   }
 }
+.admin .sub .main {
+  padding-top: 170px;
+}
 .admin .sub .page {
   padding-bottom: 300px;
 }
