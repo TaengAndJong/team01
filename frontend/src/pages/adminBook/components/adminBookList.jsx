@@ -213,7 +213,7 @@ const AdminBookList = () => {
                             <td className="text-center" id={`bookPrice${index}`}>{item.bookPrice}원</td>
                             <td className="text-center" id={`bookPublishDt${index}`}>{item.publishDate}</td>
                             <td className="text-center" id={`bookWriter${index}`}>{item.writer}</td>
-                            <td className="text-center" id={`bookPublishDt${index}`}>{formatToDate(item.createDate)}</td>
+                            <td className="text-center" id={`bookPublishDt${index}`}>{formatToDate(new Date(item.createDate))}</td>
                             <td className="text-center" id={`bookStock${index}`}>{item.stock}</td>
                         </tr>
                     ))

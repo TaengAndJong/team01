@@ -20,28 +20,28 @@ export const generateOptions = (start, end, suffix = "", pad = false) => {
 
 //재사용성과 가독성을 위한 보편적인 날짜 유틸
 
-// 오늘 날짜 반환 (서버로 보내는 date객체 타입 날짜 )
+// 오늘 날짜 반환 (서버로 보내는 date객체 타입 날짜로 데이터베이스의 시간형식은  LocalDateTime으로 년,월,일, 시, 분, 초 까지 전송해야함)
 export const getToday = (separator = ".") => {
     const today = new Date();
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const dd = String(today.getDate()).padStart(2, "0");
-    console.log("today", today);
-    console.log("yyyy", yyyy);
-    console.log("mm", mm);
-    console.log("dd", dd);
-    return `${yyyy}${separator}${mm}${separator}${dd}`;
+    const hh = String(today.getHours()).padStart(2, "0");
+    const min = String(today.getMinutes()).padStart(2, "0");
+    const ss = String(today.getSeconds()).padStart(2, "0");
+
+    return `${yyyy}${separator}${mm}${separator}${dd} ${hh}:${min}:${ss}`;
 };
 
 
 // 한국식 날짜로 변환 ==> 클라이언트에게 보여줄 날짜형식
-export const formatToDate = (dateStr) => {
-    if (!dateStr) return "";
-    // console.log("dateStr",dateStr); // String type
-    // console.log("dateStr",typeof dateStr);
-    const toDate = new Date(dateStr); // date 객체로 변경
+export const formatToDate = (toDate) => { // new Date() 객체를 파라미터로 넘겨 줌
+    if (!toDate) return ""; // 객체가 없다면  "" (빈 문자열로) 반환
+    //있다면 형식 변경
     const yyyy = toDate.getFullYear();
     const mm = String(toDate.getMonth() + 1).padStart(2, "0");
     const dd = String(toDate.getDate()).padStart(2, "0");
+    //최종반환 날짜형식
     return `${yyyy}.${mm}.${dd}`;
 };
+

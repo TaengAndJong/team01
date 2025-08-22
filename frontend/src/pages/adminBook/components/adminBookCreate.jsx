@@ -8,7 +8,7 @@ import {useAuth} from "../../common/AuthContext.jsx";
 import FileUpload from "./fileUpload.jsx";
 import Category from "./category.jsx";
 import {useNavigate} from "react-router-dom";
-import {getToday} from "../../../util/dateUtils.jsx";
+import {formatToDate, getToday} from "../../../util/dateUtils.jsx";
 import PriceStock from "./priceStock.jsx";
 import {validStock} from "../../../util/validation.jsx";
 import ReusableModal from "./modal.jsx";
@@ -40,7 +40,7 @@ const AdminBookCreate = () => {
         cateId:[],
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
         writer: '',
-        createDate:getToday(),
+        createDate:formatToDate(new Date()), // 클라이언트에게 보여줄 날짜 ==> 데이터베이스는 자동으로 데이터 넣기
     })
     //카테고리
     const [categoryList, setCategoryList] = useState([]); // 도서 카테고리 상태관리
@@ -180,7 +180,11 @@ const AdminBookCreate = () => {
                     formData.append("cateId", id);
                 })
             }else if(key === "createDate") {
-                createBook["createDate"] = new Date(getToday());
+               console.log("키가 등록일일경우")
+                //dateUtils의 getToday() 로 localDateTime형식 맞춰주기
+                createBook["createDate"]=getToday(); //서버로 전송할 데이터객체형태로 변경
+                console.log("문자열인가 ?" ,typeof(createBook["createDate"]));
+                formData.append("createDate",  createBook["createDate"]);
             } else {
                 // 일반 문자열 데이터 추가
                 formData.append(key, value);
@@ -189,10 +193,12 @@ const AdminBookCreate = () => {
 
         // 디버깅: FormData에 추가된 값 확인
         for (let pair of formData.entries()) {
-            console.log("FormData 확인:", pair[0], pair[1]);
+            console.log("FormData 확인-----------:", pair[0], pair[1]);
         }
         //서버 컨트롤러로 전송
         try{
+            console.log("fetch formData ---------------",formData);
+
             const response =await fetch("/api/admin/book/bookCreate", {
                 method: "POST",
                 body: formData // 파일 객체 데이터가 있는경우, json.stringify 사용 불가, 서버에서 문자열과 파일 객체를 나눠줘야함
@@ -205,7 +211,7 @@ const AdminBookCreate = () => {
             // 서버로 보내어 저장 완료된 데이터를 다시 json으로 받아서 Context에  새로 반영
             // 생성 완료 후 목록을 조회할 때  새로운 데이터도 반영되어야 하기때문에 ( 데이터를 반환받지 않으면 이전 상태를  유지)
             const newUpdatingData = await response.json();
-            console.log("newUpdatingData" , newUpdatingData);
+            console.log("newUpdatingData-----------" , newUpdatingData);
             // onCreate를 통해 데이터 클라이언트 데이터 갱신?
             onCreate(newUpdatingData);
             // 목록 페이지로 이동

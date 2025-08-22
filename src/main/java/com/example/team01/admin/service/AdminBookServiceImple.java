@@ -77,6 +77,9 @@ public class AdminBookServiceImple implements AdminBookService {
     @Override
     public AdminBookVO deTailBook(String bookId) {
         AdminBookVO adminBookVO = dao.selectOneBook(bookId);
+
+        log.info("detailBook--modify:{}", adminBookVO);
+
         // 텍스트 이미지경로 to ArrayList 이미지경로
         //bookImgPath  배열로 변경해서 넣어야함
         // 텍스트 이미지 split(",") 사용해서 문자 배열로 변경

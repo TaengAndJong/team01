@@ -2,6 +2,7 @@ package com.example.team01.vo;
 
 import com.example.team01.common.support.BookImgChange;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,8 @@ public class AdminBookVO implements BookImgChange {
     private List<String> bookImgList;
     private String bookImgPath;  // DB 저장용
     private String writer; // 등록한 관리자 아이디
+
+    @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm:ss")
     private LocalDateTime createDate; // 도서등록일
 
 
