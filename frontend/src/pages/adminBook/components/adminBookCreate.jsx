@@ -129,7 +129,7 @@ const AdminBookCreate = () => {
                 setShow(true);
                 setErrorData(result); // result에 담긴 메시지 모달로 보내기
             }
-
+            return; // 종료시키키
         }
 
         if(name === "publishDate"){
@@ -211,6 +211,7 @@ const AdminBookCreate = () => {
                 valid: false,
                 message: "빈값을 입력해주세요." }
             )
+            return; // 종료시키키
         }
 
 

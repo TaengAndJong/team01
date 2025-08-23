@@ -40,6 +40,20 @@ const AdminBookModify = () => {
         removed: [],   // 삭제한 기존 파일
     });
 
+    //모달 상태관리
+    const [show, setShow] = useState(false);
+    const [errorData, setErrorData] = useState({});
+    const handleClose = () => {
+        console.log("close modal");
+        setShow(false)}
+    const handleShow = () => {
+        console.log("handleShow");
+        setShow(true)}
+    const [modalType, setModalType] = useState("confirm");
+
+
+
+
     //발행일
     //fetch 함수 작성하기
     const fetchModify = async()=>{
@@ -93,8 +107,8 @@ const AdminBookModify = () => {
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
         const { name, value } = e.target;
         console.log("handleChange===========", name, value);
-        //stock 값 숫자인지 검증
-        if(name === "stock" || name === "bookPrice"){
+        //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
+        if((name === "stock" || name === "bookPrice") && value.trim() !== ""){
             //검증 유틸 사용
             const result = validStock(value);
             console.log("재고 검증 결과 ----",result)
@@ -167,9 +181,28 @@ const AdminBookModify = () => {
         });
 
         // 디버깅: FormData에 추가된 값 확인
-        for (let pair of formData.entries()) {
-            console.log("FormData 확인:", pair[0], pair[1]);
+        // ==> iterator 반복 객체는 for ..of 또는 Array.from으로 내부 구조확인 가능, entries는 반복객체를 반환
+        for (let [key,val] of formData.entries()) {
+            console.log(`formDate 확인 key : ${key} , val: ${val}`);
         }
+        // formData가 전부 채워졌는지 검증 ==> 하나라도 비어있으면 모달로 알림띄기
+
+        //formData를  entries()를 통해 키,값 으로 담긴 순회가 가능한 반복객체를 반환 후 Array.from으로 배열객체로 변환
+        const hasEmpty = Array.from(formData.entries())
+            .some(([key, value]) => !value || value.trim() === "");//해당 키값의 값이 null 또는 undefined,빈 문자열일경우
+
+        // true 반환,조건문 진입
+        if (hasEmpty) { //true이면
+            console.log(`formDate 확인==== hasEmpty : ${hasEmpty}`);
+            setShow(true);
+            setErrorData({
+                valid: false,
+                message: "빈값을 입력해주세요." }
+            )
+            return; // 종료시키키
+        }
+
+
         //서버 컨트롤러로 전송
         try{
             const response =await fetch(`/api/admin/book/bookModify/${bookId}`, {
@@ -205,16 +238,6 @@ const AdminBookModify = () => {
     }
 
 
-    //모달 상태관리
-    const [show, setShow] = useState(false);
-    const [errorData, setErrorData] = useState({});
-    const handleClose = () => {
-        console.log("close modal");
-        setShow(false)}
-    const handleShow = () => {
-        console.log("handleShow");
-        setShow(true)}
-    const [modalType, setModalType] = useState("confirm");
 
     console.log("modifyBookData",modifyBookData);
 
