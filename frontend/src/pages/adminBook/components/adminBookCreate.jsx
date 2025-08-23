@@ -152,7 +152,8 @@ const AdminBookCreate = () => {
     const handleSubmit = async () => {
 
         //  formData 객체에 데이터 담기 및 fetch Post요청으로 컨트롤러로 데이터 전송하기
-        const formData = new FormData(); //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있음
+        const formData = new FormData(); 
+        //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있고 미디어,이미지등을 전송해야할 경우에 사용
         //createBook의 모든 데이터를 formData에 담아서 서버의 컨트롤러로 전송
         Object.entries(createBook).forEach(([key, value]) => {
               // Array.isArray(value) ==> file 객체
@@ -196,13 +197,21 @@ const AdminBookCreate = () => {
         for (let [key,val] of formData.entries()) {
             console.log(`formDate 확인 key : ${key} , val: ${val}`);
         }
-
-        console.log("FormData 구조--Array.from:", Array.from(formData.entries()));
         // formData가 전부 채워졌는지 검증 ==> 하나라도 비어있으면 모달로 알림띄기
 
+        //formData를  entries()를 통해 키,값 으로 담긴 순회가 가능한 반복객체를 반환 후 Array.from으로 배열객체로 변환
+        const hasEmpty = Array.from(formData.entries())
+            .some(([key, value]) => !value || value.trim() === "");//해당 키값의 값이 null 또는 undefined,빈 문자열일경우
 
-
-
+        // true 반환,조건문 진입
+        if (hasEmpty) {
+            console.log(`formDate 확인==== hasEmpty : ${hasEmpty}`);
+            setShow(true);
+            setErrorData({
+                valid: false,
+                message: "빈값을 입력해주세요." }
+            )
+        }
 
 
         //데이터 검증 후 서버의 컨트롤러로 데이터 전송
