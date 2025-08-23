@@ -116,8 +116,8 @@ const AdminBookCreate = () => {
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
        const { name, value } = e.target;
        console.log("handleChange===========", name, value);
-       //stock 값 숫자인지 검증
-        if(name === "stock" || name === "bookPrice"){
+       //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
+        if((name === "stock" || name === "bookPrice") && value.trim() !== ""){
             //검증 유틸 사용
             const result = validStock(value);
             console.log("재고 검증 결과 ----",result)
@@ -192,10 +192,20 @@ const AdminBookCreate = () => {
         });
 
         // 디버깅: FormData에 추가된 값 확인
-        for (let pair of formData.entries()) {
-            console.log("FormData 확인-----------:", pair[0], pair[1]);
+        // ==> iterator 반복 객체는 for ..of 또는 Array.from으로 내부 구조확인 가능, entries는 반복객체를 반환
+        for (let [key,val] of formData.entries()) {
+            console.log(`formDate 확인 key : ${key} , val: ${val}`);
         }
-        //서버 컨트롤러로 전송
+
+        console.log("FormData 구조--Array.from:", Array.from(formData.entries()));
+        // formData가 전부 채워졌는지 검증 ==> 하나라도 비어있으면 모달로 알림띄기
+
+
+
+
+
+
+        //데이터 검증 후 서버의 컨트롤러로 데이터 전송
         try{
             console.log("fetch formData ---------------",formData);
 
@@ -231,7 +241,7 @@ const AdminBookCreate = () => {
         console.log("데이터제출  후 createBook.bookImg)",createBook.bookImg);
         handleSubmit();
     }
-        console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음
+        //console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음
 //return start
     return(
         <>
