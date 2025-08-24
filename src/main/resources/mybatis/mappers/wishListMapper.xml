@@ -125,7 +125,20 @@
           and "bookId"=#{bookId}
     </update>
 
+    <!--해당유저의 찜목록 도서 Id만 조회-->
+    <select id="selectWishIds" resultType="string">
+        select "bookId" from wishList
+        where "clientId" = #{clientId} and "wishStatus" ='Y'
+    </select>
+
+
+
+
+
     <!-- 마이페이지 찜목록  조회-->
+
+
+
 
 
 

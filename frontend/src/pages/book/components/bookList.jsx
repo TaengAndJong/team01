@@ -6,6 +6,8 @@ import SearchBar from "./searchBar.jsx";
 import BookItem from "./bookItem.jsx";
 import Pagination from "@util/pagination.jsx";
 import {PaginationContext} from "../../adminBook/adminBookComponent.jsx";
+import axios from "axios";
+import cartList from "../../cart/components/cartList.jsx";
 
 
 
@@ -23,6 +25,8 @@ const BookList = () => {
         searchType: 'bookName',  // bookName(도서명), author(저자)
         keyword: ''              // 검색어
     });
+    const [wishIds, setWishIds] = useState([]);//찜목록 아이디들 상태관리변수
+
     console.log("search 상태관리",search);
 
     const handleSearch = async ()=>{
@@ -58,9 +62,21 @@ const BookList = () => {
         }
     }
 
+    //찜목록에 Y 인 bookId들만 비동기요청 조회
+    const wishBookIds = async()=>{
 
+        try{
+            //서버로 비동기 요청
+            const response = await axios.get(`/api/mypage/wishlist/selectWishIds`);
+            console.log("wishBookIds response",response.data);
+            //조회된 도서아이디들 값 wishIds 변수에 저장
+            setWishIds(response.data);
+        }catch (e){
+            console.log("비동기요청 실패", e)
+        }
+    }
 
-
+    
 // bookdata가 존재할 때만 bookList 업데이트
     useEffect(() => {
         //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
@@ -70,14 +86,21 @@ const BookList = () => {
     },[bookdata])
     console.log("bookList--------",bookList);
 
-
+//찜목록 된 도서 Id들 디비에서 조회해오기
+    useEffect(() => {
+        //조회된 아이디들을 setWishIds로 값 담아주기
+        wishBookIds();
+        
+    }, []);
+    
+    
 
     return (
         <>
             <div className="book-list">
 
                 <SearchBar search={search} setSearch={setSearch} handleSearch={handleSearch}/>
-                <BookItem bookList={bookList}/>
+                <BookItem bookList={bookList} wishIds={wishIds} setWishIds={setWishIds}/>
                 {/*pagination*/}
                 <Pagination paginationInfo={paginationInfo} onChangePageHandler={onChangePageHandler}/>
             </div>

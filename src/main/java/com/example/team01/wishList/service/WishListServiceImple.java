@@ -75,7 +75,14 @@ public class WishListServiceImple implements WishListService {
         return WishStatus.FAIL;
     }
 
+    @Override
+    public List<String> selectWishIds(String clientId) {
 
+        log.info("clientId----------selectWishIds: {}",clientId);
+        List<String> result = wishListDao.selectWishIds(clientId);
+        log.info("result-----selectWishIds: {}",result);
+        return result;
+    }
 
 
 }
