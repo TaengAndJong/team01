@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 
 
 const Category=({setDefaultData,defaultData,categoryList})=>{
-    console.log("category --categoryList",categoryList)
+ //   console.log("category --categoryList",categoryList)
     //1번 기본 데이터가 넘어옴
-    console.log("category --defaultData",defaultData);
+ //   console.log("category --defaultData",defaultData);
 
     const [selectedCategory, setSelectedCategory] = useState({
         names: defaultData?.bookCateNm ||  [],
@@ -13,11 +13,11 @@ const Category=({setDefaultData,defaultData,categoryList})=>{
     });
 
 
-    console.log("selectedCategory--중간",selectedCategory);
+    //console.log("selectedCategory--중간",selectedCategory);
 
     //useEffect로 초기값 갱신하기
     useEffect(() => {
-        console.log("defaultData----- typeOf", typeof defaultData.bookCateNm);
+     //   console.log("defaultData----- typeOf", typeof defaultData.bookCateNm);
         setSelectedCategory({
             names: typeof defaultData.bookCateNm === 'string' ? defaultData.bookCateNm.split(",") : defaultData.bookCateNm || [],
             ids: typeof defaultData.cateId === 'string' ? defaultData.cateId.split(",") : defaultData.cateId || [],
@@ -33,9 +33,9 @@ const Category=({setDefaultData,defaultData,categoryList})=>{
         const dataCateId  = selectedOption.getAttribute('data-cate-id')
         const cateName = selectedOption.value; // 선택된 카테고리명
 
-        console.log("selectedOption",selectedOption);
-        console.log("dataCateId",dataCateId);
-        console.log("cateName",cateName);
+        // console.log("selectedOption",selectedOption);
+        // console.log("dataCateId",dataCateId);
+        // console.log("cateName",cateName);
 
  // 1. 타겟팅된 카테고리 목록이름을 전부 하나로 묶으려면 ?
         if(dataCateId!=null){
@@ -64,7 +64,7 @@ const Category=({setDefaultData,defaultData,categoryList})=>{
             });
         }
 
-        console.log("setSelectedCategory----------마지막",setSelectedCategory);
+   //     console.log("setSelectedCategory----------마지막",setSelectedCategory);
         // 3. createBook 객체에 데이터 갱신해주기
         setDefaultData(prevState =>({
             ...prevState, // 이전데이터와 병합
@@ -75,8 +75,8 @@ const Category=({setDefaultData,defaultData,categoryList})=>{
 
 
     }
-    console.log("setSelectedCategory----------마지막",setSelectedCategory);
-    console.log("defaultData----------마지막",defaultData);
+    // console.log("setSelectedCategory----------마지막",setSelectedCategory);
+    // console.log("defaultData----------마지막",defaultData);
 
     return (
         <>

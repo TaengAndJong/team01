@@ -7,11 +7,11 @@ import { menuNavi } from "../../util/menuNavi.jsx";
 // 주소에 해당하는 제목 데이터 가져와서 레프트 메뉴 이름과 제목열에 데이터 나열하기
 
 function reducer(state, action) {
-  console.log("state", state);
-  console.log("typeof", typeof state);
-  console.log("Array", Array.isArray(state));
-  console.log("action.data", action.data);
-  console.log("배열이냐 객체냐", Array.isArray(action.data));
+  // console.log("state", state);
+  // console.log("typeof", typeof state);
+  // console.log("Array", Array.isArray(state));
+  // console.log("action.data", action.data);
+  // console.log("배열이냐 객체냐", Array.isArray(action.data));
 
   switch (action.type) {
     case "INIT":
@@ -24,8 +24,7 @@ function reducer(state, action) {
       if (action.data) {
         console.log("create action", action.data, Array.isArray(action.data)); // 객체로 넘어옴
       }
-
-      return [...state, action.data]; // 새 객체 + 기존 배열, action.data는 단일객체
+      return [action.data, ...state]; // 새 객체(action.data) + 기존 배열, action.data는 단일객체
     case "DELETE":
       if (action.data) {
         console.log("delete action", action.data);
@@ -79,7 +78,7 @@ const AdminBook = () => {
     item.menuPath.includes(standardPoint)
   );
 
-  console.log("paginationInfo", paginationInfo);
+  //console.log("paginationInfo", paginationInfo);
   //get요청, 페이지번호변경 시 사용하는 fetch요청 함수
   const initFetch = async () => {
     try {
@@ -89,7 +88,7 @@ const AdminBook = () => {
         pageSize: paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
       });
 
-      console.log("params.toString()", params.toString());
+    //  console.log("params.toString()", params.toString());
 
       // 서버로 응답 요청
       const response = await fetch(
@@ -106,12 +105,12 @@ const AdminBook = () => {
       }
       // 응답 성공시
       const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-      console.log("bookdata목록 get 요청 데이터 받아오기-----", bookVO); // 있음
+   //   console.log("bookdata목록 get 요청 데이터 받아오기-----", bookVO); // 있음
 
       //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
       const { currentPage, items, pageSize, totalPages, totalRecord } = bookVO;
       onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
-      console.log("초기 데이터 갱신완료", bookVO);
+     // console.log("초기 데이터 갱신완료", bookVO);
       //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
       setPaginationInfo({
         currentPage: currentPage,
@@ -130,7 +129,7 @@ const AdminBook = () => {
   }, [paginationInfo.currentPage]); // 마운트 시에 한 번실행 됨
 
   const onInit = (bookdata) => {
-    console.log("onInit", bookdata);
+  //  console.log("onInit", bookdata);
     dispatch({
       type: "INIT",
       data: bookdata,
@@ -138,7 +137,7 @@ const AdminBook = () => {
   };
 
   const onCreate = (createBook) => {
-    console.log("createBook", createBook);
+   // console.log("createBook", createBook);
     dispatch({
       type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
       data: createBook,
@@ -146,8 +145,8 @@ const AdminBook = () => {
   };
 
   const onDelete = (bookIds) => {
-    console.log("deleteBook", bookIds);
-    console.log("deleteBook", Array.isArray(bookIds));
+    // console.log("deleteBook", bookIds);
+    // console.log("deleteBook", Array.isArray(bookIds));
     dispatch({
       type: "DELETE",
       data: bookIds,
@@ -155,7 +154,7 @@ const AdminBook = () => {
   };
 
   const onUpdate = (updateBook) => {
-    console.log("updateBook", updateBook);
+    //console.log("updateBook", updateBook);
     dispatch({
       type: "UPDATE",
       data: updateBook,
@@ -164,7 +163,7 @@ const AdminBook = () => {
 
   //페이지버튼 클릭시 실행되는 핸들러
   const onChangePageHandler = (page) => {
-    console.log("changePage----", page);
+    //console.log("changePage----", page);
     //pagination의 currentPage 값 갱신
     setPaginationInfo((prev) => ({
       ...prev,

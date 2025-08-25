@@ -13,13 +13,13 @@ const WishItem = ({wishList}) => {
 
 
     //찜해제 비동기요청
-    const deleteWishFetch = async (bookId) => {
+    const toggleWishFetch = async (bookId) => {
 
         const UrlSearchParams = new URLSearchParams();
         UrlSearchParams.append("bookId", bookId);
         UrlSearchParams.append("currentPage", paginationInfo.currentPage);
 
-        console.log("deleteWishFetch---bookId",bookId);
+        console.log("toggleWishFetch---bookId",bookId);
 
         const response = await fetch(`/api/mypage/wishlist/save?${UrlSearchParams.toString()}`, {
             method: "POST",
@@ -51,9 +51,11 @@ const WishItem = ({wishList}) => {
 
 
     //찜해제 핸들러
-    const deleteWishHandler = (bookId) =>{
+    const toggleWishHandler = (bookId) =>{
+
+
         //비동기 요청
-        deleteWishFetch(bookId);
+        toggleWishFetch(bookId);
     }
 
     useEffect(() => {
@@ -118,7 +120,7 @@ const WishItem = ({wishList}) => {
                                             type="button"
                                             aria-label="찜하기"
                                             className="submit btn btn-danger me-2 wish-btn"
-                                            onClick={() => deleteWishHandler(item.bookVO.bookId)}
+                                            onClick={() => toggleWishHandler(item.bookVO.bookId)}
                                         >
                                             찜 해제
                                         </button>

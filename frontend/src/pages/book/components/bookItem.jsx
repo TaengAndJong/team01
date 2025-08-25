@@ -2,11 +2,14 @@ import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import AddCartBtn from "../../cart/components/addCartBtn.jsx";
 
-const BookItem = ({bookList}) =>{
+const BookItem = ({bookList,wishIds,setWishIds}) =>{
+
     //서버에서 클라이언트까지 응답이 도달할 때까지의 상태관리
     const [isLoading, setIsLoading] = useState(false);
     //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
     const [bookCount,setBookCount]=useState(1);
+ 
+
     // 장바구니에 담을 도서 수량버튼 관리 핸들러 ==> 고려사항 각각의 도서에 대한 개별 수량 구분 필요
     const bookCountChangHandler=(bookId,e)=>{
     
@@ -98,8 +101,8 @@ const BookItem = ({bookList}) =>{
 
     //찜목록 비동기 fetch 요청
     const wishFetch = async(bookId) =>{
-
-
+        
+        // bookId는 쿼리스트링보다 body 에 담아주는게 더 나음
         const UrlSearchParams = new URLSearchParams();
         UrlSearchParams.append("bookId", bookId);
         console.log("bookId wishList",bookId);
@@ -113,13 +116,17 @@ const BookItem = ({bookList}) =>{
             throw Error(response.statusText);
         }
 
-        const data =await response.json();
-        console.log("wishFetch ------ data",data);
-        //위시리스트 저장 완료에 대한 데이터를 받아오기 ? 추후 처리 어떻게 ?
+        // wishIds 값 재설정할 때에 이전 상태값에 대해서 bookId가 있는 지 확인후 동일한 bookId 이면 필터링해서 새배열반환, 없으면 기존배열을 복사 후 bookId 추가
+        setWishIds((prev) =>
+            prev.includes(bookId) //bookId를 포함하고 있다면
+                ? prev.filter((id) => id !== bookId) // 제거
+                : [...prev, bookId] // 없으면 추가
+        );
     }
 
     //찜목록 핸들러
     const wishHandler=(bookId)=>{
+        // 클릭하면 selected 클래스 추가,
         //찜버튼 누르면 전송 되기 전까지 disable 되게  해야하나?
         if (isLoading) return;      // 클라이언트가 서버로 정보 요청 중이면 중단
         setIsLoading(true);         // 클라이언트가 서버로 요청 중
@@ -136,6 +143,8 @@ const BookItem = ({bookList}) =>{
         }
     }
 
+
+    console.log("북아이템 자식 컴포넌트 wishIds",wishIds);
 
     return (
         <div className="book-list-inner overflow-hidden">
@@ -170,7 +179,7 @@ const BookItem = ({bookList}) =>{
                             {/* 수량 및 액션 버튼 영역 */}
                             <div className="item-inner d-flex align-items-center justify-content-end mt-4">
 
-                                <button type="button" className="submit btn me-2 icon wish" onClick={()=>wishHandler(book.bookId)}>
+                                <button type="button" className={`submit btn me-2 icon wish ${wishIds.includes(book.bookId) ? "selected" : ""}`} onClick={()=>wishHandler(book.bookId)}>
                                     <span className="sr-only">위시리스트에 담기</span>
                                 </button>
                                 {book.stock === 0 ?(

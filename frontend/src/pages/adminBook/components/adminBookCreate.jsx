@@ -8,7 +8,7 @@ import {useAuth} from "../../common/AuthContext.jsx";
 import FileUpload from "./fileUpload.jsx";
 import Category from "./category.jsx";
 import {useNavigate} from "react-router-dom";
-import {getToday} from "../../../util/dateUtils.jsx";
+import {formatToDate, getToday} from "../../../util/dateUtils.jsx";
 import PriceStock from "./priceStock.jsx";
 import {validStock} from "../../../util/validation.jsx";
 import ReusableModal from "./modal.jsx";
@@ -40,7 +40,7 @@ const AdminBookCreate = () => {
         cateId:[],
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
         writer: '',
-        createDate:getToday(),
+        createDate:formatToDate(new Date()), // 클라이언트에게 보여줄 날짜 ==> 데이터베이스는 자동으로 데이터 넣기
     })
     //카테고리
     const [categoryList, setCategoryList] = useState([]); // 도서 카테고리 상태관리
@@ -116,8 +116,8 @@ const AdminBookCreate = () => {
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
        const { name, value } = e.target;
        console.log("handleChange===========", name, value);
-       //stock 값 숫자인지 검증
-        if(name === "stock" || name === "bookPrice"){
+       //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
+        if((name === "stock" || name === "bookPrice") && value.trim() !== ""){
             //검증 유틸 사용
             const result = validStock(value);
             console.log("재고 검증 결과 ----",result)
@@ -129,7 +129,7 @@ const AdminBookCreate = () => {
                 setShow(true);
                 setErrorData(result); // result에 담긴 메시지 모달로 보내기
             }
-
+            return; // 종료시키키
         }
 
         if(name === "publishDate"){
@@ -152,7 +152,8 @@ const AdminBookCreate = () => {
     const handleSubmit = async () => {
 
         //  formData 객체에 데이터 담기 및 fetch Post요청으로 컨트롤러로 데이터 전송하기
-        const formData = new FormData(); //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있음
+        const formData = new FormData(); 
+        //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있고 미디어,이미지등을 전송해야할 경우에 사용
         //createBook의 모든 데이터를 formData에 담아서 서버의 컨트롤러로 전송
         Object.entries(createBook).forEach(([key, value]) => {
               // Array.isArray(value) ==> file 객체
@@ -180,7 +181,11 @@ const AdminBookCreate = () => {
                     formData.append("cateId", id);
                 })
             }else if(key === "createDate") {
-                createBook["createDate"] = new Date(getToday());
+               console.log("키가 등록일일경우")
+                //dateUtils의 getToday() 로 localDateTime형식 맞춰주기
+                createBook["createDate"]=getToday(); //서버로 전송할 데이터객체형태로 변경
+                console.log("문자열인가 ?" ,typeof(createBook["createDate"]));
+                formData.append("createDate",  createBook["createDate"]);
             } else {
                 // 일반 문자열 데이터 추가
                 formData.append(key, value);
@@ -188,11 +193,32 @@ const AdminBookCreate = () => {
         });
 
         // 디버깅: FormData에 추가된 값 확인
-        for (let pair of formData.entries()) {
-            console.log("FormData 확인:", pair[0], pair[1]);
+        // ==> iterator 반복 객체는 for ..of 또는 Array.from으로 내부 구조확인 가능, entries는 반복객체를 반환
+        for (let [key,val] of formData.entries()) {
+            console.log(`formDate 확인 key : ${key} , val: ${val}`);
         }
-        //서버 컨트롤러로 전송
+        // formData가 전부 채워졌는지 검증 ==> 하나라도 비어있으면 모달로 알림띄기
+
+        //formData를  entries()를 통해 키,값 으로 담긴 순회가 가능한 반복객체를 반환 후 Array.from으로 배열객체로 변환
+        const hasEmpty = Array.from(formData.entries())
+            .some(([key, value]) => !value || value.trim() === "");//해당 키값의 값이 null 또는 undefined,빈 문자열일경우
+
+        // true 반환,조건문 진입
+        if (hasEmpty) {
+            console.log(`formDate 확인==== hasEmpty : ${hasEmpty}`);
+            setShow(true);
+            setErrorData({
+                valid: false,
+                message: "빈값을 입력해주세요." }
+            )
+            return; // 종료시키키
+        }
+
+
+        //데이터 검증 후 서버의 컨트롤러로 데이터 전송
         try{
+            console.log("fetch formData ---------------",formData);
+
             const response =await fetch("/api/admin/book/bookCreate", {
                 method: "POST",
                 body: formData // 파일 객체 데이터가 있는경우, json.stringify 사용 불가, 서버에서 문자열과 파일 객체를 나눠줘야함
@@ -205,7 +231,7 @@ const AdminBookCreate = () => {
             // 서버로 보내어 저장 완료된 데이터를 다시 json으로 받아서 Context에  새로 반영
             // 생성 완료 후 목록을 조회할 때  새로운 데이터도 반영되어야 하기때문에 ( 데이터를 반환받지 않으면 이전 상태를  유지)
             const newUpdatingData = await response.json();
-            console.log("newUpdatingData" , newUpdatingData);
+            console.log("newUpdatingData-----------" , newUpdatingData);
             // onCreate를 통해 데이터 클라이언트 데이터 갱신?
             onCreate(newUpdatingData);
             // 목록 페이지로 이동
@@ -225,7 +251,7 @@ const AdminBookCreate = () => {
         console.log("데이터제출  후 createBook.bookImg)",createBook.bookImg);
         handleSubmit();
     }
-        console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음
+        //console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음
 //return start
     return(
         <>

@@ -10,7 +10,7 @@ import FileUpload from "./fileUpload.jsx";
 import ReusableModal from "./modal.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 import {validStock} from "../../../util/validation.jsx";
-import {getToday} from "../../../util/dateUtils.jsx";
+import {formatToDate, getToday} from "../../../util/dateUtils.jsx";
 import {BookDispatchContext} from "../adminBookComponent.jsx";
 import "@assets/css/book/adminbookModify.css";
 
@@ -39,6 +39,20 @@ const AdminBookModify = () => {
         new: [],
         removed: [],   // 삭제한 기존 파일
     });
+
+    //모달 상태관리
+    const [show, setShow] = useState(false);
+    const [errorData, setErrorData] = useState({});
+    const handleClose = () => {
+        console.log("close modal");
+        setShow(false)}
+    const handleShow = () => {
+        console.log("handleShow");
+        setShow(true)}
+    const [modalType, setModalType] = useState("confirm");
+
+
+
 
     //발행일
     //fetch 함수 작성하기
@@ -70,7 +84,6 @@ const AdminBookModify = () => {
     }
 
     console.log("modifyBookData----",modifyBookData);
-    console.log("categoryList----",categoryList);
 
     useEffect(() => {
         fetchModify();
@@ -94,8 +107,8 @@ const AdminBookModify = () => {
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
         const { name, value } = e.target;
         console.log("handleChange===========", name, value);
-        //stock 값 숫자인지 검증
-        if(name === "stock" || name === "bookPrice"){
+        //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
+        if((name === "stock" || name === "bookPrice") && value.trim() !== ""){
             //검증 유틸 사용
             const result = validStock(value);
             console.log("재고 검증 결과 ----",result)
@@ -138,7 +151,7 @@ const AdminBookModify = () => {
                 }
                 // 2. 삭제할 기존 파일이 있다면 추가
                 if (Array.isArray(removed) && removed.length > 0) {
-                    console.log("삭제한 이미지",removed.length);
+
                     removed.forEach((file) => {
                         formData.append("removedBookImg", file.name); // 또는 file이 string이면 그대로
                     });
@@ -157,7 +170,10 @@ const AdminBookModify = () => {
                     formData.append("cateId", id);
                 })
             } else if(key === "createDate") {
-                modifyBookData["createDate"] = new Date(getToday());
+                //수정완료시 데이터를 서버로 전송하면 오늘날짜로 변경해서 데이터베이스에 넣어주기
+                modifyBookData["createDate"]=getToday(); //서버로 전송할 데이터객체형태로 변경
+                formData.append("createDate",  modifyBookData["createDate"]);
+
             } else {
                 // 일반 문자열 데이터 추가
                 formData.append(key, value);
@@ -165,9 +181,28 @@ const AdminBookModify = () => {
         });
 
         // 디버깅: FormData에 추가된 값 확인
-        for (let pair of formData.entries()) {
-            console.log("FormData 확인:", pair[0], pair[1]);
+        // ==> iterator 반복 객체는 for ..of 또는 Array.from으로 내부 구조확인 가능, entries는 반복객체를 반환
+        for (let [key,val] of formData.entries()) {
+            console.log(`formDate 확인 key : ${key} , val: ${val}`);
         }
+        // formData가 전부 채워졌는지 검증 ==> 하나라도 비어있으면 모달로 알림띄기
+
+        //formData를  entries()를 통해 키,값 으로 담긴 순회가 가능한 반복객체를 반환 후 Array.from으로 배열객체로 변환
+        const hasEmpty = Array.from(formData.entries())
+            .some(([key, value]) => !value || value.trim() === "");//해당 키값의 값이 null 또는 undefined,빈 문자열일경우
+
+        // true 반환,조건문 진입
+        if (hasEmpty) { //true이면
+            console.log(`formDate 확인==== hasEmpty : ${hasEmpty}`);
+            setShow(true);
+            setErrorData({
+                valid: false,
+                message: "빈값을 입력해주세요." }
+            )
+            return; // 종료시키키
+        }
+
+
         //서버 컨트롤러로 전송
         try{
             const response =await fetch(`/api/admin/book/bookModify/${bookId}`, {
@@ -182,7 +217,7 @@ const AdminBookModify = () => {
             // 서버로 보내어 저장 완료된 데이터를 다시 json으로 받아서 Context에  새로 반영
             // 생성 완료 후 목록을 조회할 때  새로운 데이터도 반영되어야 하기때문에 ( 데이터를 반환받지 않으면 이전 상태를  유지)
             const newUpdatingData = await response.json();
-            console.log("newUpdatingData" , newUpdatingData);
+
             // onUpdate를 통해 데이터 클라이언트 데이터 갱신?
             onUpdate(newUpdatingData);
             // 목록 페이지로 이동
@@ -203,16 +238,6 @@ const AdminBookModify = () => {
     }
 
 
-    //모달 상태관리
-    const [show, setShow] = useState(false);
-    const [errorData, setErrorData] = useState({});
-    const handleClose = () => {
-        console.log("close modal");
-        setShow(false)}
-    const handleShow = () => {
-        console.log("handleShow");
-        setShow(true)}
-    const [modalType, setModalType] = useState("confirm");
 
     console.log("modifyBookData",modifyBookData);
 
@@ -241,13 +266,13 @@ const AdminBookModify = () => {
                     <PublishDate publishDate={modifyBookData.publishDate} handleChange={handleChange}/>
                     <div className="d-flex align-items-center mb-1">
                         {/*재고 & 가격*/}
-                        <PriceStock bookPrice={modifyBookData.bookPrice} stock={modifyBookData.stock}
-                                    stockStatus={modifyBookData.stockStatus} handleChange={handleChange}/>
+                        <PriceStock bookPrice={String(modifyBookData?.bookPrice || 0)} stock={String(modifyBookData?.stock || 0)}
+                                    stockStatus={modifyBookData?.stockStatus || '재고없음'} handleChange={handleChange}/>
                         <div className="d-flex align-items-center">
                             <FormTag id="createDate" label="등록일" labelClass="form-title" className="form-control"
                                      name="createDate"
                                      type="text"
-                                     placeholder="등록일" value={modifyBookData.createDate} readOnly={true}/>
+                                     placeholder="등록일" value={formatToDate(new Date(modifyBookData.createDate))} readOnly={true}/>
                         </div>
                     </div>
 

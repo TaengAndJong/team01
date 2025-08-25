@@ -44,11 +44,15 @@ public class AdminBookController {
     @PostMapping(value = "/bookCreate")
     public ResponseEntity<?> insertBookCreate(
             @ModelAttribute AdminBookVO createBook,
+            @RequestParam(name = "createDate") String createDate,
             @RequestParam(name = "bookCateNm") List<String> bookCateNm,
             @RequestParam(name = "bookCateDepth") List<String> bookCateDepth,
             @RequestParam(name = "cateId") List<String> cateId,
             @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg,HttpServletRequest request) throws FileNotFoundException {
 
+
+        log.info("createBook-----들어오는 데이터확인하기:{}",createBook);
+        log.info("createDate-----들어오는 데이터확인하기:{}",createDate);
         log.info("bookImg-----create",bookImg);
         //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
         createBook.setBookCateNm(String.join(",", bookCateNm));
@@ -170,6 +174,8 @@ public class AdminBookController {
         //해당 아이디에 대한 도서 정보 가져오기
         AdminBookVO adminBookVO = bookService.deTailBook(bookId);
         fileUtils.changeImgPath(adminBookVO, request); // 필요 시 이미지 경로 수정
+
+        log.info("adminBookVO-----------AdminbookController----Modify:{}",adminBookVO);
 
         Map<String,Object> response = new HashMap<>();
         //해당 아이디에 대한 도서데이터와 , 카테고리 데이터를 클라이언트에게 전송하기!

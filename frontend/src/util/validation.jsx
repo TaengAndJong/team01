@@ -18,7 +18,7 @@ const inputRegexs = {
 
 // 공통 유효성 검사 함수작성
 export const validateInput = (regex, value,name,type) => {
-   console.log(regex, value,name,type);
+    console.log(regex, value,name,type);
     if (!value || value.trim() === "") { // value가 비어있거나 공백만 있을 경우
         return { valid: false,message: `${type}을(를) 입력해 주세요.`  };
     }
@@ -36,11 +36,42 @@ export const validateInput = (regex, value,name,type) => {
                 return { valid: false, message: "숫자로 4자리까지만 입력 가능합니다." };
             }
         }
-        //숫자형식이 아닐 경우
+        //문자열에 숫자가 들어있을경우
         if (name.toLowerCase().includes("stock")) {
-                return { valid: false, message: "숫자만 입력해 주세요." };
+            return { valid: false, message: "숫자만 입력해 주세요." };
         }
     }
+
+
+    // 2. 숫자 범위 검증 (문자열 → 숫자로 변환 후 검증)
+    if (name.toLowerCase().includes("stock")) {
+        const stockValue = Number(value);
+        if (isNaN(stockValue)) {
+            return { valid: false, message: "숫자만 입력해 주세요." };
+        }
+        if (stockValue < 0) {
+            return { valid: false, message: "재고 수량은 0 이상이어야 합니다." };
+        }
+        if (stockValue > 100) {
+            return { valid: false, message: "재고 수량은 최대 100개까지 가능합니다." };
+        }
+    }
+
+    //값이 숫자인 도서가격 검증
+    if (name.toLowerCase().includes("bookPrice")) {
+        const priceValue = Number(value);
+        if (isNaN(priceValue)) { //숫자가 아닌 값에 대한 값이 들어왔을 경우
+            return { valid: false, message: "가격은 숫자로만 입력해 주세요." };
+        }
+        if (priceValue < 0) {
+            return { valid: false, message: "가격은 0원 이상이어야 합니다." };
+        }
+        if (priceValue > 150000) {
+            return { valid: false, message: "도서 가격은 최대 150,000원까지 가능합니다." };
+        }
+    }
+
+
     return {valid: true, message: "사용가능형식"}
 }
 
@@ -96,7 +127,7 @@ export const checkDuplicate = async (apiAddr,field, value) => {
                         roleId:`ROLE_${result.staffInfo.roleId}`
                         ,staffId:`ROLE_${result.staffInfo.staffId}`
 
-                };
+                    };
             }
             //
         }
@@ -116,4 +147,3 @@ export const validatePasswordMatch = (password, confirmPassword) => {
     if (password !== confirmPassword) return { valid: false, message: '비밀번호가 일치하지 않습니다.' };
     return { valid: true, message: '비밀번호가 일치합니다.' };
 };
-

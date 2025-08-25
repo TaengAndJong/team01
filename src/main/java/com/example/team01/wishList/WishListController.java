@@ -185,6 +185,16 @@ public class WishListController {
         return ResponseEntity.ok(result);
     }
 
+///mypage/wishlist/selectWishIds
+    @GetMapping("/selectWishIds")
+    public ResponseEntity<List<String>> selectWishIds(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        List<String> result = wishListService.selectWishIds(principalDetails.getUsername());
+        log.info("selectWishIds --- controller: result:{}",result);
+
+        return ResponseEntity.ok(result);
+    }
+
 
 
 }

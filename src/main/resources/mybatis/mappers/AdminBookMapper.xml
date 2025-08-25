@@ -217,6 +217,9 @@
             <if test="writer != null and writer != ''">
                 "writer" = #{writer},
             </if>
+            <if test="createDate != null and writer != ''">
+                "createDate" = #{createDate}
+            </if>
 
         </set>
         WHERE "bookId" = #{bookId}
