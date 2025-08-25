@@ -12,15 +12,6 @@ const DetailBoard = ({ userType }) => {
   const [searchParams] = useSearchParams();
   const [answer, setAnswer] = useState("");
 
-  const handleAnswerChange = (e) => {
-    setAnswer(e.target.value);
-    console.log("답변", answer);
-  };
-
-  const handleAnswerSubmit = (answer) => {
-    console.log("답변 등록", answer);
-  };
-
   const userId = searchParams.get("userId");
   // console.log("DetailBoard category", category);
   // console.log("DetailBoard boardId", boardId);
@@ -41,15 +32,32 @@ const DetailBoard = ({ userType }) => {
     fetchData();
   }, [category, boardId, userId]);
 
+  const handleAnswerChange = (e) => {
+    setAnswer(e.target.value);
+    console.log("답변", answer);
+  };
+
+  const handleAnswerSubmit = (answer) => {
+    axios
+      .post(`/api/admin/board/detail/comment/${category}/${boardId}`, {
+        answerContent: answer,
+      })
+      .then((res) => {
+        console.log("답변 등록 성공", res);
+      });
+
+    console.log("답변 등록", answer);
+  };
+
   if (data)
     return (
       <>
-        <div className="boardDetailLayout">
-          <div className="boardDetail">
-            <div className="boardDetail-header">
-              <div className="boardDetail-title">
-                <h1>{data.qnaTitle}</h1>
-              </div>
+        <div className="main boardDetailLayout">
+          <div className="page boardDetail">
+            <div className="boardDetail-title">
+              <h1>{data.qnaTitle}</h1>
+            </div>
+            <div className="content">
               <div>{data.qnaContent}</div>
               <div>
                 <ul>

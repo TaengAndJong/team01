@@ -95,5 +95,20 @@ public class QnaProductController {
     log.info("상세조회 userId -----------------: {}", userId);
     QnaProductVO boardData = qnaProductService.getQnaProductDetail(boardId, userId);
     return ResponseEntity.ok(boardData);
+
 }
+// 상품 문의 답변 등록 API
+@PostMapping("/detail/comment/{category}/{boardId}")
+public ResponseEntity<?> postProductComment(
+    @PathVariable String category,
+    @PathVariable String boardId,
+    @RequestBody String answerContent,
+    HttpServletRequest request
+){
+    log.info("📦 상품 문의 답변 등록 API 호출됨");
+    log.info("상품 문의 답변 등록 category -----------------: {}", category);
+    log.info("상품 문의 답변 등록 boardId -----------------: {}", boardId);
+    return ResponseEntity.ok("통신 성공");
+}
+
 }
