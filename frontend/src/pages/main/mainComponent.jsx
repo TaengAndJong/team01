@@ -56,10 +56,10 @@ const mainComponent = () => {
       <SectionMain />
       {/*도서 슬라이드*/}
       <SectionBooks slideData={books || []} />
-      {/* 문의, 위시리스트 , 회원가입 */}
-      <SectionSkipBtns />
       {/*인기도서 & 추천도서 */}
       <SectionCuration />
+      {/* 문의, 위시리스트 , 회원가입 */}
+      <SectionSkipBtns />
     </>
   );
 };
