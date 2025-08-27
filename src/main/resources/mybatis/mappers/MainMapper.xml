@@ -15,7 +15,8 @@
             t."roleId",
             t."cateId",
             t."writer",
-            t."bookImgPath"
+            t."bookImgPath",
+            t."recomType"
         FROM (
             SELECT
                 ROW_NUMBER() OVER (PARTITION BY b."bookCateNm" ORDER BY b."bookId" DESC) AS rank,

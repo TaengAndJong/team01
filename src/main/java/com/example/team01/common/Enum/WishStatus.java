@@ -10,11 +10,11 @@ public enum WishStatus {
     FAIL("처리 실패");
 
     private String msg;
-
+    //enum 생성자
     WishStatus(String msg){
         this.msg=msg;
     }
-
+    //멤버변수 겟터
     public String getMsg(){
         return msg;
     }

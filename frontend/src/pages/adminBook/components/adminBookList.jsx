@@ -142,8 +142,19 @@ const AdminBookList = () => {
         }
     }
 
+    const recomTypeMap = {
+        "NORMAL": { recomType: "normal", label: "일반" },
+        "RECOMMEND": { recomType: "recom", label: "추천" },
+        "POPULAR": { recomType: "popular", label: "인기" },
+    };
 
+    const recomTultip=(status)=>{
+        console.log(`status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}` );
 
+        return (
+            <span className={`tultip ${recomTypeMap[status]?.recomType}`}>{recomTypeMap[status]?.label}</span>
+        )
+    }
 
     return(
         <>
@@ -206,7 +217,10 @@ const AdminBookList = () => {
 
                             <td className="text-left" id={`bookCateNm${index}`}>{item.bookCateNm}</td>
                             <td className="text-left" id={`bookNm${index}`}>
-                                <Link to={`/admin/book/bookDetail/${item.bookId}`} title={`${item.bookName} 상세페이지로 이동`}>{item.bookName}</Link>
+                                <Link to={`/admin/book/bookDetail/${item.bookId}`} title={`${item.bookName} 상세페이지로 이동`}>
+                                    {recomTultip(item.recomType)}
+                                    <p>{item.bookName}</p>
+                                </Link>
                             </td>
                             {/*<td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>*/}
                             <td className="text-center" id={`bookAuthor${index}`}>{item.author}</td>

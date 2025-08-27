@@ -13,6 +13,7 @@ import PriceStock from "./priceStock.jsx";
 import {validStock} from "../../../util/validation.jsx";
 import ReusableModal from "./modal.jsx";
 import PublishDate from "./publishDate.jsx";
+import RecomeType from "./recomeType.jsx";
 
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
 
@@ -41,6 +42,7 @@ const AdminBookCreate = () => {
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
         writer: '',
         createDate:formatToDate(new Date()), // 클라이언트에게 보여줄 날짜 ==> 데이터베이스는 자동으로 데이터 넣기
+        recomType:'NORMAL'
     })
     //카테고리
     const [categoryList, setCategoryList] = useState([]); // 도서 카테고리 상태관리
@@ -115,12 +117,12 @@ const AdminBookCreate = () => {
         console.log("e target", e.target.value);
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
        const { name, value } = e.target;
-       console.log("handleChange===========", name, value);
+
        //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
         if((name === "stock" || name === "bookPrice") && value.trim() !== ""){
             //검증 유틸 사용
             const result = validStock(value);
-            console.log("재고 검증 결과 ----",result)
+
             //검증 통과 여부
             console.log("result.message",result.message)
             console.log("result.valid",result.valid)
@@ -128,14 +130,11 @@ const AdminBookCreate = () => {
                 // 숫자 검증 false 일 경우, 모달 알림 뜸
                 setShow(true);
                 setErrorData(result); // result에 담긴 메시지 모달로 보내기
+                return; // 종료시키키
             }
-            return; // 종료시키키
+
         }
 
-        if(name === "publishDate"){
-
-            console.log("publishDate",publishDate)
-        }
 
         setCreateBook({
             ...createBook,//기존에 있는 데이터들 스프레드 연산자로 합쳐주기
@@ -201,7 +200,14 @@ const AdminBookCreate = () => {
 
         //formData를  entries()를 통해 키,값 으로 담긴 순회가 가능한 반복객체를 반환 후 Array.from으로 배열객체로 변환
         const hasEmpty = Array.from(formData.entries())
-            .some(([key, value]) => !value || value.trim() === "");//해당 키값의 값이 null 또는 undefined,빈 문자열일경우
+            .some(([key, value]) => {
+
+                if(typeof(value) === "string"){ //  타입이 문자열인 부분과 
+                    return value.trim() === "";
+                }
+
+                return !value; // 그렇지 않는 객체 분리해서 검증해야 안전
+            });//해당 키값의 값이 null 또는 undefined,빈 문자열일경우
 
         // true 반환,조건문 진입
         if (hasEmpty) {
@@ -260,6 +266,8 @@ const AdminBookCreate = () => {
             <div className="bookcreate">
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookCreateForm" onSubmit={onSubmit}>
+                    {/*등록타입*/}
+                    <RecomeType  setCreatebook={setCreateBook}/>
                     {/*카테고리*/}
                     <Category setDefaultData={setCreateBook} defaultData={createBook} categoryList={categoryList}  />
                     {/*도서명*/}

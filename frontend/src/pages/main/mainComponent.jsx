@@ -10,7 +10,7 @@ import axios from "axios";
 
 const mainComponent = () => {
   const [books, setBooks] = useState([]); // slide data 배열로 초기값
-  //const [crData,setCrData] = useState([]); // slide data 배열로 초기값
+
 
   const booksFecth = async () => {
     //axios 요청 보내기
@@ -21,7 +21,7 @@ const mainComponent = () => {
           bookSlide: true,
         },
       });
-      console.log("response data", response.data);
+      console.log("response data-----main booksFecth", response.data);
       setBooks(response.data);
     } catch (e) {
       console.log("booksFetch 에러");
@@ -35,7 +35,7 @@ const mainComponent = () => {
       const response = await axios.get("/api", {
         params: { curation: true },
       });
-      console.log("response data", response.data);
+      console.log("response data------main curationFecth", response.data);
     } catch (e) {
       console.log("curationFecth 에러");
       console.error(e);
@@ -57,7 +57,7 @@ const mainComponent = () => {
       {/*도서 슬라이드*/}
       <SectionBooks slideData={books || []} />
       {/*인기도서 & 추천도서 */}
-      <SectionCuration />
+      <SectionCuration popularData={""} recomData={""} />
       {/* 문의, 위시리스트 , 회원가입 */}
       <SectionSkipBtns />
     </>

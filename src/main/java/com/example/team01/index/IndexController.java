@@ -55,8 +55,8 @@ public class IndexController {
         log.info("mainController---data:{}", data);
         //Entry는 key,value 형태
         for(Map.Entry<String,List<BookVO>> entry : data.entrySet()){
-            log.info("mainController---entry.getKey:{}", entry.getKey());
-            log.info("mainController---entry.getValue:{}", entry.getValue()); // entry의 value는 List<BookVO> 
+            log.info("mainController---entry.getKey==1111:{}", entry.getKey());
+            log.info("mainController---entry.getValue==1111:{}", entry.getValue()); // entry의 value는 List<BookVO>
             List<BookVO> changeImgPath =
                     entry.getValue().stream()//배열을 스트림으로 전개
                             .map(bookVO->{//map함수를 통해 객체를 순회하면서 이미지의 경로를 변경

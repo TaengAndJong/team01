@@ -35,6 +35,8 @@ public class AdminBookVO implements BookImgChange {
     private List<String> bookImgList;
     private String bookImgPath;  // DB 저장용
     private String writer; // 등록한 관리자 아이디
+    private String recomType; // 등록분류
+
 
     @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm:ss")
     private LocalDateTime createDate; // 도서등록일

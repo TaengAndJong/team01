@@ -61,6 +61,7 @@
                              , "bookImgPath"
                              , "writer"
                              , "createDate"
+                            ,"recomType"
                         FROM book
                         <include refid="searchFrag" />
                         ORDER BY "bookId" DESC
@@ -88,6 +89,7 @@
              , "bookImgPath"
              , "writer"
              , "createDate"
+            ,"recomType"
         from book
         where "bookId"=#{bookId}
     </select>
@@ -138,6 +140,7 @@
         , "cateId"
         , "bookImgPath"
         , "writer"
+        ,"recomType"
 
         ) VALUES (
         #{bookId}
@@ -154,6 +157,7 @@
         , #{cateId}
        ,#{bookImgPath}
         , #{writer}
+        ,#{recomType}
         )
 
     </insert>
@@ -218,7 +222,10 @@
                 "writer" = #{writer},
             </if>
             <if test="createDate != null and writer != ''">
-                "createDate" = #{createDate}
+                "createDate" = #{createDate},
+            </if>
+            <if test="recomType != null and recomType != ''">
+                "recomType" = #{recomType}
             </if>
 
         </set>

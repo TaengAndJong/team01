@@ -21,6 +21,7 @@ public class BookVO implements BookImgChange {
     private String bookCateDepth; // 도서 카테고리 뎊스 (배열로 변경)
     private String author;//저자
     private String publishDate;//발행일
+    private String recomType;//도서등록분류
     private int bookPrice;//도서가격
     private int stock;//재고 ==> 등록된 도서가 0 일때 품절 표시, 0초과일 때 재고수량 표시
 

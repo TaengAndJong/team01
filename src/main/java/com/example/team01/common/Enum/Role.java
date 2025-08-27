@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@RequiredArgsConstructor // 생성자 생성해주는 어노테이션
 public enum Role {
         USER("ROLE_CLIENT","일반회원"),
         ADMIN("ROLE_ADMIN","관리자"),

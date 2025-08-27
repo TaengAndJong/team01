@@ -189,7 +189,12 @@ const AdminBookModify = () => {
 
         //formData를  entries()를 통해 키,값 으로 담긴 순회가 가능한 반복객체를 반환 후 Array.from으로 배열객체로 변환
         const hasEmpty = Array.from(formData.entries())
-            .some(([key, value]) => !value || value.trim() === "");//해당 키값의 값이 null 또는 undefined,빈 문자열일경우
+            .some(([key, value]) =>{
+                if(typeof(value) === "string"){
+                    return  value.trim() === ""
+                }
+               return !value;
+            });//해당 키값의 값이 null 또는 undefined,빈 문자열일경우
 
         // true 반환,조건문 진입
         if (hasEmpty) { //true이면

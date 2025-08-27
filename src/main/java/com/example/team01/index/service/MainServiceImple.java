@@ -24,7 +24,7 @@ public class MainServiceImple implements MainService {
     public Map<String,List<BookVO>> getPartOfBooks() {
         // row_number() 윈도우 함수와 over() 절의 partition By를 사용하여 각 도서의 카테고리별 8개순위까지 제한
         List<BookVO> books = dao.selectBooks();
-        log.info("getPartOfBooks :{}",books);
+        log.info("getPartOfBooks---------------- 도서 recomType으로 분류 필요 :{}",books);
         Map<String,List<BookVO>> partialBooks= booksMap(books);
         log.info("partialBooks :{}",partialBooks);
         //books를 순회하면서 국내,국외, EBOOK으로 데이터 나누기
