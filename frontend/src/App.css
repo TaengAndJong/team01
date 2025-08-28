@@ -89,6 +89,7 @@ bold = 700
 }
 /*공통변수*/
 /*depth*/
+/*tultip 컬러*/
 /* 레이이아웃 - header & footer*/
 /*폰트*/
 /*관리자*/
@@ -152,6 +153,21 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   margin-right: 2px;
 }
 
+.tultip {
+  margin-bottom: 1rem;
+  background-color: #FFE377;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.8rem;
+  border-radius: 0.4rem;
+}
+.tultip.recom {
+  background-color: #BED297;
+}
+.tultip.popular {
+  background-color: #F7ECE7;
+}
+
 table {
   display: table;
   border-collapse: collapse;
@@ -182,6 +198,10 @@ table .imgbox img {
   background-color: #FFE377;
   padding: 20px 10px;
   color: #333;
+}
+
+.table-custom tbody td {
+  padding: 1.2rem;
 }
 
 .btn {
