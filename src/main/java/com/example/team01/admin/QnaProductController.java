@@ -1,8 +1,10 @@
 package com.example.team01.admin;
 
 import com.example.team01.admin.service.QnaProductService;
+import com.example.team01.comments.service.CommentsService;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
+import com.example.team01.vo.CommentsVO;
 import com.example.team01.vo.QnaProductVO;
 import com.example.team01.utils.FileUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +22,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/admin/board")
 public class QnaProductController {
-    
+    private final CommentsService commentsService;
     private final QnaProductService qnaProductService;
     private final FileUtils fileUtils;
     
@@ -90,6 +92,7 @@ public class QnaProductController {
     @PathVariable String boardId,     // URL 경로의 {boardId}
     @RequestParam String userId       // 쿼리 파라미터 ?userId=값
     ){
+
     log.info("📦 상품 문의 상세조회 API 호출됨");
     log.info("상세조회 boardId -----------------: {}", boardId);
     log.info("상세조회 userId -----------------: {}", userId);
@@ -97,17 +100,28 @@ public class QnaProductController {
     return ResponseEntity.ok(boardData);
 
 }
+
 // 상품 문의 답변 등록 API
 @PostMapping("/detail/comment/{category}/{boardId}")
 public ResponseEntity<?> postProductComment(
     @PathVariable String category,
     @PathVariable String boardId,
-    @RequestBody String answerContent,
+    @RequestBody CommentsVO commentsVO,
     HttpServletRequest request
 ){
     log.info("📦 상품 문의 답변 등록 API 호출됨");
-    log.info("상품 문의 답변 등록 category -----------------: {}", category);
-    log.info("상품 문의 답변 등록 boardId -----------------: {}", boardId);
+
+        // CommentsVO 객체 생성
+        commentsVO.setCommentType(category);
+        commentsVO.setQnaRefId(boardId);
+        commentsVO.setComDate(LocalDateTime.now());
+
+    log.info("commentsVO -----------------: {}", commentsVO);
+
+    // 답변 등록 서비스 호출
+    int result = commentsService.insertComment(commentsVO);
+    log.info("댓글 등록 결과 (영향받은 행 수) -----------------: {}", result);
+
     return ResponseEntity.ok("통신 성공");
 }
 

@@ -11,6 +11,9 @@ const DetailBoard = ({ userType }) => {
   const { category, boardId } = useParams();
   const [searchParams] = useSearchParams();
   const [answer, setAnswer] = useState("");
+  // 관리자 id 로컬 스토리지에서 가져오기
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const adminId = userData?.clientId;
 
   const userId = searchParams.get("userId");
   // console.log("DetailBoard category", category);
@@ -40,7 +43,8 @@ const DetailBoard = ({ userType }) => {
   const handleAnswerSubmit = (answer) => {
     axios
       .post(`/api/admin/board/detail/comment/${category}/${boardId}`, {
-        answerContent: answer,
+        commentCon: answer,
+        comWriter: adminId,
       })
       .then((res) => {
         console.log("답변 등록 성공", res);
