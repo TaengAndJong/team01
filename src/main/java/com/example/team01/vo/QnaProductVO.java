@@ -24,5 +24,6 @@ public class QnaProductVO {
     private String clientId; // 상품 문의 작성자 아이디
     private String roleId; // 상품 문의 작성자 권한
     private String attachmentID; // 상품 문의 첨부 이미지
-    private List<AttachmentVO> attachmentList;
+    private List<AttachmentVO> attachmentList; // 첨부 이미지 리스트 get으로 요청 시
+    private List<CommentsVO> commentList; // 댓글 리스트 get으로 요청 시
 }

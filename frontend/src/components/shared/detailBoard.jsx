@@ -80,13 +80,24 @@ const DetailBoard = ({ userType }) => {
                 </ul>
               </div>
               <div>
-                <Btn
-                  text="목록"
-                  onClick={() => navigate(`/admin/board/${category}Board`)}
-                />
-                <Btn text="삭제" />
+                {data.commentList.map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="content comment_container"
+                      style={{ display: "flex" }}
+                    >
+                      <div>{item.commentCon}</div>
+                      <div>{item.comWriter}</div>
+                      <div>{item.comDate}</div>
+                      <btn>답변 삭제</btn>
+                      <btn>답변 수정</btn>
+                    </div>
+                  );
+                })}
               </div>
             </div>
+
             {userType === "admin" && (
               <div className="adminAnswer_container">
                 <textarea
@@ -103,6 +114,13 @@ const DetailBoard = ({ userType }) => {
                 </div>
               </div>
             )}
+            <div>
+              <Btn
+                text="목록"
+                onClick={() => navigate(`/admin/board/${category}Board`)}
+              />
+              <Btn text="삭제" />
+            </div>
           </div>
         </div>
       </>

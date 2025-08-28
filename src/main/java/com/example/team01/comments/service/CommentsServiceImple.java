@@ -23,4 +23,9 @@ public class CommentsServiceImple implements CommentsService {
         // 댓글 등록 메서드 호출
         return commentsDao.insertComment(commentsVO);
     }
+
+    @Override
+    public List<CommentsVO> getCommentsList(String qnaRefId, String commentType) {
+        return commentsDao.getCommentsList(qnaRefId, commentType);
+    }
 }

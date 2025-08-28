@@ -97,8 +97,13 @@ public class QnaProductController {
     log.info("상세조회 boardId -----------------: {}", boardId);
     log.info("상세조회 userId -----------------: {}", userId);
     QnaProductVO boardData = qnaProductService.getQnaProductDetail(boardId, userId);
+    
+    // 게시물 답변 조회
+    List<CommentsVO> commentsList = commentsService.getCommentsList(boardId, "product");
+    log.info("게시물 답변 조회 결과 -----------------: {}", commentsList);
+    boardData.setCommentList(commentsList);
+    log.info("상품 게시물 조회 boardData 최종 결과 -----------------: {}", boardData);
     return ResponseEntity.ok(boardData);
-
 }
 
 // 상품 문의 답변 등록 API
@@ -124,5 +129,4 @@ public ResponseEntity<?> postProductComment(
 
     return ResponseEntity.ok("통신 성공");
 }
-
 }
