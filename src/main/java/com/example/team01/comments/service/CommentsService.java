@@ -7,4 +7,5 @@ import org.springframework.stereotype.Service;
 
 public interface CommentsService {
     public int insertComment(CommentsVO commentsVO);
+    public List<CommentsVO> getCommentsList(String qnaRefId);
 }

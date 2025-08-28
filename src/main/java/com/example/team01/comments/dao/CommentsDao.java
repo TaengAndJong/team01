@@ -7,4 +7,5 @@ import java.util.List;
 @Mapper
 public interface CommentsDao {
     public int insertComment(CommentsVO commentsVO);
+    public List<CommentsVO> getCommentsList(String qnaRefId);
 }

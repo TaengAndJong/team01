@@ -10,4 +10,8 @@
         INSERT INTO comments ("commentId", "commentType", "commentCon", "comWriter", "comDate", "comModify", "qnaRefId")
         VALUES (#{commentId}, #{commentType}, #{commentCon}, #{comWriter}, #{comDate}, NULL, #{qnaRefId})
         </insert>
+
+        <select id="getCommentsList" parameterType="String" resultType="com.example.team01.vo.CommentsVO">
+        SELECT * FROM comments WHERE "qnaRefId" = #{qnaRefId} AND "commentType" = #{commentType}
+        </select>
 </mapper>       
