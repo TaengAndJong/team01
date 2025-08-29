@@ -73,9 +73,10 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                 }}
                 modules={[Pagination, Navigation, Autoplay]}
                 pagination={activeTab === naviId ? customPagination : false}
-                loop={slideData?.length > 4}
+                loop={slideData?.length >1}//
                 autoplay={{ delay: 2000, disableOnInteraction: false }}
-                slidesPerView={5} // 총 보여지는 슬라이드 개수
+                slidesPerView={Math.min(4, slideData?.length || 1)}
+                // 총 보여지는 슬라이드 개수
                 slidesPerGroup={1}//넘어가는 슬라이드 개수
                 speed={700}// 슬라이드 속도
                 navigation={{ // 각 탭의 슬라이드의 컨트롤을 각각 적용해줘야 기능이 적용됨
@@ -84,7 +85,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                 }}
                 observer={true}
                 observeParents={true}
-                onSlideChange={() => console.log('slide change')}
+                onSlideChange={() => console.log('mainbookSlide')}
             >
                 {slideData?.map((item) => (
                     <SwiperSlide key={`slide-${item.bookId}`}>

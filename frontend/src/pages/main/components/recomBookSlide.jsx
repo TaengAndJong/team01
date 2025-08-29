@@ -44,6 +44,12 @@ const  RecomBookSlide= ({slideData}) =>{
         },
     }
 
+    useEffect(() => {
+        // swiperRef,current가 있는지 확인되어야 오토플레이 시작가느아기때문에
+        if (swiperRef.current && swiperRef.current.autoplay) {
+            swiperRef.current.autoplay.start();
+        }
+    },[swiperRef.current] ); // swiperRef.current가 설정될때마다
 
     return (
         <>
@@ -56,7 +62,7 @@ const  RecomBookSlide= ({slideData}) =>{
                 modules={[Pagination, Navigation, Autoplay]}
                 className="slide-list clearfix"
                // pagination={activeTab === naviId ? customPagination : false}
-                loop={slideData?.length > 1}
+                loop={slideData?.length >0}//
                 autoplay={{ delay: 2000, disableOnInteraction: false }}
                 navigation={{ // 각 탭의 슬라이드의 컨트롤을 각각 적용해줘야 기능이 적용됨
                     nextEl: `.custom-next-recom`,
@@ -69,7 +75,7 @@ const  RecomBookSlide= ({slideData}) =>{
                 speed={700}// 슬라이드 속도
                 observer={true}
                 observeParents={true}
-                // onSlideChange={() => console.log('slide change')}
+                onSlideChange={() => console.log('recombookSlide')}
             >
                 {slideData?.map((item, idx) => (
                     <SwiperSlide key={`slide-${idx}`}>
