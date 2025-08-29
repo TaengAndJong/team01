@@ -129,6 +129,6 @@ public ResponseEntity<?> postProductComment(
     
     CommentsVO savedComment = commentsService.getCommentById(commentsVO.getQnaRefId(), commentsVO.getCommentType());
 
-    return ResponseEntity.ok("통신 성공");
+    return ResponseEntity.ok(savedComment);
 }
 }
