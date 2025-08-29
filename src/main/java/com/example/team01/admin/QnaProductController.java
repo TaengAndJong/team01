@@ -98,11 +98,10 @@ public class QnaProductController {
     log.info("상세조회 userId -----------------: {}", userId);
     QnaProductVO boardData = qnaProductService.getQnaProductDetail(boardId, userId);
     
-    // 게시물 답변 조회
-    List<CommentsVO> commentsList = commentsService.getCommentsList(boardId, "product");
-    log.info("게시물 답변 조회 결과 -----------------: {}", commentsList);
-    boardData.setCommentList(commentsList);
-    log.info("상품 게시물 조회 boardData 최종 결과 -----------------: {}", boardData);
+    CommentsVO savedComment = commentsService.getCommentById(boardId, "product");
+    log.info("savedComment -----------------: {}", savedComment);
+    boardData.setComment(savedComment);
+    
     return ResponseEntity.ok(boardData);
 }
 
@@ -125,7 +124,10 @@ public ResponseEntity<?> postProductComment(
 
     // 답변 등록 서비스 호출
     int result = commentsService.insertComment(commentsVO);
+    
     log.info("댓글 등록 결과 (영향받은 행 수) -----------------: {}", result);
+    
+    CommentsVO savedComment = commentsService.getCommentById(commentsVO.getQnaRefId(), commentsVO.getCommentType());
 
     return ResponseEntity.ok("통신 성공");
 }

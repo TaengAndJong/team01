@@ -25,7 +25,8 @@ public class CommentsServiceImple implements CommentsService {
     }
 
     @Override
-    public List<CommentsVO> getCommentsList(String qnaRefId, String commentType) {
-        return commentsDao.getCommentsList(qnaRefId, commentType);
+    public CommentsVO getCommentById(String qnaRefId, String commentType) {
+        log.info("답변 메서드 호출", qnaRefId, commentType);
+        return commentsDao.getCommentById(qnaRefId, commentType);
     }
 }

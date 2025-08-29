@@ -7,5 +7,6 @@ import org.springframework.stereotype.Service;
 
 public interface CommentsService {
     public int insertComment(CommentsVO commentsVO);
-    public List<CommentsVO> getCommentsList(String qnaRefId, String commentType);
+    public CommentsVO getCommentById(String qnaRefId, String commentType);  // 단일 댓글 반환
+    
 }

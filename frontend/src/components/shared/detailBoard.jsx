@@ -40,17 +40,31 @@ const DetailBoard = ({ userType }) => {
     console.log("답변", answer);
   };
 
-  const handleAnswerSubmit = (answer) => {
-    axios
-      .post(`/api/admin/board/detail/comment/${category}/${boardId}`, {
-        commentCon: answer,
-        comWriter: adminId,
-      })
-      .then((res) => {
-        console.log("답변 등록 성공", res);
-      });
+  const handleAnswerSubmit = async (answer) => {
+    try {
+      // ✨ 1. 서버에서 등록된 댓글을 바로 받아옴
+      const response = await axios.post(
+        `/api/admin/board/detail/comment/${category}/${boardId}`,
+        {
+          commentCon: answer,
+          comWriter: adminId,
+        }
+      );
 
-    console.log("답변 등록", answer);
+      // ✨ 2. 받은 댓글을 기존 댓글 리스트에 추가 (효율적!)
+      const newComment = response.data;
+      setData((prev) => ({
+        ...prev,
+        commentList: [...prev.commentList, newComment],
+      }));
+
+      setAnswer("");
+
+      // ✨ 3. 성공 피드백 (UX 개선)
+      // toast 알림이나 성공 메시지 표시
+    } catch (error) {
+      console.error("답변 등록 실패:", error);
+    }
   };
 
   if (data)
@@ -80,21 +94,17 @@ const DetailBoard = ({ userType }) => {
                 </ul>
               </div>
               <div>
-                {data.commentList.map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="content comment_container"
-                      style={{ display: "flex" }}
-                    >
-                      <div>{item.commentCon}</div>
-                      <div>{item.comWriter}</div>
-                      <div>{item.comDate}</div>
-                      <btn>답변 삭제</btn>
-                      <btn>답변 수정</btn>
+                {data.comment && (
+                  <div>
+                    <div>{data.comment.commentCon}</div>
+                    <div>{data.comment.comWriter}</div>
+                    <div>{data.comment.comDate}</div>
+                    <div>
+                      <Btn onClick={null} text="답변 수정" />
+                      <Btn onClick={null} text="답변 삭제" />
                     </div>
-                  );
-                })}
+                  </div>
+                )}
               </div>
             </div>
 
