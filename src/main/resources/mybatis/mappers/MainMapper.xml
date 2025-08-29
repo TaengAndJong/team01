@@ -7,7 +7,7 @@
     <select id="selectBooks" resultType="BookVO">
         SELECT t.rank,
             t."bookId",
-            t."bookCateNm",
+            TRIM(t."bookCateNm") AS bookCateNm,
             t."bookCateDepth",
             t."bookName",
             t."bookDesc",
@@ -16,7 +16,7 @@
             t."cateId",
             t."writer",
             t."bookImgPath",
-            t."recomType"
+            TRIM(t."recomType") AS "recomType"
         FROM (
             SELECT
                 ROW_NUMBER() OVER (PARTITION BY b."bookCateNm" ORDER BY b."bookId" DESC) AS rank,

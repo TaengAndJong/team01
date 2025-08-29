@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // api 는 localhost:port/api
@@ -51,32 +48,51 @@ public class IndexController {
 
         log.info("mainController---books:{}", bookSlide);
         //슬라이드에 들어갈 데이터 가져오기
-        Map<String,List<BookVO>> data = mainService.getPartOfBooks(); //서비스에서 데이터 가져오기
-        log.info("mainController---data:{}", data);
-        //Entry는 key,value 형태
-        for(Map.Entry<String,List<BookVO>> entry : data.entrySet()){
-            log.info("mainController---entry.getKey==1111:{}", entry.getKey());
-            log.info("mainController---entry.getValue==1111:{}", entry.getValue()); // entry의 value는 List<BookVO>
-            List<BookVO> changeImgPath =
-                    entry.getValue().stream()//배열을 스트림으로 전개
-                            .map(bookVO->{//map함수를 통해 객체를 순회하면서 이미지의 경로를 변경
-                                return fileUtils.changeImgPath(bookVO,request);
-                    }).collect(Collectors.toList()); // 흩어진 데이터를 List 형태로 복원하여 반환
-            entry.setValue(changeImgPath); // 기존 value를 변경된 데이터로 다시 재설정
-        } 
+        Map<String,Object> data = mainService.getPartOfBooks(); //서비스에서 데이터 가져오기
+        log.info("mainController---bookSlide:{}", data.get("bookSlide"));
+        log.info("mainController---recmSlide:{}", data.get("recomSlide"));
+        log.info("mainController---popularSlide:{}", data.get("popularSlide"));
+
+        //bookImgPath 변경해주기
+        //bookSlide 형태는 배열을 객체 ( {ebook: [..] , ... , national:[..]} ==> entrySet으로 순회
+        // bookSlide: Map<String, Object> 형태
+
+        //형변환해주기
+        Map<String, List<BookVO>> bookObjs = (Map<String, List<BookVO>>) data.get("bookSlide");
+        for (Map.Entry<String, List<BookVO>> entry : bookObjs.entrySet()) {
+            String category = entry.getKey();
+            List<BookVO> bookList = entry.getValue();
+            // 각 BookVO의 bookImgPath 변경
+            bookList.forEach(book -> fileUtils.changeImgPath(book, request));
+
+            // 변경된 리스트 다시 세팅 (사실 entry.getValue()는 이미 참조이므로 생략 가능)
+            entry.setValue(bookList);
+
+            log.info("카테고리 '{}' 이미지 경로 변경 완료", category);
+        }
+
+
+        log.info("mainController-- 북슬라이드- 객체순환완료 ");
+        //형변환 해주기
+        List<BookVO> recomList = (List<BookVO>) data.get("recomSlide");
+        List<BookVO> popularList = (List<BookVO>) data.get("popularSlide");
+        log.info("mainController-- 추천,인기 슬라이드- 객체순환시작");
+        //recomSlide 는 배열 ==> map으로 순회
+        recomList.stream().map(bookVO->{//map함수를 통해 객체를 순회하면서 이미지의 경로를 변경
+            log.info("mainController---recomList변경된 데이터:{}", bookVO);
+            return fileUtils.changeImgPath(bookVO,request);
+        }).collect(Collectors.toList());
+
+        //popularSlide도 배열 ==> map으로 순회
+        popularList.stream().map(bookVO->{//map함수를 통해 객체를 순회하면서 이미지의 경로를 변경
+            log.info("mainController---popularList 데이터:{}", bookVO);
+            return fileUtils.changeImgPath(bookVO,request);
+        }).collect(Collectors.toList());
+
+        log.info("mainController---변경된 데이터:{}", data);
+
         return ResponseEntity.ok(data); // 클라이언트로 응답을 보내기
     }
 
-    //getMapping
-    @GetMapping(params="curation")
-    public ResponseEntity<?> getCrationMapping(@RequestParam(required = false) String curation){
-
-        log.info("mainController---curations:{}", curation);
-
-        return ResponseEntity.ok("Hello curation");
-    }
-
-    //백엔드 매핑주소는 프론트와 동일
-    // 프론트 fetch 주소는 백엔드 기준
 
 }

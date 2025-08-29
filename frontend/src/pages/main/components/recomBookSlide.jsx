@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 
 const  RecomBookSlide= ({slideData}) =>{
 
-    console.log("slideData --------slideData",slideData);
+    console.log("slideData --------RecomBookSlide",slideData);
 
     //서드파트 인스턴스 직접 제어
     const swiperRef = useRef(null);
@@ -44,131 +44,56 @@ const  RecomBookSlide= ({slideData}) =>{
         },
     }
 
-    //탭이 변경될 때마다 실행
-    // useEffect(() => {
-    //     if (swiperRef.current) {
-    //         swiperRef.current.slideTo(0); // 슬라이드를 첫번째로 이동
-    //         swiperRef.current.autoplay.start(); // 자동 시작
-    //     }
-    // }, [naviId]); // naviId 가 변경되는 탭도 변경되기때문에 , 변경될 때마다 슬라이드 초기화 및 자동 시작
 
     return (
         <>
-            {/*
-                Swiper 속성
-                1) ref  : DoM요소 참조가 아니라 컴포넌트 자체를 지칭할 수 도 있음
-                2) onSwiper : Swiper 인스턴스를 명확하게 가져올 수 있음.
-                  - 역할: swiper 컴포넌트를 렌더링 하면 내부적으로 Swiper 클래스 인스턴스가 생성
-                        내부에는 autoplay, slideTo, navigation 등 모든 제어 메서드가 담겨잇음
-                   **** 중요 ****
-                   onSwiper 의 파라미터는 해당 swiper 객체를 의미하며, 이 객체를 swiperRef의 current 에 할당해줌으로써
-                   현재 구동되는 swiper 슬라이드 객체에 접근이 가능해짐
-            */}
 
-
-            {/*<Swiper*/}
-            {/*    ref={swiperRef}*/}
-            {/*    onSwiper={(swiper) => {*/}
-            {/*        swiperRef.current = swiper; // Swiper 인스턴스를 저장*/}
-            {/*    }}*/}
-            {/*    modules={[Pagination, Navigation, Autoplay]}*/}
-            {/*   // pagination={activeTab === naviId ? customPagination : false}*/}
-            {/*    loop={slideData?.length > 1}*/}
-            {/*    autoplay={{ delay: 2000, disableOnInteraction: false }}*/}
-            {/*    // navigation={{ // 각 탭의 슬라이드의 컨트롤을 각각 적용해줘야 기능이 적용됨*/}
-            {/*    //     nextEl: `.custom-next-${naviId}`,*/}
-            {/*    //     prevEl: `.custom-prev-${naviId}`*/}
-            {/*    // }}*/}
-            {/*    slidesPerView={6} // 총 보여지는 슬라이드 개수*/}
-            {/*    slidesPerGroup={1}//넘어가는 슬라이드 개수*/}
-            {/*    speed={700}// 슬라이드 속도*/}
-            {/*    observer={true}*/}
-            {/*    observeParents={true}*/}
-            {/*    onSlideChange={() => console.log('slide change')}*/}
-            {/*>*/}
-            {/*    {slideData?.map((item, idx) => (*/}
-            {/*        <SwiperSlide key={`slide-${idx}`}>*/}
-            {/*            <Link className="slide-link" to={item.detailUrl} title={`${item.bookName}도서 상세페이지 바로가기`}>*/}
-            {/*                <div className="img-box">*/}
-            {/*                    <div className="img-inner">*/}
-            {/*                        <img className="img" src={item.bookImgList?.[0]} alt={item.bookName} />*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*                <div className="txt-box">*/}
-            {/*                    <span className="tit bold d-block">{item.bookName}</span>*/}
-            {/*                    <span className="tit bold d-block">{item.author}</span>*/}
-            {/*                </div>*/}
-            {/*            </Link>*/}
-            {/*        </SwiperSlide>*/}
-            {/*    ))}*/}
-            {/*</Swiper>*/}
-            {/*<ul className="slide-list">*/}
-            {/*    <li className="slide-link" >*/}
-            {/*        <div className="img-box">*/}
-            {/*            <div className="img-inner">*/}
-            {/*                <img className="img" />*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="txt-box">*/}
-            {/*            <span className="tit bold d-block">인기도서</span>*/}
-            {/*            <span className="tit bold d-block">인기도서저자</span>*/}
-            {/*        </div>*/}
-            {/*    </li>*/}
-            {/*</ul>*/}
-
-            <ul className="slide-list clearfix">
-                <li className="slide-link">
-                    <span className="cateName">카데고리</span>
-                    <strong className="tit">인기도서</strong>
-                    <span className="author">김테스트</span>
-                    <p className="desc">인기도서 설명 인기도서 설명  인기도서 설명 인기도서 설명 인기도서 설명 인기도서 설명 </p>
-                    <div className="img-box">
-                        <div className="img-inner">
-                            <img className="img" src="" alt={"이미지없어"}/>
-                        </div>
-                    </div>
-                </li>
-                <li className="slide-link">
-                    <span className="cateName">카데고리</span>
-                    <strong className="tit">인기도서</strong>
-                    <span className="author">김테스트</span>
-                     <p className="desc">인기도서 설명 인기도서 설명  인기도서 설명 인기도서 설명 인기도서 설명 인기도서 설명 </p>
-                    <div className="img-box">
-                        <div className="img-inner">
-                            <img className="img" src="" alt={"이미지없어"}/>
-                        </div>
-                    </div>
-                </li>
-                <li className="slide-link">
-                    <span className="cateName">카데고리</span>
-                    <strong className="tit">인기도서</strong>
-                    <span className="author">김테스트</span>
-                     <p className="desc">인기도서 설명 인기도서 설명  인기도서 설명 인기도서 설명 인기도서 설명 인기도서 설명 </p>
-                    <div className="img-box">
-                        <div className="img-inner">
-                            <img className="img" src="" alt={"이미지없어"}/>
-                        </div>
-                    </div>
-                </li>
-                <li className="slide-link">
-                    <span className="cateName">카데고리</span>
-                    <strong className="tit">인기도서</strong>
-                    <span className="author">김테스트</span>
-                     <p className="desc">인기도서 설명 인기도서 설명  인기도서 설명 인기도서 설명 인기도서 설명 인기도서 설명 </p>
-                    <div className="img-box">
-                        <div className="img-inner">
-                            <img className="img" src="" alt={"이미지없어"}/>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+            <Swiper
+                ref={swiperRef}
+                onSwiper={(swiper) => {
+                    swiperRef.current = swiper; // Swiper 인스턴스를 저장
+                }}
+                modules={[Pagination, Navigation, Autoplay]}
+                className="slide-list clearfix"
+               // pagination={activeTab === naviId ? customPagination : false}
+                loop={slideData?.length > 1}
+                autoplay={{ delay: 2000, disableOnInteraction: false }}
+                navigation={{ // 각 탭의 슬라이드의 컨트롤을 각각 적용해줘야 기능이 적용됨
+                    nextEl: `.custom-next-recom`,
+                    prevEl: `.custom-prev-recom`
+                }}
+                spaceBetween={10}   // 간격 없애기
+                centeredSlides={true} // 가운데 정렬 강제
+                slidesPerView={1} // 총 보여지는 슬라이드 개수
+                slidesPerGroup={1}//넘어가는 슬라이드 개수
+                speed={700}// 슬라이드 속도
+                observer={true}
+                observeParents={true}
+                // onSlideChange={() => console.log('slide change')}
+            >
+                {slideData?.map((item, idx) => (
+                    <SwiperSlide key={`slide-${idx}`}>
+                        <Link className="slide-link" to={item.detailUrl} title={`${item.bookName}도서 상세페이지 바로가기`}>
+                            <span className="cateName">{item.bookCateNm}</span>
+                            <strong className="tit">{item.bookName}</strong>
+                            <span className="author">{item.author}</span>
+                            <p className="desc">{item.bookDesc}</p>
+                            <div className="img-box">
+                                <div className="img-inner">
+                                    <img className="img" src={item.bookImgList?.[0]} alt={item.bookName}/>
+                                </div>
+                            </div>
+                        </Link>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
 
 
             <div className="button-group">
                 {/*이전*/}
-                {/*<button type="button" className={`swiper-button bordered custom-prev custom-prev-${naviId}`}>*/}
-                {/*    <span className="sr-only">이전슬라이드</span>*/}
-                {/*</button>*/}
+                <button type="button" className={`swiper-button bordered custom-prev custom-prev-recom`}>
+                    <span className="sr-only">이전슬라이드</span>
+                </button>
                 {/*재생 & 정지 */}
                 <button type="button"
                         className={`swiper-button bordered ${play ? `swiper-button-stop` : `swiper-button-start`}`}
@@ -178,9 +103,9 @@ const  RecomBookSlide= ({slideData}) =>{
                     <span className="sr-only"> {play ? '정지' : '재생'}</span>
                 </button>
                 {/*다음*/}
-                {/* <button type="button" className={`swiper-button bordered custom-next custom-next-${naviId}`}>
+               <button type="button" className={`swiper-button bordered custom-next custom-next-recom`}>
                     <span className="sr-only">다음슬라이드</span>
-                </button>*/}
+                </button>
             </div>
         </>
 

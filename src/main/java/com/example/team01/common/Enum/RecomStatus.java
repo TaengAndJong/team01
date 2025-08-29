@@ -2,7 +2,7 @@ package com.example.team01.common.Enum;
 
 public enum RecomStatus {
 
-    RECOMEND("RECOMEND","추천도서"),
+    RECOMMEND("RECOMMEND","추천"),
     POPULAR("POPULAR","인기"),
     NORMAL("NORMAL","일반");
 

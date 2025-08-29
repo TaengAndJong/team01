@@ -129,6 +129,7 @@
 .section .book .slide-link{border-radius: 15px; position: relative; float:left;width: 100%;}
 .section .book .button-group{top: 4rem; right: 4rem;}
 /*book.popular*/
+.book.popular .swiper-slide{margin: 0;}
 .book.popular .slide-list{height: calc(100% - 60px); }
 .book.popular .slide-link{
     position: relative; height:153px;padding:30px 130px 30px 30px;margin-bottom: 30px;}
@@ -142,9 +143,11 @@
 .book.popular .img{}
 
 /*book.recommend*/
+.book.recommend .swiper-slide{width:100% !important;
+    margin: 0;}
 .book.recommend .slide-list{height: 330px;}
 .book.recommend .slide-link{background:#E8F1FF; padding: 5rem 25rem 4rem 4rem;
-    width: 100%; height: 100%; margin-right: 20px;}
+    width: 100%; height: 100%;}
 .book.recommend .img-box{width: 180px;
     height: 235px;position: absolute; right:4rem; top: 5rem; }
 

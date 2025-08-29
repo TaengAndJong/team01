@@ -17,7 +17,7 @@ const SectionMain= ()=>{
                         </p>
                         <p className="title"><span className="m-tit">혼자보다, 함께 읽는 감동</span></p>
                         <p className="title">
-                            <sapn className="b-tit">Found In The Book</sapn>
+                            <span className="b-tit">Found In The Book</span>
                         </p>
                     </div>
                     <Link to={"/book"} className="btn circle-btn"><span>도서보러가기</span></Link>
