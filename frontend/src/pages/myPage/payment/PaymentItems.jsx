@@ -130,7 +130,7 @@ const PaymentItems = ({paymentProps}) =>{
 
                             {data.map((payment, i) => (
                                 <div className="table-responsive" key={i}>
-                                    <h6 className="title my-3">{`No.${payment.payId} ${formatToDate(payment.payDate)} 결제내역`}</h6>
+                                    <h6 className="title my-3">{`No.${payment.payId} ${formatToDate(new Date(payment.payDate))} 결제내역`}</h6>
                                     <table
                                            className="table table-bordered table-hover align-middle text-center">
                                         <thead className="table-light">
@@ -184,7 +184,7 @@ const PaymentItems = ({paymentProps}) =>{
                                                 <td className="text-center">{book.quantity}개</td>
                                                 <td className="text-center">{payment.payMethod === "card" ? "카드" : "계좌이체"}</td>
                                                 <td className="text-center">{payStatusText(book.partPayStatus)}</td>
-                                                <td className="text-center">{payment.payDate}</td>
+                                                <td className="text-center">{formatToDate(new Date(payment.payDate))}</td>
                                                 <td className="text-center">
                                                     {
                                                         book.partPayStatus === "COMPLETED"

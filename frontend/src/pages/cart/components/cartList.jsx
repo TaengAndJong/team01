@@ -202,7 +202,7 @@ const CartList = () => {
               <ul className="cart-list">
                   {cartList?.map((item,index) => (
                       <li key={index} className="cart-item mb-2">
-                          <div className="item-inner d-flex card flex-row default-border position-relative p-4 mb-2 ">
+                          <div className="item-inner d-flex card flex-row default-border position-relative">
                               <label className="position-absolute check-one" htmlFor={`check0${index+1}`}>
                                   <input type="checkbox" id={`check0${index+1}`}
                                          checked={selectItem.includes(item.cartId)}

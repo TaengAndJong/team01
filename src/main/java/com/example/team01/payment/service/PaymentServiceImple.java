@@ -61,6 +61,9 @@ public class PaymentServiceImple implements PaymentService {
             // dao로 넘겨주기
             return cnt= dao.insertPayment(paymentVO);
         }
+
+        //여기에서 도서테이블 stock 재고 감소하는 로직을 넣는게 맞나?
+
         log.info("insert dao-------:{}",cnt);
         return cnt;
     }
