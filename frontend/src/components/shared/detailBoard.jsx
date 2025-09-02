@@ -4,6 +4,7 @@ import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { handleFileDownload } from "@util/fileDownload.jsx";
 import "@assets/css/board/adminBoard.css";
+import CommentModal from "@components/shared/commentModal.jsx";
 
 const DetailBoard = ({ userType }) => {
   // console.log("🔥 DetailBoard 컴포넌트 렌더링됨!");
@@ -17,11 +18,10 @@ const DetailBoard = ({ userType }) => {
   const adminId = userData?.clientId;
 
   const userId = searchParams.get("userId");
-  // console.log("DetailBoard category", category);
-  // console.log("DetailBoard boardId", boardId);
-  // console.log("DetailBoard userId", userId);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,8 +41,9 @@ const DetailBoard = ({ userType }) => {
   }, [category, boardId, userId]);
 
   const handleAnswerChange = (e) => {
-    setAnswer(e.target.value);
-    console.log("답변", answer);
+    const value = e.target.value;
+    setAnswer(value);
+    console.log("답변", value);
   };
 
   const handleAnswerSubmit = async (answer) => {
@@ -56,7 +57,6 @@ const DetailBoard = ({ userType }) => {
         }
       );
 
-      // ✨ 2. 받은 댓글을 기존 댓글에 추가 (효율적!)
       const newComment = response.data;
       // 또는 기존 comment가 있다면 교체
       setData((prev) => ({
@@ -111,22 +111,26 @@ const DetailBoard = ({ userType }) => {
             </div>
           </div>
 
-          {userType === "admin" && (
-            <div className="adminAnswer_container">
-              <textarea
-                className="adminAnswer_textarea"
-                value={answer}
-                placeholder="답변을 입력해주세요."
-                onChange={handleAnswerChange}
-              ></textarea>
-              <div>
-                <Btn
-                  text="답변 등록"
-                  onClick={() => handleAnswerSubmit(answer)}
-                />
-              </div>
-            </div>
+          {userType === "admin" && !data.comment && (
+            <Btn
+              text="답변 등록"
+              onClick={() => {
+                setModalOpen(!modalOpen);
+              }}
+            />
           )}
+          {modalOpen === true ? (
+            <CommentModal
+              answer={answer}
+              setModalOpen={setModalOpen}
+              category={category}
+              boardId={boardId}
+              adminId={adminId}
+              onClose={() => setModalOpen(false)}
+              handleAnswerSubmit={handleAnswerSubmit}
+              handleAnswerChange={handleAnswerChange}
+            />
+          ) : null}
           <div>
             <Btn
               text="목록"
