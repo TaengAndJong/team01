@@ -46,7 +46,7 @@ public class PayHistoryController {
         return ResponseEntity.ok(paymentList);
     }
 
-    //해당유저의 결제취소 요청 컨트롤러
+    //해당유저의 결제취소 한 건 요청 컨트롤러
     @PostMapping("/payCancel")
     public ResponseEntity<?> postPayCancel(@RequestBody PaymentListVO params,
                                                @AuthenticationPrincipal PrincipalDetails userInfo,

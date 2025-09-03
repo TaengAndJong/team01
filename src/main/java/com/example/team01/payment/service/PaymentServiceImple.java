@@ -1,6 +1,8 @@
 package com.example.team01.payment.service;
 
 
+import com.example.team01.book.dao.BookDao;
+import com.example.team01.book.service.BookService;
 import com.example.team01.common.Enum.PayStatus;
 import com.example.team01.delivery.dao.AddressDao;
 import com.example.team01.delivery.service.AddressService;
@@ -31,6 +33,7 @@ public class PaymentServiceImple implements PaymentService {
     private final PaymentDao dao;
     private final AddressDao addrDao;
     private final FileUtils fileUtils;
+    private final BookDao bookDao;
 
     @Override
     public List<CartDTO> selectCartList(String clientId) {
@@ -62,8 +65,6 @@ public class PaymentServiceImple implements PaymentService {
             return cnt= dao.insertPayment(paymentVO);
         }
 
-        //여기에서 도서테이블 stock 재고 감소하는 로직을 넣는게 맞나?
-
         log.info("insert dao-------:{}",cnt);
         return cnt;
     }
@@ -82,9 +83,13 @@ public class PaymentServiceImple implements PaymentService {
             //insert되는 값 누적
             log.info("service insertPaymentList----------payId:{},bookId:{},quantity:{}",payId, item.getBookId(), item.getQuantity());
             cnt += dao.insertPaymentList(payId, item.getBookId(), item.getQuantity());
+
+            // 이 메서드 실행해야 결제완료 후 수량 감소
+            bookDao.decreaseBookQuantity(item.getBookId(), item.getQuantity());
         }
         log.info("service insertPaymentList----------cnt:{}",cnt);
         //payId, quantity  bookId
+
         return cnt;
     }
     // 결제수량 조회
@@ -140,6 +145,8 @@ public class PaymentServiceImple implements PaymentService {
         cnt += dao.UpdateCancelPaymentAccount(payId,resutPayAccount,clientId);
         log.info("cnt 2: {}",cnt);
         
+        //취소한 부분 도서수량원상복구
+        bookDao.increaseBookQuantity(bookId,paybookInfo.getQuantity());
         return cnt;
     }
 
@@ -159,9 +166,11 @@ public class PaymentServiceImple implements PaymentService {
                 log.info("Enum 비교 시 null 예외 발생방지,항상 유효한 문자열을 반환하기때문에 : null-safe ");
                //해당 bookId에 대해서 partPayStatus 를 cancel로 변경해주기
                dao.UpdatePaymentListCancelStatus(vo.getPayId(),vo.getBookId(),PayStatus.CANCEL.getStatus());
+               // 상태값이 취소로 변경 되었을 때 해당 도서 수량 결제 전으로 원상복구
+               log.info("수량 증가 복원:도서아이디:{}, 도서 수량:{}",vo.getPayId(),vo.getBookId());
+               bookDao.increaseBookQuantity(vo.getBookId(),vo.getQuantity());
            }
         }
-
         // paymentList의 의 해당 payId의 모든 bookIds의 partStaus가 cancel 이면 payment테이블의 payStatus를 cancel로 변경
         //paymentList 새로 업데이트된 데이터 조회해오기
         List<PaymentListVO> updatePaymentList = dao.selectCancelPaymentList(payId,bookIds);

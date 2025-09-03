@@ -82,8 +82,17 @@
         where "bookId"=#{bookId}
     </select>
 
-    <select id="">
+    <update id="increaseBookQuantity">
+        UPDATE book
+        SET "stock" = "stock" + #{quantity}
+        WHERE "bookId" = #{bookId}
+    </update>
 
-    </select>
+    <update id="decreaseBookQuantity">
+        UPDATE book
+        SET "stock" = "stock" - #{quantity}
+        WHERE "bookId" = #{bookId}
+          AND "stock" >= #{quantity}
+    </update>
 
 </mapper>

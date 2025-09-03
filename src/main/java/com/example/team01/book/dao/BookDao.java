@@ -23,5 +23,6 @@ public interface BookDao {
  //totalRecode
  public int totalRecord(@Param("pagination") Pagination pagination); // 페이지의 총 개수
 
-
+ public int increaseBookQuantity(@Param("bookId") String bookId,@Param("quantity") int quantity);
+ public int decreaseBookQuantity(@Param("bookId") String bookId,@Param("quantity") int quantity);
 }

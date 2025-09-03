@@ -35,6 +35,7 @@ export const getToday = (separator = ".") => {
 
 
 // 한국식 날짜로 변환 ==> 데이터 객체를 이용한 클라이언트에게 보여줄 날짜형식
+// toDate는 날째객체로 문자열의 데이터를 new Date 객체에 파라미터로 넘겨 날짜객체로 반환해서 넘겨야 함, ==> new Date(문자열날짜)
 export const formatToDate = (toDate) => { // new Date() 객체를 파라미터로 넘겨 줌
     if (!toDate) return ""; // 객체가 없다면  "" (빈 문자열로) 반환
     //있다면 형식 변경

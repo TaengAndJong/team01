@@ -1,6 +1,7 @@
 import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import AddCartBtn from "../../cart/components/addCartBtn.jsx";
+import BuySelectedBtn from "./BuySelectedBtn.jsx";
 
 const BookItem = ({bookList,wishIds,setWishIds}) =>{
 
@@ -204,9 +205,7 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
                                         </div>
                                         {/*수량*/}
                                         <AddCartBtn bookId={book.bookId} bookCount={bookCount[book.bookId] ?? 1}  />
-                                        <button type="button" aria-label="선택구매"
-                                                className="submit btn btn-dark">선택구매
-                                        </button>
+                                        <BuySelectedBtn  book={book}/>
                                     </>
                                     )}
                             </div>
