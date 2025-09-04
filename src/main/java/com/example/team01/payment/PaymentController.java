@@ -104,7 +104,9 @@ public class PaymentController {
         //payment_cart 결제내역테이블에 데이터 insert ( 목적: 도서정보조회 , 결제상세내역 조회 )
         paymentService.insertPaymentList(paymentVO);
         // 장바구니 목록에서 delete //cartIds=[26, 24, 25] 파라미터를 List로 전달 ==> IN 절 다중 조회(List 파라미터 IN 절) 사용해서 삭제
-        cartService.deleteToCartList(paymentVO.getCartIds());
+        if (paymentVO.getCartIds() != null && !paymentVO.getCartIds().isEmpty()) { //  바로구매의 경우 cartIds가 없기때문에 조건분기
+            cartService.deleteToCartList(paymentVO.getCartIds());
+        }
         // 결제 완료 후 payId 넘겨주기 ==> SPA 경우에는 프론트에서 이동을 제어하는게 더 나음, payId를 공통으로 가지고 잇으니까 같이 넘겨줌
         return ResponseEntity.ok(Map.of("message", "결제 성공", "payId", paymentVO.getPayId()));
     }
