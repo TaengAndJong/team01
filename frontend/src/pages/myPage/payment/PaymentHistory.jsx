@@ -18,6 +18,7 @@ const PaymentHistory=()=>{
         try{
             const response = await axios.get("/api/mypage/payHistory")
             const data= response.data;
+            console.log("마이페이지 결제 내역 ",data);
             //각 객체에 상태갱신해주기
             setPaymetInfo(data);
         }catch(e){

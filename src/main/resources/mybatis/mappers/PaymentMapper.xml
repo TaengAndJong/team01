@@ -116,6 +116,7 @@
                  join payment b on (a."payId" = b."payId")
                  join address c on (b."addrId" = c."addrId")
         where b."clientId" = #{clientId}
+        order by a."payId" desc
     </select>
 
     <!-- 전체취소할 PaymentList 결제내역 조회    -->

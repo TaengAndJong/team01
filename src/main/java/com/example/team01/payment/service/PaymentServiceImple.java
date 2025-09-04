@@ -109,6 +109,8 @@ public class PaymentServiceImple implements PaymentService {
                 .collect(Collectors.groupingBy(PaymentListVO::getPayId));
 
         log.info("groupeMap--------:{}",groupedMap);
+        //groupedMap은 기본으로 HashMap()을 사용해 순서를 보장하지 않아서, 순서를 유지하려면 linkedHashMap()을 사용해야함
+
         //결과 담아서 반환할 변수
         List<PaymentListDTO> result = groupedMap.entrySet().stream()
                 .map(entry ->{
@@ -218,7 +220,6 @@ public class PaymentServiceImple implements PaymentService {
         CartDTO cartDto = CartDTO.builder()
                 .cartId(cartvo.getCartId())
                 .addCartDate(cartvo.getAddCartDate())
-                .quantity(cartvo.getQuantity())
                 .clientId(cartvo.getClientId())
                 .roleId(cartvo.getRoleId())
                 .book(bookDTO)

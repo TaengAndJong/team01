@@ -66,7 +66,7 @@ const PaymentComponent = () => {
     books?.reduce((accPrice, item) => {
       console.log(`item ${item}`);
       const eachPrice = item.book.bookPrice;
-      const quantity = item.quantity;
+      const quantity = item.book.quantity;
       console.log(`eachPrice ${eachPrice}`);
       console.log(`quantity ${quantity}`);
 
@@ -104,7 +104,7 @@ const PaymentComponent = () => {
       addrId: address?.addrId, // 요기에서 addrId 와 bookList의 값을 지정해줘야 서버로 넘어감
       bookList: books?.map((item) => ({
         bookId: item.book.bookId,
-        quantity: item.quantity,
+        quantity: item.book.quantity,
       })),
     };
 
@@ -147,10 +147,10 @@ const PaymentComponent = () => {
         setAddress(addr);
         
         // 조건 분기에따른 books 데이터 설정
-        if (type === "buyNow" && book) {
+        if ((type === "buyNow" ||type ==="selected" ) && book) {
           console.log("바로구매 book.book",book)
           //바로구매일 때는 location.state.book만 사용, allPrice와 구조 맞춰줘야함
-          setBooks([{book:book,quantity:quantity}]); // 배열로 감싸줌 (결제 페이지는 배열 기준이니까)
+          setBooks([{book:book}]); // 배열로 감싸줌 (결제 페이지는 배열 기준이니까)
         } else {
           // 선택구매(장바구니)일 때는 서버에서 받아온 bookList 사용
           setBooks(response.data.bookList);

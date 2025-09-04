@@ -205,7 +205,7 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
                                         </div>
                                         {/*수량*/}
                                         <AddCartBtn bookId={book.bookId} bookCount={bookCount[book.bookId] ?? 1}  />
-                                        <BuySelectedBtn  book={book} bookCount={bookCount[book.bookId] ?? 1}  type={"buyNow"}/>
+                                        <BuySelectedBtn  type={"buyNow"}  book={ {...book, quantity: book.quantity ?? 1} } />
                                     </>
                                     )}
                             </div>

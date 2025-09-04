@@ -113,7 +113,7 @@ const CartList = () => {
             console.log("totalPrice----selectedItems",selectedItems);
             let total = 0;
             for (let i = 0; i < selectedItems?.length; i++) {
-                total += (selectedItems[i].book.bookPrice * selectedItems[i].quantity);
+                total += (selectedItems[i].book.bookPrice * selectedItems[i].book.quantity);
             console.log("for total ",total);
             }
             console.log("acc total ",total);

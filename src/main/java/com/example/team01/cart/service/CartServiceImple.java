@@ -129,12 +129,14 @@ public class CartServiceImple implements CartService{
                .publishDate(vo.getBookVO().getPublishDate())
                .bookPrice(vo.getBookVO().getBookPrice())
                .stock(vo.getBookVO().getStock())
+               .quantity(vo.getQuantity())
                .bookImgPath(vo.getBookVO().getBookImgPath()).build();
+
 
        CartDTO cartDto = CartDTO.builder()
                .cartId(vo.getCartId())
                .addCartDate(vo.getAddCartDate())
-               .quantity(vo.getQuantity())
+//               .quantity(vo.getQuantity())
                .clientId(vo.getClientId())
                .roleId(vo.getRoleId())
                .book(bookDTO)

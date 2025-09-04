@@ -1,3 +1,4 @@
+import BuySelectedBtn from "../../book/components/BuySelectedBtn.jsx";
 
 
 const CartItemPrice = ({ cartList,gotoPayment, deliveryFee}) => {
@@ -16,7 +17,7 @@ const CartItemPrice = ({ cartList,gotoPayment, deliveryFee}) => {
                 </li>
                 <li className="li d-inline-flex  align-items-center pe-3">
                     <span className="mx-4"> x </span>
-                    <span className="price"><em>{cartList.quantity}</em></span>
+                    <span className="price"><em>{cartList.book.quantity}</em></span>
                 </li>
                 <li className="li d-inline-flex align-items-center px-3">
                     <span className="me-4">+</span>
@@ -29,6 +30,10 @@ const CartItemPrice = ({ cartList,gotoPayment, deliveryFee}) => {
                     <span className="price"><em>{total}</em>원</span>
                 </li>
                 <li className="d-inline-flex align-items-center ms-auto">
+                    {/*기존 book객체에서 quantity 만 수정*/}
+                    <BuySelectedBtn type={"selected"} book={ {...cartList.book, quantity: cartList.book.quantity ?? 1} }/>
+
+
                     <button type="button" aria-label="선택도서구매"
                             className="btn btn-secondary" onClick={() => {
                         gotoPayment(cartList, cartList.cartId)
