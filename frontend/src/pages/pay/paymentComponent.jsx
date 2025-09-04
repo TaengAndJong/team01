@@ -14,12 +14,14 @@ const PaymentComponent = () => {
   const navigate = useNavigate();
   console.log("location----", location?.state);
   // location에 담겨온 state 객체들 구조분해할당
-  const { cartIds, payAccount, addrId } = location?.state;
+  const {  book,quantity, type, cartIds, payAccount, addrId } = location?.state;
+
+  console.log("book----",book);
 
   //주소 상태관리 ==> 단일 객체로 넘어오면 null이 나을까 {}가 나을까?
   const [address, setAddress] = useState(null);
   //주문도서정보관리 ==> 배열로 넘어오니까 null 이 나을까 [] (빈배열이) 나을까..?
-  const [books, setBooks] = useState(null);
+  const [books, setBooks] = useState([]);
   // 결제방식 선택 상태관리
   const [paymentInfo, setPaymentInfo] = useState({
     payMethod: "card",
@@ -41,6 +43,8 @@ const PaymentComponent = () => {
     setShow(false);
   };
   const [modalType, setModalType] = useState("confirm");
+  //
+
 
   //props 그룹화
   const modalState = {
@@ -60,8 +64,12 @@ const PaymentComponent = () => {
   // null 병합 연산자로 값이 null이면 0을 대체해서 에러 방지
   const allPrice =
     books?.reduce((accPrice, item) => {
+      console.log(`item ${item}`);
       const eachPrice = item.book.bookPrice;
       const quantity = item.quantity;
+      console.log(`eachPrice ${eachPrice}`);
+      console.log(`quantity ${quantity}`);
+
       accPrice = accPrice + eachPrice * quantity;
 
       return accPrice;
@@ -127,24 +135,34 @@ const PaymentComponent = () => {
   };
 
   useEffect(() => {
+    // 주소는 공통으로 받아오기, 바로구매,선택구매( + 장바구니)일 조건으로 나눠주기
+    
     axios
       .get("/api/payment")
       .then((response) => {
         console.log("response -- get요청", response);
         console.log("response -- get요청33333", response.data);
         const addr = response.data.address;
-        const books = response.data.bookList;
-        console.log("books--11", books);
-        console.log("addr", addr);
         //주소에 데이터 갱신
         setAddress(addr);
-        //도서상품 데이터 갱신
-        setBooks(books);
+        
+        // 조건 분기에따른 books 데이터 설정
+        if (type === "buyNow" && book) {
+          console.log("바로구매 book.book",book)
+          //바로구매일 때는 location.state.book만 사용, allPrice와 구조 맞춰줘야함
+          setBooks([{book:book,quantity:quantity}]); // 배열로 감싸줌 (결제 페이지는 배열 기준이니까)
+        } else {
+          // 선택구매(장바구니)일 때는 서버에서 받아온 bookList 사용
+          setBooks(response.data.bookList);
+        }
+        
       })
       .catch((error) => {
         console.log("error---", error);
       });
   }, []);
+
+  console.log("books ---------------",books)
 
   return (
     <>
@@ -192,7 +210,12 @@ const PaymentComponent = () => {
                 <h5 id="cartSectionTitle" className="title my-3 d-block">
                   결제할 목록
                 </h5>
+                {/*장바구니 결제목록과 바로결제에 따라서 books의 데이터 변경 필요*/}
+                
                 <PayItem books={books} />
+
+
+                
               </section>
               {/* 결제 수단 선택 */}
               <SelectPayment
