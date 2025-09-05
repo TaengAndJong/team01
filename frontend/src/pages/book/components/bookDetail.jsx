@@ -4,6 +4,9 @@ import React, {useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
 import BookSlide from "../../common/bookSlide.jsx";
+import BuySelectedBtn from "./BuySelectedBtn.jsx";
+import AddCartBtn from "./addCartBtn.jsx";
+import BookCount from "./bookCount.jsx";
 
 
 const BookDetail = () => {
@@ -12,6 +15,11 @@ const BookDetail = () => {
     console.log("클라이언드 도서 상세----bookId",bookId);
     //detail 상태관리변수  ==> 초기값은 [](배열)로 해야 map함수를 바로 사용할 수 있음!
     const [bookDetail, setBookDetail] = useState([]);
+    //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
+    const [bookCount,setBookCount]=useState({});
+
+    //console.log("북아이템 자식 컴포넌트 wishIds",wishIds);
+    console.log("북아이템 자식 컴포넌트 bookCount",bookCount);
 
     //해당 bookId에 대한 비동기 fetch 요청을 보내어 서버로부터 데이터를 받아온다
     const fetchBookDetails = async () => {
@@ -62,12 +70,18 @@ const BookDetail = () => {
                                 <li className="li"><span className="tit">가격</span>{bookDetail.bookPrice}<span>원</span>
                                 </li>
                                 {/*할인적용할건지 */}
-                                <li className="li"><span className="tit">할인가</span><span>원</span>
-                                </li>
+                                {/*<li className="li"><span className="tit">할인가</span><span>원</span>*/}
+                                {/*</li>*/}
                             </ul>
+                            {/* 수량 및 액션 버튼 영역 */}
+
                             <div className="btn d-flex">
-                                <button className="cart btn custom-btn00 me-2">장바구니</button>
-                                <button className="buy btn custom-btn02">구매하기</button>
+                                {/*수량*/}
+                                <BookCount bookId={bookDetail.bookId} bookCount={bookCount} setBookCount={setBookCount} />
+                                {/*장바구니추가*/}
+                                <AddCartBtn bookId={bookDetail.bookId} bookCount={bookCount[bookDetail.bookId] ?? 1}  />
+                                {/*바로구매*/}
+                                <BuySelectedBtn  type={"buyNow"}  book={ {...bookDetail, quantity: bookCount[bookDetail.bookId] ?? 1} } />
                             </div>
                             {/*bookDesc end */}
                         </div>
@@ -83,7 +97,7 @@ const BookDetail = () => {
                 {/*bookDetail end */}
 
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
-                    <Btn className={"modify btn btn-secondary"} type={"button"} path={pathsData.page.adminBookList}
+                    <Btn className={"modify btn btn-secondary"} type={"button"} path={pathsData.page.book}
                          text="목록"/>
                     <Btn className={"modify btn btn-primary"} type={"button"}
                          path={`${pathsData.page.adminBookModify}/${bookId}`}

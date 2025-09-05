@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -104,12 +105,23 @@ public class PaymentServiceImple implements PaymentService {
 
         List<PaymentListVO> paymentListVO =  dao.selectPaymentList(clientId);
 
-        // Step 1. payId 기준으로 Grouping
+//      payId 기준으로 Grouping (기존코드 순서보장안됨)
+//      groupedMap은 기본으로 HashMap()을 사용해 순서를 보장하지 않음
+//      Map<String, List<PaymentListVO>> groupedMap = paymentListVO.stream()
+//          .collect(Collectors.groupingBy(PaymentListVO::getPayId));
+
+//      수정코드
+//      순서를 유지하려면 linkedHashMap()을 사용해야함
         Map<String, List<PaymentListVO>> groupedMap = paymentListVO.stream()
-                .collect(Collectors.groupingBy(PaymentListVO::getPayId));
+                .collect(Collectors.groupingBy(
+                        PaymentListVO::getPayId,    // 그룹 기준 (Map의 key)
+                        LinkedHashMap::new,         // 어떤 Map 구현체를 사용하는가 ==> 삽입순서보장 linkedHashMap
+                        Collectors.toList()         // 같은 payId를 가진 값들을 리스트로 모음
+                ));
+
 
         log.info("groupeMap--------:{}",groupedMap);
-        //groupedMap은 기본으로 HashMap()을 사용해 순서를 보장하지 않아서, 순서를 유지하려면 linkedHashMap()을 사용해야함
+
 
         //결과 담아서 반환할 변수
         List<PaymentListDTO> result = groupedMap.entrySet().stream()
