@@ -34,5 +34,8 @@ public interface CartDao {
     //배송지 선택 변경 업데이트
     public int updateCartAddress(@Param("clientId") String clientId,@Param("addrId") String addrId);
 
+    //장바구니 수량 업데이트
+    public int updateCartQuantity(@Param("cartId") String cartId,@Param("bookId") String bookId,@Param("quantity") int quantity);
+
 
 }

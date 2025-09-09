@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.CodePointBuffer;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,9 +110,31 @@ public class CartServiceImple implements CartService{
         //로그인한 사용자와 삭제 요청의 연관성 검증
 
         //파라미터의 값이 null 인지 , 비어있는지 검증 필요
-        if(deleteIds == null || deleteIds.isEmpty()){}
+        if(deleteIds == null || deleteIds.isEmpty()){
+
+        }
         int cnt = dao.deleteToCartList(deleteIds);
 
+        return cnt;
+    }
+
+    @Override
+    @Transactional
+    public int updateToCartQuantity(CartVO bookInfo) {
+        log.info("장바구니 도서수량 변경:{}",bookInfo);
+        int cnt = 0;
+        //파라미터의 값이 null 인지 , 비어있는지 검증 필요
+        if(bookInfo == null){
+            log.info("객체가 비어있음:{}",bookInfo);
+            return cnt;
+        }
+
+        //넘겨줄 파라미터 분리하기
+        String cartId = bookInfo.getCartId();
+        String bookId = bookInfo.getBookId();
+        int quantity = bookInfo.getQuantity();
+         cnt = dao.updateCartQuantity(cartId,bookId,quantity);
+        log.info("장바구니 도서수량 변경 cnt:{}",cnt);
         return cnt;
     }
 

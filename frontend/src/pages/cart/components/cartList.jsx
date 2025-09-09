@@ -7,6 +7,8 @@ import CartItemPrice from "./cartItemPrice.jsx";
 import CartAllPrice from "./cartAllPrice.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import ReusableModal from "./modal.jsx";
+import BookCount from "../../book/components/bookCount.jsx";
+import * as cart from "date-fns/locale";
 
 
 
@@ -38,6 +40,10 @@ const CartList = () => {
 
         //목록선택 개별상태관리변수
         const [selectItem, setSelectItem] = useState([]);
+
+        //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
+        const [bookCount,setBookCount]=useState({});
+        const [showBookCount, setShowBookCount] = useState({});
         //페이지 이동
         const navigate= useNavigate();
 
@@ -80,7 +86,7 @@ const CartList = () => {
                 setSelectItem([]); // 빈 배열 리셋
             }
         }
-         console.log("selectItem----------Last",selectItem);
+         // console.log("selectItem----------Last",selectItem);
 
         //장바구이 아이템 삭제 handler
         const deleteItemHandler = async ()=>{
@@ -108,15 +114,15 @@ const CartList = () => {
 
         //총 가격 공통 메서드
         const totalPrice = (cartList,cartIds) =>{
-            console.log("totalPrice----cartList",cartList);
+            // console.log("totalPrice----cartList",cartList);
             const selectedItems = cartList?.filter(item => cartIds.includes(item.cartId));
-            console.log("totalPrice----selectedItems",selectedItems);
+            // console.log("totalPrice----selectedItems",selectedItems);
             let total = 0;
             for (let i = 0; i < selectedItems?.length; i++) {
                 total += (selectedItems[i].book.bookPrice * selectedItems[i].book.quantity);
-            console.log("for total ",total);
+            // console.log("for total ",total);
             }
-            console.log("acc total ",total);
+            // console.log("acc total ",total);
             return total;
         }
         //결제 핸들러
@@ -147,6 +153,46 @@ const CartList = () => {
         }
         //gotoPayment End
 
+
+//도서수량변경 핸들러
+    //1. 변경 버튼을 누르면 모달창이 뜨고 수량변경 Ui 출력후 완료 버튼을 통해 변경을 해준다
+    //2.  수량 부분을 input 태그로 수정하고 직접 관리하여 변경한다
+    const modifyQuantity = async (cartId,bookId,quantity) =>{
+        // console.log(" 도서수량 수정 장바구니 아이디" , cartId);
+        // console.log(" 도서수량 수정 장바구니 아이디" , bookId);
+        // console.log(" 도서수량 수정 장바구니 아이디" , quantity);
+        // 비동기 요청 보내기
+        const response=  await axios.patch("/api/cart/quantity",{
+            cartId:cartId,
+            bookId:bookId,
+            quantity:quantity
+        })
+
+        console.log("response---도서수량 비동기요청보냄" , response.data );
+        // 서버에서 업데이트된 장바구니 아이템을 받음
+        const updatedBookQuantity = response.data;
+
+        // 기존 도서의 수량을 변경
+        setCartList(prev=> //장바구니 목록 전체데이터
+            prev.map(item=> item.cartId===cartId? // 각각 레코드에 접근, 수량 변경한 cartId와 동일한 객체를 찾아 수량 변경
+                {...item,
+                    book: {
+                        ...item.book,//quantity를 제외한 나머지 요소들
+                        quantity: updatedBookQuantity  //book 안쪽 quantity 갱신 ==> 구조를 잘 보자
+                    }
+                }:{...item })
+        );
+        // 완료 후 수량 UI 닫기
+        setShowBookCount(prev => ({
+            ...prev,
+            [cartId]: false
+        }));
+    }
+
+    console.log("전역 bookCount---------3",bookCount);
+
+
+
     //cartData가 변화할 때마다 데이터 갱신
         useEffect(() => {
             console.log("CartData---------------useEffect--cartList",cartData);
@@ -154,11 +200,6 @@ const CartList = () => {
                 setCartList(bookList);
             }
         },[cartData])
-
-
-
-
-        console.log("CartData----cartList",cartList);
 
         //장바구니에 도서 담길 때 전체 선택 자동으로 될 경우
         useEffect(() => {
@@ -170,6 +211,7 @@ const CartList = () => {
             }else{
                 setSelectItem([]);// 없으면 빈배열
             }
+
         },[cartList]) // cartList 가 변경될 때마다 실행
 
         //장바구니 데이터가 빈 배열(빈 값)일 경우 UI반환 함수
@@ -183,6 +225,8 @@ const CartList = () => {
                 </ul>
             )
         }
+
+    console.log("CartData----cartList",cartList);
 
         const addCartList = (cartList) => {
             console.log("addCartList-----bookList", cartList); // undefined여서 에러나는데
@@ -222,8 +266,33 @@ const CartList = () => {
                                   <ul className="ul bullet">
                                       <li className="li"><span className="tit">저자</span>{item.book.author}</li>
                                       <li className="li"><span className="tit">발행일</span>{item.book.publishDate}</li>
-                                      <li className="li"><span className="tit">가격</span><em>{item.book.bookPrice}</em>원</li>
-
+                                      <li className="li"><span className="tit">가격</span><em>{item.book.bookPrice}</em>원
+                                      </li>
+                                      <li className="li">
+                                          <span className="tit">수량</span>
+                                          <em>{item.book.quantity}</em>
+                                          {/*수량 변경 버튼*/}
+                                          <button className="btn btn-light" onClick={() =>
+                                              setShowBookCount(prev => ({
+                                                  ...prev,                  // 기존 상태 그대로 복사
+                                                  [item.cartId]: !prev[item.cartId] // 현재 상태 반전
+                                              }))
+                                          }>변경</button>
+                                          {/* 수량버튼 클릭 시 수량 변경 UI 출력 */}
+                                          {showBookCount[item.cartId] && (
+                                              <div className="bookCount">
+                                                  <BookCount
+                                                      bookId={item.book.bookId}
+                                                      cartId={item.cartId}
+                                                      bookCount={bookCount}
+                                                      setBookCount={setBookCount}
+                                                      setCartList={setCartList}
+                                                      setShowBookCount={setShowBookCount}
+                                                      modifyQuantity={modifyQuantity}
+                                                  />
+                                              </div>
+                                          )}
+                                      </li>
                                   </ul>
                                   {/* 도서 가격  도서가격, 도서수량 */}
                                   <CartItemPrice cartList={item}

@@ -38,11 +38,12 @@ const PaymentComponent = () => {
 
   //모달 상태관리
   const [show, setShow] = useState(false);
+  const [modalType,setModalType] = useState("confirm");
   const [errorData, setErrorData] = useState({});
+  const [confirmData, setConfirmData] = useState({});
   const handleClose = () => {
     setShow(false);
   };
-  const [modalType, setModalType] = useState("confirm");
   //
 
 
@@ -52,9 +53,9 @@ const PaymentComponent = () => {
     setShow,
     errorData,
     setErrorData,
-    modalType,
-    setModalType,
     handleClose,
+    confirmData,
+    setConfirmData
   };
 
   //1.필요한 데이터는 books의 도서들 가격 의 총합 + 배송비
@@ -213,8 +214,6 @@ const PaymentComponent = () => {
                 {/*장바구니 결제목록과 바로결제에 따라서 books의 데이터 변경 필요*/}
                 
                 <PayItem books={books} />
-
-
                 
               </section>
               {/* 결제 수단 선택 */}

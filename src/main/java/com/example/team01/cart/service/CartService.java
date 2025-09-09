@@ -26,6 +26,8 @@ public interface CartService {
     //장바구니에서 삭제
     public int deleteToCartList(List<String> deleteIds);
 
+    //장바구니 수량변경
+    public int updateToCartQuantity(CartVO bookInfo);
 
 
 }

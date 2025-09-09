@@ -3,7 +3,7 @@ import BuySelectedBtn from "../../book/components/BuySelectedBtn.jsx";
 
 const CartItemPrice = ({ cartList,gotoPayment, deliveryFee}) => {
 
-    const total = cartList.book.bookPrice * cartList.quantity + deliveryFee;
+    const total = cartList.book.bookPrice * cartList.book.quantity + deliveryFee;
 
     console.log("cartList--- 개별도서 토탈가격",cartList);
 

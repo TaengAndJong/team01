@@ -1,7 +1,10 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
+/* modalType
 
+*
+*/
 
 // 부모로부터 받아올 데이터 파라미터(props)로 가져 옴,
 
@@ -39,12 +42,23 @@ const modalConfig = {
             </>
         ),
     }),
+    confirm: ({onClose,confirmData}) => ({
+        body: <>
+            <p>{confirmData.obj}</p>
+            <p>{confirmData.message}</p>
+        </>,
+        footer: (
+            <>
+                <Button variant="danger" onClick={onClose}>확인</Button>
+            </>
+        ),
+    }),
 };
 
 // 재사용 가능한 모달 컴포넌트
-const ReusableModal = ({ show, onClose, onConfirm, modalType, errorData }) => {
+const ReusableModal = ({ show, onClose, onConfirm, modalType, errorData,confirmData }) => {
     const current = modalConfig[modalType]
-        ? modalConfig[modalType]({ errorData, onClose, onConfirm })
+        ? modalConfig[modalType]({ errorData,confirmData , onClose, onConfirm})
         : {
             body: <p>알 수 없는 모달 유형입니다.</p>,
             footer: <Button onClick={onClose}>닫기</Button>,

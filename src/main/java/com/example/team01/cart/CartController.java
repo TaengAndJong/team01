@@ -111,7 +111,6 @@ public class CartController {
 
     }
 
-
     //axios로 delete 요청 시 어노테이션
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteCart(@RequestBody List<String> ids,@AuthenticationPrincipal PrincipalDetails userDetails){
@@ -133,7 +132,8 @@ public class CartController {
         return  ResponseEntity.ok(result);
     }
 
-    //장바구니 주소 선택
+    // 새로운 리소스를 생성할때
+    // 장바구니 주소 선택
     @PostMapping("/addr")
     public ResponseEntity<?> updateCartAddress(@RequestBody Map<String,String> selectedAddrId,
                                                @AuthenticationPrincipal PrincipalDetails userDetails){
@@ -163,5 +163,30 @@ public class CartController {
 
         return ResponseEntity.ok(result);
     }
+
+    //기존 리소스를 일부 수정할 때 사용
+    @PatchMapping("/quantity")
+    public ResponseEntity<?> updateCartQuantity(
+            @RequestBody CartVO cartvo,
+            @AuthenticationPrincipal PrincipalDetails userDetails){
+
+        log.info("updateCartQuantity API---------------------장바구니 수량변경");
+        log.info("updateCartQuantity API---------------------clidentId:{}",userDetails.getUsername());
+        log.info("updateCartQuantity API---------------------cartQuantityUpdate:{}",cartvo);
+
+        // 장바구니 수량 업데이트 서비스 불러오기
+
+        //clientId
+        String clientId = userDetails.getUsername();
+        //cartvo에 클라이언트 값 설정
+        cartvo.setClientId(clientId);
+        // 서비스로 넘겨주기
+       int result =  cartService.updateToCartQuantity(cartvo);
+        log.info("updateCartQuantity API---------------------result:{}",result);
+
+
+        return  ResponseEntity.ok(cartvo.getQuantity());
+    }
+
 
 }

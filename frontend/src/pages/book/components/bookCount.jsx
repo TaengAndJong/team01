@@ -1,6 +1,7 @@
 import React from "react";
+import axios from "axios";
 
-const BookCount = ({ bookId, bookCount, setBookCount}) =>{
+const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>{
 
     console.log("bookCount", bookCount);
 
@@ -90,7 +91,6 @@ const BookCount = ({ bookId, bookCount, setBookCount}) =>{
         console.log("bookCountInputHandler 의 bookCount ----222",bookCount);
     }
 
-    console.log("전역 bookCount---------3",bookCount);
 
 
 
@@ -112,6 +112,12 @@ const BookCount = ({ bookId, bookCount, setBookCount}) =>{
                             onClick={(e) => bookCountChangHandler(bookId, e)}>
                         +
                         <span className="sr-only">도서상품개수 하나씩 증가</span>
+                    </button>
+                    <button className="btn btn-primary"
+                            onClick={() => {
+                                modifyQuantity(cartId, bookId, bookCount[bookId])
+                            }}
+                    >완료
                     </button>
                 </div>
             </div>

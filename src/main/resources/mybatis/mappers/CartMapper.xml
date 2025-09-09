@@ -105,4 +105,11 @@
         </foreach>
     </delete>
 
+    <update id="updateCartQuantity" parameterType="CartVO">
+        UPDATE cart
+        SET "quantity" = #{quantity}
+        WHERE "bookId" = #{bookId} and "cartId"=#{cartId}
+    </update>
+
+
 </mapper>

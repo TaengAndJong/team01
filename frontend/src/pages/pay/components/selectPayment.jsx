@@ -5,7 +5,7 @@ import ReusableModal from "./modal.jsx";
 
 const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
     console.log("paymentInfo-------------",paymentInfo)
-    const { show, setShow, errorData, setErrorData, handleClose, modalType, setModalType } = modalState;
+    const { show, setShow, errorData, setErrorData, handleClose, confirmData, setConfirmData,modalType} = modalState;
 
 
     //라디오 버튼 선택 시 결제방법 상태 업데이트 onchange() 핸들러
@@ -45,6 +45,7 @@ const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
         const payValid = validationPay(paymentInfo);
         console.log("payValid==========확인버튼 누르면 ", payValid);
 
+        //카드 검증 true이면 띄우기
         console.log("payValid.valid",payValid.valid);
         if(!payValid.valid){
             setShow(true);
@@ -52,14 +53,18 @@ const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
                 message:payValid.message,
             })
         }else{
-            // 3초 검증 UI 출력 
-
-            //검증 속성 true로 변경
+            //검증 속성 true로 변경 ==> 결제완료
             setPaymentInfo((prev) => ({
                 ...prev,
                payConfirm: true,
             }));
+            //결제완료되면  결제완료 모달띄우기
 
+            setShow(true)
+            setConfirmData({
+                obj:paymentInfo.payMethod==="card"?  (<><strong className={"d-block"}>결제방식</strong>카드</>):(<><strong className={"d-block"}>계좌이체</strong>계좌이체</>),
+                message:"결제가 정상 처리되었습니다",
+            })
         }
     }
 
@@ -155,11 +160,20 @@ const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
                 </ul>
             </fieldset>
 
-            {show && (
-                <ReusableModal show={show}
-                               onClose={handleClose}
-                               errorData={errorData}
-                               modalType="error"/>
+            {modalType === "error" ? (
+                <ReusableModal
+                    show={show}
+                    onClose={handleClose}
+                    errorData={errorData}
+                    modalType="error"
+                />
+            ) : (
+                <ReusableModal
+                    show={show}
+                    onClose={handleClose}
+                    confirmData={confirmData}
+                    modalType="confirm"
+                />
             )}
         </>
     )

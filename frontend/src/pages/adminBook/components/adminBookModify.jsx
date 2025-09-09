@@ -49,7 +49,7 @@ const AdminBookModify = () => {
     const handleShow = () => {
         console.log("handleShow");
         setShow(true)}
-    const [modalType, setModalType] = useState("confirm");
+   // const [modalType, setModalType] = useState("confirm");
 
 
 

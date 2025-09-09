@@ -29,6 +29,9 @@ const PayItem = ({books}) => {
                                     <li className="li"><span
                                         className="tit">가격</span><em>{item.book.bookPrice}</em>원
                                     </li>
+                                    <li className="li"><span
+                                        className="tit">수량</span><em>{item.book.quantity}</em>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

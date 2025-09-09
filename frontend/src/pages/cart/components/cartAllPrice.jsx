@@ -4,9 +4,9 @@ import React, {useState} from "react";
 
 const cartAllPrice = ({cartList,selectItem,deliveryFee,gotoPayment,totalPrice}) =>{
 
-    console.log("cartAllPrice--------cartList",cartList);
-    console.log("cartAllPrice--------selectItem",selectItem);
-    console.log("cartAllPrice--------deliveryFee",deliveryFee);
+    // console.log("cartAllPrice--------cartList",cartList);
+    // console.log("cartAllPrice--------selectItem",selectItem);
+    // console.log("cartAllPrice--------deliveryFee",deliveryFee);
 
 
     const allPayment = () => {
