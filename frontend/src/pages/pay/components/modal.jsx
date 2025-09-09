@@ -44,8 +44,8 @@ const modalConfig = {
     }),
     confirm: ({onClose,confirmData}) => ({
         body: <>
-            <p>{confirmData.obj}</p>
-            <p>{confirmData.message}</p>
+            <div>{confirmData.obj}</div>
+            <div>{confirmData.message}</div>
         </>,
         footer: (
             <>

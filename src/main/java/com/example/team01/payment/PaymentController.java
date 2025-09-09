@@ -85,7 +85,7 @@ public class PaymentController {
         // 2. 필수값 체크
         if (paymentVO.getPayAccount() <= 0 ||
                 paymentVO.getPayMethod() == null ||
-                paymentVO.getAddrId() == null ||
+                paymentVO.getAddrId() == null || //주소값이 빠져서 에러 걸리는듯
                 paymentVO.getBookList() == null ) {
 
             return ResponseEntity.badRequest().body("필수 결제 정보가 누락되었습니다.");

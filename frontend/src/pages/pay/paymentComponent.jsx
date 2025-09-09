@@ -53,6 +53,7 @@ const PaymentComponent = () => {
     setShow,
     errorData,
     setErrorData,
+    setModalType,
     handleClose,
     confirmData,
     setConfirmData
@@ -126,12 +127,13 @@ const PaymentComponent = () => {
         message: "결제불가",
         error: "결제정보를 입력해주세요.",
       });
+      return; // 여기서 return 안 하면 서버로 계속 요청 감
     }
-
+    console.log("paymentInfo 여기여기", paymentInfo);
     //서버로 비동기 요청 보낼 함수 실행,  서버로 보내줄 파라미터 넘겨주기
-    await submitPaymentHandler(paymentInfo); // 이 핸들러 끝날 때까지 기다려라! ==> async , await 사용안하면 onclick 이벤트가  먼저 끝나버림
-    // 이 다음 실행
-
+    await submitPaymentHandler(updatedPaymentInfo); // 이 핸들러 끝날 때까지 기다려라! ==> async , await 사용안하면 onclick 이벤트가  먼저 끝나버림
+    //갱신된 내용 반영
+    setPaymentInfo(updatedPaymentInfo);
     console.log("onClick 끝");
   };
 
@@ -141,15 +143,14 @@ const PaymentComponent = () => {
     axios
       .get("/api/payment")
       .then((response) => {
-        console.log("response -- get요청", response);
-        console.log("response -- get요청33333", response.data);
+
         const addr = response.data.address;
         //주소에 데이터 갱신
         setAddress(addr);
         
         // 조건 분기에따른 books 데이터 설정
         if ((type === "buyNow" ||type ==="selected" ) && book) {
-          console.log("바로구매 book.book",book)
+
           //바로구매일 때는 location.state.book만 사용, allPrice와 구조 맞춰줘야함
           setBooks([{book:book}]); // 배열로 감싸줌 (결제 페이지는 배열 기준이니까)
         } else {
@@ -249,8 +250,9 @@ const PaymentComponent = () => {
         <ReusableModal
           show={show}
           onClose={handleClose}
-          errorData={errorData}
-          modalType="error"
+          errorData={modalType === "error" ? errorData : null}
+          confirmData={modalType === "confirm" ? confirmData : null}
+          modalType={modalType}
         />
       )}
     </>
