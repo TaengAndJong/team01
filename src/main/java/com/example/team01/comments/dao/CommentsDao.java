@@ -8,4 +8,6 @@ import java.util.List;
 public interface CommentsDao {
     public int insertComment(CommentsVO commentsVO);
     public CommentsVO getCommentById(String qnaRefId, String commentType);
+    public int postCommentUpdate(CommentsVO commentsVO);
+    public int postCommentDelete(String commentId);
 }

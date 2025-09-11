@@ -11,10 +11,15 @@ import java.util.List;
 @Mapper
 public interface QnaProductDao {
 
-
+    // 상품 문의 목록 조회
     public List<QnaProductVO> getAllQnaProductList(@Param("pagination") Pagination pagination);
 
+    // 상품 문의 총 개수
     int totalRecord(@Param("pagination") Pagination pagination);
 
+    // 상품 문의 상세 조회
     public QnaProductVO getProDetailBoard(@Param("boardId") String boardId, @Param("userId") String userId);
+
+    // 상품 문의 게시물 삭제
+    public int deleteProductBoard(@Param("boardId") String boardId);
 }

@@ -106,9 +106,8 @@ public class QnaProductController {
 }
 
 // 상품 문의 답변 등록 API
-@PostMapping("/detail/comment/{category}/{boardId}")
+@PostMapping("/detail/comment/product/{boardId}")
 public ResponseEntity<?> postProductComment(
-    @PathVariable String category,
     @PathVariable String boardId,
     @RequestBody CommentsVO commentsVO,
     HttpServletRequest request
@@ -116,7 +115,7 @@ public ResponseEntity<?> postProductComment(
     log.info("📦 상품 문의 답변 등록 API 호출됨");
 
         // CommentsVO 객체 생성
-        commentsVO.setCommentType(category);
+        commentsVO.setCommentType("product");
         commentsVO.setQnaRefId(boardId);
         commentsVO.setComDate(LocalDateTime.now());
 
@@ -131,4 +130,40 @@ public ResponseEntity<?> postProductComment(
 
     return ResponseEntity.ok(savedComment);
 }
+
+// 답변 수정  
+@PutMapping("detail/comment/product/{commentId}")
+public ResponseEntity<?> updateComment(@PathVariable String commentId, 
+    @RequestBody CommentsVO commentsVO)
+    {
+        log.info("📦 답변 수정 API 호출됨");
+        log.info("commentId -----------------: {}", commentId);
+        log.info("commentsVO -----------------: {}", commentsVO);
+
+        commentsVO.setCommentId(commentId); 
+        commentsVO.setComModify(LocalDateTime.now());  
+
+        commentsService.postCommentUpdate(commentsVO);
+
+        return ResponseEntity.ok(commentsVO);
+    }
+
+    // 답변 삭제
+    @DeleteMapping("detail/comment/product/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable String commentId){
+        log.info("📦 답변 삭제 API 호출됨");
+        log.info("commentId -----------------: {}", commentId);
+        int result = commentsService.postCommentDelete(commentId);
+        return ResponseEntity.ok(result);
+    }
+
+    // 상품 문의 게시물 삭제
+@DeleteMapping("/detail/product/{boardId}")
+public ResponseEntity<?> deleteProductBoard(@PathVariable String boardId){
+    log.info("📦 상품 문의 게시물 삭제 API 호출됨");
+    log.info("상품 문의 게시물 삭제 boardId -----------------: {}", boardId);
+    int result = qnaProductService.deleteProductBoard(boardId);
+    return ResponseEntity.ok(result);
+}
+
 }

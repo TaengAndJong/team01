@@ -19,7 +19,8 @@ public class QnaProductVO {
     private String qnaContent; // 상품 문의 내용
     private String qnaWriter; // 상품 문의 작성자
     private LocalDateTime qnaDate; // 상품 문의 날짜 현재시간으로
-    private LocalDateTime qnaDel; // 상품 문의 삭제 여부
+    private String qnaDel; // 상품 문의 삭제 여부
+    private LocalDateTime qnaDelDate; // 상품 문의 삭제 날짜
     private String qnaStatus; // 상품 문의 답변 상태
     private String clientId; // 상품 문의 작성자 아이디
     private String roleId; // 상품 문의 작성자 권한

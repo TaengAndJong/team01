@@ -15,4 +15,8 @@ public interface QnaDeliveryDao {
     public List<QnaDeliveryVO> getAllQnaDeliveryList(@Param("pagination") Pagination pagination);
 
     int totalRecord(@Param("pagination") Pagination pagination);
+
+    public QnaDeliveryVO getDeliveryDetailBoard(@Param("boardId") String boardId, @Param("userId") String userId);
+
+    public int deleteDeliveryBoard(@Param("boardId") String boardId);
 }

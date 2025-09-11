@@ -5,6 +5,7 @@ import jakarta.persistence.Id; // 관계형 디비에서 사용
 import java.io.Serializable;
 import java.sql.Clob;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ToString
 @Getter // 은닉화된 정보를 캡슐화
@@ -23,4 +24,6 @@ public class QnaOneVO implements Serializable{
     private String clientId; // 1:1 문의 작성자 아이디
     private String roleId; // 1:1 문의 작성자 권한
     private String attachmentID; // 1:1 문의 첨부 이미지
+    private List<AttachmentVO> attachmentList; // 첨부 이미지 리스트 get으로 요청 시
+    private CommentsVO comment; // 단일 댓글 반환
 }

@@ -15,4 +15,10 @@ public interface QnaOneDao {
     public List<QnaOneVO> getAllQnaOneList(@Param("pagination") Pagination pagination);
 
     int totalRecord(@Param("pagination") Pagination pagination);
+
+    public QnaOneVO getQnaOneDetailBoard(@Param("boardId") String boardId, @Param("userId") String userId);
+
+    public int deleteOneBoard(@Param("boardId") String boardId);
+
+
 }

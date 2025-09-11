@@ -50,7 +50,8 @@
                     , "clientId"
                     , "qnaStatus"
                     , "qnaDate"
-                FROM qnaOne
+                FROM QnaOne
+                WHERE "qnaDel" IS NULL OR "qnaDel" = 'N'
                 <include refid="searchFrag" />
                 ORDER BY "qnaOneId" DESC
             ) a
@@ -59,6 +60,30 @@
         FROM filterData
         WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
     </select>
+
+    <select id="getQnaOneDetailBoard" resultType="QnaOneVO" parameterType="map">
+            SELECT "qnaOneId",
+        "qnaTitle", 
+        TO_CHAR("qnaContent") as qnaContent,
+        "qnaWriter",
+        "qnaDate",
+        "qnaDel",
+        "qnaStatus",
+        "clientId",
+        "roleId",
+        "attachmentID"
+    FROM qnaOne
+    WHERE "qnaOneId" = #{boardId}
+    AND "clientId" = #{userId}
+    AND ROWNUM = 1
+    </select>
+
+    <delete id="deleteOneBoard" parameterType="String">
+        update qnaOne
+        set "qnaDel" = 'Y', 
+        "qnaDelDate" = SYSDATE
+        where "qnaOneId" = #{boardId}
+    </delete>
 </mapper>
 
 

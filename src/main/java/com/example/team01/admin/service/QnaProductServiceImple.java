@@ -43,30 +43,45 @@ public class QnaProductServiceImple implements QnaProductService {
 
         return qnaProList;
     }
+    
+// 상품 문의 상세 조회
+@Override
+public QnaProductVO getQnaProductDetail(String boardId, String userId) {
+    log.info("상품 상세조회 서비스 구현체 실행");
+    log.info("boardId:{}", boardId);
+    log.info("userId:{}", userId);
+    
+    // 1. 게시물 데이터를 가져오기
+    QnaProductVO boardData = qnaProductDao.getProDetailBoard(boardId, userId);
 
+    // 1단계: null 체크
+    if (boardData == null) {
+        throw new IllegalArgumentException("게시물을 찾을 수 없습니다.");
+    }
+
+    // 2단계: 삭제 여부 체크
+    if ("Y".equals(boardData.getQnaDel())) {
+        throw new IllegalArgumentException("삭제된 게시물입니다.");
+    }
+    
+    log.info("상품 상세조회 서비스 구현체 실행 결과:{}", boardData);
+
+    // 2. attachment qnaDate, userId, category, 첨부파일 데이터 조회
+    log.info("첨부파일 조회 시작");
+    List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "product", boardData.getQnaDate());
+    log.info("첨부파일 조회 결과:{}", attachmentList);
+    boardData.setAttachmentList(attachmentList);
+    
+    // 4. 반환 받은 데이터 넘기기
+    log.info("상품 상세조회 서비스 구현체 실행 결과:{}", boardData);
+    return boardData;
+}
+
+    // 상품 문의 게시물 삭제
     @Override
-    public QnaProductVO getQnaProductDetail(String boardId, String userId) {
-        log.info("상품 상세조회 서비스 구현체 실행");
+    public int deleteProductBoard(String boardId) {
+        log.info("상품 문의 게시물 삭제 서비스 구현체 실행");
         log.info("boardId:{}", boardId);
-        log.info("userId:{}", userId);
-        // 1. 게시물 데이터를 가져오기
-        QnaProductVO boardData = qnaProductDao.getProDetailBoard(boardId, userId);
-
-        //1-2 NULL 체크 후 예외 처리
-        if (boardData == null) {
-            throw new IllegalArgumentException("게시물을 찾을 수 없습니다.");
-        }
-        
-        log.info("상품 상세조회 서비스 구현체 실행 결과:{}", boardData);
-
-        // 2. 가져온 게시물 데이터에서 게시물 날짜 데이터 추출
-        // 2. attachment qnaDate, userId, category, 첨부파일 데이터 조회
-        log.info("첨부파일 조회 시작");
-        List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "product", boardData.getQnaDate());
-        log.info("첨부파일 조회 결과:{}", attachmentList);
-        boardData.setAttachmentList(attachmentList);
-        // 4. 반환 받은 데이터 넘기기
-        log.info("상품 상세조회 서비스 구현체 실행 결과:{}", boardData);
-        return boardData;
+        return qnaProductDao.deleteProductBoard(boardId);
     }
 }

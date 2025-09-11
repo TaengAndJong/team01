@@ -29,4 +29,18 @@ public class CommentsServiceImple implements CommentsService {
         log.info("답변 메서드 호출", qnaRefId, commentType);
         return commentsDao.getCommentById(qnaRefId, commentType);
     }
+
+    @Override
+    public int postCommentUpdate(CommentsVO commentsVO) {
+        log.info("답변 수정 메서드 호출" , commentsVO);
+        log.info("commentsVO -----------------: {}", commentsVO);
+        return commentsDao.postCommentUpdate(commentsVO);
+    }
+    
+    @Override
+    public int postCommentDelete(String commentId) {
+        log.info("답변 삭제 메서드 호출" , commentId);
+        log.info("commentId -----------------: {}", commentId);
+        return commentsDao.postCommentDelete(commentId);
+    }
 }

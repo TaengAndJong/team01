@@ -16,4 +16,16 @@
                 WHERE "qnaRefId" = #{qnaRefId} AND "commentType" = #{commentType}
                 AND ROWNUM = 1
         </select>
+
+        <update id="postCommentUpdate" parameterType="com.example.team01.vo.CommentsVO">
+                UPDATE comments
+                SET "commentCon" = #{commentCon}, "comWriter" = #{comWriter}, "comModify" = #{comModify}
+                WHERE "commentId" = #{commentId}
+        </update>
+
+        <delete id="postCommentDelete" parameterType="String">
+                DELETE FROM comments
+                WHERE "commentId" = #{commentId}
+        </delete>
+
 </mapper>       
