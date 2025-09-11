@@ -26,13 +26,27 @@ const DetailBoard = ({ userType }) => {
   console.log("유저아이디", userId);
   console.log("카테고리", category);
   console.log("게시물아이디", boardId);
+
   useEffect(() => {
+    console.log("DetailBoard useEffect 실행됨", {
+      category,
+      boardId,
+      userId,
+      userType,
+    });
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `/api/admin/board/detail/${category}/${boardId}?userId=${userId}`
-        );
+
+        // 조건에 따라 다른 API 호출
+        const apiUrl =
+          userType === "admin"
+            ? `/api/${userType}/board/detail/${category}/${boardId}?userId=${userId}`
+            : `/api/board/${category}/detail/${boardId}?userId=${userId}`;
+
+        console.log("apiUrl:", apiUrl); // 확인
+
+        const response = await axios.get(apiUrl);
         setData(response.data);
         console.log("DetailBoard data", data);
       } catch (error) {
@@ -41,8 +55,9 @@ const DetailBoard = ({ userType }) => {
         setLoading(false);
       }
     };
+
     fetchData();
-  }, [category, boardId, userId]);
+  }, [category, boardId, userId, userType]); // userType도 의존성에 추가
 
   console.log("상세조회 데이터", data);
 
@@ -111,6 +126,11 @@ const DetailBoard = ({ userType }) => {
   };
 
   const handlePostDelete = async () => {
+    // const apiUrl =
+    //       userType === "admin"
+    //         ? `/api/${userType}/board/detail/${category}/${boardId}?userId=${userId}`
+    //         : `/api/board/${category}/detail/${boardId}?userId=${userId}`;
+
     const response = await axios.delete(
       `/api/admin/board/detail/${category}/${boardId}`
     );

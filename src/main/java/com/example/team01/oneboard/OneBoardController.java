@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PathVariable;
 // 의존성 
 import com.example.team01.oneboard.service.OneBoardService;
 import com.example.team01.vo.OneBoardVO;
@@ -86,4 +86,18 @@ public class OneBoardController {
         List<OneBoardVO> list = oneBoardService.GetOneBoardList(userId);
         return ResponseEntity.ok(list); // 리스트 반환
     }
+
+    // 사용자 1:1 문의 상세 조회
+    @GetMapping("/one/detail/{boardId}")
+    public ResponseEntity<?> getOneBoardDetail(
+        @PathVariable String boardId,
+        @RequestParam String userId
+    ){
+        log.info("사용자 1:1 문의 상세 조회 시작");
+        log.info("boardId: " + boardId);
+        log.info("userId: " + userId);
+
+        return ResponseEntity.ok("통신 성공");
+    }
+
 }
