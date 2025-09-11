@@ -106,7 +106,7 @@ public class CartServiceImple implements CartService{
     // 로그인한 클라이언트의 장바구니에 담긴 도서 목록 삭제 메서드
     @Override
     public int deleteToCartList(List<String> deleteIds) {
-        log.info("장바구니 도서삭제 목록:{}",deleteIds);
+        log.info("장바구니 도서삭제 목록-------------:{}",deleteIds);
         //로그인한 사용자와 삭제 요청의 연관성 검증
 
         //파라미터의 값이 null 인지 , 비어있는지 검증 필요

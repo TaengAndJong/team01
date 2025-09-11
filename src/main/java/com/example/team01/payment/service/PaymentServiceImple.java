@@ -36,6 +36,7 @@ public class PaymentServiceImple implements PaymentService {
     private final FileUtils fileUtils;
     private final BookDao bookDao;
 
+
     @Override
     public List<CartDTO> selectCartList(String clientId) {
 
@@ -53,7 +54,7 @@ public class PaymentServiceImple implements PaymentService {
     }
     @Override
     public int insertPayment(PaymentVO paymentVO,String clientId){
-        log.info("service insertPayment----------:{}",paymentVO);
+        log.info("service insertPayment---------- 인설트쿼리:{}",paymentVO);
         //검증필요 ==> paymentVO.setPayStatus() ==> 결제완료,결제대기,결제실패
         //payment이 어떤조건을 기준으로 값을 세팅할 것인가!
         int cnt = 0;
@@ -71,8 +72,9 @@ public class PaymentServiceImple implements PaymentService {
     }
     @Override
     public int insertPaymentList(PaymentVO PaymentVO) {
-        log.info("service insertPaymentList----------:{}",PaymentVO);
-
+        log.info("service insertPaymentList----------인설트 페이먼트리스트:{}",PaymentVO);
+        // book의 stock이 quantity보다 크거나 같을때 조건 필요
+      //  bookDao.checkBookCount()
         int cnt = 0;
         String payId= PaymentVO.getPayId();
         List<CartVO> bookList = PaymentVO.getBookList();
@@ -222,6 +224,7 @@ public class PaymentServiceImple implements PaymentService {
                     .author(bookList.getAuthor())
                     .publishDate(bookList.getPublishDate())
                     .bookPrice(bookList.getBookPrice())
+                     .quantity(cartvo.getQuantity())
                     .stock(bookList.getStock())
                     .bookImgPath(bookList.getBookImgPath()).build();
 

@@ -25,4 +25,8 @@ public interface BookDao {
 
  public int increaseBookQuantity(@Param("bookId") String bookId,@Param("quantity") int quantity);
  public int decreaseBookQuantity(@Param("bookId") String bookId,@Param("quantity") int quantity);
+
+ //도서 존재유무와 재고확인필요
+ public BookVO checkBookCount(@Param("bookId") String bookId);
+
 }
