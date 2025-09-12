@@ -126,16 +126,23 @@ const DetailBoard = ({ userType }) => {
   };
 
   const handlePostDelete = async () => {
-    // const apiUrl =
-    //       userType === "admin"
-    //         ? `/api/${userType}/board/detail/${category}/${boardId}?userId=${userId}`
-    //         : `/api/board/${category}/detail/${boardId}?userId=${userId}`;
+    //게시물 삭제 이벤트 핸들러 동작 순서
+    // userType이 admin이면 /api/admin/board/detail/${category}/${boardId}
+    // userType이 client이면 /api/board/detail/${category}/${boardId}
 
-    const response = await axios.delete(
-      `/api/admin/board/detail/${category}/${boardId}`
-    );
+    // apiUrl에다가 조건을 추가해서 사용하면 될 듯
+
+    const apiUrl =
+      userType === "admin"
+        ? `/api/admin/board/detail/${category}/${boardId}`
+        : `/api/board/detail/${category}/${boardId}`;
+    const response = await axios.delete(apiUrl);
     console.log("게시물 삭제 결과", response.data);
-    navigate(`/admin/board/${category}Board`);
+    if (userType === "admin") {
+      navigate(`/admin/board/${category}Board`);
+    } else {
+      navigate(`/board/${category}Board`);
+    }
   };
 
   const handleCommentDelete = async () => {
@@ -215,10 +222,17 @@ const DetailBoard = ({ userType }) => {
             />
           ) : null}
           <div>
-            <Btn
-              text="목록"
-              onClick={() => navigate(`/admin/board/${category}Board`)}
-            />
+            {userType === "admin" ? (
+              <Btn
+                text="목록"
+                onClick={() => navigate(`/admin/board/${category}Board`)}
+              />
+            ) : (
+              <Btn
+                text="목록"
+                onClick={() => navigate(`/board/${category}Board`)}
+              />
+            )}
             <Btn color="red" onClick={() => handlePostDelete()} text="삭제" />
           </div>
         </div>
