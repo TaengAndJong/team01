@@ -5,6 +5,7 @@ import com.example.team01.logout.handler.AddLogoutHandler;
 import com.example.team01.security.PrincipalDetailsService;
 import com.example.team01.security.handler.CustomAuthenticationFailureHandler;
 import com.example.team01.security.handler.CustomAuthenticationSuccessHandler;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -67,7 +68,22 @@ public class SecurityConfig {
                         .permitAll()
                 ).sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                                .invalidSessionUrl("/login"));
+                                .invalidSessionUrl("/login")
+                ).exceptionHandling(exception
+                        -> exception.authenticationEntryPoint((request,response,authException) -> {
+                        log.info("401 미로그인 예외");
+                        //인증실패(미로그인 시)
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+                        response.setContentType("application/json;charset=UTF-8");//json으로 응답
+                        response.getWriter().write("{\"message\":\"로그인이 필요합니다.\"}");
+                }).accessDeniedHandler((request, response, accessDeniedException) -> {
+                            log.info("403 권한부족 예외");
+                            // 권한 부족 (403 JSON)
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
+                            response.setContentType("application/json;charset=UTF-8");//json으로 응답
+                            response.getWriter().write("{\"message\":\"접근 권한이 없습니다.\"}");
+                        })
+                );
 
         return http.build();
     }

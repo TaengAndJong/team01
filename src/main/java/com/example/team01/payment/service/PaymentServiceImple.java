@@ -4,6 +4,7 @@ package com.example.team01.payment.service;
 import com.example.team01.book.dao.BookDao;
 import com.example.team01.book.service.BookService;
 import com.example.team01.common.Enum.PayStatus;
+import com.example.team01.common.exception.CustomCartException;
 import com.example.team01.delivery.dao.AddressDao;
 import com.example.team01.delivery.service.AddressService;
 import com.example.team01.dto.address.AddressDTO;
@@ -74,6 +75,18 @@ public class PaymentServiceImple implements PaymentService {
     public int insertPaymentList(PaymentVO PaymentVO) {
         log.info("service insertPaymentList----------인설트 페이먼트리스트:{}",PaymentVO);
         // book의 stock이 quantity보다 크거나 같을때 조건 필요
+        //bookDao.checkBookCount(PaymentVO.getClientId());
+        for(CartVO book : PaymentVO.getBookList()){
+            log.info("book:{}",book);
+            String bookId = book.getBookId();
+            int bookStock= bookDao.checkBookCount(bookId);
+            //도서구입수량이  bookStrock 을 초과했을경우 
+            if(bookStock < book.getQuantity()){
+                // 재고 부족 CustomCartException 발생
+                throw CustomCartException.outOfStock(bookId,bookStock);
+            }
+
+        }
       //  bookDao.checkBookCount()
         int cnt = 0;
         String payId= PaymentVO.getPayId();

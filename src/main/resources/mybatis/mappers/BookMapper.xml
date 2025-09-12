@@ -96,12 +96,9 @@
     </update>
 
     <!-- 조회할 VO 객체를 결과 타입으로 선언해야 데이터가 매핑되어 반환됨 -->
-    <select id="checkBookCount" parameterType="String" resultType="BookVO">
+    <select id="checkBookCount" parameterType="String" resultType="int">
         SELECT
-            "bookId"
-             ,"bookName"
-             ,"bookCateNm"
-             ,"stock"
+             "stock"
         FROM book
         WHERE "bookId" = #{bookId}
     </select>

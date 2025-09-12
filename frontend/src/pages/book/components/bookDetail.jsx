@@ -79,7 +79,7 @@ const BookDetail = () => {
                                 {/*수량*/}
                                 <BookCount bookId={bookDetail.bookId} bookCount={bookCount} setBookCount={setBookCount} />
                                 {/*장바구니추가*/}
-                                <AddCartBtn bookId={bookDetail.bookId} bookCount={bookCount[bookDetail.bookId] ?? 1}  />
+                                <AddCartBtn bookId={bookDetail.bookId} quantity={bookCount[bookDetail.bookId] ?? 1}  />
                                 {/*바로구매*/}
                                 <BuySelectedBtn  type={"buyNow"}  book={ {...bookDetail, quantity: bookCount[bookDetail.bookId] ?? 1} } />
                             </div>
