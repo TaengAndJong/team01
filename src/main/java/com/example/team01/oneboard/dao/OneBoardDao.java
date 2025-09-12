@@ -7,5 +7,5 @@ public interface OneBoardDao {
     void CreateOneBoard(OneBoardVO vo);
     List<OneBoardVO> GetOneBoardList(String userId);
     OneBoardVO getOneBoardDetail(String boardId, String userId);
-    void deleteOneBoard(String boardId);
+    int deleteOneBoard(String boardId);
 }

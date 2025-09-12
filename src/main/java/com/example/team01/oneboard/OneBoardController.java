@@ -115,7 +115,7 @@ public class OneBoardController {
     public ResponseEntity<?> deleteOneBoard(@PathVariable String boardId){
         log.info("1:1 게시물 삭제 api 호출!");
         log.info("boardId: " + boardId);
-        // int result = oneBoardService.deleteOneBoard(boardId);
-        return ResponseEntity.ok("api 통신 성공  ");
+        int result = oneBoardService.deleteOneBoard(boardId);
+        return ResponseEntity.ok(result);
     }
 }

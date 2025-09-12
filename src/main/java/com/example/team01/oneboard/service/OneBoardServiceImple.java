@@ -94,10 +94,11 @@ public class OneBoardServiceImple implements OneBoardService {
     return boardData;
     }
 
+    // 사용자 1:1 게시물 삭제
     @Override
-    public void deleteOneBoard(String boardId) {
+    public int deleteOneBoard(String boardId) {
         log.info("1:1 문의 게시물 삭제 서비스 구현체 실행");
         log.info("boardId:{}", boardId);
-        OneBoardDao.deleteOneBoard(boardId);
+        return OneBoardDao.deleteOneBoard(boardId);
     }
 }

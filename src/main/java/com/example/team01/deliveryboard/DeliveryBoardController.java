@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 
 // 의존성 
 import com.example.team01.deliveryboard.service.DeliveryBoardService;
 import com.example.team01.vo.DeliveryBoardVO;
+import com.example.team01.comments.service.CommentsService;
+import com.example.team01.vo.CommentsVO;
+
 
 /**
  * 게시판 생성 관련 REST API 컨트롤러
@@ -32,6 +36,7 @@ import com.example.team01.vo.DeliveryBoardVO;
 public class DeliveryBoardController {
 
     private final DeliveryBoardService deliveryBoardService;
+    private final CommentsService commentsService;
 
     @PostMapping(value = "/deliveryBoard")
     public ResponseEntity<?> CreateDelivBoard(
@@ -93,4 +98,32 @@ public class DeliveryBoardController {
         List<DeliveryBoardVO> list = deliveryBoardService.GetDelivBoardlist(userId);
         return ResponseEntity.ok(list); // 리스트 반환
     }
+
+// 사용자 배송 문의 상세 조회
+@GetMapping("/delivery/detail/{boardId}")
+public ResponseEntity<?> getOneBoardDetail(
+    @PathVariable String boardId,
+    @RequestParam String userId
+){
+    log.info("사용자 1:1 문의 상세 조회 시작");
+    log.info("boardId: " + boardId);
+    log.info("userId: " + userId);
+
+    DeliveryBoardVO boardData = deliveryBoardService.getDeliveryBoardDetail(boardId, userId);
+    log.info("boardData -----------------: {}", boardData);
+    CommentsVO savedComment = commentsService.getCommentById(boardId, "delivery");
+    log.info("savedComment -----------------: {}", savedComment);
+    boardData.setComment(savedComment);
+    log.info("최종 게시물 정보 -----------------: {}", boardData);
+    return ResponseEntity.ok(boardData);
+}
+
+// 배송 문의 게시물 삭제  api 예시 : /board/detail/one/qnaone0101 
+@DeleteMapping("/detail/delivery/{boardId}")
+public ResponseEntity<?> deleteDeliveryBoard(@PathVariable String boardId){
+    log.info("1:1 게시물 삭제 api 호출!");
+    log.info("boardId: " + boardId);
+    int result = deliveryBoardService.deleteDeliveryBoard(boardId);
+    return ResponseEntity.ok(result);
+}
 }
