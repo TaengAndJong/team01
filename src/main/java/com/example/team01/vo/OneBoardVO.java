@@ -25,7 +25,8 @@ public class OneBoardVO implements Serializable {
     private String attachmentID; // 1:1 문의 첨부 이미지
     private List<AttachmentVO> attachmentList; // 첨부 이미지 리스트 get으로 요청 시
     private CommentsVO comment; // 단일 댓글 반환
-
+    private String category; // 게시물 카테고리
+    private List<MultipartFile> files; // 첨부파일 (다중)
     // private String qnaOneId; // 게시물 번호
     // private String qnaTitle; // 게시물 제목
     // private String qnaContent; // 게시물 내용
