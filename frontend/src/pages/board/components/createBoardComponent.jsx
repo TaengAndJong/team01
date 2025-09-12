@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { UserDataContext } from "../boardComponent.jsx";
 import { maskUserId } from "@util/maskingID.jsx";
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreateBoardComponent = () => {
   // useContext(UserDataContext)로 root 컴포넌트에 있는 UserDataContext를 사용 가능

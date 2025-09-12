@@ -33,6 +33,33 @@
     </insert>
 
     <select id="GetDelivBoardlist" parameterType="String" resultType="com.example.team01.vo.DeliveryBoardVO">
-        SELECT * FROM qnadeliv WHERE "clientId" = #{userId}
+       SELECT * FROM qnaDeliv WHERE "clientId" = #{userId} AND "qnaDel" IS NULL OR "qnaDel" = 'N'
+        ORDER BY "qnaDelId" DESC
     </select>
+
+    <select id="getDeliveryBoardDetail" parameterType="map" resultType="com.example.team01.vo.DeliveryBoardVO">
+        SELECT "qnaDelId",
+        "qnaTitle",
+        "qnaContent",
+        "qnaWriter",
+        "qnaDate",
+        "qnaDel",
+        "qnaStatus",
+        "clientId",
+        "roleId",
+        "attachmentID"
+    FROM qnaDeliv
+    WHERE "qnaDelId" = #{boardId}
+    AND "clientId" = #{userId}
+    AND ROWNUM = 1
+        
+    </select>
+
+
+    <delete id="deleteDeliveryBoard" parameterType="String">
+        update qnaDeliv
+        set "qnaDel" = 'Y', 
+        "qnaDelDate" = SYSDATE
+        where "qnaDelId" = #{boardId}
+    </delete>
 </mapper>

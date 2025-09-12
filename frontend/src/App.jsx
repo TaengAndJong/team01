@@ -117,9 +117,9 @@ function App() {
               />
             </Route>
 
-            {/* 관리자 상세 페이지 - 중첩 라우팅 밖으로 이동 */}
+            {/* 사용자 상세 페이지 - 중첩 라우팅 밖으로 이동 */}
             <Route
-              path="detailBoard/:category/:boardId/:userId"
+              path="/board/detailBoard/:category/:boardId/"
               element={<DetailBoard userType="client" />}
             />
 
@@ -147,6 +147,12 @@ function App() {
             {/* 관리자 상세 페이지 - 중첩 라우팅 밖으로 이동 */}
             <Route
               path="/admin/board/detail/:category/:boardId/"
+              element={<DetailBoard userType="admin" />}
+            />
+
+            {/* 관리자 상세 페이지 - 중첩 라우팅 밖으로 이동 */}
+            <Route
+              path="detailBoard/:category/:boardId/:userId"
               element={<DetailBoard userType="admin" />}
             />
 

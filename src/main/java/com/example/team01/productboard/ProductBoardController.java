@@ -13,10 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
+
 
 // 의존성 
 import com.example.team01.productboard.service.ProductBoardService;
 import com.example.team01.vo.ProductBoardVO;
+import com.example.team01.comments.service.CommentsService;
+import com.example.team01.vo.CommentsVO;
 
 /**
  * 게시판 생성 관련 REST API 컨트롤러
@@ -29,6 +34,7 @@ import com.example.team01.vo.ProductBoardVO;
 public class ProductBoardController {
 
     private final ProductBoardService productBoardService;
+    private final CommentsService commentsService;
 
     @PostMapping(value = "/productBoard")
     public ResponseEntity<?> CreateProBoard(
@@ -84,4 +90,32 @@ public class ProductBoardController {
             List<ProductBoardVO> list = productBoardService.GetProductBoardlist(userId);
             return ResponseEntity.ok(list); // 리스트 반환
         }
+
+         // 사용자 상품 문의 상세 조회
+    @GetMapping("/product/detail/{boardId}")
+    public ResponseEntity<?> getProductBoardDetail(
+        @PathVariable String boardId,
+        @RequestParam String userId
+    ){
+        log.info("사용자 1:1 문의 상세 조회 시작");
+        log.info("boardId: " + boardId);
+        log.info("userId: " + userId);
+
+        ProductBoardVO boardData = productBoardService.getProductBoardDetail(boardId, userId);
+        log.info("boardData -----------------: {}", boardData);
+        CommentsVO savedComment = commentsService.getCommentById(boardId, "one");
+        log.info("savedComment -----------------: {}", savedComment);
+        boardData.setComment(savedComment);
+        log.info("최종 게시물 정보 -----------------: {}", boardData);
+        return ResponseEntity.ok(boardData);
+    }
+    
+    // 상품 문의 게시물 삭제  api 예시 : /board/detail/one/qnaone0101 
+    @DeleteMapping("/detail/product/{boardId}")
+    public ResponseEntity<?> deleteProductBoard(@PathVariable String boardId){
+        log.info("1:1 게시물 삭제 api 호출!");
+        log.info("boardId: " + boardId);
+        int result = productBoardService.deleteProductBoard(boardId);
+        return ResponseEntity.ok(result);
+    }
 }

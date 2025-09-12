@@ -31,7 +31,32 @@
     </insert>
 
     <select id="GetProductBoardlist" parameterType="String" resultType="com.example.team01.vo.ProductBoardVO">
-        SELECT * FROM qnapro WHERE "clientId" = #{userId}
+               SELECT * FROM qnapro WHERE "clientId" = #{userId} AND "qnaDel" IS NULL OR "qnaDel" = 'N'
+        ORDER BY "qnaProId" DESC
     </select>
+
+    <select id="getProductBoardDetail" parameterType="map" resultType="com.example.team01.vo.ProductBoardVO">
+        SELECT "qnaProId",
+        "qnaTitle",
+        "qnaContent",
+        "qnaWriter",
+        "qnaDate",
+        "qnaDel",
+        "qnaStatus",
+        "clientId",
+        "roleId",
+        "attachmentID"
+    FROM qnapro
+    WHERE "qnaProId" = #{boardId}
+    AND "clientId" = #{userId}
+    AND ROWNUM = 1
+    </select>
+
+    <delete id="deleteProductBoard" parameterType="String">
+        update qnapro
+        set "qnaDel" = 'Y', 
+        "qnaDelDate" = SYSDATE
+        where "qnaProId" = #{boardId}
+    </delete>
 
 </mapper>

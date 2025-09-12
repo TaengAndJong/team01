@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.time.LocalDateTime;
+import com.example.team01.comments.service.CommentsService;
+import com.example.team01.vo.CommentsVO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/admin/board")
 public class QnaDeliveryController {
+  private final CommentsService commentsService;
   private final QnaDeliveryService qnaDeliveryService;
   private final FileUtils fileUtils;
 
@@ -92,7 +95,74 @@ public ResponseEntity<?> getSearchQnaDeliveryList(
     log.info("🚚 배송 문의 상세조회 API 호출됨");
     log.info("상세조회 boardId -----------------: {}", boardId);
     log.info("상세조회 userId -----------------: {}", userId);
-
-    return ResponseEntity.ok("배송 문의 상세조회 통신 성공");
+    QnaDeliveryVO boardData = qnaDeliveryService.getQnaDeliveryDetail(boardId, userId);
+    
+    CommentsVO savedComment = commentsService.getCommentById(boardId, "delivery");
+    log.info("savedComment -----------------: {}", savedComment);
+    boardData.setComment(savedComment);
+    
+    return ResponseEntity.ok(boardData);
 }
-  }
+
+    // 배송 문의 답변 등록 API
+@PostMapping("/detail/comment/delivery/{boardId}")
+public ResponseEntity<?> postProductComment(
+    @PathVariable String boardId,
+    @RequestBody CommentsVO commentsVO,
+    HttpServletRequest request
+){
+    log.info(" 배송 문의 답변 등록 API 호출됨");
+
+        // CommentsVO 객체 생성
+        commentsVO.setCommentType("delivery");
+        commentsVO.setQnaRefId(boardId);
+        commentsVO.setComDate(LocalDateTime.now());
+
+    log.info("commentsVO -----------------: {}", commentsVO);
+
+    // 답변 등록 서비스 호출
+    int result = commentsService.insertComment(commentsVO);
+    
+    log.info("댓글 등록 결과 (영향받은 행 수) -----------------: {}", result);
+    
+    CommentsVO savedComment = commentsService.getCommentById(commentsVO.getQnaRefId(), commentsVO.getCommentType());
+
+    return ResponseEntity.ok(savedComment);
+}
+
+// 답변 수정  
+@PutMapping("detail/comment/delivery/{commentId}")
+public ResponseEntity<?> updateComment(@PathVariable String commentId, 
+    @RequestBody CommentsVO commentsVO)
+    {
+        log.info("📦 답변 수정 API 호출됨");
+        log.info("commentId -----------------: {}", commentId);
+        log.info("commentsVO -----------------: {}", commentsVO);
+
+        commentsVO.setCommentId(commentId); 
+        commentsVO.setComModify(LocalDateTime.now());  
+
+        commentsService.postCommentUpdate(commentsVO);
+
+        return ResponseEntity.ok(commentsVO);
+    }
+
+    // 답변 삭제
+    @DeleteMapping("detail/comment/delivery/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable String commentId){
+        log.info("📦 답변 삭제 API 호출됨");
+        log.info("commentId -----------------: {}", commentId);
+        int result = commentsService.postCommentDelete(commentId);
+        return ResponseEntity.ok(result);
+    }
+
+    //  배송 문의 게시물 삭제
+@DeleteMapping("/detail/delivery/{boardId}")
+public ResponseEntity<?> deleteProductBoard(@PathVariable String boardId){
+    log.info("📦 상품 문의 게시물 삭제 API 호출됨");
+    log.info("상품 문의 게시물 삭제 boardId -----------------: {}", boardId);
+    int result = qnaDeliveryService.deleteDeliveryBoard(boardId);
+    return ResponseEntity.ok(result);
+}
+
+}

@@ -4,6 +4,7 @@ import lombok.*;
 import jakarta.persistence.Id; // 관계형 디비에서 사용
 import java.io.Serializable;
 import java.sql.Clob;
+import java.util.List;
 import java.time.LocalDateTime;
 
 @ToString
@@ -23,4 +24,6 @@ public class QnaDeliveryVO {
     private String clientId; // 배송 문의 작성자 아이디
     private String roleId; // 배송 문의 작성자 권한
     private String attachmentID; // 배송 문의 첨부 이미지
+    private List<AttachmentVO> attachmentList; // 첨부 이미지 리스트 get으로 요청 시
+    private CommentsVO comment; // 단일 댓글 반환
 }

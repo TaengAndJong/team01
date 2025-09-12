@@ -6,4 +6,6 @@ import java.util.List;
 public interface ProductBoardDao {
     void CreateProductBoard(ProductBoardVO vo);
     List<ProductBoardVO> GetProductBoardlist(String userId);
+    ProductBoardVO getProductBoardDetail(String boardId, String userId);
+    int deleteProductBoard(String boardId);
 }

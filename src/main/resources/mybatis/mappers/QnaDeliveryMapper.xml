@@ -51,6 +51,7 @@
                     , "qnaStatus"
                     , "qnaDate"
                 FROM qnaDeliv
+                WHERE "qnaDel" IS NULL OR "qnaDel" = 'N'
                 <include refid="searchFrag" />
                 ORDER BY "qnaDelId" DESC
             ) a
@@ -59,4 +60,28 @@
         FROM filterData
         WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
     </select>
+
+    <select id="getDeliveryDetailBoard" resultType="QnaDeliveryVO" parameterType="map">
+         SELECT "qnaDelId",
+        "qnaTitle", 
+        TO_CHAR("qnaContent") as qnaContent,
+        "qnaWriter",
+        "qnaDate",
+        "qnaDel",
+        "qnaStatus",
+        "clientId",
+        "roleId",
+        "attachmentID"
+    FROM qnaDeliv
+    WHERE "qnaDelId" = #{boardId}
+    AND "clientId" = #{userId}
+    AND ROWNUM = 1
+    </select>
+
+    <delete id="deleteDeliveryBoard" parameterType="String">
+        update qnaDeliv
+        set "qnaDel" = 'Y', 
+        "qnaDelDate" = SYSDATE
+        where "qnaDelId" = #{boardId}
+    </delete>
 </mapper>

@@ -63,4 +63,42 @@ public class OneBoardServiceImple implements OneBoardService {
         log.info("list: {}", list);
         return list;
     }
+
+    @Override
+    public OneBoardVO getOneBoardDetail(String boardId, String userId) {
+        log.info("1:1 문의 상세 조회 서비스 구현체 실행: {}, {}", boardId, userId);
+
+        OneBoardVO boardData = OneBoardDao.getOneBoardDetail(boardId, userId);
+        log.info("상세조회 결과: {}", boardData);
+        
+        // 1단계: null 체크
+    if (boardData == null) {
+        throw new IllegalArgumentException("게시물을 찾을 수 없습니다.");
+    }
+
+    // 2단계: 삭제 여부 체크
+    if ("Y".equals(boardData.getQnaDel())) {
+        throw new IllegalArgumentException("삭제된 게시물입니다.");
+    }
+    
+    log.info("상품 상세조회 서비스 구현체 실행 결과:{}", boardData);
+
+    // 2. attachment qnaDate, userId, category, 첨부파일 데이터 조회
+    log.info("첨부파일 조회 시작");
+    List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "one", boardData.getQnaDate());
+    log.info("첨부파일 조회 결과:{}", attachmentList);
+    boardData.setAttachmentList(attachmentList);
+    
+    // 4. 반환 받은 데이터 넘기기
+    log.info("상품 상세조회 서비스 구현체 실행 결과:{}", boardData);
+    return boardData;
+    }
+
+    // 사용자 1:1 게시물 삭제
+    @Override
+    public int deleteOneBoard(String boardId) {
+        log.info("1:1 문의 게시물 삭제 서비스 구현체 실행");
+        log.info("boardId:{}", boardId);
+        return OneBoardDao.deleteOneBoard(boardId);
+    }
 }
