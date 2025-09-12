@@ -9,4 +9,7 @@ public interface QnaProductService {
 
     // 상품 문의 상세 조회
     public QnaProductVO getQnaProductDetail(String boardId, String userId);
+
+       // 상품 문의 게시물 삭제
+       public int deleteProductBoard(String boardId);
 }

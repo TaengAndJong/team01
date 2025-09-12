@@ -32,7 +32,35 @@
     </insert>
 
     <select id="GetOneBoardList" parameterType="String" resultType="com.example.team01.vo.OneBoardVO">
-        SELECT * FROM qnaone WHERE "clientId" = #{userId}
+        <!-- SELECT * FROM qnaone WHERE "clientId" = #{userId} -->
+
+        SELECT * FROM qnaone WHERE "clientId" = #{userId} AND "qnaDel" IS NULL OR "qnaDel" = 'N'
+        ORDER BY "qnaOneId" DESC
     </select>
 
+    <select id="getOneBoardDetail" parameterType="map" resultType="com.example.team01.vo.OneBoardVO">
+        SELECT "qnaOneId",
+        "qnaTitle",
+        "qnaContent",
+        "qnaWriter",
+        "qnaDate",
+        "qnaDel",
+        "qnaStatus",
+        "clientId",
+        "roleId",
+        "attachmentID"
+    FROM qnaOne
+    WHERE "qnaOneId" = #{boardId}
+    AND "clientId" = #{userId}
+    AND ROWNUM = 1
+        
+    </select>
+
+
+    <delete id="deleteOneBoard" parameterType="String">
+        update qnaOne
+        set "qnaDel" = 'Y', 
+        "qnaDelDate" = SYSDATE
+        where "qnaOneId" = #{boardId}
+    </delete>
 </mapper>

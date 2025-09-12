@@ -19,10 +19,12 @@ public class QnaProductVO {
     private String qnaContent; // 상품 문의 내용
     private String qnaWriter; // 상품 문의 작성자
     private LocalDateTime qnaDate; // 상품 문의 날짜 현재시간으로
-    private LocalDateTime qnaDel; // 상품 문의 삭제 여부
+    private String qnaDel; // 상품 문의 삭제 여부
+    private LocalDateTime qnaDelDate; // 상품 문의 삭제 날짜
     private String qnaStatus; // 상품 문의 답변 상태
     private String clientId; // 상품 문의 작성자 아이디
     private String roleId; // 상품 문의 작성자 권한
     private String attachmentID; // 상품 문의 첨부 이미지
-    private List<AttachmentVO> attachmentList;
+    private List<AttachmentVO> attachmentList; // 첨부 이미지 리스트 get으로 요청 시
+    private CommentsVO comment; // 단일 댓글 반환
 }
