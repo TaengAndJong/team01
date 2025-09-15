@@ -13,7 +13,6 @@ const ProductBoard = () => {
   const [boardList, setBoarList] = useState([]);
   const { product } = useContext(BookBoardStateContext);
   const { onInitProduct } = useContext(BookBoardDispatchContext);
-  console.log("BookBoardStateContext---product data", product);
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
 
   // product 데이터 존재할 때만 boardList 업데이트
