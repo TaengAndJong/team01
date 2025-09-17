@@ -11,7 +11,7 @@
     </select>
 
      <sql id="searchFrag">
-        <trim prefix="WHERE" suffixOverrides="AND">
+        <trim prefix="AND" suffixOverrides="AND">
 
             <!-- 답변 상태 필터 (searchType에 따라 qnaStatus 필터링) -->
             <choose>
@@ -47,7 +47,7 @@
                     , "qnaStatus"
                     , "qnaDate"
                 FROM qnaPro
-                WHERE "qnaDel" IS NULL OR "qnaDel" = 'N'
+                WHERE ("qnaDel" IS NULL OR "qnaDel" = 'N')
                 <include refid="searchFrag" />
                 ORDER BY "qnaProId" DESC
             ) a

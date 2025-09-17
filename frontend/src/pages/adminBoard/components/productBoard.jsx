@@ -1,5 +1,5 @@
 import "@assets/css/board/adminBoard.css";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import AdminBoardItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import {
@@ -10,20 +10,38 @@ import { PaginationContext } from "@pages/adminBoard/adminBoardComponent.jsx";
 import Pagination from "@util/pagination.jsx";
 
 const ProductBoard = () => {
-  const [boardList, setBoarList] = useState([]);
+  // const [boardList, setBoarList] = useState([]);
   const { product } = useContext(BookBoardStateContext);
   const { onInitProduct } = useContext(BookBoardDispatchContext);
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
 
-  // product 데이터 존재할 때만 boardList 업데이트
-  useEffect(() => {
-    const items = product?.[0]?.items;
-    if (items) {
-      setBoarList(items);
+  const boardList = useMemo(() => {
+    if (!product || !Array.isArray(product) || product.length === 0) {
+      return [];
     }
+
+    const firstItem = product[0];
+    if (
+      !firstItem ||
+      !firstItem.items ||
+      !Array.isArray(firstItem.items) ||
+      firstItem.items.length === 0
+    ) {
+      return [];
+    }
+
+    return Array.isArray(firstItem.items) ? firstItem.items : [];
   }, [product]);
 
-  console.log("boardList", boardList);
+  // // product 데이터 존재할 때만 boardList 업데이트
+  // useEffect(() => {
+  //   const items = product?.[0]?.items;
+  //   if (items) {
+  //     setBoarList(items);
+  //   }
+  // }, [product]);
+
+  // console.log("boardList", boardList);
 
   // SearchBar
   const [search, setSearch] = useState([]);
@@ -31,33 +49,46 @@ const ProductBoard = () => {
 
   const handleSearch = async () => {
     //search 초기 데이터 URLsearchParam으로 가공
-    console.log("search--fetch", search);
+    console.log("=== 검색 디버깅 시작 ===");
+
+    // 1. 검색 파라미터 확인
+    console.log("원본 search 객체:", search);
     const param = new URLSearchParams(search);
-    console.log("search--param", param);
+    console.log("URLSearchParams 객체:", param);
     const paramString = param.toString();
-    console.log("search--paramString", paramString);
+    console.log("최종 파라미터 문자열:", paramString);
+
+    // 2. 요청 URL 확인
+    const requestUrl = `/api/admin/board/qnaProductList?${paramString}`;
+    console.log("요청 URL:", requestUrl);
 
     //검색버튼 누르면 서버로 검색 필터 전송
     try {
-      const response = await fetch(
-        `/api/admin/board/qnaProductList?${paramString}`,
-        {
-          method: "POST",
-        }
-      );
+      const response = await fetch(requestUrl, {
+        method: "POST",
+      });
+
+      console.log("응답 상태:", response.status);
+      console.log("응답 OK:", response.ok);
 
       // 요청 성공실패
       if (!response.ok) {
         console.log("통신에러", response.status);
         throw Error(response.statusText);
       }
-      //요청 성공
+
       const data = await response.json();
-      console.log("search---------------", data);
-      setBoarList(Array.isArray(data) ? data : []); // 서버 데이터 갱신
+      console.log("응답 데이터:", data);
+      console.log("데이터 타입:", typeof data);
+      console.log(
+        "데이터 길이:",
+        Array.isArray(data) ? data.length : "배열이 아님"
+      );
+
       onInitProduct(data);
     } catch (e) {
-      console.log(e, "에러");
+      console.log("에러 발생:", e);
+      console.log("에러 메시지:", e.message);
     }
   };
 
