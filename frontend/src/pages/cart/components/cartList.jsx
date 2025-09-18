@@ -262,6 +262,8 @@ const CartList = () => {
                               </div>
                               {/* 도서 정보*/}
                               <div className="bookInfo card-body">
+                                  <strong className="book-title title-dotted d-block">카트 아이디 : {item.cartId}</strong>
+                                  <strong className="book-title title-dotted d-block">{item.book.bookId}</strong>
                                   <strong className="book-title title-dotted d-block">{item.book.bookName}</strong>
                                   <ul className="ul bullet">
                                       <li className="li"><span className="tit">저자</span>{item.book.author}</li>
@@ -277,7 +279,8 @@ const CartList = () => {
                                                   ...prev,                  // 기존 상태 그대로 복사
                                                   [item.cartId]: !prev[item.cartId] // 현재 상태 반전
                                               }))
-                                          }>변경</button>
+                                          }>변경
+                                          </button>
                                           {/* 수량버튼 클릭 시 수량 변경 UI 출력 */}
                                           {showBookCount[item.cartId] && (
                                               <div className="bookCount">
@@ -296,8 +299,8 @@ const CartList = () => {
                                   </ul>
                                   {/* 도서 가격  도서가격, 도서수량 */}
                                   <CartItemPrice cartList={item}
-                                                  deliveryFee={2000}
-                                                  gotoPayment={() => gotoPayment(cartList,item.cartId)}
+                                                 deliveryFee={2000}
+                                                 gotoPayment={() => gotoPayment(cartList, item.cartId)}
                                   />
 
                               </div>

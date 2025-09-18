@@ -91,6 +91,8 @@ public class PaymentServiceImple implements PaymentService {
         int cnt = 0;
         String payId= PaymentVO.getPayId();
         List<CartVO> bookList = PaymentVO.getBookList();
+        //로그 안찍히면  단건구매 로직 필요
+        log.info("장바구니 단건구매 로그찍히는지 확인----------bookList:{}",bookList);
 //        log.info("service insertPaymentList----------payId:{}",payId);
 //        log.info("service insertPaymentList----------bookList:{}",bookList);
 

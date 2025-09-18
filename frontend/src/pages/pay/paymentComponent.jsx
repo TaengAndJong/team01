@@ -14,9 +14,12 @@ const PaymentComponent = () => {
   const navigate = useNavigate();
   console.log("location----", location?.state);
   // location에 담겨온 state 객체들 구조분해할당
-  const {  book,quantity, type, cartIds, payAccount, addrId } = location?.state;
+  const {  book,quantity, type, cartIds, payAccount, addrId,cartId } = location?.state;
 
-  console.log("book----",book);
+  console.log("PaymentComponent book----",book);
+  console.log("PaymentComponent cartId----",cartId);
+  console.log("PaymentComponent type----",type);
+
 
   //주소 상태관리 ==> 단일 객체로 넘어오면 null이 나을까 {}가 나을까?
   const [address, setAddress] = useState(null);
@@ -109,6 +112,12 @@ const PaymentComponent = () => {
         quantity: item.book.quantity,
       })),
     };
+
+    // 단건구매(selected)일 경우에만 cartId 추가
+    if (type === "selected" && cartId) {
+      console.log("updatedPaymentInfo=-------cartId ", cartId);
+      updatedPaymentInfo.cartIds = [cartId];
+    }
 
     console.log("updatedPaymentInfop-----onClickPayment", updatedPaymentInfo);
 
