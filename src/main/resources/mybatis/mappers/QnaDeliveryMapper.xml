@@ -51,7 +51,6 @@
                     , "qnaStatus"
                     , "qnaDate"
                 FROM qnaDeliv
-                WHERE "qnaDel" IS NULL OR "qnaDel" = 'N'
                 <include refid="searchFrag" />
                 ORDER BY "qnaDelId" DESC
             ) a

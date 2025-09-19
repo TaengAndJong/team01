@@ -4,7 +4,7 @@ import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { handleFileDownload } from "@util/fileDownload.jsx";
 import "@assets/css/board/adminBoard.css";
-import CommentModal from "@components/shared/commentModal.jsx";
+import CommentModal from "@pages/common/board/commentModal.jsx";
 import PropTypes from "prop-types";
 
 const DetailBoard = ({ userType }) => {
