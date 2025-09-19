@@ -61,10 +61,12 @@ public class CartServiceImple implements CartService{
         BookVO bookInfo = dao.checkBookCount(bookId);
        log.info("insertBook--------bookInfo:{}",bookInfo);
        int stock = bookInfo.getStock();
+
        // 주문 수량이 재고수량보다 많은 경우 반환 필요
         if(quantity > stock || stock == 0 ){
+            log.info("insertBook--------quantity:{}",quantity);
             log.info("insertBook--------stock:{}",stock);
-            throw CustomCartException.outOfStock(bookId);
+            throw CustomCartException.outOfStock(bookId,stock); // 서비스에서 예외를 던짐
         }else { // stock 과 같거나 그 이상일경우  장바구니에 담을 수 있는 경우
             String clientId = cartVO.getClientId();
             log.info("insertBook--------clientId:{}",clientId);

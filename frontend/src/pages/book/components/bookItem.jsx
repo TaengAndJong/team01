@@ -1,18 +1,18 @@
 import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import AddCartBtn from "../../cart/components/addCartBtn.jsx";
+import AddCartBtn from "../../book/components/addCartBtn.jsx";
 import BuySelectedBtn from "./BuySelectedBtn.jsx";
 import BookCount from "./bookCount.jsx";
 import WishBtn from "./wishBtn.jsx";
 
 const BookItem = ({bookList,wishIds,setWishIds}) =>{
 
-
     //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
     const [bookCount,setBookCount]=useState({});
 
     //console.log("북아이템 자식 컴포넌트 wishIds",wishIds);
     console.log("북아이템 자식 컴포넌트 bookCount",bookCount);
+
 
     return (
         <div className="book-list-inner overflow-hidden">
@@ -31,6 +31,7 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
                                         </div>
                                     </div>
                                     <div className="bookInfo card-body">
+                                       <h3> {bookCount[book.bookId]}</h3>
                                         <strong className="book-title title-dotted d-block">{book.bookName}</strong>
                                         <ul className="ul bullet">
                                             <li className="li"><span className="tit">저자</span>{book.author}</li>
@@ -55,7 +56,7 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
                                         {/*수량*/}
                                         <BookCount bookId={book.bookId} bookCount={bookCount} setBookCount={setBookCount} />
                                         {/*장바구니추가*/}
-                                        <AddCartBtn bookId={book.bookId} bookCount={bookCount[book.bookId] ?? 1}  />
+                                        <AddCartBtn bookId={book.bookId} quantity={bookCount[book.bookId] ?? 1}  />
                                         {/*바로구매*/}
                                         <BuySelectedBtn  type={"buyNow"}  book={ {...book, quantity: bookCount[book.bookId] ?? 1} } />
                                     </>

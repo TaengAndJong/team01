@@ -3,6 +3,7 @@ package com.example.team01.cart;
 
 import com.example.team01.book.service.BookService;
 import com.example.team01.cart.service.CartService;
+import com.example.team01.common.exception.CustomCartException;
 import com.example.team01.delivery.service.AddressService;
 import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.dto.book.BookDTO;
@@ -94,21 +95,23 @@ public class CartController {
 
         //clientId
         String clientId = userDetails.getUsername();
+
+        // 서비스 파라미터로 넘길 유저 아이디 설정
+        cartvo.setClientId(clientId);
         //cartVO
         log.info(" bookId  : {}",cartvo.getBookId());// 장바구니에 담을 도서 아이디
         log.info(" quantity  : {}",cartvo.getQuantity());// 장바구니에 담은 수량
         log.info(" clientId  : {}",clientId);
 
-        // 서비스 파라미터로 넘길 유저 아이디 설정
-        cartvo.setClientId(clientId);
-        //cartService에  파라미터 넘겨주기
-        cartService.insertBook(cartvo);
 
-        //결과값 담아줄 map
-        Map<String, Object> result = new HashMap<>();
-        result.put("테스트",cartvo);
-        return  ResponseEntity.ok(result);
+            //cartService에  파라미터 넘겨주기
+            cartService.insertBook(cartvo);
 
+            //응답담아줄 Map객체
+            Map<String, Object> result = new HashMap<>();
+            //반환 데이터 담기
+            result.put("테스트",cartvo);
+            return  ResponseEntity.ok(result);
     }
 
     //axios로 delete 요청 시 어노테이션
