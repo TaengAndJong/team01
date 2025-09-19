@@ -1,10 +1,18 @@
 import React from "react";
 import axios from "axios";
+import {useModal} from "../../common/modal/ModalContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 const AddCartBtn = ({bookId,quantity}) =>{
 
     console.log(`addBTn bookId: ${bookId}, quantity:${quantity}`);
-
+    //전역모달 사용
+    const {openModal,closeModal}=useModal();
+    //네입게이트 리액트훅
+    const navigate=useNavigate();
+    
+    
+    
     //장밥구니 컨트롤러로 전송할 fetch 함수
     const sendCartFetch= async(bookId,quantity)=>{
       //  console.log("addCartBtn-------data",data);
@@ -18,12 +26,28 @@ const AddCartBtn = ({bookId,quantity}) =>{
             console.log("장바구니 추가 비동기요청 ",response.data);
             alert(`장바구니 담기 성공`);
         }catch(err){
+
+            console.log("err---------에러남? ",err);
+
             if (err.response) {
                 // 서버가 응답은 했지만 상태코드가 400, 401, 403, 500 등
                 console.error("서버 상태 코드:", err.response.status);
                 console.error("서버 메시지---:", err.response.data);
                 console.error("서버 메시지---:", err.response.data.message);
-                alert(`주문가능한 수량은 ${err.response.data.maxQuantity}개 입니다.`);
+                //
+
+                openModal({
+                    modalType:"login",
+                    errorData:{message:err.response.data.message},
+                    onConfirm:()=>{
+                        navigate("/login");//로그인페이지로 이동
+                        //모달 닫기
+                        closeModal();
+
+                    }
+                });
+
+              //  alert(`주문가능한 수량은 ${err.response.data.maxQuantity}개 입니다.`);
             } else if (err.request) {
                 // 요청은 했는데 서버가 응답이 없음
                 console.error("서버 응답 없음:", err.request);

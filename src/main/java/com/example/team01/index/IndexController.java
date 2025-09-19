@@ -7,9 +7,11 @@ import com.example.team01.utils.FileUtils;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.MenuVO;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,8 +42,7 @@ public class IndexController {
         return ResponseEntity.ok(" 기본 인덱스");
     }
 
-
-    //getMapping
+       //getMapping
     @GetMapping(params="bookSlide") // 동일 경로여도 옵션에따라 경로가 다르게 지정 됨
     public ResponseEntity<?> getBooksMapping(@RequestParam(required = false) String bookSlide
     , HttpServletRequest request) {

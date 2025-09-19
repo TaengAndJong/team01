@@ -42,7 +42,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, AddLogoutHandler addLogoutHandler) throws Exception {
-        String[] allowedPaths = {"/", "/login", "/signUp/**", "/page", "/test/**","/book/**", "/menu","/uploads/**","/images/**"};
+        String[] allowedPaths = {"/", "/login","auth/**","/signUp/**", "/page", "/test/**","/book/**", "/menu","/uploads/**","/images/**"};
 
         http.cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
@@ -75,7 +75,7 @@ public class SecurityConfig {
                         //인증실패(미로그인 시)
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
                         response.setContentType("application/json;charset=UTF-8");//json으로 응답
-                        response.getWriter().write("{\"message\":\"로그인이 필요합니다.\"}");
+                        response.getWriter().write("{\"message\":\"로그인이 필요합니다. 로그인페이지로 이동하시겠습니까?\"}");
                 }).accessDeniedHandler((request, response, accessDeniedException) -> {
                             log.info("403 권한부족 예외");
                             // 권한 부족 (403 JSON)
