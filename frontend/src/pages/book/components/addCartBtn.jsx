@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 import {useNavigate} from "react-router-dom";
+import {catchError} from "../../../util/error.jsx";
 
 const AddCartBtn = ({bookId,quantity}) =>{
 
@@ -24,37 +25,18 @@ const AddCartBtn = ({bookId,quantity}) =>{
             , { withCredentials: true }//쿠키허용
          );
             console.log("장바구니 추가 비동기요청 ",response.data);
-            alert(`장바구니 담기 성공`);
+            openModal({
+                modalType:"confirm",
+                data:{message:"장바구니 담기 성공"},
+                onConfirm:closeModal,
+            });
+
         }catch(err){
-
-            console.log("err---------에러남? ",err);
-
-            if (err.response) {
-                // 서버가 응답은 했지만 상태코드가 400, 401, 403, 500 등
-                console.error("서버 상태 코드:", err.response.status);
-                console.error("서버 메시지---:", err.response.data);
-                console.error("서버 메시지---:", err.response.data.message);
-                //
-
-                openModal({
-                    modalType:"login",
-                    errorData:{message:err.response.data.message},
-                    onConfirm:()=>{
-                        navigate("/login");//로그인페이지로 이동
-                        //모달 닫기
-                        closeModal();
-
-                    }
-                });
-
-              //  alert(`주문가능한 수량은 ${err.response.data.maxQuantity}개 입니다.`);
-            } else if (err.request) {
-                // 요청은 했는데 서버가 응답이 없음
-                console.error("서버 응답 없음:", err.request);
-            } else {
-                // 기타 에러
-                console.error("요청 설정 에러:", err.message);
-            }
+            console.error("서버 상태 코드:", err.response.status);
+            console.error("서버 메시지---데이터:", err.response.data);
+            console.error("서버 메시지--- 메시지:", err.response.data.message);
+            //에러 처리 핸들러
+            catchError(err, { openModal, closeModal, navigate });
         }
     }
 

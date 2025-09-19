@@ -23,6 +23,11 @@ const BuySelectedBtn = ({type, book,cartId}) => {
     const gotoPayment = async (book,type) => {
         // console.log(`book ${book}, type ${type}`);
         // console.log(`cartId ${cartId}`);
+        
+        // 서버 세션유지확인 & 에러처리
+
+
+        
         // 도서정보, 버튼type, cartId
         // 결제페이지로 파라미터를 담아서 이동하기
         navigate("/payment",{

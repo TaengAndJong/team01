@@ -17,7 +17,7 @@ export const ModalProvider = ({children}) => {
     const [state, setState] = useState({
         show:false,
         modalType:"confirm",// 기본 : confirm
-        errorData:{},
+        data:{},
         onConfirm:null,
         onClose: null,
     });
@@ -25,13 +25,13 @@ export const ModalProvider = ({children}) => {
 
     //필요한 파라미터
     //모달 열기
-    const openModal = ({show=true, onClose, modalType, onConfirm, errorData}) => {
+    const openModal = ({show=true, onClose, modalType, onConfirm, data}) => {
         console.log("openModal-----------------");
 
         setState({
             show,// 모달열림 불린값
             modalType:modalType, // 모달 타입 : error,delete, modify,create 등등
-            errorData: errorData || {}, //erroData가 있으면 , 없으면
+            data: data || {}, //erroData가 있으면 , 없으면
             onConfirm:onConfirm || null, // 확인 버튼
             onClose:onClose || null , // 닫기, 취소버튼
         });
@@ -56,7 +56,7 @@ export const ModalProvider = ({children}) => {
                         onClose={closeModal}
                         onConfirm={state.onConfirm}
                         modalType={state.modalType}
-                        errorData={state.errorData}
+                        data={state.data}
                 />
 
             )}

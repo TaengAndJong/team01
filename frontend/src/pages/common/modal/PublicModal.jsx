@@ -8,39 +8,47 @@ import Modal from 'react-bootstrap/Modal';
 
 //함수형 구성객체 : 함수를 담은 객체를 의미 , 모달 속성 설정 객체
 const modalConfig = {
-    noSelection: ({ errorData, onClose }) => ({
-        body: <p>{errorData?.message || "선택된 데이터가 없습니다."}</p>,
+    noSelection: ({ data, onClose }) => ({
+        body: <p>{data?.message || "선택된 데이터가 없습니다."}</p>,
         footer: <Button onClick={onClose}>확인</Button>,
     }),
-    notFound: ({ errorData, onClose }) => ({
+    notFound: ({ data, onClose }) => ({
         body: (
             <>
-                <p>{errorData?.message}</p>
-                <p>{errorData?.missingIds?.join(", ")}</p>
+                <p>{data?.message}</p>
+                <p>{data?.missingIds?.join(", ")}</p>
             </>
         ),
         footer: <Button onClick={onClose}>확인</Button>,
     }),
-    error: ({ errorData, onClose }) => ({
+    error: ({ data, onClose }) => ({
         body: (
             <>
-                <p>{errorData?.message}</p>
-                <p>{errorData?.error}</p>
+                <p>{data?.message}</p>
+                <p>{data?.error}</p>
             </>
         ),
         footer: <Button onClick={onClose}>닫기</Button>,
     }),
-    login: ({ errorData, onClose ,onConfirm}) => ({
+    login: ({ data, onClose ,onConfirm}) => ({
         body: (
             <>
-                <p>{errorData?.message}</p>
-                <p>{errorData?.error}</p>
+                <p>{data?.message}</p>
+                <p>{data?.error}</p>
             </>
         ),
         footer: (
             <>
                 <Button variant="danger" onClick={onConfirm}>확인</Button>
                 <Button variant="secondary" onClick={onClose}>취소</Button>
+            </>
+        ),
+    }),
+    confirm: ({ data,onClose, onConfirm }) => ({
+        body: <p>{data.message}</p>,
+        footer: (
+            <>
+                <Button variant="danger" onClick={onConfirm}>확인</Button>
             </>
         ),
     }),
@@ -75,14 +83,14 @@ const modalConfig = {
 };
 
 // 재사용 가능한 모달 컴포넌트
-const ReusableModal = ({ show, onClose, onConfirm, modalType, errorData }) => {
+const ReusableModal = ({ show, onClose, onConfirm, modalType, data }) => {
     console.log(`show-----------  ${show}, onClose ${onClose}`);
     console.log(`modalType ${modalType}, onConfirm ${onConfirm}`);
-    console.log(` errorData ${errorData.message}`);
+    console.log(` errorData ${data}`);
 
 
     const current = modalConfig[modalType]
-        ? modalConfig[modalType]({ errorData, onClose, onConfirm })
+        ? modalConfig[modalType]({ data, onClose, onConfirm })
         : {
             body: <p>알 수 없는 모달 유형입니다.</p>,
             footer: <Button onClick={onClose}>닫기</Button>,
