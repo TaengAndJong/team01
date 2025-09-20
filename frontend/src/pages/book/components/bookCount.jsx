@@ -129,7 +129,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
                         <span className="sr-only">도서상품개수 하나씩 증가</span>
                     </button>
 
-                    {location.pathname !== "/book" && (
+                    {!location.pathname.startsWith("/book") && (
                         <button className="btn btn-primary"
                                 onClick={() => {
                                     modifyQuantity(cartId, bookId, bookCount[bookId])
