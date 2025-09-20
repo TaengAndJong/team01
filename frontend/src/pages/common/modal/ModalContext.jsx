@@ -4,6 +4,12 @@
     3) 커스텀리액트 훅
  */
 
+/*
+*   1) 전역모달 사용 할 곳에 provider를 통해 전달된 props작성
+*       => const {openModal,closeModal}=useModal();
+* */
+
+
 import {createContext, useContext, useState} from "react";
 import PublicModal from "./PublicModal.jsx";
 
@@ -12,14 +18,14 @@ const ModalContext = createContext();
 
 //Provider(제공자)
 /* children 은 provider의 자식들을 전부 담아올 수 잇음 ! */
-export const ModalProvider = ({children}) => {
+export const ModalProvider = ({children}) => { //children을 통해 provider 자식들을 전부 받아와 렌더링
     //컨텍스트로 관리할 객체 상태관리변수
     const [state, setState] = useState({
         show:false,
-        modalType:"confirm",// 기본 : confirm
-        data:{},
-        onConfirm:null,
-        onClose: null,
+        modalType:"confirm",// 기본 : confirm //기본 모달 타입, 모달 타입은 publicModal 참조
+        data:{}, // 받아올 데이터 메시지
+        onConfirm:null, //확인
+        onClose: null,//닫기
     });
     //state end
 

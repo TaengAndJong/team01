@@ -5,7 +5,6 @@ import Modal from 'react-bootstrap/Modal';
 
 // 부모로부터 받아올 데이터 파라미터(props)로 가져 옴,
 
-
 //함수형 구성객체 : 함수를 담은 객체를 의미 , 모달 속성 설정 객체
 const modalConfig = {
     noSelection: ({ data, onClose }) => ({
@@ -83,7 +82,7 @@ const modalConfig = {
 };
 
 // 재사용 가능한 모달 컴포넌트
-const ReusableModal = ({ show, onClose, onConfirm, modalType, data }) => {
+const publicModal = ({ show, onClose, onConfirm, modalType, data }) => {
     console.log(`show-----------  ${show}, onClose ${onClose}`);
     console.log(`modalType ${modalType}, onConfirm ${onConfirm}`);
     console.log(` errorData ${data}`);
@@ -109,4 +108,4 @@ const ReusableModal = ({ show, onClose, onConfirm, modalType, data }) => {
     );
 };
 
-export default ReusableModal;
+export default publicModal;

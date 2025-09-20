@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+/*
+* 로그인 시, 세션만료되면 체크할 용도
+* 시큐리티 설정 permitAll 로 시큐리티를 거치지않고 클라이언트에서 컨트롤러로 바로 요청이 옴
+* */
+
 
 @Slf4j
 @RequestMapping("/auth")
@@ -19,20 +24,14 @@ public class AuthController {
 
     @GetMapping()
     public ResponseEntity<?> authStatus(HttpSession session, Authentication authentication) {
-        log.info("인증상태 관리");
-        log.info("session---------------:{}",session.getId());
-        log.info("auth---------------:{}",authentication);
-        if (authentication != null && authentication.isAuthenticated()) {
-            log.info("session.getId---------------:{}",session.getId());
-           log.info("username:{}", authentication.getName());
-           log.info("roles:{}", authentication.getAuthorities());
-
-            return ResponseEntity.ok(Map.of(
-                    "username", authentication.getName(),
-                    "roles", authentication.getAuthorities()
-            ));
+        log.info("인증상태 관리 authController");
+        log.info("생성된 sessionID---------------:{}",session.getId());//
+        log.info("auth 시큐리티 인증 ---------------:{}",authentication); // null
+        if (authentication == null) { //로그인이 안되었을경우
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "로그인이 필요합니다.  로그인페이지로 이동하시겠습니까?"));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.ok(Map.of("message", "세션 유지 중"));
 
     }
 
