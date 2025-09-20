@@ -31,59 +31,30 @@ const OneBoard = () => {
   const [search, setSearch] = useState([]);
   console.log("search 상태관리 :", search);
 
+  const [checkedInput, setCheckedInput] = useState([]);
+
   //전체선택
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
-  //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
-  const [checkedInput, setCheckedInput] = useState([]);
 
   const handleSelectAll = (isChecked) => {
     setSelectAll(isChecked);
     if (isChecked) {
       console.log("selectAll", isChecked);
       // 모든 bookId를 배열에 추가
-      const allIds = boardList.map((item) => item.productId);
+      const allIds = boardList.map((item) => item.qnaOneId);
       setCheckedInput(allIds);
+      console.log("allIds-One", allIds);
     } else {
       // 전부 해제
       setCheckedInput([]);
     }
   };
 
-  const onChangeCheck = (bookId, isChecked) => {
+  const onChangeCheck = (oneId, isChecked) => {
     if (isChecked) {
-      setCheckedInput((prev) => [...prev, bookId]);
+      setCheckedInput((prev) => [...prev, oneId]);
     } else {
-      setCheckedInput((prev) => prev.filter((id) => id !== bookId));
-    }
-  };
-
-  const onDeleteHandler = async (deleteItems) => {
-    //fetch 요청 보내기
-    try {
-      const response = await fetch("/api/admin/board/qnaOneDelete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(deleteItems),
-        // body에 담길 내용이 간단한 배열일 경우엔 객체나 배열을 문자열로 변환하여 서버에 요청을 보냄
-        // 파일, 이미지 , blob등과 같은 바이너리 데이터가 있을경우 또는  enctype(encoding type) 이 존재할경우 에만 formData 형태로 변환해 보내야함
-        // form-data랑 x-www-form-urlencoded
-      });
-
-      if (!response.ok) {
-        //삭제하려는 도서가 없을 경우
-        console.log(response.statusText, response.status);
-        const errorResponse = await response.json();
-        console.log("errorResponse", errorResponse);
-      }
-      // 삭제성공후 데이터가 한번 갱신되어야 함 (삭제된 아이템들을 제외하고 )
-      console.log("deleteItems 배열?", Array.isArray(deleteItems));
-      onDeleteOne(deleteItems); // 삭제 상태관리
-      setShow(false);
-      console.log("bookData 삭제성공", bookdata);
-    } catch (err) {
-      console.error("요청 실패", err);
+      setCheckedInput((prev) => prev.filter((id) => id !== oneId));
     }
   };
 
@@ -181,32 +152,34 @@ const OneBoard = () => {
           ) : (
             boardList.map((item, index) => (
               <AdminBoardItem
-                key={item.productId || index}
+                key={item.qnaOneId || index}
                 data={item}
                 number={
                   (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
                   index +
                   1
                 }
+                onChangeCheck={onChangeCheck}
+                checkedInput={checkedInput}
               />
             ))
           )}
         </tbody>
-        {/*pagination*/}
-        <Pagination
-          paginationInfo={paginationInfo}
-          onChangePageHandler={onChangePageHandler}
-        />
-        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-          <Btn
-            className={"delete btn btn-danger"}
-            id={"deleteBtn"}
-            type={"button"}
-            onClick={null}
-            text="삭제"
-          />
-        </div>
       </table>
+      {/*pagination*/}
+      <Pagination
+        paginationInfo={paginationInfo}
+        onChangePageHandler={onChangePageHandler}
+      />
+      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+        <Btn
+          className={"delete btn btn-danger"}
+          id={"deleteBtn"}
+          type={"button"}
+          onClick={() => onDeleteHandler()}
+          text="삭제"
+        />
+      </div>
     </>
   );
 };

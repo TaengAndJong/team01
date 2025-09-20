@@ -1,7 +1,7 @@
 import "@assets/css/board/adminBoard.css";
 import { Link } from "react-router-dom";
 
-const adminBoardItem = ({ data, number }) => {
+const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
   console.log("adminBoardItem data", data);
 
   const getCategory = (data) => {
@@ -20,6 +20,19 @@ const adminBoardItem = ({ data, number }) => {
   return (
     <>
       <tr key={data.productId} className="table-light border-bottom">
+        <td className="text-center">
+          <input
+            type="checkbox"
+            id={`item${number}`}
+            name={`item${number}`}
+            checked={checkedInput.includes(getBoardId(data))}
+            onChange={(e) => onChangeCheck(getBoardId(data), e.target.checked)}
+          />
+          <label
+            htmlFor={`item${number}`}
+            className="sr-only"
+          >{`${data.qnaTitle}`}</label>
+        </td>
         <td className="text-center ">{number}</td>
         <Link
           to={`/admin/board/detail/${getCategory(data)}/${getBoardId(
