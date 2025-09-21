@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useEffect} from "react";
 import axios from "axios";
+import {useLocation} from "react-router-dom";
 
 const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>{
 
     console.log("bookCount", bookCount);
+    const location = useLocation(); // 수량 변경 완료 버튼 조건부 렌더링
 
     // 장바구니에 담을 도서 수량버튼 관리 핸들러 ==> 고려사항 각각의 도서에 대한 개별 수량 구분 필요
     const bookCountChangHandler=(bookId,e)=>{
@@ -92,8 +94,21 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
     }
 
 
+    useEffect(() => {
+        console.log("useEffect bookCount[bookId]",bookCount[bookId]); 
+        // bookCount[bookId]의 초기값이 undefined라서 1로 보이지만 0으로 설정되는 부분 UI와 동일하게 맞추기
+        //prev를 사용하는 이유는,직접 복사해서 사용하면 비동기 상태 갱신으로 인해 초기값이 갱신 전 값으로 적용될 수 잇어서,
+        //prev를 사용해 해당 시점의 데이터를 참조(얕은복사)하고 스프레드 연산자를 사용해 기존객체내용을 새 객체에 복사
+        if(!bookCount[bookId]){
+            setBookCount(prev=>({
+                ...prev,
+                [bookId]:1,
+            }))
+        }
+    }, []);
 
 
+    console.log("useEffect bookCount[bookId]---------------------",bookCount[bookId]);
 
     return (
         <>
@@ -113,12 +128,16 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
                         +
                         <span className="sr-only">도서상품개수 하나씩 증가</span>
                     </button>
-                    <button className="btn btn-primary"
-                            onClick={() => {
-                                modifyQuantity(cartId, bookId, bookCount[bookId])
-                            }}
-                    >완료
-                    </button>
+
+                    {!location.pathname.startsWith("/book") && (
+                        <button className="btn btn-primary"
+                                onClick={() => {
+                                    modifyQuantity(cartId, bookId, bookCount[bookId])
+                                }}
+                        >완료
+                        </button>
+                    )
+                    }
                 </div>
             </div>
         </>

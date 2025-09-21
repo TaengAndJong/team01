@@ -7,8 +7,8 @@ const PayItem = ({books}) => {
     return (
         <>
             <ul className="cart-list">
-                {books?.map((item) => (
-                    <li key={item.cartId} className="cart-item mb-2">
+                {books?.map((item,index) => (
+                    <li key={`${item.bookId}_${index}`} className="cart-item mb-2">
                         <div className="item-inner d-flex card flex-row default-border position-relative p-4 mb-2 ">
                             <div className="card-header border-end rounded-4 overflow-hidden">
                                 <div className="img-box">

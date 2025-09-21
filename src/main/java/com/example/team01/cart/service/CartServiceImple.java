@@ -113,10 +113,10 @@ public class CartServiceImple implements CartService{
 
         //파라미터의 값이 null 인지 , 비어있는지 검증 필요
         if(deleteIds == null || deleteIds.isEmpty()){
-
+            log.info("파라미터의 값이 null 인지 , 비어있는지 검증 필요");
         }
         int cnt = dao.deleteToCartList(deleteIds);
-
+        log.info("장바구니 도서삭제 성공 cnt-------------:{}",cnt);
         return cnt;
     }
 

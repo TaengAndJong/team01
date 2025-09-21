@@ -49,6 +49,9 @@ import WishList from "@pages/myPage/wish/WishList.jsx";
 import PaymentHistory from "@pages/myPage/payment/PaymentHistory.jsx";
 //payment
 import PaymentComponent from "@pages/pay/paymentComponent.jsx";
+//aixos  로그인 여부확인용 js ==> 전역처리할경우 사용, 각 컴포넌트에서 로그인여부 사용할경우 필요없음
+//import "@js/AxiosInterceptor";
+
 
 function App() {
   let location = useLocation();

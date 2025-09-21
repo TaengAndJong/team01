@@ -14,9 +14,9 @@ const PaymentComponent = () => {
   const navigate = useNavigate();
   console.log("location----", location?.state);
   // location에 담겨온 state 객체들 구조분해할당
-  const {  book,quantity, type, cartIds, payAccount, addrId } = location?.state;
+  const {  book, type, cartIds,cartId } = location?.state;
 
-  console.log("book----",book);
+
 
   //주소 상태관리 ==> 단일 객체로 넘어오면 null이 나을까 {}가 나을까?
   const [address, setAddress] = useState(null);
@@ -31,8 +31,7 @@ const PaymentComponent = () => {
     bankAccount: "",
     payAccount: "",
     addrId: "",
-    // quantity:"",
-    cartIds: cartIds,
+    cartIds: cartIds || [cartId], //전체구매일 경우는 cartIds 는 배열, 단건구매일경우 cartId는 문자열로 배열로 감싸서 넘겨야 에러안남
     payConfirm: "false",
   });
 
@@ -110,7 +109,7 @@ const PaymentComponent = () => {
       })),
     };
 
-    console.log("updatedPaymentInfop-----onClickPayment", updatedPaymentInfo);
+     console.log("updatedPaymentInfop-----onClickPayment", updatedPaymentInfo);
 
     //paymentInfo의 payAccount 값 담아주기
     setPaymentInfo(updatedPaymentInfo);

@@ -1,11 +1,11 @@
 import BuySelectedBtn from "../../book/components/BuySelectedBtn.jsx";
 
 
-const CartItemPrice = ({ cartList,gotoPayment, deliveryFee}) => {
+const CartItemPrice = ({ cartList, deliveryFee}) => {
 
     const total = cartList.book.bookPrice * cartList.book.quantity + deliveryFee;
 
-    console.log("cartList--- 개별도서 토탈가격",cartList);
+    console.log("cartList--- 개별도서 토탈가격-- cartItemPrice",cartList);
 
 
     return (
@@ -31,14 +31,17 @@ const CartItemPrice = ({ cartList,gotoPayment, deliveryFee}) => {
                 </li>
                 <li className="d-inline-flex align-items-center ms-auto">
                     {/*기존 book객체에서 quantity 만 수정*/}
-                    <BuySelectedBtn type={"selected"} book={ {...cartList.book, quantity: cartList.book.quantity ?? 1} }/>
+                    <BuySelectedBtn type={"selected"}
+                                    cartId={cartList.cartId}
+                                    book={ {...cartList.book, quantity: cartList.book.quantity ?? 1} }
+                    />
 
 
-                    <button type="button" aria-label="선택도서구매"
-                            className="btn btn-secondary" onClick={() => {
-                        gotoPayment(cartList, cartList.cartId)
-                    }}>선택도서구매
-                    </button>
+                    {/*<button type="button" aria-label="선택도서구매"*/}
+                    {/*        className="btn btn-secondary" onClick={() => {*/}
+                    {/*    gotoPayment(cartList, cartList.cartId)*/}
+                    {/*}}>선택도서구매*/}
+                    {/*</button>*/}
                 </li>
             </ul>
         </>
