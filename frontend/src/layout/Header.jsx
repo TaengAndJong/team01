@@ -7,7 +7,7 @@ import Gnb from "./Gnb.jsx";
 import { useMenu } from "../pages/common/MenuContext.jsx";
 
 const Header = () => {
-  const { isAuthenticated, userData, logout } = useAuth(); // 로그인 상태와 사용자 데이터 가져오는 커스텀훅
+
   const { menu } = useMenu(); // 모든 메뉴 가져오는 커스텀훅
   const navigate = useNavigate();
 
@@ -26,11 +26,15 @@ const Header = () => {
             {/*글로벌 메뉴*/}
             <div className="header-inner menu">
                 <div className="gnbWrap d-flex justify-content-end align-items-center">
-                    <Gnb userData={userData} menu={menu}
-                         commonMenuItems={commonMenuItems}
-                         isAuthenticated={isAuthenticated}
-                         logout={logout}
+                    <Gnb
+                        menu={menu}
+                        commonMenuItems={commonMenuItems}
                     />
+                    {/*<Gnb userData={userData} menu={menu}*/}
+                    {/*     commonMenuItems={commonMenuItems}*/}
+                    {/*     isAuthenticated={isAuthenticated}*/}
+                    {/*     logout={logout}*/}
+                    {/*/>*/}
                 </div>
 
             </div>
@@ -45,12 +49,17 @@ const Header = () => {
       <div className="header-inner menu">
         <div className="gnbWrap d-flex justify-content-end align-items-center">
           <Gnb
-            userData={userData}
             menu={menu}
             commonMenuItems={commonMenuItems}
-            isAuthenticated={isAuthenticated}
-            logout={logout}
           />
+
+            {/*<Gnb*/}
+            {/*    userData={userData}*/}
+            {/*    menu={menu}*/}
+            {/*    commonMenuItems={commonMenuItems}*/}
+            {/*    isAuthenticated={isAuthenticated}*/}
+            {/*    logout={logout}*/}
+            {/*/>*/}
         </div>
       </div>
     </header>
