@@ -59,11 +59,20 @@ const ProductBoard = () => {
 
   const onChangeCheck = (productId, isChecked) => {
     if (isChecked) {
-      setCheckedInput((prev) => [...prev, productId]);
+      setCheckedInput((prev) => {
+        const newArray = [...prev, productId];
+        console.log("checkedInput 배열에 들어간다", newArray);
+        return newArray;
+      });
     } else {
-      setCheckedInput((prev) => prev.filter((id) => id !== productId));
+      setCheckedInput((prev) => {
+        const newArray = prev.filter((id) => id !== productId);
+        console.log("checkedInput 배열에서 나간다", newArray);
+        return newArray;
+      });
     }
   };
+
   const handleSearch = async () => {
     //search 초기 데이터 URLsearchParam으로 가공
     console.log("=== 검색 디버깅 시작 ===");

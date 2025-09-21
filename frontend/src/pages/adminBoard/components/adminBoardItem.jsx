@@ -19,7 +19,7 @@ const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
 
   return (
     <>
-      <tr key={data.productId} className="table-light border-bottom">
+      <tr key={getBoardId(data)} className="table-light border-bottom">
         <td className="text-center">
           <input
             type="checkbox"
