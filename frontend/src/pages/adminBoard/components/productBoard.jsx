@@ -1,5 +1,5 @@
 import "@assets/css/board/adminBoard.css";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import AdminBoardItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import {
@@ -8,57 +8,113 @@ import {
 } from "@pages/adminBoard/adminBoardComponent.jsx";
 import { PaginationContext } from "@pages/adminBoard/adminBoardComponent.jsx";
 import Pagination from "@util/pagination.jsx";
+import Btn from "@util/reuseBtn.jsx";
 
 const ProductBoard = () => {
-  const [boardList, setBoarList] = useState([]);
+  // const [boardList, setBoarList] = useState([]);
   const { product } = useContext(BookBoardStateContext);
   const { onInitProduct } = useContext(BookBoardDispatchContext);
-  console.log("BookBoardStateContext---product data", product);
+  // const { onDeleteProduct } = useContext(BookBoardDispatchContext);
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
 
-  // product 데이터 존재할 때만 boardList 업데이트
-  useEffect(() => {
-    const items = product?.[0]?.items;
-    if (items) {
-      setBoarList(items);
+  const boardList = useMemo(() => {
+    if (!product || !Array.isArray(product) || product.length === 0) {
+      return [];
     }
+
+    const firstItem = product[0];
+    if (
+      !firstItem ||
+      !firstItem.items ||
+      !Array.isArray(firstItem.items) ||
+      firstItem.items.length === 0
+    ) {
+      return [];
+    }
+
+    return Array.isArray(firstItem.items) ? firstItem.items : [];
   }, [product]);
 
-  console.log("boardList", boardList);
-
-  // SearchBar
   const [search, setSearch] = useState([]);
   console.log("search 상태관리 :", search);
 
+  //체크박스 전체 선택 하기 상태 관리
+  //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
+  const [checkedInput, setCheckedInput] = useState([]);
+  const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
+
+  const handleSelectAll = (isChecked) => {
+    setSelectAll(isChecked);
+    if (isChecked) {
+      console.log("selectAll", isChecked);
+      // 모든 boardId를 배열에 추가
+      const allIds = boardList.map((item) => item.qnaProId);
+      console.log("allIds-Pro", allIds);
+      setCheckedInput(allIds);
+    } else {
+      // 전부 해제
+      setCheckedInput([]);
+    }
+  };
+
+  const onChangeCheck = (productId, isChecked) => {
+    if (isChecked) {
+      setCheckedInput((prev) => {
+        const newArray = [...prev, productId];
+        console.log("checkedInput 배열에 들어간다", newArray);
+        return newArray;
+      });
+    } else {
+      setCheckedInput((prev) => {
+        const newArray = prev.filter((id) => id !== productId);
+        console.log("checkedInput 배열에서 나간다", newArray);
+        return newArray;
+      });
+    }
+  };
+
   const handleSearch = async () => {
     //search 초기 데이터 URLsearchParam으로 가공
-    console.log("search--fetch", search);
+    console.log("=== 검색 디버깅 시작 ===");
+
+    // 1. 검색 파라미터 확인
+    console.log("원본 search 객체:", search);
     const param = new URLSearchParams(search);
-    console.log("search--param", param);
+    console.log("URLSearchParams 객체:", param);
     const paramString = param.toString();
-    console.log("search--paramString", paramString);
+    console.log("최종 파라미터 문자열:", paramString);
+
+    // 2. 요청 URL 확인
+    const requestUrl = `/api/admin/board/qnaProductList?${paramString}`;
+    console.log("요청 URL:", requestUrl);
 
     //검색버튼 누르면 서버로 검색 필터 전송
     try {
-      const response = await fetch(
-        `/api/admin/board/qnaProductList?${paramString}`,
-        {
-          method: "POST",
-        }
-      );
+      const response = await fetch(requestUrl, {
+        method: "POST",
+      });
+
+      console.log("응답 상태:", response.status);
+      console.log("응답 OK:", response.ok);
 
       // 요청 성공실패
       if (!response.ok) {
         console.log("통신에러", response.status);
         throw Error(response.statusText);
       }
-      //요청 성공
+
       const data = await response.json();
-      console.log("search---------------", data);
-      setBoarList(Array.isArray(data) ? data : []); // 서버 데이터 갱신
+      console.log("응답 데이터:", data);
+      console.log("데이터 타입:", typeof data);
+      console.log(
+        "데이터 길이:",
+        Array.isArray(data) ? data.length : "배열이 아님"
+      );
+
       onInitProduct(data);
     } catch (e) {
-      console.log(e, "에러");
+      console.log("에러 발생:", e);
+      console.log("에러 메시지:", e.message);
     }
   };
 
@@ -73,9 +129,23 @@ const ProductBoard = () => {
       {/* 테이블 */}
 
       <table className="table table-custom mt-4">
-        <caption className="sr-only">등록된 도서상품 테이블</caption>
+        <caption className="sr-only">등록된 상품 문의 테이블</caption>
         <thead>
           <tr>
+            <th scope="col" className="text-center">
+              <input
+                type="checkbox"
+                id="selectAll"
+                checked={
+                  checkedInput.length === boardList.length &&
+                  boardList.length > 0
+                }
+                onChange={(e) => handleSelectAll(e.target.checked)}
+              />
+              <label htmlFor="selectAll" className="sr-only">
+                전체 선택
+              </label>
+            </th>
             <th scope="col" className="text-center">
               No.
             </th>
@@ -96,7 +166,6 @@ const ProductBoard = () => {
             </th>
           </tr>
         </thead>
-        {console.log("boardList map 상품 문의 돌리기 전", boardList)}
         <tbody className="">
           {/* undefined 와 데이터의 개수 검증*/}
           {boardList && boardList?.length === 0 ? (
@@ -108,24 +177,36 @@ const ProductBoard = () => {
           ) : (
             boardList.map((item, index) => (
               <AdminBoardItem
-                key={item.productId || index}
+                key={item.qnaProId || index}
                 data={item}
                 number={
                   (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
                   index +
                   1
                 }
+                onChangeCheck={onChangeCheck}
+                checkedInput={checkedInput}
               />
             ))
           )}
         </tbody>
-        {/*pagination*/}
-        <Pagination
-          paginationInfo={paginationInfo}
-          onChangePageHandler={onChangePageHandler}
-        />
       </table>
       {/* 테이블 */}
+      {/*pagination*/}
+      <Pagination
+        paginationInfo={paginationInfo}
+        onChangePageHandler={onChangePageHandler}
+      />
+
+      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+        <Btn
+          className={"delete btn btn-danger"}
+          id={"deleteBtn"}
+          type={"button"}
+          onClick={null}
+          text="삭제"
+        />
+      </div>
     </>
   );
 };

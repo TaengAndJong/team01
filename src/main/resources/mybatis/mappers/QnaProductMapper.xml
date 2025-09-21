@@ -47,7 +47,6 @@
                     , "qnaStatus"
                     , "qnaDate"
                 FROM qnaPro
-                WHERE "qnaDel" IS NULL OR "qnaDel" = 'N'
                 <include refid="searchFrag" />
                 ORDER BY "qnaProId" DESC
             ) a
