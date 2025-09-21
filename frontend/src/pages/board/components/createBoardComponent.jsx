@@ -10,7 +10,7 @@ const CreateBoardComponent = () => {
   // useContext(UserDataContext)로 root 컴포넌트에 있는 UserDataContext를 사용 가능
   const userData = useContext(UserDataContext);
   const fileRef = useRef(null); // file input 연결할 ref
-
+  const navigate = useNavigate();
   // 문의 데이터를 저장 할 state 객체 형식
   const [formData, setFormData] = useState({
     clientId: userData.clientId,
@@ -52,41 +52,49 @@ const CreateBoardComponent = () => {
 
     console.log("서버로 전송 할 문의 데이터 ------", formData);
     try {
+      let response;
+      let successMessage;
+      let redirectPath;
+
       if (formData.category === "qnaone") {
-        const response = await fetch(`/api/board/oneBoard`, {
+        response = await fetch(`/api/board/oneBoard`, {
           method: "POST",
           body: form,
         });
-        if (!response.ok) {
-          console.error("전송 실패", response.status);
-          return;
-        }
-        alert("1:1 문의 게시물이 등록되었습니다!");
+        successMessage = "1:1 문의 게시물이 등록되었습니다!";
+        redirectPath = "/board/oneBoard";
       } else if (formData.category === "product") {
-        const response = await fetch(`/api/board/productBoard`, {
+        response = await fetch(`/api/board/productBoard`, {
           method: "POST",
           body: form,
         });
-        if (!response.ok) {
-          console.error("전송 실패", response.status);
-          return;
-        }
-        alert("상품 문의 게시물이 등록되었습니다!");
+        successMessage = "상품 문의 게시물이 등록되었습니다!";
+        redirectPath = "/board/productBoard";
       } else if (formData.category === "delivery") {
-        const response = await fetch(`/api/board/deliveryBoard`, {
+        response = await fetch(`/api/board/deliveryBoard`, {
           method: "POST",
           body: form,
         });
-        if (!response.ok) {
-          console.error("전송 실패", response.status);
-          return;
-        }
-        alert("배송 문의 게시물이 등록되었습니다!");
+        successMessage = "배송 문의 게시물이 등록되었습니다!";
+        redirectPath = "/board/deliveryBoard";
       } else {
         console.log("지원하지 않는 카테고리");
+        return;
       }
+
+      // 응답 상태 확인
+      if (!response.ok) {
+        console.error("전송 실패", response.status);
+        alert("게시물 등록에 실패했습니다. 다시 시도해주세요.");
+        return;
+      }
+
+      // 성공 시에만 이동 및 알림
+      alert(successMessage);
+      navigate(redirectPath);
     } catch (e) {
       console.log(e, e.message);
+      alert("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
   return (

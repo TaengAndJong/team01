@@ -15,6 +15,7 @@ const ProductBoard = () => {
   const { product } = useContext(BookBoardStateContext);
   const { onInitProduct } = useContext(BookBoardDispatchContext);
   // const { onDeleteProduct } = useContext(BookBoardDispatchContext);
+  //const { openModal, closeModal } = useContext(ModalContext);
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
 
   const boardList = useMemo(() => {
