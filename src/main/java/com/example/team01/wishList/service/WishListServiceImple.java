@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class WishListServiceImple implements WishListService {
 
@@ -65,6 +67,7 @@ public class WishListServiceImple implements WishListService {
 
         if (exist > 0) { // 이미 있으면 wishStatus  'Y','N' 갱신
             int result = wishListDao.wishListStatus(clientId, bookId);
+            // wishStatus 갱신 해줘야함
             log.info("insertWishList-----wishStatus:{}",result);
             if(result > 0) return WishStatus.UPDATE;
         }else{
