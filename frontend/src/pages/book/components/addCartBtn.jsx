@@ -24,12 +24,16 @@ const AddCartBtn = ({bookId,quantity}) =>{
              {bookId:bookId,quantity:quantity} // 서버로 보내는 데이터
             , { withCredentials: true }//쿠키허용
          );
-            console.log("장바구니 추가 비동기요청 ",response.data);
-            openModal({
-                modalType:"confirm",
-                data:{message:"장바구니 담기 성공"},
-                onConfirm:closeModal,
-            });
+
+         //여기 resonse data 있을경우 조건 추가 ?
+            if(response.status === 200){
+                console.log("장바구니 추가 비동기요청 ",response.data);
+                openModal({
+                    modalType:"confirm",
+                    data:{message:"장바구니 담기 성공"},
+                    onConfirm:closeModal,
+                });
+            }
 
         }catch(err){
             console.error("서버 상태 코드:", err.response.status);

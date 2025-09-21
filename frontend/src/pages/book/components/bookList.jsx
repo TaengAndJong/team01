@@ -74,6 +74,8 @@ const BookList = () => {
         }catch (e){
             console.log("비동기요청 실패", e)
         }
+
+
     }
 
     
