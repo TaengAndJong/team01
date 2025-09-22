@@ -3,6 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useMenu } from "../common/MenuContext.jsx";
 import axios from "axios";
+import { useAuth } from "@pages/common/AuthContext.jsx";
 //context 상태관리
 export const BoardStateContext = React.createContext(); // state 값을 공급하는 context
 export const BoardDispatchContext = React.createContext(); // 생성, 수정(갱신), 삭제 값을 공급하는 context
@@ -11,33 +12,23 @@ export const UserDataContext = React.createContext(); // 사용자 데이터
 export const BoardListContext = React.createContext(); // 게시물 목록 저장 할 context
 
 const Board = () => {
-  const [userData, setUserData] = useState(null); // 사용자 데이터 저장 할 state
+  const { userData } = useAuth();
   const [boardList, setBoardList] = useState({
     delivery: [],
     product: [],
     one: [],
   }); // 사용자의 게시물 목록 저장 할 state
-
-  // 사용자 데이터 조회 하는 Effect
-  useEffect(() => {
-    const data = localStorage.getItem("userData");
-    if (data) {
-      try {
-        setUserData(JSON.parse(data));
-      } catch (e) {
-        console.error("userData 파싱 실패", e);
-      }
-    }
-  }, []);
-
-  console.log("사용자 데이터 확인 --------------- : ", userData);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  // 메뉴 경로 관리
   const { currentPath } = useMenu();
-  console.log("currentPath", currentPath);
 
   // 사용자 게시물 종류 별 조회 Effect
   useEffect(() => {
+    console.log("userData useEFFECT", userData);
+
     if (!userData) return; // userData가 없으면 실행하지 않음
     const fetchData = async () => {
+      console.log("userData fetchData", userData);
       try {
         const [delivListRes, productListRes, oneListRes] = await Promise.all([
           axios.get(`/api/board/DelivBoardlist?userId=${userData.clientId}`),
@@ -61,8 +52,6 @@ const Board = () => {
 
     fetchData();
   }, [userData]);
-
-  console.log("boardList------------------", boardList);
 
   const clientTile = (currentPath) => {
     //마지막 주소값 받도록

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import BoardListComponent from "./boardListComponent";
 import { BoardListContext } from "../boardComponent";
 import PropTypes from "prop-types";
@@ -6,23 +6,90 @@ import "@assets/css/board/userBoard.css";
 import Btn from "@util/reuseBtn.jsx";
 import { useNavigate } from "react-router-dom";
 import "@assets/css/board/adminBoard.css";
+import { useState } from "react";
 
 const BoardTemplateComponent = ({ category }) => {
+  console.log("카테고리 뭐임?", category);
+  console.log("카테고리 속성 뭐임?", typeof category);
   const boardList = useContext(BoardListContext);
-  console.log("BoardTemplate -------- boardList------------------", boardList);
   const list = boardList?.[category] || [];
-  console.log("BoardTemplate -------- list------------------", list);
+  console.log(`[${category}] 카테고리에 해당하는 게시물 목록`, list);
   const navigate = useNavigate();
 
-  const handleCreateBoard = () => {
-    navigate(`/board/createBoard`);
+  const handleCreateBoard = (category) => {
+    navigate(`/board/createBoard/${category}`);
   };
+
+  // 컴포넌트 마운트/언마운트 추적
+  useEffect(() => {
+    setCheckedInput([]);
+    console.log(`[${category}] BoardTemplateComponent 마운트됨`);
+    return () => {
+      console.log(`[${category}] BoardTemplateComponent 언마운트됨`);
+    };
+  }, [category]);
+
+  //체크박스 전체 선택 하기 상태 관리
+  //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
+  const [checkedInput, setCheckedInput] = useState([]);
+
+  const getBoardId = (item) => {
+    switch (category) {
+      case "product":
+        return item.qnaProId;
+      case "delivery":
+        return item.qnaDelId;
+      case "one":
+        return item.qnaOneId;
+      default:
+        return item.qnaId; // 기본값
+    }
+  };
+
+  const handleSelectAll = (isChecked) => {
+    if (isChecked) {
+      console.log(`[${category}] selectAll`, isChecked);
+      // 모든 boardId를 배열에 추가
+      const allIds = list.map((item) => getBoardId(item));
+      console.log(`[${category}] allIds-category`, allIds);
+      setCheckedInput(allIds);
+    } else {
+      // 전부 해제
+      console.log(`[${category}] 모든 선택 해제`);
+      setCheckedInput([]);
+    }
+  };
+
+  const onChangeCheck = (qnaId, isChecked) => {
+    if (isChecked) {
+      setCheckedInput((prev) => {
+        const newArray = [...prev, qnaId];
+        console.log(`[${category}] checkedInput 배열에 들어간다`, newArray);
+        return newArray;
+      });
+    } else {
+      setCheckedInput((prev) => {
+        const newArray = prev.filter((id) => id !== qnaId);
+        console.log(`[${category}] checkedInput 배열에서 나간다`, newArray);
+        return newArray;
+      });
+    }
+  };
+
   return (
     <div>
       <table className="table table-custom mt-4">
         <caption className="sr-only">등록된 게시물 테이블</caption>
         <thead>
           <tr>
+            <th scope="col" className="text-center">
+              <input
+                type="checkbox"
+                id="selectAll"
+                checked={checkedInput.length === list.length && list.length > 0}
+                onChange={(e) => handleSelectAll(e.target.checked)}
+              />
+            </th>
             <th scope="col" className="text-center">
               No.
             </th>
@@ -50,13 +117,17 @@ const BoardTemplateComponent = ({ category }) => {
               key={index}
               categoryListData={item}
               category={category}
+              number={index + 1}
+              checkedInput={checkedInput}
+              onChangeCheck={onChangeCheck}
+              getBoardId={getBoardId}
             />
           ))}
         </tbody>
       </table>
 
       <div>
-        <Btn onClick={() => handleCreateBoard()} text="문의 등록" />
+        <Btn onClick={() => handleCreateBoard(category)} text="문의 등록" />
       </div>
     </div>
   );

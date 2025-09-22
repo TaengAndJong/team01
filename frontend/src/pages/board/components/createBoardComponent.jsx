@@ -1,17 +1,21 @@
 import "@assets/css/board/userBoard.css";
 import Btn from "@util/reuseBtn.jsx";
-import { useContext } from "react";
-import { UserDataContext } from "../boardComponent.jsx";
 import { maskUserId } from "@util/maskingID.jsx";
-import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "@pages/common/AuthContext.jsx";
+import PropTypes from "prop-types";
 
 const CreateBoardComponent = () => {
   // useContext(UserDataContext)로 root 컴포넌트에 있는 UserDataContext를 사용 가능
-  const userData = useContext(UserDataContext);
+  // const userData = useContext(UserDataContext);
+  const { userData } = useAuth();
+  console.log("userData사용자----", userData);
   const fileRef = useRef(null); // file input 연결할 ref
   const navigate = useNavigate();
-  // 문의 데이터를 저장 할 state 객체 형식
+  const { category } = useParams();
+  console.log("게시물 생성 카테고리 넘어 왔니? ", category);
+
   const [formData, setFormData] = useState({
     clientId: userData.clientId,
     clientName: userData.clientName,
@@ -20,6 +24,37 @@ const CreateBoardComponent = () => {
     content: "",
     files: [],
   });
+
+  // category가 변경될 때 formData 업데이트
+  useEffect(() => {
+    if (category) {
+      const categoryData = categorySwitch(category);
+      setFormData((prev) => ({
+        ...prev,
+        category: categoryData.value,
+      }));
+    }
+  }, [category]);
+
+  const categorySwitch = (category) => {
+    switch (category) {
+      case "one":
+        return {
+          text: "1:1 문의",
+          value: "qnaone",
+        };
+      case "product":
+        return {
+          text: "상품 문의",
+          value: "product",
+        };
+      case "delivery":
+        return {
+          text: "배송 문의",
+          value: "delivery",
+        };
+    }
+  };
 
   // 객체 key name에 맞는 데이터를 넣어 줌
   const handleChange = (e) => {
@@ -117,7 +152,8 @@ const CreateBoardComponent = () => {
             <dt>문의 종류</dt>
             <dd>
               <div>
-                <select
+                {categorySwitch(category).text}
+                {/* <select
                   className="inquireOption"
                   name="category"
                   onChange={handleChange}
@@ -126,7 +162,7 @@ const CreateBoardComponent = () => {
                   <option value="qnaone">1:1 문의</option>
                   <option value="product">상품 문의</option>
                   <option value="delivery">배송 문의</option>
-                </select>
+                </select> */}
               </div>
             </dd>
           </div>
@@ -178,3 +214,7 @@ const CreateBoardComponent = () => {
 };
 
 export default CreateBoardComponent;
+
+CreateBoardComponent.propTypes = {
+  category: PropTypes.string.isRequired,
+};
