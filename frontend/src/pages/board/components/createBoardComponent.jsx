@@ -5,10 +5,13 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@pages/common/AuthContext.jsx";
 import PropTypes from "prop-types";
+import { BoardRefreshTriggerContext } from "@pages/board/boardComponent.jsx";
+import { useContext } from "react";
 
 const CreateBoardComponent = () => {
   // useContext(UserDataContext)로 root 컴포넌트에 있는 UserDataContext를 사용 가능
   // const userData = useContext(UserDataContext);
+  const refreshTrigger = useContext(BoardRefreshTriggerContext);
   const { userData } = useAuth();
   console.log("userData사용자----", userData);
   const fileRef = useRef(null); // file input 연결할 ref
@@ -17,8 +20,8 @@ const CreateBoardComponent = () => {
   console.log("게시물 생성 카테고리 넘어 왔니? ", category);
 
   const [formData, setFormData] = useState({
-    clientId: userData.clientId,
-    clientName: userData.clientName,
+    clientId: "",
+    clientName: "",
     category: "",
     title: "",
     content: "",
@@ -77,9 +80,11 @@ const CreateBoardComponent = () => {
 
   // 게시물 등록 클릭 시 발생하는 이벤트 폼 객체에 데이터를 넣고 서버로 데이터 전송
   const postHandler = async () => {
+    console.log("postHandler 클릭");
+    console.log("");
     const form = new FormData();
-    form.append("clientId", formData.clientId);
-    form.append("clientName", formData.clientName);
+    form.append("clientId", userData.clientId);
+    form.append("clientName", userData.clientName);
     form.append("category", formData.category);
     form.append("title", formData.title);
     form.append("content", formData.content);
@@ -124,8 +129,9 @@ const CreateBoardComponent = () => {
         return;
       }
 
-      // 성공 시에만 이동 및 알림
+      // 성공 시에만 이동 및 알림 새로고침
       alert(successMessage);
+      refreshTrigger();
       navigate(redirectPath);
     } catch (e) {
       console.log(e, e.message);
@@ -151,19 +157,7 @@ const CreateBoardComponent = () => {
           <div className="d-flex">
             <dt>문의 종류</dt>
             <dd>
-              <div>
-                {categorySwitch(category).text}
-                {/* <select
-                  className="inquireOption"
-                  name="category"
-                  onChange={handleChange}
-                >
-                  <option value="none">문의 선택</option>
-                  <option value="qnaone">1:1 문의</option>
-                  <option value="product">상품 문의</option>
-                  <option value="delivery">배송 문의</option>
-                </select> */}
-              </div>
+              <div>{categorySwitch(category).text}</div>
             </dd>
           </div>
           <div className="d-flex">

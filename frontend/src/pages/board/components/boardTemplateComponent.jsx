@@ -127,7 +127,13 @@ const BoardTemplateComponent = ({ category }) => {
       </table>
 
       <div>
-        <Btn onClick={() => handleCreateBoard(category)} text="문의 등록" />
+        <Btn
+          className={"create btn btn-create"}
+          id={"createBtn"}
+          type={"button"}
+          onClick={() => handleCreateBoard(category)}
+          text="등록"
+        />
       </div>
     </div>
   );

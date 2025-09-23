@@ -91,7 +91,7 @@ function boardReducer(state, action) {
 export const BookBoardStateContext = React.createContext(); // state 값을 공급하는 context
 export const BookBoardDispatchContext = React.createContext(); // 생성, 수정(갱신), 삭제 값을 공급하는 context
 export const PaginationContext = React.createContext();
-
+export const CheckboxContext = React.createContext(); // 체크박스 상태관리 context
 const AdminBoard = () => {
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
 

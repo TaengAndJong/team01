@@ -40,6 +40,7 @@ const BoardListComponent = ({
             {categoryListData.qnaTitle}
           </Link>
         </td>
+        <td>{categoryListData.qnaWriter}</td>
         <td>{categoryListData.clientId}</td>
         <td>{categoryListData.qnaStatus}</td>
         <td>{categoryListData.qnaDate}</td>

@@ -10,6 +10,7 @@ export const BoardDispatchContext = React.createContext(); // 생성, 수정(갱
 export const PaginationContext = React.createContext();
 export const UserDataContext = React.createContext(); // 사용자 데이터
 export const BoardListContext = React.createContext(); // 게시물 목록 저장 할 context
+export const BoardRefreshTriggerContext = React.createContext(); // 새로고침 트리거 전역 상태관리 context
 
 const Board = () => {
   const { userData } = useAuth();
@@ -22,34 +23,32 @@ const Board = () => {
   // 메뉴 경로 관리
   const { currentPath } = useMenu();
 
-  // 사용자 게시물 종류 별 조회 Effect
+  // 사용자 게시물 별 데이터 조회
+  const fetchData = async () => {
+    console.log("userData fetchData", userData);
+    try {
+      const [delivListRes, productListRes, oneListRes] = await Promise.all([
+        axios.get(`/api/board/DelivBoardlist?userId=${userData.clientId}`),
+        axios.get(`/api/board/ProductBoardlist?userId=${userData.clientId}`),
+        axios.get(`/api/board/OneBoardlist?userId=${userData.clientId}`),
+      ]);
+
+      console.log("배달 문의 조회 성공:", delivListRes.data);
+      console.log("상품 문의 조회 성공:", productListRes.data);
+      console.log("1:1 문의 조회 성공:", oneListRes.data);
+
+      setBoardList({
+        delivery: delivListRes.data,
+        product: productListRes.data,
+        one: oneListRes.data,
+      });
+    } catch (error) {
+      console.error("에러 발생:", error);
+    }
+  };
+
   useEffect(() => {
     console.log("userData useEFFECT", userData);
-
-    if (!userData) return; // userData가 없으면 실행하지 않음
-    const fetchData = async () => {
-      console.log("userData fetchData", userData);
-      try {
-        const [delivListRes, productListRes, oneListRes] = await Promise.all([
-          axios.get(`/api/board/DelivBoardlist?userId=${userData.clientId}`),
-          axios.get(`/api/board/ProductBoardlist?userId=${userData.clientId}`),
-          axios.get(`/api/board/OneBoardlist?userId=${userData.clientId}`),
-        ]);
-
-        console.log("배달 문의 조회 성공:", delivListRes.data);
-        console.log("상품 문의 조회 성공:", productListRes.data);
-        console.log("1:1 문의 조회 성공:", oneListRes.data);
-
-        setBoardList({
-          delivery: delivListRes.data,
-          product: productListRes.data,
-          one: oneListRes.data,
-        });
-      } catch (error) {
-        console.error("에러 발생:", error);
-      }
-    };
-
     fetchData();
   }, [userData]);
 
@@ -69,6 +68,19 @@ const Board = () => {
         return "게시판";
     }
   };
+
+  // 새로고침 트리거 핸들러
+  const handleRefreshTrigger = () => {
+    setRefreshTrigger((prev) => prev + 1);
+  };
+
+  // 새로고침 트리거 작동
+  useEffect(() => {
+    console.log("새로고침 트리거 작동");
+    if (refreshTrigger > 0) {
+      fetchData();
+    }
+  }, [refreshTrigger]);
 
   return (
     <div>
@@ -129,7 +141,11 @@ const Board = () => {
                 <PaginationContext.Provider value={null}>
                   <UserDataContext.Provider value={userData}>
                     <BoardListContext.Provider value={boardList}>
-                      <Outlet />
+                      <BoardRefreshTriggerContext.Provider
+                        value={handleRefreshTrigger}
+                      >
+                        <Outlet />
+                      </BoardRefreshTriggerContext.Provider>
                     </BoardListContext.Provider>
                   </UserDataContext.Provider>
                 </PaginationContext.Provider>

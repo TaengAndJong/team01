@@ -52,9 +52,13 @@ const DeliveryBoard = () => {
 
   const onChangeCheck = (delId, isChecked) => {
     if (isChecked) {
-      setCheckedInput((prev) => [...prev, delId]);
+      const newArray = [...checkedInput, delId];
+      setCheckedInput(newArray);
+      console.log("선택된 게시물 :", newArray);
     } else {
-      setCheckedInput((prev) => prev.filter((id) => id !== delId));
+      const newArray = checkedInput.filter((id) => id !== delId);
+      setCheckedInput(newArray);
+      console.log("해제된 게시물 :", newArray);
     }
   };
 
