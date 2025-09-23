@@ -4,14 +4,14 @@ import {useLocation} from "react-router-dom";
 
 const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>{
 
-    console.log("bookCount", bookCount);
+   // console.log("bookCount", bookCount);
     const location = useLocation(); // 수량 변경 완료 버튼 조건부 렌더링
 
     // 장바구니에 담을 도서 수량버튼 관리 핸들러 ==> 고려사항 각각의 도서에 대한 개별 수량 구분 필요
     const bookCountChangHandler=(bookId,e)=>{
 
-        console.log("bookCountChangHandler bookId",bookId);
-        console.log("bookCountChangHandler e.target.name",e.target.name);
+        // console.log("bookCountChangHandler bookId",bookId);
+        // console.log("bookCountChangHandler e.target.name",e.target.name);
 
         const bookIdCount = bookCount[bookId] || 1;
 
@@ -49,7 +49,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
 
         }
 
-        console.log("bookCountChangHandler의  bookIdCount---11",bookIdCount);
+       // console.log("bookCountChangHandler의  bookIdCount---11",bookIdCount);
     }
 
     // 도서 수량 입력 input 관리 핸들러
@@ -95,7 +95,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
 
 
     useEffect(() => {
-        console.log("useEffect bookCount[bookId]",bookCount[bookId]); 
+      //  console.log("useEffect bookCount[bookId]",bookCount[bookId]);
         // bookCount[bookId]의 초기값이 undefined라서 1로 보이지만 0으로 설정되는 부분 UI와 동일하게 맞추기
         //prev를 사용하는 이유는,직접 복사해서 사용하면 비동기 상태 갱신으로 인해 초기값이 갱신 전 값으로 적용될 수 잇어서,
         //prev를 사용해 해당 시점의 데이터를 참조(얕은복사)하고 스프레드 연산자를 사용해 기존객체내용을 새 객체에 복사
@@ -108,7 +108,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
     }, []);
 
 
-    console.log("useEffect bookCount[bookId]---------------------",bookCount[bookId]);
+   // console.log("useEffect bookCount[bookId]---------------------",bookCount[bookId]);
 
     return (
         <>

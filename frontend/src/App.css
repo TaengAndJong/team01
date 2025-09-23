@@ -168,6 +168,22 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   background-color: #F7ECE7;
 }
 
+.box-list li.red, .box-list div.red {
+  background-color: #FFEAEC;
+}
+.box-list li.yellow, .box-list div.yellow {
+  background-color: #FFF8D0;
+}
+.box-list li.green, .box-list div.green {
+  background-color: #E5FAE1;
+}
+.box-list li.purple, .box-list div.purple {
+  background-color: #D3D5F1;
+}
+.box-list li.gray, .box-list div.gray {
+  background-color: #F2F2F2;
+}
+
 table {
   display: table;
   border-collapse: collapse;

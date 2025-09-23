@@ -4,8 +4,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { menuNavi } from "../util/menuNavi.jsx";
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
+import {useAuth} from "../pages/common/AuthContext.jsx";
 
-const Gnb = ({ userData, menu, commonMenuItems, isAuthenticated, logout }) => {
+const Gnb = ({ menu, commonMenuItems }) => {
+  const { isAuthenticated, userData, logout } = useAuth(); // 로그인 상태와 사용자 데이터 가져오는 커스텀훅
+
   console.log(
     ` 데이터데이터 ${(userData, menu, commonMenuItems, isAuthenticated)}`
   );

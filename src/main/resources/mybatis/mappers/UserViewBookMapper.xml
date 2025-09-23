@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.team01.userViewBook.dao.UserViewBookDao">
+
+    <!--     -->
+    <insert id="insertUserViewBook" parameterType="String">
+        MERGE INTO userViewBook uvb
+            USING (SELECT #{clientId} AS "clientId", #{bookId} AS "bookId" FROM dual) src
+            ON (uvb."clientId" = src."clientId" AND uvb."bookId" = src."bookId")
+            WHEN MATCHED THEN
+                UPDATE SET uvb."viewDate" = SYSTIMESTAMP
+            WHEN NOT MATCHED THEN
+                INSERT ("viewId","clientId", "bookId", "viewDate")
+                    VALUES (USERVIEWID_SEQ.NEXTVAL,src."clientId", src."bookId", SYSTIMESTAMP)
+    </insert>
+
+
+
+</mapper>

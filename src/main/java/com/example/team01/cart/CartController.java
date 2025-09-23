@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -92,12 +93,14 @@ public class CartController {
     public ResponseEntity<?> postCart(@RequestBody CartVO cartvo,@AuthenticationPrincipal PrincipalDetails userDetails){
 
         log.info(" postCart  : {}",cartvo);
-
+        log.info(" userDetails  : {}",userDetails);
         //clientId
         String clientId = userDetails.getUsername();
+        log.info(" clientId  : {}",clientId);
 
         // 서비스 파라미터로 넘길 유저 아이디 설정
         cartvo.setClientId(clientId);
+
         //cartVO
         log.info(" bookId  : {}",cartvo.getBookId());// 장바구니에 담을 도서 아이디
         log.info(" quantity  : {}",cartvo.getQuantity());// 장바구니에 담은 수량

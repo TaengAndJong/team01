@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 
 import Btn from "../../../util/reuseBtn.jsx";
@@ -17,9 +17,9 @@ const BookDetail = () => {
     const [bookDetail, setBookDetail] = useState([]);
     //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
     const [bookCount,setBookCount]=useState({});
-
+    const location = useLocation(); // 수정 버튼 조건부 렌더링
     //console.log("북아이템 자식 컴포넌트 wishIds",wishIds);
-    console.log("북아이템 자식 컴포넌트 bookCount",bookCount);
+   // console.log("북아이템 자식 컴포넌트 bookCount",bookCount);
 
     //해당 bookId에 대한 비동기 fetch 요청을 보내어 서버로부터 데이터를 받아온다
     const fetchBookDetails = async () => {
@@ -99,9 +99,13 @@ const BookDetail = () => {
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
                     <Btn className={"modify btn btn-secondary"} type={"button"} path={pathsData.page.book}
                          text="목록"/>
-                    <Btn className={"modify btn btn-primary"} type={"button"}
-                         path={`${pathsData.page.adminBookModify}/${bookId}`}
-                         text="수정"/>
+
+                    {location.pathname.startsWith("/admin/book") && (
+                        <Btn className={"modify btn btn-primary"} type={"button"}
+                             path={`${pathsData.page.adminBookModify}/${bookId}`}
+                             text="수정"/>
+                        )}
+
                 </div>
 
             </div>

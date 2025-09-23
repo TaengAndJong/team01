@@ -28,6 +28,17 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
             //경로에 bookId 담아서 보내기
             const response = await axios.post(`/api/mypage/wishlist/save?${UrlSearchParams.toString()}`,{bookId:bookId});
 
+            console.log("찜목록 페치 응답",response);
+            if(!response.data.userWishList || !response.data.userWishList.length){ // null , undefined  ||  빈 배열 확인
+                //찜목록추가완료 모달
+                openModal({
+                    modalType:"confirm",
+                    data:{message:"찜목록 삭제 성공"},
+                    onConfirm:closeModal,
+                });
+                return; // 찜목록 삭제시 여기서 종료
+            }
+
             if(response.status === 200){
                 // wishIds 값 재설정할 때에 이전 상태값에 대해서 bookId가 있는 지 확인후 동일한 bookId 이면 필터링해서 새배열반환, 없으면 기존배열을 복사 후 bookId 추가
                 setWishIds((prev) =>
@@ -35,6 +46,7 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
                         ? prev.filter((id) => id !== bookId) // 제거
                         : [...prev, bookId] // 없으면 추가
                 );
+
                 //찜목록추가완료 모달
                 openModal({
                     modalType:"confirm",
