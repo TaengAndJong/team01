@@ -1,17 +1,53 @@
-import {Link} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import React, {useEffect, useRef, useState} from "react";
 import AddCartBtn from "../../book/components/addCartBtn.jsx";
 import BuySelectedBtn from "./BuySelectedBtn.jsx";
 import BookCount from "./bookCount.jsx";
 import WishBtn from "./wishBtn.jsx";
+import axios from "axios";
+
+/*
+* 1) 조회에 대한 서버요청 줄이기 위한 조회 및 중복조회  처리
+*
+* */
+
 
 const BookItem = ({bookList,wishIds,setWishIds}) =>{
 
     //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
     const [bookCount,setBookCount]=useState({});
+    const navigate = useNavigate();
+    const viewBookRef = useRef(new Set());// 세션 내 중복 클릭 방지
 
     //console.log("북아이템 자식 컴포넌트 wishIds",wishIds);
     console.log("북아이템 자식 컴포넌트 bookCount",bookCount);
+    
+    //상세페이지로 이동시 link 태그 ( a 태그 ) 로 사용자가 조회한 bookId 서버로 전송하는 핸들러
+    const viewBookFetch = async(e, bookId) => {
+        e.preventDefault();// link 태그 이동이벤트 방지 ==> 이벤트가 발생하면 비동기요청이 처리되지 않을 수 있음
+
+       //서버로 전송된 도서인지 확인
+        if(viewBookRef.current.has(bookId)) {
+            //서버전송 안하고 상세페이지로 이동
+            navigate(`/book/bookDetail/${bookId}`);
+        }
+        //없는 bookID이면 ref에 추가
+        viewBookRef.current.add(bookId);
+        //서버로 booId전송
+        //formData 또는 쿼리스트링일 때만 RequestParam, jSON boody는 RequestBody
+        try{
+            const response = await axios.post("/api/viewBook",{bookId});
+            console.log("도서조회시 도서 아이디 전송에 대한 응답",response);
+
+        }catch(error){
+            console.log("조회된 도서 Id 전송 에러 ", error);
+
+        }finally{//최종적으로 실행 ==> 해당도서의 상세페이지로 이동
+            console.log("상세페이지로 이동 : ",bookId);
+            navigate(`/book/bookDetail/${bookId}`);
+        }
+
+    }
 
 
     return (
@@ -20,7 +56,7 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
                 <ul className="book-item-list clearfix">
                     {bookList?.map((book, index) => (
                         <li key={index} className="book-item mb-3 mx-2 \overflow-hidden p-4 float-start">
-                            <Link to={`/book/bookDetail/${book.bookId}`} className="book-link d-block" id={book.bookId}>
+                            <Link to={`/book/bookDetail/${book.bookId}`} className="book-link d-block" id={book.bookId} onClick={(e)=>viewBookFetch(e,book.bookId)}>
                                 <div className="item-inner d-flex card flex-row  position-relative">
                                     <div className="card-header border-end rounded-4 overflow-hidden">
                                         <div className="img-box">
