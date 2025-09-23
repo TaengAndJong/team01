@@ -107,3 +107,4 @@ public class SecurityConfig {
 
 }
 
+// .anonymous(anon -> anon.principal("anonymousUser")) // principal null 처리

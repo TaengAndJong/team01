@@ -26,3 +26,16 @@
   &.recom{background-color: $cate01;}
   &.popular{background-color: $cate02;}
 }
+
+
+//skipButton || info
+
+.box-list{
+  li,div{
+    &.red{background-color: #FFEAEC;}
+    &.yellow{background-color:#FFF8D0}
+    &.green{background-color:#E5FAE1}
+    &.purple{background-color:#D3D5F1;}
+    &.gray{background-color:#F2F2F2;}
+  }
+}
