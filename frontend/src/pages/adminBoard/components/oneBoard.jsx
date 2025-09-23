@@ -52,9 +52,13 @@ const OneBoard = () => {
 
   const onChangeCheck = (oneId, isChecked) => {
     if (isChecked) {
-      setCheckedInput((prev) => [...prev, oneId]);
+      const newArray = [...checkedInput, oneId];
+      setCheckedInput(newArray);
+      console.log("선택된 게시물 :", newArray);
     } else {
-      setCheckedInput((prev) => prev.filter((id) => id !== oneId));
+      const newArray = checkedInput.filter((id) => id !== oneId);
+      setCheckedInput(newArray);
+      console.log("해제된 게시물 :", newArray);
     }
   };
 

@@ -11,12 +11,9 @@ import Pagination from "@util/pagination.jsx";
 import Btn from "@util/reuseBtn.jsx";
 
 const ProductBoard = () => {
-  // const [boardList, setBoarList] = useState([]);
   const { product } = useContext(BookBoardStateContext);
   const { onInitProduct } = useContext(BookBoardDispatchContext);
-  // const { onDeleteProduct } = useContext(BookBoardDispatchContext);
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
-
   const boardList = useMemo(() => {
     if (!product || !Array.isArray(product) || product.length === 0) {
       return [];
@@ -35,21 +32,18 @@ const ProductBoard = () => {
     return Array.isArray(firstItem.items) ? firstItem.items : [];
   }, [product]);
 
-  const [search, setSearch] = useState([]);
-  console.log("search 상태관리 :", search);
-
-  //체크박스 전체 선택 하기 상태 관리
+  //전체선택
+  const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
   //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
   const [checkedInput, setCheckedInput] = useState([]);
-  const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
 
   const handleSelectAll = (isChecked) => {
     setSelectAll(isChecked);
     if (isChecked) {
       console.log("selectAll", isChecked);
-      // 모든 boardId를 배열에 추가
+      // 모든 bookId를 배열에 추가
       const allIds = boardList.map((item) => item.qnaProId);
-      console.log("allIds-Pro", allIds);
+      console.log("allIds-Del", allIds);
       setCheckedInput(allIds);
     } else {
       // 전부 해제
@@ -57,21 +51,20 @@ const ProductBoard = () => {
     }
   };
 
-  const onChangeCheck = (productId, isChecked) => {
+  const onChangeCheck = (proId, isChecked) => {
     if (isChecked) {
-      setCheckedInput((prev) => {
-        const newArray = [...prev, productId];
-        console.log("checkedInput 배열에 들어간다", newArray);
-        return newArray;
-      });
+      const newArray = [...checkedInput, proId];
+      setCheckedInput(newArray);
+      console.log("선택된 게시물 :", newArray);
     } else {
-      setCheckedInput((prev) => {
-        const newArray = prev.filter((id) => id !== productId);
-        console.log("checkedInput 배열에서 나간다", newArray);
-        return newArray;
-      });
+      const newArray = checkedInput.filter((id) => id !== proId);
+      setCheckedInput(newArray);
+      console.log("해제된 게시물 :", newArray);
     }
   };
+
+  const [search, setSearch] = useState([]);
+  console.log("search 상태관리 :", search);
 
   const handleSearch = async () => {
     //search 초기 데이터 URLsearchParam으로 가공

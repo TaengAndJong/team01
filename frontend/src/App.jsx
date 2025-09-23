@@ -52,7 +52,6 @@ import PaymentComponent from "@pages/pay/paymentComponent.jsx";
 //aixos  로그인 여부확인용 js ==> 전역처리할경우 사용, 각 컴포넌트에서 로그인여부 사용할경우 필요없음
 //import "@js/AxiosInterceptor";
 
-
 function App() {
   let location = useLocation();
   const headerName = () => {
@@ -104,7 +103,7 @@ function App() {
 
             <Route path={PathData.page.board} element={<Board />}>
               {/*클라이언트 게시물 생성*/}
-              <Route path="createBoard" element={<CreateBoard />} />
+              <Route path="createBoard/:category" element={<CreateBoard />} />
 
               <Route
                 path="oneBoard"
