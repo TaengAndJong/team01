@@ -13,5 +13,5 @@ public interface QnaOneService {
     public QnaOneVO getQnaOneDetail(String boardId, String userId);
     
     // 1:1 문의 게시물 삭제
-    public int deleteOneBoard(String boardId);
+    public int deleteOneBoard(List<String> boardId);
 }

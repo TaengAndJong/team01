@@ -87,7 +87,7 @@ public class QnaOneController {
     }
     
         // 1:1 문의 상세조회 API
-    @GetMapping("/detail/one/{boardId}")  // URL 패턴: /admin/board/detail/one/123
+    @GetMapping("/detail/one")  // URL 패턴: /admin/board/detail/one/123
     public ResponseEntity<?> getOneBoardDetail(
     @PathVariable String boardId,     // URL 경로의 {boardId}
     @RequestParam String userId       // 쿼리 파라미터 ?userId=값
@@ -158,11 +158,13 @@ public ResponseEntity<?> updateComment(@PathVariable String commentId,
     }
 
     // 상품 문의 게시물 삭제
-@DeleteMapping("/detail/one/{boardId}")
-public ResponseEntity<?> deleteProductBoard(@PathVariable String boardId){
+@DeleteMapping("/detail/one")
+public ResponseEntity<?> deleteProductBoard(@RequestBody List<String> boardId){
     log.info("📦 상품 문의 게시물 삭제 API 호출됨");
-    log.info("상품 문의 게시물 삭제 boardId -----------------: {}", boardId);
-    int result = qnaOneService.deleteOneBoard(boardId);
+    log.info("삭제 할 게시물 아이디 배열: {}", boardId);
+    int result = 0;
+    qnaOneService.deleteOneBoard(boardId);
+    
     return ResponseEntity.ok(result);
 }
 

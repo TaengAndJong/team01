@@ -163,11 +163,11 @@ public class QnaProductController {
         return ResponseEntity.ok(result);
     }
 
-    // 상품 문의 게시물 삭제
-    @DeleteMapping("/detail/product/{boardId}")
-    public ResponseEntity<?> deleteProductBoard(@PathVariable String boardId) {
+    // 상품 문의 게시물 삭제 [다중 , 단일]가능 
+    @DeleteMapping("/detail/product")
+    public ResponseEntity<?> deleteProductBoard(@RequestBody List<String> boardId) {
         log.info("📦 상품 문의 게시물 삭제 API 호출됨");
-        log.info("상품 문의 게시물 삭제 boardId -----------------: {}", boardId);
+        log.info("삭제 할 게시물 아이디 배열: {}", boardId);
         int result = qnaProductService.deleteProductBoard(boardId);
         return ResponseEntity.ok(result);
     }
