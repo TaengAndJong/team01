@@ -187,6 +187,9 @@ const ProductBoard = () => {
             <th scope="col" className="text-center">
               등록일
             </th>
+            <th scope="col" className="text-center">
+              삭제여부
+            </th>
           </tr>
         </thead>
         <tbody className="">

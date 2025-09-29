@@ -50,6 +50,7 @@
                     , "clientId"
                     , "qnaStatus"
                     , "qnaDate"
+                    , "qnaDel"
                 FROM qnaDeliv
                 <include refid="searchFrag" />
                 ORDER BY "qnaDelId" DESC
@@ -77,10 +78,16 @@
     AND ROWNUM = 1
     </select>
 
-    <delete id="deleteDeliveryBoard" parameterType="String">
+    <delete id="deleteDeliveryBoard" parameterType="map">
         update qnaDeliv
         set "qnaDel" = 'Y', 
         "qnaDelDate" = SYSDATE
         where "qnaDelId" = #{boardId}
     </delete>
+
+    <update id="updateQnaDeliveryStatus" parameterType="map">
+        update qnaDeliv
+        set "qnaStatus" = '답변 완료'
+        where "qnaDelId" = #{boardId}
+    </update>
 </mapper>

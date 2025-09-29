@@ -22,4 +22,7 @@ public interface QnaProductDao {
 
     // 상품 문의 게시물 삭제
     public int deleteProductBoard(@Param("boardId") String boardId);
+
+    // 상품 문의 게시물 답변여부 수정
+    public int updateQnaProductStatus(@Param("boardId") String boardId);
 }

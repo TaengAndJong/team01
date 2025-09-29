@@ -14,4 +14,7 @@ public interface QnaOneService {
     
     // 1:1 문의 게시물 삭제
     public int deleteOneBoard(List<String> boardId);
+
+    // 1:1 문의 게시물 답변여부 수정
+    public int updateQnaOneStatus(String boardId);
 }

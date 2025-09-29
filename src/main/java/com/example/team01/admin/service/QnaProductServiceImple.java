@@ -88,4 +88,12 @@ public QnaProductVO getQnaProductDetail(String boardId, String userId) {
         }
         return result;
     }
+
+    // 상품 문의 게시물 답변여부 수정
+    @Override
+    public int updateQnaProductStatus(String boardId) {
+        log.info("상품 문의 게시물 답변여부 수정 서비스 구현체 실행");
+        log.info("boardId:{}", boardId);
+        return qnaProductDao.updateQnaProductStatus(boardId);
+    }
 }

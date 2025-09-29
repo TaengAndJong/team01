@@ -14,4 +14,7 @@ public interface QnaDeliveryService {
 
     // 배송 문의 게시물 삭제
     public int deleteDeliveryBoard(List<String> boardId);
+
+    // 배송 문의 게시물 답변여부 수정
+    public int updateQnaDeliveryStatus(String boardId);
 }

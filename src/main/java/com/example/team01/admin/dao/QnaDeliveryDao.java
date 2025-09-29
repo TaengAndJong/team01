@@ -19,4 +19,6 @@ public interface QnaDeliveryDao {
     public QnaDeliveryVO getDeliveryDetailBoard(@Param("boardId") String boardId, @Param("userId") String userId);
 
     public int deleteDeliveryBoard(@Param("boardId") String boardId);
+
+    public int updateQnaDeliveryStatus(@Param("boardId") String boardId);
 }

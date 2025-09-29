@@ -1,7 +1,6 @@
 package com.example.team01.admin;
 import com.example.team01.admin.service.QnaOneService;
 import com.example.team01.utils.Pagination;
-import com.example.team01.vo.AdminBookVO;
 import com.example.team01.vo.QnaOneVO;
 import com.example.team01.utils.FileUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -127,6 +126,10 @@ public ResponseEntity<?> postOneComment(
     log.info("댓글 등록 결과 (영향받은 행 수) -----------------: {}", result);
     
     CommentsVO savedComment = commentsService.getCommentById(commentsVO.getQnaRefId(), commentsVO.getCommentType());
+
+    // 게시물 답변여부 수정 로직
+    log.info("게시물 답변여부 수정 로직");
+    qnaOneService.updateQnaOneStatus(boardId);
 
     return ResponseEntity.ok(savedComment);
 }

@@ -135,6 +135,10 @@ public class QnaProductController {
         
         CommentsVO savedComment = commentsService.getCommentById(commentsVO.getQnaRefId(), commentsVO.getCommentType());
 
+        // 게시물 답변여부 수정 로직
+        log.info("게시물 답변여부 수정 로직");
+        qnaProductService.updateQnaProductStatus(boardId);
+
         return ResponseEntity.ok(savedComment);
     }
 
