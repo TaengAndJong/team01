@@ -23,12 +23,12 @@ const BoardDashboard = () => {
           {/*컴포넌트 카드 */}
           <div className="flex_box inner">
             <div className="card_box">
-              <strong className="card_title">1:1 문의</strong>
+              <span className="card_title">1:1 문의</span>
               <div>
                 <ul className="recent-slide box-list">
                   {boardList.one.slice(0, 5).map((board, idx) => {
                     return (
-                      <li className="card-item li gray" key={idx}>
+                      <li className="card-item" key={idx}>
                         {board.qnaTitle}
                       </li>
                     );
@@ -37,12 +37,12 @@ const BoardDashboard = () => {
               </div>
             </div>
             <div className="card_box">
-              <strong className="card_title">상품 문의</strong>
+              <span className="card_title">상품 문의</span>
               <div>
                 <ul className="recent-slide box-list">
                   {boardList.product.slice(0, 5).map((board, idx) => {
                     return (
-                      <li className="card-item li gray" key={idx}>
+                      <li className="card-item" key={idx}>
                         {board.qnaTitle}
                       </li>
                     );
@@ -51,12 +51,12 @@ const BoardDashboard = () => {
               </div>
             </div>
             <div className="card_box">
-              <strong className="card_title">배달 문의</strong>
+              <span className="card_title">배달 문의</span>
               <div>
                 <ul className="recent-slide box-list">
                   {boardList.delivery.slice(0, 5).map((board, idx) => {
                     return (
-                      <li className="card-item li gray" key={idx}>
+                      <li className="card-item" key={idx}>
                         {board.qnaTitle}
                       </li>
                     );

@@ -16,7 +16,7 @@ const BoardListComponent = ({
   return (
     <>
       <tr>
-        <td>
+        <td className="text-center">
           <input
             type="checkbox"
             id={`item${number}`}
@@ -30,8 +30,8 @@ const BoardListComponent = ({
             {categoryListData.qnaTitle}
           </label>
         </td>
-        <td>{number}</td>
-        <td>
+        <td className="text-center">{number}</td>
+        <td className="text-center">
           <Link
             to={`/board/detailBoard/${category}/${getBoardId(
               categoryListData
@@ -40,10 +40,10 @@ const BoardListComponent = ({
             {categoryListData.qnaTitle}
           </Link>
         </td>
-        <td>{categoryListData.qnaWriter}</td>
-        <td>{categoryListData.clientId}</td>
-        <td>{categoryListData.qnaStatus}</td>
-        <td>{categoryListData.qnaDate}</td>
+        <td className="text-center">{categoryListData.qnaWriter}</td>
+        <td className="text-center">{categoryListData.clientId}</td>
+        <td className="text-center">{categoryListData.qnaStatus}</td>
+        <td className="text-center">{categoryListData.qnaDate}</td>
       </tr>
     </>
   );

@@ -71,7 +71,7 @@ const BoardTemplateComponent = ({ category }) => {
 
   return (
     <div>
-      <table className="table table-custom mt-4">
+      <table className="table table-custom">
         <caption className="sr-only">등록된 게시물 테이블</caption>
         <thead>
           <tr>
