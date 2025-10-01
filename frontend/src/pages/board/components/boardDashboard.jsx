@@ -1,5 +1,13 @@
 const BoardDashboard = () => {
-  return <>대시보드</>;
+  return (
+    <>
+      <div>
+        <div>
+          <strong>최근 등록된 </strong>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default BoardDashboard;

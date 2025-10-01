@@ -1,32 +1,32 @@
-package com.example.team01.deliveryboard.service;
+package com.example.team01.board.oneboard.service;
 
-import com.example.team01.vo.DeliveryBoardVO;
+import com.example.team01.vo.OneBoardVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
-import com.example.team01.vo.AttachmentVO;
-import com.example.team01.deliveryboard.dao.DeliveryBoardDao;
 import com.example.team01.attachment.service.AttachmentService;
+import com.example.team01.board.oneboard.dao.OneBoardDao;
+import com.example.team01.vo.AttachmentVO;
+
 
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class DeliveryBoardServiceImple implements DeliveryBoardService {
+public class OneBoardServiceImple implements OneBoardService {
 
-    private final DeliveryBoardDao DeliveryBoardDao;
+    private final OneBoardDao OneBoardDao;
     private final AttachmentService attachmentService;
-    // 게시물 등록
+
     @Override
-    public void CreateDeliveryBoard(DeliveryBoardVO vo) {
+    public void CreateOneBoard(OneBoardVO vo) {
         log.info("서비스 임플 VO 객체 데이터: {}", vo);
 
         List<MultipartFile> files = vo.getFiles(); // 첨부파일 데이터 VO 객체에서 가져오기
         AttachmentVO attachmentVO = new AttachmentVO();
-
-        log.info("[deliveryBoard 서비스 시작------------------------------------]");
+        log.info("[oneBoard 서비스 시작------------------------------------]");
 
         try {
             // 조건: files가 null 또는 비어있을 경우
@@ -42,10 +42,10 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
                 attachmentService.insertAttachmentService(attachmentVO);// 파일첨부 테이블 등록
             }
 
-            log.info("file 업로드 후 deliveryBoardVO 객체 데이터: {}", vo);
+            log.info("file 업로드 후 oneBoardVO 객체 데이터: {}", vo);
 
             // DAO를 통한 게시물 등록
-            DeliveryBoardDao.CreateDeliveryBoard(vo);
+            OneBoardDao.CreateOneBoard(vo);
             log.info("게시물 등록 완료");
 
         } catch (Exception e) {
@@ -55,20 +55,20 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
     }
 
     @Override
-    public List<DeliveryBoardVO> GetDelivBoardlist(String userId) {
-        log.info("serviceimple 배송문의 리스트 조회 시작 ------------------------");
+    public List<OneBoardVO> GetOneBoardList(String userId) {
+        log.info("serviceimple 1:1 문의 리스트 조회 시작 ------------------------");
         log.info("사용자 ID: " + userId);
-        List<DeliveryBoardVO> list = DeliveryBoardDao.GetDelivBoardlist(userId); // DAO 호출 사용자 아이디 전달
-        log.info("serviceimple 배송문의 리스트 조회 완료 ------------------------");
+        List<OneBoardVO> list = OneBoardDao.GetOneBoardList(userId); // DAO 호출 사용자 아이디 전달
+        log.info("serviceimple 1:1 문의 리스트 조회 완료 ------------------------");
         log.info("list: {}", list);
         return list;
     }
 
     @Override
-    public DeliveryBoardVO getDeliveryBoardDetail(String boardId, String userId) {
+    public OneBoardVO getOneBoardDetail(String boardId, String userId) {
         log.info("1:1 문의 상세 조회 서비스 구현체 실행: {}, {}", boardId, userId);
 
-        DeliveryBoardVO boardData = DeliveryBoardDao.getDeliveryBoardDetail(boardId, userId);
+        OneBoardVO boardData = OneBoardDao.getOneBoardDetail(boardId, userId);
         log.info("상세조회 결과: {}", boardData);
         
         // 1단계: null 체크
@@ -94,12 +94,11 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
     return boardData;
     }
 
-    // 사용자 배송 문의 게시물 삭제
+    // 사용자 1:1 게시물 삭제
     @Override
-    public int deleteDeliveryBoard(String boardId) {
+    public int deleteOneBoard(String boardId) {
         log.info("1:1 문의 게시물 삭제 서비스 구현체 실행");
         log.info("boardId:{}", boardId);
-        return DeliveryBoardDao.deleteDeliveryBoard(boardId);
+        return OneBoardDao.deleteOneBoard(boardId);
     }
-
 }

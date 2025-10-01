@@ -1,4 +1,4 @@
-package com.example.team01.productboard.dao;
+package com.example.team01.board.productboard.dao;
 
 import com.example.team01.vo.ProductBoardVO;
 import java.util.List;
