@@ -23,6 +23,7 @@ import AdminProductBoard from "@pages/adminBoard/components/productBoard.jsx";
 import AdminOneBoard from "@pages/adminBoard/components/OneBoard.jsx";
 import AdminBoard from "@pages/adminBoard/adminBoardComponent.jsx";
 import AdminBook from "@pages/adminBook/adminBookComponent.jsx";
+import AdminDetailBoard from "@pages/adminBoard/components/adminDetailBoard.jsx";
 import Book from "@pages/book/bookComponent.jsx";
 
 import AdminBookModify from "@pages/adminBook/components/adminBookModify.jsx";
@@ -34,7 +35,7 @@ import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
 import Board from "@pages/board/boardComponent.jsx";
 import CreateBoard from "@pages/board/components/createBoardComponent.jsx";
 import BoardTemplateComponent from "@pages/board/components/boardTemplateComponent.jsx";
-import DetailBoard from "@pages/common/board/detailBoard.jsx";
+import DetailBoard from "@pages/board/components/BoardDetail.jsx";
 import BoardDashboard from "@pages/board/components/boardDashboard.jsx";
 
 import BookList from "@pages/book/components/bookList.jsx";
@@ -118,21 +119,24 @@ function App() {
                 path="deliveryBoard"
                 element={<BoardTemplateComponent category="delivery" />}
               />
-            </Route>
 
-            {/* 사용자 상세 페이지 - 중첩 라우팅 밖으로 이동 */}
-            <Route
-              path="/board/detailBoard/:category/:boardId/"
-              element={<DetailBoard userType="client" />}
-            />
+              <Route
+                path="/board/detailBoard/:category/:boardId/"
+                element={<DetailBoard userType="client" />}
+              />
+            </Route>
 
             {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
             <Route path="/admin" element={<Admin />} />
             <Route index path="dashboard" element={<AdminDashboard />} />
 
             <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
+              {console.log(
+                "PathData.page.adminBoard",
+                PathData.page.adminBoard
+              )}
               {/*첫페이지 설정*/}
-              <Route index element={<Navigate to="oneBoard" replace />} />
+              <Route index element={<Navigate to="oneBoard" />} />
               <Route
                 path="deliveryBoard"
                 element={<AdminDeliveryBoard category="delivery" />}
@@ -145,19 +149,12 @@ function App() {
                 path="oneBoard"
                 element={<AdminOneBoard category="one" />}
               />
+
+              <Route
+                path="detail/:category/:boardId"
+                element={<AdminDetailBoard userType="admin" />}
+              />
             </Route>
-
-            {/* 관리자 상세 페이지 - 중첩 라우팅 밖으로 이동 */}
-            <Route
-              path="/admin/board/detail/:category/:boardId/"
-              element={<DetailBoard userType="admin" />}
-            />
-
-            {/* 관리자 상세 페이지 - 중첩 라우팅 밖으로 이동 */}
-            <Route
-              path="detailBoard/:category/:boardId/:userId"
-              element={<DetailBoard userType="admin" />}
-            />
 
             <Route path={PathData.page.adminBook} element={<AdminBook />}>
               <Route index element={<Navigate to="bookList" replace />} />
