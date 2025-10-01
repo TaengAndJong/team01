@@ -35,6 +35,7 @@ import Board from "@pages/board/boardComponent.jsx";
 import CreateBoard from "@pages/board/components/createBoardComponent.jsx";
 import BoardTemplateComponent from "@pages/board/components/boardTemplateComponent.jsx";
 import DetailBoard from "@pages/common/board/detailBoard.jsx";
+import BoardDashboard from "@pages/board/components/boardDashboard.jsx";
 
 import BookList from "@pages/book/components/bookList.jsx";
 import BookDetail from "@pages/book/components/bookDetail.jsx";
@@ -103,7 +104,11 @@ function App() {
 
             <Route path={PathData.page.board} element={<Board />}>
               {/*클라이언트 게시물 생성*/}
+              <Route index element={<Navigate to="dashBoard" replace />} />
+
               <Route path="createBoard/:category" element={<CreateBoard />} />
+
+              <Route path="dashBoard" element={<BoardDashboard />} />
 
               <Route
                 path="oneBoard"

@@ -1,4 +1,4 @@
-package com.example.team01.deliveryboard;
+package com.example.team01.board.deliveryboard;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-
-// 의존성 
-import com.example.team01.deliveryboard.service.DeliveryBoardService;
 import com.example.team01.vo.DeliveryBoardVO;
+import com.example.team01.board.deliveryboard.service.DeliveryBoardService;
 import com.example.team01.comments.service.CommentsService;
 import com.example.team01.vo.CommentsVO;
 

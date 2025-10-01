@@ -1,4 +1,4 @@
-package com.example.team01.deliveryboard.service;
+package com.example.team01.board.deliveryboard.service;
 
 import com.example.team01.vo.DeliveryBoardVO;
 import java.util.List;

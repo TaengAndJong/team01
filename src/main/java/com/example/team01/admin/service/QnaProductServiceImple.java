@@ -79,9 +79,21 @@ public QnaProductVO getQnaProductDetail(String boardId, String userId) {
 
     // 상품 문의 게시물 삭제
     @Override
-    public int deleteProductBoard(String boardId) {
+    public int deleteProductBoard(List<String> boardId) {
         log.info("상품 문의 게시물 삭제 서비스 구현체 실행");
+        log.info("삭제 할 게시물 아이디 배열:{}", boardId);
+        int result = 0;
+        for (String id : boardId) {
+            result += qnaProductDao.deleteProductBoard(id);
+        }
+        return result;
+    }
+
+    // 상품 문의 게시물 답변여부 수정
+    @Override
+    public int updateQnaProductStatus(String boardId) {
+        log.info("상품 문의 게시물 답변여부 수정 서비스 구현체 실행");
         log.info("boardId:{}", boardId);
-        return qnaProductDao.deleteProductBoard(boardId);
+        return qnaProductDao.updateQnaProductStatus(boardId);
     }
 }

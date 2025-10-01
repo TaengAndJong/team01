@@ -19,7 +19,7 @@ public class QnaOneVO implements Serializable{
     private Clob qnaContent; // 1:1 문의 내용
     private String qnaWriter; // 1:1 문의 작성자
     private LocalDateTime qnaDate; // 1:1 문의 날짜 현재시간으로
-    private LocalDateTime qnaDel; // 1:1 문의 삭제 여부
+    private String qnaDel; // 1:1 문의 삭제 여부
     private String qnaStatus; // 1:1 문의 답변 상태
     private String clientId; // 1:1 문의 작성자 아이디
     private String roleId; // 1:1 문의 작성자 권한

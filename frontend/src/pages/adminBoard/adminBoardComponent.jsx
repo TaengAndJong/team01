@@ -3,7 +3,7 @@ import React, { useEffect, useState, useReducer } from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import { useMenu } from "../common/MenuContext.jsx";
 import { menuNavi } from "../../util/menuNavi.jsx";
-
+import { ModalProvider } from "@pages/common/modal/ModalContext.jsx";
 // 3개 카테고리별 상태 관리를 위한 reducer
 function boardReducer(state, action) {
   console.log("boardReducer state:", state);
@@ -374,7 +374,9 @@ const AdminBoard = () => {
                       setPaginationInfo,
                     }}
                   >
-                    <Outlet />
+                    <ModalProvider>
+                      <Outlet />
+                    </ModalProvider>
                   </PaginationContext.Provider>
                 </BookBoardDispatchContext.Provider>
               </BookBoardStateContext.Provider>

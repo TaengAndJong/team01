@@ -20,5 +20,5 @@ public interface QnaOneDao {
 
     public int deleteOneBoard(@Param("boardId") String boardId);
 
-
+    public int updateQnaOneStatus(@Param("boardId") String boardId);
 }

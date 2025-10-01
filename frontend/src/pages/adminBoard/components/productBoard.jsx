@@ -9,10 +9,13 @@ import {
 import { PaginationContext } from "@pages/adminBoard/adminBoardComponent.jsx";
 import Pagination from "@util/pagination.jsx";
 import Btn from "@util/reuseBtn.jsx";
+import { useModal } from "@pages/common/modal/ModalContext.jsx";
 
 const ProductBoard = () => {
   const { product } = useContext(BookBoardStateContext);
-  const { onInitProduct } = useContext(BookBoardDispatchContext);
+  const { onInitProduct, onDeleteProduct } = useContext(
+    BookBoardDispatchContext
+  );
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
   const boardList = useMemo(() => {
     if (!product || !Array.isArray(product) || product.length === 0) {
@@ -111,6 +114,33 @@ const ProductBoard = () => {
     }
   };
 
+  const onDeleteHandler = async (deleteItems) => {
+    if (deleteItems.length === 0) {
+      alert("게시물을 선택해 주세요");
+      return;
+    }
+    console.log("삭제 할 게시물 아이디", deleteItems);
+    try {
+      //"/detail/product/{boardId}"
+      const response = await fetch(`/api/admin/board/detail/product`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(deleteItems),
+      });
+      if (response.ok) {
+        onDeleteProduct(deleteItems);
+      }
+    } catch (e) {
+      console.log("에러 발생:", e);
+      console.log("에러 메시지:", e.message);
+    }
+  };
+
+  // 모달 관련 커스텀 훅
+  const { openModal, closeModal } = useModal();
+
   return (
     <>
       <SearchBar
@@ -157,6 +187,9 @@ const ProductBoard = () => {
             <th scope="col" className="text-center">
               등록일
             </th>
+            <th scope="col" className="text-center">
+              삭제여부
+            </th>
           </tr>
         </thead>
         <tbody className="">
@@ -196,7 +229,18 @@ const ProductBoard = () => {
           className={"delete btn btn-danger"}
           id={"deleteBtn"}
           type={"button"}
-          onClick={null}
+          onClick={() =>
+            openModal({
+              modalType: "confirm",
+              data: {
+                message: "선택된 게시물을 삭제하시겠습니까?",
+              },
+              onConfirm: () => {
+                onDeleteHandler(checkedInput), closeModal();
+              },
+              onClose: closeModal,
+            })
+          }
           text="삭제"
         />
       </div>

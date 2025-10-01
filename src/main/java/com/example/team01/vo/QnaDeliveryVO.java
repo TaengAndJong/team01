@@ -19,7 +19,7 @@ public class QnaDeliveryVO {
     private Clob qnaContent; // 배송 문의 내용
     private String qnaWriter; // 배송 문의 작성자
     private LocalDateTime qnaDate; // 배송 문의 날짜 현재시간으로
-    private LocalDateTime qnaDel; // 배송 문의 삭제 여부
+    private String qnaDel; // 배송 문의 삭제 여부
     private String qnaStatus; // 배송 문의 답변 상태
     private String clientId; // 배송 문의 작성자 아이디
     private String roleId; // 배송 문의 작성자 권한

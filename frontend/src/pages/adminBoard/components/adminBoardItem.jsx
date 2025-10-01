@@ -17,6 +17,11 @@ const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
     return "N/A";
   };
 
+  const getQnaDel = (data) => {
+    if (data.qnaDel === "Y") return "삭제";
+    return "미삭제";
+  };
+
   return (
     <>
       <tr key={getBoardId(data)} className="table-light border-bottom">
@@ -45,6 +50,7 @@ const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
         <td className="text-center ">{data.clientId}</td>
         <td className="text-center ">{data.qnaStatus}</td>
         <td className="text-center ">{data.qnaDate}</td>
+        <td className="text-center ">{getQnaDel(data)}</td>
       </tr>
     </>
   );

@@ -1,4 +1,4 @@
-package com.example.team01.productboard.service;
+package com.example.team01.board.productboard.service;
 
 import com.example.team01.vo.ProductBoardVO;
 import java.util.List;

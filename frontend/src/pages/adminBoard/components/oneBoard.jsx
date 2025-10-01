@@ -1,5 +1,5 @@
 import "@assets/css/board/adminBoard.css";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import AdminBoardItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import {
@@ -9,23 +9,30 @@ import {
 import { PaginationContext } from "@pages/adminBoard/adminBoardComponent.jsx";
 import Pagination from "@util/pagination.jsx";
 import Btn from "@util/reuseBtn.jsx";
+import { useModal } from "@pages/common/modal/ModalContext.jsx";
+
 const OneBoard = () => {
-  const [boardList, setBoarList] = useState([]);
-
   const { one } = useContext(BookBoardStateContext);
-  const { onInitOne } = useContext(BookBoardDispatchContext);
-  console.log("BookBoardStateContext---one data", one);
+  const { onInitOne, onDeleteOne } = useContext(BookBoardDispatchContext);
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
-  const { onDeleteOne } = useContext(BookBoardDispatchContext);
-  // one 데이터 존재할 때만 boardList 업데이트
-  useEffect(() => {
-    const items = one?.[0]?.items;
-    if (items) {
-      setBoarList(items);
-    }
-  }, [one]);
 
-  console.log("boardList", boardList);
+  const boardList = useMemo(() => {
+    if (!one || !Array.isArray(one) || one.length === 0) {
+      return [];
+    }
+
+    const firstItem = one[0];
+    if (
+      !firstItem ||
+      !firstItem.items ||
+      !Array.isArray(firstItem.items) ||
+      firstItem.items.length === 0
+    ) {
+      return [];
+    }
+
+    return Array.isArray(firstItem.items) ? firstItem.items : [];
+  }, [one]);
 
   // SearchBar
   const [search, setSearch] = useState([]);
@@ -83,20 +90,47 @@ const OneBoard = () => {
         }
       );
 
-      // 요청 성공실패
-      if (!response.ok) {
-        console.log("통신에러", response.status);
-        throw Error(response.statusText);
-      }
-      //요청 성공
       const data = await response.json();
-      console.log("search---------------", data);
-      setBoarList(Array.isArray(data) ? data : []); // 서버 데이터 갱신
+      console.log("응답 데이터:", data);
+      console.log("데이터 타입:", typeof data);
+      console.log(
+        "데이터 길이:",
+        Array.isArray(data) ? data.length : "배열이 아님"
+      );
+
       onInitOne(data);
     } catch (e) {
-      console.log(e, "에러");
+      console.log("에러 발생:", e);
+      console.log("에러 메시지:", e.message);
     }
   };
+
+  const onDeleteHandler = async (deleteItems) => {
+    if (deleteItems.length === 0) {
+      alert("게시물을 선택해 주세요");
+      return;
+    }
+    console.log("삭제 할 게시물 아이디", deleteItems);
+    try {
+      //"/detail/product/{boardId}"
+      const response = await fetch(`/api/admin/board/detail/one`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(deleteItems),
+      });
+      if (response.ok) {
+        onDeleteOne(deleteItems);
+      }
+    } catch (e) {
+      console.log("에러 발생:", e);
+      console.log("에러 메시지:", e.message);
+    }
+  };
+
+  // 모달 관련 커스텀 훅
+  const { openModal, closeModal } = useModal();
 
   return (
     <>
@@ -143,6 +177,9 @@ const OneBoard = () => {
             <th scope="col" className="text-center">
               등록일
             </th>
+            <th scope="col" className="text-center">
+              삭제여부
+            </th>
           </tr>
         </thead>
         <tbody className="">
@@ -180,7 +217,18 @@ const OneBoard = () => {
           className={"delete btn btn-danger"}
           id={"deleteBtn"}
           type={"button"}
-          onClick={() => onDeleteHandler()}
+          onClick={() =>
+            openModal({
+              modalType: "confirm",
+              data: {
+                message: "선택된 게시물을 삭제하시겠습니까?",
+              },
+              onConfirm: () => {
+                onDeleteHandler(checkedInput), closeModal();
+              },
+              onClose: closeModal,
+            })
+          }
           text="삭제"
         />
       </div>

@@ -1,5 +1,6 @@
-package com.example.team01.productboard.service;
+package com.example.team01.board.productboard.service;
 import com.example.team01.attachment.service.AttachmentService;
+import com.example.team01.board.productboard.dao.ProductBoardDao;
 import com.example.team01.vo.ProductBoardVO;
 import com.example.team01.vo.AttachmentVO;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
-
-import com.example.team01.productboard.dao.ProductBoardDao;
 
 @Slf4j
 @RequiredArgsConstructor

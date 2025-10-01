@@ -79,11 +79,22 @@ public class QnaOneServiceImpl implements QnaOneService {
 
     // 1:1 문의 게시물 삭제
     @Override
-    public int deleteOneBoard(String boardId) {
+    public int deleteOneBoard(List<String> boardId) {
         log.info("1:1 문의 게시물 삭제 서비스 구현체 실행");
         log.info("boardId:{}", boardId);
-        return qnaOneDao.deleteOneBoard(boardId);
+        int result = 0;
+        for (String id : boardId) {
+            result += qnaOneDao.deleteOneBoard(id);
+        }
+        return result;
     }
 
+    // 1:1 문의 게시물 답변여부 수정
+    @Override
+    public int updateQnaOneStatus(String boardId) {
+        log.info("1:1 문의 게시물 답변여부 수정 서비스 구현체 실행");
+        log.info("boardId:{}", boardId);
+        return qnaOneDao.updateQnaOneStatus(boardId);
+    }
 }
 

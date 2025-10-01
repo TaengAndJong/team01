@@ -127,6 +127,10 @@ public ResponseEntity<?> postProductComment(
     
     CommentsVO savedComment = commentsService.getCommentById(commentsVO.getQnaRefId(), commentsVO.getCommentType());
 
+    // 게시물 답변여부 수정 로직
+    log.info("게시물 답변여부 수정 로직");
+    qnaDeliveryService.updateQnaDeliveryStatus(boardId);
+
     return ResponseEntity.ok(savedComment);
 }
 
@@ -157,8 +161,8 @@ public ResponseEntity<?> updateComment(@PathVariable String commentId,
     }
 
     //  배송 문의 게시물 삭제
-@DeleteMapping("/detail/delivery/{boardId}")
-public ResponseEntity<?> deleteProductBoard(@PathVariable String boardId){
+@DeleteMapping("/detail/delivery")
+public ResponseEntity<?> deleteProductBoard(@RequestBody List<String> boardId){
     log.info("📦 상품 문의 게시물 삭제 API 호출됨");
     log.info("상품 문의 게시물 삭제 boardId -----------------: {}", boardId);
     int result = qnaDeliveryService.deleteDeliveryBoard(boardId);
