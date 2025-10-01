@@ -53,4 +53,7 @@ public interface PaymentDao {
             ,@Param("payStatus") String payStatus
             ,@Param("clientId") String clientId);
 
+    //3개월 내 결제건수 조회
+    public int selectPaymentCnt(@Param("clientId") String clientId);
+
 }

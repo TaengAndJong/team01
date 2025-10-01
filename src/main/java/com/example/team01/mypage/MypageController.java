@@ -58,10 +58,11 @@ public class MypageController {
                     return dto;
                 }).collect(Collectors.toList()); // 흩어진 데이터를 리스트로 모아 반환
 
-        log.info("userViewBooks 이미지 변경 후 : {}",userViewBooks);
         //결제 건수 데이터
-
+        int payCnt = paymentService.selectPaymentCnt(clientId);
+        log.info("payCnt-----------------------------:{}", payCnt);
         //찜목록 건수 데이터
+        int wishCnt = wishListService.selectWishCnt(clientId);
 
         //모든 문의에 대한 건수 데이터
 
@@ -69,10 +70,9 @@ public class MypageController {
         // 결과를 담아줄 Map객체
         Map<String, Object> result = new HashMap<>(); // 각 데이터객체의 타입이 다르기때문에 Object로 설정
         result.put("userViewBooks", userViewBooks);
-//        result.put("", username);
-//        result.put("payCnt", username);
-//        result.put("wishCnt", username);
-//
+        result.put("payCnt", payCnt);
+        result.put("wishCnt", wishCnt);
+
          log.info("mypageDahshBoard ----------:{}", result);
         //마이페이지 대시보드로 맵객체 반환
         return  ResponseEntity.ok(result);
