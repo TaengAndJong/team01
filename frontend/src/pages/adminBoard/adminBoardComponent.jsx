@@ -3,6 +3,7 @@ import React, { useEffect, useState, useReducer } from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import { useMenu } from "../common/MenuContext.jsx";
 import { menuNavi } from "../../util/menuNavi.jsx";
+import { useLocation } from "react-router-dom";
 import { ModalProvider } from "@pages/common/modal/ModalContext.jsx";
 // 3개 카테고리별 상태 관리를 위한 reducer
 function boardReducer(state, action) {

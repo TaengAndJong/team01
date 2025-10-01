@@ -86,7 +86,7 @@ public class QnaOneController {
     }
     
         // 1:1 문의 상세조회 API
-    @GetMapping("/detail/one")  // URL 패턴: /admin/board/detail/one/123
+    @GetMapping("/detail/one/{boardId}")  // URL 패턴: /admin/board/detail/one/123
     public ResponseEntity<?> getOneBoardDetail(
     @PathVariable String boardId,     // URL 경로의 {boardId}
     @RequestParam String userId       // 쿼리 파라미터 ?userId=값
@@ -134,7 +134,7 @@ public ResponseEntity<?> postOneComment(
     return ResponseEntity.ok(savedComment);
 }
 
-// 답변 수정  
+// 답변 수정
 @PutMapping("detail/comment/one/{commentId}")
 public ResponseEntity<?> updateComment(@PathVariable String commentId, 
     @RequestBody CommentsVO commentsVO)

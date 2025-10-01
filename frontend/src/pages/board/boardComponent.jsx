@@ -1,5 +1,5 @@
 import "@assets/css/board/userBoard.css";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useMenu } from "../common/MenuContext.jsx";
 import axios from "axios";
@@ -26,7 +26,8 @@ const Board = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   // 메뉴 경로 관리
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
-
+  const location = useLocation();
+  const hideLeftMenu = location.pathname.includes("/board/detail");
   const fetchData = async () => {
     console.log("userData fetchData", userData);
     try {
@@ -82,9 +83,7 @@ const Board = () => {
   return (
     <div>
       <div className="page client d-flex">
-        <div className="left">
-          <LeftMenu />
-        </div>
+        <div className="left">{!hideLeftMenu && <LeftMenu />}</div>
         {/*링크이동할 사이드메뉴 */}
         <div className="right">
           <section className="content custom-border">
