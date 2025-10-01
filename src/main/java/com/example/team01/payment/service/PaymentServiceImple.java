@@ -151,6 +151,14 @@ public class PaymentServiceImple implements PaymentService {
         return result;
     }
 
+    // 최근 결제목록 건수
+    @Override
+    public int selectPaymentCnt(String clientId) {
+        log.info("selectPaymentCnt result:{}",clientId);
+
+        return dao.selectPaymentCnt(clientId);
+    }
+
 
     //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
     @Override

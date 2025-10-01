@@ -1,9 +1,26 @@
 import RecentViewSlide from "./recentViewSlide.jsx";
 import "@css/mypage/mypageDash.css"
+import {useEffect} from "react";
+import axios from "axios";
 
 const MyPageMain = () =>{
     
     //slide Data , 최근 10일정도의 찜목록 , 문의내역, 결제내역 건수
+    //한꺼번에 promiseAll.로 비동기 받아서 데이터 나눠서 뿌리기 ?
+
+    const dashFetch = async () => {
+        const response= await axios.get("/api/mypage/mypageDashBoard");
+        console.log("dashFetch-----------------마이페이지 대시보드", response.data);
+
+
+        return response.data;
+    }
+
+    useEffect(()=>{
+
+        dashFetch();
+
+    },[]); //빈 배열 , 마운트 시에만 한 번 렌더
 
     return (
         <>

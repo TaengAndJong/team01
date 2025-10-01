@@ -19,4 +19,7 @@ public interface WishListService {
 
     //해당유저의 찜목록 bookId만 조회
     public List<String> selectWishIds(String clientId);
+
+    //3개월 이내 찜목록 건수 조회
+    public int selectWishCnt(String clientId);
 }
