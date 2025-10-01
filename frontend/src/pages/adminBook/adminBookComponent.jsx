@@ -88,7 +88,7 @@ const AdminBook = () => {
         pageSize: paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
       });
 
-    //  console.log("params.toString()", params.toString());
+      //  console.log("params.toString()", params.toString());
 
       // 서버로 응답 요청
       const response = await fetch(
@@ -105,12 +105,12 @@ const AdminBook = () => {
       }
       // 응답 성공시
       const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-   //   console.log("bookdata목록 get 요청 데이터 받아오기-----", bookVO); // 있음
+      //   console.log("bookdata목록 get 요청 데이터 받아오기-----", bookVO); // 있음
 
       //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
       const { currentPage, items, pageSize, totalPages, totalRecord } = bookVO;
       onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
-     // console.log("초기 데이터 갱신완료", bookVO);
+      // console.log("초기 데이터 갱신완료", bookVO);
       //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
       setPaginationInfo({
         currentPage: currentPage,
@@ -129,7 +129,7 @@ const AdminBook = () => {
   }, [paginationInfo.currentPage]); // 마운트 시에 한 번실행 됨
 
   const onInit = (bookdata) => {
-  //  console.log("onInit", bookdata);
+    //  console.log("onInit", bookdata);
     dispatch({
       type: "INIT",
       data: bookdata,
@@ -137,7 +137,7 @@ const AdminBook = () => {
   };
 
   const onCreate = (createBook) => {
-   // console.log("createBook", createBook);
+    // console.log("createBook", createBook);
     dispatch({
       type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
       data: createBook,
@@ -182,14 +182,12 @@ const AdminBook = () => {
         <div className="right">
           <section className="content custom-border">
             <div className="content-inner">
-
               {/*현재경로의 페이지명 depth 2 */}
               <h3 className="sub-title current-title title-border">
                 {menu?.adminList?.map((item) => {
                   if (item.menuPath.startsWith(`${currentPath}`)) {
                     return item.menuName;
                   }
-
                 })}
               </h3>
 
@@ -209,7 +207,7 @@ const AdminBook = () => {
                     </Link>
                   </li>
                 )}
-                {subNavi?.[0]?.secondChild?.length > 0  && (
+                {subNavi?.[0]?.secondChild?.length > 0 && (
                   <li>
                     <span>
                       {subNavi?.[0]?.secondChild

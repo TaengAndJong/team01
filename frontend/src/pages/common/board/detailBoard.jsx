@@ -163,12 +163,12 @@ const DetailBoard = ({ userType }) => {
   if (!data) return <div>데이터를 불러올 수 없습니다.</div>;
   return (
     <>
-      <div className="main boardDetailLayout">
-        <div className="page boardDetail">
-          <div className="boardDetail-title">
+      <div className="content-inner">
+        <div className="content ">
+          <div className="">
             <h1>{data.qnaTitle}</h1>
           </div>
-          <div className="content">
+          <div className="">
             <div>{data.qnaContent}</div>
             <div>
               <ul>

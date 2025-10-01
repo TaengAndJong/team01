@@ -3,8 +3,6 @@ import BoardListComponent from "./boardListComponent";
 import { BoardListContext } from "../boardComponent";
 import PropTypes from "prop-types";
 import "@assets/css/board/userBoard.css";
-import Btn from "@util/reuseBtn.jsx";
-import { useNavigate } from "react-router-dom";
 import "@assets/css/board/adminBoard.css";
 import { useState } from "react";
 
@@ -14,11 +12,6 @@ const BoardTemplateComponent = ({ category }) => {
   const boardList = useContext(BoardListContext);
   const list = boardList?.[category] || [];
   console.log(`[${category}] 카테고리에 해당하는 게시물 목록`, list);
-  const navigate = useNavigate();
-
-  const handleCreateBoard = (category) => {
-    navigate(`/board/createBoard/${category}`);
-  };
 
   // 컴포넌트 마운트/언마운트 추적
   useEffect(() => {
@@ -78,7 +71,7 @@ const BoardTemplateComponent = ({ category }) => {
 
   return (
     <div>
-      <table className="table table-custom mt-4">
+      <table className="table table-custom">
         <caption className="sr-only">등록된 게시물 테이블</caption>
         <thead>
           <tr>
@@ -125,16 +118,6 @@ const BoardTemplateComponent = ({ category }) => {
           ))}
         </tbody>
       </table>
-
-      <div>
-        <Btn
-          className={"create btn btn-create"}
-          id={"createBtn"}
-          type={"button"}
-          onClick={() => handleCreateBoard(category)}
-          text="등록"
-        />
-      </div>
     </div>
   );
 };
