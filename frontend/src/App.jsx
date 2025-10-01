@@ -106,7 +106,7 @@ function App() {
               {/*클라이언트 게시물 생성*/}
               <Route index element={<Navigate to="dashBoard" replace />} />
 
-              <Route path="createBoard/:category" element={<CreateBoard />} />
+              <Route path="createBoard" element={<CreateBoard />} />
 
               <Route path="dashBoard" element={<BoardDashboard />} />
 

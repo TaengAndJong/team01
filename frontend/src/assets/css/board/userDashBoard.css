@@ -1,0 +1,17 @@
+.flex_box {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card_box {
+  min-width: 350px;
+  max-width: 400px;
+}
+
+.card_title {
+  margin-bottom: 10px;
+}
+
+.card-item {
+  padding: 10px;
+}
