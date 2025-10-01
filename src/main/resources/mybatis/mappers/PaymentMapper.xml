@@ -119,6 +119,17 @@
         order by a."payId" desc
     </select>
 
+    <!-- 3개월 이내 결제건수 조회    -->
+    <select id="selectPaymentCnt" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM payment
+        <![CDATA[
+        WHERE "clientId" = #{clientId}
+          AND "payStatus" = 'COMPLETED'
+          AND "payDate" >= ADD_MONTHS(SYSDATE, -3)
+        ]]>
+    </select>
+
     <!-- 전체취소할 PaymentList 결제내역 조회    -->
     <select id="selectAllCancelPaymentList" parameterType="String" resultMap="PaymentListVOMap">
         select

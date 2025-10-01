@@ -31,6 +31,9 @@ public interface WishListDao {
     //찜목록 도서아이디만 조회 
     // ==> VO 대신 String 타입 사용 이유 = clientId 하나, 단일컬럼만 조회하기때문에 굳이 VO를 사용할 필요 없음
     // vo 사용시 vo에 담긴 모든 엔터티가 매핑됨
-    public List<String> selectWishIds(@Param("clientId")String clientId);
+    public List<String> selectWishIds(@Param("clientId") String clientId);
+
+    //3개월 이내 찜목록 건수 조회
+    public int selectWishCnt(@Param("clientId") String clientId);
 
 }

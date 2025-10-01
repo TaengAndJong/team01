@@ -87,5 +87,11 @@ public class WishListServiceImple implements WishListService {
         return result;
     }
 
+    @Override
+    public int selectWishCnt(String clientId) {
+        log.info("3개월이낸 찜목록 건수 조회 : {}",clientId);
+        return wishListDao.selectWishCnt(clientId);
+    }
+
 
 }

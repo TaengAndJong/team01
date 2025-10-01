@@ -131,15 +131,15 @@
         where "clientId" = #{clientId} and "wishStatus" ='Y'
     </select>
 
-
-
-
-
-    <!-- 마이페이지 찜목록  조회-->
-
-
-
-
+    <!-- 3개월 이내 찜목록 조회    -->
+    <select id="selectWishCnt" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM wishList
+         <![CDATA[
+        WHERE "clientId" = 'user02'
+          AND "wishDate" >= ADD_MONTHS(SYSDATE, -3)
+        ]]>
+    </select>
 
 
 </mapper>

@@ -15,12 +15,18 @@ import java.util.List;
 
 public interface PaymentService {
 
+    //전체조회
     public List<CartDTO> selectCartList(String clientId);
+    
+    //결제성공 시 데이터추가
     public int insertPayment(PaymentVO paymentVO,String clientId);//결제정보
     public int insertPaymentList(PaymentVO paymentVO);//결제내역 정보
-
+    
     //mypage 결제내역 목록들조회
     public List<PaymentListDTO> selectPaymentList(String clientId);
+
+    //mypage 대시보드 건수 조회
+    public int selectPaymentCnt(String clientId);
 
     //부분취소
     public int partialCancel(String payId,String clientId,String bookIds);
@@ -31,5 +37,6 @@ public interface PaymentService {
     
     public  List<PaymentQuantityVO> selectPaymentQuantity(List<String> payIds);
 
+    
 
 }
