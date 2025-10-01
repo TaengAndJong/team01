@@ -164,6 +164,7 @@ const DetailBoard = ({ userType }) => {
   return (
     <>
       <div className="content-inner">
+        <div className="hoverLeaf"></div>
         <div className="content ">
           <div className="">
             <h1>{data.qnaTitle}</h1>

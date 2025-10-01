@@ -81,7 +81,6 @@ const Board = () => {
   console.log("스탠", standardPoint);
   return (
     <div>
-      <div className="hoverLeaf"></div>
       <div className="page client d-flex">
         <div className="left">
           <LeftMenu />
