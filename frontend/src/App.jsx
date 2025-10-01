@@ -103,7 +103,7 @@ function App() {
             </Route>
 
             <Route path={PathData.page.board} element={<Board />}>
-              {/*클라이언트 게시물 생성*/}
+              {/*클라이언트 게시물 생성 수정*/}
               <Route index element={<BoardDashboard />} />
               <Route path="createBoard/:category" element={<CreateBoard />} />
               <Route
