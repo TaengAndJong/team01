@@ -33,5 +33,5 @@ public class UserViewBookVO implements Serializable {
     @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm:ss")
     private LocalDateTime viewDate; // 유저가 조회한 날짜
     //사용자별 도서조회 데이터 조인 시 매핑할 book 객체 ==> mapper.xml 에서 resultMap 작성
-    private BookVO book; // has-a 관계
+    private BookVO bookVO; // has-a 관계
 }

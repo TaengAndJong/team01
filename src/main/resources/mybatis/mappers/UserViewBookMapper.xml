@@ -10,7 +10,7 @@
         <result property="clientId" column="clientId"/>
         <result property="viewDate" column="viewDate"/>
         <result property="bookId" column="bookId"/>
-        <association property="book" javaType="BookVO">
+        <association property="bookVO" javaType="BookVO">
             <result property="bookName" column="bookName"/>
             <result property="bookCateNm" column="bookCateNm"/>
             <result property="bookCateDepth" column="bookCateDepth"/>

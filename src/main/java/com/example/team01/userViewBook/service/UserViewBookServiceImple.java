@@ -1,5 +1,6 @@
 package com.example.team01.userViewBook.service;
 
+import com.example.team01.dto.book.BookDTO;
 import com.example.team01.userViewBook.dao.UserViewBookDao;
 import com.example.team01.userViewBook.dto.UserBookResponseDTO;
 import com.example.team01.vo.UserViewBookVO;
@@ -64,13 +65,30 @@ public class UserViewBookServiceImple implements UserViewBookService {
 
 
     public UserBookResponseDTO voToDto(UserViewBookVO vo){
-        log.info("userViewBookVO---- voToDTO :{}",vo);
         // DTO 객체로 변환하기
+        log.info("userViewBookVO---- voToDTO :{}",vo);
+        //이미지파일 경로 변경때문에 book객체로 묶어서 담아줘야함
+        BookDTO bookDTO = BookDTO.builder()
+                .bookId(vo.getBookVO().getBookId())
+                .bookName(vo.getBookVO().getBookName())
+                .bookCateNm(vo.getBookVO().getBookCateNm())
+                .bookCateDepth(vo.getBookVO().getBookCateDepth())
+                .author(vo.getBookVO().getAuthor())
+                .bookPrice(vo.getBookVO().getBookPrice())
+                .publishDate(vo.getBookVO().getPublishDate())
+                .bookImgPath(vo.getBookVO().getBookImgPath())
+                .cateId(vo.getBookVO().getCateId())
+                .recomType(vo.getBookVO().getRecomType()).build();
 
-
-
-
-        return null;
+        //반환할 사용자조회 응답데이터전송객체
+        UserBookResponseDTO dto = UserBookResponseDTO.builder()
+                .clientId(vo.getClientId())
+                .viewId(vo.getViewId())
+                .viewDate(vo.getViewDate())
+                .book(bookDTO)
+                .build();
+        log.info("UserBookResponseDTO--------dto:{}",dto);
+        return dto;
     }
 
 }
