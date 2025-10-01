@@ -104,12 +104,8 @@ function App() {
 
             <Route path={PathData.page.board} element={<Board />}>
               {/*클라이언트 게시물 생성*/}
-              <Route index element={<Navigate to="dashBoard" replace />} />
-
+              <Route index  element={<BoardDashboard />} />
               <Route path="createBoard/:category" element={<CreateBoard />} />
-
-              <Route path="dashBoard" element={<BoardDashboard />} />
-
               <Route
                 path="oneBoard"
                 element={<BoardTemplateComponent category="one" />}

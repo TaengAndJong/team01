@@ -9,11 +9,11 @@ import "@assets/css/board/adminBoard.css";
 import { useState } from "react";
 
 const BoardTemplateComponent = ({ category }) => {
-  console.log("카테고리 뭐임?", category);
-  console.log("카테고리 속성 뭐임?", typeof category);
+ // console.log("카테고리 뭐임?", category);
+ // console.log("카테고리 속성 뭐임?", typeof category);
   const boardList = useContext(BoardListContext);
   const list = boardList?.[category] || [];
-  console.log(`[${category}] 카테고리에 해당하는 게시물 목록`, list);
+  //console.log(`[${category}] 카테고리에 해당하는 게시물 목록`, list);
   const navigate = useNavigate();
 
   const handleCreateBoard = (category) => {
@@ -23,9 +23,9 @@ const BoardTemplateComponent = ({ category }) => {
   // 컴포넌트 마운트/언마운트 추적
   useEffect(() => {
     setCheckedInput([]);
-    console.log(`[${category}] BoardTemplateComponent 마운트됨`);
+    //console.log(`[${category}] BoardTemplateComponent 마운트됨`);
     return () => {
-      console.log(`[${category}] BoardTemplateComponent 언마운트됨`);
+    //  console.log(`[${category}] BoardTemplateComponent 언마운트됨`);
     };
   }, [category]);
 
