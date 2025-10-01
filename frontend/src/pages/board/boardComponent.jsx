@@ -76,19 +76,18 @@ const Board = () => {
   let subNavi = clientMenuTree?.filter((item) =>
     item.menuPath.includes(standardPoint)
   );
-  console.log("메뉴트리", clientMenuTree);
-  console.log("홈", clientHome);
-  console.log("서브메뉴", subNavi);
-  console.log("스탠", standardPoint);
+
   return (
     <div>
       <div className="page client d-flex">
-        <div className="left">{!hideLeftMenu && <LeftMenu />}</div>
+        <div className="left">
+          <LeftMenu />
+        </div>
         {/*링크이동할 사이드메뉴 */}
         <div className="right">
           <section className="content custom-border">
             <div className="content-inner">
-              {/*현재경로의 페이지명 depth 2 */}
+              {/*현재경로의 페이지명 depth 2  ---- 2메뉴 있으면 안보이게 또는 대체*/}
               <h3 className="sub-title current-title title-border">
                 {menu?.clientList?.map((item) => {
                   if (item.menuPath.startsWith(`${currentPath}`)) {
@@ -120,6 +119,7 @@ const Board = () => {
                       ?.filter(
                         (item) =>
                           item.menuDepth === "2차메뉴" &&
+                          //item.menuPath === currentPath //정확한 경로명
                           item.menuPath.includes(currentPath)
                       )
                       .map((item) => item.menuName)}
