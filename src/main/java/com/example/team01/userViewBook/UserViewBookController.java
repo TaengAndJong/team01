@@ -36,11 +36,13 @@ public class UserViewBookController {
         //서비스로 파리미터 넘겨주기
         userViewBookService.insertUserViewBook(bookId,clientId);
 
-        
-        
-        return null;
+        return ResponseEntity.ok().build(); // 200 OK, body 없음
     }
+
+    //마이페이지 대시보드 조회시 보낼 getAPI
+
 
 
 
 }
+

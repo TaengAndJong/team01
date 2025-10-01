@@ -1,8 +1,11 @@
 package com.example.team01.vo;
 
 
-import lombok.Data;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /*
@@ -17,12 +20,18 @@ import java.time.LocalDateTime;
 * */
 
 //사용자가 조회한 도서 테이블 entity
-@Data
-public class UserViewBookVO {
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserViewBookVO implements Serializable {
 
     private String viewId; // primary key
     private  String clientId; // foreign key
     private String bookId; // foreign key
-    private  LocalDateTime viewDate; // 유저가 조회한 날짜
-
+    @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm:ss")
+    private LocalDateTime viewDate; // 유저가 조회한 날짜
+    //사용자별 도서조회 데이터 조인 시 매핑할 book 객체 ==> mapper.xml 에서 resultMap 작성
+    private BookVO book; // has-a 관계
 }

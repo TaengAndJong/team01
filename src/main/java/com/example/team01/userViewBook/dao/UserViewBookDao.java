@@ -13,6 +13,6 @@ public interface UserViewBookDao {
     public int insertUserViewBook(@Param("bookId") String bookId, @Param("clientId") String clientId);
 
     // 사용자 조회 도서 select
-    public List<UserViewBookVO> selectUserViewBook(@Param("bookId") String bookId);
+    public List<UserViewBookVO> selectUserViewBook(@Param("clientId") String clientId);
 
 }

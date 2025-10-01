@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.example.team01.userViewBook.dao.UserViewBookDao">
 
-    <!--     -->
+    <!-- userViewBook & book 객체 매핑 resultMap  -->
+    <resultMap id="userBookViewMap" type="UserViewBookVO">
+        <id property="viewId" column="viewId"/>
+        <result property="clientId" column="clientId"/>
+        <result property="viewDate" column="viewDate"/>
+        <result property="bookId" column="bookId"/>
+        <association property="book" javaType="BookVO">
+            <result property="bookName" column="bookName"/>
+            <result property="bookCateNm" column="bookCateNm"/>
+            <result property="bookCateDepth" column="bookCateDepth"/>
+            <result property="author" column="author"/>
+            <result property="bookPrice" column="bookPrice"/>
+            <result property="publishDate" column="publishDate"/>
+            <result property="stockStatus" column="stockStatus"/>
+            <result property="cateId" column="cateId"/>
+            <result property="bookImgPath" column="bookImgPath"/>
+            <result property="recomType" column="recomType"/>
+        </association>
+    </resultMap>
+
+
+
+    <!-- 사용자별 도서상품 조회 데이터 추가 쿼리  -->
     <insert id="insertUserViewBook" parameterType="String">
         MERGE INTO userViewBook uvb
             USING (SELECT #{clientId} AS "clientId", #{bookId} AS "bookId" FROM dual) src
@@ -16,5 +39,27 @@
     </insert>
 
 
+    <!-- 사용자가 조회한 도서데이터 8건까지 끊기 -->
+    <select id="selectUserViewBook" parameterType="String" resultMap="userBookViewMap">
+        select * from (select
+                           uv."viewId"
+                            ,uv."clientId"
+                            ,uv."viewDate"
+                            ,uv."bookId"
+                            ,b."bookName"
+                            ,b."bookCateNm"
+                            ,b."bookCateDepth"
+                            ,b."author"
+                            ,b."bookPrice"
+                            ,b."publishDate"
+                            ,b."stockStatus"
+                            ,b."cateId"
+                            ,b."bookImgPath"
+                            ,b."recomType"
+                       from USERVIEWBOOK uv join book b on(uv."bookId" = b."bookId")
+                       where  uv."clientId" = #{clientId}
+                       ORDER BY uv."viewDate" DESC)
+       <![CDATA[where ROWNUM <=8]]>
+    </select>
 
 </mapper>
