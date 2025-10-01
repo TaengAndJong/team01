@@ -40,19 +40,18 @@ export const MenuProvider = ({children}) => {
     const [standardPoint, setStandardPoint] = useState("");
 
     const pathManage  = (currentPath) =>{
-
+        console.log("currentPath--------",currentPath);
        const startPoint = currentPath.split("/");
        // "" 인 값을 제외한 배열 생성 및 반환
         const pathDepth = startPoint.filter((item) => item !== "");
-
+        console.log("pathDepth-------",pathDepth);
         let naviPath="";
 
-        if(pathDepth.length<3){
+        if(pathDepth.length<2){
             for (let i=0; i<pathDepth.length; i++) {
                 naviPath +="/"+pathDepth[i];
             }
-
-        }else{
+        } else{
             for (let i=0; i<pathDepth.length-1; i++) {
                 naviPath +="/"+pathDepth[i];
             }
@@ -70,7 +69,7 @@ export const MenuProvider = ({children}) => {
     },[location.pathname]); //경로 변경될 때마다 실행
 
 
-
+    console.log("menuContext----기준경로",standardPoint)
 
     return (
         <>

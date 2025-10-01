@@ -782,6 +782,9 @@ header, .header-inner, .gnb {
 .right {
   width: calc(100% - 320px);
 }
+.right .sub-title {
+  display: none;
+}
 
 .content {
   border: 1px solid #56453E;
