@@ -16,7 +16,7 @@ public class QnaDeliveryVO {
     @Id
     private String qnaDelId; // 배송 문의 index
     private String qnaTitle; // 배송 문의 제목
-    private Clob qnaContent; // 배송 문의 내용
+    private String qnaContent; // 배송 문의 내용
     private String qnaWriter; // 배송 문의 작성자
     private LocalDateTime qnaDate; // 배송 문의 날짜 현재시간으로
     private String qnaDel; // 배송 문의 삭제 여부

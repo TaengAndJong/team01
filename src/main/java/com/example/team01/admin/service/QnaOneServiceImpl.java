@@ -67,7 +67,7 @@ public class QnaOneServiceImpl implements QnaOneService {
 
     // 2. attachment qnaDate, userId, category, 첨부파일 데이터 조회
     log.info("첨부파일 조회 시작");
-    List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "one", boardData.getQnaDate());
+    List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "qnaone", boardData.getQnaDate());
     log.info("첨부파일 조회 결과:{}", attachmentList);
     boardData.setAttachmentList(attachmentList);
     

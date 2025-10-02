@@ -1,0 +1,28 @@
+.detail-date {
+  text-align: right;
+  font-size: 18px;
+}
+
+.detail-title {
+  margin-right: 5px;
+}
+
+.content-box {
+  font-size: 24px;
+  text-align: left;
+}
+
+.attachment-box {
+  padding: 4px;
+  margin-bottom: 12px;
+  &:strong {
+    color: aliceblue;
+  }
+}
+
+.comment-box {
+  padding-top: 13px;
+  padding-bottom: 13px;
+  margin-bottom: 13px;
+  border-top: dotted 2px #8b655a;
+}

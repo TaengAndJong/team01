@@ -102,21 +102,21 @@ const CreateBoardComponent = () => {
           body: form,
         });
         successMessage = "1:1 문의 게시물이 등록되었습니다!";
-        redirectPath = "/board/oneBoard";
+        redirectPath = "/board";
       } else if (formData.category === "product") {
         response = await fetch(`/api/board/productBoard`, {
           method: "POST",
           body: form,
         });
         successMessage = "상품 문의 게시물이 등록되었습니다!";
-        redirectPath = "/board/productBoard";
+        redirectPath = "/board";
       } else if (formData.category === "delivery") {
         response = await fetch(`/api/board/deliveryBoard`, {
           method: "POST",
           body: form,
         });
         successMessage = "배송 문의 게시물이 등록되었습니다!";
-        redirectPath = "/board/deliveryBoard";
+        redirectPath = "/board";
       } else {
         console.log("지원하지 않는 카테고리");
         return;

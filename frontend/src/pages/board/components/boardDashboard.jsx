@@ -26,22 +26,22 @@ const BoardDashboard = () => {
           {/*컴포넌트 카드 */}
           <div className="flex_box inner">
             <div className="card-box">
-              <span>1:1문의</span>
+              <span className="title-dotted">1:1문의</span>
               <BoardCardTalble items={boardList.one} />
             </div>
-            <div>
-              <span>상품문의</span>
+            <div className="card-box">
+              <span className="title-dotted">상품문의</span>
               <BoardCardTalble items={boardList.product} />
             </div>
-            <div>
-              <span>배송문의</span>
+            <div className="card-box">
+              <span className="title-dotted">배송문의</span>
               <BoardCardTalble items={boardList.delivery} />
             </div>
           </div>
 
           <div>
             <Btn
-              className={"create btn btn-create"}
+              className={"create btn w- custom-btn00 btn-create"}
               id={"createBtn"}
               type={"button"}
               onClick={() => handleCreateBoard()}
