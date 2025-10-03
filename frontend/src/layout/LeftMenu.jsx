@@ -20,21 +20,24 @@ const LeftMenu = () => {
                 <div className="left-title">
                     {/*현재경로의 부모 1차메뉴 이름*/}
                     <h4 className="sub-title first-title title-border">
-                        {
-                            menu?.adminList?.map((item)=>{
-                                return item.menuPath === standardPoint? item.menuName:"";
-                            })
-                        }
-                        {
-                            menu?.clientList?.map((item)=>{
-                                return item.menuPath === standardPoint? item.menuName:"";
-                            })
-                        }
+                        {menu.adminList.find(item => item.menuPath === standardPoint)?.menuName || ""}
+                        {menu.clientList.find(item => item.menuPath === standardPoint)?.menuName || ""}
+
+                        {/*{*/}
+                        {/*    menu?.adminList?.map((item)=>{*/}
+                        {/*        return item.menuPath === standardPoint? item.menuName:"";*/}
+                        {/*    })*/}
+                        {/*}*/}
+                        {/*{*/}
+                        {/*    menu?.clientList?.map((item)=>{*/}
+                        {/*        return item.menuPath === standardPoint? item.menuName:"";*/}
+                        {/*    })*/}
+                        {/*}*/}
                     </h4>
                 </div>
 
                 <ul className="depth first-depth">
-
+                    {/*admin일 경우 */}
                     {
                         menu?.adminList?.filter((item)=> item.menuPath.startsWith(`${standardPoint}/`))
                             .map((item)=>{
@@ -50,7 +53,7 @@ const LeftMenu = () => {
                                 }
                             })
                     }
-
+                    {/*clinent일 경우 */}
                     {
                         menu?.clientList?.filter((item)=> item.menuPath.startsWith(`${standardPoint}/`))
                             .map((item)=>{

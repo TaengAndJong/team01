@@ -1,6 +1,9 @@
 package com.example.team01.mypage;
 
-import com.example.team01.common.service.ClientService;
+
+import com.example.team01.board.dashboard.dto.ResponseQnaCntDTO;
+import com.example.team01.board.dashboard.service.DashService;
+import com.example.team01.book.service.BookService;
 import com.example.team01.dto.book.BookDTO;
 import com.example.team01.payment.service.PaymentService;
 import com.example.team01.security.PrincipalDetails;
@@ -32,6 +35,7 @@ public class MypageController {
     private final UserViewBookService userViewBookService;
     private final PaymentService paymentService;
     private final WishListService wishListService;
+    private final DashService dashService;
     private final FileUtils fileUtils;
 
     //마이페이지 대시보드 공통
@@ -63,8 +67,10 @@ public class MypageController {
         log.info("payCnt-----------------------------:{}", payCnt);
         //찜목록 건수 데이터
         int wishCnt = wishListService.selectWishCnt(clientId);
-
+        log.info("wishCnt-----------------------------:{}", wishCnt);
         //모든 문의에 대한 건수 데이터
+        ResponseQnaCntDTO qnaCntList = dashService.selectBoardCnt(clientId);
+        log.info("qnaCntList-----------------------------:{}", qnaCntList);
 
 
         // 결과를 담아줄 Map객체
@@ -72,6 +78,7 @@ public class MypageController {
         result.put("userViewBooks", userViewBooks);
         result.put("payCnt", payCnt);
         result.put("wishCnt", wishCnt);
+        result.put("qnaCntList", qnaCntList);
 
          log.info("mypageDahshBoard ----------:{}", result);
         //마이페이지 대시보드로 맵객체 반환

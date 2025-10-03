@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.team01.board.dashBoard.dao.DashDao">
+<mapper namespace="com.example.team01.board.dashboard.dao.DashDao">
 
     <!-- 3개월 이내 찜목록 조회    -->
-    <select id="selectBoardCnt" parameterType="String" resultType="int">
-        
+    <select id="selectBoardCnt" parameterType="String" resultType="com.example.team01.board.dashboard.dto.ResponseQnaCntDTO">
+        select
+            d.delivCnt,
+            o.oneCnt,
+            p.proCnt,
+            (d.delivCnt + o.oneCnt + p.proCnt)  as totalCnt
+        from
+            (select count(*) as delivCnt
+             from QNADELIV
+             where "clientId" = #{clientId}
+               and
+                 <![CDATA["qnaDate" >= ADD_MONTHS(SYSDATE, -3)]]>
+            ) d,
+            (select count(*) as oneCnt
+             from QNAONE
+             where "clientId" = #{clientId}
+               and
+                  <![CDATA["qnaDate" >= ADD_MONTHS(SYSDATE, -3) ]]>
+            ) o,
+            (select count(*) as proCnt
+             from QNAPRO
+             where "clientId" = #{clientId}
+               and
+                 <![CDATA["qnaDate" >= ADD_MONTHS(SYSDATE, -3) ]]>
+            ) p
     </select>
 
 </mapper>
