@@ -38,7 +38,7 @@
         ORDER BY "qnaOneId" DESC
     </select>
 
-    <select id="getOneBoardDetail" parameterType="map" resultType="com.example.team01.vo.OneBoardVO">
+    <select id="getOneBoardDetail" parameterType="map" resultType="OneBoardVO">
         SELECT "qnaOneId",
         "qnaTitle",
         "qnaContent",

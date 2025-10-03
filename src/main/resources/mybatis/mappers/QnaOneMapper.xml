@@ -64,7 +64,7 @@
     <select id="getQnaOneDetailBoard" resultType="QnaOneVO" parameterType="map">
             SELECT "qnaOneId",
         "qnaTitle", 
-        TO_CHAR("qnaContent") as qnaContent,
+        TO_CHAR("qnaContent") as "qnaContent",
         "qnaWriter",
         "qnaDate",
         "qnaDel",
@@ -91,5 +91,3 @@
         where "qnaOneId" = #{boardId}
     </update>
 </mapper>
-
-

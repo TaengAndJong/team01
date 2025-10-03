@@ -4,11 +4,14 @@ import { useNavigate } from "react-router-dom";
 import Btn from "@util/reuseBtn.jsx";
 import { BoardListContext } from "../boardComponent";
 import { useContext } from "react";
+import BoardCardTalble from "./boardCardTable";
 const BoardDashboard = () => {
   const boardList = useContext(BoardListContext);
   console.log("게시물 데이터", boardList);
   const navigate = useNavigate();
-
+  console.log("1:1", boardList.one);
+  console.log("1:1", boardList.pruduct);
+  console.log("1:1", boardList.delivery);
   const handleCreateBoard = () => {
     navigate(`/board/createBoard`);
   };
@@ -22,53 +25,23 @@ const BoardDashboard = () => {
           </strong>
           {/*컴포넌트 카드 */}
           <div className="flex_box inner">
-            <div className="card_box">
-              <span className="card_title">1:1 문의</span>
-              <div>
-                <ul className="recent-slide box-list">
-                  {boardList.one.slice(0, 5).map((board, idx) => {
-                    return (
-                      <li className="card-item" key={idx}>
-                        {board.qnaTitle}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+            <div className="card-box">
+              <span className="title-dotted">1:1문의</span>
+              <BoardCardTalble items={boardList.one} />
             </div>
-            <div className="card_box">
-              <span className="card_title">상품 문의</span>
-              <div>
-                <ul className="recent-slide box-list">
-                  {boardList.product.slice(0, 5).map((board, idx) => {
-                    return (
-                      <li className="card-item" key={idx}>
-                        {board.qnaTitle}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+            <div className="card-box">
+              <span className="title-dotted">상품문의</span>
+              <BoardCardTalble items={boardList.product} />
             </div>
-            <div className="card_box">
-              <span className="card_title">배달 문의</span>
-              <div>
-                <ul className="recent-slide box-list">
-                  {boardList.delivery.slice(0, 5).map((board, idx) => {
-                    return (
-                      <li className="card-item" key={idx}>
-                        {board.qnaTitle}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+            <div className="card-box">
+              <span className="title-dotted">배송문의</span>
+              <BoardCardTalble items={boardList.delivery} />
             </div>
           </div>
 
           <div>
             <Btn
-              className={"create btn btn-create"}
+              className={"create btn w- custom-btn00 btn-create"}
               id={"createBtn"}
               type={"button"}
               onClick={() => handleCreateBoard()}

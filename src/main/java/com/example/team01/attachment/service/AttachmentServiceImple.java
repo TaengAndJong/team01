@@ -76,8 +76,9 @@ public class AttachmentServiceImple implements AttachmentService {
     // 특정 게시물 첨부파일 조회 후 반환
     public List<AttachmentVO> GetAttachmentList(String userId , String boardType, LocalDateTime boardDate) {
         log.info("GetAttachmentList 호출");
-        log.info("GetAttachmentList 넘어온 userId: {}", userId);
+        log.info("GetAttachmentList 넘어온 userId, boardType, boardDate: {}, {}, {}", userId, boardType, boardDate);
         List<AttachmentVO> attachmentList = attachmentDao.GetAttachmentList(userId , boardType , boardDate);
+        log.info("첨부파일 조회 결과: {}", attachmentList);
         return attachmentList;
     }
 }
