@@ -20,8 +20,8 @@ const LeftMenu = () => {
                 <div className="left-title">
                     {/*현재경로의 부모 1차메뉴 이름*/}
                     <h4 className="sub-title first-title title-border">
-                        {menu.adminList.find(item => item.menuPath === standardPoint)?.menuName || ""}
-                        {menu.clientList.find(item => item.menuPath === standardPoint)?.menuName || ""}
+                        {menu?.adminList?.find(item => item.menuPath === standardPoint)?.menuName || ""}
+                        {menu?.clientList?.find(item => item.menuPath === standardPoint)?.menuName || ""}
 
                         {/*{*/}
                         {/*    menu?.adminList?.map((item)=>{*/}

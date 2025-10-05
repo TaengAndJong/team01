@@ -3,7 +3,7 @@ package com.example.team01.mypage;
 
 import com.example.team01.board.dashboard.dto.ResponseQnaCntDTO;
 import com.example.team01.board.dashboard.service.DashService;
-import com.example.team01.book.service.BookService;
+
 import com.example.team01.dto.book.BookDTO;
 import com.example.team01.payment.service.PaymentService;
 import com.example.team01.security.PrincipalDetails;
@@ -14,6 +14,7 @@ import com.example.team01.wishList.service.WishListService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+
 
 @Slf4j
 @RequiredArgsConstructor //@RequiredArgsConstructor로 생성자 주입
@@ -43,7 +46,7 @@ public class MypageController {
     public ResponseEntity<?> getMypageDash(@AuthenticationPrincipal PrincipalDetails userInfo,
                                            HttpServletRequest request) {
         log.info("getMypageDash------------------------------마이페이지 대시보드 요청들어오나요");
-        // 로그인 세션 끊기면 로그인필요하다는 걸 예외처리 <<--------------------
+        // 로그인 세션 끊기면 로그인필요하다는 걸 예외처리 작업필요  ( 보류 )
 
         String clientId = userInfo.getUsername(); // 클라이언트 Id ==> 조회해올 데이터의 파라미터
 
@@ -54,24 +57,25 @@ public class MypageController {
                 = selectViewBooks.stream() // Stream<UserBookResponseDTO> 로 변환
                 .map(dto -> { // map을 통해 순회하면서 데이터변환
                     BookDTO book = dto.getBook();
+                    //도서상품상세주소
+                    book.setDetailUrl("/book/bookDetail/"+dto.getBook().getBookId());
                     //book 이미지 경로변경 ==> dto 반환됨
                     fileUtils.changeImgPathDto(book, request);
                     //반환 Dto book 객체 재설정
                     dto.setBook(book);
+                    log.info("window.location.origin---dto:{}",dto);
                     // 최종 결과 반환
                     return dto;
                 }).collect(Collectors.toList()); // 흩어진 데이터를 리스트로 모아 반환
 
         //결제 건수 데이터
         int payCnt = paymentService.selectPaymentCnt(clientId);
-        log.info("payCnt-----------------------------:{}", payCnt);
+
         //찜목록 건수 데이터
         int wishCnt = wishListService.selectWishCnt(clientId);
-        log.info("wishCnt-----------------------------:{}", wishCnt);
+
         //모든 문의에 대한 건수 데이터
         ResponseQnaCntDTO qnaCntList = dashService.selectBoardCnt(clientId);
-        log.info("qnaCntList-----------------------------:{}", qnaCntList);
-
 
         // 결과를 담아줄 Map객체
         Map<String, Object> result = new HashMap<>(); // 각 데이터객체의 타입이 다르기때문에 Object로 설정
