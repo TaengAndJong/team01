@@ -22,6 +22,7 @@ public class BookDTO implements BookImgChange {
     private String publishDate;//발행일
     private String recomType;
     private String cateId;
+    private String detailUrl;//도서 상세보기 주소
     private int bookPrice;//도서가격
     private int quantity;//도서 구매수량
     private int stock;//재고 ==> 등록된 도서가 0 일때 품절 표시, 0초과일 때 재고수량 표시

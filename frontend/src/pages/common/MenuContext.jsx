@@ -60,7 +60,7 @@ export const MenuProvider = ({children}) => {
         setStandardPoint(naviPath);
     }
 
-
+    console.log("standardPoint-------메뉴 텍스트 ",standardPoint)
     //화면 렌더링 시
     useEffect(() => {
         getMenuData();

@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import "@assets/css/board/userBoard.css";
 import "@assets/css/board/adminBoard.css";
 import { useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 const BoardTemplateComponent = ({ category }) => {
   // console.log("카테고리 뭐임?", category);
