@@ -31,6 +31,7 @@ const RecentView = ({slideData}) =>{
         }
     },[slideData]);//slideData 가 변경될때마다해줘야 ?
 
+
     return (
         <>
             <Swiper
@@ -40,14 +41,15 @@ const RecentView = ({slideData}) =>{
                 }}
                 modules={[Pagination, Navigation]}
                 className="recent-slide clearfix mt-5"
-                slidesPerView={Math.min(4, slideData?.length || 1)}  // 총 보여지는 슬라이드 개수
+                slidesPerView={4}  // 총 보여지는 슬라이드 개수
                 slidesPerGroup={1}//넘어가는 슬라이드 개수
                 speed={700}// 슬라이드 속도
                 navigation={{
                     prevEl: prevRef.current,
                     nextEl: nextRef.current,
                 }}
-                loop={slideData?.length >1}//
+                loop={true}//
+                loopFillGroupWithBlank={true} // 부족한 슬라이드 빈 칸으로 채움
                 observer={true}
                 observeParents={true}
                 onBeforeInit={(swiper) => {
@@ -59,17 +61,17 @@ const RecentView = ({slideData}) =>{
             >
                 {slideData?.map((item) => (
                     <SwiperSlide key={`slide-${item.book.bookId}`} className="li">
-                        <Link className="link" to={item.book.detailUrl} title={`${item.book.bookName}도서 상세페이지 바로가기`}>
-                            <div className="img-box">
-                                <div className="img-inner">
-                                    <img className="img" src={item.book.bookImgList?.[0]} alt={item.book.bookName}/>
+                            <Link className="link" to={item.book.detailUrl} title={`${item.book.bookName}도서 상세페이지 바로가기`}>
+                                <div className="img-box">
+                                    <div className="img-inner">
+                                        <img className="img" src={item.book.bookImgList?.[0]} alt={item.book.bookName}/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="txt-box">
-                                <span className="tit bold d-block">{item.book.bookName}</span>
-                                <span className="tit bold d-block">{item.book.author}</span>
-                            </div>
-                        </Link>
+                                <div className="txt-box">
+                                    <span className="tit bold d-block">{item.book.bookName}</span>
+                                    <span className="tit bold d-block">{item.book.author}</span>
+                                </div>
+                            </Link>
                     </SwiperSlide>
                 ))}
             </Swiper>

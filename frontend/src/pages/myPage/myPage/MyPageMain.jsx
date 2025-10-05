@@ -1,10 +1,18 @@
 import RecentView from "./recentView.jsx";
 import "@css/mypage/mypageDash.css";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
+import {useMenu} from "../../common/MenuContext.jsx";
 
 const MyPageMain = () => {
   //slide Data , 최근 10일정도의 찜목록 , 문의내역, 결제내역 건수
+  const { menu,currentPath } = useMenu();
+  console.log("currentPath",currentPath);
+
+  let clientHome = menu?.clientList?.find(
+      (item) => item.menuId === "main"
+  )?.menuPath;
 
   const [payCnt, setPayCnt] = useState(0);
   const [qnaCntList, setQnaCntList] = useState([]);
@@ -41,9 +49,20 @@ const MyPageMain = () => {
     <>
       <div className="mypage-dash">
         <div className="inner left">
-          <strong className="title d-inline-block mb-4">
-            최근 본 도서목록
-          </strong>
+          <ol className="menu-navi d-flex title-border">
+            {/* 서브페이지 네비게이션 */}
+            <li>
+              <Link to={clientHome} className="home icon">
+                <span className="sr-only">홈</span>
+              </Link>
+            </li>
+            <li>
+              <strong className="title d-inline-block">
+              최근 본 도서목록
+              </strong>
+            </li>
+          </ol>
+
           <RecentView slideData={userViewBooks}/>
         </div>
         <div className="inner right mt-4">

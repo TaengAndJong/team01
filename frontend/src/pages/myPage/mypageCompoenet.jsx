@@ -2,12 +2,15 @@
 import {Link, Outlet} from "react-router-dom";
 import React from "react";
 import {useMenu} from "../common/MenuContext.jsx";
+import {menuNavi} from "../../util/menuNavi.jsx";
 
 
 const Mypage = () => {
 
-    const {currentPath}  = useMenu();
+    const { currentPath } = useMenu();
     console.log("currentPath",currentPath);
+
+
 
     //마이페이지 타이틀 동적 설정 함수
     const mypageTile=(currentPath)=>{
@@ -90,8 +93,9 @@ const Mypage = () => {
                 <div className="right">
                     <section className="content">
                         <div className="content-inner custom-border">
+
                             {/*오른쪽 컨텐츠*/}
-                            <Outlet />
+                            <Outlet/>
                         </div>
                     </section>
                 </div>
