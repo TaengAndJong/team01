@@ -28,11 +28,13 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                        id={id} name={name} type={type} value={value || ""} onChange={onChange}
                        className={msg ? "msg form-control" : className}
                        required={required}
+                       readOnly={readOnly}
                        {...(type === "password" ? {autoComplete: "new-password"} : {})}
                        {...(type === "name" ? {autoComplete: "name"} : {})}
                    />
                );
                break;
+
            case "file":
                return (
                    <input
