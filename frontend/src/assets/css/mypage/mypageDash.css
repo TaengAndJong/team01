@@ -46,3 +46,6 @@ border-radius : 1em; }
 .recent-slide .link:hover .txt-box .tit,
 .recent-slide .link:focus .txt-box .tit,
 .recent-slide .link:focus-within .txt-box .tit{color:#333; font-weight: bold;}
+
+.button-group{position:absolute;top:0px;right:10px;}
+.button-group .custom-prev,.button-group .custom-next{position:relative;top:auto;right:auto;left:auto;}

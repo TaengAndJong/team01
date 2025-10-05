@@ -44,9 +44,9 @@ const MyPageMain = () => {
           <strong className="title d-inline-block mb-4">
             최근 본 도서목록
           </strong>
-          <RecentView data={userViewBooks}/>
+          <RecentView slideData={userViewBooks}/>
         </div>
-        <div className="inner right">
+        <div className="inner right mt-4">
           <ul className="box-list d-flex flex-wrap">
             <li className="li green">
               <strong className="title">찜목록</strong>
