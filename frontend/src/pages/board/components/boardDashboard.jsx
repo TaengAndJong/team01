@@ -7,11 +7,11 @@ import { useContext } from "react";
 import BoardCardTalble from "./boardCardTable";
 const BoardDashboard = () => {
   const boardList = useContext(BoardListContext);
-  console.log("게시물 데이터", boardList);
+  // console.log("게시물 데이터", boardList);
   const navigate = useNavigate();
-  console.log("1:1", boardList.one);
-  console.log("1:1", boardList.pruduct);
-  console.log("1:1", boardList.delivery);
+  // console.log("1:1", boardList.one);
+  // console.log("1:1", boardList.pruduct);
+  // console.log("1:1", boardList.delivery);
   const handleCreateBoard = () => {
     navigate(`/board/createBoard`);
   };

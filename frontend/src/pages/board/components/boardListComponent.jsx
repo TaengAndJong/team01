@@ -40,8 +40,9 @@ const BoardListComponent = ({
             {categoryListData.qnaTitle}
           </Link>
         </td>
-        <td className="text-center">{categoryListData.qnaWriter}</td>
-        <td className="text-center">{categoryListData.clientId}</td>
+        <td className="text-center">
+          {categoryListData.qnaWriter}({categoryListData.clientId})
+        </td>
         <td className="text-center">{categoryListData.qnaStatus}</td>
         <td className="text-center">{categoryListData.qnaDate}</td>
       </tr>

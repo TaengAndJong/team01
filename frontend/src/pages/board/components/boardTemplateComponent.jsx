@@ -5,13 +5,14 @@ import PropTypes from "prop-types";
 import "@assets/css/board/userBoard.css";
 import "@assets/css/board/adminBoard.css";
 import { useState } from "react";
-
+import Btn from "@util/reuseBtn.jsx";
+import { useNavigate } from "react-router-dom";
 const BoardTemplateComponent = ({ category }) => {
   // console.log("카테고리 뭐임?", category);
   // console.log("카테고리 속성 뭐임?", typeof category);
   const boardList = useContext(BoardListContext);
   const list = boardList?.[category] || [];
-
+  const navigate = useNavigate();
   //console.log(`[${category}] 카테고리에 해당하는 게시물 목록`, list);
 
   // 컴포넌트 마운트/언마운트 추적
@@ -69,6 +70,9 @@ const BoardTemplateComponent = ({ category }) => {
       });
     }
   };
+  const handleCreateBoard = () => {
+    navigate(`/board/createBoard`);
+  };
 
   return (
     <div>
@@ -94,9 +98,6 @@ const BoardTemplateComponent = ({ category }) => {
               작성자
             </th>
             <th scope="col" className="text-center">
-              id
-            </th>
-            <th scope="col" className="text-center">
               답변여부
             </th>
             <th scope="col" className="text-center">
@@ -119,6 +120,15 @@ const BoardTemplateComponent = ({ category }) => {
           ))}
         </tbody>
       </table>
+      <div>
+        <Btn
+          className={"create btn w- custom-btn00 btn-create"}
+          id={"createBtn"}
+          type={"button"}
+          onClick={() => handleCreateBoard()}
+          text="문의 하기"
+        />
+      </div>
     </div>
   );
 };

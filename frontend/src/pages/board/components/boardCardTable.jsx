@@ -23,7 +23,7 @@ const BoardCardTable = ({ items }) => {
           </tr>
         </thead>
         <tbody className="">
-          {items?.map((item, idx) => {
+          {items?.slice(0, 5)?.map((item, idx) => {
             return (
               <tr className="text-center rd-5 card-item-box" key={idx}>
                 <td className="text-center">{item.qnaTitle}</td>
