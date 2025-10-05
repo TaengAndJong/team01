@@ -29,9 +29,13 @@ display: inline-flex;align-items: center;}
 .recent-slide .link, .recent-slide .img-box,.recent-slide .txt-box{max-width: 100%;width: 100%;}
 
 .recent-slide{ display: flex; gap:10px;height: 100%; height:250px; }
-.recent-slide .swiper-wrapper{width:calc(100% + 4em);
-    margin: 0 -0.5em;}
-.recent-slide .swiper-slide{margin:0 0.5em}
+.recent-slide .swiper-wrapper{
+    /*width:calc(100% + 4em); margin: 0 -0.5em;*/
+}
+
+.recent-slide .swiper-slide{
+    /*margin:0 0.5em*/
+}
 .recent-slide .li{
     /*flex:1;*/
     display:inline-block;height: 100%;

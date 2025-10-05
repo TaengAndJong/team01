@@ -31,6 +31,21 @@ const RecentView = ({slideData}) =>{
         }
     },[slideData]);//slideData 가 변경될때마다해줘야 ?
 
+    //슬라이드 데이터가 없을 경우 분기
+    let slides = slideData ? [...slideData] : []; //데이터가 있으면 기존 데이터 복사, 아니면 빈배열
+    
+    //데이터가 없을경우 , 조건을 분기해줄 플래그 선언
+    if (slides.length === 0) {
+        console.log("slides length",slides.length);
+        slides.push({ noData: true }); // slide 데이터에 noData 속성이 true 이면 데이터 없음 컴포넌트 출력
+    }
+
+    const totalSlid = 4;
+    while(slides.length < totalSlid){
+        slides.push({ noData: true });
+    }
+    console.log("slides-----------------",slides);
+    console.log("slides-----------------noData-",slides);
 
     return (
         <>
@@ -43,13 +58,13 @@ const RecentView = ({slideData}) =>{
                 className="recent-slide clearfix mt-5"
                 slidesPerView={4}  // 총 보여지는 슬라이드 개수
                 slidesPerGroup={1}//넘어가는 슬라이드 개수
+                spaceBetween={15}
                 speed={700}// 슬라이드 속도
                 navigation={{
                     prevEl: prevRef.current,
                     nextEl: nextRef.current,
                 }}
-                loop={true}//
-                loopFillGroupWithBlank={true} // 부족한 슬라이드 빈 칸으로 채움
+                loop={slideData?.length>4? true:false}//
                 observer={true}
                 observeParents={true}
                 onBeforeInit={(swiper) => {
@@ -59,8 +74,20 @@ const RecentView = ({slideData}) =>{
                 }}
                 onSlideChange={() => console.log('recent-slide')}
             >
-                {slideData?.map((item) => (
-                    <SwiperSlide key={`slide-${item.book.bookId}`} className="li">
+                {slides?.map((item,index) => (
+                    <SwiperSlide key={`slide-${item?.book?.bookId} || nodata-${index}`} className="li">
+                        {item.noData? (
+                            <div className="link" >
+                                <div className="img-box">
+                                    <div className="img-inner">
+                                        {/*<img className="img" src={""} alt="데이터 없음"/>*/}
+                                    </div>
+                                </div>
+                                <div className="txt-box">
+                                    <span className="tit bold d-block">데이터 없음</span>
+                                </div>
+                            </div>
+                        ):(
                             <Link className="link" to={item.book.detailUrl} title={`${item.book.bookName}도서 상세페이지 바로가기`}>
                                 <div className="img-box">
                                     <div className="img-inner">
@@ -72,6 +99,7 @@ const RecentView = ({slideData}) =>{
                                     <span className="tit bold d-block">{item.book.author}</span>
                                 </div>
                             </Link>
+                        )}
                     </SwiperSlide>
                 ))}
             </Swiper>
