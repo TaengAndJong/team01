@@ -140,74 +140,85 @@ const CreateBoardComponent = () => {
   };
   return (
     <>
-      <div>
-        <div className="createBoardBox">
-          <div className="d-flex">
-            <dt className="name">고객명</dt>
-            <dd>
-              <span>{userData.clientName}</span>
-            </dd>
+      <div className="bardcrate">
+        <from className="createFrom">
+          <div className="d-flex align-items-center mb-1">
+            <span className="form-title name">고객명</span>
+
+            <span className="form-control">{userData.clientName}</span>
           </div>
-          <div className="d-flex">
-            <dt className="id">ID</dt>
-            <dd>
-              <span>{maskUserId(userData.clientId)}</span>
-            </dd>
+          <div className="d-flex align-items-center mb-1">
+            <span className=" form-title id">ID</span>
+
+            <span className="form-control">
+              {maskUserId(userData.clientId)}
+            </span>
           </div>
-          <div className="d-flex">
-            <dt>문의 종류</dt>
-            <dd>
-              {/* <div>{categorySwitch(category).text}</div> */}
-              <select name="category" onChange={handleChange}>
-                <option value="">문의 선택</option>
-                <option value="qnaone">1:1 문의</option>
-                <option value="product">상품 문의</option>
-                <option value="delivery">배송 문의</option>
-              </select>
-            </dd>
+          <div className="d-flex align-items-center mb-1">
+            <span className=" form-title ">문의 종류</span>
+
+            {/* <div>{categorySwitch(category).text}</div> */}
+            <select name="category" onChange={handleChange}>
+              <option value="">문의 선택</option>
+              <option value="qnaone">1:1 문의</option>
+              <option value="product">상품 문의</option>
+              <option value="delivery">배송 문의</option>
+            </select>
           </div>
-          <div className="d-flex">
-            <dt className="inquireTitle">문의 제목</dt>
-            <dd>
-              <input name="title" onChange={handleChange} />
-            </dd>
+          <div className="d-flex align-items-center mb-1">
+            <span className="form-title inquireTitle">문의 제목</span>
+
+            <input
+              className="form-control"
+              name="title"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="d-flex align-items-center mb-1">
+            <span className="form-title inquireContents">문의 내용</span>
+
+            <textarea
+              className="form-control"
+              placeholder="문의 내용을 입력해 주세요."
+              name="content"
+              onChange={handleChange}
+            />
           </div>
 
           <div className="d-flex">
-            <dt className="inquireContents">문의 내용</dt>
-            <dd>
-              <textarea name="content" onChange={handleChange} />
-            </dd>
-          </div>
+            <span className="form-title attachfiles">첨부 파일</span>
 
-          <div className="d-flex">
-            <dt className="attachfiles">첨부 파일</dt>
-            <dd>
-              <p>이미지 파일만 첨부해 주세요</p>
-              <input
-                type="file"
-                multiple
-                ref={fileRef}
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
-              <a className="btn" onClick={() => fileRef.current.click()}>
-                파일 첨부하기
-              </a>
-              <span>
-                &quot;(<b>최대 5개</b>, 10MB)&quot;
-              </span>
-            </dd>
+            <p>이미지 파일만 첨부해 주세요</p>
+            <input
+              type="file"
+              multiple
+              ref={fileRef}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
+            <a className="btn" onClick={() => fileRef.current.click()}>
+              파일 첨부하기
+            </a>
+            <span>
+              &quot;(<b>최대 5개</b>, 10MB)&quot;
+            </span>
           </div>
           <div className="createBtnBox">
             <Btn
-              className={"Btn postBoard "}
+              className={"Btn postBoard btn-danger mx-1 "}
+              id={"createBtn"}
+              onClick={history.back}
+              text="취소"
+            />
+            <Btn
+              className={"Btn postBoard custom-btn02 mx-1 "}
               id={"createBtn"}
               onClick={postHandler}
-              text="게시물 등록"
-            ></Btn>
+              text="등록"
+            />
           </div>
-        </div>
+        </from>
       </div>
     </>
   );
