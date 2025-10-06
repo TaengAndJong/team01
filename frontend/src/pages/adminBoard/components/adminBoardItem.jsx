@@ -1,6 +1,6 @@
 import "@assets/css/board/adminBoard.css";
 import { Link } from "react-router-dom";
-
+import { formatToDate } from "@util/dateUtils.jsx";
 const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
   console.log("adminBoardItem data", data);
 
@@ -46,10 +46,12 @@ const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
         >
           <td className="text-left">{data.qnaTitle}</td>
         </Link>
-        <td className="text-center ">{data.qnaWriter}</td>
-        <td className="text-center ">{data.clientId}</td>
+        <td className="text-center ">
+          {data.qnaWriter}({data.clientId})
+        </td>
+
         <td className="text-center ">{data.qnaStatus}</td>
-        <td className="text-center ">{data.qnaDate}</td>
+        <td className="text-center ">{formatToDate(new Date(data.qnaDate))}</td>
         <td className="text-center ">{getQnaDel(data)}</td>
       </tr>
     </>

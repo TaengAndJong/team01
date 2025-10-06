@@ -1,4 +1,5 @@
 import "@assets/css/board/userDashBoard.css";
+import { formatToDate } from "@util/dateUtils.jsx";
 const BoardCardTable = ({ items }) => {
   console.log("items:", items);
 
@@ -23,12 +24,14 @@ const BoardCardTable = ({ items }) => {
           </tr>
         </thead>
         <tbody className="">
-          {items?.map((item, idx) => {
+          {items?.slice(0, 5)?.map((item, idx) => {
             return (
               <tr className="text-center rd-5 card-item-box" key={idx}>
                 <td className="text-center">{item.qnaTitle}</td>
                 <td className="text-center">{item.qnaStatus}</td>
-                <td className="text-center">{item.qnaDate}</td>
+                <td className="text-center">
+                  {formatToDate(new Date(item.qnaDate))}
+                </td>
               </tr>
             );
           })}

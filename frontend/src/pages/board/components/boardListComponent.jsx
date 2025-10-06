@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import "@assets/css/board/userBoard.css";
 import { Link } from "react-router-dom";
-
+import { formatToDate } from "@util/dateUtils.jsx";
 const BoardListComponent = ({
   categoryListData,
   category,
@@ -40,10 +40,13 @@ const BoardListComponent = ({
             {categoryListData.qnaTitle}
           </Link>
         </td>
-        <td className="text-center">{categoryListData.qnaWriter}</td>
-        <td className="text-center">{categoryListData.clientId}</td>
+        <td className="text-center">
+          {categoryListData.qnaWriter}({categoryListData.clientId})
+        </td>
         <td className="text-center">{categoryListData.qnaStatus}</td>
-        <td className="text-center">{categoryListData.qnaDate}</td>
+        <td className="text-center">
+          {formatToDate(new Date(categoryListData.qnaDate))}
+        </td>
       </tr>
     </>
   );

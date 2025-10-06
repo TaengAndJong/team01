@@ -7,7 +7,6 @@ import { useAuth } from "@pages/common/AuthContext.jsx";
 import PropTypes from "prop-types";
 import { BoardRefreshTriggerContext } from "@pages/board/boardComponent.jsx";
 import { useContext } from "react";
-
 const CreateBoardComponent = () => {
   // useContext(UserDataContext)로 root 컴포넌트에 있는 UserDataContext를 사용 가능
   // const userData = useContext(UserDataContext);
@@ -81,7 +80,6 @@ const CreateBoardComponent = () => {
   // 게시물 등록 클릭 시 발생하는 이벤트 폼 객체에 데이터를 넣고 서버로 데이터 전송
   const postHandler = async () => {
     console.log("postHandler 클릭");
-    console.log("");
     const form = new FormData();
     form.append("clientId", userData.clientId);
     form.append("clientName", userData.clientName);
@@ -91,6 +89,18 @@ const CreateBoardComponent = () => {
     formData.files.forEach((file) => form.append("files", file));
 
     console.log("서버로 전송 할 문의 데이터 ------", formData);
+
+    if (!formData.title.trim()) {
+      alert("문의 제목을 입력해 주세요");
+      return;
+    } else if (!formData.content.trim()) {
+      alert("문의 내용을 입력해 주세요");
+      return;
+    } else if (!formData.category.trim()) {
+      alert("문의 종류를 선택해 주세요");
+      return;
+    }
+
     try {
       let response;
       let successMessage;
@@ -140,49 +150,55 @@ const CreateBoardComponent = () => {
   };
   return (
     <>
-      <div>
-        <div className="createBoardBox">
-          <div className="d-flex">
-            <dt className="name">고객명</dt>
-            <dd>
-              <span>{userData.clientName}</span>
-            </dd>
+      <div className="bardcrate">
+        <from className="createFrom">
+          <div className="d-flex align-items-center mb-1">
+            <span className="form-title name">고객명</span>
+
+            <span className="form-control">{userData.clientName}</span>
           </div>
-          <div className="d-flex">
-            <dt className="id">ID</dt>
-            <dd>
-              <span>{maskUserId(userData.clientId)}</span>
-            </dd>
+          <div className="d-flex align-items-center mb-1">
+            <span className=" form-title id">ID</span>
+
+            <span className="form-control">
+              {maskUserId(userData.clientId)}
+            </span>
           </div>
-          <div className="d-flex">
-            <dt>문의 종류</dt>
-            <dd>
-              {/* <div>{categorySwitch(category).text}</div> */}
-              <select name="category" onChange={handleChange}>
-                <option value="">문의 선택</option>
-                <option value="qnaone">1:1 문의</option>
-                <option value="product">상품 문의</option>
-                <option value="delivery">배송 문의</option>
-              </select>
-            </dd>
+          <div className="d-flex align-items-center mb-1">
+            <span className=" form-title ">문의 종류</span>
+
+            {/* <div>{categorySwitch(category).text}</div> */}
+            <select name="category" onChange={handleChange}>
+              <option value="">문의 선택</option>
+              <option value="qnaone">1:1 문의</option>
+              <option value="product">상품 문의</option>
+              <option value="delivery">배송 문의</option>
+            </select>
           </div>
-          <div className="d-flex">
-            <dt className="inquireTitle">문의 제목</dt>
-            <dd>
-              <input name="title" onChange={handleChange} />
-            </dd>
+          <div className="d-flex align-items-center mb-1">
+            <span className="form-title inquireTitle">문의 제목</span>
+
+            <input
+              className="form-control"
+              name="title"
+              onChange={handleChange}
+            />
           </div>
 
-          <div className="d-flex">
-            <dt className="inquireContents">문의 내용</dt>
-            <dd>
-              <textarea name="content" onChange={handleChange} />
-            </dd>
+          <div className="d-flex align-items-center mb-1">
+            <span className="form-title inquireContents">문의 내용</span>
+
+            <textarea
+              className="form-control"
+              placeholder="문의 내용을 입력해 주세요."
+              name="content"
+              onChange={handleChange}
+            />
           </div>
 
-          <div className="d-flex">
-            <dt className="attachfiles">첨부 파일</dt>
-            <dd>
+          <div className="d-flex align-items-center mb-1">
+            <span className="form-title attachfiles">첨부 파일</span>
+            <div>
               <p>이미지 파일만 첨부해 주세요</p>
               <input
                 type="file"
@@ -197,17 +213,23 @@ const CreateBoardComponent = () => {
               <span>
                 &quot;(<b>최대 5개</b>, 10MB)&quot;
               </span>
-            </dd>
+            </div>
           </div>
           <div className="createBtnBox">
             <Btn
-              className={"Btn postBoard "}
+              className={"Btn postBoard btn-danger mx-1 "}
+              id={"createBtn"}
+              onClick={() => window.history.back()}
+              text="취소"
+            />
+            <Btn
+              className={"Btn postBoard custom-btn02 mx-1 "}
               id={"createBtn"}
               onClick={postHandler}
-              text="게시물 등록"
-            ></Btn>
+              text="등록"
+            />
           </div>
-        </div>
+        </from>
       </div>
     </>
   );
