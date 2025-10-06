@@ -7,7 +7,6 @@ import { useAuth } from "@pages/common/AuthContext.jsx";
 import PropTypes from "prop-types";
 import { BoardRefreshTriggerContext } from "@pages/board/boardComponent.jsx";
 import { useContext } from "react";
-
 const CreateBoardComponent = () => {
   // useContext(UserDataContext)로 root 컴포넌트에 있는 UserDataContext를 사용 가능
   // const userData = useContext(UserDataContext);
@@ -81,7 +80,6 @@ const CreateBoardComponent = () => {
   // 게시물 등록 클릭 시 발생하는 이벤트 폼 객체에 데이터를 넣고 서버로 데이터 전송
   const postHandler = async () => {
     console.log("postHandler 클릭");
-    console.log("");
     const form = new FormData();
     form.append("clientId", userData.clientId);
     form.append("clientName", userData.clientName);
@@ -91,6 +89,18 @@ const CreateBoardComponent = () => {
     formData.files.forEach((file) => form.append("files", file));
 
     console.log("서버로 전송 할 문의 데이터 ------", formData);
+
+    if (!formData.title.trim()) {
+      alert("문의 제목을 입력해 주세요");
+      return;
+    } else if (!formData.content.trim()) {
+      alert("문의 내용을 입력해 주세요");
+      return;
+    } else if (!formData.category.trim()) {
+      alert("문의 종류를 선택해 주세요");
+      return;
+    }
+
     try {
       let response;
       let successMessage;
@@ -186,23 +196,24 @@ const CreateBoardComponent = () => {
             />
           </div>
 
-          <div className="d-flex">
+          <div className="d-flex align-items-center mb-1">
             <span className="form-title attachfiles">첨부 파일</span>
-
-            <p>이미지 파일만 첨부해 주세요</p>
-            <input
-              type="file"
-              multiple
-              ref={fileRef}
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-            />
-            <a className="btn" onClick={() => fileRef.current.click()}>
-              파일 첨부하기
-            </a>
-            <span>
-              &quot;(<b>최대 5개</b>, 10MB)&quot;
-            </span>
+            <div>
+              <p>이미지 파일만 첨부해 주세요</p>
+              <input
+                type="file"
+                multiple
+                ref={fileRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
+              <a className="btn" onClick={() => fileRef.current.click()}>
+                파일 첨부하기
+              </a>
+              <span>
+                &quot;(<b>최대 5개</b>, 10MB)&quot;
+              </span>
+            </div>
           </div>
           <div className="createBtnBox">
             <Btn

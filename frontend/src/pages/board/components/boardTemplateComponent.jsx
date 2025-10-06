@@ -75,9 +75,6 @@ const BoardTemplateComponent = ({ category }) => {
     navigate(`/board/createBoard`);
   };
 
-  const handleCreateBoard = () => {
-    navigate(`/board/createBoard`);
-  };
   return (
     <div>
       <table className="table table-custom">

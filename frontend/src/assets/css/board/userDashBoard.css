@@ -8,5 +8,15 @@
   max-width: 400px;
 }
 
+.card-box span {
+  display: inline-block;
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  border-left: 4px solid #a3e225; /* 메인 컬러 강조선 */
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
 .card-item-box {
 }

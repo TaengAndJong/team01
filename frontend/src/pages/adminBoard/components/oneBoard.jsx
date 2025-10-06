@@ -168,9 +168,7 @@ const OneBoard = () => {
             <th scope="col" className="text-center">
               작성자
             </th>
-            <th scope="col" className="text-center">
-              id
-            </th>
+
             <th scope="col" className="text-center">
               답변여부
             </th>

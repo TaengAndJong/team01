@@ -18,23 +18,23 @@ const BoardDashboard = () => {
 
   return (
     <>
-      <div className="content-inner custom-border">
+      <div className="">
         <div className="">
-          <strong className="title d-inline-block mb-4">
+          {/* <strong className="title d-inline-block mb-4">
             최근 등록한 문의
-          </strong>
+          </strong> */}
           {/*컴포넌트 카드 */}
           <div className="flex_box inner">
             <div className="card-box">
-              <span className="title-dotted">1:1문의</span>
+              <span className="mb-4">1:1문의</span>
               <BoardCardTalble items={boardList.one} />
             </div>
             <div className="card-box">
-              <span className="title-dotted">상품문의</span>
+              <span className="mb-4">상품문의</span>
               <BoardCardTalble items={boardList.product} />
             </div>
             <div className="card-box">
-              <span className="title-dotted">배송문의</span>
+              <span className="mb-4">배송문의</span>
               <BoardCardTalble items={boardList.delivery} />
             </div>
           </div>
