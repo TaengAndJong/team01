@@ -219,7 +219,7 @@ const CreateBoardComponent = () => {
             <Btn
               className={"Btn postBoard btn-danger mx-1 "}
               id={"createBtn"}
-              onClick={history.back}
+              onClick={() => window.history.back()}
               text="취소"
             />
             <Btn
