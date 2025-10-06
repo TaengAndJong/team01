@@ -31,7 +31,9 @@
 }
 .swiper{ overflow: hidden;position: relative;width: 100%;}
 .swiper-wrapper {}
-.swiper-slide {margin:0 2rem;}
+.swiper-slide {
+  //margin:0 2rem;
+}
 .swiper-slide.swiper-slide-active {}
 
 .swiper .img-box{background-color: #fff}

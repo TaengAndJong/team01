@@ -69,16 +69,19 @@ public class UserViewBookServiceImple implements UserViewBookService {
         log.info("userViewBookVO---- voToDTO :{}",vo);
         //이미지파일 경로 변경때문에 book객체로 묶어서 담아줘야함
         BookDTO bookDTO = BookDTO.builder()
-                .bookId(vo.getBookVO().getBookId())
+                .bookId(vo.getBookId())
                 .bookName(vo.getBookVO().getBookName())
                 .bookCateNm(vo.getBookVO().getBookCateNm())
                 .bookCateDepth(vo.getBookVO().getBookCateDepth())
+                .detailUrl(vo.getBookVO().getDetailUrl())
                 .author(vo.getBookVO().getAuthor())
                 .bookPrice(vo.getBookVO().getBookPrice())
                 .publishDate(vo.getBookVO().getPublishDate())
                 .bookImgPath(vo.getBookVO().getBookImgPath())
                 .cateId(vo.getBookVO().getCateId())
-                .recomType(vo.getBookVO().getRecomType()).build();
+                .recomType(vo.getBookVO().getRecomType())
+                .build();
+
 
         //반환할 사용자조회 응답데이터전송객체
         UserBookResponseDTO dto = UserBookResponseDTO.builder()

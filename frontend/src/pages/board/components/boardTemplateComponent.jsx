@@ -5,8 +5,9 @@ import PropTypes from "prop-types";
 import "@assets/css/board/userBoard.css";
 import "@assets/css/board/adminBoard.css";
 import { useState } from "react";
-import Btn from "@util/reuseBtn.jsx";
 import { useNavigate } from "react-router-dom";
+import Btn from "@util/reuseBtn.jsx";
+
 const BoardTemplateComponent = ({ category }) => {
   // console.log("카테고리 뭐임?", category);
   // console.log("카테고리 속성 뭐임?", typeof category);
@@ -74,6 +75,9 @@ const BoardTemplateComponent = ({ category }) => {
     navigate(`/board/createBoard`);
   };
 
+  const handleCreateBoard = () => {
+    navigate(`/board/createBoard`);
+  };
   return (
     <div>
       <table className="table table-custom">
@@ -120,9 +124,9 @@ const BoardTemplateComponent = ({ category }) => {
           ))}
         </tbody>
       </table>
-      <div>
+      <div className="btn-Box p-4 m-2">
         <Btn
-          className={"create btn w- custom-btn00 btn-create"}
+          className={"create btn custom-btn00 btn-create"}
           id={"createBtn"}
           type={"button"}
           onClick={() => handleCreateBoard()}
