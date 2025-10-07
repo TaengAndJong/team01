@@ -19,7 +19,7 @@ function boardReducer(state, action) {
     case "INIT_PRODUCT":
       return {
         ...state,
-        product: Array.isArray(action.data) ? action.data : [action.data],
+        product: Array.isArray(action.data) ? [...action.data] : [action.data],
       };
     case "INIT_DELIVERY":
       return {

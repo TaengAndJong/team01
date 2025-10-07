@@ -52,7 +52,10 @@
                     , "qnaDate"
                     , "qnaDel"
                 FROM qnaDeliv
-                <include refid="searchFrag" />
+                <trim prefix="WHERE" prefixOverrides="AND|OR">
+                <include refid="searchFrag"/>
+                ("qnaDel" = 'N' OR "qnaDel" IS NULL)
+                </trim>
                 ORDER BY "qnaDelId" DESC
             ) a
         )

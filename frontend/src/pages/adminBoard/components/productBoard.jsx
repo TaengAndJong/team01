@@ -17,6 +17,7 @@ const ProductBoard = () => {
     BookBoardDispatchContext
   );
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
+
   const boardList = useMemo(() => {
     if (!product || !Array.isArray(product) || product.length === 0) {
       return [];
