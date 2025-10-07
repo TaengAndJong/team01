@@ -1,5 +1,5 @@
 import "@assets/css/board/adminBoard.css";
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AdminBoardItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import {
@@ -17,26 +17,21 @@ const DeliveryBoard = () => {
     BookBoardDispatchContext
   );
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
+  const [boardList, setBoardList] = useState([]);
 
-  const boardList = useMemo(() => {
+  useEffect(() => {
+    console.log("콘텍스트에서 가져온 delivery", delivery);
     if (!delivery || !Array.isArray(delivery) || delivery.length === 0) {
-      return [];
+      setBoardList([]);
+      return;
     }
 
-    const firstItem = delivery[0];
-    if (
-      !firstItem ||
-      !firstItem.items ||
-      !Array.isArray(firstItem.items) ||
-      firstItem.items.length === 0
-    ) {
-      return [];
-    }
+    const allItems = delivery.flatMap((item) =>
+      Array.isArray(item.items) ? item.items : []
+    );
 
-    return Array.isArray(firstItem.items) ? firstItem.items : [];
-  }, [delivery]);
-
-  console.log("boardList", boardList);
+    setBoardList(allItems);
+  }, [delivery]); // delivery 바뀔 때마다 실행
 
   // SearchBar
   const [search, setSearch] = useState([]);
@@ -122,6 +117,9 @@ const DeliveryBoard = () => {
       });
       if (response.ok) {
         onDeleteDelivery(deleteItems);
+
+        setCheckedInput([]);
+        setSelectAll(false);
       }
     } catch (e) {
       console.log("에러 발생:", e);

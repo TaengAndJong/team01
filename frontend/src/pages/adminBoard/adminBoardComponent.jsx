@@ -41,26 +41,62 @@ function boardReducer(state, action) {
         ...state,
         delivery: [...state.delivery, action.data],
       };
+    // case "DELETE_ONE":
+    //   return {
+    //     ...state,
+    //     one: state.one.filter(
+    //       (item) => !action.data.includes(String(item.qnaOneId))
+    //     ),
+    //   };
     case "DELETE_ONE":
       return {
         ...state,
-        one: state.one.filter(
-          (item) => !action.data.includes(String(item.qnaOneId))
-        ),
+        one: state.one.map((prod) => ({
+          ...prod,
+          items: Array.isArray(prod.items)
+            ? prod.items.filter(
+                (item) => !action.data.includes(String(item.qnaOneId))
+              )
+            : [],
+        })),
       };
+    // case "DELETE_PRODUCT":
+    //   return {
+    //     ...state,
+    //     product: state.product.filter(
+    //       (item) => !action.data.includes(String(item.productId))
+    //     ),
+    //   };
     case "DELETE_PRODUCT":
       return {
         ...state,
-        product: state.product.filter(
-          (item) => !action.data.includes(String(item.productId))
-        ),
+        product: state.product.map((prod) => ({
+          ...prod,
+          items: Array.isArray(prod.items)
+            ? prod.items.filter(
+                (item) => !action.data.includes(String(item.qnaProId))
+              )
+            : [],
+        })),
       };
+    // case "DELETE_DELIVERY":
+    //   return {
+    //     ...state,
+    //     delivery: state.delivery.filter(
+    //       (item) => !action.data.includes(String(item.deliveryId))
+    //     ),
+    //   };
     case "DELETE_DELIVERY":
       return {
         ...state,
-        delivery: state.delivery.filter(
-          (item) => !action.data.includes(String(item.deliveryId))
-        ),
+        delivery: state.delivery.map((prod) => ({
+          ...prod,
+          items: Array.isArray(prod.items)
+            ? prod.items.filter(
+                (item) => !action.data.includes(String(item.qnaDelId))
+              )
+            : [],
+        })),
       };
     case "UPDATE_ONE":
       return {
