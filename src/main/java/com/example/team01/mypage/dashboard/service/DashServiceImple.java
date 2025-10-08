@@ -1,6 +1,6 @@
 package com.example.team01.mypage.dashboard.service;
 
-import com.example.team01.mypage.dashboard.dao.DashDao;
+import com.example.team01.mypage.dashboard.dao.DashDao  ;
 import com.example.team01.mypage.dashboard.dto.ResponseQnaCntDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
