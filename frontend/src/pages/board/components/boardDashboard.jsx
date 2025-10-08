@@ -24,7 +24,7 @@ const BoardDashboard = () => {
             최근 등록한 문의
           </strong> */}
           {/*컴포넌트 카드 */}
-          <div className="flex_box inner">
+          <div className="flex_box inner pb-5 border-bottom ">
             <div className="card-box">
               <span className="mb-4">1:1문의</span>
               <BoardCardTalble items={boardList.one} />
@@ -39,9 +39,9 @@ const BoardDashboard = () => {
             </div>
           </div>
 
-          <div>
+          <div className="mt-5 btn-box">
             <Btn
-              className={"create btn w- custom-btn00 btn-create"}
+              className={"create btn custom-btn00 btn-create"}
               id={"createBtn"}
               type={"button"}
               onClick={() => handleCreateBoard()}

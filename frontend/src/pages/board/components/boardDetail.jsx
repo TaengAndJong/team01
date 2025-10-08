@@ -73,7 +73,7 @@ const BoardDetail = ({ userType }) => {
         {/*첨부파일 이름*/}
       </div>
       <div className="comment-box">
-        {board?.comment || <span>답변 대기중 입니다.</span>}
+        {board?.comment?.commentCon || <span>답변 대기중 입니다.</span>}
       </div>
 
       <div>

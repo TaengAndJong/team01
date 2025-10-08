@@ -39,13 +39,15 @@ const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
           >{`${data.qnaTitle}`}</label>
         </td>
         <td className="text-center ">{number}</td>
-        <Link
-          to={`/admin/board/detail/${getCategory(data)}/${getBoardId(
-            data
-          )}?userId=${data.clientId}`}
-        >
-          <td className="text-left">{data.qnaTitle}</td>
-        </Link>
+        <td className="text-left">
+          <Link
+            to={`/admin/board/detail/${getCategory(data)}/${getBoardId(
+              data
+            )}?userId=${data.clientId}`}
+          >
+            {data.qnaTitle}
+          </Link>
+        </td>
         <td className="text-center ">
           {data.qnaWriter}({data.clientId})
         </td>
