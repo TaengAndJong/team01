@@ -10,6 +10,18 @@ const PersonalInfo = () => {
     const [userInfo, setUserInfo] = useState({}); // 조회모드
     const [isEditMode, setIsEditMode] = useState(false); // 수정모드
     const [errorData, setErrorData] = useState("");
+    //에러 상태 초기화 관리
+    const [msg, setMsg] = useState({
+        errorId:"",
+        errorpwd:"",
+        errorpwdConfirm:"",
+        errorEmail:"",
+        errorAddr:"",
+        errorTel:"",
+        errorMemNum:"",
+        errorBirth:"",
+        memberMsg:""
+    });
 
 
     //개인정보조회 fetch
@@ -30,26 +42,13 @@ const PersonalInfo = () => {
         setIsEditMode((prevState) => (!prevState));// 이전 상태값이 true이면 false, false이면 true 변경
     }
 
-    //에러 상태 초기화 관리
-    const [msg, setMsg] = useState({
-        errorId:"",
-        errorpwd:"",
-        errorpwdConfirm:"",
-        errorEmail:"",
-        errorAddr:"",
-        errorTel:"",
-        errorMemNum:"",
-        errorBirth:"",
-        memberMsg:""
-    });
-
     console.log("userInfo--------- 최상위 컴포넌트",userInfo)
     return (
         <>
         {isEditMode ? (
             <>
                 <strong className="title-border title d-block">개인정보 수정</strong>
-                <EditInfo userInfo={userInfo} setUserInfo={setUserInfo}/>
+                <EditInfo userInfo={userInfo} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg} onEdit={onEdit}/>
             </>
 
         ) : (
