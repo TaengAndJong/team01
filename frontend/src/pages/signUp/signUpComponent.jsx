@@ -15,7 +15,7 @@ import ReusableModal from "../adminBook/components/modal.jsx";
 
 const SignUpComponent = () => {
     const navigate = useNavigate();
-    // formInfoData를 부모 컴포넌트로부터 props로 받아온다고 가정합니다.
+    // formInfoData를 부모 컴포넌트로부터 props로 받아온다고 가정
     const [formData,setFormData] = useState({
         clientId: "",
         password: "",
@@ -123,7 +123,7 @@ const SignUpComponent = () => {
                     message: result.message,
                 })
             }
-            console.log("errorData ",errorData);
+        //    console.log("errorData ",errorData);
 
         }catch(err){
             console.error(err);
@@ -131,9 +131,9 @@ const SignUpComponent = () => {
         //end
     }
 
-    console.log("signupComponent ---------------------------------------")
-    console.log("formData :", formData);
-    console.log("signupComponent ---------------------------------------")
+    // console.log("signupComponent ---------------------------------------")
+    // console.log("formData :", formData);
+    // console.log("signupComponent ---------------------------------------")
 
 
 

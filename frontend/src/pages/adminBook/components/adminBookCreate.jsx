@@ -101,10 +101,10 @@ const AdminBookCreate = () => {
     const [show, setShow] = useState(false);
     const [errorData, setErrorData] = useState({});
     const handleClose = () => {
-        console.log("close modal");
+       // console.log("close modal");
         setShow(false)}
     const handleShow = () => {
-        console.log("handleShow");
+      //  console.log("handleShow");
         setShow(true)}
     const [modalType, setModalType] = useState("confirm");
 
@@ -112,9 +112,9 @@ const AdminBookCreate = () => {
     //체크박스 전체선택 && 단일 선택 상태관리
     //핸들러 값 변경 시 실행되는 함수
     const handleChange = (e) => {
-        console.log("e type", typeof  e);
-        console.log("e target", e.target);
-        console.log("e target", e.target.value);
+        // console.log("e type", typeof  e);
+        // console.log("e target", e.target);
+        // console.log("e target", e.target.value);
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
        const { name, value } = e.target;
 
@@ -124,8 +124,8 @@ const AdminBookCreate = () => {
             const result = validStock(value);
 
             //검증 통과 여부
-            console.log("result.message",result.message)
-            console.log("result.valid",result.valid)
+            // console.log("result.message",result.message)
+            // console.log("result.valid",result.valid)
             if(!result.valid){
                 // 숫자 검증 false 일 경우, 모달 알림 뜸
                 setShow(true);
@@ -159,8 +159,8 @@ const AdminBookCreate = () => {
             // bookImg가 값이 비어있거나 없을 경우 noImg 파일 가져와서
             // 파일 객체로 만들어 bookImg에 배열로 담아 서버로 넘겨야 함 
             if (key === "bookImg") {
-                console.log("value---",key);
-                console.log(" bookImg.new---", Array.isArray(bookImg.new)); // array
+         //       console.log("value---",key);
+        //        console.log(" bookImg.new---", Array.isArray(bookImg.new)); // array
                 bookImg.new.forEach((img)=>{ // 누적값 저장은 forEach(), 새로운 배열 생성은 map()
                     formData.append("bookImg", img);
                 })
@@ -180,10 +180,10 @@ const AdminBookCreate = () => {
                     formData.append("cateId", id);
                 })
             }else if(key === "createDate") {
-               console.log("키가 등록일일경우")
+           //    console.log("키가 등록일일경우")
                 //dateUtils의 getToday() 로 localDateTime형식 맞춰주기
                 createBook["createDate"]=getToday(); //서버로 전송할 데이터객체형태로 변경
-                console.log("문자열인가 ?" ,typeof(createBook["createDate"]));
+         //       console.log("문자열인가 ?" ,typeof(createBook["createDate"]));
                 formData.append("createDate",  createBook["createDate"]);
             } else {
                 // 일반 문자열 데이터 추가
@@ -194,7 +194,7 @@ const AdminBookCreate = () => {
         // 디버깅: FormData에 추가된 값 확인
         // ==> iterator 반복 객체는 for ..of 또는 Array.from으로 내부 구조확인 가능, entries는 반복객체를 반환
         for (let [key,val] of formData.entries()) {
-            console.log(`formDate 확인 key : ${key} , val: ${val}`);
+           // console.log(`formDate 확인 key : ${key} , val: ${val}`);
         }
         // formData가 전부 채워졌는지 검증 ==> 하나라도 비어있으면 모달로 알림띄기
 
@@ -211,7 +211,7 @@ const AdminBookCreate = () => {
 
         // true 반환,조건문 진입
         if (hasEmpty) {
-            console.log(`formDate 확인==== hasEmpty : ${hasEmpty}`);
+          //  console.log(`formDate 확인==== hasEmpty : ${hasEmpty}`);
             setShow(true);
             setErrorData({
                 valid: false,
@@ -223,7 +223,7 @@ const AdminBookCreate = () => {
 
         //데이터 검증 후 서버의 컨트롤러로 데이터 전송
         try{
-            console.log("fetch formData ---------------",formData);
+            //console.log("fetch formData ---------------",formData);
 
             const response =await fetch("/api/admin/book/bookCreate", {
                 method: "POST",
@@ -233,11 +233,11 @@ const AdminBookCreate = () => {
             if (!response.ok) {
                 throw new Error(`도서 등록 실패: ${response.status}`);
             }
-            console.log("도서 등록 성공!");
+            //console.log("도서 등록 성공!");
             // 서버로 보내어 저장 완료된 데이터를 다시 json으로 받아서 Context에  새로 반영
             // 생성 완료 후 목록을 조회할 때  새로운 데이터도 반영되어야 하기때문에 ( 데이터를 반환받지 않으면 이전 상태를  유지)
             const newUpdatingData = await response.json();
-            console.log("newUpdatingData-----------" , newUpdatingData);
+          //  console.log("newUpdatingData-----------" , newUpdatingData);
             // onCreate를 통해 데이터 클라이언트 데이터 갱신?
             onCreate(newUpdatingData);
             // 목록 페이지로 이동
@@ -252,9 +252,9 @@ const AdminBookCreate = () => {
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
         //파일 객체  [] 배열이면 기본으로 이미지 추가하기
-        console.log("데이터제출 createBook",createBook);
+     //   console.log("데이터제출 createBook",createBook);
         // file 객체 값 이미지객체 빈값인지 확인하는 함수
-        console.log("데이터제출  후 createBook.bookImg)",createBook.bookImg);
+      //  console.log("데이터제출  후 createBook.bookImg)",createBook.bookImg);
         handleSubmit();
     }
         //console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음

@@ -1,8 +1,8 @@
 package com.example.team01.mypage;
 
 
-import com.example.team01.board.dashboard.dto.ResponseQnaCntDTO;
-import com.example.team01.board.dashboard.service.DashService;
+import com.example.team01.mypage.dashboard.dto.ResponseQnaCntDTO;
+import com.example.team01.mypage.dashboard.service.DashService;
 
 import com.example.team01.dto.book.BookDTO;
 import com.example.team01.payment.service.PaymentService;
@@ -14,7 +14,6 @@ import com.example.team01.wishList.service.WishListService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
