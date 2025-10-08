@@ -1,5 +1,5 @@
 import "@assets/css/board/adminBoard.css";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AdminBoardItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import {
@@ -17,23 +17,21 @@ const ProductBoard = () => {
     BookBoardDispatchContext
   );
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
-  const boardList = useMemo(() => {
+  const [boardList, setBoardList] = useState([]);
+
+  useEffect(() => {
+    // console.log("콘텍스트에서 가져온 product", product);
     if (!product || !Array.isArray(product) || product.length === 0) {
-      return [];
+      setBoardList([]);
+      return;
     }
 
-    const firstItem = product[0];
-    if (
-      !firstItem ||
-      !firstItem.items ||
-      !Array.isArray(firstItem.items) ||
-      firstItem.items.length === 0
-    ) {
-      return [];
-    }
+    const allItems = product.flatMap((item) =>
+      Array.isArray(item.items) ? item.items : []
+    );
 
-    return Array.isArray(firstItem.items) ? firstItem.items : [];
-  }, [product]);
+    setBoardList(allItems);
+  }, [product]); // product가 바뀔 때마다 실행
 
   //전체선택
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
@@ -131,6 +129,10 @@ const ProductBoard = () => {
       });
       if (response.ok) {
         onDeleteProduct(deleteItems);
+
+        // 선택 상태 초기화
+        setCheckedInput([]);
+        setSelectAll(false);
       }
     } catch (e) {
       console.log("에러 발생:", e);
@@ -184,9 +186,6 @@ const ProductBoard = () => {
             </th>
             <th scope="col" className="text-center">
               등록일
-            </th>
-            <th scope="col" className="text-center">
-              삭제여부
             </th>
           </tr>
         </thead>

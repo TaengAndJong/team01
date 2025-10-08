@@ -1,5 +1,5 @@
 import "@assets/css/board/adminBoard.css";
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AdminBoardItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import {
@@ -15,24 +15,21 @@ const OneBoard = () => {
   const { one } = useContext(BookBoardStateContext);
   const { onInitOne, onDeleteOne } = useContext(BookBoardDispatchContext);
   const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
+  const [boardList, setBoardList] = useState([]);
 
-  const boardList = useMemo(() => {
+  useEffect(() => {
+    // console.log("콘텍스트에서 가져온 one", one);
     if (!one || !Array.isArray(one) || one.length === 0) {
-      return [];
+      setBoardList([]);
+      return;
     }
 
-    const firstItem = one[0];
-    if (
-      !firstItem ||
-      !firstItem.items ||
-      !Array.isArray(firstItem.items) ||
-      firstItem.items.length === 0
-    ) {
-      return [];
-    }
+    const allItems = one.flatMap((item) =>
+      Array.isArray(item.items) ? item.items : []
+    );
 
-    return Array.isArray(firstItem.items) ? firstItem.items : [];
-  }, [one]);
+    setBoardList(allItems);
+  }, [one]); // one 바뀔 때마다 실행
 
   // SearchBar
   const [search, setSearch] = useState([]);
@@ -122,6 +119,9 @@ const OneBoard = () => {
       });
       if (response.ok) {
         onDeleteOne(deleteItems);
+        // 선택 상태 초기화
+        setCheckedInput([]);
+        setSelectAll(false);
       }
     } catch (e) {
       console.log("에러 발생:", e);
@@ -174,9 +174,6 @@ const OneBoard = () => {
             </th>
             <th scope="col" className="text-center">
               등록일
-            </th>
-            <th scope="col" className="text-center">
-              삭제여부
             </th>
           </tr>
         </thead>

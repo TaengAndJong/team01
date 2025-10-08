@@ -52,7 +52,6 @@ const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
 
         <td className="text-center ">{data.qnaStatus}</td>
         <td className="text-center ">{formatToDate(new Date(data.qnaDate))}</td>
-        <td className="text-center ">{getQnaDel(data)}</td>
       </tr>
     </>
   );
