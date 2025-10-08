@@ -6,6 +6,7 @@
 
 .card-box {
   max-width: 400px;
+  min-width: auto;
 }
 
 .card-box span {
@@ -23,4 +24,26 @@
 
 .btn-box {
   text-align: right;
+}
+
+.navigate-btn {
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between; /* 좌우 끝 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+}
+
+.card-header > .navigate-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 24px;
+  line-height: 1; /* 기본 line-height 영향 제거 */
+  padding: 0; /* 여백 제거 */
+}
+
+.card-header > .navigate-btn:hover {
+  transform: scale(1.5);
+  border: hidden;
 }

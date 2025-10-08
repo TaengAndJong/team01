@@ -129,7 +129,7 @@ const BoardTemplateComponent = ({ category }) => {
           )}
         </tbody>
       </table>
-      <></>
+
       {/* <div className="btn-Box p-4 m-2">
         <Btn
           className={"create btn custom-btn00 btn-create"}
