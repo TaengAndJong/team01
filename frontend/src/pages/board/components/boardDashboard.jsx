@@ -27,14 +27,17 @@ const BoardDashboard = () => {
           <div className="flex_box inner pb-5 border-bottom ">
             <div className="card-box">
               <span className="mb-4">1:1문의</span>
+              <span>+</span>
               <BoardCardTalble items={boardList.one} />
             </div>
             <div className="card-box">
               <span className="mb-4">상품문의</span>
+              <span>+</span>
               <BoardCardTalble items={boardList.product} />
             </div>
             <div className="card-box">
               <span className="mb-4">배송문의</span>
+              <span>+</span>
               <BoardCardTalble items={boardList.delivery} />
             </div>
           </div>
