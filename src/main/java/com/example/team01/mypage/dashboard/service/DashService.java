@@ -1,6 +1,6 @@
-package com.example.team01.board.dashboard.service;
+package com.example.team01.mypage.dashboard.service;
 
-import com.example.team01.board.dashboard.dto.ResponseQnaCntDTO;
+import com.example.team01.mypage.dashboard.dto.ResponseQnaCntDTO;
 
 public interface DashService {
 

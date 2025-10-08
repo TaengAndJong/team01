@@ -1,19 +1,19 @@
-package com.example.team01.vo;
+package com.example.team01.mypage.userInfo.dto;
 
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
-// 롬복 @Data를 사용하면 , getter, setter,ToString,equals()를 전부 생성해줌
-@ToString
-@Setter
 @Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientVO implements Serializable {
+@Builder
+public class UserInfoDTO {
 
     private String clientId;//사용자아이디
     private String clientName; // 사용자이름
@@ -23,16 +23,14 @@ public class ClientVO implements Serializable {
     private String zoneCode; //우편번호
     private String addr; // 기본주소
     private String detailAddr; // 상세주소
-    private String email;
-    private byte[] picture; // 프로필사진 BLOB는 byte[]로
+    private String email; // 이메일
+   // private byte[] picture; // 프로필사진 BLOB는 byte[]로
     private LocalDateTime joinDate; // 회원가입일, db의 timestamp는 localDatetime으로
     private LocalDateTime withDrowDate; // 탈퇴일
     private String status;
-    private String selecedAddrId;
-    private String roleId; // 평탄화
+    private String selecedAddrId; // 주소변경시 선택된 주소 아이디
 
+    private String roleId; // 역할 아이디
 
-    private RoleVO roleVO; // 1:1 관계인 Role 테이블의 정보를 담는 객체 ==> 조인해서 사용할 때 resultMap에 사용되는 객체
-    private DepartmemtVO departmemtVO; // 부서와 사원의 1:1 관계 client VO
 
 }

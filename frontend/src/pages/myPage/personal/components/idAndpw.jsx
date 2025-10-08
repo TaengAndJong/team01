@@ -4,12 +4,12 @@ import React, {useEffect, useState} from "react";
 
 
 
-const IdAndPw = ({clientId,password,clientName,setFormData})=>{
+const IdAndPw = ({clientId,password,clientName,setUserInfo})=>{
     console.log("clientId,password,clientName",clientId,password,clientName)
     //input onChange 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
-        setFormData({ ...formData, [name]: value });
+        setUserInfo({ ...formData, [name]: value });
 
     };
 

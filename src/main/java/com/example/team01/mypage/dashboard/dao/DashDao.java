@@ -1,6 +1,6 @@
-package com.example.team01.board.dashboard.dao;
+package com.example.team01.mypage.dashboard.dao;
 
-import com.example.team01.board.dashboard.dto.ResponseQnaCntDTO;
+import com.example.team01.mypage.dashboard.dto.ResponseQnaCntDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

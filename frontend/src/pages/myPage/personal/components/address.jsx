@@ -4,13 +4,13 @@ import React from "react";
 import FormTag from "@util/formTag.jsx";
 import DaumPostcode from "@util/daumPostcode.jsx";
 
-const Address=({address,setFormData,msg,setMsg})=>{
+const Address=({address,setUserInfo,msg,setMsg})=>{
     console.log("address--------------",address);
 
     //input onChange 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
-        setFormData({ ...address, [name]: value });
+        setUserInfo({ ...address, [name]: value });
 
         // // 아이디 유효성 검사
         // if (name === "clientId") {
@@ -27,7 +27,7 @@ const Address=({address,setFormData,msg,setMsg})=>{
     const handleAddressSelect = (addressObject) => {
 
         // 다음 API에서 받은 데이터 infoData에 갱신해주기
-        setFormData((prev)=>({
+        setUserInfo((prev)=>({
             ...prev,
             addr:addressObject.fullAddress,
             zoneCode:addressObject.zonecode,

@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import {validEachTel} from "@util/validation.jsx";
 
 
-const Tel=({telNum,setFormData,msg,setMsg})=>{
+const Tel=({telNum,setUserInfo,msg,setMsg})=>{
 
     console.log("telNum-----------",telNum);
     // telNum을 "-"을 기준으로 slice 해서 배열로 반환 
@@ -67,7 +67,7 @@ const Tel=({telNum,setFormData,msg,setMsg})=>{
         // 전체 데이터 formData에 갱신하기
         if (tel.FirstTelNum && tel.secondTelNum && tel.lastTelNum) {
             // FormInfoData의 tel 갱신
-            setFormData((prev) => ({
+            setUserInfo((prev) => ({
                 ...prev,
                 tel: `${tel.FirstTelNum}-${tel.secondTelNum}-${tel.lastTelNum}`
             }));

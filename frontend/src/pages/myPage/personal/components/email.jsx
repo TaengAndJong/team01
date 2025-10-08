@@ -3,7 +3,7 @@ import Select from "react-select";
 import React, {useEffect, useState} from "react";
 
 
-const Email=({email,setFormData})=>{
+const Email=({email,setUserInfo})=>{
     console.log("email-----------",email);
     // 초기값 value를 이메일 아이디랑 주소로 설정
     
@@ -18,7 +18,7 @@ const Email=({email,setFormData})=>{
     useEffect(() => {
         if (emailData.emailId && emailData.emailAddrInput) {
 
-            setFormData((prev) => ({
+            setUserInfo((prev) => ({
                 ...prev,
                 email: `${emailData.emailId}@${emailData.emailAddrInput}`,
             }));

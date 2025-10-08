@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.team01.board.dashboard.dao.DashDao">
+<mapper namespace="com.example.team01.mypage.dashboard.dao.DashDao">
 
     <!-- 3개월 이내 찜목록 조회    -->
-    <select id="selectBoardCnt" parameterType="String" resultType="com.example.team01.board.dashboard.dto.ResponseQnaCntDTO">
+    <select id="selectBoardCnt" parameterType="String" resultType="com.example.team01.mypage.dashboard.dto.ResponseQnaCntDTO">
         select
             d.delivCnt,
             o.oneCnt,
