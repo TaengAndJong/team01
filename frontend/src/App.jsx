@@ -131,10 +131,6 @@ function App() {
             <Route index path="dashboard" element={<AdminDashboard />} />
 
             <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
-              {console.log(
-                "PathData.page.adminBoard",
-                PathData.page.adminBoard
-              )}
               {/*첫페이지 설정*/}
               <Route index element={<Navigate to="oneBoard" />} />
               <Route
