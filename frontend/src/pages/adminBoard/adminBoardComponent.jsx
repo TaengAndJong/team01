@@ -153,7 +153,7 @@ const AdminBoard = () => {
     currentPage: 1,
     totalPages: 0,
     totalRecord: 0,
-    pageSize: 6,
+    pageSize: 5,
   });
 
   const initFetch = async () => {

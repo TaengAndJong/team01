@@ -29,7 +29,6 @@ const ProductBoard = () => {
     const allItems = product.flatMap((item) =>
       Array.isArray(item.items) ? item.items : []
     );
-
     setBoardList(allItems);
   }, [product]); // product가 바뀔 때마다 실행
 
