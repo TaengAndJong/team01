@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         <mapper namespace="com.example.team01.board.productboard.dao.ProductBoardDao">
 
-    <insert id="CreateProductBoard" parameterType="com.example.team01.vo.ProductBoardVO">
+    <insert id="CreateProductBoard" parameterType="ProductBoardVO">
         
         <selectKey keyProperty="qnaProId" resultType="String" order="BEFORE">
             SELECT 'qnapro' || LPAD(ADDQNAPRO_SEQ.NEXTVAL, 4, '0') FROM DUAL

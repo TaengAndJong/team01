@@ -4,12 +4,11 @@ import Tel from "./tel.jsx";
 import Email from "./email.jsx";
 import Address from "./address.jsx";
 import React from "react";
-import {Link} from "react-router-dom";
-import Btn from "@util/reuseBtn.jsx";
+
 
 const EditInfo = ({userInfo,setUserInfo,msg,setMsg,errorData,onEdit})=>{
 
-    console.log("개인정보수정 :============",userInfo);
+    console.log("개인정보수정 :============  userInfo",userInfo);
     /*
     * 아이디, 생년월일 변경불가
     * 비밀번호 변경 따로 ? ,
@@ -100,6 +99,11 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,errorData,onEdit})=>{
         //end
     }
 
+    const defaultInfo ={
+        clientId:userInfo.clientId,
+        password:userInfo.password,
+        clientName:userInfo.clientName,
+    }
 
     const address = {
         addr : userInfo.addr,
@@ -111,9 +115,7 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,errorData,onEdit})=>{
         <>
         <form className="userInfoForm" aria-labelledby="userInfoTitle">
             <fieldset>
-                <IdAndpw clientId={userInfo?.clientId}
-                         password={userInfo?.password}
-                         clientName={userInfo?.clientName}
+                <IdAndpw defaultInfo={defaultInfo}
                          setUserInfo={setUserInfo}
                          msg={msg} setMsg={setMsg}
                          errorData={errorData}

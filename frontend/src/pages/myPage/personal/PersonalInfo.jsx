@@ -1,7 +1,6 @@
 
 
-import React, {useEffect, useState} from "react";
-import retrieveInfo from "./components/retrieveInfo.jsx";
+import React, { useEffect, useState} from "react";
 import RetrieveInfo from "./components/retrieveInfo.jsx";
 import EditInfo from "./components/editInfo.jsx";
 
@@ -22,6 +21,8 @@ const PersonalInfo = () => {
         errorBirth:"",
         memberMsg:""
     });
+
+
 
 
     //개인정보조회 fetch
@@ -45,18 +46,18 @@ const PersonalInfo = () => {
     console.log("userInfo--------- 최상위 컴포넌트",userInfo)
     return (
         <>
-        {isEditMode ? (
-            <>
-                <strong className="title-border title d-block">개인정보 수정</strong>
-                <EditInfo userInfo={userInfo} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg} onEdit={onEdit}/>
-            </>
+            {isEditMode ? (
+                <>
+                    <strong className="title-border title d-block">개인정보 수정</strong>
+                    <EditInfo userInfo={userInfo} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg} onEdit={onEdit}/>
+                </>
 
-        ) : (
-            <>
-                <strong className="title-border title d-block">{userInfo?.clientName}님 개인정보 조회</strong>
-                <RetrieveInfo userInfo={userInfo} setUserInfo={setUserInfo} onEdit={onEdit}/>
-            </>
-        )}
+            ) : (
+                <>
+                    <strong className="title-border title d-block">{userInfo?.clientName}님 개인정보 조회</strong>
+                    <RetrieveInfo userInfo={userInfo} setUserInfo={setUserInfo} onEdit={onEdit}/>
+                </>
+            )}
 
 
         </>

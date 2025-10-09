@@ -26,13 +26,15 @@ export const ModalProvider = ({children}) => { //children을 통해 provider 자
         data:{}, // 받아올 데이터 메시지
         onConfirm:null, //확인
         onClose: null,//닫기
+        content: null,//내용 추가
     });
     //state end
+    console.log("content =-=--------------",state.content);
 
     //필요한 파라미터
     //모달 열기
-    const openModal = ({show=true, onClose, modalType, onConfirm, data}) => {
-        console.log("openModal-----------------");
+    const openModal = ({show=true, onClose, modalType, onConfirm, data,content}) => {
+        console.log("openModal-----------------content ", content);
 
         setState({
             show,// 모달열림 불린값
@@ -40,6 +42,7 @@ export const ModalProvider = ({children}) => { //children을 통해 provider 자
             data: data || {}, //erroData가 있으면 , 없으면
             onConfirm:onConfirm || null, // 확인 버튼
             onClose:onClose || null , // 닫기, 취소버튼
+            content:content || null, // 컨텐츠
         });
     }
 
@@ -54,17 +57,17 @@ export const ModalProvider = ({children}) => { //children을 통해 provider 자
     //반환
     return (
 
-        <ModalContext.Provider value={{ openModal, closeModal }}>
+        <ModalContext.Provider value={{ openModal, closeModal}}>
             {children}
             {state.show && (
                 <PublicModal
-                        show={state.show}
-                        onClose={closeModal}
-                        onConfirm={state.onConfirm}
-                        modalType={state.modalType}
-                        data={state.data}
-                />
-
+                    show={state.show}
+                    onClose={closeModal}
+                    onConfirm={state.onConfirm}
+                    modalType={state.modalType}
+                    data={state.data}
+                    content={state.content}>
+                </PublicModal>
             )}
         </ModalContext.Provider>
 

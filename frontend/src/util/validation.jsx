@@ -28,7 +28,8 @@ export const validateInput = (regex, value,name,type) => {
         //아이디일 경우 (대소문자 구부없이 )
         if( name.toLowerCase().includes("id")) return {valid:false, message: "영문 또는 숫자 혼합사용가능(최대15글자)"}
         //비밀번호 경우
-        if(name.toLowerCase().includes("password")) return {valid:false, message: " 대문자, 소문자, 숫자,특수문자가 하나이상 포함,최소 8자 이상"}
+        if(name.toLowerCase().includes("password") || name.toLowerCase().includes("newPassword"))
+            return {valid:false, message: " 대문자, 소문자, 숫자,특수문자가 하나이상 포함,최소 8자 이상"}
         // 전화번호일 경우 :  null 또는 undefined일 수 있으므로 안전하게 접근하기 위해 조건 필요
         // ? 옵셔널 체이닝 연산자로 객체나 변수의 속성이나 메서드에 접근하려고 할때 , 해당 값이 null, undefined인 경우 오류 방지하고 undefinde 반환
         if (name?.trim().toLowerCase().includes("secondtelnum") || name?.trim().toLowerCase().includes("lasttelnum") ){

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,4 +36,12 @@ public class UserInfoController {
 
         return ResponseEntity.ok(result);
     }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<?> updatePassword(@AuthenticationPrincipal UserDetails clientId, String password) {
+        log.info("비밀번호 갱신 : ----------------- :{} 비밀번호 :{}",clientId,password);
+        
+        return ResponseEntity.ok("비밀번호 변경완료");
+    }
+
 }
