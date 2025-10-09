@@ -30,7 +30,7 @@ const BoardDashboard = () => {
                 <span className="mb-4">1:1문의</span>
               </div>
 
-              <BoardCardTalble items={boardList.one} />
+              <BoardCardTalble items={boardList.one} category={"one"} />
 
               <Btn
                 className="navigate-btn"
@@ -44,7 +44,7 @@ const BoardDashboard = () => {
               <div className="card-header">
                 <span className="mb-4">상품문의</span>
               </div>
-              <BoardCardTalble items={boardList.product} />
+              <BoardCardTalble items={boardList.product} category={"product"} />
               <div className="card-footer">
                 <Btn
                   className="navigate-btn"
@@ -59,7 +59,10 @@ const BoardDashboard = () => {
               <div className="card-header">
                 <span className="mb-4">배송문의</span>
               </div>
-              <BoardCardTalble items={boardList.delivery} />
+              <BoardCardTalble
+                items={boardList.delivery}
+                category={"delivery"}
+              />
               <div className="card-footer">
                 <Btn
                   className="navigate-btn"
