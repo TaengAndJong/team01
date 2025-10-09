@@ -33,9 +33,9 @@ const BoardDashboard = () => {
               <BoardCardTalble items={boardList.one} />
 
               <Btn
-                className="navigate-btn btn"
+                className="navigate-btn"
                 type="button"
-                path="/board/deliveryBoard"
+                path="/board/oneBoard"
                 text="+"
                 aria-label="1:1문의 더보기"
               />
@@ -49,7 +49,7 @@ const BoardDashboard = () => {
                 <Btn
                   className="navigate-btn"
                   type="button"
-                  path="/board/deliveryBoard"
+                  path="/board/productBoard"
                   text="+"
                   aria-label="배송문의 더보기"
                 />
