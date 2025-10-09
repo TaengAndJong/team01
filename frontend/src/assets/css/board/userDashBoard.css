@@ -7,6 +7,7 @@
 .card-box {
   max-width: 400px;
   min-width: auto;
+  position: relative;
 }
 
 .card-box span {
@@ -30,20 +31,29 @@
 }
 
 .card-header {
-  display: flex;
-  justify-content: space-between; /* 좌우 끝 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
 }
 
-.card-header > .navigate-btn {
-  width: 30px;
-  height: 30px;
+.navigate-btn {
+  all: unset; /* Bootstrap 버튼 스타일 초기화 */
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 24px;
+  height: 24px;
   font-size: 24px;
-  line-height: 1; /* 기본 line-height 영향 제거 */
-  padding: 0; /* 여백 제거 */
+  line-height: 1; /* 폰트 기준선 영향 제거 */
+  padding: 0;
+  margin: 0;
 }
 
-.card-header > .navigate-btn:hover {
+.navigate-btn:hover {
   transform: scale(1.5);
   border: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
 }

@@ -28,39 +28,47 @@ const BoardDashboard = () => {
             <div className="card-box">
               <div className="card-header">
                 <span className="mb-4">1:1문의</span>
-                <Btn
-                  className={"navigate-btn mb-4"}
-                  type={"button"}
-                  path={"/board/oneBoard"}
-                  text="+"
-                />
               </div>
 
               <BoardCardTalble items={boardList.one} />
+
+              <Btn
+                className="navigate-btn btn"
+                type="button"
+                path="/board/deliveryBoard"
+                text="+"
+                aria-label="1:1문의 더보기"
+              />
             </div>
             <div className="card-box">
               <div className="card-header">
                 <span className="mb-4">상품문의</span>
-                <Btn
-                  className={"navigate-btn mb-4"}
-                  type={"button"}
-                  path={"/board/productBoard"}
-                  text="+"
-                />
               </div>
               <BoardCardTalble items={boardList.product} />
+              <div className="card-footer">
+                <Btn
+                  className="navigate-btn"
+                  type="button"
+                  path="/board/deliveryBoard"
+                  text="+"
+                  aria-label="배송문의 더보기"
+                />
+              </div>
             </div>
             <div className="card-box">
               <div className="card-header">
                 <span className="mb-4">배송문의</span>
-                <Btn
-                  className={"navigate-btn mb-4"}
-                  type={"button"}
-                  path={"/board/deliveryBoard"}
-                  text="+"
-                />
               </div>
               <BoardCardTalble items={boardList.delivery} />
+              <div className="card-footer">
+                <Btn
+                  className="navigate-btn"
+                  type="button"
+                  path="/board/deliveryBoard"
+                  text="+"
+                  aria-label="배송문의 더보기"
+                />
+              </div>
             </div>
           </div>
 
