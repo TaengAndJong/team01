@@ -220,27 +220,30 @@ const ProductBoard = () => {
         paginationInfo={paginationInfo}
         onChangePageHandler={onChangePageHandler}
       />
-
-      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <Btn
-          className={"delete btn btn-danger"}
-          id={"deleteBtn"}
-          type={"button"}
-          onClick={() =>
-            openModal({
-              modalType: "confirm",
-              data: {
-                message: "선택된 게시물을 삭제하시겠습니까?",
-              },
-              onConfirm: () => {
-                onDeleteHandler(checkedInput), closeModal();
-              },
-              onClose: closeModal,
-            })
-          }
-          text="삭제"
-        />
-      </div>
+      {boardList && boardList?.length === 0 ? (
+        []
+      ) : (
+        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+          <Btn
+            className={"delete btn btn-danger"}
+            id={"deleteBtn"}
+            type={"button"}
+            onClick={() =>
+              openModal({
+                modalType: "confirm",
+                data: {
+                  message: "선택된 게시물을 삭제하시겠습니까?",
+                },
+                onConfirm: () => {
+                  onDeleteHandler(checkedInput), closeModal();
+                },
+                onClose: closeModal,
+              })
+            }
+            text="삭제"
+          />
+        </div>
+      )}
     </>
   );
 };

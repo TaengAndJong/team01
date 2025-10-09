@@ -5,15 +5,15 @@ import PropTypes from "prop-types";
 import "@assets/css/board/userBoard.css";
 import "@assets/css/board/adminBoard.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Btn from "@util/reuseBtn.jsx";
+// import { useNavigate } from "react-router-dom";
+// import Btn from "@util/reuseBtn.jsx";
 
 const BoardTemplateComponent = ({ category }) => {
   // console.log("카테고리 뭐임?", category);
   // console.log("카테고리 속성 뭐임?", typeof category);
   const boardList = useContext(BoardListContext);
   const list = boardList?.[category] || [];
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   //console.log(`[${category}] 카테고리에 해당하는 게시물 목록`, list);
 
   // 컴포넌트 마운트/언마운트 추적
@@ -71,9 +71,9 @@ const BoardTemplateComponent = ({ category }) => {
       });
     }
   };
-  const handleCreateBoard = () => {
-    navigate(`/board/createBoard`);
-  };
+  // const handleCreateBoard = () => {
+  //   navigate(`/board/createBoard`);
+  // };
 
   return (
     <div>
@@ -106,22 +106,31 @@ const BoardTemplateComponent = ({ category }) => {
             </th>
           </tr>
         </thead>
-        {console.log("사용자 게시물 돌리기 전", boardList)}
+
         <tbody className="">
-          {list.map((item, index) => (
-            <BoardListComponent
-              key={index}
-              categoryListData={item}
-              category={category}
-              number={index + 1}
-              checkedInput={checkedInput}
-              onChangeCheck={onChangeCheck}
-              getBoardId={getBoardId}
-            />
-          ))}
+          {list && list.length === 0 ? (
+            <tr className="">
+              <td colSpan="12" className="text-center">
+                데이터가 없습니다.
+              </td>
+            </tr>
+          ) : (
+            list.map((item, index) => (
+              <BoardListComponent
+                key={index}
+                categoryListData={item}
+                category={category}
+                number={index + 1}
+                checkedInput={checkedInput}
+                onChangeCheck={onChangeCheck}
+                getBoardId={getBoardId}
+              />
+            ))
+          )}
         </tbody>
       </table>
-      <div className="btn-Box p-4 m-2">
+
+      {/* <div className="btn-Box p-4 m-2">
         <Btn
           className={"create btn custom-btn00 btn-create"}
           id={"createBtn"}
@@ -129,7 +138,7 @@ const BoardTemplateComponent = ({ category }) => {
           onClick={() => handleCreateBoard()}
           text="문의 하기"
         />
-      </div>
+      </div> */}
     </div>
   );
 };

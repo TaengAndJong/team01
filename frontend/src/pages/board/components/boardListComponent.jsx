@@ -15,7 +15,7 @@ const BoardListComponent = ({
 
   return (
     <>
-      <tr>
+      <tr className="table-light border-bottom">
         <td className="text-center">
           <input
             type="checkbox"
@@ -31,7 +31,7 @@ const BoardListComponent = ({
           </label>
         </td>
         <td className="text-center">{number}</td>
-        <td className="text-center">
+        <td className="text-left">
           <Link
             to={`/board/detailBoard/${category}/${getBoardId(
               categoryListData

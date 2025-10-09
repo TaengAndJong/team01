@@ -6,6 +6,8 @@
 
 .card-box {
   max-width: 400px;
+  min-width: auto;
+  position: relative;
 }
 
 .card-box span {
@@ -19,4 +21,39 @@
 }
 
 .card-item-box {
+}
+
+.btn-box {
+  text-align: right;
+}
+
+.navigate-btn {
+}
+
+.card-header {
+}
+
+.navigate-btn {
+  all: unset; /* Bootstrap 버튼 스타일 초기화 */
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+  line-height: 1; /* 폰트 기준선 영향 제거 */
+  padding: 0;
+  margin: 0;
+}
+
+.navigate-btn:hover {
+  transform: scale(1.5);
+  border: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
 }

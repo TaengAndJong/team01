@@ -24,24 +24,57 @@ const BoardDashboard = () => {
             최근 등록한 문의
           </strong> */}
           {/*컴포넌트 카드 */}
-          <div className="flex_box inner">
+          <div className="flex_box inner pb-5 border-bottom ">
             <div className="card-box">
-              <span className="mb-4">1:1문의</span>
+              <div className="card-header">
+                <span className="mb-4">1:1문의</span>
+              </div>
+
               <BoardCardTalble items={boardList.one} />
+
+              <Btn
+                className="navigate-btn btn"
+                type="button"
+                path="/board/deliveryBoard"
+                text="+"
+                aria-label="1:1문의 더보기"
+              />
             </div>
             <div className="card-box">
-              <span className="mb-4">상품문의</span>
+              <div className="card-header">
+                <span className="mb-4">상품문의</span>
+              </div>
               <BoardCardTalble items={boardList.product} />
+              <div className="card-footer">
+                <Btn
+                  className="navigate-btn"
+                  type="button"
+                  path="/board/deliveryBoard"
+                  text="+"
+                  aria-label="배송문의 더보기"
+                />
+              </div>
             </div>
             <div className="card-box">
-              <span className="mb-4">배송문의</span>
+              <div className="card-header">
+                <span className="mb-4">배송문의</span>
+              </div>
               <BoardCardTalble items={boardList.delivery} />
+              <div className="card-footer">
+                <Btn
+                  className="navigate-btn"
+                  type="button"
+                  path="/board/deliveryBoard"
+                  text="+"
+                  aria-label="배송문의 더보기"
+                />
+              </div>
             </div>
           </div>
 
-          <div>
+          <div className="mt-5 btn-box">
             <Btn
-              className={"create btn w- custom-btn00 btn-create"}
+              className={"create btn custom-btn00 btn-create"}
               id={"createBtn"}
               type={"button"}
               onClick={() => handleCreateBoard()}
