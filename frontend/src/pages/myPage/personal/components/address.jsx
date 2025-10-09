@@ -41,6 +41,17 @@ const Address=({address,setUserInfo,msg,setMsg})=>{
             <div className="d-flex flex-column mb-3">
                 <div className="d-flex align-items-center w-100 mb-2">
                     <FormTag
+                        label="우편번호"
+                        labelClass="form-title" className="form-control w-25"
+                        name="zoneCode"
+                        value={address?.zoneCode}
+                        placeholder="우편번호"
+                        onChange={handleInputChange}
+                    />
+                    <DaumPostcode onAddressSelect={handleAddressSelect}/>
+                </div>
+                <div className="d-flex align-items-center w-100 mb-2">
+                    <FormTag
                         label="주소"
                         labelClass="form-title" className="form-control"
                         name="addr"
@@ -50,17 +61,6 @@ const Address=({address,setUserInfo,msg,setMsg})=>{
                     />
                 </div>
 
-                <div className="d-flex align-items-center w-100 mb-2">
-                    <FormTag
-                        label="우편번호"
-                        labelClass="form-title" className="form-control w-75"
-                        name="zoneCode"
-                        value={address?.zoneCode}
-                        placeholder="우편번호"
-                        onChange={handleInputChange}
-                    />
-                    <DaumPostcode onAddressSelect={handleAddressSelect}/>
-                </div>
                 <div className="d-flex align-items-center w-100">
                     <FormTag
                         label="상세주소"
@@ -72,8 +72,8 @@ const Address=({address,setUserInfo,msg,setMsg})=>{
                     />
                 </div>
             </div>
-            </>
-            )
-            }
+        </>
+    )
+}
 
-            export default Address;
+export default Address;
