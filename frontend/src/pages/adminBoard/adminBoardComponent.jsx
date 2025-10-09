@@ -3,8 +3,8 @@ import React, { useEffect, useState, useReducer } from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import { useMenu } from "../common/MenuContext.jsx";
 import { menuNavi } from "../../util/menuNavi.jsx";
-import { useLocation } from "react-router-dom";
 import { ModalProvider } from "@pages/common/modal/ModalContext.jsx";
+
 // 3개 카테고리별 상태 관리를 위한 reducer
 function boardReducer(state, action) {
   console.log("boardReducer state:", state);
@@ -149,7 +149,29 @@ const AdminBoard = () => {
     item.menuPath.includes(standardPoint)
   );
 
-  const [paginationInfo, setPaginationInfo] = useState({
+  // const [paginationInfo, setPaginationInfo] = useState({
+  //   currentPage: 1,
+  //   totalPages: 0,
+  //   totalRecord: 0,
+  //   pageSize: 5,
+  // });
+
+  // 게시판 별 페이지네이션
+  const [onePagination, setOnePagination] = useState({
+    currentPage: 1,
+    totalPages: 0,
+    totalRecord: 0,
+    pageSize: 5,
+  });
+
+  const [productPagination, setProductPagination] = useState({
+    currentPage: 1,
+    totalPages: 0,
+    totalRecord: 0,
+    pageSize: 5,
+  });
+
+  const [deliveryPagination, setDeliveryPagination] = useState({
     currentPage: 1,
     totalPages: 0,
     totalRecord: 0,
@@ -158,27 +180,38 @@ const AdminBoard = () => {
 
   const initFetch = async () => {
     try {
-      //page, pageSize
-      const params = new URLSearchParams({
-        currentPage: paginationInfo.currentPage, // 클라이언트가 결정하는 현재페이지, 기본값은 1
-        pageSize: paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
+      // 각 게시판별 파라미터 생성
+      const oneParams = new URLSearchParams({
+        currentPage: onePagination.currentPage,
+        pageSize: onePagination.pageSize,
       });
 
-      console.log("params.toString()", params.toString());
+      const productParams = new URLSearchParams({
+        currentPage: productPagination.currentPage,
+        pageSize: productPagination.pageSize,
+      });
+
+      const deliveryParams = new URLSearchParams({
+        currentPage: deliveryPagination.currentPage,
+        pageSize: deliveryPagination.pageSize,
+      });
 
       // 서버로 응답 요청 - 3개 API 동시 호출
       const [oneListRes, productListRes, deliveryListRes] = await Promise.all([
-        fetch(`/api/admin/board/qnaOneList?${params.toString()}`),
-        fetch(`/api/admin/board/qnaProductList?${params.toString()}`),
-        fetch(`/api/admin/board/qnaDeliveryList?${params.toString()}`),
+        fetch(`/api/admin/board/qnaOneList?${oneParams.toString()}`),
+        fetch(`/api/admin/board/qnaProductList?${productParams.toString()}`),
+        fetch(`/api/admin/board/qnaDeliveryList?${deliveryParams.toString()}`),
       ]);
 
-      // 각 응답의 상태 확인
-      console.log("API 응답 상태:", {
-        oneListRes: oneListRes.status,
-        productListRes: productListRes.status,
-        deliveryListRes: deliveryListRes.status,
-      });
+      // 응답 상태 확인
+      if (!oneListRes.ok)
+        throw new Error(`oneBoardList API 오류: ${oneListRes.status}`);
+      if (!productListRes.ok)
+        throw new Error(`productBoardList API 오류: ${productListRes.status}`);
+      if (!deliveryListRes.ok)
+        throw new Error(
+          `deliveryBoardList API 오류: ${deliveryListRes.status}`
+        );
 
       // 응답이 성공인지 확인
       if (!oneListRes.ok) {
@@ -207,13 +240,31 @@ const AdminBoard = () => {
       dispatch({ type: "INIT_PRODUCT", data: productData });
       dispatch({ type: "INIT_DELIVERY", data: deliveryData });
 
-      // 페이지네이션 정보 업데이트 (첫 번째 응답의 페이지네이션 정보 사용)
+      // 페이지네이션 정보 게시판 별로 받아오기
       if (oneData && oneData.currentPage) {
-        setPaginationInfo({
+        setOnePagination({
           currentPage: oneData.currentPage,
-          pageSize: oneData.pageSize || paginationInfo.pageSize,
+          pageSize: oneData.pageSize || onePagination.pageSize,
           totalPages: oneData.totalPages,
           totalRecord: oneData.totalRecord,
+        });
+      }
+
+      if (productData && productData.currentPage) {
+        setProductPagination({
+          currentPage: productData.currentPage,
+          pageSize: productData.pageSize || productPagination.pageSize,
+          totalPages: productData.totalPages,
+          totalRecord: productData.totalRecord,
+        });
+      }
+
+      if (deliveryData && deliveryData.currentPage) {
+        setDeliveryPagination({
+          currentPage: deliveryData.currentPage,
+          pageSize: deliveryData.pageSize || deliveryPagination.pageSize,
+          totalPages: deliveryData.totalPages,
+          totalRecord: deliveryData.totalRecord,
         });
       }
     } catch (err) {
@@ -222,10 +273,10 @@ const AdminBoard = () => {
     }
   }; //fetch end
 
+  // 최초 렌더 시 한 번만 실행
   useEffect(() => {
-    console.log("adminBoard------------------");
     initFetch();
-  }, [paginationInfo.currentPage]);
+  }, []);
 
   // 각 카테고리별 초기화 함수
   const onInitOne = (data) => {
@@ -328,13 +379,36 @@ const AdminBoard = () => {
   };
 
   //페이지버튼 클릭시 실행되는 핸들러
-  const onChangePageHandler = (page) => {
+  const onChangeOnePageHandler = async (page) => {
     console.log("changePage----", page);
     //pagination의 currentPage 값 갱신
-    setPaginationInfo((prev) => ({
+    setOnePagination((prev) => ({
       ...prev,
       currentPage: page,
     }));
+    await initFetch();
+  };
+
+  //페이지버튼 클릭시 실행되는 핸들러
+  const onChangeProPageHandler = async (page) => {
+    console.log("changePage----", page);
+    //pagination의 currentPage 값 갱신
+    setProductPagination((prev) => ({
+      ...prev,
+      currentPage: page,
+    }));
+    await initFetch();
+  };
+
+  //페이지버튼 클릭시 실행되는 핸들러
+  const onChangeDelivPageHandler = async (page) => {
+    console.log("changePage----", page);
+    //pagination의 currentPage 값 갱신
+    setDeliveryPagination((prev) => ({
+      ...prev,
+      currentPage: page,
+    }));
+    await initFetch();
   };
 
   return (
@@ -402,13 +476,20 @@ const AdminBoard = () => {
                     onUpdateOne,
                     onUpdateProduct,
                     onUpdateDelivery,
+                    initFetch,
                   }}
                 >
                   <PaginationContext.Provider
                     value={{
-                      paginationInfo,
-                      onChangePageHandler,
-                      setPaginationInfo,
+                      onePagination,
+                      productPagination,
+                      deliveryPagination,
+                      setOnePagination,
+                      setProductPagination,
+                      setDeliveryPagination,
+                      onChangeOnePageHandler,
+                      onChangeProPageHandler,
+                      onChangeDelivPageHandler,
                     }}
                   >
                     <ModalProvider>

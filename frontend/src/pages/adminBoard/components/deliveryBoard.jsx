@@ -16,7 +16,11 @@ const DeliveryBoard = () => {
   const { onInitDelivery, onDeleteDelivery } = useContext(
     BookBoardDispatchContext
   );
-  const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
+  const {
+    deliveryPagination,
+    setDeliveryPagination,
+    onChangeDelivPageHandler,
+  } = useContext(PaginationContext);
   const [boardList, setBoardList] = useState([]);
 
   useEffect(() => {
@@ -188,7 +192,8 @@ const DeliveryBoard = () => {
                 key={item.productId || index}
                 data={item}
                 number={
-                  (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
+                  (deliveryPagination.currentPage - 1) *
+                    deliveryPagination.pageSize +
                   index +
                   1
                 }
@@ -201,8 +206,8 @@ const DeliveryBoard = () => {
       </table>
       {/*pagination*/}
       <Pagination
-        paginationInfo={paginationInfo}
-        onChangePageHandler={onChangePageHandler}
+        paginationInfo={deliveryPagination}
+        onChangePageHandler={onChangeDelivPageHandler}
       />
       {boardList && boardList?.length === 0 ? (
         []

@@ -24,7 +24,7 @@ public class QnaProductController {
     private final QnaProductService qnaProductService;
     
     @GetMapping("/qnaProductList")
-    public ResponseEntity<?> getQnaProductList(@RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "6") int pageSize, HttpServletRequest request) {
+    public ResponseEntity<?> getQnaProductList(@RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
         log.info("currentPage = {}, pageSize = {} " , currentPage, pageSize);
         //확인 완료
 
@@ -32,14 +32,14 @@ public class QnaProductController {
         //페이지 계산 클래스 불러오기
 
         // 클래스    참조변수  인스턴스생성  생성자호출 (매개 변수 , 매개 변수)
-        Pagination pagination = new Pagination(currentPage, pageSize); //현재페이지 && 보여줄 페이지 수
+        Pagination pagination = new Pagination(currentPage, pageSize); //현재페이지 && 보여줄 아이템 수
 
         //서비스로 데이터 넘기기
         List<QnaProductVO> qnaProductList = qnaProductService.getAllQnaProductList(pagination);
         log.info("qnaProductList size------------ = {}", qnaProductList.size());
 
         Map<String, Object> result = new HashMap<>();
-        result.put("items", qnaProductList);
+        result.put("items", qnaProductList); // getAllQnaProductList로 가져온 게시물
         result.put("currentPage", pagination.getCurrentPage());
         result.put("pageSize", pagination.getPageSize());
         result.put("totalPages", pagination.getTotalPages());

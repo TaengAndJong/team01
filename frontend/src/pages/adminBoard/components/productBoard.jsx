@@ -16,7 +16,8 @@ const ProductBoard = () => {
   const { onInitProduct, onDeleteProduct } = useContext(
     BookBoardDispatchContext
   );
-  const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
+  const { productPagination, setProductPagination, onChangeProPageHandler } =
+    useContext(PaginationContext);
   const [boardList, setBoardList] = useState([]);
 
   useEffect(() => {
@@ -202,7 +203,8 @@ const ProductBoard = () => {
                 key={item.qnaProId || index}
                 data={item}
                 number={
-                  (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
+                  (productPagination.currentPage - 1) *
+                    productPagination.pageSize +
                   index +
                   1
                 }
@@ -216,8 +218,8 @@ const ProductBoard = () => {
       {/* 테이블 */}
       {/*pagination*/}
       <Pagination
-        paginationInfo={paginationInfo}
-        onChangePageHandler={onChangePageHandler}
+        paginationInfo={productPagination}
+        onChangePageHandler={onChangeProPageHandler}
       />
       {boardList && boardList?.length === 0 ? (
         []
