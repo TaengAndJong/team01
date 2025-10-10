@@ -21,7 +21,8 @@ const IdAndPw = ({defaultInfo,setUserInfo,msg,setMsg,errorData})=>{
     //비밀번호 변경 상태관리 변수
     const [newPassword, setNewPassword] = useState({
         newPassword: "",
-        newPasswordConfirm: ""
+        newPasswordConfirm: "",
+        currentPw:""
     });
 
     //비밀번호변경 Ui 토글관리
@@ -62,7 +63,16 @@ const IdAndPw = ({defaultInfo,setUserInfo,msg,setMsg,errorData})=>{
 
 
     //비밀번호 변경 UI열기
-    const openPwTag = () => {
+    const openPwTag = async() => {
+        // 현재비밀번호 검증
+        console.log("현재비밀번호 검증 : ",newPassword.currentPw);
+        //서버로 검증요청 보내기?
+        const response = await axios.post("/api/mypage/checkPassword", {
+            currentPw: newPassword.currentPw, // 입력받은 현재 비밀번호
+        });
+
+        //
+
         //이전상태값이 false면 true, true면 false
         setPwdTag((prev)=>!prev);
     }
@@ -97,36 +107,40 @@ const IdAndPw = ({defaultInfo,setUserInfo,msg,setMsg,errorData})=>{
            {/*pw*/}
             <div className="d-flex flex-wrap align-items-center mb-2">
                 <label className="form-title">비밀번호</label>
-                <input type="password" className="form-control w-auto" name="password" value={defaultInfo.password}
-                       readOnly
-                       aria-readonly="true"/>
-                <button type="button" className="btn custom-btn00 pw-change ms-1 py-2" onClick={openPwTag}>{pwTag?"취소":"변경"}
+                <input type="password" className="form-control w-auto" name="currentPw" value={newPassword.currentPw}
+                placeholder={"현재 비밀번호 입력"} onChange={handleInputChange}/>
+                <button type="button" className="btn custom-btn00 pw-change ms-1 py-2" onClick={openPwTag}>확인
                 </button>
+                <p className={"info d-flex align-items-center"}>
+                    <i className={"icon info"}><span className={"sr-only"}>안내</span></i>
+                    비밀번호를 변경하려면 현재비밀번호를 확인해주세요.
+                </p>
                 {pwTag && (
-                    <div className="d-flex  align-items-center pwChange mt-2">
-                        <label className="form-title">새비밀번호</label>
-                        <input
-                            type="password"
-                            className="form-control mb-2  me-3"
-                            name="newPassword"
-                            placeholder="새 비밀번호 입력"
-                            onChange={handleInputChange}
-                            value={newPassword.newPassword || ""}
-                        />
-                        <label className="form-title">비밀번호확인</label>
-                        <input
-                            type="password"
-                            className="form-control "
-                            name="newPasswordConfirm"
-                            placeholder="새 비밀번호 입력 확인"
-                            onChange={handleInputChange}
-                            value={newPassword.newPasswordConfirm || ""}
-                        />
-
-                        <button type="button" className="btn custom-btn00 submit ms-1 py-2" onClick={updatePw}>확인
-                        </button>
-                        {msg.errorpwd}
-                    </div>
+                    <>
+                        <div className="d-flex  align-items-center pwChange">
+                            <label className="form-title">새비밀번호</label>
+                            <input
+                                type="password"
+                                className="form-control me-3"
+                                name="newPassword"
+                                placeholder="새 비밀번호 입력"
+                                onChange={handleInputChange}
+                                value={newPassword.newPassword}
+                            />
+                            <label className="form-title">비밀번호확인</label>
+                            <input
+                                type="password"
+                                className="form-control "
+                                name="newPasswordConfirm"
+                                placeholder="새 비밀번호 입력 확인"
+                                onChange={handleInputChange}
+                                value={newPassword.newPasswordConfirm}
+                            />
+                            <button type="button" className="btn custom-btn00 submit ms-1 py-2" onClick={updatePw}>변경
+                            </button>
+                        </div>
+                        <p className={"info d-flex align-items-center"}><i className={"icon info"}><span className={"sr-only"}>안내</span></i>{msg.errorpwd}</p>
+                    </>
                 )}
 
             </div>
