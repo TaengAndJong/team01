@@ -21,7 +21,7 @@ public class OneBoardServiceImple implements OneBoardService {
     private final AttachmentService attachmentService;
 
     @Override
-    public void CreateOneBoard(OneBoardVO vo) {
+    public int CreateOneBoard(OneBoardVO vo) {
         log.info("서비스 임플 VO 객체 데이터: {}", vo);
 
         List<MultipartFile> files = vo.getFiles(); // 첨부파일 데이터 VO 객체에서 가져오기
@@ -45,8 +45,11 @@ public class OneBoardServiceImple implements OneBoardService {
             log.info("file 업로드 후 oneBoardVO 객체 데이터: {}", vo);
 
             // DAO를 통한 게시물 등록
-            OneBoardDao.CreateOneBoard(vo);
-            log.info("게시물 등록 완료");
+            int result = OneBoardDao.CreateOneBoard(vo);
+            log.info("게시물 등록 완료, 반환값: {}", result);
+
+            return result; // ✅ 반드시 반환
+
 
         } catch (Exception e) {
             log.error("게시물 등록 중 오류 발생", e); 
