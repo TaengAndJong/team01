@@ -6,9 +6,9 @@ import axios from "axios";
 
 
 
-const IdAndPw = ({defaultInfo,setUserInfo,msg,setMsg,errorData})=>{
+const IdAndPw = ({defaultInfo,errorData})=>{
     console.log("defaultInfo",defaultInfo);
-    console.log("msg,setMsg,errorData",msg,setMsg,errorData);
+    console.log("errorData",errorData);
 
 
     // 1. 변경 버튼을누른다
@@ -24,9 +24,14 @@ const IdAndPw = ({defaultInfo,setUserInfo,msg,setMsg,errorData})=>{
         newPasswordConfirm: "",
         currentPw:""
     });
-
+    //메시지관리
+    const [msg,setMsg]=useState({
+        msg:"비밀번호 변경 시, 현재비밀번호를 확인해주세요."
+    });
     //비밀번호변경 Ui 토글관리
     const [pwTag,setPwdTag] = useState(false);
+    //비밀번호 변경 완료 시 , disabled 상태관리
+    const [isDisabled, setIsDisabled] = useState(false);
 
     //input onChange 핸들러
     const handleInputChange = (e) => {
@@ -39,6 +44,61 @@ const IdAndPw = ({defaultInfo,setUserInfo,msg,setMsg,errorData})=>{
 
     };
 
+
+
+    //비밀번호 변경 UI열기
+    const openPwTag = async() => {
+        // 현재비밀번호 검증
+        console.log("현재비밀번호 검증 : ",newPassword.currentPw);
+        try{
+            //서버로 검증요청 보내기?
+            const response = await axios.post("/api/mypage/checkPassword", {
+                currentPw: newPassword.currentPw, // 입력받은 현재 비밀번호
+            });
+
+            //
+            console.log(" 현재비밀번호 확인 비동기요청",response.data);
+            setMsg(prev => ({
+                ...prev,
+                msg: response.data.msg
+            }));
+            //이전상태값이 false면 true, true면 false
+            setPwdTag((prev)=>!prev);
+        }catch(err){
+            console.error("비밀번호 확인 실패:", err);
+            setMsg((prev) => ({
+                ...prev,
+                msg: "비밀번호 확인에 실패했습니다.",
+            }));
+        }
+
+    }
+
+    //비밀번호 변경 검증 및 fetch 요청보내기
+    const updatePw = async () => {
+        // 비밀번호 갱신 서버로 보내기
+
+        try{
+            const response = await axios.put("/api/mypage/changePassword",{
+                newPassword:newPassword.newPassword,
+            })
+            console.log("response------------- 비밀번호 갱신 비동기요청",response.data);
+
+            setMsg(prev => ({
+                ...prev,
+                msg: response.data.msg
+            }))
+
+            //이전상태값이 false면 true, true면 false ==> 새 비밀번호 입력 UI 닫기 
+            setPwdTag((prev)=>!prev);
+            // 변경완료되면 input, button disable 속성 true로 변경
+            setIsDisabled((prev)=>!prev);
+
+        }catch(error){
+            console.error("비밀번호 변경 실패:", error);
+        }
+
+    }
 
     useEffect(()=>{
 
@@ -61,37 +121,9 @@ const IdAndPw = ({defaultInfo,setUserInfo,msg,setMsg,errorData})=>{
 
     },[newPassword])
 
-
-    //비밀번호 변경 UI열기
-    const openPwTag = async() => {
-        // 현재비밀번호 검증
-        console.log("현재비밀번호 검증 : ",newPassword.currentPw);
-        //서버로 검증요청 보내기?
-        const response = await axios.post("/api/mypage/checkPassword", {
-            currentPw: newPassword.currentPw, // 입력받은 현재 비밀번호
-        });
-
-        //
-
-        //이전상태값이 false면 true, true면 false
-        setPwdTag((prev)=>!prev);
-    }
-
-    //비밀번호 변경 검증 및 fetch 요청보내기
-    const updatePw = async () => {
-        // 비밀번호 갱신 서버로 보내기
-
-        try{
-            const response = await axios.put("/api/mypage/changePassword",{
-                password:newPassword.newPassword,
-            })
-            console.log("response------------- 비밀번호 갱신 비동기요청",response.data);
-
-        }catch(e){
-            console.error("비밀번호 변경 실패:", error);
-        }
-
-    }
+    useEffect(() => {
+        console.log("msg 변경됨:", msg);
+    }, [msg]);
 
 
 
@@ -108,12 +140,14 @@ const IdAndPw = ({defaultInfo,setUserInfo,msg,setMsg,errorData})=>{
             <div className="d-flex flex-wrap align-items-center mb-2">
                 <label className="form-title">비밀번호</label>
                 <input type="password" className="form-control w-auto" name="currentPw" value={newPassword.currentPw}
-                placeholder={"현재 비밀번호 입력"} onChange={handleInputChange}/>
-                <button type="button" className="btn custom-btn00 pw-change ms-1 py-2" onClick={openPwTag}>확인
+                placeholder={"현재 비밀번호 입력"} onChange={handleInputChange} disabled={isDisabled} />
+                <button type="button" className="btn custom-btn00 pw-change ms-1 py-2" onClick={openPwTag}
+                        disabled={isDisabled}
+                >{pwTag?"닫기":"확인"}
                 </button>
                 <p className={"info d-flex align-items-center"}>
                     <i className={"icon info"}><span className={"sr-only"}>안내</span></i>
-                    비밀번호를 변경하려면 현재비밀번호를 확인해주세요.
+                    {msg.msg && !pwTag? msg.msg:""}
                 </p>
                 {pwTag && (
                     <>
@@ -139,7 +173,14 @@ const IdAndPw = ({defaultInfo,setUserInfo,msg,setMsg,errorData})=>{
                             <button type="button" className="btn custom-btn00 submit ms-1 py-2" onClick={updatePw}>변경
                             </button>
                         </div>
-                        <p className={"info d-flex align-items-center"}><i className={"icon info"}><span className={"sr-only"}>안내</span></i>{msg.errorpwd}</p>
+                        {msg.errorpwd || msg.errorpwdConfirm?
+                            (
+                                <p className={"info d-flex align-items-center"}><i className={"icon info"}><span
+                                    className={"sr-only"}>안내</span></i>
+                                    {msg.errorpwd || msg.errorpwdConfirm}
+                                </p>
+                            ): ""
+                        }
                     </>
                 )}
 

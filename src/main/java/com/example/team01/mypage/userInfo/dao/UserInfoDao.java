@@ -9,4 +9,6 @@ public interface UserInfoDao {
 
      ClientVO selectClientInfo(@Param("clientId") String clientId, @Param("roleId") String roleId);
 
+     int updatePassword(@Param("clientId") String clientId, @Param("password") String password);
+
 }

@@ -23,4 +23,10 @@
         where "clientId"=#{clientId} and "roleId"=#{roleId}
     </select>
 
+    <update id="updatePassword" parameterType="String">
+        UPDATE client
+        SET "password" = #{password}
+        WHERE "clientId" = #{clientId}
+    </update>
+
 </mapper>

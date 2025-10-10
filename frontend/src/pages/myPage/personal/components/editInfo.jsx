@@ -115,11 +115,7 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,errorData,onEdit})=>{
         <>
         <form className="userInfoForm" aria-labelledby="userInfoTitle">
             <fieldset>
-                <IdAndpw defaultInfo={defaultInfo}
-                         setUserInfo={setUserInfo}
-                         msg={msg} setMsg={setMsg}
-                         errorData={errorData}
-                />
+                <IdAndpw defaultInfo={defaultInfo}/>
                 <Birth birth={userInfo?.birth}/>
                 <Tel telNum={userInfo?.tel} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
                 <Email email={userInfo?.email} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
