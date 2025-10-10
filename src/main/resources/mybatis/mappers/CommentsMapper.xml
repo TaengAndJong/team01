@@ -11,13 +11,13 @@
         VALUES (#{commentId}, #{commentType}, #{commentCon}, #{comWriter}, #{comDate}, NULL, #{qnaRefId})
         </insert>
 
-        <select id="getCommentById" parameterType="map" resultType="com.example.team01.vo.CommentsVO">
+        <select id="getCommentById" parameterType="map" resultType="CommentsVO">
                 SELECT * FROM comments 
                 WHERE "qnaRefId" = #{qnaRefId} AND "commentType" = #{commentType}
                 AND ROWNUM = 1
         </select>
 
-        <update id="postCommentUpdate" parameterType="com.example.team01.vo.CommentsVO">
+        <update id="postCommentUpdate" parameterType="CommentsVO">
                 UPDATE comments
                 SET "commentCon" = #{commentCon}, "comWriter" = #{comWriter}, "comModify" = #{comModify}
                 WHERE "commentId" = #{commentId}

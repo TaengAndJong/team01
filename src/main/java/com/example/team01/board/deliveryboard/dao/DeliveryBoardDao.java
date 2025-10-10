@@ -2,10 +2,11 @@ package com.example.team01.board.deliveryboard.dao;
 
 import com.example.team01.vo.DeliveryBoardVO;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface DeliveryBoardDao {
-    void CreateDeliveryBoard(DeliveryBoardVO vo);
-    List<DeliveryBoardVO> GetDelivBoardlist(String userId);
-    DeliveryBoardVO getDeliveryBoardDetail(String boardId, String userId);
-    int deleteDeliveryBoard(String boardId);
+    int CreateDeliveryBoard(DeliveryBoardVO vo);
+    List<DeliveryBoardVO> GetDelivBoardlist(@Param("userId") String userId);
+    DeliveryBoardVO getDeliveryBoardDetail(@Param("boardId") String boardId, @Param("userId") String userId);
+    int deleteDeliveryBoard(@Param("boardId") String boardId);
 }

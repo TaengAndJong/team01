@@ -4,7 +4,7 @@
 
         <mapper namespace="com.example.team01.board.deliveryboard.dao.DeliveryBoardDao">
     
-    <insert id="CreateDeliveryBoard" parameterType="com.example.team01.vo.DeliveryBoardVO">
+    <insert id="CreateDeliveryBoard" parameterType="DeliveryBoardVO">
         <selectKey keyProperty="qnaDelId" resultType="String" order="BEFORE">
             SELECT 'qnadeliv' || LPAD(ADDQNADELIV_SEQ.NEXTVAL, 4, '0') FROM DUAL
         </selectKey>
@@ -32,12 +32,12 @@
         )
     </insert>
 
-    <select id="GetDelivBoardlist" parameterType="String" resultType="com.example.team01.vo.DeliveryBoardVO">
+    <select id="GetDelivBoardlist" parameterType="String" resultType="DeliveryBoardVO">
        SELECT * FROM qnaDeliv WHERE "clientId" = #{userId} AND "qnaDel" IS NULL OR "qnaDel" = 'N'
         ORDER BY "qnaDelId" DESC
     </select>
 
-    <select id="getDeliveryBoardDetail" parameterType="map" resultType="com.example.team01.vo.DeliveryBoardVO">
+    <select id="getDeliveryBoardDetail" parameterType="map" resultType="DeliveryBoardVO">
         SELECT "qnaDelId",
         "qnaTitle",
         "qnaContent",
