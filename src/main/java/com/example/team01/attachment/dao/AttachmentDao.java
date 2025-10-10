@@ -11,6 +11,6 @@ import java.util.List;
 @Mapper
 public interface AttachmentDao {
 
-    void InsertAttachment_ID(AttachmentVO vo);
+    int InsertAttachment_ID(AttachmentVO vo);
     List<AttachmentVO> GetAttachmentList(@Param("userId") String userId , @Param("boardType") String boardType, @Param("boardDate") LocalDateTime boardDate);
 }

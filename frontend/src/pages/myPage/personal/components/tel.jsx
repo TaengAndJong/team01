@@ -84,13 +84,13 @@ const Tel=({telNum,setUserInfo,msg,setMsg})=>{
                     className="w-25"
                     name="FirstTelNum"
                     id="FirstTelNum"
-                    isDisabled={true}
                     value={{ value: tel.firstTelNum, label: tel.firstTelNum }}
                     onChange={(selectedOption) => {
                         console.log("selectedOption", selectedOption);
                         handleTelChange({target: {name: "FirstTelNum", value: selectedOption.value}});
                     }}
                     options={[
+                        {value: '직접선택', label: '직접선택'},
                         {value: '010', label: '010'},
                     ]}
                 />
@@ -110,9 +110,9 @@ const Tel=({telNum,setUserInfo,msg,setMsg})=>{
                     onChange={handleTelChange}
                     placeholder="마지막 전화번호 입력"
                 />
-                {/*{msg.errorTel && (*/}
-                {/*    <span>{msg.errorTel}</span>*/}
-                {/*)}*/}
+                {msg.errorTel && (
+                    <span>{msg.errorTel}</span>
+                )}
             </div>
         </>
 

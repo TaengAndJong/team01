@@ -14,22 +14,38 @@ const Email=({email,setUserInfo})=>{
         emailAddrInput: "",
         emailAddrSelect: "직접선택",
     });
-    //email
+
+    //email 상태 초기화 값 설정
+    useEffect(() => {
+        // email 데이터가 있으면
+        if(email){
+            // email 주소 "@"을 기준으로 구조분해 할당
+            const [emailId, emailAddr] =email.split("@");
+            console.log("emailId-----------",emailId);
+            console.log("emailAddr-----------",emailAddr);
+            // EmailData의 값에 설정해주기
+            setemailData({
+                emailId:emailId || "",
+                emailAddrInput:emailAddr || "",
+                emailAddrSelect:
+                    emailAddr === "naver.com" || emailAddr === "google.com" || emailAddr === "daum.net"? emailAddr:"직접선택",
+            })
+        }
+
+    },[email]); // email 데이터가 변경되면 실행
+
     useEffect(() => {
         if (emailData.emailId && emailData.emailAddrInput) {
-
             setUserInfo((prev) => ({
                 ...prev,
                 email: `${emailData.emailId}@${emailData.emailAddrInput}`,
             }));
         }
+
     },  [emailData.emailId, emailData.emailAddrInput]); // emailData가 변경될 때 실행
 
     // 이메일 유효성 검사 및 중복 검사
     const handleEmailChange = (e)=>{
-        console.log("e.target.name", e.target.name);
-        console.log("e.target.value", e.target.value);
-
 
         //...(스프레드 연산자)는 객체를 "펼쳐서" 새로운 객체에 병합하거나 추가하는 역할을 합니다.
         setemailData((prev) => ({

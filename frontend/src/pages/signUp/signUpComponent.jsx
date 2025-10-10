@@ -8,9 +8,7 @@ import Birth from "@pages/signUp/components/birth.jsx";
 import Tel from "./components/tel.jsx";
 import Email from "./components/email.jsx";
 import Address from "./components/address.jsx";
-import StaffConfirm from "./components/staffConfirm.jsx";
-import {checkDuplicate} from "../../util/validation.jsx";
-import ReusableModal from "../adminBook/components/modal.jsx";
+
 
 
 const SignUpComponent = () => {
