@@ -13,7 +13,9 @@ import { useModal } from "@pages/common/modal/ModalContext.jsx";
 
 const OneBoard = () => {
   const { one } = useContext(BookBoardStateContext);
-  const { onInitOne, onDeleteOne } = useContext(BookBoardDispatchContext);
+  const { onInitOne, onDeleteOne, initFetch } = useContext(
+    BookBoardDispatchContext
+  );
   const { onePagination, setOnePagination, onChangeOnePageHandler } =
     useContext(PaginationContext);
   const [boardList, setBoardList] = useState([]);
@@ -124,6 +126,8 @@ const OneBoard = () => {
         // 선택 상태 초기화
         setCheckedInput([]);
         setSelectAll(false);
+
+        initFetch();
       }
     } catch (e) {
       console.log("에러 발생:", e);

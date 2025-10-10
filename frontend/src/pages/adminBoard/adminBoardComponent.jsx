@@ -276,7 +276,11 @@ const AdminBoard = () => {
   // 최초 렌더 시 한 번만 실행
   useEffect(() => {
     initFetch();
-  }, []);
+  }, [
+    onePagination.currentPage,
+    productPagination.currentPage,
+    deliveryPagination.currentPage,
+  ]);
 
   // 각 카테고리별 초기화 함수
   const onInitOne = (data) => {
@@ -386,7 +390,6 @@ const AdminBoard = () => {
       ...prev,
       currentPage: page,
     }));
-    await initFetch();
   };
 
   //페이지버튼 클릭시 실행되는 핸들러
@@ -397,7 +400,6 @@ const AdminBoard = () => {
       ...prev,
       currentPage: page,
     }));
-    await initFetch();
   };
 
   //페이지버튼 클릭시 실행되는 핸들러
@@ -408,7 +410,6 @@ const AdminBoard = () => {
       ...prev,
       currentPage: page,
     }));
-    await initFetch();
   };
 
   return (

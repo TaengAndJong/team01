@@ -13,7 +13,7 @@ import { useModal } from "@pages/common/modal/ModalContext.jsx";
 
 const ProductBoard = () => {
   const { product } = useContext(BookBoardStateContext);
-  const { onInitProduct, onDeleteProduct } = useContext(
+  const { onInitProduct, onDeleteProduct, initFetch } = useContext(
     BookBoardDispatchContext
   );
   const { productPagination, setProductPagination, onChangeProPageHandler } =
@@ -133,6 +133,8 @@ const ProductBoard = () => {
         // 선택 상태 초기화
         setCheckedInput([]);
         setSelectAll(false);
+
+        initFetch();
       }
     } catch (e) {
       console.log("에러 발생:", e);

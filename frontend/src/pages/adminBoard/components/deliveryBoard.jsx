@@ -13,7 +13,7 @@ import { useModal } from "@pages/common/modal/ModalContext.jsx";
 
 const DeliveryBoard = () => {
   const { delivery } = useContext(BookBoardStateContext);
-  const { onInitDelivery, onDeleteDelivery } = useContext(
+  const { onInitDelivery, onDeleteDelivery, initFetch } = useContext(
     BookBoardDispatchContext
   );
   const {
@@ -124,6 +124,8 @@ const DeliveryBoard = () => {
 
         setCheckedInput([]);
         setSelectAll(false);
+
+        initFetch();
       }
     } catch (e) {
       console.log("에러 발생:", e);

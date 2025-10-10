@@ -54,7 +54,7 @@ public class QnaProductController {
             @RequestParam(required = false) String searchType,
             @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "6") int pageSize,
+            @RequestParam(defaultValue = "5") int pageSize,
             HttpServletRequest request) {
         log.info("도서 목록 상품 문의 searchkeyword API 호출됨");
         log.info("상품 문의 searchType -------------------: {}", searchType);
