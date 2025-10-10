@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         <mapper namespace="com.example.team01.board.oneboard.dao.OneBoardDao">
 
-    <insert id="CreateOneBoard" parameterType="com.example.team01.vo.OneBoardVO">
+    <insert id="CreateOneBoard" parameterType="oneBoardVO">
         <selectKey keyProperty="qnaOneId" resultType="String" order="BEFORE">
             SELECT 'qnaone' || LPAD(ADDQNAONE_SEQ.NEXTVAL, 4, '0') FROM DUAL
         </selectKey>
@@ -31,7 +31,7 @@
         )
     </insert>
 
-    <select id="GetOneBoardList" parameterType="String" resultType="com.example.team01.vo.OneBoardVO">
+    <select id="GetOneBoardList" parameterType="String" resultType="oneBoardVO">
         <!-- SELECT * FROM qnaone WHERE "clientId" = #{userId} -->
 
         SELECT * FROM qnaone WHERE "clientId" = #{userId} AND "qnaDel" IS NULL OR "qnaDel" = 'N'

@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         <mapper namespace="com.example.team01.board.productboard.dao.ProductBoardDao">
 
-    <insert id="CreateProductBoard" parameterType="com.example.team01.vo.ProductBoardVO">
+    <insert id="CreateProductBoard" parameterType="productBoardVO">
         
         <selectKey keyProperty="qnaProId" resultType="String" order="BEFORE">
             SELECT 'qnapro' || LPAD(ADDQNAPRO_SEQ.NEXTVAL, 4, '0') FROM DUAL
@@ -30,12 +30,12 @@
         )
     </insert>
 
-    <select id="GetProductBoardlist" parameterType="String" resultType="com.example.team01.vo.ProductBoardVO">
+    <select id="GetProductBoardlist" parameterType="String" resultType="productBoardVO">
                SELECT * FROM qnapro WHERE "clientId" = #{userId} AND "qnaDel" IS NULL OR "qnaDel" = 'N'
         ORDER BY "qnaProId" DESC
     </select>
 
-    <select id="getProductBoardDetail" parameterType="map" resultType="com.example.team01.vo.ProductBoardVO">
+    <select id="getProductBoardDetail" parameterType="map" resultType="productBoardVO">
         SELECT "qnaProId",
         "qnaTitle",
         "qnaContent",
