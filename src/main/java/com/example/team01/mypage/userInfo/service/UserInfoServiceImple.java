@@ -43,6 +43,13 @@ public class UserInfoServiceImple implements UserInfoService {
         return dao.updatePassword(clientId, password);
     }
 
+    @Override
+    public int updateAllUserInfo(UserInfoDTO userInfoDTO) {
+        log.info(" 비번 제외 새로 바뀐 정보들: {}",userInfoDTO);
+
+        return dao.updateAllUserInfo(userInfoDTO);
+    }
+
     //새로운 비밀번호로 변경
 
 
@@ -51,7 +58,6 @@ public class UserInfoServiceImple implements UserInfoService {
 
         UserInfoDTO dto = UserInfoDTO.builder()
                 .clientId(vo.getClientId())
-                .password(vo.getPassword())
                 .roleId(vo.getRoleId())
                 .clientName(vo.getClientName())
                 .birth(vo.getBirth())

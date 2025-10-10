@@ -15,13 +15,13 @@ const Tel=({telNum,setUserInfo,msg,setMsg})=>{
     // 사용자 정보 조회해서 분리 및 초기값 설정
     useEffect(()=>{
        if(telNum){ //telNum 이 undefined 가 아닌경우
-           const telArray = telNum?.split("-");
-           console.log("telArray------",telArray);
+           const [first, second, last] = telNum.split("-"); // 배열로 구조분해
+           console.log("first, second, last------",first, second, last);
            //전화번호 초기값 분리 설정
            setTel({
-               firstTelNum:telArray[0],
-               secondTelNum:telArray[1],
-               lastTelNum:telArray[2],
+               firstTelNum:first ||"",
+               secondTelNum:second ||"",
+               lastTelNum:last ||"",
            })
        }
     },[telNum])
@@ -65,13 +65,15 @@ const Tel=({telNum,setUserInfo,msg,setMsg})=>{
     // tel 객체 갱신될 때마다 반영
     useEffect(()=>{
         // 전체 데이터 formData에 갱신하기
-        if (tel.FirstTelNum && tel.secondTelNum && tel.lastTelNum) {
+        if (tel.firstTelNum && tel.secondTelNum && tel.lastTelNum) {
             // FormInfoData의 tel 갱신
             setUserInfo((prev) => ({
                 ...prev,
-                tel: `${tel.FirstTelNum}-${tel.secondTelNum}-${tel.lastTelNum}`
+                tel: `${tel.firstTelNum}-${tel.secondTelNum}-${tel.lastTelNum}`
             }));
         }
+
+
     },[tel])
 
 
@@ -82,12 +84,12 @@ const Tel=({telNum,setUserInfo,msg,setMsg})=>{
                 <label className="form-title">전화번호</label>
                 <Select
                     className="w-25"
-                    name="FirstTelNum"
+                    name="firstTelNum"
                     id="FirstTelNum"
                     value={{ value: tel.firstTelNum, label: tel.firstTelNum }}
                     onChange={(selectedOption) => {
                         console.log("selectedOption", selectedOption);
-                        handleTelChange({target: {name: "FirstTelNum", value: selectedOption.value}});
+                        handleTelChange({target: {name: "firstTelNum", value: selectedOption.value}});
                     }}
                     options={[
                         {value: '직접선택', label: '직접선택'},

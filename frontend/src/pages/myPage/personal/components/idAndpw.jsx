@@ -6,17 +6,18 @@ import axios from "axios";
 
 
 
+// 1. 변경 버튼을누른다
+// 2. 비밀번호 변경 UI를 띄운다.
+// 3. 변경할 비밀번호를 입력한다
+// 4. 두 번입력 동일 검증 확인
+// 5. 서버로 put fetch 요청 전송해서 갱신
+
+
+// 6. 비밀번호를 제외한 나머지 데이터 갱신
+
 const IdAndPw = ({defaultInfo,errorData})=>{
     console.log("defaultInfo",defaultInfo);
     console.log("errorData",errorData);
-
-
-    // 1. 변경 버튼을누른다
-    // 2. 비밀번호 변경 UI를 띄운다.
-    // 3. 변경할 비밀번호를 입력한다
-    // 4. 두 번입력 동일 검증 확인
-    // 5. 서버로 put fetch 요청 전송해서 갱신
-
 
     //비밀번호 변경 상태관리 변수
     const [newPassword, setNewPassword] = useState({

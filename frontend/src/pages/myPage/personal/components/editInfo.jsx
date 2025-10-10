@@ -3,7 +3,10 @@ import Birth from "./birth.jsx";
 import Tel from "./tel.jsx";
 import Email from "./email.jsx";
 import Address from "./address.jsx";
-import React from "react";
+import React, {useEffect} from "react";
+import axios from "axios";
+import {useModal} from "../../../common/modal/ModalContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 const EditInfo = ({userInfo,setUserInfo,msg,setMsg,errorData,onEdit})=>{
@@ -19,85 +22,64 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,errorData,onEdit})=>{
     * 변경 시 바로 userInfo에 담아서 변경데이터 반영해줘야 함
     * */
 
+    //모달 안내창
+    const {openModal,closeModal} = useModal();
+    //네비게이트
+    const navigate = useNavigate();
     //signUp post로 비동기 요청보내기
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch("/api/signUp", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData), // formInfoData를 JSON으로 변환하여 전송
+        console.log("userInfo------------ 변경된 정보 전송하자",userInfo);
+        // 변경된 데이터가 있는지 검증
+        const hasChanges = Object.keys(defaultInfo).some(
+            (key) => defaultInfo[key] !== userInfo[key]
+        );
+        //없다면 변경된 데이터가 없다고 모달 확인창 띄우기
+
+        if (!hasChanges) {
+            openModal({
+                modalType: "confirm",
+                data: { message: "변경된 정보가 없습니다." },
+                onConfirm:()=> closeModal(),
             });
+            return;
+        }
+        //데이터가 변경되었다면 실행
+        try {
+            const response = await axios.put("/api/mypage/updateAllInfo",
+               userInfo); // 이미 userInfo 는 객체라서 {} 넣으면 안됨
 
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
-            }
 
-            const result = await response.json(); // 서버에서 반환된 JSON 데이터 처리
-            console.log("result-------backend to front",result); // 서버에서 받은 응답 확인
+            console.log("비밀번호 변경 데이터 전송응답 받음 ",response.data);
+            //{  "msg": "개인정보 수정완료", "success": true }
 
-            //서버에서 반환하는 json 객체에 success :  true로 설정해줘야함
-            if (result.success) {
-                alert(`회원가입이 성공적으로 완료되었습니다! : ${result.message}` );
-                // 성공 시 추가 작업 (예: 로그인 페이지로 이동)
-                navigate("/");
+            if (response.data.success) { //
+                openModal({
+                    modalType:"confirm",
+                    data:{ message: response.data.msg },
+                    onConfirm: () => {
+                        closeModal(); // 모달 닫고
+                        onEdit();     // 수정모드 종료 (RetrieveInfo 보여주기)
+                        // navigate("/mypage/personal"); // 필요 시 직접 경로 이동
+                    },
+                });
+
             } else {
                 // success : false
-                alert(`회원가입 실패: ${result.message}`);
+                openModal({
+                    modalType:"confirm",
+                    data:{ message: response.data.msg },
+                    onConfirm:()=> closeModal(),
+                })
             }
+
         } catch (err) {
-            console.error("회원가입 오류:", err);
-            alert("회원가입 중 오류가 발생했습니다.");
+            console.error("개인정보 변경에러:", err);
+            alert("개인정보 변경 중 오류가 발생했습니다.");
         }
     };
 
-    // 아이디, 회원번호 검증
-    const handleConfirm = async (key, value,addData = {}) => {
-        console.log(key, value);
-        //formData에 입력된 객체의 값을 가져와서 , URLSearchparams를 이용해 쿼리스트링으로 변경해 서버로 전송해야 함
-        //URLSearchparams는 문자열을 파라미터로 받아야 함 ==> 객체에 담아서 key=value 형태로 담아야 함
-        const params= new URLSearchParams({[key]:value});
 
-        // 추가 데이터가 있다면 파라미터에 append
-        for (const [addKey, addValue] of Object.entries(addData)) { // 객체데이터를 배열구조로 구조분해할당하여 추가 데이터 params에 담아주기
-            if (addValue !== undefined && addValue !== null && addValue !== "") {
-                console.log("addKye, addValue-----------------",addKey, addValue);
-                params.append(addKey, addValue);
-            }
-        }
-
-        console.log("params--------",params);
-        console.log("params--------",params.toString());
-
-        try{
-            // 쿼리스트링으로 서버로 검증할 파라미터 fetch로 넘겨주기
-            const response = await fetch(`/api/signUp/validate?${params.toString()}`, {
-                method: "get",
-            })
-            //통신 실패
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
-            }
-            //통신 성공시 받아오는 결과 데이터
-            const result = await response.json(); // 서버에서 반환된 JSON 데이터 처리
-            console.log("result-------backend to front",result); // 서버에서 받은 응답 확인
-            //모달 띄우기  ==>  true 이면 중복인 상태, false이면 사용가능한 상태
-            if(result){
-                console.log("result.message",result.message);
-                //객체 형태
-                setErrorData({
-                    message: result.message,
-                })
-            }
-            //    console.log("errorData ",errorData);
-
-        }catch(err){
-            console.error(err);
-        }
-        //end
-    }
 
     const defaultInfo ={
         clientId:userInfo.clientId,
@@ -105,11 +87,10 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,errorData,onEdit})=>{
         clientName:userInfo.clientName,
     }
 
-    const address = {
-        addr : userInfo.addr,
-        detailAddr: userInfo.detailAddr,
-        zoneCode:userInfo.zoneCode,
-    }
+
+    useEffect(() => {
+        console.log("변경된 사용자정보---------------0000",userInfo);
+    }, [userInfo]);
 
     return(
         <>
@@ -119,7 +100,7 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,errorData,onEdit})=>{
                 <Birth birth={userInfo?.birth}/>
                 <Tel telNum={userInfo?.tel} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
                 <Email email={userInfo?.email} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
-                <Address address={address} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
+                <Address userInfo={userInfo} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
             </fieldset>
             <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-5  border-top pt-5">
                 <button type="submit"  id="completeBtn" className="btn btn-dark me-2"

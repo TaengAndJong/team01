@@ -4,22 +4,17 @@ import React from "react";
 import FormTag from "@util/formTag.jsx";
 import DaumPostcode from "@util/daumPostcode.jsx";
 
-const Address=({address,setUserInfo,msg,setMsg})=>{
-    console.log("address--------------",address);
+const Address=({userInfo,setUserInfo,msg,setMsg})=>{
+    console.log("userInfo--------------",userInfo);
 
     //input onChange 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
-        setUserInfo({ ...address, [name]: value });
 
-        // // 아이디 유효성 검사
-        // if (name === "clientId") {
-        //     const idValidation = validID(value);
-        //     setMsg((prev) => ({
-        //         ...prev,
-        //         errorId: idValidation.valid ? "" : idValidation.message,
-        //     }));
-        // }
+        setUserInfo(prev => ({
+            ...prev,       // 기존 userInfo 전체 유지
+            [name]: value  // 변경된 주소 필드만 업데이트
+        }));
 
     };
 
@@ -44,7 +39,7 @@ const Address=({address,setUserInfo,msg,setMsg})=>{
                         label="우편번호"
                         labelClass="form-title" className="form-control w-25"
                         name="zoneCode"
-                        value={address?.zoneCode}
+                        value={userInfo?.zoneCode}
                         placeholder="우편번호"
                         onChange={handleInputChange}
                     />
@@ -55,7 +50,7 @@ const Address=({address,setUserInfo,msg,setMsg})=>{
                         label="주소"
                         labelClass="form-title" className="form-control"
                         name="addr"
-                        value={address?.addr}
+                        value={userInfo?.addr}
                         placeholder="주소"
                         onChange={handleInputChange}
                     />
@@ -66,7 +61,7 @@ const Address=({address,setUserInfo,msg,setMsg})=>{
                         label="상세주소"
                         labelClass="form-title" className="form-control"
                         name="detailAddr"
-                        value={address?.detailAddr}
+                        value={userInfo?.detailAddr}
                         onChange={handleInputChange}
                         placeholder="상세주소 입력"
                     />

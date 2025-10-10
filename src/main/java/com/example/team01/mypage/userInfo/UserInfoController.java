@@ -93,4 +93,24 @@ public class UserInfoController {
 
     }
 
+    @PutMapping("/updateAllInfo")
+    public ResponseEntity<?> updateAllInfo(@AuthenticationPrincipal UserDetails user,@RequestBody UserInfoDTO userInfoDTO) {
+
+        log.info("비밀번호를 제외한 변경된 정보: {}", userInfoDTO);
+        //서버스로 넘겨주기
+        int updateAllResult = userInfoService.updateAllUserInfo(userInfoDTO);
+
+        //결과를 담아줄 맵 객체
+        Map<String, Object> result = new HashMap<>();
+
+        if (updateAllResult > 0) {
+            result.put("success", true);
+            result.put("msg", "개인정보 수정완료");
+            return ResponseEntity.ok(result);
+        } else {
+            result.put("success", false);
+            result.put("msg", "개인정보 수정실패");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+        }
+    }
 }

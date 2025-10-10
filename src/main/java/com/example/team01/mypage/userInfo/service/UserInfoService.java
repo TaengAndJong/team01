@@ -11,5 +11,6 @@ public interface UserInfoService {
 
      //새로운 비밀번호로 변경
      int upatePassword(String clientId,String newPassword);
-
+     // 비밀번호를 제외한 데이터 변경
+     int updateAllUserInfo(UserInfoDTO userInfoDTO);
 }
