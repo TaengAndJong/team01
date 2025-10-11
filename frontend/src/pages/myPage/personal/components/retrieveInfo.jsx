@@ -21,9 +21,12 @@ const RetrieveInfo=({userInfo,onEdit})=>{
                 <div className="d-flex align-items-center mb-2 justify-content-start">
                     <FormTag label="비밀번호" labelClass="form-title" id="password" className="form-control w-auto" name="password"
                              type="password"
-                             value={userInfo?.password}
-                             readOnly
-                             aria-readonly="true"/>
+                             value={"********"} // 실제 비밀번호를 내려주지 않음
+                             readOnly    // 수정 방지 ==> 사용자가 입력할 수 없지만 포커스는 가능
+                             // disabled={true}  // 클릭/입력 방지 ==> 아예 상호작용 불가, 스타일도 비활성화됨
+                             aria-readonly="true"  // 스크린리더용
+                             onFocus={(e)=> e.target.blur()}// 포커스 못가게 추가
+                    />
                 </div>
                 {/*생년월일*/}
                 <div className="Info birth d-flex align-items-center mb-1 w-100">

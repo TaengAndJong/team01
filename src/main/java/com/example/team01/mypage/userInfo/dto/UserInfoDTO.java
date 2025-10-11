@@ -17,7 +17,7 @@ public class UserInfoDTO {
 
     private String clientId;//사용자아이디
     private String clientName; // 사용자이름
-    private String password; // 비번
+   // private String password; // 비번
     private String birth; //출생연도
     private String tel; //전화번호
     private String zoneCode; //우편번호
