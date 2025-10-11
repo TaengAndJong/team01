@@ -137,7 +137,7 @@ const Layout = () => {
               <button
                 type="button"
                 className="quick-btn"
-                onClick={() => scrollTop(800)} //값을 변경하면 스크롤 속도 바뀜 기본 600
+                onClick={() => scrollTop()} //값을 변경하면 스크롤 속도 바뀜 기본 600
               >
                 <span className="sr-only">위로가기</span>
               </button>

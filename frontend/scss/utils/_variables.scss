@@ -20,12 +20,14 @@ $color10:#FFECA4;
 $color11:#625B5B;
 
 /*tultip 컬러*/
-$cate00:#FFE377;
-$cate01:#BED297;
-$cate02:#F7ECE7;
+$cate00:#FFE377; // 일반도서
+$cate01:#BED297; //추천도서
+$cate02:#F7ECE7; //인기도서 , 답변대기
+$cate03:#A0080B; //답변완료
+
 
 /* 레이이아웃 - header & footer*/
-$layoutPadding : 0 40px; // header, footer,content 양 여백
+$layoutPadding : 0 60px; // header, footer,content 양 여백
 $layoutMargin : 30px;
 $headerHeight: 50px;
 $footerHeight: 300px;

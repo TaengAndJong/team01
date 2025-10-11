@@ -83,14 +83,14 @@ const BoardTemplateComponent = ({ category }) => {
         <caption className="sr-only">등록된 게시물 테이블</caption>
         <thead>
           <tr>
-            <th scope="col" className="text-center">
+            {/* <th scope="col" className="text-center">
               <input
                 type="checkbox"
                 id="selectAll"
                 checked={checkedInput.length === list.length && list.length > 0}
                 onChange={(e) => handleSelectAll(e.target.checked)}
               />
-            </th>
+            </th> */}
             <th scope="col" className="text-center">
               No.
             </th>
@@ -134,7 +134,7 @@ const BoardTemplateComponent = ({ category }) => {
 
       <div className="btn-Box p-4 m-2">
         <Btn
-          className={"create btn custom-btn00 btn-create"}
+          className={"create btn custom-btn01 btn-create"}
           id={"createBtn"}
           type={"button"}
           onClick={() => handleCreateBoard()}

@@ -146,13 +146,14 @@ const IdAndPw = ({defaultInfo,errorData})=>{
                         disabled={isDisabled}
                 >{pwTag?"닫기":"확인"}
                 </button>
-                <p className={"info d-flex align-items-center"}>
-                    <i className={"icon info"}><span className={"sr-only"}>안내</span></i>
-                    {msg.msg && !pwTag? msg.msg:""}
+                <p className={"info d-flex align-items-center fw-bold"}>
+
+                    {msg.msg && !pwTag? (
+                        <><i className={"icon info mx-3"}><span className={"sr-only"}>안내</span></i>{msg.msg}</>):""}
                 </p>
                 {pwTag && (
                     <>
-                        <div className="d-flex  align-items-center pwChange">
+                        <div className="d-flex align-items-center pwChange w-75">
                             <label className="form-title">새비밀번호</label>
                             <input
                                 type="password"
@@ -176,7 +177,7 @@ const IdAndPw = ({defaultInfo,errorData})=>{
                         </div>
                         {msg.errorpwd || msg.errorpwdConfirm?
                             (
-                                <p className={"info d-flex align-items-center"}><i className={"icon info"}><span
+                                <p className={"info d-flex align-items-center fw-bold"}><i className={"icon info mx-2"}><span
                                     className={"sr-only"}>안내</span></i>
                                     {msg.errorpwd || msg.errorpwdConfirm}
                                 </p>

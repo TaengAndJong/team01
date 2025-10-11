@@ -24,7 +24,9 @@
   border-radius: .4rem;
   &.normal{}
   &.recom{background-color: $cate01;}
-  &.popular{background-color: $cate02;}
+  &.popular, &.uncomplete{background-color: $cate02;} //답변대기
+  &.complete{background-color:$cate03} //답변완료
+
 }
 
 

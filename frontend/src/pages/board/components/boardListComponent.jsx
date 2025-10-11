@@ -16,7 +16,7 @@ const BoardListComponent = ({
   return (
     <>
       <tr className="table-light border-bottom">
-        <td className="text-center">
+        {/* <td className="text-center">
           <input
             type="checkbox"
             id={`item${number}`}
@@ -29,9 +29,9 @@ const BoardListComponent = ({
           <label htmlFor={`item${number}`} className="sr-only">
             {categoryListData.qnaTitle}
           </label>
-        </td>
-        <td className="text-center">{number}</td>
-        <td className="text-left">
+        </td> */}
+        <td className="text-center">{number}.</td>
+        <td className="text-left fw-bold">
           <Link
             to={`/board/detailBoard/${category}/${getBoardId(
               categoryListData

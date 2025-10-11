@@ -1,36 +1,21 @@
-.flex_box {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
 
-.card-box {
-  max-width: 400px;
-  min-width: auto;
+
+.card-box{
+  position: relative;
+  margin-bottom: 100px;}
+.card-box:first-child{margin-top: 50px;}
+
+.table-title {
+  display: inline-block;
+  font-size: 2rem;
+  margin-bottom: 15px;
   position: relative;
 }
-
-.card-box span {
-  display: inline-block;
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-  border-left: 4px solid #a3e225; /* 메인 컬러 강조선 */
-  padding-left: 10px;
-  margin-bottom: 15px;
-}
-
-.card-item-box {
-}
+.table-title:before {content:'';display:inline-block;
+  background-color:#a3e225; width:4px; height:15px; margin-right:15px; }
 
 .btn-box {
   text-align: right;
-}
-
-.navigate-btn {
-}
-
-.card-header {
 }
 
 .navigate-btn {
@@ -46,10 +31,12 @@
   margin: 0;
 }
 
-.navigate-btn:hover {
+/*텍스트로 표현한거 다시 바꾸셈*/
+.navigate-btn:hover,.navigate-btn:focus,.navigate-btn:focus-within {
   transform: scale(1.5);
   border: hidden;
   transition: all 0.3s ease;
+  color:#A37865;
 }
 
 .card-footer {
