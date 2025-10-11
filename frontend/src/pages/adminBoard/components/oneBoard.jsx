@@ -13,8 +13,11 @@ import { useModal } from "@pages/common/modal/ModalContext.jsx";
 
 const OneBoard = () => {
   const { one } = useContext(BookBoardStateContext);
-  const { onInitOne, onDeleteOne } = useContext(BookBoardDispatchContext);
-  const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
+  const { onInitOne, onDeleteOne, initFetch } = useContext(
+    BookBoardDispatchContext
+  );
+  const { onePagination, setOnePagination, onChangeOnePageHandler } =
+    useContext(PaginationContext);
   const [boardList, setBoardList] = useState([]);
 
   useEffect(() => {
@@ -119,9 +122,12 @@ const OneBoard = () => {
       });
       if (response.ok) {
         onDeleteOne(deleteItems);
+
         // 선택 상태 초기화
         setCheckedInput([]);
         setSelectAll(false);
+
+        initFetch();
       }
     } catch (e) {
       console.log("에러 발생:", e);
@@ -191,7 +197,7 @@ const OneBoard = () => {
                 key={item.qnaOneId || index}
                 data={item}
                 number={
-                  (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
+                  (onePagination.currentPage - 1) * onePagination.pageSize +
                   index +
                   1
                 }
@@ -204,8 +210,8 @@ const OneBoard = () => {
       </table>
       {/*pagination*/}
       <Pagination
-        paginationInfo={paginationInfo}
-        onChangePageHandler={onChangePageHandler}
+        paginationInfo={onePagination}
+        onChangePageHandler={onChangeOnePageHandler}
       />
       {boardList && boardList?.length === 0 ? (
         []

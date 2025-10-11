@@ -37,7 +37,7 @@ public class QnaProductServiceImple implements QnaProductService {
         pagination.setLimitRows(pagination.getCurrentPage());
         log.info("컨트롤러에서 받아온 파라미터 pagination2222:{}", pagination.toString());
 
-        // 1:1 문의 데이터 전체 조회해오기
+        // 상품 문의 데이터 전체 조회해오기
         List<QnaProductVO> qnaProList = qnaProductDao.getAllQnaProductList(pagination);
         log.info("페이지에 해당하는 상품 문의 데이터 리스트 -------:{}", qnaProList);
 

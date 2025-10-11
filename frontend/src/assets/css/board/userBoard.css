@@ -75,3 +75,7 @@ dd {
   flex: 1; /* 모든 아이템 동일한 너비 */
   text-align: center;
 }
+
+.btn-Box {
+  text-align: right;
+}

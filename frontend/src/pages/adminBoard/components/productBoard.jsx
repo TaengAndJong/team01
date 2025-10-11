@@ -13,10 +13,11 @@ import { useModal } from "@pages/common/modal/ModalContext.jsx";
 
 const ProductBoard = () => {
   const { product } = useContext(BookBoardStateContext);
-  const { onInitProduct, onDeleteProduct } = useContext(
+  const { onInitProduct, onDeleteProduct, initFetch } = useContext(
     BookBoardDispatchContext
   );
-  const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
+  const { productPagination, setProductPagination, onChangeProPageHandler } =
+    useContext(PaginationContext);
   const [boardList, setBoardList] = useState([]);
 
   useEffect(() => {
@@ -29,7 +30,6 @@ const ProductBoard = () => {
     const allItems = product.flatMap((item) =>
       Array.isArray(item.items) ? item.items : []
     );
-
     setBoardList(allItems);
   }, [product]); // product가 바뀔 때마다 실행
 
@@ -133,6 +133,8 @@ const ProductBoard = () => {
         // 선택 상태 초기화
         setCheckedInput([]);
         setSelectAll(false);
+
+        initFetch();
       }
     } catch (e) {
       console.log("에러 발생:", e);
@@ -203,7 +205,8 @@ const ProductBoard = () => {
                 key={item.qnaProId || index}
                 data={item}
                 number={
-                  (paginationInfo.currentPage - 1) * paginationInfo.pageSize +
+                  (productPagination.currentPage - 1) *
+                    productPagination.pageSize +
                   index +
                   1
                 }
@@ -217,8 +220,8 @@ const ProductBoard = () => {
       {/* 테이블 */}
       {/*pagination*/}
       <Pagination
-        paginationInfo={paginationInfo}
-        onChangePageHandler={onChangePageHandler}
+        paginationInfo={productPagination}
+        onChangePageHandler={onChangeProPageHandler}
       />
       {boardList && boardList?.length === 0 ? (
         []

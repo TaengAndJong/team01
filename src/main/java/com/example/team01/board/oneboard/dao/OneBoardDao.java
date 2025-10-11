@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface OneBoardDao {
-    ProductBoardVO CreateOneBoard(OneBoardVO vo);
+    int CreateOneBoard(OneBoardVO vo);
     List<OneBoardVO> GetOneBoardList(@Param("userId") String userId);
-    OneBoardVO getOneBoardDetail(String boardId, String userId);
-    int deleteOneBoard(String boardId);
+    OneBoardVO getOneBoardDetail(@Param("boardId") String boardId,@Param("userId") String userId);
+    int deleteOneBoard(@Param("boardId") String boardId);
 }

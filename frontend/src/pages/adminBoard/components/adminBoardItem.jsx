@@ -17,10 +17,10 @@ const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
     return "N/A";
   };
 
-  const getQnaDel = (data) => {
-    if (data.qnaDel === "Y") return "삭제";
-    return "미삭제";
-  };
+  // const getQnaDel = (data) => {
+  //   if (data.qnaDel === "Y") return "삭제";
+  //   return "미삭제";
+  // };
 
   return (
     <>

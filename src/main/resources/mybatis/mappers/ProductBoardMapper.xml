@@ -30,12 +30,12 @@
         )
     </insert>
 
-    <select id="GetProductBoardlist" parameterType="String" resultType="com.example.team01.vo.ProductBoardVO">
+    <select id="GetProductBoardlist" parameterType="String" resultType="productBoardVO">
                SELECT * FROM qnapro WHERE "clientId" = #{userId} AND "qnaDel" IS NULL OR "qnaDel" = 'N'
         ORDER BY "qnaProId" DESC
     </select>
 
-    <select id="getProductBoardDetail" parameterType="map" resultType="com.example.team01.vo.ProductBoardVO">
+    <select id="getProductBoardDetail" parameterType="map" resultType="productBoardVO">
         SELECT "qnaProId",
         "qnaTitle",
         "qnaContent",

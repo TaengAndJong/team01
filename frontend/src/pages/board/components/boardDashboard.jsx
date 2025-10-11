@@ -1,6 +1,6 @@
 import "@css/board/userDashBoard.css";
 import "@util/reuseBtn.jsx";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import Btn from "@util/reuseBtn.jsx";
 import { BoardListContext } from "../boardComponent";
 import { useContext } from "react";
@@ -8,13 +8,13 @@ import BoardCardTalble from "./boardCardTable";
 const BoardDashboard = () => {
   const boardList = useContext(BoardListContext);
   // console.log("게시물 데이터", boardList);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // console.log("1:1", boardList.one);
   // console.log("1:1", boardList.pruduct);
   // console.log("1:1", boardList.delivery);
-  const handleCreateBoard = () => {
-    navigate(`/board/createBoard`);
-  };
+  // const handleCreateBoard = () => {
+  //   navigate(`/board/createBoard`);
+  // };
 
   return (
     <>
@@ -30,12 +30,12 @@ const BoardDashboard = () => {
                 <span className="mb-4">1:1문의</span>
               </div>
 
-              <BoardCardTalble items={boardList.one} />
+              <BoardCardTalble items={boardList.one} category={"one"} />
 
               <Btn
-                className="navigate-btn btn"
+                className="navigate-btn"
                 type="button"
-                path="/board/deliveryBoard"
+                path="/board/oneBoard"
                 text="+"
                 aria-label="1:1문의 더보기"
               />
@@ -44,12 +44,12 @@ const BoardDashboard = () => {
               <div className="card-header">
                 <span className="mb-4">상품문의</span>
               </div>
-              <BoardCardTalble items={boardList.product} />
+              <BoardCardTalble items={boardList.product} category={"product"} />
               <div className="card-footer">
                 <Btn
                   className="navigate-btn"
                   type="button"
-                  path="/board/deliveryBoard"
+                  path="/board/productBoard"
                   text="+"
                   aria-label="배송문의 더보기"
                 />
@@ -59,7 +59,10 @@ const BoardDashboard = () => {
               <div className="card-header">
                 <span className="mb-4">배송문의</span>
               </div>
-              <BoardCardTalble items={boardList.delivery} />
+              <BoardCardTalble
+                items={boardList.delivery}
+                category={"delivery"}
+              />
               <div className="card-footer">
                 <Btn
                   className="navigate-btn"
@@ -72,7 +75,7 @@ const BoardDashboard = () => {
             </div>
           </div>
 
-          <div className="mt-5 btn-box">
+          {/* <div className="mt-5 btn-box">
             <Btn
               className={"create btn custom-btn00 btn-create"}
               id={"createBtn"}
@@ -80,7 +83,7 @@ const BoardDashboard = () => {
               onClick={() => handleCreateBoard()}
               text="문의 하기"
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

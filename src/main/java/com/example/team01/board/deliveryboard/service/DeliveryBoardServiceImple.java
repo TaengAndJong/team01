@@ -20,7 +20,7 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
     private final AttachmentService attachmentService;
     // 게시물 등록
     @Override
-    public void CreateDeliveryBoard(DeliveryBoardVO vo) {
+    public int CreateDeliveryBoard(DeliveryBoardVO vo) {
         log.info("서비스 임플 VO 객체 데이터: {}", vo);
 
         List<MultipartFile> files = vo.getFiles(); // 첨부파일 데이터 VO 객체에서 가져오기
@@ -43,15 +43,17 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
             }
 
             log.info("file 업로드 후 deliveryBoardVO 객체 데이터: {}", vo);
-
+            
             // DAO를 통한 게시물 등록
-            DeliveryBoardDao.CreateDeliveryBoard(vo);
-            log.info("게시물 등록 완료");
+            int result = DeliveryBoardDao.CreateDeliveryBoard(vo);
+            log.info("게시물 등록 완료, 반환값: {}", result);
 
+            return result; // ✅ 반드시 반환
         } catch (Exception e) {
             log.error("게시물 등록 중 오류 발생", e); 
             throw new RuntimeException("게시물 등록 실패", e);
         }
+
     }
 
     @Override
@@ -85,7 +87,7 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
 
     // 2. attachment qnaDate, userId, category, 첨부파일 데이터 조회
     log.info("첨부파일 조회 시작");
-    List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "one", boardData.getQnaDate());
+    List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "delivery", boardData.getQnaDate());
     log.info("첨부파일 조회 결과:{}", attachmentList);
     boardData.setAttachmentList(attachmentList);
     

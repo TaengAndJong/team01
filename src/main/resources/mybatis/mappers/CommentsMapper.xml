@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         <mapper namespace="com.example.team01.comments.dao.CommentsDao">
 
-        <insert id="insertComment" parameterType="com.example.team01.vo.CommentsVO">
+        <insert id="insertComment" parameterType="commentsVO">
         <selectKey keyProperty="commentId" resultType="String" order="BEFORE">
         SELECT 'comment' || LPAD(COMMENT_SEQ.NEXTVAL, 4, '0') AS commentId FROM DUAL
         </selectKey>
@@ -11,13 +11,13 @@
         VALUES (#{commentId}, #{commentType}, #{commentCon}, #{comWriter}, #{comDate}, NULL, #{qnaRefId})
         </insert>
 
-        <select id="getCommentById" parameterType="map" resultType="com.example.team01.vo.CommentsVO">
+        <select id="getCommentById" parameterType="map" resultType="CommentsVO">
                 SELECT * FROM comments 
                 WHERE "qnaRefId" = #{qnaRefId} AND "commentType" = #{commentType}
                 AND ROWNUM = 1
         </select>
 
-        <update id="postCommentUpdate" parameterType="com.example.team01.vo.CommentsVO">
+        <update id="postCommentUpdate" parameterType="CommentsVO">
                 UPDATE comments
                 SET "commentCon" = #{commentCon}, "comWriter" = #{comWriter}, "comModify" = #{comModify}
                 WHERE "commentId" = #{commentId}
@@ -28,4 +28,4 @@
                 WHERE "commentId" = #{commentId}
         </delete>
 
-</mapper>       
+</mapper>

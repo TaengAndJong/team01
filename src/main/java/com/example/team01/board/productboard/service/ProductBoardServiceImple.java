@@ -18,7 +18,7 @@ public class ProductBoardServiceImple implements ProductBoardService {
     private final AttachmentService attachmentService;
     
     @Override
-    public void CreateProductBoard(ProductBoardVO vo) {
+    public int CreateProductBoard(ProductBoardVO vo) {
         log.info("서비스 임플 VO 객체 데이터: {}", vo);
 
         List<MultipartFile> files = vo.getFiles(); // 첨부파일 데이터 VO 객체에서 가져오기
@@ -41,9 +41,12 @@ public class ProductBoardServiceImple implements ProductBoardService {
             
             log.info("상품 문의 게시물 등록 전 VO객체 데이터 여기만 맞추면 됨: {}", vo);
             // DAO를 통한 게시물 등록
-            ProductBoardDao.CreateProductBoard(vo);
+            int result = ProductBoardDao.CreateProductBoard(vo);
             
-            log.info("게시물 등록 완료");
+            log.info("게시물 등록 완료, 반환값: {}", result);
+
+            return result; // ✅ 반드시 반환
+
 
         } catch (Exception e) {
             log.error("게시물 등록 중 오류 발생", e); 
@@ -82,7 +85,7 @@ public class ProductBoardServiceImple implements ProductBoardService {
 
     // 2. attachment qnaDate, userId, category, 첨부파일 데이터 조회
     log.info("첨부파일 조회 시작");
-    List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "one", boardData.getQnaDate());
+    List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "product", boardData.getQnaDate());
     log.info("첨부파일 조회 결과:{}", attachmentList);
     boardData.setAttachmentList(attachmentList);
     
