@@ -134,7 +134,7 @@ const BoardTemplateComponent = ({ category }) => {
 
       <div className="btn-Box p-4 m-2">
         <Btn
-          className={"create btn custom-btn00 btn-create"}
+          className={"create btn custom-btn01 btn-create"}
           id={"createBtn"}
           type={"button"}
           onClick={() => handleCreateBoard()}
