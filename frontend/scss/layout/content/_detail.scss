@@ -1,0 +1,7 @@
+
+//class 속성 안에 "-detail"이라는 문자열이 포함된 모든 요소를 선택
+[class*="detail"]{
+  .right{
+    width: 100%;}
+  .left,.menu-navi{display: none !important;}
+}

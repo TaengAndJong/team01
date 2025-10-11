@@ -6,7 +6,7 @@ import React, {
   useReducer,
   useState,
 } from "react";
-import { Link, Outlet } from "react-router-dom";
+import {Link, Outlet, useLocation} from "react-router-dom";
 import { useMenu } from "../common/MenuContext.jsx";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 
@@ -41,6 +41,10 @@ const Book = () => {
     totalRecord: 0,
     pageSize: 6,
   });
+
+  // 상세페지이 클래스 추가기준
+  const location = useLocation().pathname;
+
 
   const onInit = (bookData) => {
     console.log("bookList bookData", bookData);
@@ -123,7 +127,7 @@ const Book = () => {
     <>
       <div className="hoverLeaf"></div>
 
-      <div className="page bookDetail d-flex">
+      <div className={`page d-flex ${location.toLowerCase().includes("detail")? "detail":""}`} >
         <div className="left">
           <LeftMenu />
         </div>

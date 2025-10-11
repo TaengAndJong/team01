@@ -26,8 +26,8 @@ const Board = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   // 메뉴 경로 관리
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
-  const location = useLocation();
-  const hideSubNavi = location.pathname === "/board";
+  const location = useLocation().pathname;
+  const hideSubNavi = location === "/board";
   const fetchData = async () => {
     console.log("userData fetchData", userData);
     try {
@@ -78,7 +78,7 @@ const Board = () => {
   );
 
   return (
-    <div className="page client board-detail d-flex">
+    <div className={`page d-flex ${location.toLowerCase().includes("detail")? "detail":""}`}>
       <div className="left">
         <LeftMenu />
       </div>

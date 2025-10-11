@@ -55,7 +55,7 @@ const BookDetail = () => {
 
     return (
         <>
-            <div className="bookDetail">
+            <div className="book-detail">
 
                 <div className="box slide">
                     <div className="card horizontal">
