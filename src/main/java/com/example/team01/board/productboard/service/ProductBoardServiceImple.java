@@ -85,7 +85,7 @@ public class ProductBoardServiceImple implements ProductBoardService {
 
     // 2. attachment qnaDate, userId, category, 첨부파일 데이터 조회
     log.info("첨부파일 조회 시작");
-    List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "one", boardData.getQnaDate());
+    List<AttachmentVO> attachmentList = attachmentService.GetAttachmentList(userId, "product", boardData.getQnaDate());
     log.info("첨부파일 조회 결과:{}", attachmentList);
     boardData.setAttachmentList(attachmentList);
     

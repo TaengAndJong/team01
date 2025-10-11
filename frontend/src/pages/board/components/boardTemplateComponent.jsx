@@ -3,7 +3,6 @@ import BoardListComponent from "./boardListComponent";
 import { BoardListContext } from "../boardComponent";
 import PropTypes from "prop-types";
 import "@assets/css/board/userBoard.css";
-import "@assets/css/board/adminBoard.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Btn from "@util/reuseBtn.jsx";

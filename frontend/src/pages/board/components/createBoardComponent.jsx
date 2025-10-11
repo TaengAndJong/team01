@@ -151,7 +151,7 @@ const CreateBoardComponent = () => {
   };
   return (
     <>
-      <div className="bardcrate">
+      <div className="createBoard">
         <from className="createFrom">
           <div className="d-flex align-items-center mb-1">
             <span className="form-title name">고객명</span>
