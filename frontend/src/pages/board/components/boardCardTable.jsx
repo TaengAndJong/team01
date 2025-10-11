@@ -39,6 +39,15 @@ const BoardCardTable = ({ items, category }) => {
       case "one": return "/board/oneBoard";
       case "product": return "/board/productBoard";
       case "delivery": return "/board/deliveryBoard";
+      default: return "";
+    }
+  }
+
+  const qnStatus = (qnaStatus) => {
+    switch (qnaStatus) {
+      case "답변대기": return "uncomplete";
+      case "답변완료": return "complete";
+      default:return "";
     }
   }
 
@@ -77,11 +86,12 @@ const BoardCardTable = ({ items, category }) => {
                           item,
                           category
                       )}/?userId=${item.clientId}`}
+                      className="fw-bold"
                   >
                     {item.qnaTitle}
                   </a>
                 </td>
-                <td className="text-center">{item.qnaStatus}</td>
+                <td className="text-center"><span className={`tultip ${qnStatus(item.qnaStatus.replace(/\s/g, ""))}`}>{item.qnaStatus.replace(/\s/g, "")}</span></td>
                 <td className="text-center">
                   {formatToDate(new Date(item.qnaDate))}
                 </td>

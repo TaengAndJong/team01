@@ -164,8 +164,11 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 .tultip.recom {
   background-color: #BED297;
 }
-.tultip.popular {
+.tultip.popular, .tultip.uncomplete {
   background-color: #F7ECE7;
+}
+.tultip.complete {
+  background-color: #A0080B;
 }
 
 .box-list li.red, .box-list div.red {

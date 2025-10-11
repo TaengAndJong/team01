@@ -32,15 +32,7 @@ const BoardDashboard = () => {
               </div>
             </div>
           </div>
-          {/* <div className="mt-5 btn-box">
-            <Btn
-              className={"create btn custom-btn00 btn-create"}
-              id={"createBtn"}
-              type={"button"}
-              onClick={() => handleCreateBoard()}
-              text="문의 하기"
-            />
-          </div> */}
+
     </>
   );
 };
