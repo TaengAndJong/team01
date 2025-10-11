@@ -1,5 +1,6 @@
 package com.example.team01.mypage.userInfo.dao;
 
+import com.example.team01.mypage.userInfo.dto.UserInfoDTO;
 import com.example.team01.vo.ClientVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -8,5 +9,8 @@ import org.apache.ibatis.annotations.Param;
 public interface UserInfoDao {
 
      ClientVO selectClientInfo(@Param("clientId") String clientId, @Param("roleId") String roleId);
+
+     int updatePassword(@Param("clientId") String clientId, @Param("password") String password);
+     int updateAllUserInfo(UserInfoDTO userInfoDTO);
 
 }
