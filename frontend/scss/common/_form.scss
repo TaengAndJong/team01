@@ -41,3 +41,14 @@
     &.gray{background-color:#F2F2F2;}
   }
 }
+
+//list - bullet
+.list{
+
+}
+
+.bullet-li{
+  position: relative;
+  &:before{ @include defualtBullet($color04,5px,5px); border-radius: 50%; margin-right:10px; }
+}
+

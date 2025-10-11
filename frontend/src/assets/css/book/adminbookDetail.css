@@ -1,9 +1,8 @@
-
-.bookDetail .left {
+.client .book .left {
     display: none;
 }
 
-.bookDetail .right {
+.client .book .right {
     width: 100%;
 }
 
