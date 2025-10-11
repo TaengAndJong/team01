@@ -1,9 +1,10 @@
 package com.example.team01.board.oneboard.dao;
 
 import com.example.team01.vo.OneBoardVO;
-import java.util.List;
-
+import com.example.team01.vo.ProductBoardVO;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface OneBoardDao {
     int CreateOneBoard(OneBoardVO vo);
