@@ -2,18 +2,6 @@
   margin-bottom: 50px;
 }
 
-.content-box {
-  min-height: 100px;
-}
-
-.attachment-box {
-  padding: 20px;
-  max-height: 58px;
-}
-
-.attachment-list {
-  max-width: 100%;
-}
 
 .download-item:hover {
   cursor: pointer;
