@@ -24,6 +24,8 @@ const qnaOneBoardSearchBar = ({ search, setSearch, handleSearch }) => {
           <option value="ALL">전체</option>
           <option value="Replied">답변</option>
           <option value="Waiting">미답변</option>
+          <option value="title">제목</option>
+          <option value="userId">작성자(ID)</option>
         </select>
 
         <input
