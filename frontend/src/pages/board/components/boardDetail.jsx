@@ -1,5 +1,5 @@
 // import Btn from "@util/reuseBtn.jsx";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import Btn from "@util/reuseBtn.jsx";
 import axios from "axios";
@@ -36,54 +36,54 @@ const BoardDetail = ({ userType }) => {
 
   //카테고리 별 문의 이름 바꾸기
   return (
-    <div>
-      <div className=" title-dotted">
-        <span className="detail-title">제목 :</span>
-        <span>{board?.qnaTitle}</span>
-      </div>
-      <div className="m-2 detail-date ">
-        <span className="p-2">작성일 :</span>
-        <span>{board?.qnaDate}</span>
-      </div>
-      <div className="m-4 content-box">
-        <div>{board?.qnaContent}</div>
-      </div>
-      <div className="border border-secondary attachment-box">
-        <strong className="p-2 text-#333">원본 첨부파일</strong>
-        <strong className="text-danger">{board?.attachmentList.length}</strong>
-        {board?.attachmentList?.map((file, idx) => {
-          return (
-            <span
-              key={idx}
-              className="attachment-list"
-              onClick={() => {
-                handleFileDownload(file?.fileName, file?.fileData);
-              }}
-            >
-              {file.fileName}
-            </span>
-          );
-        })}
-        <span
-          className="attachment-list"
-          onClick={() => {
-            handleFileDownload();
-          }}
-        ></span>{" "}
-        {/*첨부파일 이름*/}
-      </div>
-      <div className="comment-box">
-        {board?.comment?.commentCon || <span>답변 대기중 입니다.</span>}
-      </div>
+      <div className="board-detail">
+          <div className="boardInfo card-body">
+              <div className="info-header clearfix">
+                  <h3 className="board-title title-dotted"><i className="icon qna me-3"></i>{board?.qnaTitle}</h3>
+                  <span className="detail-date tultip popular float-end d-inline-block"><i className="sr-only">작성일</i>{board?.qnaDate}</span>
+              </div>
+              <div className="content-box p-4 text-left">{board?.qnaContent} </div>
+              <div className="attachment-box border-top border-bottom d-block p-4">
+                  <strong className="py-2 d-inline-block">원본 첨부파일</strong>
+                  <span className="mx-2 fw-bold"><em className="text-danger ">{board?.attachmentList.length}</em>개</span>
+              </div>
+              {board?.attachmentList.length > 0 && (
+                  <ol  className="file-list p-4 list">
+                      {board?.attachmentList?.map((file, idx) => {
+                          return (
+                              <li key={idx} className="d-flex align-items-center mb-2 bullet-li" onClick={() => {
+                                  handleFileDownload(file?.fileName, file?.fileData);
+                              }}>
+                                 <strong className="fw-bold me-2">{file.fileName}</strong>
+                                  <span
+                                      className="icon down"
+                                      onClick={() => {
+                                          handleFileDownload();
+                                      }}
+                                  ><em className="sr-only">다운로드</em></span>
+                              </li>
+                          );
 
-      <div>
-        <Btn
-          className="btn custom-btn01"
-          text="목록"
-          onClick={() => navigate(`/board/${category}Board`)}
-        />
+                      })}
+                  </ol >
+              )}
+
+              {/*첨부파일 이름*/}
+          </div>
+          <div className="comment-box p-4 border-top">
+              {board?.comment?.commentCon || <span>답변 대기중 입니다.</span>}
+          </div>
+
+          <div className="d-grid gap-2 d-md-flex justify-content-md-end pt-4 border-top">
+              <Btn
+                  className="btn custom-btn01"
+                  text="목록"
+                  onClick={() => navigate(`/board/${category}Board`)}
+              />
+          </div>
+
+
       </div>
-    </div>
   );
 };
 
