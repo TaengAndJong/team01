@@ -1,8 +1,8 @@
 import "@assets/css/board/userBoard.css";
 import Btn from "@util/reuseBtn.jsx";
 import { maskUserId } from "@util/maskingID.jsx";
-import { useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@pages/common/AuthContext.jsx";
 import PropTypes from "prop-types";
 import { BoardRefreshTriggerContext } from "@pages/board/boardComponent.jsx";
@@ -15,8 +15,9 @@ const CreateBoardComponent = () => {
   console.log("userData사용자----", userData);
   const fileRef = useRef(null); // file input 연결할 ref
   const navigate = useNavigate();
-  const { category } = useParams();
-  console.log("게시물 생성 카테고리 넘어 왔니? ", category);
+  const location = useLocation();
+  const { category } = location.state || {}; // state에서 category 가져오기
+  console.log("넘어온 category:", category);
 
   const [formData, setFormData] = useState({
     clientId: "",
@@ -27,36 +28,36 @@ const CreateBoardComponent = () => {
     files: [],
   });
 
-  // // category가 변경될 때 formData 업데이트
-  // useEffect(() => {
-  //   if (category) {
-  //     const categoryData = categorySwitch(category);
-  //     setFormData((prev) => ({
-  //       ...prev,
-  //       category: categoryData.value,
-  //     }));
-  //   }
-  // }, [category]);
+  // category가 변경될 때 formData 업데이트
+  useEffect(() => {
+    if (category) {
+      const categoryData = categorySwitch(category);
+      setFormData((prev) => ({
+        ...prev,
+        category: categoryData.value,
+      }));
+    }
+  }, [category]);
 
-  // const categorySwitch = (category) => {
-  //   switch (category) {
-  //     case "one":
-  //       return {
-  //         text: "1:1 문의",
-  //         value: "qnaone",
-  //       };
-  //     case "product":
-  //       return {
-  //         text: "상품 문의",
-  //         value: "product",
-  //       };
-  //     case "delivery":
-  //       return {
-  //         text: "배송 문의",
-  //         value: "delivery",
-  //       };
-  //   }
-  // };
+  const categorySwitch = (category) => {
+    switch (category) {
+      case "one":
+        return {
+          text: "1:1 문의",
+          value: "qnaone",
+        };
+      case "product":
+        return {
+          text: "상품 문의",
+          value: "product",
+        };
+      case "delivery":
+        return {
+          text: "배송 문의",
+          value: "delivery",
+        };
+    }
+  };
 
   // 객체 key name에 맞는 데이터를 넣어 줌
   const handleChange = (e) => {
@@ -167,13 +168,7 @@ const CreateBoardComponent = () => {
           <div className="d-flex align-items-center mb-1">
             <span className=" form-title ">문의 종류</span>
 
-            {/* <div>{categorySwitch(category).text}</div> */}
-            <select name="category" onChange={handleChange}>
-              <option value="">문의 선택</option>
-              <option value="qnaone">1:1 문의</option>
-              <option value="product">상품 문의</option>
-              <option value="delivery">배송 문의</option>
-            </select>
+            <div className=" form-control">{categorySwitch(category).text}</div>
           </div>
           <div className="d-flex align-items-center mb-1">
             <span className="form-title inquireTitle">문의 제목</span>
