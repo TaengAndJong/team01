@@ -7,8 +7,11 @@
 
     <select id="totalRecord" resultType="int" parameterType="com.example.team01.utils.Pagination">
         SELECT COUNT(*)
-        FROM qnaPro WHERE
-        ("qnaDel" = 'N' OR "qnaDel" IS NULL)
+        FROM qnaPro
+        <where>
+        <include refid="searchFrag"/>
+        AND ("qnaDel" = 'N' OR "qnaDel" IS NULL)
+        </where>
     </select>
 
     <sql id="searchFrag">
@@ -67,7 +70,7 @@
                 INSTR("qnaWriter", #{pagination.detailCondition.keyword}) > 0 OR
                 INSTR("qnaStatus", #{pagination.detailCondition.keyword}) > 0 OR
                 INSTR(TO_CHAR("qnaDate", 'YYYY-MM-DD HH24:MI:SS'), #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("clientId", #{pagination.detailCondition.keyword}) > 0
+                INSTR("clientId", #{pagination.detailCondition.keyword}) > 0 OR
                 INSTR("qnaContent", #{pagination.detailCondition.keyword}) > 0
                 ) AND
                 </if>
@@ -90,7 +93,7 @@
                 FROM qnaPro
                 <trim prefix="WHERE" prefixOverrides="AND|OR">
                 <include refid="searchFrag"/>
-                ("qnaDel" = 'N' OR "qnaDel" IS NULL)
+                AND ("qnaDel" = 'N' OR "qnaDel" IS NULL)
             </trim>
                 ORDER BY "qnaProId" DESC
             ) a
