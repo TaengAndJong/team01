@@ -2,7 +2,6 @@ package com.example.team01.admin;
 
 import com.example.team01.admin.service.QnaProductService;
 import com.example.team01.comments.service.CommentsService;
-import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.CommentsVO;
 import com.example.team01.vo.QnaProductVO;
@@ -23,7 +22,6 @@ import java.util.Map;
 public class QnaProductController {
     private final CommentsService commentsService;
     private final QnaProductService qnaProductService;
-    private final FileUtils fileUtils;
 
     @GetMapping("/qnaProductList")
     public ResponseEntity<?> getQnaProductList(
@@ -33,8 +31,6 @@ public class QnaProductController {
     @RequestParam(required = false) String keyword,
     HttpServletRequest request
     ) {
-        
-        log.info("currentPage = {}, pageSize = {}, searchType = {}, keyword = {} " , currentPage, pageSize, searchType, keyword);
 
         List<QnaProductVO> qnaProductList = null; // 게시물 데이터 저장 할 변수 생성
         Pagination pagination = new Pagination(currentPage, pageSize); // 페이지네이션 객체 미리 세팅하기
