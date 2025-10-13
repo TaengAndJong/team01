@@ -118,10 +118,12 @@ const ProductBoard = () => {
     keywordParam = search.keyword
   ) => {
     if (
-      search.keyword === undefined ||
-      (search.keyword.length === 0 && lastSearchKeyword === "")
-    )
+      keywordParam === undefined ||
+      (keywordParam.length === 0 && lastSearchKeyword === "")
+    ) {
       await getProductBoard();
+      return;
+    }
 
     setIsLoading(true);
     setIsError(false);
@@ -184,13 +186,10 @@ const ProductBoard = () => {
             : pagination.currentPage;
 
         if (isSearchRequest) {
-          await handleSearch(
-            targetPage,
-            pagination.pageSize,
-            lastSearchKeyword
-          );
+          // 검색어 존재 유무에 따라 동작
+          handleSearch(targetPage, pagination.pageSize, lastSearchKeyword);
         } else {
-          await getProductBoard(targetPage, pagination.pageSize);
+          getProductBoard(targetPage, pagination.pageSize);
         }
 
         // 선택 상태 초기화

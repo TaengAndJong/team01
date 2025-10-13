@@ -402,15 +402,15 @@ const AdminBoard = () => {
   //   }));
   // };
 
-  //페이지버튼 클릭시 실행되는 핸들러
-  const onChangeDelivPageHandler = async (page) => {
-    console.log("changePage----", page);
-    //pagination의 currentPage 값 갱신
-    setDeliveryPagination((prev) => ({
-      ...prev,
-      currentPage: page,
-    }));
-  };
+  // //페이지버튼 클릭시 실행되는 핸들러
+  // const onChangeDelivPageHandler = async (page) => {
+  //   console.log("changePage----", page);
+  //   //pagination의 currentPage 값 갱신
+  //   setDeliveryPagination((prev) => ({
+  //     ...prev,
+  //     currentPage: page,
+  //   }));
+  // };
 
   return (
     <>
@@ -488,8 +488,6 @@ const AdminBoard = () => {
                       setOnePagination,
                       setProductPagination,
                       setDeliveryPagination,
-
-                      onChangeDelivPageHandler,
                     }}
                   >
                     <ModalProvider>

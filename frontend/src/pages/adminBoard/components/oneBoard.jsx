@@ -117,10 +117,12 @@ const OneBoard = () => {
     keywordParam = search.keyword
   ) => {
     if (
-      search.keyword === undefined ||
-      (search.keyword.length === 0 && lastSearchKeyword === "")
-    )
+      keywordParam === undefined ||
+      (keywordParam.length === 0 && lastSearchKeyword === "")
+    ) {
       await getOneBoard();
+      return;
+    }
 
     setIsLoading(true);
     setIsError(false);

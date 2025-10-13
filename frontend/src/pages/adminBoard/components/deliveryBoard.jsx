@@ -119,8 +119,10 @@ const DeliveryBoard = () => {
     if (
       search.keyword === undefined ||
       (search.keyword.length === 0 && lastSearchKeyword === "")
-    )
+    ) {
       await getDeliveryBoard();
+      return;
+    }
 
     setIsLoading(true);
     setIsError(false);
