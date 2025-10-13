@@ -122,7 +122,7 @@ const ProductBoard = () => {
     console.log("요청 URL:", requestUrl);
 
     const response = await fetch(requestUrl, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
