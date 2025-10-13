@@ -98,7 +98,9 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                                 </div>
                             </div>
                             <div className="txt-box">
-                                <span className="tit bold d-block">{item.bookName}</span>
+                                <strong className="tit bold d-block">
+                                    <em>{item.bookName}</em>
+                                </strong>
                                 <span className="tit bold d-block">{item.author}</span>
                             </div>
                         </Link>

@@ -621,20 +621,23 @@ table .imgbox img {
 }
 
 @keyframes dobleleaf {
-  0% {
-    transform: translateY(0);
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
   }
   20% {
-    transform: translateY(5px);
+    transform: translateY(-12px) scaleY(0.95); /* 위로 튀기며 찌그러짐 */
   }
-  50% {
-    transform: translateY(0px);
+  40% {
+    transform: translateY(0) scaleY(0.8); /* 떨어질 때 늘어남 */
   }
-  80% {
-    transform: translateY(6px);
+  55% {
+    transform: translateY(-8px) scaleY(0.97);
   }
-  100% {
-    transform: translateY(0);
+  70% {
+    transform: translateY(0) scaleY(0.8);
+  }
+  82% {
+    transform: translateY(-4px) scaleY(0.99);
   }
 }
 header {
@@ -691,7 +694,7 @@ header, .header-inner, .gnb {
   animation-name: dobleleaf;
   animation-duration: 2s;
   animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
+  animation-timing-function: cubic-bezier(0.28, 0.84, 0.42, 1);
 }
 .gnb .first-depth > li > a:hover span, .gnb .first-depth > li > a:focus span {
   color: #333333;
@@ -1324,6 +1327,9 @@ body {
   height: 100%;
 }
 .quick .quick-btn {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s 0.2s;
   background-color: #56453E;
   border: none;
   border-radius: 50%;
@@ -1339,6 +1345,14 @@ body {
   position: absolute;
   left: calc(50% - 12.5px);
   top: calc(50% - 11px);
+}
+.quick.show .quick-btn {
+  opacity: 0.7;
+  visibility: visible;
+}
+.quick.show .quick-btn:hover, .quick.show .quick-btn:focus, .quick.show .quick-btn:focus-within {
+  opacity: 1;
+  background: #008834;
 }
 
 .client .quick .quick-btn {

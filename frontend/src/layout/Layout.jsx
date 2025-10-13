@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { AuthProvider } from "@common/AuthContext.jsx";
 import { ModalProvider } from "@common/modal/ModalContext.jsx";
 import { useMenu } from "@pages/common/MenuContext.jsx";
@@ -97,8 +97,28 @@ const Layout = () => {
       .catch((error) => console.error("Fetch error:", error));
   }, [url, location]);
 
-  // location?.pathname.startsWith("/admin/")? "sublayout":"mainlayout"
-  //${location?.pathname== menu.menuPath? menuId:""}
+
+  // 위로가기버튼 돔요소 참조
+  const topBtnRef = useRef(null);
+
+  //위로가기 버튼 렌더
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY; // 현재 스크롤 위치
+      const vh = window.innerHeight; // 화면 높이
+
+      if (scrollY > vh * 0.6) {
+        topBtnRef.current?.classList.add("show"); // 클래스 추가
+      } else {
+        topBtnRef.current?.classList.remove("show"); // 클래스 제거
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
       {/*정규식으로 sub 구분하기????*/}
@@ -106,7 +126,7 @@ const Layout = () => {
         <AuthProvider>
           <ModalProvider>
             {/*여기에 현재경로 Context 설정하기*/}
-            <Header />
+            <Header/>
             {/*메인페이지일 경우 main, 서브페이지일 경우 sub , 삼항 연산자 사용하기
                         incluedes()를 사용하면 모든경로에 포함되는 값을 찾고, 시작값만 찾으려면 startWidth()
                         */}
@@ -116,37 +136,34 @@ const Layout = () => {
               {/*sub 일때 배너 */}
               <div></div>
 
-              <Outlet context={{ data, setUrl }} />
+              <Outlet context={{data, setUrl}}/>
               {currentPath.startsWith("/admin") && (
-                <div className="bg-frame admin">
-                  {/*<span className="obj cloud1"></span>*/}
-                  {/*<span className="obj cloud2"></span>*/}
-                  {/*<span className="obj cloud3"></span>*/}
-                  {/*<span className="obj cloud4"></span>*/}
-                  {/*<span className="obj cloud5"></span>*/}
-                </div>
+                  <div className="bg-frame admin">
+                    {/*<span className="obj cloud1"></span>*/}
+                    {/*<span className="obj cloud2"></span>*/}
+                    {/*<span className="obj cloud3"></span>*/}
+                    {/*<span className="obj cloud4"></span>*/}
+                    {/*<span className="obj cloud5"></span>*/}
+                  </div>
               )}
 
               {!currentPath.startsWith("/admin") && (
-                <div className="bg-frame client">
-                  {/*<span className="obj cloud1"></span>*/}
-                  {/*<span className="obj cloud2"></span>*/}
-                  {/*<span className="obj cloud3"></span>*/}
-                  {/*<span className="obj cloud4"></span>*/}
-                  {/*<span className="obj cloud5"></span>*/}
-                </div>
+                  <div className="bg-frame client">
+                    {/*<span className="obj cloud1"></span>*/}
+                    {/*<span className="obj cloud2"></span>*/}
+                    {/*<span className="obj cloud3"></span>*/}
+                    {/*<span className="obj cloud4"></span>*/}
+                    {/*<span className="obj cloud5"></span>*/}
+                  </div>
               )}
             </main>
-            <div className="quick">
-              <button
-                type="button"
-                className="quick-btn"
-                onClick={() => scrollTop()} //값을 변경하면 스크롤 속도 바뀜 기본 600
-              >
-                <span className="sr-only">위로가기</span>
-              </button>
+            <div className="quick" ref={topBtnRef}>
+                  <button className="quick-btn"  onClick={() => scrollTop()} >
+                    <span className="sr-only">위로가기</span>
+                  </button>
             </div>
-            <Footer />
+
+            <Footer/>
           </ModalProvider>
         </AuthProvider>
       </div>

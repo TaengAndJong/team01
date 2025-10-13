@@ -35,8 +35,8 @@
 /*cataName*/
 .cateName{
     background:#56453E;color:#ffffff;
-    font-size:1.5rem;
-    font-weight: bold;padding:12px 13px 9px 13px;border-radius:10px; }
+    font-size:1.2rem;
+    font-weight: bold;padding:10px 10px 9px;border-radius:10px; }
 
 /*button*/
 
@@ -57,7 +57,10 @@
 .section.main [class*="-tit"]{
     margin-bottom: 20px;
 }
-.section.main .s-tit{font-size: 4rem;}
+
+
+
+.section.main .s-tit{font-size: 5rem;}
 .section.main .b-tit{}
 .section.main .circle-btn{margin: 4rem; padding: 0.5em}
 .section.main .circle-btn span{font-size: 23px;}
@@ -135,8 +138,19 @@
 .section .book .img-box{border-radius: 10px}
 .section .book .img-inner{background:#ffffff;}
 .section .book .img-inner,.section .book .img{width: 100%; height: 100%;}
-.section .book .tit{display: block; font-size:2.2rem;margin: 1rem 0 1.2rem 0;}
-.section .book .author{font-size:1.7rem; margin-bottom: 1rem;}
+.section .book .tit{display: block; font-size:1.8rem;margin: 1rem 0;}
+.section .book .tit
+> span, em{
+    line-height: 1.2;
+    font-weight:bold; word-break: keep-all; word-wrap: break-word;
+    display: -webkit-box;        /* flexbox처럼 동작하도록 설정 */
+    -webkit-box-orient: vertical; /* 세로 방향으로 정렬 */
+    -webkit-line-clamp: 2;        /* 최대 2줄까지만 표시 */
+    text-overflow: ellipsis;      /* ... 표시 */
+    max-height: calc(1.2em * 2);  /* 2줄 기준으로 높이 제한 */
+    overflow: hidden;
+}
+.section .book .author{font-size:1.5rem; margin-bottom: 1rem;}
 .section .book .slide-list{overflow: hidden; display: block;}
 .section .book .slide-link{border-radius: 15px; position: relative; float:left;width: 100%;}
 .section .book .button-group{top: 4rem; right: 4rem;}
@@ -144,7 +158,10 @@
 .book.popular .swiper-slide{margin: 0;}
 .book.popular .slide-list{height: calc(100% - 60px); }
 .book.popular .slide-link{
-    position: relative; height:153px;padding:30px 130px 30px 30px;margin-bottom: 30px;}
+    position: relative; height:153px;
+    /*padding:20px 130px 20px 30px;*/
+    padding:2.3rem 13rem 2.3rem 2.3rem;
+    margin-bottom: 30px;}
 .book.popular .swiper-slide:nth-child(2n) .slide-link{ background:#FFEAEC;}
 .book.popular .swiper-slide:nth-child(2n-1) .slide-link{background: #FFECA4;}
 .book.popular .tit{}
@@ -158,16 +175,10 @@
 .book.recommend .swiper-slide{width:100% !important;
     margin: 0;}
 .book.recommend .slide-list{height: 330px;}
-.book.recommend .slide-link{background:#E8F1FF; padding: 5rem 25rem 4rem 4rem;
+.book.recommend .slide-link{background:#E8F1FF; padding: 3rem 25rem 4rem 4rem;
     width: 100%; height: 100%;}
 .book.recommend .img-box{width: 180px;
     height: 235px;position: absolute; right:4rem; top: 5rem; }
-
-
-
-
-
-
 
 
 
