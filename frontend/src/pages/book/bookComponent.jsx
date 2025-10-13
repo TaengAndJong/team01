@@ -125,7 +125,7 @@ const Book = () => {
   console.log("서브메뉴", subNavi);
   return (
     <>
-      <div className="hoverLeaf"></div>
+
 
       <div className={`page d-flex ${location.toLowerCase().includes("detail")? "detail":""}`} >
         <div className="left">

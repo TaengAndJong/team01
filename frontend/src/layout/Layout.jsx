@@ -112,6 +112,10 @@ const Layout = () => {
                         */}
             {/*sub &&' main 구분필요*/}
             <main className={`main ${pageName(standardPoint)}`}>
+
+              {/*sub 일때 배너 */}
+              <div></div>
+
               <Outlet context={{ data, setUrl }} />
               {currentPath.startsWith("/admin") && (
                 <div className="bg-frame admin">

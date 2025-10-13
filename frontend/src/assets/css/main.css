@@ -199,6 +199,21 @@
 .skip-btn.join{background-color: #FFF8D0;
     background-image: url("assets/images/main/join01.png");}
 
+.skip-btn:hover .circle-btn:before,
+.skip-btn:focus .circle-btn:before{
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: #56453E;
+    border-radius: 5rem;
+}
+
+.skip-btn:hover .circle-btn > span,
+.skip-btn:focus .circle-btn > span,
+.skip-btn:hover .circle-btn em,
+.skip-btn:focus .circle-btn em,
+.skip-btn:hover .circle-btn i
+.skip-btn:focus .circle-btn i{color:#fff}
 
 /*공통 여백 */
 .section.main .text-box,.tab-content,
