@@ -25,11 +25,11 @@ public class QnaProductController {
 
     @GetMapping("/qnaProductList")
     public ResponseEntity<?> getQnaProductList(
-    @RequestParam(defaultValue = "1")
-    int currentPage, @RequestParam(defaultValue = "5")
-    int pageSize, @RequestParam(required = false) String searchType,
-    @RequestParam(required = false) String keyword,
-    HttpServletRequest request
+        @RequestParam(defaultValue = "1")
+        int currentPage, @RequestParam(defaultValue = "5")
+        int pageSize, @RequestParam(required = false) String searchType,
+        @RequestParam(required = false) String keyword,
+        HttpServletRequest request
     ) {
 
         List<QnaProductVO> qnaProductList = null; // 게시물 데이터 저장 할 변수 생성

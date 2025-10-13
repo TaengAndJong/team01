@@ -382,25 +382,25 @@ const AdminBoard = () => {
     });
   };
 
-  //페이지버튼 클릭시 실행되는 핸들러
-  const onChangeOnePageHandler = async (page) => {
-    console.log("changePage----", page);
-    //pagination의 currentPage 값 갱신
-    setOnePagination((prev) => ({
-      ...prev,
-      currentPage: page,
-    }));
-  };
+  // //페이지버튼 클릭시 실행되는 핸들러
+  // const onChangeOnePageHandler = async (page) => {
+  //   console.log("changePage----", page);
+  //   //pagination의 currentPage 값 갱신
+  //   setOnePagination((prev) => ({
+  //     ...prev,
+  //     currentPage: page,
+  //   }));
+  // };
 
-  //페이지버튼 클릭시 실행되는 핸들러
-  const onChangeProPageHandler = async (page) => {
-    console.log("changePage----", page);
-    //pagination의 currentPage 값 갱신
-    setProductPagination((prev) => ({
-      ...prev,
-      currentPage: page,
-    }));
-  };
+  // //페이지버튼 클릭시 실행되는 핸들러
+  // const onChangeProPageHandler = async (page) => {
+  //   console.log("changePage----", page);
+  //   //pagination의 currentPage 값 갱신
+  //   setProductPagination((prev) => ({
+  //     ...prev,
+  //     currentPage: page,
+  //   }));
+  // };
 
   //페이지버튼 클릭시 실행되는 핸들러
   const onChangeDelivPageHandler = async (page) => {
@@ -488,8 +488,7 @@ const AdminBoard = () => {
                       setOnePagination,
                       setProductPagination,
                       setDeliveryPagination,
-                      onChangeOnePageHandler,
-                      onChangeProPageHandler,
+
                       onChangeDelivPageHandler,
                     }}
                   >

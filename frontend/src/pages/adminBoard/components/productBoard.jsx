@@ -8,8 +8,7 @@ import Btn from "@util/reuseBtn.jsx";
 import { useModal } from "@pages/common/modal/ModalContext.jsx";
 
 const ProductBoard = () => {
-  const { product } = useContext(BookBoardStateContext);
-  // const { onDeleteProduct, initFetch } = useContext(BookBoardDispatchContext);
+  const { product } = useContext(BookBoardStateContext); // 차후 지워보자
 
   const [boardList, setBoardList] = useState(null); // 확인 하는 방법
   const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +20,16 @@ const ProductBoard = () => {
     totalRecord: 0,
     pageSize: 5,
   });
+
+  const [search, setSearch] = useState({});
+  console.log("search 상태관리 :", search);
+
+  //전체선택
+  const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
+  //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
+  const [checkedInput, setCheckedInput] = useState([]);
+  const [isSearchRequest, setIsSearchRequest] = useState(false);
+  const [lastSearchKeyword, setLastSearchKeyword] = useState(""); // 마지막 검색어 저장
 
   const getProductBoard = async (page = 1, pageSize = 5) => {
     setIsLoading(true);
@@ -63,28 +72,11 @@ const ProductBoard = () => {
       Array.isArray(item.items) ? item.items : []
     );
     setBoardList(allItems);
-  }, []); // product가 바뀔 때마다 실행
+  }, []);
 
-  //전체선택
-  const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
-  //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
-  const [checkedInput, setCheckedInput] = useState([]);
-  const [isSearchRequest, setIsSearchRequest] = useState(false);
-  const [lastSearchKeyword, setLastSearchKeyword] = useState(""); // 마지막 검색어 저장
   //페이지버튼 클릭시 실행되는 핸들러
   const onChangeProPageHandler = async (page) => {
     console.log("changePage----", page);
-    //pagination의 currentPage 값 갱신
-
-    // if (isSearchRequest) await handleSearch(page);
-    // else {
-    //   await getProductBoard(page);
-    // }
-
-    // > 검색어 입력 요청 O
-    // > 검색된 데이터가 페이지네이션과 함께 출력
-    // > 검색어 삭제 요청 X > 페이지 버튼 클릭 시
-    // > 기존에 했던 검색어로 요청 O
     if (isSearchRequest) {
       // 이전 검색 상태가 유지되어 있을 때 → 마지막 검색어 기준으로 요청
       await handleSearch(page, pagination.pageSize, lastSearchKeyword);
@@ -119,9 +111,6 @@ const ProductBoard = () => {
       console.log("해제된 게시물 :", newArray);
     }
   };
-
-  const [search, setSearch] = useState({});
-  console.log("search 상태관리 :", search);
 
   const handleSearch = async (
     page = 1,
@@ -180,21 +169,28 @@ const ProductBoard = () => {
         body: JSON.stringify(deleteItems),
       });
       if (response.ok) {
+        // totalRecord - 삭제된 게시물 수로 남은 게시물 계산
+        const remainingRecords = pagination.totalRecord - deleteItems.length;
+
+        // 총 페이지 다시 계산
+        const totalPagesAfterDelete = Math.ceil(
+          remainingRecords / pagination.pageSize
+        );
+
+        // 현재 페이지가 존재하지 않으면 이전 페이지로 이동
+        const targetPage =
+          pagination.currentPage > totalPagesAfterDelete
+            ? pagination.currentPage - 1
+            : pagination.currentPage;
+
         if (isSearchRequest) {
-          // 검색어 존재 유무에 따라 동작
-          const targetPage = // 페이지 안에서 게시물이 하나 남은 페이지에서 삭제를 할 때 이전 페이지를 보여준다.
-            pagination.totalPages > 1 &&
-            pagination.totalRecord % pagination.pageSize === 1
-              ? pagination.currentPage - 1
-              : pagination.currentPage;
-          handleSearch(targetPage, pagination.pageSize, lastSearchKeyword);
+          await handleSearch(
+            targetPage,
+            pagination.pageSize,
+            lastSearchKeyword
+          );
         } else {
-          const targetPage = // 페이지 안에서 게시물이 하나 남은 페이지에서 삭제를 할 때 이전 페이지를 보여준다.
-            pagination.totalPages > 1 &&
-            pagination.totalRecord % pagination.pageSize === 1
-              ? pagination.currentPage - 1
-              : pagination.currentPage;
-          getProductBoard(targetPage, pagination.pageSize);
+          await getProductBoard(targetPage, pagination.pageSize);
         }
 
         // 선택 상태 초기화

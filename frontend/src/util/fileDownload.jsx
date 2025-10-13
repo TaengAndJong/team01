@@ -42,11 +42,7 @@ export const handleFileDownload = (fileName, fileData) => {
     a.download = fileName;
     a.click();
 
-    setTimeout(() => {
-      URL.revokeObjectURL(url);
-
-      alert("파일 다운로드 를 완료했습니다");
-    }, 800);
+    URL.revokeObjectURL(url);
   } catch (error) {
     console.error("파일 다운로드 오류:", error);
   }

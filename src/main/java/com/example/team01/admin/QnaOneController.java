@@ -23,7 +23,6 @@ import java.util.Map;
 public class QnaOneController {
 
     private final QnaOneService qnaOneService; // 의존성 주입
-    private final FileUtils fileUtils;
     private final CommentsService commentsService;
         @GetMapping("/qnaOneList")
         public ResponseEntity<?>  getQnaOneList(
