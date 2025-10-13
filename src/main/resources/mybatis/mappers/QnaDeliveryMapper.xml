@@ -7,8 +7,11 @@
 
     <select id="totalRecord" resultType="int" parameterType="com.example.team01.utils.Pagination">
         SELECT COUNT(*)
-        FROM QnaDeliv WHERE
-        ("qnaDel" = 'N' OR "qnaDel" IS NULL)
+        FROM QnaDeliv
+        <where>
+        <include refid="searchFrag"/>
+        AND ("qnaDel" = 'N' OR "qnaDel" IS NULL)
+        </where>
     </select>
 
     <!--
@@ -16,28 +19,68 @@
     detailCondition.bookType 의 형태로 접근해야 함
 -->
     <sql id="searchFrag">
-        <trim prefix="WHERE" suffixOverrides="AND">
+        <trim prefixOverrides="AND|OR" suffixOverrides="AND">
 
             <!-- 답변 상태 필터 (searchType에 따라 qnaStatus 필터링) -->
-            <choose>
-                <when test="pagination.detailCondition.searchType == 'Replied'">
-                    "qnaStatus" = '답변' AND
-                </when>
-                <when test="pagination.detailCondition.searchType == 'Waiting'">
-                    "qnaStatus" = '미답변' AND
-                </when>
-            </choose>
+                <!-- 답변 상태 필터 (searchType에 따라 필터링) -->
+        <choose>
+            <!-- 전체 -->
+            <when test="pagination.detailCondition.searchType == 'all'">
+            (
+                INSTR("qnaTitle", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR("qnaWriter", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR("qnaStatus", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR(TO_CHAR("qnaDate", 'YYYY-MM-DD HH24:MI:SS'), #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR("clientId", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR("qnaContent", #{pagination.detailCondition.keyword}) > 0
+                ) AND
+            </when>
 
-            <!-- 키워드가 존재할 경우, 전체 컬럼 검색 -->
-            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
+            <!-- 제목 -->
+            <when test="pagination.detailCondition.searchType == 'title'">
+            INSTR("qnaTitle", #{pagination.detailCondition.keyword}) > 0 AND
+            </when>
+        
+            <!-- 제목 + 내용 -->
+            <when test="pagination.detailCondition.searchType == 'title_content'">
+            (
+                INSTR("qnaTitle", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR("qnaContent", #{pagination.detailCondition.keyword}) > 0
+            ) AND
+            </when>
+
+            <!-- 내용 -->
+            <when test="pagination.detailCondition.searchType == 'content'">
+            INSTR("qnaContent", #{pagination.detailCondition.keyword}) > 0 AND
+            </when>
+
+            <!-- 작성자 -->
+            <when test="pagination.detailCondition.searchType == 'userId'">
+            (
+                INSTR("qnaWriter", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR("clientId", #{pagination.detailCondition.keyword}) > 0
+            ) AND
+            </when>
+
+            <!-- 답변 여부 -->
+            <when test="pagination.detailCondition.searchType == 'answerStatus'">
+            INSTR("qnaStatus", #{pagination.detailCondition.keyword}) > 0 AND
+            </when>
+
+                        <!-- 키워드가 존재할 경우, 전체 컬럼 검색 -->
+            <otherwise>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
                 (
                 INSTR("qnaTitle", #{pagination.detailCondition.keyword}) > 0 OR
                 INSTR("qnaWriter", #{pagination.detailCondition.keyword}) > 0 OR
                 INSTR("qnaStatus", #{pagination.detailCondition.keyword}) > 0 OR
                 INSTR(TO_CHAR("qnaDate", 'YYYY-MM-DD HH24:MI:SS'), #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("clientId", #{pagination.detailCondition.keyword}) > 0
+                INSTR("clientId", #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR("qnaContent", #{pagination.detailCondition.keyword}) > 0
                 ) AND
-            </if>
+                </if>
+            </otherwise>
+            </choose>
         </trim>
     </sql>
 
@@ -55,7 +98,7 @@
                 FROM qnaDeliv
                 <trim prefix="WHERE" prefixOverrides="AND|OR">
                 <include refid="searchFrag"/>
-                ("qnaDel" = 'N' OR "qnaDel" IS NULL)
+                AND ("qnaDel" = 'N' OR "qnaDel" IS NULL)
                 </trim>
                 ORDER BY "qnaDelId" DESC
             ) a

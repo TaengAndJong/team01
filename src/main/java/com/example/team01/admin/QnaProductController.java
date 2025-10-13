@@ -22,24 +22,38 @@ import java.util.Map;
 public class QnaProductController {
     private final CommentsService commentsService;
     private final QnaProductService qnaProductService;
-    
+
     @GetMapping("/qnaProductList")
-    public ResponseEntity<?> getQnaProductList(@RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "5") int pageSize, HttpServletRequest request) {
-        log.info("currentPage = {}, pageSize = {} " , currentPage, pageSize);
-        //확인 완료
+    public ResponseEntity<?> getQnaProductList(
+        @RequestParam(defaultValue = "1")
+        int currentPage, @RequestParam(defaultValue = "5")
+        int pageSize, @RequestParam(required = false) String searchType,
+        @RequestParam(required = false) String keyword,
+        HttpServletRequest request
+    ) {
 
-        log.info("상품 문의 API 호출됨 이거");
-        //페이지 계산 클래스 불러오기
+        List<QnaProductVO> qnaProductList = null; // 게시물 데이터 저장 할 변수 생성
+        Pagination pagination = new Pagination(currentPage, pageSize); // 페이지네이션 객체 미리 세팅하기
 
-        // 클래스    참조변수  인스턴스생성  생성자호출 (매개 변수 , 매개 변수)
-        Pagination pagination = new Pagination(currentPage, pageSize); //현재페이지 && 보여줄 아이템 수
+        if (keyword != null && !keyword.isEmpty()) { // 검색어 유무에 따라 분기
+	    // 검색 키워드 세팅해주기
+	    pagination.addDetailCondition("searchType", searchType);
+	    pagination.addDetailCondition("keyword", keyword);
+	
+	    qnaProductList = qnaProductService.getAllQnaProductList(pagination); //검색 된 리스트 데이터
 
-        //서비스로 데이터 넘기기
-        List<QnaProductVO> qnaProductList = qnaProductService.getAllQnaProductList(pagination);
-        log.info("qnaProductList size------------ = {}", qnaProductList.size());
+	        for (QnaProductVO qnaProductVO : qnaProductList) {
+                log.info("여기--검색 책목록:{}", qnaProductVO);
+                // fileUtils.changeImgPath(qnaProductVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+                log.info("다음--검색 책목록:{}", qnaProductVO);
+            }
+        }else{
+
+        qnaProductList = qnaProductService.getAllQnaProductList(pagination); // 전체 데이터
+        }
 
         Map<String, Object> result = new HashMap<>();
-        result.put("items", qnaProductList); // getAllQnaProductList로 가져온 게시물
+        result.put("items", qnaProductList); // getAllQnaProductList로 가져온 게시물 items에 추가
         result.put("currentPage", pagination.getCurrentPage());
         result.put("pageSize", pagination.getPageSize());
         result.put("totalPages", pagination.getTotalPages());
@@ -48,51 +62,6 @@ public class QnaProductController {
         // 배열 안에 객체 형태로 내보내려면 원본 Map 사용하지 않고 내보내야함
         return ResponseEntity.ok(result);
     }
-
-    @PostMapping(value = "/qnaProductList")
-    public ResponseEntity<?> getSearchQnaProductList(
-            @RequestParam(required = false) String searchType,
-            @RequestParam(required = false) String keyword,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int pageSize,
-            HttpServletRequest request) {
-        log.info("도서 목록 상품 문의 searchkeyword API 호출됨");
-        log.info("상품 문의 searchType -------------------: {}", searchType);
-        log.info("상품 문의 keyword -----------------: {}", keyword);
-
-        //페이지 계산 클래스 불러오기
-        Pagination pagination = new Pagination(page, pageSize);
-        log.info("상품 문의 pagination -----------------: {}", pagination);
-
-        //검색필터 설정해주기
-        pagination.addDetailCondition("searchType", searchType);
-        pagination.addDetailCondition("keyword", keyword);
-
-        log.info("상품 문의 DetailContion-----:{}", pagination.getDetailCondition());
-
-        //서비스로 검색 파라미터 넘겨줘서 찾기  
-        List<QnaProductVO> qnaProductList = qnaProductService.getAllQnaProductList(pagination);
-
-        log.info("검색된 상품문의 목록: {}", qnaProductList);
-        // 레코드 순회
-        for (QnaProductVO qnaProductVO : qnaProductList) {
-            log.info("여기--검색 책목록:{}", qnaProductVO);
-//                fileUtils.changeImgPath(qnaProductVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
-            log.info("다음--검색 책목록:{}", qnaProductVO);
-        }
-        
-        // ✅ 페이지네이션 정보도 함께 반환하도록 수정
-        Map<String, Object> result = new HashMap<>();
-        result.put("items", qnaProductList);                    // 실제 데이터
-        result.put("currentPage", pagination.getCurrentPage()); // 현재 페이지
-        result.put("pageSize", pagination.getPageSize());       // 페이지 크기
-        result.put("totalPages", pagination.getTotalPages());   // 총 페이지 수
-        result.put("totalRecord", pagination.getTotalRecord()); // 총 레코드 수
-        
-        log.info("result -----------------: {}", result);
-        return ResponseEntity.ok(result);  // ✅ Map 형태로 반환
-    }
-
 
     // 상품 문의 상세조회 API
     @GetMapping("/detail/product/{boardId}")  // URL 패턴: /admin/board/detail/product/123
