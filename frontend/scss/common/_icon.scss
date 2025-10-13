@@ -70,4 +70,12 @@
     background-size: auto 100%;
   }
 
+  &.book{
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='44' viewBox='0 0 40 44' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M37.8348 29.6923H8.60404C5.20537 29.6923 2.4502 32.4475 2.4502 35.8461M37.8348 29.6923V38.9231C37.8348 40.6224 36.4572 42 34.7579 42H8.60404C5.20537 42 2.4502 39.2448 2.4502 35.8461M37.8348 29.6923V5.07692C37.8348 3.37759 36.4572 2 34.7579 2H12.4502M2.4502 35.8461V8.15385C2.4502 4.75517 5.20537 2 8.60404 2H12.4502M20.2621 11.2308H28.7002M20.2621 20.4615H28.7002M12.4502 29.5V2' stroke='%238B655A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+    background-size: auto 100%;
+  }
+
+  &.desc{
+
+  }
 }

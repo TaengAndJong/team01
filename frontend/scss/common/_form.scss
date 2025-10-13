@@ -43,6 +43,42 @@
 }
 
 //list - bullet
+.title-border,.title-dotted{ position: relative;
+  @include sub-title(25px,theJamsil,#56453E);
+  font-weight: bold;
+}
+
+.title-border{
+  padding-bottom: 26px;
+  margin-bottom: 60px;
+  &::before,&::after{ @extend %pseudoEL;width:100%;height:1px;position:absolute;left:0}
+  &::before{background-color: #89C53B; bottom:4px}
+  &::after{background-color: #A37865; bottom:0}
+}
+
+.title-dotted{
+  padding-bottom: 13px;
+  margin-bottom: 40px;
+  border-bottom:dotted 2px #8B655A;
+}
+
+.bullet{
+  >li{
+    margin-bottom: 1.5rem;
+    .tit{
+      min-width:80px;
+      position: relative;
+      padding: 0 10px 0 10px;
+      &::before{ @extend %pseudoEL; position:absolute;
+        top:7px;
+        left:0;
+        width: 5px;
+        height: 5px; background-color:#89C53B; border-radius: 50% }
+    }
+  }
+}
+.circleBullets{}
+
 .list{
 
 }
@@ -50,5 +86,20 @@
 .bullet-li{
   position: relative;
   &:before{ @include defualtBullet($color04,5px,5px); border-radius: 50%; margin-right:10px; }
+}
+
+//title
+[class*="-tit"],[class*="-title"]{
+  overflow: hidden;             /* 넘치는 부분 숨기기 */
+
+    > span, em{
+      line-height: 1.4;font-weight:bold; word-break: keep-all; word-wrap: break-word;
+      display: -webkit-box;        /* flexbox처럼 동작하도록 설정 */
+      -webkit-box-orient: vertical; /* 세로 방향으로 정렬 */
+      -webkit-line-clamp: 2;        /* 최대 2줄까지만 표시 */
+      text-overflow: ellipsis;      /* ... 표시 */
+      max-height: calc(1.2em * 2);  /* 2줄 기준으로 높이 제한 */
+    }
+
 }
 

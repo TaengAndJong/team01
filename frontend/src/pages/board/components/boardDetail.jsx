@@ -39,7 +39,9 @@ const BoardDetail = ({ userType }) => {
       <div className="board-detail">
           <div className="boardInfo card-body">
               <div className="info-header clearfix">
-                  <h3 className="board-title title-dotted"><i className="icon qna me-3"></i>{board?.qnaTitle}</h3>
+                  <h3 className="board-title title-dotted"><i className="icon qna me-3"></i>
+                      <span>{board?.qnaTitle}</span>
+                  </h3>
                   <span className="detail-date tultip popular float-end d-inline-block"><i className="sr-only">작성일</i>{board?.qnaDate}</span>
               </div>
               <div className="content-box p-4 text-left">{board?.qnaContent} </div>

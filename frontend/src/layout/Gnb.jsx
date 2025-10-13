@@ -82,8 +82,13 @@ const Gnb = ({ menu, commonMenuItems }) => {
   return (
     <>
       <h1 className="logo">
-        <Link to={logoPath} className="img logo-img">
-          <em className="sr-only">the book 로고</em>
+        <Link to={logoPath} className="logo-link">
+          <strong className="logo-inner">
+            <i className="leaves object"></i>
+            <em className="img">
+              <span className="sr-only">the book 로고</span>
+            </em>
+          </strong>
         </Link>
       </h1>
       <nav id="gnb" className="gnb">

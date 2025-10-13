@@ -7,24 +7,25 @@
 .section,.sc-inner{width:100%}
 /*.sc-inner{min-height:1080px;}*/
 
-/*title*/
-[class*="-tit"],[class*="-tit"] > span{line-height: 1;font-weight:bold;}
+/*title ==> main에만 적용되게 클래스 추가하기 ==> 메인에만 스타일반영되게 변경 가능한지 찾아보기  */
+.index [class*="title"], .index [class*="title"] > span{line-height: 1;font-weight:bold;}
 .text-or{color:#F28310}
 .text-gr{color:#008834}
 
 /*
 1rem = 10px ,  1.6rem = 16px
 */
-.s-tit{font-size: 5rem}
-.m-tit,.sc-tit,.sc-tit > span{font-size: 6rem;}
+.s-tit{font-size: 3rem}
+.m-tit{font-size: 6rem;}
 .b-tit{font-size: 9rem}
-.sc-tit{margin-bottom: 2rem}
+.sc-title{margin-bottom: 2rem;}
 .desc{font-size:2rem;}
 
 
 .text-dot{
     position:relative;
     padding-top: 20px;
+    display: inline-block;
 }
 .text-dot:before{
     content:""; display: inline-block; border-radius: 50%;
@@ -54,7 +55,9 @@
     background-color: #fff;
 }
 .section.main [class*="-tit"]{
-    margin-bottom: 20px;}
+    margin-bottom: 20px;
+}
+.section.main .s-tit{font-size: 4rem;}
 .section.main .b-tit{}
 .section.main .circle-btn{margin: 4rem; padding: 0.5em}
 .section.main .circle-btn span{font-size: 23px;}
@@ -70,42 +73,48 @@
     background-size: 60% 40%;
     background-position: center center;}
 /*books tab*/
-.tab-content{position: relative;}
+
 .nav .custom-outline-btn{font-size: 2rem; padding: 0.8em;
     margin:0 0.8rem; border-radius: 3rem;}
-.tab-content{ background-color: #FFECA4; margin-top: 4.5rem;padding: 5rem 4.4rem}
+.tab-content{
+    position: relative;
+    /*background-color: #FFECA4;  // 원본 노랑 */
+    background: rgba(187,171,162,50%);
+    margin-top: 4.5rem; padding: 7rem 4.4rem}
 
 /*books*/
 .section.books{}
 .section.books .sc-inner{padding: 20rem 0 10rem;text-align:center;}
 .section.books .sc-tit{}
 .section.books .sc-content{margin-top: 9rem;}
-.section.books .nav{padding: 0 3.5rem;}
+.section.books .nav{padding: 0 6rem;}
 
 
 /*books slide*/
 .section.books .slide-con{
-    max-width:calc(100vw - 0.4rem);
+    /*max-width:calc(100vw - 0.4rem);*/
+    max-width: 100%;
     width: 100%;
     margin: 0 auto;
     overflow: hidden;
 }
-.section.books .swiper{}
+.section.books .swiper{height: 420px;}
 .section.books .swiper-wrapper{
-    margin: 0 -4rem;
+    /*margin: 0 -4rem;*/
     /*padding: 2rem*/
 }
-.section.books .swiper-slide{height:400px;}
+.section.books .swiper-slide{}
 .section.books .swiper-pagination{
     margin-top: 0.5em;
     background: transparent; display: flex; justify-content: center; align-items: center; top: auto; left:auto; position:relative; }
 .section.books .swiper-pagination .swiper-pagination-bullet-active{background:#56453EFF }
 
-.section.books .img-box{border-radius: 1em;
+.section.books .book-link{background:rgba(255,255,255,0.5);border-radius: 1rem;overflow: hidden}
+.section.books .img-box{
     z-index: 3; position: relative;max-height: 30rem}
-.section.books .txt-box{background:rgba(255,255,255,0.5); padding:4rem 1rem 2rem;position:relative;top:-2rem;}
+.section.books .txt-box{padding:4rem 1rem 2rem;}
 .section.books .txt-box > .tit{padding:0.5rem 0;text-align: center; word-break: keep-all; font-weight: bold;}
-.section.books .button-group{top: -9.8rem; right: 0;}
+.section.books .button-group{top: -9.8rem; right: 6rem;}
 
 
 /*section curation*/
@@ -113,12 +122,15 @@
 .section.curation .sc-inner{overflow: hidden;}
 .section.curation .sc-tit{}
 .section.curation .sc-tit.m-tit{font-size: 3.4rem;margin-bottom: 3rem;}
-.section.curation .sc-content{display:flex;justify-content: flex-start; align-items: center;padding: 5rem 4.4rem;width: calc(100% + 20px);
+.section.curation .sc-content{display:flex;justify-content: flex-start; align-items: center;padding: 5rem 6rem;width: calc(100% + 20px);
     margin: 0 -10px;}
 /*book*/
 .section .book{
     width: calc(50% - 20px); margin: 0 10px; padding:4rem; height:48rem;overflow: hidden;
-    border-radius: 20px;border:3px solid #F7F7F7; position: relative}
+    border-radius: 20px;
+    /*border:3px solid #F7F7F7;*/
+    border:3px solid rgba(187,171,162,50%);
+    position: relative}
 
 .section .book .img-box{border-radius: 10px}
 .section .book .img-inner{background:#ffffff;}
@@ -133,8 +145,8 @@
 .book.popular .slide-list{height: calc(100% - 60px); }
 .book.popular .slide-link{
     position: relative; height:153px;padding:30px 130px 30px 30px;margin-bottom: 30px;}
-.book.popular .slide-link:nth-child(2n){ background:#FFEAEC;}
-.book.popular .slide-link:nth-child(2n-1){background: #FFECA4;}
+.book.popular .swiper-slide:nth-child(2n) .slide-link{ background:#FFEAEC;}
+.book.popular .swiper-slide:nth-child(2n-1) .slide-link{background: #FFECA4;}
 .book.popular .tit{}
 .book.popular .slide-link .author{}
 .book.popular .img-box{ width: 75px; height: 100px; position: absolute; right: 30px; top:30px; }
@@ -163,7 +175,7 @@
     /*section skipBtn*/
 
 .section.skipbtns{}
-.section.skipbtns .sc-inner{padding: 10rem 4rem 0rem;text-align:center}
+.section.skipbtns .sc-inner{padding: 10rem 6rem 0rem;text-align:center}
 .skip-btn-list{width: 100%;}
 .skip-btn .skip-btn-con{display:inline-block}
 .skip-btn p{font-weight: bold;font-size: 3rem;
@@ -188,3 +200,7 @@
     background-image: url("assets/images/main/join01.png");}
 
 
+/*공통 여백 */
+.section.main .text-box,.tab-content,
+.section.curation .sc-content,
+.section.skipbtns .sc-inner{padding-left:6rem;padding-right: 6rem;}

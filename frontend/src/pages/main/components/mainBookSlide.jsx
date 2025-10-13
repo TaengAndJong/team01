@@ -71,13 +71,15 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                 onSwiper={(swiper) => {
                     swiperRef.current = swiper; // Swiper 인스턴스를 저장
                 }}
-                modules={[Pagination, Navigation, Autoplay]}
+                modules={[//Pagination,
+                    Navigation, Autoplay]}
                 pagination={activeTab === naviId ? customPagination : false}
                 loop={slideData?.length >1}//
                 autoplay={{ delay: 2000, disableOnInteraction: false }}
                 slidesPerView={Math.min(4, slideData?.length || 1)}
                 // 총 보여지는 슬라이드 개수
                 slidesPerGroup={1}//넘어가는 슬라이드 개수
+                spaceBetween={20}
                 speed={700}// 슬라이드 속도
                 navigation={{ // 각 탭의 슬라이드의 컨트롤을 각각 적용해줘야 기능이 적용됨
                     nextEl: `.custom-next-${naviId}`,
@@ -89,7 +91,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
             >
                 {slideData?.map((item) => (
                     <SwiperSlide key={`slide-${item.bookId}`}>
-                        <Link to={item.detailUrl} title={`${item.bookName}도서 상세페이지 바로가기`}>
+                        <Link to={item.detailUrl} className={"book-link"} title={`${item.bookName}도서 상세페이지 바로가기`}>
                             <div className="img-box">
                                 <div className="img-inner">
                                     <img className="img" src={item.bookImgList?.[0]} alt={item.bookName} />

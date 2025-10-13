@@ -97,42 +97,7 @@ body{overflow-x: hidden;height:100%;position: relative;}
   height: 223px;
 }
 
-.title-border,.title-dotted{ position: relative;
-  @include sub-title(25px,theJamsil,#56453E);
-  font-weight: bold;
-  }
 
-.title-border{
-  padding-bottom: 26px;
-  margin-bottom: 26px;
-  &::before,&::after{ @extend %pseudoEL;width:100%;height:1px;position:absolute;left:0}
-  &::before{background-color: #89C53B; bottom:4px}
-  &::after{background-color: #A37865; bottom:0}
-}
-
-.title-dotted{
-  padding-bottom: 13px;
-  margin-bottom: 13px;
-  border-bottom:dotted 2px #8B655A;
-}
-
-
-.bullet{
-  >li{
-    margin-bottom: 5px;
-    .tit{
-      min-width:80px;
-      position: relative;
-      padding: 0 10px 0 10px;
-      &::before{ @extend %pseudoEL; position:absolute;
-        top:7px;
-        left:0;
-        width: 5px;
-        height: 5px; background-color:#89C53B; border-radius: 50% }
-    }
-  }
-}
-.circleBullets{}
 
 
 
@@ -141,7 +106,7 @@ body{overflow-x: hidden;height:100%;position: relative;}
 //quickBtn
 .quick{position: absolute;width:50px;height:50px;
   bottom:130px;
-  right:40px;
+  right:6rem;
   z-index: 999;
   *{display: inline-block;
     width: 100%;
@@ -160,7 +125,7 @@ body{overflow-x: hidden;height:100%;position: relative;}
       background-position: center center;
       background-image: url("data:image/svg+xml,%3Csvg width='38' height='48' viewBox='0 0 38 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18.8259 45.8571L18.8574 2.65525M1.85742 19.1137L18.8574 2.14282L35.8574 19.1137' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
       position: absolute;
-      left:calc(50% - 12px);
+      left:calc(50% - 12.5px);
       top:calc(50% - 11px);
     }
   }

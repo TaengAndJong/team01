@@ -4,4 +4,16 @@
   .right{
     width: 100%;}
   .left,.menu-navi{display: none !important;}
+  [class*="-title"]{
+    padding-left: 30px;
+    .icon{position: absolute;
+      left: 0; top:0.6rem}
+  }
+  .swiper .img-box {background: #F2F2F2;}
+
 }
+
+
+
+
+

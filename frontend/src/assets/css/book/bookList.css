@@ -3,11 +3,13 @@
 .book-list{}
 
 .book-list-inner{
+    margin-top: 40px;
     width: 100%;
 }
 
 .book-item-list{
-    margin-top: 6rem;
+    /*margin-top: 6rem;*/
+    margin: 0 auto;
     width:calc(100% + 1.6rem);
 }
 
@@ -15,7 +17,12 @@
     background: #E8F1FF;
     width:calc((100%/2) - 1.6rem);
     margin: 0 2px;
+    padding: 40px 50px 30px 50px;
 }
+.book-item .card-header{
+    margin-right:40px;
+}
+
 .book-item .card-header,.book-item.book-img{
     min-width: 200px;
     width: 200px;

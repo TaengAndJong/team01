@@ -58,9 +58,9 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
     return (
         <div className="book-list-inner overflow-hidden">
             {bookList && (
-                <ul className="book-item-list clearfix">
+                <ul className="book-item-list clearfix d-flex flex-wrap">
                     {bookList?.map((book, index) => (
-                        <li key={index} className="book-item mb-3 mx-2 \overflow-hidden p-4 float-start">
+                        <li key={index} className="book-item mb-3 mx-2 overflow-hidden justify-content-between">
                             <Link to={`/book/bookDetail/${book.bookId}`} className="book-link d-block" id={book.bookId} onClick={(e)=>viewBookFetch(e,book.bookId)}>
                                 <div className="item-inner d-flex card flex-row  position-relative">
                                     <div className="card-header border-end rounded-4 overflow-hidden">
@@ -72,8 +72,9 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
                                         </div>
                                     </div>
                                     <div className="bookInfo card-body">
-                                       <h3> {bookCount[book.bookId]}</h3>
-                                        <strong className="book-title title-dotted d-block">{book.bookName}</strong>
+                                        <strong className="book-title title-dotted d-block">
+                                            <span>{book.bookName}</span>
+                                        </strong>
                                         <ul className="ul bullet">
                                             <li className="li"><span className="tit">저자</span>{book.author}</li>
                                             <li className="li"><span className="tit">발행일</span>{book.publishDate}</li>

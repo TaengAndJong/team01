@@ -191,7 +191,7 @@
 }
 
 //상세페이지 브래드크러브 삭제 및 여백 조절
-[class*="Detail"]{
+[class*="detail"]{
   .menu-navi{display: none;}
   .content-inner{padding-top: 50px;}
   .box{margin-bottom:30px;padding-bottom: 30px}
