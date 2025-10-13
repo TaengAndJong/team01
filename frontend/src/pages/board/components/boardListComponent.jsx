@@ -13,10 +13,21 @@ const BoardListComponent = ({
   console.log("게시물 데이터", categoryListData);
   console.log("카테고리", category);
 
+  const qnStatus = (qnaStatus) => {
+    switch (qnaStatus) {
+      case "답변대기":
+        return "uncomplete";
+      case "답변완료":
+        return "complete";
+      default:
+        return "";
+    }
+  };
+
   return (
     <>
       <tr className="table-light border-bottom">
-        <td className="text-center">
+        {/* <td className="text-center">
           <input
             type="checkbox"
             id={`item${number}`}
@@ -29,9 +40,9 @@ const BoardListComponent = ({
           <label htmlFor={`item${number}`} className="sr-only">
             {categoryListData.qnaTitle}
           </label>
-        </td>
-        <td className="text-center">{number}</td>
-        <td className="text-left">
+        </td> */}
+        <td className="text-center">{number}.</td>
+        <td className="text-left fw-bold">
           <Link
             to={`/board/detailBoard/${category}/${getBoardId(
               categoryListData
@@ -43,7 +54,17 @@ const BoardListComponent = ({
         <td className="text-center">
           {categoryListData.qnaWriter}({categoryListData.clientId})
         </td>
-        <td className="text-center">{categoryListData.qnaStatus}</td>
+        <td className="text-center">
+          {
+            <span
+              className={`tultip ${qnStatus(
+                categoryListData.qnaStatus.replace(/\s/g, "")
+              )}`}
+            >
+              {categoryListData.qnaStatus.replace(/\s/g, "")}
+            </span>
+          }
+        </td>
         <td className="text-center">
           {formatToDate(new Date(categoryListData.qnaDate))}
         </td>

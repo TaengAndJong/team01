@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@pages/common/AuthContext.jsx";
 import { useModal } from "@pages/common/modal/ModalContext.jsx";
+import { formatToDate } from "@util/dateUtils.jsx";
 
 const AdminDetailBoard = ({ userType }) => {
   const { userData } = useAuth(); // 로그인 상태와 사용자 데이터 가져오는
@@ -116,7 +117,7 @@ const AdminDetailBoard = ({ userType }) => {
       </div>
       <div className=" mb-4 detail-date ">
         <span className="p-2">작성일 :</span>
-        <span>{board?.qnaDate}</span>
+        <span>{formatToDate(new Date(board?.qnaDate))}</span>
       </div>
       <div className="m-4 content-box">
         <div>{board?.qnaContent}</div>

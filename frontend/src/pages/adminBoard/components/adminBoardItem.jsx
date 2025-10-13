@@ -22,6 +22,17 @@ const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
   //   return "미삭제";
   // };
 
+  const qnStatus = (qnaStatus) => {
+    switch (qnaStatus) {
+      case "답변대기":
+        return "uncomplete";
+      case "답변완료":
+        return "complete";
+      default:
+        return "";
+    }
+  };
+
   return (
     <>
       <tr key={getBoardId(data)} className="table-light border-bottom">
@@ -52,7 +63,17 @@ const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
           {data.qnaWriter}({data.clientId})
         </td>
 
-        <td className="text-center ">{data.qnaStatus}</td>
+        <td className="text-center ">
+          {
+            <span
+              className={`tultip ${qnStatus(
+                data.qnaStatus.replace(/\s/g, "")
+              )}`}
+            >
+              {data.qnaStatus.replace(/\s/g, "")}
+            </span>
+          }
+        </td>
         <td className="text-center ">{formatToDate(new Date(data.qnaDate))}</td>
       </tr>
     </>

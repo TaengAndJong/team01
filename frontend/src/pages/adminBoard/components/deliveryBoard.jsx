@@ -2,29 +2,65 @@ import "@assets/css/board/adminBoard.css";
 import React, { useContext, useEffect, useState } from "react";
 import AdminBoardItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
-import {
-  BookBoardStateContext,
-  BookBoardDispatchContext,
-} from "@pages/adminBoard/adminBoardComponent.jsx";
-import { PaginationContext } from "@pages/adminBoard/adminBoardComponent.jsx";
+import { BookBoardStateContext } from "@pages/adminBoard/adminBoardComponent.jsx";
 import Pagination from "@util/pagination.jsx";
 import Btn from "@util/reuseBtn.jsx";
 import { useModal } from "@pages/common/modal/ModalContext.jsx";
 
 const DeliveryBoard = () => {
   const { delivery } = useContext(BookBoardStateContext);
-  const { onInitDelivery, onDeleteDelivery, initFetch } = useContext(
-    BookBoardDispatchContext
-  );
-  const {
-    deliveryPagination,
-    setDeliveryPagination,
-    onChangeDelivPageHandler,
-  } = useContext(PaginationContext);
-  const [boardList, setBoardList] = useState([]);
+
+  const [boardList, setBoardList] = useState(null); // 확인 하는 방법
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 0,
+    totalRecord: 0,
+    pageSize: 5,
+  });
+
+  const [search, setSearch] = useState({});
+  console.log("search 상태관리 :", search);
+
+  //전체선택
+  const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
+  //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
+  const [checkedInput, setCheckedInput] = useState([]);
+  const [isSearchRequest, setIsSearchRequest] = useState(false);
+  const [lastSearchKeyword, setLastSearchKeyword] = useState(""); // 마지막 검색어 저장
+
+  const getDeliveryBoard = async (page = 1, pageSize = 5) => {
+    setIsLoading(true);
+    setIsError(false);
+
+    const response = await fetch(
+      `/api/admin/board/qnaDeliveryList?currentPage=${page}&pageSize=${pageSize}`
+    );
+
+    if (response.ok) {
+      setIsSearchRequest(false);
+      console.log("성공");
+      const data = await response.json();
+      setBoardList(data.items);
+      setPagination({
+        currentPage: data.currentPage,
+        totalPages: data.totalPages,
+        totalRecord: data.totalRecord,
+        pageSize: data.pageSize,
+      });
+    } else {
+      console.log("실패");
+      setIsError(true);
+    }
+
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    console.log("콘텍스트에서 가져온 delivery", delivery);
+    getDeliveryBoard();
+
     if (!delivery || !Array.isArray(delivery) || delivery.length === 0) {
       setBoardList([]);
       return;
@@ -35,16 +71,19 @@ const DeliveryBoard = () => {
     );
 
     setBoardList(allItems);
-  }, [delivery]); // delivery 바뀔 때마다 실행
+  }, []);
 
-  // SearchBar
-  const [search, setSearch] = useState([]);
-  console.log("search 상태관리 :", search);
-
-  //전체선택
-  const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
-  //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
-  const [checkedInput, setCheckedInput] = useState([]);
+  //페이지버튼 클릭시 실행되는 핸들러
+  const onChangeDelivPageHandler = async (page) => {
+    console.log("changePage----", page);
+    if (isSearchRequest) {
+      // 이전 검색 상태가 유지되어 있을 때 → 마지막 검색어 기준으로 요청
+      await handleSearch(page, pagination.pageSize, lastSearchKeyword);
+    } else {
+      // 검색 상태가 아니면 전체 데이터 요청
+      await getDeliveryBoard(page, pagination.pageSize);
+    }
+  };
 
   const handleSelectAll = (isChecked) => {
     setSelectAll(isChecked);
@@ -72,36 +111,47 @@ const DeliveryBoard = () => {
     }
   };
 
-  const handleSearch = async () => {
-    //search 초기 데이터 URLsearchParam으로 가공
-    console.log("search--fetch", search);
-    const param = new URLSearchParams(search);
-    console.log("search--param", param);
-    const paramString = param.toString();
-    console.log("search--paramString", paramString);
-
-    //검색버튼 누르면 서버로 검색 필터 전송
-    try {
-      const response = await fetch(
-        `/api/admin/board/qnaDeliveryList?${paramString}`,
-        {
-          method: "POST",
-        }
-      );
-
-      const data = await response.json();
-      console.log("응답 데이터:", data);
-      console.log("데이터 타입:", typeof data);
-      console.log(
-        "데이터 길이:",
-        Array.isArray(data) ? data.length : "배열이 아님"
-      );
-
-      onInitDelivery(data);
-    } catch (e) {
-      console.log("에러 발생:", e);
-      console.log("에러 메시지:", e.message);
+  const handleSearch = async (
+    page = 1,
+    pageSize = 5,
+    keywordParam = search.keyword
+  ) => {
+    if (
+      search.keyword === undefined ||
+      (search.keyword.length === 0 && lastSearchKeyword === "")
+    ) {
+      await getDeliveryBoard();
+      return;
     }
+
+    setIsLoading(true);
+    setIsError(false);
+    // 2. 요청 URL 확인
+    const requestUrl = `/api/admin/board/qnaDeliveryList?keyword=${keywordParam}&currentPage=${page}&pageSize=${pageSize}`;
+    console.log("요청 URL:", requestUrl);
+
+    const response = await fetch(requestUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      setIsSearchRequest(true);
+      const data = await response.json();
+      setBoardList(data.items);
+      setPagination({
+        currentPage: data.currentPage,
+        totalPages: data.totalPages,
+        totalRecord: data.totalRecord,
+        pageSize: data.pageSize,
+      });
+      setLastSearchKeyword(keywordParam); // 마지막 검색어 저장
+    } else {
+      setIsError(true);
+    }
+    setIsLoading(false);
   };
 
   const onDeleteHandler = async (deleteItems) => {
@@ -120,12 +170,31 @@ const DeliveryBoard = () => {
         body: JSON.stringify(deleteItems),
       });
       if (response.ok) {
-        onDeleteDelivery(deleteItems);
+        // totalRecord - 삭제된 게시물 수로 남은 게시물 계산
+        const remainingRecords = pagination.totalRecord - deleteItems.length;
+
+        // 총 페이지 다시 계산
+        const totalPagesAfterDelete = Math.ceil(
+          remainingRecords / pagination.pageSize
+        );
+
+        const targetPage =
+          pagination.currentPage > totalPagesAfterDelete
+            ? pagination.currentPage - 1
+            : pagination.currentPage;
+        if (isSearchRequest) {
+          // 검색어 존재 유무에 따라 동작
+          await handleSearch(
+            targetPage,
+            pagination.pageSize,
+            lastSearchKeyword
+          );
+        } else {
+          await getDeliveryBoard(targetPage, pagination.pageSize);
+        }
 
         setCheckedInput([]);
         setSelectAll(false);
-
-        initFetch();
       }
     } catch (e) {
       console.log("에러 발생:", e);
@@ -138,101 +207,108 @@ const DeliveryBoard = () => {
 
   return (
     <>
-      <SearchBar
-        search={search}
-        setSearch={setSearch}
-        handleSearch={handleSearch}
-      />
-      {/* 테이블 */}
-
-      <table className="table table-custom mt-4">
-        <caption className="sr-only">등록된 도서상품 테이블</caption>
-        <thead>
-          <tr>
-            <th scope="col" className="text-center">
-              <input
-                type="checkbox"
-                id="selectAll"
-                checked={
-                  checkedInput.length === boardList.length &&
-                  boardList.length > 0
-                }
-                onChange={(e) => handleSelectAll(e.target.checked)}
-              />
-              <label htmlFor="selectAll" className="sr-only">
-                전체 선택
-              </label>
-            </th>
-            <th scope="col" className="text-center">
-              No.
-            </th>
-            <th scope="col" className="text-center">
-              제목
-            </th>
-            <th scope="col" className="text-center">
-              작성자
-            </th>
-            <th scope="col" className="text-center">
-              답변여부
-            </th>
-            <th scope="col" className="text-center">
-              등록일
-            </th>
-          </tr>
-        </thead>
-        <tbody className="">
-          {/* undefined 와 데이터의 개수 검증*/}
-          {boardList && boardList?.length === 0 ? (
-            <tr className="">
-              <td colSpan="12" className="text-center">
-                데이터가 없습니다.
-              </td>
-            </tr>
-          ) : (
-            boardList.map((item, index) => (
-              <AdminBoardItem
-                key={item.productId || index}
-                data={item}
-                number={
-                  (deliveryPagination.currentPage - 1) *
-                    deliveryPagination.pageSize +
-                  index +
-                  1
-                }
-                onChangeCheck={onChangeCheck}
-                checkedInput={checkedInput}
-              />
-            ))
-          )}
-        </tbody>
-      </table>
-      {/*pagination*/}
-      <Pagination
-        paginationInfo={deliveryPagination}
-        onChangePageHandler={onChangeDelivPageHandler}
-      />
-      {boardList && boardList?.length === 0 ? (
-        []
+      {isLoading ? (
+        <div>로딩 중...</div>
+      ) : isError ? (
+        <div>에러</div>
       ) : (
-        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-          <Btn
-            className={"delete btn btn-danger"}
-            id={"deleteBtn"}
-            type={"button"}
-            onClick={() =>
-              openModal({
-                modalType: "confirm",
-                data: {
-                  message: "선택된 게시물을 삭제하시겠습니까?",
-                },
-                onConfirm: () => {
-                  onDeleteHandler(checkedInput), closeModal();
-                },
-                onClose: closeModal,
-              })
-            }
-            text="삭제"
+        <div>
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+            handleSearch={handleSearch}
           />
+          {/* 테이블 */}
+
+          <table className="table table-custom mt-4">
+            <caption className="sr-only">등록된 도서상품 테이블</caption>
+            <thead>
+              <tr>
+                <th scope="col" className="text-center">
+                  <input
+                    type="checkbox"
+                    id="selectAll"
+                    checked={
+                      checkedInput.length === boardList.length &&
+                      boardList.length > 0
+                    }
+                    onChange={(e) => handleSelectAll(e.target.checked)}
+                  />
+                  <label htmlFor="selectAll" className="sr-only">
+                    전체 선택
+                  </label>
+                </th>
+                <th scope="col" className="text-center">
+                  No.
+                </th>
+                <th scope="col" className="text-center">
+                  제목
+                </th>
+                <th scope="col" className="text-center">
+                  작성자
+                </th>
+                <th scope="col" className="text-center">
+                  답변여부
+                </th>
+                <th scope="col" className="text-center">
+                  등록일
+                </th>
+              </tr>
+            </thead>
+            <tbody className="">
+              {/* undefined 와 데이터의 개수 검증*/}
+              {boardList && boardList?.length === 0 ? (
+                <tr className="">
+                  <td colSpan="12" className="text-center">
+                    데이터가 없습니다.
+                  </td>
+                </tr>
+              ) : (
+                boardList.map((item, index) => (
+                  <AdminBoardItem
+                    key={item.productId || index}
+                    data={item}
+                    number={
+                      (pagination.currentPage - 1) * pagination.pageSize +
+                      index +
+                      1
+                    }
+                    onChangeCheck={onChangeCheck}
+                    checkedInput={checkedInput}
+                  />
+                ))
+              )}
+            </tbody>
+          </table>
+          {/*pagination*/}
+          <Pagination
+            paginationInfo={pagination}
+            onChangePageHandler={onChangeDelivPageHandler}
+          />
+          {boardList && boardList?.length === 0 ? (
+            []
+          ) : (
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+              <Btn
+                className={"delete btn btn-danger"}
+                id={"deleteBtn"}
+                type={"button"}
+                onClick={() =>
+                  openModal({
+                    modalType: "confirm",
+                    data: {
+                      message: "선택된 게시물을 삭제하시겠습니까?",
+                    },
+                    onConfirm: () => {
+                      onDeleteHandler(checkedInput), closeModal();
+                    },
+                    onClose: closeModal,
+                  })
+                }
+                text="삭제"
+              />
+            </div>
+          )}
         </div>
       )}
     </>

@@ -23,24 +23,17 @@ const detectFileType = (base64String) => {
 
 // 파일 다운로드 함수
 export const handleFileDownload = (fileName, fileData) => {
-  console.log("파일 다운로드 시작");
-  console.log("fileName", fileName);
-  console.log("fileData", fileData);
-
   try {
     const fileType = detectFileType(fileData);
-    console.log("fileType", fileType);
 
     // base64 디코딩
     const binaryString = atob(fileData);
-    console.log("binaryString", binaryString);
 
     // 바이트 배열로 변환
     const bytes = new Uint8Array(binaryString.length);
     for (let i = 0; i < binaryString.length; i++) {
       bytes[i] = binaryString.charCodeAt(i); // 각 문자를 바이트로
     }
-    console.log("bytes", bytes);
 
     const blob = new Blob([bytes], { type: `application/${fileType}` });
     const url = URL.createObjectURL(blob);
@@ -50,8 +43,6 @@ export const handleFileDownload = (fileName, fileData) => {
     a.click();
 
     URL.revokeObjectURL(url);
-
-    alert("파일 다운로드 를 완료했습니다");
   } catch (error) {
     console.error("파일 다운로드 오류:", error);
   }
