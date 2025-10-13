@@ -414,7 +414,7 @@ const AdminBoard = () => {
 
   return (
     <>
-      <div className="page admin board-detail d-flex">
+      <div className="page admin d-flex">
         <div className="left">
           <LeftMenu menu={menu} />
         </div>
