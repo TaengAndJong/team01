@@ -63,7 +63,9 @@ const BookDetail = () => {
                             <BookSlide slideData={bookDetail}/>
                         </div>
                         <div className="bookInfo card-body">
-                            <h3 className="book-title title-dotted">{bookDetail.bookName}</h3>
+                            <h3 className="book-title title-dotted">
+                                <i className="icon book me-3"></i><span>{bookDetail.bookName}</span>
+                            </h3>
                             <ul className="ul bullet">
                                 <li className="li"><span className="tit">저자</span>{bookDetail.author}</li>
                                 <li className="li"><span className="tit">발행일</span>{bookDetail.publishDate}</li>
@@ -96,8 +98,8 @@ const BookDetail = () => {
                 </div>
                 {/*bookDetail end */}
 
-                <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
-                    <Btn className={"modify btn btn-secondary"} type={"button"} path={pathsData.page.book}
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <Btn className={"modify btn btn-secondary "} type={"button"} path={pathsData.page.book}
                          text="목록"/>
 
                     {location.pathname.startsWith("/admin/book") && (

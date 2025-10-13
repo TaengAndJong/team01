@@ -112,7 +112,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
 
     return (
         <>
-            <div className="count w-25">
+            <div className="count">
                 <div className="count-inner d-inline-flex mx-2">
                     <button className="btn btn-light minus" name="minus" type="button"
                             onClick={(e) => bookCountChangHandler(bookId, e)}>

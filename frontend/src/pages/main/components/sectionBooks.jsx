@@ -26,7 +26,7 @@ const SectionBooks= ({slideData})=>{
         <>
             <section className="section books">
                 <div className="sc-inner">
-                    <h2 className="sc-tit">
+                    <h2 className="sc-title m-tit d-flex justify-content-center">
                         <span className="text-dot">오</span>
                         <span className="text-dot">늘</span>
                         <span className="text-dot">의</span>

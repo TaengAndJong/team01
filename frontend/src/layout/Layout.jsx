@@ -32,7 +32,7 @@ const Layout = () => {
     //         break;
     // }
     if (currentPath === "/admin" || currentPath === "/") {
-      return "main";
+      return "index";
     } else {
       return "sub";
     }
