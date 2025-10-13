@@ -12,7 +12,6 @@ const ProductBoard = () => {
   // const { onDeleteProduct, initFetch } = useContext(BookBoardDispatchContext);
 
   const [boardList, setBoardList] = useState(null); // 확인 하는 방법
-
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -71,14 +70,27 @@ const ProductBoard = () => {
   //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
   const [checkedInput, setCheckedInput] = useState([]);
   const [isSearchRequest, setIsSearchRequest] = useState(false);
-
+  const [lastSearchKeyword, setLastSearchKeyword] = useState(""); // 마지막 검색어 저장
   //페이지버튼 클릭시 실행되는 핸들러
   const onChangeProPageHandler = async (page) => {
     console.log("changePage----", page);
     //pagination의 currentPage 값 갱신
-    if (isSearchRequest) await handleSearch(page);
-    else {
-      await getProductBoard(page);
+
+    // if (isSearchRequest) await handleSearch(page);
+    // else {
+    //   await getProductBoard(page);
+    // }
+
+    // > 검색어 입력 요청 O
+    // > 검색된 데이터가 페이지네이션과 함께 출력
+    // > 검색어 삭제 요청 X > 페이지 버튼 클릭 시
+    // > 기존에 했던 검색어로 요청 O
+    if (isSearchRequest) {
+      // 이전 검색 상태가 유지되어 있을 때 → 마지막 검색어 기준으로 요청
+      await handleSearch(page, pagination.pageSize, lastSearchKeyword);
+    } else {
+      // 검색 상태가 아니면 전체 데이터 요청
+      await getProductBoard(page, pagination.pageSize);
     }
   };
 
@@ -111,14 +123,21 @@ const ProductBoard = () => {
   const [search, setSearch] = useState({});
   console.log("search 상태관리 :", search);
 
-  const handleSearch = async (page = 1, pageSize = 5) => {
-    if (search.keyword === undefined || search.keyword.length === 0)
+  const handleSearch = async (
+    page = 1,
+    pageSize = 5,
+    keywordParam = search.keyword
+  ) => {
+    if (
+      search.keyword === undefined ||
+      (search.keyword.length === 0 && lastSearchKeyword === "")
+    )
       await getProductBoard();
 
     setIsLoading(true);
     setIsError(false);
     // 2. 요청 URL 확인
-    const requestUrl = `/api/admin/board/qnaProductList?keyword=${search.keyword}&currentPage=${page}&pageSize=${pageSize}`;
+    const requestUrl = `/api/admin/board/qnaProductList?keyword=${keywordParam}&currentPage=${page}&pageSize=${pageSize}`;
     console.log("요청 URL:", requestUrl);
 
     const response = await fetch(requestUrl, {
@@ -138,6 +157,7 @@ const ProductBoard = () => {
         totalRecord: data.totalRecord,
         pageSize: data.pageSize,
       });
+      setLastSearchKeyword(keywordParam); // 마지막 검색어 저장
     } else {
       setIsError(true);
     }
@@ -167,14 +187,14 @@ const ProductBoard = () => {
             pagination.totalRecord % pagination.pageSize === 1
               ? pagination.currentPage - 1
               : pagination.currentPage;
-          handleSearch(targetPage);
+          handleSearch(targetPage, pagination.pageSize, lastSearchKeyword);
         } else {
           const targetPage = // 페이지 안에서 게시물이 하나 남은 페이지에서 삭제를 할 때 이전 페이지를 보여준다.
             pagination.totalPages > 1 &&
             pagination.totalRecord % pagination.pageSize === 1
               ? pagination.currentPage - 1
               : pagination.currentPage;
-          getProductBoard(targetPage);
+          getProductBoard(targetPage, pagination.pageSize);
         }
 
         // 선택 상태 초기화
