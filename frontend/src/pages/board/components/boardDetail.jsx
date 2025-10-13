@@ -63,11 +63,15 @@ const BoardDetail = ({ userType }) => {
                 <li
                   key={idx}
                   className="d-flex align-items-center mb-2 bullet-li"
-                  onClick={() => {
-                    handleFileDownload(file?.fileName, file?.fileData);
-                  }}
                 >
-                  <strong className="fw-bold me-2">{file.fileName}</strong>
+                  <strong
+                    className="fw-bold me-2"
+                    onClick={() => {
+                      handleFileDownload(file?.fileName, file?.fileData);
+                    }}
+                  >
+                    {file.fileName}
+                  </strong>
                   <span
                     className="icon down"
                     onClick={() => {
