@@ -48,9 +48,8 @@ function Admin() {
           <p>데이터를 불러오는 중...</p>
         )}
       </div>
-      <div className="bottom">
-        <AdminDashboard />
-      </div>
+      <div className="content"></div>
+      <div className="bottom">{/* <AdminDashboard /> */}</div>
     </>
   );
 }

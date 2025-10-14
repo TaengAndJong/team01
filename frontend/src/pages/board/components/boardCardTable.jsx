@@ -1,12 +1,12 @@
 import "@assets/css/board/userDashBoard.css";
 import Btn from "@util/reuseBtn.jsx";
 import { formatToDate } from "@util/dateUtils.jsx";
-
+import NoDataTable from "./noDataTable";
 const BoardCardTable = ({ items, category }) => {
   console.log("items:", items);
   console.log("category", category);
   if (!items || items.length === 0) {
-    return <p>등록된 게시물이 없습니다.</p>;
+    return <NoDataTable />;
   }
 
   // 카테고리별 ID 선택 함수
