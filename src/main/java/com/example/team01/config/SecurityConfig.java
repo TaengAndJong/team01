@@ -42,16 +42,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, AddLogoutHandler addLogoutHandler) throws Exception {
-        String[] allowedPaths = {"/", "/login","auth/**","/signUp/**", "/page", "/test/**","/book/**", "/menu","/uploads/**","/images/**"};
+        String[] allowedPaths = {"/", "/login","/auth/**","/signUp/**", "/page", "/test/**","/book/**", "/menu","/uploads/**","/images/**","/check/**"};
 
-        http.cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
+        http
+                .cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(authorizeReq ->
-                        authorizeReq.requestMatchers(allowedPaths).permitAll() // 로그인 없이 접근 가능
-                                .requestMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getKey(), Role.MEMBER.getKey())
-                                .requestMatchers("/login/**", "/mypage/**","/cart/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
-                                .requestMatchers("/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
-                                .anyRequest().authenticated()) // 나머지 요청 인증 필요)
+
                 .formLogin(form ->
                         form.loginPage("/login")// 프론트에서 접근하는 페이지(로그인 UI페이지)
                                 .usernameParameter("clientId")//프론트에서 넘어오는 ID(보낸 파라미터 이름에 맞춤)
@@ -61,29 +57,44 @@ public class SecurityConfig {
                                 .failureHandler(customAuthenticationFailureHandler) // 로그인 실패 핸들러
                                 .permitAll()
                 )
+
                 .logout(logout -> logout
                         .logoutUrl("/logout") // 백엔드 주소 (로그아웃 요청을 실행할 백엔드 주소?)
                         .logoutSuccessUrl("/")
                         .addLogoutHandler(addLogoutHandler)//로그아웃 시 기타 처리 핸들러
                         .permitAll()
-                ).sessionManagement(session ->
+                )
+
+                .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                                .invalidSessionUrl("/login")
-                ).exceptionHandling(exception
+                                .invalidSessionUrl("/login") // 세션 만료시 이동
+                                .maximumSessions(1)//최대 세션수(중복로그인 방지)
+                                .expiredUrl("/login") // 중복로그인시 이동
+                )
+
+                .exceptionHandling(exception
                         -> exception.authenticationEntryPoint((request,response,authException) -> {
                         log.info("401 미로그인 예외");
                         //인증실패(미로그인 시)
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
                         response.setContentType("application/json;charset=UTF-8");//json으로 응답
-                        response.getWriter().write("{\"message\":\"로그인이 필요합니다. 로그인페이지로 이동하시겠습니까?\"}");
-                }).accessDeniedHandler((request, response, accessDeniedException) -> {
+                        response.getWriter().write("{\"message\":\"세션 만료. 로그인페이지로 이동하시겠습니까?\"}");
+                })
+                                .accessDeniedHandler((request, response, accessDeniedException) -> {
                             log.info("403 권한부족 예외");
                             // 권한 부족 (403 JSON)
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
                             response.setContentType("application/json;charset=UTF-8");//json으로 응답
                             response.getWriter().write("{\"message\":\"접근 권한이 없습니다.\"}");
                         })
-                );
+                )
+
+                .authorizeHttpRequests(authorizeReq ->
+                        authorizeReq.requestMatchers(allowedPaths).permitAll() // 로그인 없이 접근 가능
+                                .requestMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getKey(), Role.MEMBER.getKey())
+                                .requestMatchers("/login/**", "/mypage/**","/cart/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
+                                .requestMatchers("/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
+                                .anyRequest().authenticated());// 나머지 요청 인증 필요);
 
         return http.build();
     }

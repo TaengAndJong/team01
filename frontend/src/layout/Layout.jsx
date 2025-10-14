@@ -6,17 +6,17 @@ import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import { Outlet, useLocation } from "react-router-dom";
 import { scrollTop } from "@js/common.js";
+
+
+
+
+
 const Layout = () => {
   const [data, setData] = useState("");
   const [url, setUrl] = useState("/api"); // 기본 URL 설정
   const { menu, currentPath, standardPoint } = useMenu();
   let location = useLocation();
 
-  // const menuItem = () => {
-  //     for (let list in menu) {
-  //         console.log("list in menu",list);
-  //     }
-  // }
 
   // body에 /admin 과 /은 main이고 그 외 전부 sub 클래스 출력
   const bodyName = (currentPath) => {
@@ -70,6 +70,7 @@ const Layout = () => {
     return ""; // 매칭되는 메뉴가 없을 경우 빈 문자열 반환
   };
 
+  //메뉴 등 데이터 fetch
   useEffect(() => {
     bodyName(currentPath);
     pageName(standardPoint); // 현재경로에 따른 bodyClass 추가 함수
@@ -97,11 +98,9 @@ const Layout = () => {
       .catch((error) => console.error("Fetch error:", error));
   }, [url, location]);
 
-
   // 위로가기버튼 돔요소 참조
   const topBtnRef = useRef(null);
-
-  //위로가기 버튼 렌더
+  //위로가기 버튼 스크롤 이벤트
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY; // 현재 스크롤 위치
@@ -119,6 +118,7 @@ const Layout = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
   return (
     <>
       {/*정규식으로 sub 구분하기????*/}
@@ -133,8 +133,8 @@ const Layout = () => {
             {/*sub &&' main 구분필요*/}
             <main className={`main ${pageName(standardPoint)}`}>
 
-              {/*sub 일때 배너 */}
-              <div></div>
+              {/*sub 일때 배너 컨텐츠 추가하기 */}
+              {/*<div></div>*/}
 
               <Outlet context={{data, setUrl}}/>
               {currentPath.startsWith("/admin") && (
