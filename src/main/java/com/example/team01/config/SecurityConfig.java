@@ -29,7 +29,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 @Slf4j
-@EnableWebSecurity(debug = false)
+@EnableWebSecurity(debug = true) // Spring Security가 URL 매칭을 로그
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
@@ -42,7 +42,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, AddLogoutHandler addLogoutHandler) throws Exception {
-        String[] allowedPaths = {"/", "/login","/auth/**","/signUp/**", "/page", "/test/**","/book/**", "/menu","/uploads/**","/images/**","/check/**"};
+        String[] allowedPaths = {
+                "/", "/login/**","/auth/**","/signup/**", "/page", "/test/**",
+                "/book/**", "/menu","/uploads/**","/images/**","/check/**"
+        };
 
         http
                 .cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
@@ -78,9 +81,9 @@ public class SecurityConfig {
                         //인증실패(미로그인 시)
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
                         response.setContentType("application/json;charset=UTF-8");//json으로 응답
-                        response.getWriter().write("{\"message\":\"세션 만료. 로그인페이지로 이동하시겠습니까?\"}");
-                })
-                                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                        response.getWriter().write("{\"message\":\"로그인페이지로 이동하시겠습니까?\"}");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
                             log.info("403 권한부족 예외");
                             // 권한 부족 (403 JSON)
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
@@ -90,19 +93,18 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(authorizeReq ->
-                        authorizeReq.requestMatchers(allowedPaths).permitAll() // 로그인 없이 접근 가능
+                        authorizeReq.requestMatchers(allowedPaths).permitAll() // 로그인 없이 접근 가능한 URL
                                 .requestMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getKey(), Role.MEMBER.getKey())
-                                .requestMatchers("/login/**", "/mypage/**","/cart/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
-                                .requestMatchers("/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
+                                .requestMatchers( "/mypage/**","/cart/**","/board/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
                                 .anyRequest().authenticated());// 나머지 요청 인증 필요);
-
+ //.requestMatchers("/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
         return http.build();
     }
 
 
     @Bean
     public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
-        log.info("authenticateManager66666------------:{}");
+        log.info("authenticateManager 인증관리자------------:{}");
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailCustomServiceImple)

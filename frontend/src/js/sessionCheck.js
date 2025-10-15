@@ -3,13 +3,15 @@ import axios from "axios";
 import {catchError} from "../util/error.jsx";
 import {useModal} from "../pages/common/modal/ModalContext.jsx";
 import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 
 //커스텀 훅 사용법
 export const useSessionCheck = () =>{
 
     const {openModal,closeModal}= useModal();
     const navigate = useNavigate();
+    const isRunning = useRef(false); // 세션확인 중복방지 관리
+
 
 // 개발/배포 환경 구분
     const baseURL = import.meta.env.PROD
@@ -23,12 +25,18 @@ export const useSessionCheck = () =>{
     });
 
    useEffect(() => {
+       //이미 세션체크가 실행중이라면
+       if (isRunning.current) return; // 종료
+       isRunning.current = true; // 값 true로 변경
 
        //interceptor 등록 (모든 응답에서 401 처리)
        const interceptor = sessionCheck.interceptors.response.use(
            response => response,
            error => {
+
+               console.log("error.response interceptor",error.response)
                if (error.response && error.response.status === 401) {
+                   console.log("권한 없음 접근 불가 메뉴 인터셉트 ")
                    catchError(error, { openModal, closeModal, navigate });
                }
                return Promise.reject(error);
@@ -48,10 +56,11 @@ export const useSessionCheck = () =>{
 
 
        
-       // 컴포넌트 언마운트 시 interceptor ,interval 제거
+       // 컴포넌트 언마운트 시 interceptor ,interval 제거하여 메모리 누수방지
        return () => {
            clearInterval(intervalSessionCheck);
            sessionCheck.interceptors.request.eject(interceptor);
+           isRunning.current = false;
        }
 
    },[openModal, closeModal, navigate]);

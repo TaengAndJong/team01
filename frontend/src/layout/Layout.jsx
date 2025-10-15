@@ -6,12 +6,15 @@ import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import { Outlet, useLocation } from "react-router-dom";
 import { scrollTop } from "@js/common.js";
+import {useSessionCheck} from "../js/sessionCheck.js";
 
 
 
 
 
 const Layout = () => {
+
+
   const [data, setData] = useState("");
   const [url, setUrl] = useState("/api"); // 기본 URL 설정
   const { menu, currentPath, standardPoint } = useMenu();

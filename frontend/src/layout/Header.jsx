@@ -13,7 +13,7 @@ const Header = () => {
     useSessionCheck();
 
     const { menu } = useMenu(); // 모든 메뉴 가져오는 커스텀훅
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
 
     const commonMenu = menu?.commonList;

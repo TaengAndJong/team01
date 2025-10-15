@@ -68,7 +68,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         //session.setAttribute("loginClientInfo", clientInfo);  // 필요시 저장
         session.setAttribute("loginTime", LocalDateTime.now()); // 커스텀 만료용
         
-        // 2. JSON 응답 생성
+        // 2. 클라이언트로 보내줄 JSON 응답 생성
         Map<String, Object> responseData = new HashMap<>();
         //클라이언트의 로컬스토리지에서 아래 데이터 확인가능
         responseData.put("status","success");
