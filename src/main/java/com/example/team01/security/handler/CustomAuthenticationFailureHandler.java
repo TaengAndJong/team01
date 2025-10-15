@@ -27,7 +27,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     //로그인 실패 시 JSON 응답을 반환하거나 로그를 찍거나 하는 세밀한 처리가 가능
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-        log.info("failureHandler -----------------:{}",request);
+        log.info("failureHandler -----------------로그인 실패 핸들러 :{}",request);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

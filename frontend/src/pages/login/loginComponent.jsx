@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import Btn from "../../util/reuseBtn.jsx";
 import {useAuth} from "../common/AuthContext.jsx";
-import pathsData from "../../assets/pathsData.jsx";
-
 
 
 function Login({data}) {

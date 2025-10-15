@@ -22,6 +22,7 @@
 }
 .book-item .card-header{
     margin-right:40px;
+    padding: 0;
 }
 
 .book-item .card-header,.book-item.book-img{

@@ -76,12 +76,12 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
                                             <span>{book.bookName}</span>
                                         </strong>
                                         <ul className="ul bullet">
-                                            <li className="li"><span className="tit">저자</span>{book.author}</li>
-                                            <li className="li"><span className="tit">발행일</span>{book.publishDate}</li>
+                                            <li className="li"><span className="tit fw-bold">저자</span>{book.author}</li>
+                                            <li className="li"><span className="tit fw-bold">발행일</span>{book.publishDate}</li>
                                             {/*<li className="li"><span className="tit">출판사</span>{book.publishDate}</li>*/}
-                                            <li className="li"><span className="tit">가격</span><em>{book.bookPrice}</em>원
+                                            <li className="li"><span className="tit fw-bold">가격</span><span>{book.bookPrice}</span>원
                                             </li>
-                                            <li className="li"><span className="tit">배송비</span><em>2,000</em>원
+                                            <li className="li"><span className="tit fw-bold">배송비</span><span>2,000</span>원
                                             </li>
                                         </ul>
                                     </div>

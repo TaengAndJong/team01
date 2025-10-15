@@ -5,11 +5,15 @@ import pathsData from "../assets/pathsData.jsx";
 import { useAuth } from "../pages/common/AuthContext.jsx";
 import Gnb from "./Gnb.jsx";
 import { useMenu } from "../pages/common/MenuContext.jsx";
+import {useSessionCheck} from "../js/sessionCheck.js";
 
 const Header = () => {
 
-  const { menu } = useMenu(); // 모든 메뉴 가져오는 커스텀훅
-  const navigate = useNavigate();
+    //세션 체크 추적
+    useSessionCheck();
+
+    const { menu } = useMenu(); // 모든 메뉴 가져오는 커스텀훅
+    const navigate = useNavigate();
 
 
     const commonMenu = menu?.commonList;
