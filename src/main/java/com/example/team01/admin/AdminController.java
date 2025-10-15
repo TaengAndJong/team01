@@ -34,6 +34,9 @@ public class AdminController {
         return response;
     }
 
+    // 문의별 게시물 데이터 길이 반환
 
-
+    // 금일 기준(00시) 신규 가입자 반환
+    
+    // 새로 등록한 도서
 }

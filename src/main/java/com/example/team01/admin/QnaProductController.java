@@ -25,9 +25,9 @@ public class QnaProductController {
 
     @GetMapping("/qnaProductList")
     public ResponseEntity<?> getQnaProductList(
-        @RequestParam(defaultValue = "1")
-        int currentPage, @RequestParam(defaultValue = "5")
-        int pageSize, @RequestParam(required = false) String searchType,
+        @RequestParam(defaultValue = "1") int currentPage,
+        @RequestParam(defaultValue = "5") int pageSize,
+        @RequestParam(required = false) String searchType,
         @RequestParam(required = false) String keyword,
         HttpServletRequest request
     ) {
@@ -50,6 +50,7 @@ public class QnaProductController {
         }else{
 
         qnaProductList = qnaProductService.getAllQnaProductList(pagination); // 전체 데이터
+        
         }
 
         Map<String, Object> result = new HashMap<>();

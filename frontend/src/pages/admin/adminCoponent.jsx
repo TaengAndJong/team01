@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import AdminDashboard from "../adminBoard/components/adminDashboard.jsx";
-
+import "@css/board/adminDashBoard.css";
 function Admin() {
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -35,9 +35,16 @@ function Admin() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const getPostData = async () => {
+      const data = await fetch(`/api/admin/board/qnaProductList`);
+      console.log("상품문의 데이터", data);
+    };
+    getPostData();
+  }, []);
   return (
     <>
-      <div className="top">
+      {/* <div className="top">
         <h1>관리자 페이지</h1>
         {data ? (
           <div>
@@ -47,9 +54,83 @@ function Admin() {
         ) : (
           <p>데이터를 불러오는 중...</p>
         )}
+      </div> */}
+      <div className="dashboard-container">
+        <div className="top-section d-flex">
+          <div className="graph-container"></div>
+          <div className="navCard-container">
+            <div>카드1</div>
+            <div>카드2</div>
+            <div>카드3</div>
+            <div>카드4</div>
+          </div>
+        </div>
+        <div className="bottom-section d-flex">
+          <div className="table-container">
+            <h3>신규 도서 목록</h3>
+            <div className="accordion-container">
+              <button>국내도서</button>
+              <button>국외도서</button>
+              <button>E-book</button>
+              <div className="">
+                <table>
+                  <caption className="sr-only">신규 등록 도서 테이블</caption>
+                  <thead>
+                    <tr>
+                      <th>도서명</th>
+                      <th>작가명</th>
+                      <th>출판사</th>
+                      <th>등록일</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>이쁜 책</td>
+                      <td>김종호</td>
+                      <td>익산출판</td>
+                      <td>2025-10-20</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div className="table-container">
+            <h3>재고 부족 도서</h3>
+            <div className="accordion-container">
+              <button>국내도서</button>
+              <button>국외도서</button>
+              <button>E-book</button>
+              <div className="">
+                <table>
+                  <caption className="sr-only">재고 부족 도서 테이블</caption>
+                  <thead>
+                    <tr>
+                      <th>재고</th>
+                      <th>도서명</th>
+                      <th>작가명</th>
+                      <th>출판사</th>
+                      <th>등록일</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>0</td>
+                      <td>이쁜 책</td>
+                      <td>김종호</td>
+                      <td>익산출판</td>
+                      <td>2025-12-20</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="content"></div>
-      <div className="bottom">{/* <AdminDashboard /> */}</div>
+      {/* <div className="bottom">
+        <AdminDashboard />
+      </div> */}
     </>
   );
 }
