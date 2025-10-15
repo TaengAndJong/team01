@@ -4,10 +4,12 @@ import {catchError} from "../util/error.jsx";
 import {useModal} from "../pages/common/modal/ModalContext.jsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useRef} from "react";
+import {useAuth} from "../pages/common/AuthContext.jsx";
 
 //커스텀 훅 사용법
 export const useSessionCheck = () =>{
 
+    const { isAuthenticated} = useAuth();
     const {openModal,closeModal}= useModal();
     const navigate = useNavigate();
     const isRunning = useRef(false); // 세션확인 중복방지 관리
@@ -44,6 +46,9 @@ export const useSessionCheck = () =>{
        );
        //실제 세션 체크 요청 보내기
        const intervalSessionCheck = setInterval(async () => {
+
+           if (!isAuthenticated) return; // 로그인 안했으면 그냥 종료시키기 위한 코드
+
            try {
                const res = await sessionCheck.get("/check/session"); // 여기가 매핑주소
                console.log("세션 유효:", res.data);

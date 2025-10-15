@@ -13,7 +13,7 @@
 .mypage-dash .inner.right{}
 .mypage-dash .inner.right .box-list{ gap: 10px /*flex 선언한 부모에서 자식의 여백 설정가능*/}
 .mypage-dash .inner.right .box-list li{ flex: 1; min-width: 250px;height:80px;border-radius: 5px; padding: 20px;
-display: inline-flex;align-items: center;}
+display: inline-flex;align-items: center; }
 
 .mypage-dash .count {line-height: 0;}
 .mypage-dash .count em{font-size:150%}
@@ -42,7 +42,9 @@ display: inline-flex;align-items: center;}
     /*min-width:215px;*/
     /*max-width:215px; */
     border-radius: 10px;
-border-radius : 1em; }
+    border-radius : 1em;
+
+}
 .recent-slide .link{}
 .recent-slide .link:before{content:""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;background:rgba(242,242,242,0.6);transition: background 0.3s; }
 
