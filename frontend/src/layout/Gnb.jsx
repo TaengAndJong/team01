@@ -5,13 +5,19 @@ import { menuNavi } from "../util/menuNavi.jsx";
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 import {useAuth} from "../pages/common/AuthContext.jsx";
+import {useModal} from "../pages/common/modal/ModalContext.jsx";
+import {catchError} from "../util/error.jsx";
 
 const Gnb = ({ menu, commonMenuItems }) => {
-  const { isAuthenticated, userData, logout } = useAuth(); // 로그인 상태와 사용자 데이터 가져오는 커스텀훅
 
-  console.log(
-    ` 데이터데이터 ${(userData, menu, commonMenuItems, isAuthenticated)}`
-  );
+  // 로그인상태와 사용자데이터 가져오는 커스텀훅
+  const { isAuthenticated, userData, logout ,loginFailure} = useAuth();
+  console.log(` 사용자데이터 : ${userData} , 세션유효: ${isAuthenticated}`);
+  console.log(` 메뉴 : ${menu}  공통메뉴 : ${commonMenuItems} ` );
+  //모달
+  const {openModal,closeModal} = useModal();
+
+
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
@@ -34,7 +40,8 @@ const Gnb = ({ menu, commonMenuItems }) => {
   // 로그아웃 fetch 요청
   const handleLogout = async () => {
     
-   console.log("logout -------- 왜 안돼"); 
+   console.log("gnb 로그아웃 -------------------------");
+
     try {
       // 서버로 로그아웃 요청 보내기
       const response = await fetch("/api/logout", {
@@ -52,9 +59,11 @@ const Gnb = ({ menu, commonMenuItems }) => {
         // 로그아웃 후 리다이렉트
         navigate("/");
       } else {
+        loginFailure();
         console.error("로그아웃 실패");
       }
     } catch (error) {
+      loginFailure();
       console.error("로그아웃 요청 중 오류 발생", error);
     }
   };
@@ -77,7 +86,8 @@ const Gnb = ({ menu, commonMenuItems }) => {
     //pathname과 role의 변경에 따른 menuNavi변경
   }, [pathname, role, menu]);
 
-  console.log("role---gnb", role);
+  console.log("GNB Role 권한 확인", role);
+
 
   return (
     <>
@@ -91,79 +101,83 @@ const Gnb = ({ menu, commonMenuItems }) => {
           </strong>
         </Link>
       </h1>
-      <nav id="gnb" className="gnb">
-        <ul className="d-flex first-depth">
-          {gnb?.map((item) => (
-            <li key={item.menuId}>
-              <Link to={item.menuPath}>
-                <span>
-                  {item.menuName}
-                  <i className="hoverLeaf"></i>
-                </span>
-              </Link>
-              {item.secondChild && (
-                <ul className="second-depth">
-                  {item.secondChild
-                    ?.filter((item) => !item.menuPath.includes("bookDetail"))
-                    .map((item) => (
-                      <li key={item.menuId}>
+      {gnb?.length > 0 && (
+          <nav id="gnb" className="gnb">
+            <ul className="d-flex first-depth">
+              {gnb?.filter(item => userData?.roles?.[0] || item.menuName !== "문의")
+                  ?.map((item) =>
+                      (<li key={item.menuId}>
                         <Link to={item.menuPath}>
-                          <span>{item.menuName}</span>
+                          <span>
+                            {item.menuName}
+                            <i className="hoverLeaf"></i>
+                          </span>
                         </Link>
-                      </li>
-                    ))}
-                </ul>
+                        {item.secondChild && (
+                            <ul className="second-depth">
+                              {item.secondChild
+                                  ?.filter((item) => !item.menuPath.includes("bookDetail"))
+                                  .map((item) => (
+                                      <li key={item.menuId}>
+                                        <Link to={item.menuPath}>
+                                          <span>{item.menuName}</span>
+                                        </Link>
+                                      </li>
+                                  ))}
+                            </ul>
+                        )}
+                      </li>)
               )}
-            </li>
-          ))}
-          {/*관리자나 멤버일 때 보일 메뉴*/}
-          {(role === "ROLE_ADMIN" || role === "ROLE_MEMBER") &&
-            !pathname.startsWith("/admin") && (
-              <li>
-                <Link to="/admin" target="_blank" title="사용자 화면 새창 열림">
+              {/*관리자나 멤버일 때 보일 메뉴*/}
+              {(role === "ROLE_ADMIN" || role === "ROLE_MEMBER") &&
+                  !pathname.startsWith("/admin") && (
+                      <li>
+                        <Link to="/admin" target="_blank" title="사용자 화면 새창 열림">
                   <span>
                     관리자 <i className="hoverLeaf"></i>
                   </span>
-                </Link>
-              </li>
-            )}
-        </ul>
-      </nav>
+                        </Link>
+                      </li>
+                  )}
+            </ul>
+
+          </nav>
+      )}
       {isAuthenticated ? ( // 시큐리티 인증이 true이면
-        <>
-          <div className="header-inner user-info">
-            <ul className="d-flex align-items-center">
-              <li>
-                {" "}
-                {userData.roles && (
-                  <span>
+          <>
+            <div className="header-inner user-info">
+              <ul className="d-flex align-items-center">
+                <li>
+                  {" "}
+                  {userData.roles && (
+                      <span>
                     {userData.roles[0] === "ROLE_ADMIN"
-                      ? `${userData.clientName}관리자(${userData.clientId})`
-                      : userData.roles[0] === "ROLE_MEMBER"
-                      ? `${userData.clientName}[${userData.clientId}]사원님`
-                      : `${userData.clientName}[${userData.clientId}]님`}
+                        ? `${userData.clientName}관리자(${userData.clientId})`
+                        : userData.roles[0] === "ROLE_MEMBER"
+                            ? `${userData.clientName}[${userData.clientId}]사원님`
+                            : `${userData.clientName}[${userData.clientId}]님`}
                   </span>
-                )}
-              </li>
-              {commonMenuItems &&
-                commonMenuItems.map((item, index) => {
-                  return (
-                    <li key={index}>
-                      <Link
-                        to={item.menuPath}
-                        className={`${item.menuId} icon`}
-                      >
-                        <span className={"sr-only"}>{item.menuName}</span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              <li>
-                <Btn
-                  className={"logout  custom-btn"}
-                  id={"logout-btn"}
-                  text={"로그아웃"}
-                  onClick={handleLogout}
+                  )}
+                </li>
+                {commonMenuItems &&
+                    commonMenuItems.map((item, index) => {
+                      return (
+                          <li key={index}>
+                            <Link
+                                to={item.menuPath}
+                                className={`${item.menuId} icon`}
+                            >
+                              <span className={"sr-only"}>{item.menuName}</span>
+                            </Link>
+                          </li>
+                      );
+                    })}
+                <li>
+                  <Btn
+                      className={"logout  custom-btn"}
+                      id={"logout-btn"}
+                      text={"로그아웃"}
+                      onClick={handleLogout}
                 />
               </li>
             </ul>
