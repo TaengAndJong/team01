@@ -29,7 +29,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 @Slf4j
-@EnableWebSecurity(debug = true) // Spring Security가 URL 매칭을 로그
+@EnableWebSecurity(debug = false) // Spring Security가 URL 매칭을 로그
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {

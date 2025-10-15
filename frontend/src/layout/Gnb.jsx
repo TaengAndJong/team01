@@ -5,14 +5,17 @@ import { menuNavi } from "../util/menuNavi.jsx";
 import Btn from "../util/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 import {useAuth} from "../pages/common/AuthContext.jsx";
+import {useModal} from "../pages/common/modal/ModalContext.jsx";
+import {catchError} from "../util/error.jsx";
 
 const Gnb = ({ menu, commonMenuItems }) => {
 
   // 로그인상태와 사용자데이터 가져오는 커스텀훅
   const { isAuthenticated, userData, logout ,loginFailure} = useAuth();
-
   console.log(` 사용자데이터 : ${userData} , 세션유효: ${isAuthenticated}`);
   console.log(` 메뉴 : ${menu}  공통메뉴 : ${commonMenuItems} ` );
+  //모달
+  const {openModal,closeModal} = useModal();
 
 
   const navigate = useNavigate();
@@ -85,14 +88,6 @@ const Gnb = ({ menu, commonMenuItems }) => {
 
   console.log("GNB Role 권한 확인", role);
 
-  //메뉴 권한 확인 핸들러
-  const menuCheckRole = (menuItem) =>{
-    //세션 확인
-    if (!isAuthenticated ) {navigate("/login"); return};
-    //로그인 유효 확인
-
-
-  }
 
   return (
     <>
@@ -109,29 +104,30 @@ const Gnb = ({ menu, commonMenuItems }) => {
       {gnb?.length > 0 && (
           <nav id="gnb" className="gnb">
             <ul className="d-flex first-depth">
-              {gnb?.map((item) => (
-                  <li key={item.menuId}>
-                    <Link to={item.menuPath}>
-                <span>
-                  {item.menuName}
-                  <i className="hoverLeaf"></i>
-                </span>
-                    </Link>
-                    {item.secondChild && (
-                        <ul className="second-depth">
-                          {item.secondChild
-                              ?.filter((item) => !item.menuPath.includes("bookDetail"))
-                              .map((item) => (
-                                  <li key={item.menuId}>
-                                    <Link to={item.menuPath}>
-                                      <span>{item.menuName}</span>
-                                    </Link>
-                                  </li>
-                              ))}
-                        </ul>
-                    )}
-                  </li>
-              ))}
+              {gnb?.filter(item => userData?.roles?.[0] || item.menuName !== "문의")
+                  ?.map((item) =>
+                      (<li key={item.menuId}>
+                        <Link to={item.menuPath}>
+                          <span>
+                            {item.menuName}
+                            <i className="hoverLeaf"></i>
+                          </span>
+                        </Link>
+                        {item.secondChild && (
+                            <ul className="second-depth">
+                              {item.secondChild
+                                  ?.filter((item) => !item.menuPath.includes("bookDetail"))
+                                  .map((item) => (
+                                      <li key={item.menuId}>
+                                        <Link to={item.menuPath}>
+                                          <span>{item.menuName}</span>
+                                        </Link>
+                                      </li>
+                                  ))}
+                            </ul>
+                        )}
+                      </li>)
+              )}
               {/*관리자나 멤버일 때 보일 메뉴*/}
               {(role === "ROLE_ADMIN" || role === "ROLE_MEMBER") &&
                   !pathname.startsWith("/admin") && (

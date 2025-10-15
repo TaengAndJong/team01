@@ -27,9 +27,6 @@ export const AuthProvider = ({ children }) => {
                 //로그인 상태처리
                 setIsAuthenticated(true);//세션이 유효
                 setUserData(res.data.user);//userData 객체 설정
-            }else{
-                // 로그인 안됬을 경우
-                handleLogoutState();
             }
         }
         catch(err){
@@ -79,6 +76,9 @@ export const AuthProvider = ({ children }) => {
                 setIsAuthenticated(true);
                 setUserData(JSON.parse(storedUserData)); // 로컬 스토리지에서 가져온 데이터로 로그인 상태 유지
                 checkLogin();// 로그인 되었을때만 세션 유지 확인
+
+            }else {
+                handleLogoutState();
             }
 
         }, []);
