@@ -13,8 +13,6 @@ const PersonalInfo = () => {
     const [msg, setMsg] = useState({});
 
 
-
-
     //개인정보조회 fetch
     const userInfoFetch = async () => {
         const response = await fetch("/api/mypage/userInfo",);
