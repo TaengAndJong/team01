@@ -1,6 +1,7 @@
 package com.example.team01.admin;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,17 +9,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.team01.admin.service.AdminService;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import java.util.List;
 
 @Slf4j
 @RestController    //전역 ResponseBody
+@RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
 
+    private final AdminService adminService;
 
     @GetMapping
     public Map<String, Object> adminHandler(HttpSession session) {
@@ -38,39 +43,48 @@ public class AdminController {
 
     // 문의별 게시물 데이터 길이 반환
 
-    // 1:1 문의 url : "/amdin/qna/new/count"
-    @GetMapping("/qna/new/count")
-    public ResponseEntity<?> getNewOneLength()
+    @GetMapping("/newCount")
+    public ResponseEntity<?> getNewQnaOneLength()
     {
-        return  ResponseEntity.ok("통신성공");
+        int result1 = adminService.getQnaOneLength();
+        int result2 = adminService.getProductLength();
+        int result3 = adminService.getDeliveryLength();
+        log.info("Controller result1: {}, result2: {}, result3: {}", result1, result2, result3);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("qnaCount", result1);
+        resultMap.put("productCount", result2);
+        resultMap.put("deliveryCount", result3);
+
+        return  ResponseEntity.ok(resultMap);
     }
-    // 상품 문의 url : "/admin/product/new/count"
-        @GetMapping("/product/new/count")
-    public ResponseEntity<?> getNewProductLength()
-    {
-        return  ResponseEntity.ok("통신성공");
-    }
-    // 배송 문의 url : "/admin/delivery/new/count"
-        @GetMapping("/delivery/new/count")
-    public ResponseEntity<?> getNewDeliveryLength()
-    {
-        return  ResponseEntity.ok("통신성공");
-    }
-    // 금일 기준(00시) 신규 가입자 반환
+
+    // // 금일 기준(00시) 신규 가입자 반환
     
     // 신규 등록 도서 데이터 가져오기 (테이블로 출력 할 꺼임)
-    @GetMapping("path")
-    public ResponseEntity<?> getTodaysDomesticBooks(@RequestParam String param) {
-        return ResponseEntity.ok("통신 완료");
+    @GetMapping("/domesticToday")
+    public ResponseEntity<?> getTodaysDomesticBooks() {
+        return ResponseEntity.ok("domesticToday 통신 완료");
     }
-        @GetMapping("path")
-    public ResponseEntity<?> getTodaysForeignBooks(@RequestParam String param) {
-        return ResponseEntity.ok("통신 완료");
+    @GetMapping("/foreignToday")
+    public ResponseEntity<?> getTodaysForeignBooks() {
+        return ResponseEntity.ok("foreignToday 통신 완료");
     }
-        @GetMapping("path")
-    public ResponseEntity<?> getTodaysEBooks(@RequestParam String param) {
-        return ResponseEntity.ok("통신 완료");
+    @GetMapping("/ebooksToday")
+    public ResponseEntity<?> getTodaysEBooks() {
+        return ResponseEntity.ok("ebooksToday 통신 완료");
     }
     
     // 재고 부족 도서 데이터 가져오기 (테이블로 출력 할 꺼임)
+    @GetMapping("/domesticStock")
+    public ResponseEntity<?> getStockDomesticBooks() {
+        return ResponseEntity.ok("domesticStock 통신 완료");
+    }
+    @GetMapping("/foreignStock")
+    public ResponseEntity<?> getStockForeignBooks() {
+        return ResponseEntity.ok("foreignStock 통신 완료");
+    }
+    @GetMapping("/ebooksStock")
+    public ResponseEntity<?> getStockEBooks() {
+        return ResponseEntity.ok("ebooksStock 통신 완료");
+    }
 }

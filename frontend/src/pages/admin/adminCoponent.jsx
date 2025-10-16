@@ -38,11 +38,54 @@ function Admin() {
   }, []);
 
   useEffect(() => {
-    const getPostData = async () => {
-      const data = await fetch(`/api/admin/board/qnaProductList`);
-      console.log("상품문의 데이터", data);
+    const getNewCount = async () => {
+      const response = await fetch(`/api/admin/newCount`);
+      const data = response.json();
+      console.log("getQnaData 통신", data);
     };
-    getPostData();
+
+    const getTodaysDomestic = async () => {
+      const response = await fetch(`/api/admin/domesticToday`);
+      const data = response.json();
+      console.log("getTodaysDomestic 통신", data);
+    };
+
+    const getTodaysForeign = async () => {
+      const response = await fetch(`/api/admin/foreignToday`);
+      const data = response.json();
+      console.log("getTodaysForeign 통신", data);
+    };
+
+    const getTodaysEBook = async () => {
+      const response = await fetch(`/api/admin/ebooksToday`);
+      const data = response.json();
+      console.log("getTodaysEBook 통신", data);
+    };
+
+    const getStockDomesticBooks = async () => {
+      const response = await fetch(`/api/admin/domesticStock`);
+      const data = response.json();
+      console.log("getTodaysEBook 통신", data);
+    };
+
+    const getStockForeignBooks = async () => {
+      const response = await fetch(`/api/admin/foreignStock`);
+      const data = response.json();
+      console.log("getTodaysEBook 통신", data);
+    };
+
+    const getStockEBooks = async () => {
+      const response = await fetch(`/api/admin/ebooksStock`);
+      const data = response.json();
+      console.log("getTodaysEBook 통신", data);
+    };
+    getNewCount();
+    getTodaysDomestic();
+    getTodaysForeign();
+    getTodaysEBook();
+    getStockDomesticBooks();
+    getStockForeignBooks();
+    getStockEBooks();
   }, []);
   return (
     <>
