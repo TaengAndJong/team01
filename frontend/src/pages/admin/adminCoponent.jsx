@@ -3,7 +3,8 @@ import { Outlet } from "react-router-dom";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import AdminDashboard from "../adminBoard/components/adminDashboard.jsx";
 import "@css/board/adminDashBoard.css";
-import ChartComponent from "@pages/admin/components/ChartComponent.jsx";
+// import ChartComponent from "@pages/admin/components/ChartComponent.jsx";
+import CountCard from "./components/cartComponent/CountCard.jsx";
 function Admin() {
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -58,11 +59,9 @@ function Admin() {
       </div> */}
       <div className="dashboard-container">
         <div className="top-section d-flex">
-          <div className="graph-container">
-            <ChartComponent />
-          </div>
+          <div className="graph-container">{/* <ChartComponent /> */}</div>
           <div className="navCard-container">
-            <div>카드1</div>
+            <CountCard icon={null} title={"1:1문의"} rightContent={null} />
             <div>카드2</div>
             <div>카드3</div>
             <div>카드4</div>

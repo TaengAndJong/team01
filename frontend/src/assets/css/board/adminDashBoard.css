@@ -1,3 +1,8 @@
 .dashboard-container {
   height: 100%;
 }
+
+.card-box {
+  width: 200px;
+  background-color: aqua;
+}
