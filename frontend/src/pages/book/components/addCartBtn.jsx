@@ -28,11 +28,26 @@ const AddCartBtn = ({bookId,quantity}) =>{
          //여기 resonse data 있을경우 조건 추가 ?
             if(response.status === 200){
                 console.log("장바구니 추가 비동기요청 ",response.data);
-                openModal({
-                    modalType:"confirm",
-                    data:{message:"장바구니 담기 성공"},
-                    onConfirm:closeModal,
-                });
+                // insert 요청일때와 , 중복도서 존재할때 모달 분기
+
+                if(response.data.exist){
+                    openModal({
+                        modalType:"confirm",
+                        data:{message:response.data.message},
+                        onConfirm:()=>{
+                            closeModal(); // 모달 닫고
+                            navigate(`/cart`);  // 장바구니로 이동
+                            },
+                    });
+                }else{
+                    //exist가 false ==> 중복도서가 없어서 도서가 추가됨
+                    openModal({
+                        modalType:"confirm",
+                        data:{message:response.data.message},
+                        onConfirm: closeModal,
+                    });
+                }
+
             }
 
         }catch(err){

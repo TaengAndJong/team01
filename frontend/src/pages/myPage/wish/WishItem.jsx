@@ -1,6 +1,7 @@
 import React, {useContext, useEffect} from "react";
 import {Link} from "react-router-dom";
 import {PaginationContext, WishDispatchContext} from "./WishComponent.jsx";
+import AddCartBtn from "../../book/components/addCartBtn.jsx";
 
 
 const WishItem = ({wishList}) => {
@@ -124,13 +125,7 @@ const WishItem = ({wishList}) => {
                                         >
                                             찜 해제
                                         </button>
-                                        <button
-                                            type="button"
-                                            aria-label="장바구니담기"
-                                            className="submit btn btn-primary me-2 wish-btn"
-                                        >
-                                            장바구니 담기
-                                        </button>
+                                        <AddCartBtn bookId={item.bookVO.bookId} quantity={1} />
                                     </div>
                                 </li>
                             ))}

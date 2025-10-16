@@ -44,7 +44,7 @@ const modalConfig = {
         ),
     }),
     confirm: ({ data,onClose, onConfirm }) => ({
-        body: <p>{data.message}</p>,
+        body: <p dangerouslySetInnerHTML={{__html: data.message}}/>,
         footer: (
             <>
                 <Button variant="danger" onClick={onConfirm}>확인</Button>
@@ -52,7 +52,7 @@ const modalConfig = {
         ),
     }),
 
-    delete: ({ onClose, onConfirm }) => ({
+    delete: ({onClose, onConfirm}) => ({
         body: <p>삭제하시겠습니까?</p>,
         footer: (
             <>
