@@ -21,6 +21,7 @@ public interface CartDao {
     //장바구니에 담을 도서 정보 조회
     public CartVO selectBookInfo(@Param("bookId") String bookId);
 
+
     //장바구니에 도서정보 담기
     public int insertCart(CartVO bookInfo);
     public int updateCart(@Param("bookId") String bookId,@Param("quantity") int quantity);

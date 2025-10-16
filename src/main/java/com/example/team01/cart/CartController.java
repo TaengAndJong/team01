@@ -106,15 +106,30 @@ public class CartController {
         log.info(" quantity  : {}",cartvo.getQuantity());// 장바구니에 담은 수량
         log.info(" clientId  : {}",clientId);
 
+        //응답담아줄 Map객체
+        Map<String, Object> result = new HashMap<>();
+        //insert 전에  장바구니 조회 , 중복데이터 있는지 확인
+        int existBook = cartService.selectDuplicateCheck(clientId,cartvo.getBookId());
+        log.info("existBook ------------- 컨트롤러에서 도서 존재여부 확인: {}",existBook);
 
+        // 중복 데이터가 있다면  클라이언트로 수량 추가로 메시지 전달 후 수량 증가처리 ?
+        if(existBook>0){
+            //중복데이터가 있다면
+            result.put("exist","true");
+            result.put("message","이미 장바구니에 해당 도서가 존재합니다.<br/> 장바구니로 이동하시겠습니까?");
+
+        }else{
+            //중복데이터가 없다면 새로 insert ==> try catch 구문 사용하는 이유 알아보기
             //cartService에  파라미터 넘겨주기
             cartService.insertBook(cartvo);
-
-            //응답담아줄 Map객체
-            Map<String, Object> result = new HashMap<>();
             //반환 데이터 담기
-            result.put("테스트",cartvo);
-            return  ResponseEntity.ok(result);
+            result.put("exist","false");
+            result.put("message","장바구니에 도서가 추가되었습니다.");
+            result.put("addedBookInfo", cartvo);
+            log.info("장바구니 담기 성공 result ---------------------:{}",result);
+
+        }
+        return  ResponseEntity.ok(result);
     }
 
     //axios로 delete 요청 시 어노테이션

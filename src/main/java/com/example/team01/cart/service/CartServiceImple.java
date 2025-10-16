@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class CartServiceImple implements CartService{
 
@@ -28,14 +29,13 @@ public class CartServiceImple implements CartService{
 
 
     // 장바구니 추가 전 도서 수량 확인 메서드
-    @Override
-    public CartVO checkBookCount(String bookId) {
-        //boolean 1이면 true, 0이하면 false
-        BookVO bookStock = dao.checkBookCount(bookId); //true
-        log.info("bookStock---checkBookCount:{}", bookStock);
+//    @Override
+//    public CartVO checkBookCount(String bookId) {
+//        //boolean 1이면 true, 0이하면 false
+//        BookVO bookStock = dao.checkBookCount(bookId); //true
 
-        return null;
-    }
+//        return null;
+//    }
 
     // 장바구니에서 도서 데이터 조회할 메서드(단일추가)
     @Override
@@ -73,7 +73,7 @@ public class CartServiceImple implements CartService{
 
             //cart에 이미 있는지 없는지 확인하기 ==> cart 테이블에서 조회
             int existCart =  dao.existCart(clientId,bookId);
-            log.info("existBook--------existBook:{}",existCart);
+            log.info("장바구니에 도서 존재여부--------existBook:{}",existCart);
 
             // 장바구니에 존재하지않으면
             if(existCart == 0){
@@ -90,7 +90,7 @@ public class CartServiceImple implements CartService{
     }
 
 
-    // 로그인한 클라이언트에 해당하는 장바구니의 도서목록 조회 메서드
+    // 로그인한 클라이언트에 해당하는 장바구니의 도서전체목록 조회 메서드
     @Override
     public List<CartDTO> selectUserBookList(String clientId) {
         log.info("장바구니 도서목록 조회:{}",clientId);
@@ -103,6 +103,16 @@ public class CartServiceImple implements CartService{
                 .collect(Collectors.toList()); // 다시 List 객체로 변환
         log.info("cartDTOList:{}",cartDTOList);
         return cartDTOList;
+    }
+
+
+    //장바구니에 담긴 해당 클라이언트의 특정상품 중복 조회
+    @Override
+    public int selectDuplicateCheck(String clientId, String bookId) {
+
+        log.info("selectDuplicateCheck clientId:{} , bookId :{}",clientId,bookId);
+        // 중복이면 1 , 아니면 0 반환
+        return  dao.existCart(clientId,bookId);
     }
 
     // 로그인한 클라이언트의 장바구니에 담긴 도서 목록 삭제 메서드

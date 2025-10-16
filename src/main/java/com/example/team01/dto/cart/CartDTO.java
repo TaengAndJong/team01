@@ -18,9 +18,9 @@ public class CartDTO { // 하나의 레코드를 의미
     private String cartId; //장바구니 생성아이디
     private LocalDateTime addCartDate; // 장바구니에 담은 날짜
  //   private int quantity; // 구매수량
-    //private String bookId; // 구입할 도서 아이디
+    private String bookId; //  도서 아이디 (도서 아이디만 사용할때 )
     private String clientId; // 로그인한 유저 아이디
     private String roleId; // 로그인한 유저의 역할
-    private BookDTO book; // 1:1 단일 매핑인 vo를 DTO 타입으로 변환
+    private BookDTO book; // 1:1 단일 매핑인 vo를 DTO 타입으로 변환 (도서 전체 정보)
 
 }

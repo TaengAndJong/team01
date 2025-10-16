@@ -36,6 +36,8 @@
     </select>
 
 <!--resultMap의 Id를 파라미터로 넘겨야 1:1 , 1:다 관계로 정의한 컬럼 매핑가능 -->
+
+
     <select id="selectBookInfo" parameterType="String" resultMap="cartMap">
         SELECT b."bookId"
              , b."bookName"
@@ -56,7 +58,7 @@
         select
            count(*)
         from cart
-        where "bookId" = #{bookId} and "clientId" =#{clientId}
+        where "clientId" =#{clientId} and "bookId" = #{bookId}
     </select>
 
     <insert id="insertCart" parameterType="CartVO">
@@ -74,7 +76,7 @@
 
     <update id="updateCart" parameterType="CartVO">
         UPDATE cart
-            SET "quantity" = #{quantity}
+            SET "quantity" = "quantity" +1
         WHERE "bookId" = #{bookId}
     </update>
 
@@ -112,6 +114,7 @@
         SET "quantity" = #{quantity}
         WHERE "bookId" = #{bookId} and "cartId"=#{cartId}
     </update>
+
 
 
 </mapper>
