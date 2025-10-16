@@ -33,8 +33,8 @@ const AdminBookCreate = () => {
         bookCateDepth:[],
         bookDesc: '',
         author:'',
-        bookPrice: '0',
-        stock: '0',
+        bookPrice: '1',
+        stock: '1',
         stockStatus:'재고없음',
         publishDate:'', //발행일
         roleId:'',
@@ -81,10 +81,11 @@ const AdminBookCreate = () => {
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
         if (userData != null) { // userData가 있을 때만 실행
+            //console.log("userData",userData);
             setCreateBook(prevState => ({
                 ...prevState,
-                roleId: userData.roles[0],  // 최신 값으로 갱신
-                writer: userData.clientName,
+                roleId: userData?.roles[0],  // 최신 값으로 갱신
+                writer: userData?.clientName,
             }));
         }
         getCategories();
