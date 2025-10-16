@@ -3,18 +3,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
         <mapper namespace="com.example.team01.admin.dao.AdminDao">
+
             <select id="getQnaOneLength" resultType="int" >
                 SELECT COUNT(*) AS qna_count FROM qnaOne
-                WHERE "qnaDate" >= SYSDATE - 8
+                WHERE "qnaDate" &gt;= SYSDATE - 8
             </select>
 
             <select id="getProductLength" resultType="int" >
-              SELECT COUNT(*) AS qna_count FROM qnaPro
-                WHERE "qnaDate" >= SYSDATE - 8
+                SELECT COUNT(*) AS qna_count FROM qnaPro
+                WHERE "qnaDate" &gt;= SYSDATE - 8
             </select>
 
             <select id="getDeliveryLength" resultType="int" >
-               SELECT COUNT(*) AS qna_count FROM qnaDeliv
-                WHERE "qnaDate" >= SYSDATE - 8
+                SELECT COUNT(*) AS qna_count FROM qnaDeliv
+                WHERE "qnaDate" &gt;= SYSDATE - 8
+            </select>
+
+
+
+            <select id="countStockEBooks" resultType="int">
+                    SELECT COUNT(*)
+                    FROM book
+                    WHERE "stock" &lt;= 10
+            </select>
+
+            <select id="getStockEBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
+                WITH filterData AS (
+                SELECT ROWNUM as rnum, a.*
+                FROM (
+                    SELECT * FROM book
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" = 'EBOOK'
+                    ORDER BY "bookId" ASC
+                    ) a
+                )
+                SELECT *
+                from filterData
+                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
             </select>
         </mapper>

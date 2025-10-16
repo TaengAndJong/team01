@@ -4,7 +4,7 @@ import com.example.team01.utils.Pagination;
 import java.util.List;
 
 public interface QnaProductService {
-    public List<QnaProductVO> getAllQnaProductList(Pagination pagenation);
+    public List<QnaProductVO> getAllQnaProductList(Pagination pagination);
 
     // 상품 문의 상세 조회
     public QnaProductVO getQnaProductDetail(String boardId, String userId);
