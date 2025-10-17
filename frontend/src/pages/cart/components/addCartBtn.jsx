@@ -10,8 +10,8 @@ const AddCartBtn = ({ bookId, bookCount }) => {
     //장밥구니 컨트롤러로 전송할 fetch 함수
     const sendCartFetch= async(bookId,quantity)=>{
         //  console.log("addCartBtn-------data",data);
-        console.log("bookId---------sendCartFetch",bookId);
-        console.log("quantity-----------sendCartFetch",quantity);
+        //console.log("bookId---------sendCartFetch",bookId);
+       // console.log("quantity-----------sendCartFetch",quantity);
         try{
             const response = await axios.post("/api/cart",
                 {bookId:bookId,quantity:quantity} // 서버로 보내는 데이터
@@ -26,7 +26,7 @@ const AddCartBtn = ({ bookId, bookCount }) => {
                 console.error("서버 메시지---:", err.response.data.message);
             } else if (err.request) {
                 // 요청은 했는데 서버가 응답이 없음
-                console.error("서버 응답 없음:", err.request);
+               console.error("서버 응답 없음:", err.request);
             } else {
                 // 기타 에러
                 console.error("요청 설정 에러:", err.message);
@@ -50,13 +50,13 @@ const AddCartBtn = ({ bookId, bookCount }) => {
     //toCart 데이터 변경 감지 시 비동기요청
     useEffect(() => {
 
-        console.log("toCart useEffect out ",toCart);
-        console.log("toCart toCart.bookId",toCart.bookId);
-        console.log("toCart toCart.quantity",toCart.quantity);
+        // console.log("toCart useEffect out ",toCart);
+        // console.log("toCart toCart.bookId",toCart.bookId);
+        // console.log("toCart toCart.quantity",toCart.quantity);
         // 변경된 데이터가 아래 조건과 같으면 비동기요청 실행
         if( toCart.bookId != null && toCart.quantity >  0 ){
 
-            console.log("toCart useEffect in",toCart);
+          //  console.log("toCart useEffect in",toCart);
             // bookId null이 아닐 때와 quantity가 0 이아닌 경우  실행되어야 함
             sendCartFetch(); // cart 컨트롤러로 전송
         }

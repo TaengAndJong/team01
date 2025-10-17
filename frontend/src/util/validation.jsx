@@ -13,7 +13,9 @@ const inputRegexs = {
     //각 전화번호 : 숫자사용, 자리수는 4자리까지
     telEachRegex:/^\d{0,4}$/,
     //숫자만
-    numberRegex: /^\d+$/,
+    //numberRegex: /^\d+$/,
+
+  numberRegex: /^[1-9][0-9]*$/, // ^ : 시작, 첫자리 [1-9], 그 뒤로 [0-9]* 가 0개 이상 , $ 끝
 };
 
 // 공통 유효성 검사 함수작성

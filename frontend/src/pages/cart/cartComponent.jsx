@@ -39,7 +39,7 @@ const Cart = () => {
     //4.장바구니 전역관리 상태 함수
     const [cartData, dispatch] = useReducer(reducer,null);
 
-    console.log("cartData------ cart Component", cartData);
+    console.log("cart Component -------------------", cartData);
 
     //메뉴 받아오기
     const {menu,currentPath,standardPoint}  = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
@@ -72,9 +72,7 @@ const Cart = () => {
             }
 
             const data = await response.json();
-
-            console.log("data------ cartList",data);
-            console.log("data------ cartList",data.bookList);
+            console.log("cartList ---- fetch 요청",data.bookList);
             onInit(data);
 
         }catch(error){

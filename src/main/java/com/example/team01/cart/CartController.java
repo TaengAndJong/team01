@@ -90,7 +90,8 @@ public class CartController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> postCart(@RequestBody CartVO cartvo,@AuthenticationPrincipal PrincipalDetails userDetails){
+    public ResponseEntity<?> postCart(@RequestBody CartVO cartvo,
+                                      @AuthenticationPrincipal PrincipalDetails userDetails){
 
         log.info(" postCart  : {}",cartvo);
         log.info(" userDetails  : {}",userDetails);
@@ -134,7 +135,9 @@ public class CartController {
 
     //axios로 delete 요청 시 어노테이션
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteCart(@RequestBody List<String> ids,@AuthenticationPrincipal PrincipalDetails userDetails){
+    public ResponseEntity<?> deleteCart(@RequestBody List<String> ids
+            ,@AuthenticationPrincipal PrincipalDetails userDetails,
+                                        HttpServletRequest request){
         log.info("deleteCart API 통신 받는 중");
         log.info("deleteCart  : {}",ids);
         int deleteResult= cartService.deleteToCartList(ids);
@@ -144,9 +147,17 @@ public class CartController {
         Map<String,Object> result = new HashMap<>();
 
         if(deleteResult>0){
-            log.info("삭제 결과 11 반환");
+            //log.info("삭제 결과 11 반환");
             //데이터 재조회
             List<CartDTO> bookList = cartService.selectUserBookList(clientId);
+            //도서 이미지패스 변경필요
+            //log.info("삭제된 후 도서 목록---------------------장바구니 : {}",bookList);
+            bookList.forEach(cartDTO -> {
+                BookDTO book = cartDTO.getBook();
+                fileUtils.changeImgPathDto(book, request);
+            });
+    
+          //  log.info("삭제된 후 도서 목록---------------------이미지경로세팅 : {}",bookList);
             result.put("bookList",bookList); // 삭제된 후 장바구니 데이터 재조회
         }
 

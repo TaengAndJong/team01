@@ -47,7 +47,7 @@ const CartAddress= ({addrList}) =>{
 
             const data = await response.json();
             //성공여부에 따른 메시지 받아오기
-            console.log("get 요청 성공 data",data);
+            //console.log("get 요청 성공 data",data);
             setSelectAddr(data);
 
         }catch(e){
@@ -76,8 +76,8 @@ const CartAddress= ({addrList}) =>{
         }
 
         const data = await response.json();
-        console.log("data----------업데이트된 주소데이터",data);
-        console.log("data----------업데이트된 주소데이터",data.updateAddr);
+       // console.log("data----------업데이트된 주소데이터",data);
+       // console.log("data----------업데이트된 주소데이터",data.updateAddr);
         setOrderAddr(data.updateAddr); // 기존 배송주소 데이터 갱신
         setShow(false);// 모달창 닫기
     }
