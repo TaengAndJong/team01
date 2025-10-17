@@ -1,12 +1,18 @@
 import FormTag from "../../../util/formTag.jsx";
 import React, {useEffect, useRef, useState} from "react";
+import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
 const FileUpload =({bookImg,setBookImg,defualtData,setCreateBook})=>{//부모한테 받은 props 객체 기입
 
     console.log("--1",bookImg);
     console.log("defualtData--------------imgfile",defualtData);
+    //모달
+    const {openModal,closeModal} = useModal();
 
+    //최대 파일 사이즈, 총함 파일사이즈
+    const maxFileSize = 5 * 1024 * 1024; // 5MB
+    const maxTotalSize = 20 * 1024 * 1024; // 총합 20MB 제한 (옵션)
 
     // defualtData 가 있으면, bookImg 재설정, 이전데이터를 유지하기위한 prevState 파라미터, defualtData가 변경될때마다 실행해야하니까 의존성배열 추가
     useEffect(() => {
@@ -29,6 +35,28 @@ const FileUpload =({bookImg,setBookImg,defualtData,setCreateBook})=>{//부모한
     const handleImgUpload = (e) => {
         //이벤트요소로 파일 객체에 접근, 파일 여러개 지정할 경우 배열로 변환필요
         const selectedFiles = Array.from(e.target.files);
+
+        //파일 용량 크기 제한
+        const oversizedFiles = selectedFiles.filter(f => f.size > maxFileSize);
+        if (oversizedFiles.length > 0) {
+            openModal({
+                data:{message : `업로드 실패: ${oversizedFiles.map(f => f.name).join(", ")}\n(각 파일은 5MB 이하만 업로드 가능합니다.)`}
+            })
+            e.target.value = ""; // 선택 초기화
+            return;
+        }
+
+        const totalSize =
+            [...(bookImg.new || []), ...selectedFiles].reduce((sum, f) => sum + (f.size || 0), 0);
+        if (totalSize > maxTotalSize) {
+            openModal({
+                data:{message : `총 업로드 용량 초과 (${(totalSize / 1024 / 1024).toFixed(2)}MB).\n전체 파일 크기는 20MB 이하여야 합니다.`}
+            })
+            e.target.value = "";
+            return;
+        }
+        
+        // 파일 목록 갱신
         setBookImg((prev)=>({
             ...prev, // ??
             new:[...prev.new,...selectedFiles] // 먼저 등록된 파일 + 새로 등록되는 파일드을
@@ -59,9 +87,12 @@ const FileUpload =({bookImg,setBookImg,defualtData,setCreateBook})=>{//부모한
     const renderFileList = (files, type) => (
             <>
                 {files.map((file, index) => (
-                    <div className="file-row d-flex justify-content-between align-items-center w-100 mt-1 py-1 ps-3 border-bottom">
-                       <span className="d-inline-block">{file.name}</span>
-                        <button type="button" className={"btn btn-danger float-end"} onClick={() => handleRemoveFile(file, type)}>
+                    <div
+                        className="file-row d-flex justify-content-start align-items-center w-100 mt-1 py-1 border-bottom">
+                        <label className="form-title">업로드목록.{index + 1}</label>
+                        <span className="d-inline-block ">{file.name}</span>
+                        <button type="button" className={"btn btn-danger ms-auto"}
+                                onClick={() => handleRemoveFile(file, type)}>
                             삭제
                         </button>
                     </div>
@@ -71,11 +102,13 @@ const FileUpload =({bookImg,setBookImg,defualtData,setCreateBook})=>{//부모한
 
     return (
         <>
-            <FormTag id="bookImgPath" label="도서이미지" labelClass="input-group-text" className="form-control" name="bookImgPath" type="file"
+            <FormTag id="bookImgPath" label="도서이미지" labelClass="form-title" className="form-control w-75"
+                     name="bookImgPath" type="file"
                      placeholder="도서 이미지 파일업로드"
                      onChange={handleImgUpload}
                      multiple={true}
             />
+
             {/* 기존 이미지 리스트 */}
             {bookImg?.existing?.length > 0 && renderFileList(bookImg.existing, "existing")}
             {/* 새로 추가된 이미지 리스트 */}
