@@ -40,45 +40,46 @@ function Admin() {
   useEffect(() => {
     const getNewCount = async () => {
       const response = await fetch(`/api/admin/newCount`);
-      const data = response.json();
+      const data = await response.json();
       console.log("getQnaData 통신", data);
     };
 
     const getNewDomestic = async () => {
       const response = await fetch(`/api/admin/newDomesticBook`);
-      const data = response.json();
+      const data = await response.json();
       console.log("getTodaysDomestic 통신", data);
     };
 
     const getNewForeign = async () => {
       const response = await fetch(`/api/admin/newForeignBook`);
-      const data = response.json();
+      const data = await response.json();
       console.log("getTodaysForeign 통신", data);
     };
 
     const getNewEBook = async () => {
       const response = await fetch(`/api/admin/newEbook`);
-      const data = response.json();
+      const data = await response.json();
       console.log("getTodaysEBook 통신", data);
     };
 
     const getStockDomesticBooks = async () => {
       const response = await fetch(`/api/admin/domesticStock`);
-      const data = response.json();
+      const data = await response.json();
       console.log("getTodaysEBook 통신", data);
     };
 
     const getStockForeignBooks = async () => {
       const response = await fetch(`/api/admin/foreignStock`);
-      const data = response.json();
+      const data = await response.json();
       console.log("getTodaysEBook 통신", data);
     };
 
     const getStockEBooks = async () => {
       const response = await fetch(`/api/admin/ebooksStock`);
-      const data = response.json();
+      const data = await response.json();
       console.log("getTodaysEBook 통신", data);
     };
+
     getNewCount();
     getNewDomestic();
     getNewForeign();
@@ -101,16 +102,38 @@ function Admin() {
         )}
       </div> */}
       <div className="dashboard-container">
-        <div className="top-section d-flex">
-          <div className="graph-container">{/* <ChartComponent /> */}</div>
+        <div className="top-section d-flex justify-content-around mb-5">
+          <div className="graph-container">
+            {/* <ChartComponent /> */}그래프
+          </div>
           <div className="navCard-container">
-            <CountCard icon={null} title={"1:1문의"} rightContent={null} />
-            <div>카드2</div>
-            <div>카드3</div>
-            <div>카드4</div>
+            <CountCard
+              className="navCard-item"
+              icon={null}
+              title={"1:1문의"}
+              rightContent={null}
+            />
+            <CountCard
+              className="navCard-item"
+              icon={null}
+              title={"상품문의"}
+              rightContent={null}
+            />
+            <CountCard
+              className="navCard-item"
+              icon={null}
+              title={"배송문의"}
+              rightContent={null}
+            />
+            <CountCard
+              className="navCard-item"
+              icon={null}
+              title={"문의 바로가기"}
+              rightContent={null}
+            />
           </div>
         </div>
-        <div className="bottom-section d-flex">
+        <div className="bottom-section d-flex justify-content-around mt-5">
           <div className="table-container">
             <h3>신규 도서 목록</h3>
             <div className="accordion-container">
