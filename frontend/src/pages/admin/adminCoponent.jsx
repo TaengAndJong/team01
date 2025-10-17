@@ -44,20 +44,20 @@ function Admin() {
       console.log("getQnaData 통신", data);
     };
 
-    const getTodaysDomestic = async () => {
-      const response = await fetch(`/api/admin/domesticToday`);
+    const getNewDomestic = async () => {
+      const response = await fetch(`/api/admin/newDomesticBook`);
       const data = response.json();
       console.log("getTodaysDomestic 통신", data);
     };
 
-    const getTodaysForeign = async () => {
-      const response = await fetch(`/api/admin/foreignToday`);
+    const getNewForeign = async () => {
+      const response = await fetch(`/api/admin/newForeignBook`);
       const data = response.json();
       console.log("getTodaysForeign 통신", data);
     };
 
-    const getTodaysEBook = async () => {
-      const response = await fetch(`/api/admin/ebooksToday`);
+    const getNewEBook = async () => {
+      const response = await fetch(`/api/admin/newEbook`);
       const data = response.json();
       console.log("getTodaysEBook 통신", data);
     };
@@ -80,9 +80,9 @@ function Admin() {
       console.log("getTodaysEBook 통신", data);
     };
     getNewCount();
-    getTodaysDomestic();
-    getTodaysForeign();
-    getTodaysEBook();
+    getNewDomestic();
+    getNewForeign();
+    getNewEBook();
     getStockDomesticBooks();
     getStockForeignBooks();
     getStockEBooks();

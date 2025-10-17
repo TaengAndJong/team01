@@ -13,7 +13,7 @@ import com.example.team01.utils.Pagination;
 import com.example.team01.vo.QnaProductVO;
 import com.example.team01.admin.service.AdminService;
 import com.example.team01.dto.admin.StockBookDTO;
-
+import com.example.team01.dto.admin.NewBookDTO;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -61,48 +61,136 @@ public class AdminController {
 
         return  ResponseEntity.ok(resultMap);
     }
-
     // // 금일 기준(00시) 신규 가입자 반환
     
-    // 신규 등록 도서 데이터 가져오기 (테이블로 출력 할 꺼임)
-    @GetMapping("/domesticToday")
-    public ResponseEntity<?> getTodaysDomesticBooks() {
-        return ResponseEntity.ok("domesticToday 통신 완료");
+    // 신규 등록 도서 데이터 가져오기 (일주일 기준 테이블로 출력)
+    @GetMapping("/newDomesticBook")
+    public ResponseEntity<?> getNewDomesticBook(
+        @RequestParam(defaultValue = "1") int currentPage,
+        @RequestParam(defaultValue = "5") int pageSize)
+        {
+        Pagination pagination = new Pagination(currentPage, pageSize);
+        List<NewBookDTO> bookData = adminService.getNewDomesticBooks(pagination);
+
+        for (NewBookDTO newBookDTO : bookData) {
+        log.info("여기--검색 책목록:{}", newBookDTO);
+        // fileUtils.changeImgPath(qnaProductVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+        log.info("다음--검색 책목록:{}", newBookDTO);
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("items", bookData); // getAllQnaProductList로 가져온 게시물 items에 추가
+        result.put("currentPage", pagination.getCurrentPage());
+        result.put("pageSize", pagination.getPageSize());
+        result.put("totalPages", pagination.getTotalPages());
+        result.put("totalRecord", pagination.getTotalRecord());
+        log.info("result---get:{}", result);
+
+        return ResponseEntity.ok(result);
     }
-    @GetMapping("/foreignToday")
-    public ResponseEntity<?> getTodaysForeignBooks() {
-        return ResponseEntity.ok("foreignToday 통신 완료");
+    @GetMapping("/newForeignBook")
+    public ResponseEntity<?> getNewForeignBook(
+        @RequestParam(defaultValue = "1") int currentPage,
+        @RequestParam(defaultValue = "5") int pageSize)
+        {
+        Pagination pagination = new Pagination(currentPage, pageSize);
+        List<NewBookDTO> bookData = adminService.getNewForeignBooks(pagination);
+
+        for (NewBookDTO newBookDTO : bookData) {
+        log.info("여기--검색 책목록:{}", newBookDTO);
+        log.info("다음--검색 책목록:{}", newBookDTO);
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("items", bookData); // getAllQnaProductList로 가져온 게시물 items에 추가
+        result.put("currentPage", pagination.getCurrentPage());
+        result.put("pageSize", pagination.getPageSize());
+        result.put("totalPages", pagination.getTotalPages());
+        result.put("totalRecord", pagination.getTotalRecord());
+        log.info("result---get:{}", result);
+
+        return ResponseEntity.ok(result);
     }
-    @GetMapping("/ebooksToday")
-    public ResponseEntity<?> getTodaysEBooks() {
-        return ResponseEntity.ok("ebooksToday 통신 완료");
+    @GetMapping("/newEbook")
+    public ResponseEntity<?> getNewEbook(
+        @RequestParam(defaultValue = "1") int currentPage,
+        @RequestParam(defaultValue = "5") int pageSize)
+        {
+        Pagination pagination = new Pagination(currentPage, pageSize);
+        List<NewBookDTO> bookData = adminService.getNewEBooks(pagination);
+
+        for (NewBookDTO newBookDTO : bookData) {
+        log.info("여기--검색 책목록:{}", newBookDTO);
+        log.info("다음--검색 책목록:{}", newBookDTO);
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("items", bookData); // getAllQnaProductList로 가져온 게시물 items에 추가
+        result.put("currentPage", pagination.getCurrentPage());
+        result.put("pageSize", pagination.getPageSize());
+        result.put("totalPages", pagination.getTotalPages());
+        result.put("totalRecord", pagination.getTotalRecord());
+        log.info("result---get:{}", result);
+
+        return ResponseEntity.ok(result);
     }
     
-    // 재고 부족 도서 데이터 가져오기 (테이블로 출력 할 꺼임)
+    // 재고 부족 도서 데이터 가져오기 (재고(stock) 10개 이하 테이블로 출력)
     @GetMapping("/domesticStock")
     public ResponseEntity<?> getStockDomesticBooks(
         @RequestParam(defaultValue = "1") int currentPage,
-        @RequestParam(defaultValue = "5") int pageSize) {
+        @RequestParam(defaultValue = "5") int pageSize)
+        {
 
         Pagination pagination = new Pagination(currentPage, pageSize);
-        List<StockBookDTO> bookData =  null;
-        // adminService.getStockDomesticBooks();
-        return ResponseEntity.ok("domesticStock 통신 완료");
+        List<StockBookDTO> bookData = adminService.getStockDomesticBooks(pagination);
+        
+        for (StockBookDTO stockBookDTO : bookData) {
+        log.info("여기--검색 책목록:{}", stockBookDTO);
+        // fileUtils.changeImgPath(qnaProductVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+        log.info("다음--검색 책목록:{}", stockBookDTO);
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("items", bookData); // getAllQnaProductList로 가져온 게시물 items에 추가
+        result.put("currentPage", pagination.getCurrentPage());
+        result.put("pageSize", pagination.getPageSize());
+        result.put("totalPages", pagination.getTotalPages());
+        result.put("totalRecord", pagination.getTotalRecord());
+        log.info("result---get:{}", result);
+
+        return ResponseEntity.ok(result);
     }
     @GetMapping("/foreignStock")
     public ResponseEntity<?> getStockForeignBooks(
         @RequestParam(defaultValue = "1") int currentPage,
-        @RequestParam(defaultValue = "5") int pageSize) {
+        @RequestParam(defaultValue = "5") int pageSize)
+        {
         
         Pagination pagination = new Pagination(currentPage, pageSize);
-        List<StockBookDTO> bookData = null;
-        // adminService.getStockForeignBooks();
-        return ResponseEntity.ok("foreignStock 통신 완료");
+        List<StockBookDTO> bookData = adminService.getStockForeignBooks(pagination);
+        
+        for (StockBookDTO stockBookDTO : bookData) {
+        log.info("여기--검색 책목록:{}", stockBookDTO);
+        // fileUtils.changeImgPath(qnaProductVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+        log.info("다음--검색 책목록:{}", stockBookDTO);
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("items", bookData); // getAllQnaProductList로 가져온 게시물 items에 추가
+        result.put("currentPage", pagination.getCurrentPage());
+        result.put("pageSize", pagination.getPageSize());
+        result.put("totalPages", pagination.getTotalPages());
+        result.put("totalRecord", pagination.getTotalRecord());
+        log.info("result---get:{}", result);
+
+        return ResponseEntity.ok(result);
     }
     @GetMapping("/ebooksStock")
     public ResponseEntity<?> getStockEBooks(
         @RequestParam(defaultValue = "1") int currentPage,
-        @RequestParam(defaultValue = "5") int pageSize) {
+        @RequestParam(defaultValue = "5") int pageSize)
+        {
 
         Pagination pagination = new Pagination(currentPage, pageSize);
         
