@@ -1,4 +1,3 @@
-import ReusableModal from "./modal.jsx";
 import React, {useState} from "react";
 
 
