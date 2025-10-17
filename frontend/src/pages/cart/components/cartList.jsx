@@ -8,17 +8,14 @@ import CartAllPrice from "./cartAllPrice.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import ReusableModal from "./modal.jsx";
 import BookCount from "../../book/components/bookCount.jsx";
-import * as cart from "date-fns/locale";
+
 
 
 
 const CartList = () => {
         // cartData 에서 bookList 만
         const cartData = useContext(CartStateContext);
-        console.log("컴포넌트 렌더링 - cartData:", cartData);
         const {onInit} = useContext(CartDispatchContext);
-
-
         //로딩 상태관리
         const [loading, setLoading] = useState(false);
 
@@ -31,7 +28,7 @@ const CartList = () => {
         const [modalType, setModalType] = useState("confirm");
 
 
-    // 구조분해 할당을 통한 bookList ==> 구조분해 할당 시,cartdata에 담긴 키명 그대로 받아야함
+    // 구조분해 할당을 통한 bookList ==> 구조분해 할당 시,cartdata에 담긴 키명 그대로 받아야함 ==> 도서 상품 삭제시 주소데이터가 초기값에 없을경우는 ?
         const {bookList, address} = cartData?.[0] || [];
         // 삭제 , 갱신 등의 데이터 조작이 필요한 경우 상태관리 변수 사용 
         // ==> 전역데이터를 한 번더 담아주는 이유는 초기 렌더링 시 null, undefined 방지
@@ -49,8 +46,8 @@ const CartList = () => {
 
         //개별선택 핸들러
         const selectOneHandler = (cartId,checked)=>{
-            console.log("selectOne-- 개별선택", cartId);
-            console.log("selectOne-- checked", checked);
+            console.log(`개별선택 cartId : ${cartId}  checked:${checked}`);
+
             //checked가 true 이면
             if(checked){
                 console.log("선택 true");
@@ -69,8 +66,8 @@ const CartList = () => {
 
         //전체선택 핸들러
         const selectAllHandler = (checkedAll)=>{
-            console.log("selectAll-- 전체선택", checkedAll);
-            console.log("selectAll-- selectItem", selectItem);
+
+            console.log(`전체선택 : ${checkedAll} , 선택된 아이템 : ${selectItem}`);
             // 이미 담긴 아이디는 담지 않는다 ==> 필터링
             if(checkedAll){ //전체선택 checked가 true이면
                 //모든 도서 체크박스 체크드 true 해야되는데 어떻게 접근해 ?
@@ -90,20 +87,21 @@ const CartList = () => {
 
         //장바구이 아이템 삭제 handler
         const deleteItemHandler = async ()=>{
-            console.log("장바구니 아이템 삭제 비동기요청 핸들러");
-            console.log("selectItem----------Last",selectItem);
+            console.log(`장바구니 아이템 삭제 비동기요청 핸들러 selectItem ${selectItem}`);
 
             try{
                 //axios로 비동기 요청 보내기
-                const response = await axios.delete("/api/cart/delete",{
-                    data:selectItem //body에 데이터 담기
-                })
+                const response
+                    = await axios.delete("/api/cart/delete",{data:selectItem}) //body에 데이터 담기
                 // axios는 response.ok 없음 → HTTP 에러는 catch에서 잡힘
                 console.log("응답성공 클라이언트로 보내진 데이터",response.data);
+                const data = response.data;
                 //cartList 데이터 갱신필요
-                const bookList =  response.data.bookList
+                const bookList = Array.isArray(data) ? data : data.bookList;
+                const address = cartData?.[0]?.address ?? {}; // addrress  없다면 기존 데이터유지
+
                 // axios는 response.data를 json으로 파싱해서 promise가 아니므로 await 사용할 필요 없음
-                onInit(bookList);// 전역 데이터 갱신
+                onInit([{ address, bookList }]);// 전역 데이터 갱신 ==> 여기가 작동이 안되고있는거야 ? ===> cartData의 bookList를 갱신?
                 setSelectItem([]);// 삭제선택된 배열 리셋
             }catch(error){
                 console.error("삭제 실패:", error);
@@ -189,30 +187,33 @@ const CartList = () => {
         }));
     }
 
-    console.log("전역 bookCount---------3",bookCount);
+    //cartData가 변화할 때마다 데이터 갱신 ==> 이게 지금 안되고 있음
+    useEffect(() => {
+    console.log("CartData useEffect--cartList",cartData);
+    if (cartData) {
+        setCartList(bookList);
+    }
+    },[cartData])
+
+    //장바구니에 도서 담길 때 전체 선택 자동으로 될 경우
+    useEffect(() => {
+        // 그냥 검증
+        console.log("전역 bookCount---------",bookCount);
+        console.log("전역 selectItem---------",selectItem);
+
+    //carList가 null인지 undefined인지 확인 후 빈 배열 확인
+    if(cartList && cartList.length > 0){
+        const allId = cartList.map(item => item.cartId);
+        //선택 상태관리 변수 갱신
+        setSelectItem(allId);
+    }else{
+        setSelectItem([]);// 없으면 빈배열
+    }
+
+    },[cartList]) // cartList 가 변경될 때마다 실행
 
 
 
-    //cartData가 변화할 때마다 데이터 갱신
-        useEffect(() => {
-            console.log("CartData---------------useEffect--cartList",cartData);
-            if (cartData) {
-                setCartList(bookList);
-            }
-        },[cartData])
-
-        //장바구니에 도서 담길 때 전체 선택 자동으로 될 경우
-        useEffect(() => {
-            //carList가 null인지 undefined인지 확인 후 빈 배열 확인
-            if(cartList && cartList.length > 0){
-                const allId = cartList.map(item => item.cartId);
-                //선택 상태관리 변수 갱신
-                setSelectItem(allId);
-            }else{
-                setSelectItem([]);// 없으면 빈배열
-            }
-
-        },[cartList]) // cartList 가 변경될 때마다 실행
 
         //장바구니 데이터가 빈 배열(빈 값)일 경우 UI반환 함수
         const emptyCartList = () => {
@@ -226,10 +227,10 @@ const CartList = () => {
             )
         }
 
-    console.log("CartData----cartList",cartList);
+
 
         const addCartList = (cartList) => {
-            console.log("addCartList-----bookList", cartList); // undefined여서 에러나는데
+       //     console.log("addCartList-----bookList", cartList); // undefined여서 에러나는데
             return (
           <>
               {/*label 내부에 input 기입 시, htmlFor 기입 불필요*/}
