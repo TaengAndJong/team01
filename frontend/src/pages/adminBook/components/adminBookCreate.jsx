@@ -34,7 +34,7 @@ const AdminBookCreate = () => {
         bookDesc: '',
         author:'',
         bookPrice: '1',
-        stock: '1',
+        stock: '0',
         stockStatus:'재고없음',
         publishDate:'', //발행일
         roleId:'',
