@@ -6,6 +6,7 @@ import "@css/board/adminDashBoard.css";
 // import ChartComponent from "@pages/admin/components/ChartComponent.jsx";
 import CountCard from "./components/cardComponent/CountCard.jsx";
 import TapMenuStockComponent from "./components/tapMenuComponent/TapMenuStockComponent.jsx";
+import TapMenuNewBookComponent from "./components/tapMenuComponent/TapMenuNewBookComponent.jsx";
 function Admin() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -47,29 +48,11 @@ function Admin() {
     console.log("getQnaData 통신", data);
   };
 
-  const getNewDomestic = async () => {
-    const response = await fetch(`/api/admin/newDomesticBook`);
-    const data = await response.json();
-    console.log("getTodaysDomestic 통신", data);
-  };
-
-  const getNewForeign = async () => {
-    const response = await fetch(`/api/admin/newForeignBook`);
-    const data = await response.json();
-    console.log("getTodaysForeign 통신", data);
-  };
-
-  const getNewEBook = async () => {
-    const response = await fetch(`/api/admin/newEbook`);
-    const data = await response.json();
-    console.log("getTodaysEBook 통신", data);
-  };
-
   useEffect(() => {
     getNewCount();
-    getNewDomestic();
-    getNewForeign();
-    getNewEBook();
+    // getNewDomestic();
+    // getNewForeign();
+    // getNewEBook();
     // getStockDomesticBooks();
     // getStockForeignBooks();
     // getStockEBooks();
@@ -149,6 +132,7 @@ function Admin() {
                 </table>
               </div>
             </div>*/}
+            <TapMenuNewBookComponent />
           </div>
           <div className="table-container">
             <TapMenuStockComponent />

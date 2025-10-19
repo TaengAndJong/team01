@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Pagination from "@util/pagination.jsx";
-const TapMenuStockComponent = () => {
+
+const TapMenuNewBookComponent = () => {
   const [activeTab, setActiveTab] = useState("국내도서");
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -11,17 +12,17 @@ const TapMenuStockComponent = () => {
     "E-book": { items: [], pagination: {} },
   });
 
-  // const [pagination, setPagination] = useState({
-  //   국내도서: { currentPage: 1, totalPages: 3, totalRecord: 15, pageSize: 5 },
-  //   국외도서: { currentPage: 1, totalPages: 2, totalRecord: 10, pageSize: 5 },
-  //   "E-book": { currentPage: 1, totalPages: 1, totalRecord: 5, pageSize: 5 },
-  // });
+  //   const [pagination, setPagination] = useState({
+  //     국내도서: { currentPage: 1, totalPages: 3, totalRecord: 15, pageSize: 5 },
+  //     국외도서: { currentPage: 1, totalPages: 2, totalRecord: 10, pageSize: 5 },
+  //     "E-book": { currentPage: 1, totalPages: 1, totalRecord: 5, pageSize: 5 },
+  //   });
 
-  const getStockDomesticBooks = async (page = 1, pageSize = 5) => {
+  const getNewDomestic = async (page = 1, pageSize = 5) => {
     setIsLoading(true);
     setIsError(false);
     const response = await fetch(
-      `/api/admin/domesticStock?currentPage=${page}&pageSize=${pageSize}`
+      `/api/admin/newDomesticBook?currentPage=${page}&pageSize=${pageSize}`
     );
     if (response.ok) {
       const data = await response.json();
@@ -46,11 +47,11 @@ const TapMenuStockComponent = () => {
     setIsLoading(false);
   };
 
-  const getStockForeignBooks = async (page = 1, pageSize = 5) => {
+  const getNewForeign = async (page = 1, pageSize = 5) => {
     setIsLoading(true);
     setIsError(false);
     const response = await fetch(
-      `/api/admin/foreignStock?currentPage=${page}&pageSize=${pageSize}`
+      `/api/admin/newForeignBook?currentPage=${page}&pageSize=${pageSize}`
     );
     if (response.ok) {
       const data = await response.json();
@@ -75,11 +76,11 @@ const TapMenuStockComponent = () => {
     setIsLoading(false);
   };
 
-  const getStockEBooks = async (page = 1, pageSize = 5) => {
+  const getNewEBook = async (page = 1, pageSize = 5) => {
     setIsLoading(true);
     setIsError(false);
     const response = await fetch(
-      `/api/admin/ebooksStock?currentPage=${page}&pageSize=${pageSize}`
+      `/api/admin/newEbook?currentPage=${page}&pageSize=${pageSize}`
     );
     if (response.ok) {
       const data = await response.json();
@@ -105,9 +106,9 @@ const TapMenuStockComponent = () => {
   };
 
   useEffect(() => {
-    getStockDomesticBooks();
-    getStockForeignBooks();
-    getStockEBooks();
+    getNewDomestic();
+    getNewForeign();
+    getNewEBook();
   }, []);
 
   const onChangePageHandler = async ({ page, category }) => {
@@ -115,17 +116,17 @@ const TapMenuStockComponent = () => {
     console.log("changePage----", page);
 
     if (category === "국내도서") {
-      await getStockDomesticBooks(page, bookData[category].pagination.pageSize);
+      await getNewDomestic(page, bookData[category].pagination.pageSize);
     } else if (category === "국외도서") {
-      await getStockForeignBooks(page, bookData[category].pagination.pageSize);
+      await getNewForeign(page, bookData[category].pagination.pageSize);
     } else {
-      await getStockEBooks(page, bookData[category].pagination.pageSize);
+      await getNewEBook(page, bookData[category].pagination.pageSize);
     }
   };
 
   return (
     <div className="book-tab-container">
-      <h3>재고 부족 도서</h3>
+      <h3>신규 등록 도서</h3>
 
       {/* 탭 버튼 */}
       <div className="tab-buttons">
@@ -145,8 +146,6 @@ const TapMenuStockComponent = () => {
         <table>
           <thead>
             <tr>
-              <th>재고</th>
-              <th>재고유무</th>
               <th>도서명</th>
               <th>저자</th>
               <th>등록일</th>
@@ -155,8 +154,6 @@ const TapMenuStockComponent = () => {
           <tbody>
             {bookData[activeTab].items.map((book, i) => (
               <tr key={i}>
-                <td>{book.stock}</td>
-                <td>{book.stockStatus}</td>
                 <td>{book.bookName}</td>
                 <td>{book.author}</td>
                 <td>{book.publishDate}</td>
@@ -177,4 +174,4 @@ const TapMenuStockComponent = () => {
   );
 };
 
-export default TapMenuStockComponent;
+export default TapMenuNewBookComponent;
