@@ -4,9 +4,13 @@ import LeftMenu from "../../layout/LeftMenu.jsx";
 import AdminDashboard from "../adminBoard/components/adminDashboard.jsx";
 import "@css/board/adminDashBoard.css";
 // import ChartComponent from "@pages/admin/components/ChartComponent.jsx";
-import CountCard from "./components/cartComponent/CountCard.jsx";
+import CountCard from "./components/cardComponent/CountCard.jsx";
+import TapMenuStockComponent from "./components/tapMenuComponent/TapMenuStockComponent.jsx";
 function Admin() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [data, setData] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,56 +41,38 @@ function Admin() {
     fetchData();
   }, []);
 
+  const getNewCount = async () => {
+    const response = await fetch(`/api/admin/newCount`);
+    const data = await response.json();
+    console.log("getQnaData 통신", data);
+  };
+
+  const getNewDomestic = async () => {
+    const response = await fetch(`/api/admin/newDomesticBook`);
+    const data = await response.json();
+    console.log("getTodaysDomestic 통신", data);
+  };
+
+  const getNewForeign = async () => {
+    const response = await fetch(`/api/admin/newForeignBook`);
+    const data = await response.json();
+    console.log("getTodaysForeign 통신", data);
+  };
+
+  const getNewEBook = async () => {
+    const response = await fetch(`/api/admin/newEbook`);
+    const data = await response.json();
+    console.log("getTodaysEBook 통신", data);
+  };
+
   useEffect(() => {
-    const getNewCount = async () => {
-      const response = await fetch(`/api/admin/newCount`);
-      const data = await response.json();
-      console.log("getQnaData 통신", data);
-    };
-
-    const getNewDomestic = async () => {
-      const response = await fetch(`/api/admin/newDomesticBook`);
-      const data = await response.json();
-      console.log("getTodaysDomestic 통신", data);
-    };
-
-    const getNewForeign = async () => {
-      const response = await fetch(`/api/admin/newForeignBook`);
-      const data = await response.json();
-      console.log("getTodaysForeign 통신", data);
-    };
-
-    const getNewEBook = async () => {
-      const response = await fetch(`/api/admin/newEbook`);
-      const data = await response.json();
-      console.log("getTodaysEBook 통신", data);
-    };
-
-    const getStockDomesticBooks = async () => {
-      const response = await fetch(`/api/admin/domesticStock`);
-      const data = await response.json();
-      console.log("getTodaysEBook 통신", data);
-    };
-
-    const getStockForeignBooks = async () => {
-      const response = await fetch(`/api/admin/foreignStock`);
-      const data = await response.json();
-      console.log("getTodaysEBook 통신", data);
-    };
-
-    const getStockEBooks = async () => {
-      const response = await fetch(`/api/admin/ebooksStock`);
-      const data = await response.json();
-      console.log("getTodaysEBook 통신", data);
-    };
-
     getNewCount();
     getNewDomestic();
     getNewForeign();
     getNewEBook();
-    getStockDomesticBooks();
-    getStockForeignBooks();
-    getStockEBooks();
+    // getStockDomesticBooks();
+    // getStockForeignBooks();
+    // getStockEBooks();
   }, []);
   return (
     <>
@@ -103,7 +89,7 @@ function Admin() {
       </div> */}
       <div className="dashboard-container">
         <div className="top-section d-flex justify-content-around mb-5">
-          <div className="graph-container">
+          <div className="graph-container p-5">
             {/* <ChartComponent /> */}그래프
           </div>
           <div className="navCard-container">
@@ -135,7 +121,8 @@ function Admin() {
         </div>
         <div className="bottom-section d-flex justify-content-around mt-5">
           <div className="table-container">
-            <h3>신규 도서 목록</h3>
+            {/* <TapMenuComponent title={"신규 등록 도서"} /> */}
+            {/* <h3>신규 도서 목록</h3>
             <div className="accordion-container">
               <button>국내도서</button>
               <button>국외도서</button>
@@ -161,38 +148,10 @@ function Admin() {
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div>*/}
           </div>
           <div className="table-container">
-            <h3>재고 부족 도서</h3>
-            <div className="accordion-container">
-              <button>국내도서</button>
-              <button>국외도서</button>
-              <button>E-book</button>
-              <div className="">
-                <table>
-                  <caption className="sr-only">재고 부족 도서 테이블</caption>
-                  <thead>
-                    <tr>
-                      <th>재고</th>
-                      <th>도서명</th>
-                      <th>작가명</th>
-                      <th>출판사</th>
-                      <th>등록일</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>0</td>
-                      <td>이쁜 책</td>
-                      <td>김종호</td>
-                      <td>익산출판</td>
-                      <td>2025-12-20</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <TapMenuStockComponent />
           </div>
         </div>
       </div>

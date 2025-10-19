@@ -143,8 +143,9 @@ public class AdminController {
         {
 
         Pagination pagination = new Pagination(currentPage, pageSize);
-        List<StockBookDTO> bookData = adminService.getStockDomesticBooks(pagination);
         
+        List<StockBookDTO> bookData = adminService.getStockDomesticBooks(pagination);
+
         for (StockBookDTO stockBookDTO : bookData) {
         log.info("여기--검색 책목록:{}", stockBookDTO);
         // fileUtils.changeImgPath(qnaProductVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨

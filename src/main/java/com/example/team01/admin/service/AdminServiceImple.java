@@ -15,7 +15,10 @@ import com.example.team01.utils.Pagination;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
 
+import jakarta.transaction.Transactional;
+
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class AdminServiceImple implements AdminService {
@@ -89,12 +92,15 @@ public class AdminServiceImple implements AdminService {
     // 재고 부족 도서 로직
     @Override
     public List<StockBookDTO> getStockDomesticBooks(Pagination pagination){
+            log.info("[Service] 국내도서 before count - currentPage={}, pageSize={}",
+            pagination.getCurrentPage(), pagination.getPageSize());
         
-        
-
         int total = dao.countStockDomesticBooks();
         pagination.setTotalRecord(total);
         pagination.setLimitRows(pagination.getCurrentPage());
+
+        log.info("[Service] 국내도서 after setLimitRows - total={}, startRow={}, endRow={}",
+            total, pagination.getStartRow(), pagination.getEndRow());
 
         List<BookVO> bookVOList = dao.getStockDomesticBooks(pagination);
         
@@ -114,6 +120,9 @@ public class AdminServiceImple implements AdminService {
         pagination.setTotalRecord(total);
         pagination.setLimitRows(pagination.getCurrentPage());
 
+                log.info("[Service] 국외도서 after setLimitRows - total={}, startRow={}, endRow={}",
+            total, pagination.getStartRow(), pagination.getEndRow());
+
         List<BookVO> bookVOList = dao.getStockForeignBooks(pagination);
         
         List<StockBookDTO> stockBookList = bookVOList.stream()
@@ -131,13 +140,16 @@ public class AdminServiceImple implements AdminService {
         int total = dao.countStockEBooks();
         pagination.setTotalRecord(total);
         pagination.setLimitRows(pagination.getCurrentPage());
-
+        log.info("[Service] EBOOK after setLimitRows - total={}, startRow={}, endRow={}",
+            total, pagination.getStartRow(), pagination.getEndRow());
         List<BookVO> bookVOList = dao.getStockEBooks(pagination);
         
         List<StockBookDTO> stockBookList = bookVOList.stream()
                 .map(this::convertToStockDTO)
                 .toList();
         
+
+
         return stockBookList;
     }
 
@@ -151,6 +163,7 @@ public class AdminServiceImple implements AdminService {
                 .author(vo.getAuthor())
                 .stock(vo.getStock())
                 .stockStatus(vo.getStock() > 0 ? "재고 있음" : "품절")
+                .publishDate(vo.getPublishDate())
                 .build();
         }
 

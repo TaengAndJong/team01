@@ -85,7 +85,7 @@
             <select id="countStockDomesticBooks" resultType="int">
                     SELECT COUNT(*)
                     FROM book
-                    WHERE "stock" &lt;= 10
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국내도서%'
             </select>
 
             <select id="getStockDomesticBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
@@ -93,7 +93,7 @@
                 SELECT ROWNUM as rnum, a.*
                 FROM (
                     SELECT * FROM book
-                    WHERE "stock" &lt;= 10 AND "bookCateNm" = '국내도서'
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국내도서%'
                     ORDER BY "bookId" ASC
                     ) a
                 )
@@ -106,7 +106,7 @@
             <select id="countStockForeignBooks" resultType="int">
                     SELECT COUNT(*)
                     FROM book
-                    WHERE "stock" &lt;= 10
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국외도서%'
             </select>
 
             <select id="getStockForeignBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
@@ -114,7 +114,7 @@
                 SELECT ROWNUM as rnum, a.*
                 FROM (
                     SELECT * FROM book
-                    WHERE "stock" &lt;= 10 AND "bookCateNm" = '국외도서'
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국외도서%'
                     ORDER BY "bookId" ASC
                     ) a
                 )
@@ -127,7 +127,7 @@
             <select id="countStockEBooks" resultType="int">
                     SELECT COUNT(*)
                     FROM book
-                    WHERE "stock" &lt;= 10
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%EBOOK%'
             </select>
 
             <select id="getStockEBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
@@ -135,7 +135,7 @@
                 SELECT ROWNUM as rnum, a.*
                 FROM (
                     SELECT * FROM book
-                    WHERE "stock" &lt;= 10 AND "bookCateNm" = 'EBOOK'
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%EBOOK%'
                     ORDER BY "bookId" ASC
                     ) a
                 )
