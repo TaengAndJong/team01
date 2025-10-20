@@ -161,12 +161,14 @@ const AdminDetailBoard = ({ userType }) => {
       </div>
       {board?.comment ? (
         <div className="comment-container">
-          <div className="comment-box p-4">
+          <div className="p-4">
             <div className="text-end">
               <span>관리자 : </span>
               <span>{board.comment.comWriter}</span>
             </div>
-            <div className="mb-4">{board?.comment.commentCon}</div>
+            <div className="comment-box mb-4 text-left">
+              {board?.comment.commentCon}
+            </div>
           </div>
           <div className="modify-btn mb-4">
             <Btn

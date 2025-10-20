@@ -11,6 +11,11 @@
   text-align: right;
 }
 
+.content-box {
+  white-space: pre-wrap; /* 줄바꿈 문자 유지 + 자동 줄바꿈 허용 */
+  word-wrap: break-word; /* 긴 단어도 줄바꿈 가능 */
+}
+
  {
   /*코멘트 모달*/
 }
@@ -27,7 +32,7 @@
   z-index: 1000;
 }
 
-.comment-box div {
+.comment-box {
   white-space: pre-wrap; /* 줄바꿈 문자 유지 + 자동 줄바꿈 허용 */
   word-wrap: break-word; /* 긴 단어도 줄바꿈 가능 */
 }
