@@ -6,6 +6,8 @@ import "@css/board/adminDashBoard.css";
 //import CountCard from "./components/cardComponent/CountCard.jsx";
 import TapMenuStockComponent from "./components/tapMenuComponent/TapMenuStockComponent.jsx";
 import TapMenuNewBookComponent from "./components/tapMenuComponent/TapMenuNewBookComponent.jsx";
+// import ChartComponent from "./components/ChartComponent";
+
 function Admin() {
   // const [isLoading, setIsLoading] = useState(true);
   // const [isError, setIsError] = useState(false);
@@ -66,7 +68,9 @@ function Admin() {
       </div> */}
       <div className="dashboard-container">
         <div className="top-section d-flex justify-content-around mb-5">
-          <div className="graph-container p-5"></div>
+          <div className="graph-container p-5">
+            {/* <ChartComponent /> */}
+          </div>
           <div className="navCard-container">
             {/* <CountCard className="navCard-item" title={"1:1문의"} />
             <CountCard className="navCard-item" title={"상품문의"} />
