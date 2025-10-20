@@ -12,7 +12,7 @@ const CommentModal = ({
   const buttonText = modalMode === "edit" ? "수정" : "등록";
 
   return (
-    <div className="comment-modal-overlay" onClick={onClose}>
+    <div className="comment-modal-overlay">
       <div
         className="comment-modal-box"
         onClick={(e) => e.stopPropagation()} // 내부 클릭 시 모달 닫히지 않음
@@ -22,7 +22,7 @@ const CommentModal = ({
         </span>
         <h2 className="mb-4">{title}</h2>
         <textarea value={answer} onChange={handleAnswerChange} />
-        <div>
+        <div className="d-md-flex justify-content-md-end">
           <Btn
             className="custom-btn01 text-right"
             text={buttonText}

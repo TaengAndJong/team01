@@ -110,49 +110,70 @@ const AdminDetailBoard = ({ userType }) => {
   };
 
   return (
-    <div>
-      <div className=" title-dotted">
-        <span className="detail-title">제목 :</span>
-        <span>{board?.qnaTitle}</span>
-      </div>
-      <div className=" mb-4 detail-date ">
-        <span className="p-2">작성일 :</span>
-        <span>{formatToDate(new Date(board?.qnaDate))}</span>
-      </div>
-      <div className="m-4 content-box">
-        <div>{board?.qnaContent}</div>
-      </div>
-      <div className="attachment-box border border-secondary pt-3">
-        <strong className="p-2 text-#333">원본 첨부파일</strong>
-        <strong className="text-danger">{board?.attachmentList.length}</strong>
-        <ul>
-          {board?.attachmentList?.map((file, idx) => {
-            return (
-              <li key={idx} className=" attachment-list p-2">
-                <a
-                  className="download-item"
-                  onClick={() => {
-                    handleFileDownload(file?.fileName, file?.fileData);
-                  }}
+    <div className="admin-board-detail">
+      <div className="boardInfo card-body border-bottom">
+        <div className="info-header clearfix">
+          <h3 className="board-title title-dotted">
+            <i className="icon qna me-3"></i>
+            {board?.qnaTitle}
+          </h3>
+          <span className="detail-date tultip popular float-end d-inline-block">
+            <i className="sr-only">작성일</i>
+            {formatToDate(new Date(board?.qnaDate))}
+          </span>
+        </div>
+        <div className="content-box p-4 text-left">{board?.qnaContent}</div>
+        <div className="attachment-box border-top border-bottom d-block p-4">
+          <strong className="py-2 d-inline-block">원본 첨부파일</strong>
+          <span className="mx-2 fw-bold">
+            <em className="text-danger ">{board?.attachmentList.length}</em>개
+          </span>
+        </div>
+        {board?.attachmentList.length > 0 && (
+          <ol className="file-list p-4 list">
+            {board?.attachmentList?.map((file, idx) => {
+              return (
+                <li
+                  key={idx}
+                  className=" d-flex align-items-center mb-2 bullet-li"
                 >
-                  {file.fileName}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+                  <strong
+                    className="fw-bold me-2"
+                    onClick={() => {
+                      handleFileDownload(file?.fileName, file?.fileData);
+                    }}
+                  >
+                    {file.fileName}
+                  </strong>
+                  <span
+                    className="icon down"
+                    onClick={() => {
+                      handleFileDownload();
+                    }}
+                  >
+                    <em className="sr-only">다운로드</em>
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        )}
       </div>
       {board?.comment ? (
-        <div className="comment-box ">
-          <div className="d-flex mb-4 justify-content-md-between">
-            <div>{board?.comment.commentCon} </div>
-            <div className="">
-              <span>답변자 : </span>
+        <div className="comment-container">
+          <div className="comment-box p-4">
+            <div className="text-end">
+              <span>관리자 : </span>
               <span>{board.comment.comWriter}</span>
             </div>
+            <div className="mb-4">{board?.comment.commentCon}</div>
           </div>
-          <div className="modify-btn">
-            <Btn className="custom-btn02" onClick={openEditModal} text="수정" />
+          <div className="modify-btn mb-4">
+            <Btn
+              className="custom-btn02 m-1"
+              onClick={openEditModal}
+              text="수정"
+            />
             <Btn
               className="custom-btn00"
               onClick={() =>
@@ -172,7 +193,7 @@ const AdminDetailBoard = ({ userType }) => {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="d-md-flex justify-content-md-end">
           <Btn
             className="btn custom-btn00 btn-submit d-grid gap-2 mt-4"
             text="답변 등록"
@@ -190,9 +211,9 @@ const AdminDetailBoard = ({ userType }) => {
           handleAnswerChange={handleAnswerChange}
         />
       ) : null}
-      <div className="">
+      <div className="d-grid gap-2 d-md-flex justify-content-md-end pt-4 border-top">
         <Btn
-          className="btn btn-secondary d-grid gap-2 d-md-flex mt-4"
+          className="btn custom-btn01"
           text="목록"
           onClick={() => navigate(`/admin/board/${category}Board`)}
         />
