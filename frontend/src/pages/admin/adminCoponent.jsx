@@ -3,15 +3,14 @@ import { Outlet } from "react-router-dom";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import AdminDashboard from "../adminBoard/components/adminDashboard.jsx";
 import "@css/board/adminDashBoard.css";
-// import ChartComponent from "@pages/admin/components/ChartComponent.jsx";
-import CountCard from "./components/cardComponent/CountCard.jsx";
+//import CountCard from "./components/cardComponent/CountCard.jsx";
 import TapMenuStockComponent from "./components/tapMenuComponent/TapMenuStockComponent.jsx";
 import TapMenuNewBookComponent from "./components/tapMenuComponent/TapMenuNewBookComponent.jsx";
 function Admin() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [isError, setIsError] = useState(false);
   const [data, setData] = useState(null);
-
+  const [countData, setCountData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,16 +45,11 @@ function Admin() {
     const response = await fetch(`/api/admin/newCount`);
     const data = await response.json();
     console.log("getQnaData 통신", data);
+    setCountData(data);
   };
 
   useEffect(() => {
     getNewCount();
-    // getNewDomestic();
-    // getNewForeign();
-    // getNewEBook();
-    // getStockDomesticBooks();
-    // getStockForeignBooks();
-    // getStockEBooks();
   }, []);
   return (
     <>
@@ -72,66 +66,16 @@ function Admin() {
       </div> */}
       <div className="dashboard-container">
         <div className="top-section d-flex justify-content-around mb-5">
-          <div className="graph-container p-5">
-            {/* <ChartComponent /> */}그래프
-          </div>
+          <div className="graph-container p-5"></div>
           <div className="navCard-container">
-            <CountCard
-              className="navCard-item"
-              icon={null}
-              title={"1:1문의"}
-              rightContent={null}
-            />
-            <CountCard
-              className="navCard-item"
-              icon={null}
-              title={"상품문의"}
-              rightContent={null}
-            />
-            <CountCard
-              className="navCard-item"
-              icon={null}
-              title={"배송문의"}
-              rightContent={null}
-            />
-            <CountCard
-              className="navCard-item"
-              icon={null}
-              title={"문의 바로가기"}
-              rightContent={null}
-            />
+            {/* <CountCard className="navCard-item" title={"1:1문의"} />
+            <CountCard className="navCard-item" title={"상품문의"} />
+            <CountCard className="navCard-item" title={"배송문의"} />
+            <CountCard className="navCard-item" title={"문의 바로가기"} /> */}
           </div>
         </div>
         <div className="bottom-section d-flex justify-content-around mt-5">
           <div className="table-container">
-            {/* <TapMenuComponent title={"신규 등록 도서"} /> */}
-            {/* <h3>신규 도서 목록</h3>
-            <div className="accordion-container">
-              <button>국내도서</button>
-              <button>국외도서</button>
-              <button>E-book</button>
-              <div className="">
-                <table>
-                  <caption className="sr-only">신규 등록 도서 테이블</caption>
-                  <thead>
-                    <tr>
-                      <th>도서명</th>
-                      <th>작가명</th>
-                      <th>출판사</th>
-                      <th>등록일</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>이쁜 책</td>
-                      <td>김종호</td>
-                      <td>익산출판</td>
-                      <td>2025-10-20</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>*/}
             <TapMenuNewBookComponent />
           </div>
           <div className="table-container">

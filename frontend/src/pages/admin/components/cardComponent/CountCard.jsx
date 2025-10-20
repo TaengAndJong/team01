@@ -1,13 +1,9 @@
 import CardComponentLayout from "./CardComponentLayout";
 
-const CountCard = ({ className, icon, title, rightContent }) => {
+const CountCard = ({ className, title }) => {
   return (
     <div className={className}>
-      <CardComponentLayout
-        icon={icon}
-        title={title}
-        rightContent={rightContent}
-      />
+      <CardComponentLayout title={title} />
     </div>
   );
 };

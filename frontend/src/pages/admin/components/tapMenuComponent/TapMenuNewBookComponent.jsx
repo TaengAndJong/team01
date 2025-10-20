@@ -12,12 +12,6 @@ const TapMenuNewBookComponent = () => {
     "E-book": { items: [], pagination: {} },
   });
 
-  //   const [pagination, setPagination] = useState({
-  //     국내도서: { currentPage: 1, totalPages: 3, totalRecord: 15, pageSize: 5 },
-  //     국외도서: { currentPage: 1, totalPages: 2, totalRecord: 10, pageSize: 5 },
-  //     "E-book": { currentPage: 1, totalPages: 1, totalRecord: 5, pageSize: 5 },
-  //   });
-
   const getNewDomestic = async (page = 1, pageSize = 5) => {
     setIsLoading(true);
     setIsError(false);
@@ -107,8 +101,6 @@ const TapMenuNewBookComponent = () => {
 
   useEffect(() => {
     getNewDomestic();
-    getNewForeign();
-    getNewEBook();
   }, []);
 
   const onChangePageHandler = async ({ page, category }) => {

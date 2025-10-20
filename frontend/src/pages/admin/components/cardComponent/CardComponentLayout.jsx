@@ -1,13 +1,12 @@
 import "@css/board/adminDashBoard.css";
-const CardComponentLayout = ({ icon, title, rightContent }) => {
+const CardComponentLayout = ({ title }) => {
   return (
     <>
       <div className="card-box rounded">
-        <i>{icon}</i>
         <h3>{title}</h3>
       </div>
       <div>
-        <span>{rightContent}</span>
+        <span></span>
       </div>
     </>
   );
