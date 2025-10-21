@@ -14,6 +14,7 @@ import {validStock} from "../../../util/validation.jsx";
 import ReusableModal from "./modal.jsx";
 import PublishDate from "./publishDate.jsx";
 import RecomeType from "./recomeType.jsx";
+import SalesStatus from "./salesStatus.jsx";
 
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
 
@@ -34,7 +35,7 @@ const AdminBookCreate = () => {
         bookDesc: '',
         author:'',
         bookPrice: '1',
-        stock: '1',
+        stock: '0',
         stockStatus:'재고없음',
         publishDate:'', //발행일
         roleId:'',
@@ -42,7 +43,8 @@ const AdminBookCreate = () => {
         bookImg: [], // 다중 파일 업로드라면 배열로 설정
         writer: '',
         createDate:formatToDate(new Date()), // 클라이언트에게 보여줄 날짜 ==> 데이터베이스는 자동으로 데이터 넣기
-        recomType:'NORMAL'
+        recomType:'NORMAL',
+        saleStatus:'판매중'
     })
     //카테고리
     const [categoryList, setCategoryList] = useState([]); // 도서 카테고리 상태관리
@@ -80,12 +82,12 @@ const AdminBookCreate = () => {
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
-        if (userData != null) { // userData가 있을 때만 실행
-            //console.log("userData",userData);
-            setCreateBook(prevState => ({
-                ...prevState,
-                roleId: userData?.roles[0],  // 최신 값으로 갱신
-                writer: userData?.clientName,
+       console.log("userData---- 등록",userData);
+        if (userData && userData.roles?.length > 0) {
+            setCreateBook(prev => ({
+                ...prev,
+                roleId: userData.roles[0],
+                writer: userData.clientName,
             }));
         }
         getCategories();
@@ -266,39 +268,62 @@ const AdminBookCreate = () => {
 
             <div className="bookcreate">
                 {/*onSubmit={handleInputChange}*/}
+
                 <form className="bookCreateForm" onSubmit={onSubmit}>
-                    {/*등록타입*/}
-                    <RecomeType  setCreatebook={setCreateBook}/>
-                    {/*카테고리*/}
-                    <Category setDefaultData={setCreateBook} defaultData={createBook} categoryList={categoryList}  />
+                    <div className="d-flex align-items-center mb-1">
+                        {/*카테고리*/}
+                        <Category setDefaultData={setCreateBook} defaultData={createBook} categoryList={categoryList}/>
+                    </div>
+                    <div className="d-flex align-items-center mb-1">
+                        {/*등록타입*/}
+                        <RecomeType setDefaultData={setCreateBook}/>
+                        {/* 판매상태관리 */}
+                        <SalesStatus setDefaultData={setCreateBook}/>
+                    </div>
                     {/*도서명*/}
                     <div className="d-flex align-items-center mb-1">
-                            <FormTag id="bookName" label="도서명" labelClass="form-title" className="form-control" name="bookName" type="text"
-                                     placeholder="도서명 입력" value={createBook.bookName} onChange={handleChange}/>
-                    </div>
-                    {/*저자명 */}
-                    <div className="d-flex align-items-center mb-1">
-                            <FormTag id="author" label="저자" labelClass="form-title" className="form-control" name="author" type="text"
-                                     placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
-                    </div>
-                    {/*발행일*/}
-                    <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>
-                    <div className="d-flex align-items-center mb-1">
-                    {/*재고 & 가격*/}
-                        <PriceStock bookPrice={createBook.bookPrice} stock={createBook.stock} stockStatus={createBook.stockStatus} handleChange={handleChange}/>
-                        <div className="d-flex align-items-center">
-                            <FormTag id="createDate" label="등록일" labelClass="form-title" className="form-control" name="createDate"
-                                     type="text"
-                                     placeholder="등록일" value={createBook.createDate} readOnly={true}/>
-                        </div>
-                    </div>
+                        <FormTag id="bookName" label="도서명" labelClass="form-title"
+                                 className="form-control flex-fill me-3"
+                                 name="bookName" type="text"
+                                 placeholder="도서명 입력" value={createBook.bookName} onChange={handleChange}/>
 
-                    {/*작성자*/}
+                    </div>
+                    <div className="d-flex align-items-center mb-1">
+                        {/*저자명 */}
+                        <FormTag id="author" label="저자" labelClass="form-title" className="form-control w-auto"
+                                 name="author"
+                                 type="text"
+                                 placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
+                        {/*발행일*/}
+                        <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>
+                    </div>
+                    {/*<div className="d-flex align-items-center mb-1">*/}
+                    {/*    <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>*/}
+                    {/*</div>*/}
+
+                    <div className="d-flex align-items-center mb-1 ">
+                        {/*재고 & 가격*/}
+                        <PriceStock bookPrice={createBook.bookPrice} stock={createBook.stock}
+                                    stockStatus={createBook.stockStatus} handleChange={handleChange}/>
+                    </div>
                     <div className="d-flex align-items-center mb-1">
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
-                        <FormTag id="writer" label="작성자" labelClass="form-title" className="form-control" name="writer"
+                        <FormTag id="writer" label="작성자" labelClass="form-title"
+                                 className="form-control flex-fill me-5"
+                                 name="writer"
                                  type="text"
                                  placeholder="작성자" value={userData?.clientName} readOnly={true}/>
+
+                        <FormTag id="createDate" label="등록일" labelClass="form-title"
+                                 className="form-control flex-fill "
+                                 name="createDate"
+                                 type="text"
+                                 placeholder="등록일" value={createBook.createDate} readOnly={true}/>
+
+                    </div>
+                    {/*작성자*/}
+                    <div className="d-flex align-items-center mb-1">
+
                     </div>
                     {/*도서설명*/}
                     <div className="d-flex align-items-center mb-1">
@@ -312,12 +337,15 @@ const AdminBookCreate = () => {
                     {/*도서이미지
                         이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요
                     */}
-                    <div className="d-flex align-items-center input-group">
+                    <div className="d-flex align-items-center flex-wrap">
+
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
                         <FileUpload bookImg={bookImg} setBookImg={setBookImg} setCreatebook={setCreateBook}/>
                     </div>
+
+
                 </form>
                 <div className="d-flex align-items-center justify-content-center mt-4">
                     <Btn path={PathsData.page.adminBook} className={"login btn btn-danger mx-1"} text={"취소"}/>

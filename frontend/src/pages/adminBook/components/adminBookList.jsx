@@ -158,181 +158,193 @@ const AdminBookList = () => {
     );
   };
 
+
+
+
   return (
-    <>
-      <SearchBar
-        search={search}
-        setSearch={setSearch}
-        handleSearch={handleSearch}
-      />
-
-      <table className="table table-custom mt-4">
-        <caption className="sr-only">등록된 도서상품 테이블</caption>
-        <thead>
-          <tr>
-            <th scope="col" className="text-center">
-              <input
-                type="checkbox"
-                id="selectAll"
-                checked={
-                  checkedInput.length === bookList.length && bookList.length > 0
-                }
-                onChange={(e) => handleSelectAll(e.target.checked)}
-              />
-              <label htmlFor="selectAll" className="sr-only">
-                전체 선택
-              </label>
-            </th>
-            <th scope="col" className="text-center">
-              No.
-            </th>
-            <th scope="col" className="text-center">
-              이미지
-            </th>
-            <th scope="col" className="text-center">
-              카테고리
-            </th>
-            <th scope="col" className="text-center">
-              도서명
-            </th>
-            {/*<th className="text-center">설명</th>*/}
-            <th scope="col" className="text-center">
-              저자
-            </th>
-            <th scope="col" className="text-center">
-              가격
-            </th>
-            <th scope="col" className="text-center">
-              발행일
-            </th>
-            <th scope="col" className="text-center">
-              등록자
-            </th>
-            <th scope="col" className="text-center">
-              등록일
-            </th>
-            <th scope="col" className="text-center">
-              재고
-            </th>
-          </tr>
-        </thead>
-
-        <tbody className="">
-          {/* undefined 와 데이터의 개수 검증*/}
-          {!bookList || bookList?.length === 0 ? (
-            <tr className="">
-              <td colSpan="12" className="text-center">
-                데이터가 없습니다.
-              </td>
-            </tr>
-          ) : (
-            bookList?.map((item, index) => (
-              <tr key={index} className="table-light border-bottom">
-                <td className="text-center">
-                  <input
+      <>
+        <SearchBar
+            search={search}
+            setSearch={setSearch}
+            handleSearch={handleSearch}
+        />
+        <div className="table-responsive">
+          <table className="table table-custom mt-4">
+            <caption className="sr-only">등록된 도서상품 테이블</caption>
+            <thead>
+            <tr>
+              <th scope="col" className="text-center">
+                <input
                     type="checkbox"
-                    id={`item${index}`}
-                    name={`item${index}`}
-                    checked={checkedInput.includes(item.bookId)} // 상태 기반 체크 여부 결정
-                    onChange={(e) =>
-                      onChangeCheck(`${item.bookId}`, e.target.checked)
+                    id="selectAll"
+                    checked={
+                        checkedInput.length === bookList.length && bookList.length > 0
                     }
-                  />
-                  <label
-                    htmlFor={`item${index}`}
-                    className="sr-only"
-                  >{`${item.bookName}`}</label>
-                </td>
-                <td className="text-center " id={`bookId${index}`}>
-                  {item.bookId}
-                </td>
+                    onChange={(e) => handleSelectAll(e.target.checked)}
+                />
+                <label htmlFor="selectAll" className="sr-only">
+                  전체 선택
+                </label>
+              </th>
+              <th scope="col" className="text-center">
+                No.
+              </th>
+              <th scope="col" className="text-center">
+                이미지
+              </th>
+              <th scope="col" className="text-center">
+                카테고리
+              </th>
+              <th scope="col" className="text-center">
+                도서명
+              </th>
+              {/*<th className="text-center">설명</th>*/}
+              <th scope="col" className="text-center">
+                저자
+              </th>
+              <th scope="col" className="text-center">
+                가격
+              </th>
+              <th scope="col" className="text-center">
+                발행일
+              </th>
+              <th scope="col" className="text-center">
+                등록자
+              </th>
+              <th scope="col" className="text-center">
+                등록일
+              </th>
+              <th scope="col" className="text-center">
+                재고
+              </th>
+              <th scope="col" className="text-center">
+                판매상태
+              </th>
+            </tr>
+            </thead>
 
-                <td className="text-center" id={`bookImg${index}`}>
-                  <div className="imgbox">
-                    <img
-                      src={`${item.bookImgList[0]}`}
-                      alt={`${item.bookName}도서 이미지`}
-                    />
-                  </div>
-                </td>
+            <tbody className="">
+            {/* undefined 와 데이터의 개수 검증*/}
+            {!bookList || bookList?.length === 0 ? (
+                <tr className="">
+                  <td colSpan="12" className="text-center">
+                    데이터가 없습니다.
+                  </td>
+                </tr>
+            ) : (
+                bookList?.map((item, index) => (
+                    <tr key={index} className="table-light border-bottom">
+                      <td className="text-center">
+                        <input
+                            type="checkbox"
+                            id={`item${index}`}
+                            name={`item${index}`}
+                            checked={checkedInput.includes(item.bookId)} // 상태 기반 체크 여부 결정
+                            onChange={(e) =>
+                                onChangeCheck(`${item.bookId}`, e.target.checked)
+                            }
+                        />
+                        <label
+                            htmlFor={`item${index}`}
+                            className="sr-only"
+                        >{`${item.bookName}`}</label>
+                      </td>
+                      <td className="text-center " id={`bookId${index}`}>
+                        {item.bookId}
+                      </td>
 
-                <td className="text-left" id={`bookCateNm${index}`}>
-                  {item.bookCateNm}
-                </td>
-                <td className="text-left" id={`bookNm${index}`}>
-                  <Link
-                    to={`/admin/book/bookDetail/${item.bookId}`}
-                    title={`${item.bookName} 상세페이지로 이동`}
-                  >
-                    {recomTultip(item.recomType)}
-                    <p>{item.bookName}</p>
-                  </Link>
-                </td>
-                {/*<td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>*/}
-                <td className="text-center" id={`bookAuthor${index}`}>
-                  {item.author}
-                </td>
-                <td className="text-center" id={`bookPrice${index}`}>
-                  {item.bookPrice}원
-                </td>
-                <td className="text-center" id={`bookPublishDt${index}`}>
-                  {item.publishDate}
-                </td>
-                <td className="text-center" id={`bookWriter${index}`}>
-                  {item.writer}
-                </td>
-                <td className="text-center" id={`bookPublishDt${index}`}>
-                  {formatToDate(new Date(item.createDate))}
-                </td>
-                <td className="text-center" id={`bookStock${index}`}>
-                  {item.stock}
-                </td>
-              </tr>
-            ))
+                      <td className="text-center" id={`bookImg${index}`}>
+                        <div className="imgbox">
+                          <img
+                              src={`${item.bookImgList[0]}`}
+                              alt={`${item.bookName}도서 이미지`}
+                          />
+                        </div>
+                      </td>
+
+                      <td className="text-left" id={`bookCateNm${index}`}>
+                        {item.bookCateNm}
+                      </td>
+                      <td className="text-left" id={`bookNm${index}`}>
+                        <Link
+                            to={`/admin/book/bookDetail/${item.bookId}`}
+                            title={`${item.bookName} 상세페이지로 이동`}
+                        >
+                          {recomTultip(item.recomType)}
+                          <p>{item.bookName}</p>
+                        </Link>
+                      </td>
+                      {/*<td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>*/}
+                      <td className="text-center" id={`bookAuthor${index}`}>
+                        {item.author}
+                      </td>
+                      <td className="text-center" id={`bookPrice${index}`}>
+                        {item.bookPrice}원
+                      </td>
+                      <td className="text-center" id={`bookPublishDt${index}`}>
+                        {item.publishDate}
+                      </td>
+                      <td className="text-center" id={`bookWriter${index}`}>
+                        {item.writer}
+                      </td>
+                      <td className="text-center" id={`bookPublishDt${index}`}>
+                        {formatToDate(new Date(item.createDate))}
+                      </td>
+                      <td className="text-center" id={`bookStock${index}`}>
+                        {item.stock}
+                      </td>
+                      <td className="text-center" id={`saleStatus${index}`}>
+                        {item.saleStatus}
+                      </td>
+                    </tr>
+                ))
+            )}
+            </tbody>
+          </table>
+        </div>
+        {/*pagination*/}
+        <Pagination
+              paginationInfo={paginationInfo}
+              onChangePageHandler={onChangePageHandler}
+          />
+
+          <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+            <Btn
+                className={"delete btn btn-danger"}
+                id={"deleteBtn"}
+                type={"button"}
+                onClick={() => handleShow()}
+                text="삭제"
+            />
+            <Btn
+                className={"create btn custom-btn02"}
+                id={"createBtn"}
+                type={"button"}
+                path={pathsData.page.adminBookCreate}
+                text="등록"
+            />
+          </div>
+          {/*checkedInput만 하면 빈 배열이라도 true로 판정해서 모달이 열리기때문에 요소의 개수로 판단*/}
+          {show && checkedInput.length === 0 && (
+              <ReusableModal
+                  show={show}
+                  onClose={handleClose}
+                  modalType="noSelection"
+              />
           )}
-        </tbody>
-      </table>
-      {/*pagination*/}
-      <Pagination
-        paginationInfo={paginationInfo}
-        onChangePageHandler={onChangePageHandler}
-      />
 
-      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <Btn
-          className={"delete btn btn-danger"}
-          id={"deleteBtn"}
-          type={"button"}
-          onClick={() => handleShow()}
-          text="삭제"
-        />
-        <Btn
-          className={"create btn custom-btn02"}
-          id={"createBtn"}
-          type={"button"}
-          path={pathsData.page.adminBookCreate}
-          text="등록"
-        />
-      </div>
-      {/*checkedInput만 하면 빈 배열이라도 true로 판정해서 모달이 열리기때문에 요소의 개수로 판단*/}
-      {show && checkedInput.length === 0 && (
-        <ReusableModal
-          show={show}
-          onClose={handleClose}
-          modalType="noSelection"
-        />
-      )}
-
-      {show && checkedInput.length > 0 && (
-        <ReusableModal
-          show={show}
-          onClose={handleClose}
-          onConfirm={() => onDeleteHandler(checkedInput)}
-          modalType="delete"
-        />
-      )}
-    </>
-  );
+          {show && checkedInput.length > 0 && (
+              <ReusableModal
+                  show={show}
+                  onClose={handleClose}
+                  onConfirm={() => onDeleteHandler(checkedInput)}
+                  modalType="delete"
+              />
+          )}
+        </>
+        );
 };
 
-export default AdminBookList;
+
+
+        export default AdminBookList;

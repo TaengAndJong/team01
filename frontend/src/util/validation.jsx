@@ -15,7 +15,7 @@ const inputRegexs = {
     //숫자만
     //numberRegex: /^\d+$/,
 
-  numberRegex: /^[1-9][0-9]*$/, // ^ : 시작, 첫자리 [1-9], 그 뒤로 [0-9]* 가 0개 이상 , $ 끝
+ numberRegex: /^[1-9][0-9]*$/, // ^ : 시작, 첫자리 [1-9], 그 뒤로 [0-9]* 가 0개 이상 , $ 끝
 };
 
 // 공통 유효성 검사 함수작성
@@ -41,7 +41,7 @@ export const validateInput = (regex, value,name,type) => {
         }
         //문자열에 숫자가 들어있을경우
         if (name.toLowerCase().includes("stock")) {
-            return { valid: false, message: "숫자만 입력해 주세요." };
+            return { valid: false, message: "0 이상 숫자만 입력해 주세요." };
         }
     }
 
@@ -88,7 +88,6 @@ export const validEachTel = (name,tel) => validateInput(inputRegexs.telEachRegex
 export const validFullTel = (tel) => validateInput(inputRegexs.telRegex, tel, "전화번호");
 export const validEmail = (email) => validateInput(inputRegexs.emailRegex, email,"이메일");
 export const validStock = (stock)=>validateInput(inputRegexs.numberRegex,stock,"stock","재고");
-
 
 
 // 중복 체크 추가 (서버와 통신하기 때문에 비동기로 작성)

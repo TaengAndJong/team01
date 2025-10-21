@@ -163,6 +163,16 @@ public class FileUtils {
         List<String> imgUrlList = bookImgList.stream()
                 .map(fileName -> {
                     String folder = fileName.toLowerCase().contains("noimg") ? "images" : "uploads/book";
+                   //파일존재여부 검증
+                    String realPath = request.getServletContext().getRealPath("/" + folder + "/" + fileName);
+                    File file = new File(realPath);
+
+                    if (!file.exists()) {
+                        // 파일 없으면 대체 이미지 사용
+                        fileName = "noImg.png";
+                        folder = "images"; // 기본 이미지 폴더
+                    }
+
                     return baseImageUrl(request, folder) + fileName;
                 })
                 .collect(Collectors.toList());
@@ -195,6 +205,17 @@ public class FileUtils {
         List<String> imgUrlList = bookImgList.stream()
                 .map(fileName -> {
                     String folder = fileName.toLowerCase().contains("noimg") ? "images" : "uploads/book";
+
+                    //파일존재여부 검증
+                    String realPath = request.getServletContext().getRealPath("/" + folder + "/" + fileName);
+                    File file = new File(realPath);
+
+                    if (!file.exists()) {
+                        // 파일 없으면 대체 이미지 사용
+                        fileName = "noImg.png";
+                        folder = "images"; // 기본 이미지 폴더
+                    }
+
                     return baseImageUrl(request, folder) + fileName;
                 })
                 .collect(Collectors.toList());
