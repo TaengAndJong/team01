@@ -1,10 +1,10 @@
-import CardComponentLayout from "./CardComponentLayout";
-
-const CountCard = ({ className, title }) => {
+const CountCard = ({ title, countData }) => {
   return (
-    <div className={className}>
-      <CardComponentLayout title={title} />
-    </div>
+    <>
+      <div className="CardWrapper">
+        <div className="card-header"></div>
+      </div>
+    </>
   );
 };
 

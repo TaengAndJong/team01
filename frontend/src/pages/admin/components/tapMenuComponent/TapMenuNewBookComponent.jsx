@@ -117,7 +117,7 @@ const TapMenuNewBookComponent = () => {
   };
 
   return (
-    <div className="book-tab-container">
+    <div className="book-tab-container shadow">
       <h3>신규 등록 도서</h3>
 
       {/* 탭 버튼 */}
@@ -125,7 +125,9 @@ const TapMenuNewBookComponent = () => {
         {Object.keys(bookData).map((category) => (
           <button
             key={category}
-            className={`tab-button ${activeTab === category ? "active" : ""}`}
+            className={`rounded-top tab-button ${
+              activeTab === category ? "active" : ""
+            }`}
             onClick={() => setActiveTab(category)}
           >
             {category}

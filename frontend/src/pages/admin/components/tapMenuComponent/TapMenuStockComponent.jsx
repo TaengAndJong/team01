@@ -118,7 +118,7 @@ const TapMenuStockComponent = () => {
   };
 
   return (
-    <div className="book-tab-container">
+    <div className="book-tab-container shadow">
       <h3>재고 부족 도서</h3>
 
       {/* 탭 버튼 */}
@@ -126,7 +126,9 @@ const TapMenuStockComponent = () => {
         {Object.keys(bookData).map((category) => (
           <button
             key={category}
-            className={`tab-button ${activeTab === category ? "active" : ""}`}
+            className={`rounded-top tab-button ${
+              activeTab === category ? "active" : ""
+            }`}
             onClick={() => setActiveTab(category)}
           >
             {category}
@@ -140,7 +142,6 @@ const TapMenuStockComponent = () => {
           <thead>
             <tr>
               <th>재고</th>
-              <th>재고유무</th>
               <th>도서명</th>
               <th>저자</th>
               <th>등록일</th>
@@ -150,7 +151,6 @@ const TapMenuStockComponent = () => {
             {bookData[activeTab].items.map((book, i) => (
               <tr key={i}>
                 <td>{book.stock}</td>
-                <td>{book.stockStatus}</td>
                 <td>{book.bookName}</td>
                 <td>{book.author}</td>
                 <td>{book.publishDate}</td>
