@@ -9,7 +9,7 @@ import {useAuth} from "../pages/common/AuthContext.jsx";
 //커스텀 훅 사용법
 export const useSessionCheck = () =>{
 
-    const { isAuthenticated} = useAuth();
+    const { isAuthenticated } = useAuth();
     const {openModal,closeModal}= useModal();
     const navigate = useNavigate();
     const isRunning = useRef(false); // 세션확인 중복방지 관리
@@ -52,6 +52,9 @@ export const useSessionCheck = () =>{
            try {
                const res = await sessionCheck.get("/check/session"); // 여기가 매핑주소
                console.log("세션 유효:", res.data);
+
+
+
            } catch (err) {
                console.log("세션 무효 : ",err);
                //에러데이터는 에러처리 유틸로

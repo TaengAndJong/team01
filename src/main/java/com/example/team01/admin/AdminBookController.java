@@ -37,6 +37,9 @@ public class AdminBookController {
         //카테고리 목록 가져오기
         Map<String, List<CategoryVO>> cateData  = categoryService.getAllCategories();
         log.info("도서 생성 get API cateData:{}",cateData);
+
+
+
         return  ResponseEntity.ok(cateData);
     }
 
@@ -91,6 +94,7 @@ public class AdminBookController {
 
         for (AdminBookVO adminBookVO : bookList) {
             log.info("여기:{}", adminBookVO);
+
             fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
             log.info("다음:{}", adminBookVO);
         }
@@ -134,6 +138,7 @@ public class AdminBookController {
             // 레코드 순회
             for (AdminBookVO adminBookVO : bookList) {
                 log.info("여기--검색 책목록:{}", adminBookVO);
+
                 fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
                 log.info("다음--검색 책목록:{}", adminBookVO);
             }
@@ -148,19 +153,17 @@ public class AdminBookController {
 
     @GetMapping("/bookDetail/{bookId}")
     public ResponseEntity<?> getBookDetail(@PathVariable String bookId,HttpServletRequest request){
-        log.info("bookId :{}", bookId);
-        log.info("도서 상세페이지 API 호출됨");
+
 
         // 아이디를 파라미터로 데이터베이스에 넘겨서 데이터 받아오기
         AdminBookVO adminBookVO = bookService.deTailBook(bookId);
-        log.info("adminbookVO ---:{}", adminBookVO);
-        fileUtils.changeImgPath(adminBookVO,request);
 
+        fileUtils.changeImgPath(adminBookVO,request);
         log.info("adminBookVO -----------:{}",adminBookVO);
 
         Map<String, Object> response = new HashMap<>();
         response.put("bookVO", adminBookVO);
-        log.info("response -----------:{}",response);
+
         return  ResponseEntity.ok(response);
     }
 
@@ -174,8 +177,6 @@ public class AdminBookController {
         //해당 아이디에 대한 도서 정보 가져오기
         AdminBookVO adminBookVO = bookService.deTailBook(bookId);
         fileUtils.changeImgPath(adminBookVO, request); // 필요 시 이미지 경로 수정
-
-        log.info("adminBookVO-----------AdminbookController----Modify:{}",adminBookVO);
 
         Map<String,Object> response = new HashMap<>();
         //해당 아이디에 대한 도서데이터와 , 카테고리 데이터를 클라이언트에게 전송하기!
@@ -241,15 +242,15 @@ public class AdminBookController {
 
         //Advice 미사용 시, 예외에 대해서 try-catch 구문을 사용해서 처리해주기
         try {
-            log.info("서비스로 가기 전 ----------:{}",bookIds);
+
             int result = bookService.deleteBooks(bookIds);
-            log.info("result ----------:{}",result);
+
             return ResponseEntity.ok(Map.of(
                     "message", "삭제 완료",
                     "deletedCount", result
             ));
         } catch (BookNotFoundException ex) {
-            log.info("ex :{}",ex);
+
             // 여기서 예외를 직접 처리!
             return ResponseEntity.badRequest().body(Map.of(
                     "error", "존재하지 않는 도서가 포함되어 있습니다.",

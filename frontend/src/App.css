@@ -155,14 +155,15 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 
 .tultip {
   margin-bottom: 1rem;
-  background-color: #FFE377;
+  margin-left: 0.5rem;
+  background-color: #BED297;
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.8rem;
   border-radius: 0.4rem;
 }
 .tultip.recom {
-  background-color: #BED297;
+  background-color: #FFE377;
 }
 .tultip.popular, .tultip.uncomplete {
   background-color: #F7ECE7;
