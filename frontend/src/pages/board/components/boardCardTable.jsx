@@ -1,7 +1,7 @@
 import "@assets/css/board/userDashBoard.css";
 import Btn from "@util/reuseBtn.jsx";
 import { formatToDate } from "@util/dateUtils.jsx";
-import NoDataTable from "./noDataTable";
+import NoDataTable from "@common/Nodata.jsx";
 const BoardCardTable = ({ items, category }) => {
   console.log("items:", items);
   console.log("category", category);

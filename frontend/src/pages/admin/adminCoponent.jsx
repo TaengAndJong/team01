@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import AdminDashboard from "../adminBoard/components/adminDashboard.jsx";
-import "@css/board/adminDashBoard.css";
-//import CountCard from "./components/cardComponent/CountCard.jsx";
+import "@css/adminMain.css";
+import CountCard from "./components/cardComponent/CountCard.jsx";
 import TapMenuStockComponent from "./components/tapMenuComponent/TapMenuStockComponent.jsx";
 import TapMenuNewBookComponent from "./components/tapMenuComponent/TapMenuNewBookComponent.jsx";
 // import ChartComponent from "./components/ChartComponent";
 
 function Admin() {
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [data, setData] = useState(null);
-  const [countData, setCountData] = useState(null);
+  const [countData, setCountData] = useState({
+    qnaCount: 0,
+    productCount: 0,
+    deliveryCount: 0,
+  });
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,15 +48,26 @@ function Admin() {
   }, []);
 
   const getNewCount = async () => {
+    setIsLoading(true);
+    setIsError(false);
+
     const response = await fetch(`/api/admin/newCount`);
-    const data = await response.json();
-    console.log("getQnaData 통신", data);
-    setCountData(data);
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("getQnaData 통신", data);
+      setCountData(data);
+    } else {
+      setIsError(true);
+      console.log("에러");
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     getNewCount();
   }, []);
+
   return (
     <>
       {/* <div className="top">
@@ -67,22 +82,52 @@ function Admin() {
         )}
       </div> */}
       <div className="dashboard-container">
-        <div className="top-section d-flex justify-content-around mb-5">
-          <div className="graph-container p-5">
+        <div className="section top d-flex justify-content-around">
+          <div className="graph-container inner">
             {/* <ChartComponent /> */}
           </div>
-          <div className="navCard-container">
-            {/* <CountCard className="navCard-item" title={"1:1문의"} />
-            <CountCard className="navCard-item" title={"상품문의"} />
-            <CountCard className="navCard-item" title={"배송문의"} />
-            <CountCard className="navCard-item" title={"문의 바로가기"} /> */}
+          <div className="card-container inner d-flex flex-wrap  justify-content-between">
+            <CountCard
+              cardName={"qnaOne"}
+              iconTag={"icon icon01 "}
+              title={"1:1문의"}
+              countData={countData.qnaCount}
+            />
+            <CountCard
+              cardName={"product"}
+              iconTag={"icon icon02 "}
+              title={"상품문의"}
+              countData={countData.productCount}
+            />
+            <CountCard
+              cardName={"delivery"}
+              iconTag={"icon icon03 "}
+              title={"배송문의"}
+              countData={countData.deliveryCount}
+            />
+            <Link
+              className="qnaskip cardwrapper rounded-4 p-5 shadow"
+              type={"button"}
+              title={"문의 게시판 바로가기"}
+              path={null}
+            >
+              <h2 className="card-title text-start">
+                <i className={null}></i>
+                문의 게시판
+              </h2>
+              <span className="float-end mt-4">
+                <i>
+                  화살표<span className="sr-only">바로가기</span>
+                </i>
+              </span>
+            </Link>
           </div>
         </div>
-        <div className="bottom-section d-flex justify-content-around mt-5">
-          <div className="table-container">
+        <div className="section bottom d-flex justify-content-between">
+          <div className="table-container newbook flex-fill">
             <TapMenuNewBookComponent />
           </div>
-          <div className="table-container">
+          <div className="table-container bookstock flex-fill">
             <TapMenuStockComponent />
           </div>
         </div>
