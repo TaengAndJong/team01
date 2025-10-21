@@ -209,16 +209,17 @@ const AdminBookList = () => {
                 발행일
               </th>
               <th scope="col" className="text-center">
-                등록자
-              </th>
-              <th scope="col" className="text-center">
-                등록일
-              </th>
-              <th scope="col" className="text-center">
                 재고
               </th>
               <th scope="col" className="text-center">
                 판매상태
+              </th>
+
+              <th scope="col" className="text-center">
+                등록자
+              </th>
+              <th scope="col" className="text-center">
+                등록일
               </th>
             </tr>
             </thead>
@@ -284,17 +285,17 @@ const AdminBookList = () => {
                       <td className="text-center" id={`bookPublishDt${index}`}>
                         {item.publishDate}
                       </td>
-                      <td className="text-center" id={`bookWriter${index}`}>
-                        {item.writer}
-                      </td>
-                      <td className="text-center" id={`bookPublishDt${index}`}>
-                        {formatToDate(new Date(item.createDate))}
-                      </td>
                       <td className="text-center" id={`bookStock${index}`}>
                         {item.stock}
                       </td>
                       <td className="text-center" id={`saleStatus${index}`}>
                         {item.saleStatus}
+                      </td>
+                      <td className="text-center" id={`bookWriter${index}`}>
+                        {item.writer}
+                      </td>
+                      <td className="text-center" id={`bookPublishDt${index}`}>
+                        {formatToDate(new Date(item.createDate))}
                       </td>
                     </tr>
                 ))
@@ -304,7 +305,7 @@ const AdminBookList = () => {
         </div>
         {/*pagination*/}
         <Pagination
-              paginationInfo={paginationInfo}
+            paginationInfo={paginationInfo}
               onChangePageHandler={onChangePageHandler}
           />
 
