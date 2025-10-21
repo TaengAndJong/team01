@@ -112,7 +112,7 @@ public class QnaProductController {
         return ResponseEntity.ok(savedComment);
     }
 
-    // 답변 수정  
+    // 답변 수정
     @PutMapping("detail/comment/product/{commentId}")
     public ResponseEntity<?> updateComment(@PathVariable String commentId, 
             @RequestBody CommentsVO commentsVO) {
