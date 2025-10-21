@@ -89,19 +89,19 @@ function Admin() {
           <div className="card-container inner d-flex flex-wrap  justify-content-between">
             <CountCard
               cardName={"qnaOne"}
-              iconTag={"icon icon01 "}
+              iconTag={"board-icon qnaone"}
               title={"1:1문의"}
               countData={countData.qnaCount}
             />
             <CountCard
               cardName={"product"}
-              iconTag={"icon icon02 "}
+              iconTag={"board-icon product "}
               title={"상품문의"}
               countData={countData.productCount}
             />
             <CountCard
               cardName={"delivery"}
-              iconTag={"icon icon03 "}
+              iconTag={"board-icon delivery"}
               title={"배송문의"}
               countData={countData.deliveryCount}
             />
