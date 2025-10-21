@@ -41,6 +41,7 @@
 
 <!--오라클 char  타입 사용하면  바인딩 파라미터가 값을 못받아서 가변데이터일경우를 포함해서 varchar로 설계해야함!-->
 <!-- rnum 사용시 조건문 범위 연산과정이해 필요   -->
+<!-- 문자열로 숫자를 표현하면 순서가 꼬일 수 있어서 숫자로 변환해줘야 하기때문에 varchar2 말고 number 타입을 선언하기   -->
     <select id="selectAllBook" resultType="AdminBookVO" parameterType="com.example.team01.utils.Pagination">
 
         with filterData as (
@@ -62,9 +63,10 @@
                              , "writer"
                              , "createDate"
                             ,"recomType"
+                            ,"saleStatus"
                         FROM book
                         <include refid="searchFrag" />
-                        ORDER BY "bookId" DESC
+                        ORDER BY TO_NUMBER("bookId") DESC
                 ) a
         )
 
@@ -90,6 +92,7 @@
              , "writer"
              , "createDate"
             ,"recomType"
+            , "saleStatus"
         from book
         where "bookId"=#{bookId}
     </select>
@@ -141,7 +144,7 @@
         , "bookImgPath"
         , "writer"
         ,"recomType"
-
+        ,"saleStatus"
         ) VALUES (
         #{bookId}
         , #{bookCateNm}
@@ -158,6 +161,7 @@
        ,#{bookImgPath}
         , #{writer}
         ,#{recomType}
+        ,#{saleStatus}
         )
 
     </insert>
@@ -225,9 +229,11 @@
                 "createDate" = #{createDate},
             </if>
             <if test="recomType != null and recomType != ''">
-                "recomType" = #{recomType}
+                "recomType" = #{recomType} ,
             </if>
-
+            <if test="saleStatus != null and saleStatus != ''">
+                "saleStatus"= #{saleStatus}
+            </if>
         </set>
         WHERE "bookId" = #{bookId}
     </update>

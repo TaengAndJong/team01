@@ -12,6 +12,8 @@ const AdminBookDetail = () => {
     const [bookDetail, setBookDetail] = useState([]);
     
 
+
+
     // bookId가 없으면 API 요청을 보내지 않도록 처리
     if (!bookId) {
         console.error("bookId is missing. API request not sent.");
@@ -46,7 +48,37 @@ const AdminBookDetail = () => {
     // 리액트 마운트 시 get요청으로 데이터 얻어오기
     useEffect(() => {
         getbookData();
-    },[])
+    },[]);
+
+
+    const recomTypeMap = {
+        NORMAL: { recomType: "normal", label: "일반" },
+        RECOMMEND: { recomType: "recom", label: "추천" },
+        POPULAR: { recomType: "popular", label: "인기" },
+    };
+
+    const recomTultip = (status) => {
+        console.log(
+            `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
+        );
+
+        return (
+            <span className={`tultip d-inline-flex ${recomTypeMap[status]?.recomType}`}>
+        {recomTypeMap[status]?.label}
+      </span>
+        );
+    };
+
+    const saleStatus=(status)=>{
+        switch (status) {
+            case "판매중": return (<span className="tultip d-inline-flex normal">{status}</span>);
+            case "미판매": return (<span className="tultip d-inline-flex popular">{status}</span>);
+            case "단종": return (<span className="tultip d-inline-flex complete">{status}</span>);
+            default:return "판매상태 알수없음";
+        }
+    }
+
+
 
     return(
         <>
@@ -58,20 +90,25 @@ const AdminBookDetail = () => {
                             <BookSlide slideData={bookDetail}/>
                         </div>
                         <div className="bookInfo card-body">
-                            <h3 className="book-title title-dotted">{bookDetail.bookName}</h3>
+                            <h3 className="book-title title-dotted">
+                                {recomTultip(bookDetail.recomType)}
+                                {saleStatus(bookDetail.saleStatus)}
+                                <em className="d-block">{bookDetail.bookName}</em>
+                            </h3>
                             <ul className="ul bullet">
-                                <li className="li"><span className="tit">저자</span>{bookDetail.author}</li>
-                                <li className="li"><span className="tit">발행일</span>{bookDetail.publishDate}</li>
-                                <li className="li"><span className="tit">가격</span>{bookDetail.bookPrice}<span>원</span>
+                            <li className="li"><span className="tit fw-bold">저자</span>{bookDetail.author}</li>
+                                <li className="li"><span className="tit fw-bold">발행일</span>{bookDetail.publishDate}</li>
+                                <li className="li"><span className="tit fw-bold">가격</span>{bookDetail.bookPrice}<span>원</span>
                                 </li>
+
                                 {/*할인적용할건지 */}
-                                <li className="li"><span className="tit">할인가</span><span>원</span>
-                                </li>
+                                {/*<li className="li"><span className="tit">할인가</span><span>원</span>*/}
+                                {/*</li>*/}
                             </ul>
-                            {/*<div className="btn d-flex">*/}
-                            {/*    <button className="cart btn custom-btn00 me-2">장바구니</button>*/}
-                            {/*    <button className="buy btn custom-btn02">구매하기</button>*/}
-                            {/*</div>*/}
+                            <div className="btn d-flex">
+                                <button className="cart btn custom-btn00 me-2">장바구니</button>
+                                <button className="buy btn custom-btn02">구매하기</button>
+                            </div>
                             {/*bookDesc end */}
                         </div>
                     </div>
@@ -79,13 +116,13 @@ const AdminBookDetail = () => {
                 </div>
 
 
-                <div className="box">
+                <div className="box my-5">
                 <h4 className="h4 title-dotted">도서설명</h4>
                     {bookDetail.bookDesc}
                 </div>
                 {/*bookDetail end */}
 
-                <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4 border-top pt-5">
                     <Btn className={"list btn-secondary"} id={"listBtn"} type={"button"} path={pathsData.page.adminBookList}
                          text="목록"/>
                     <Btn className={"modify custom-btn00"} id={"modifyBtn"} type={"button"} path={`${pathsData.page.adminBookModify}/${bookId}`}
