@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const SalesStatus = ({setDefaultData}) =>{
+const SalesStatus = ({defaultData,setDefaultData}) =>{
 
     //고정 옵션값
     const options = [
@@ -20,11 +20,12 @@ const SalesStatus = ({setDefaultData}) =>{
         }))
     }
 
+    console.log("SalesStatus ---- defaultData.recomType", defaultData?.recomType);
     return (
         <>
                 <strong className="form-title">판매상태</strong>
                 <label htmlFor="saleStatus" className="visually-hidden form-title">판매상태</label>
-                <select id="saleStatus" className="form-select flex-fill me-3" name="saleStatus"
+                <select id="saleStatus" className="form-select flex-fill me-3" name="saleStatus" value={defaultData?.saleStatus}
                         onChange={(e) => saleStatusHandler(e)}>
                     {options?.map((option, index) => (
                         <option key={option.code} value={option.code}>

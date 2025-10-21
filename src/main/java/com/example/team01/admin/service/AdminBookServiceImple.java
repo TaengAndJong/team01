@@ -93,6 +93,8 @@ public class AdminBookServiceImple implements AdminBookService {
         String[] bookImgPaths = adminBookVO.getBookImgPath().split(",");
         // bookVO의 bookImgList에 String 배열을 List 배열로 변경해 담아주기
         adminBookVO.setBookImgList(Arrays.asList(bookImgPaths));
+
+        log.info("detailBook--modify--- getbookImgList:{}", adminBookVO.getBookImgList());
         //데이터 반환
         return adminBookVO;
     }
