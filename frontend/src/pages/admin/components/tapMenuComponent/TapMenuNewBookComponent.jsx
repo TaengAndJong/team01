@@ -146,13 +146,19 @@ const TapMenuNewBookComponent = () => {
             </tr>
           </thead>
           <tbody>
-            {bookData[activeTab].items.map((book, i) => (
-              <tr key={i}>
-                <td>{book.bookName}</td>
-                <td>{book.author}</td>
-                <td>{book.publishDate}</td>
+            {bookData[activeTab].items.length === 0 ? (
+              <tr>
+                <td colSpan="3">새로 등록된 도서가 없습니다.</td>
               </tr>
-            ))}
+            ) : (
+              bookData[activeTab].items.map((book, i) => (
+                <tr key={i}>
+                  <td>{book.bookName}</td>
+                  <td>{book.author}</td>
+                  <td>{book.publishDate}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
 

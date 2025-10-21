@@ -163,9 +163,11 @@ const AdminDetailBoard = ({ userType }) => {
       {board?.comment ? (
         <div className="comment-container">
           <div className="p-4">
-            <div className="text-end">
-              <span>관리자 : </span>
-              <span>{board.comment.comWriter}</span>
+            <div className="d-flex justify-content-between align-items-center comment-title">
+              <strong>관리자 답변</strong>
+              <span className="tultip">
+                {board.comment.comWriterName}({board.comment.comWriter})
+              </span>
             </div>
             <div className="comment-box mb-4 text-left">
               {board?.comment.commentCon}
