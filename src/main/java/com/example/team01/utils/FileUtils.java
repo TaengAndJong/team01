@@ -209,6 +209,11 @@ public class FileUtils {
     //실서버에 저장된 이미지파일 삭제만
     public String deleteFiles(String fileNames,String middlePath) {
         log.info("fileNames----------del:{}",fileNames);
+        // 기존 전체 파일 저장 변수
+
+        // 삭제할 파일 저장 변수
+
+
         // 삭제할 파일 레코드 아이디 받아오기 ==> List<String> fileNames
         String deleteFilePath = uploadDir + File.separator + middlePath + File.separator;//운영체제에 맞게 파일 경로 생성하기 위한 코드
         //File 클래스를 사용하는 이유는, 파일시스템에서 해당경로의 파일을 조작하기 위해서 파일 객체를 사용
@@ -219,10 +224,16 @@ public class FileUtils {
                         boolean deleted = file.delete();
                         log.info("삭제성공여부:{}",deleted);
                         log.info("삭제성공여부:{}",file.getPath());
+                        // 삭제한 파일을 제외한 값을 반환해줘야함
+
+
                     } else {
                         log.info("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
                     }
                 });
+
+
+
        return "이미지파일 삭제";
     }
 }

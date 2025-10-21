@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class AdminBookServiceImple implements AdminBookService {
@@ -100,7 +102,7 @@ public class AdminBookServiceImple implements AdminBookService {
     }
 
     @Override
-    public int createBook(AdminBookVO book) throws FileNotFoundException {
+    public int createBook(AdminBookVO book) {
 
         log.info("createBook-----------:{}",book);
 
@@ -147,10 +149,9 @@ public class AdminBookServiceImple implements AdminBookService {
     }
 
     @Override
-    public int updateBook(AdminBookVO book) throws FileNotFoundException {
+    public int updateBook(AdminBookVO book) {
 
         log.info("updateBook-----------:{}",book);
-
 
         int cnt =0;
         // 여기서부터 노이미지 파일 유틸에 들어가야함, 받을 파라미터는 BookVO book

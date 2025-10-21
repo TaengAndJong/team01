@@ -100,6 +100,13 @@ const FileUpload =({bookImg,setBookImg,defualtData,setCreateBook})=>{//부모한
             </>
     );
 
+
+    useEffect(() => {
+        console.log("bookImg-- 목록 삭제 확인",defualtData);
+    }, []);
+
+
+
     return (
         <>
             <FormTag id="bookImgPath" label="도서이미지" labelClass="form-title" className="form-control w-75"

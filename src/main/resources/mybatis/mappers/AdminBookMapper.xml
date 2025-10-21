@@ -239,6 +239,14 @@
     </update>
 
 
+    <update id="deleteBookImgPath" parameterType="list">
+        update table book
+        <foreach collection="existBookIds" item="bookId" open="(" separator="," close=")">
+            set bookImgpath =   #{bookImgPath}
+        </foreach>
+        WHERE "bookId" = #{bookId}
+    </update>
+
 
     <!-- collection은 List<String> 타입으로 받아온 리스트 문자열 타입 파라미터명을 입력 -->
 </mapper>
