@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface QnaDeliveryService {
     //                                                  클래스   참조변수
-    public List<QnaDeliveryVO> getAllQnaDeliveryList(Pagination pagenation);
+    public List<QnaDeliveryVO> getAllQnaDeliveryList(Pagination pagination);
 
     // 배송 문의 상세 조회
     public QnaDeliveryVO getQnaDeliveryDetail(String boardId, String userId);

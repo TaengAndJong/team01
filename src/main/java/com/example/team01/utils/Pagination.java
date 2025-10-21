@@ -87,14 +87,12 @@ public class Pagination {
 
 
     public String setClientId(String clientId) {
-       return this.clientId = clientId;
+        return this.clientId = clientId;
     }
 
     public String getClientId() {
         return clientId;
     }
-
-
 }
 
 

@@ -4,7 +4,6 @@ import { maskUserId } from "@util/maskingID.jsx";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@pages/common/AuthContext.jsx";
-import PropTypes from "prop-types";
 import { BoardRefreshTriggerContext } from "@pages/board/boardComponent.jsx";
 import { useContext } from "react";
 const CreateBoardComponent = () => {
@@ -231,7 +230,3 @@ const CreateBoardComponent = () => {
 };
 
 export default CreateBoardComponent;
-
-CreateBoardComponent.propTypes = {
-  category: PropTypes.string.isRequired,
-};

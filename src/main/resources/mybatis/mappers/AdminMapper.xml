@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+        <mapper namespace="com.example.team01.admin.dao.AdminDao">
+            <!-- 신규 등록 문의 -->
+            <!-- 1:1문의 -->
+            <select id="getQnaOneLength" resultType="int" >
+                SELECT COUNT(*) AS qna_count FROM qnaOne
+                WHERE "qnaDate" &gt;= SYSDATE - 8
+            </select>
+
+            <!-- 상품문의 -->
+            <select id="getProductLength" resultType="int" >
+                SELECT COUNT(*) AS qna_count FROM qnaPro
+                WHERE "qnaDate" &gt;= SYSDATE - 8
+            </select>
+
+            <!-- 배송문의 -->
+            <select id="getDeliveryLength" resultType="int" >
+                SELECT COUNT(*) AS qna_count FROM qnaDeliv
+                WHERE "qnaDate" &gt;= SYSDATE - 8
+            </select>
+
+            <!-- 신규 등록 도서 -->
+            <!-- 국내도서 -->
+            <select id="countNewDomesticBooks" resultType="int">
+                SELECT COUNT(*)FROM book WHERE "bookCateNm" LIKE '%국내도서%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+            </select>
+
+            <select id="getNewDomesticBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
+                WITH filterData AS (
+                SELECT ROWNUM as rnum, a.*
+                FROM (
+                    SELECT * FROM book
+                    WHERE "bookCateNm" LIKE '%국내도서%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                    ORDER BY "bookId" ASC
+                    ) a
+                )
+                SELECT *
+                from filterData
+                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+            </select>
+
+            <!-- 국외도서 -->
+                        <select id="countNewForeignBooks" resultType="int">
+                SELECT COUNT(*)FROM book WHERE "bookCateNm" LIKE '%국외도서%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+            </select>
+            
+            <select id="getNewForeignBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
+                WITH filterData AS (
+                SELECT ROWNUM as rnum, a.*
+                FROM (
+                    SELECT * FROM book
+                    WHERE "bookCateNm" LIKE '%국외도서%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                    ORDER BY "bookId" ASC
+                    ) a
+                )
+                SELECT *
+                from filterData
+                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+            </select>
+            
+            <!-- E-Book -->
+            <select id="countNewEBooks" resultType="int">
+                SELECT COUNT(*)FROM book WHERE "bookCateNm" LIKE '%EBOOK%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+            </select>
+
+            <select id="getNewEBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
+                WITH filterData AS (
+                SELECT ROWNUM as rnum, a.*
+                FROM (
+                    SELECT * FROM book
+                    WHERE "bookCateNm" LIKE '%EBOOK%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                    ORDER BY "bookId" ASC
+                    ) a
+                )
+                SELECT *
+                from filterData
+                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+            </select>
+
+            <!-- 재고 부족 도서 -->
+            <!-- 국내도서 -->
+            <select id="countStockDomesticBooks" resultType="int">
+                    SELECT COUNT(*)
+                    FROM book
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국내도서%'
+            </select>
+
+            <select id="getStockDomesticBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
+                WITH filterData AS (
+                SELECT ROWNUM as rnum, a.*
+                FROM (
+                    SELECT * FROM book
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국내도서%'
+                    ORDER BY "bookId" ASC
+                    ) a
+                )
+                SELECT *
+                from filterData
+                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+            </select>
+
+            <!-- 국외도서 -->
+            <select id="countStockForeignBooks" resultType="int">
+                    SELECT COUNT(*)
+                    FROM book
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국외도서%'
+            </select>
+
+            <select id="getStockForeignBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
+                WITH filterData AS (
+                SELECT ROWNUM as rnum, a.*
+                FROM (
+                    SELECT * FROM book
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국외도서%'
+                    ORDER BY "bookId" ASC
+                    ) a
+                )
+                SELECT *
+                from filterData
+                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+            </select>
+
+            <!-- E-Book -->
+            <select id="countStockEBooks" resultType="int">
+                    SELECT COUNT(*)
+                    FROM book
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%EBOOK%'
+            </select>
+
+            <select id="getStockEBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
+                WITH filterData AS (
+                SELECT ROWNUM as rnum, a.*
+                FROM (
+                    SELECT * FROM book
+                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%EBOOK%'
+                    ORDER BY "bookId" ASC
+                    ) a
+                )
+                SELECT *
+                from filterData
+                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+            </select>
+        </mapper>

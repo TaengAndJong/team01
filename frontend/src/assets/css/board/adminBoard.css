@@ -2,7 +2,6 @@
   margin-bottom: 50px;
 }
 
-
 .download-item:hover {
   cursor: pointer;
   border-bottom: solid 0.5px;
@@ -10,6 +9,11 @@
 
 .modify-btn {
   text-align: right;
+}
+
+.content-box {
+  white-space: pre-wrap; /* 줄바꿈 문자 유지 + 자동 줄바꿈 허용 */
+  word-wrap: break-word; /* 긴 단어도 줄바꿈 가능 */
 }
 
  {
@@ -28,6 +32,10 @@
   z-index: 1000;
 }
 
+.comment-box {
+  white-space: pre-wrap; /* 줄바꿈 문자 유지 + 자동 줄바꿈 허용 */
+  word-wrap: break-word; /* 긴 단어도 줄바꿈 가능 */
+}
 .comment-modal-box {
   background-color: #fff;
   width: 500px;
@@ -39,10 +47,10 @@
 
 .comment-modal-box textarea {
   width: 100%;
-  min-height: 80px;
+  min-height: 500px;
   margin-bottom: 10px;
   padding: 8px;
-  resize: vertical;
+  resize: none;
 }
 
 .comment-modal-box .close-btn {
