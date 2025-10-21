@@ -53,66 +53,70 @@ const  RecomBookSlide= ({slideData}) =>{
 
     return (
         <>
+            {slideData?.length > 0? (
+                <>
+                    <Swiper
+                        ref={swiperRef}
+                        onSwiper={(swiper) => {
+                            swiperRef.current = swiper; // Swiper 인스턴스를 저장
+                        }}
+                        modules={[Pagination, Navigation, Autoplay]}
+                        className="slide-list clearfix"
+                        // pagination={activeTab === naviId ? customPagination : false}
+                        loop={slideData?.length >0}//
+                        autoplay={{ delay: 2000, disableOnInteraction: false }}
+                        navigation={{ // 각 탭의 슬라이드의 컨트롤을 각각 적용해줘야 기능이 적용됨
+                            nextEl: `.custom-next-recom`,
+                            prevEl: `.custom-prev-recom`
+                        }}
+                        spaceBetween={10}   // 간격 없애기
+                        centeredSlides={true} // 가운데 정렬 강제
+                        slidesPerView={1} // 총 보여지는 슬라이드 개수
+                        slidesPerGroup={1}//넘어가는 슬라이드 개수
+                        speed={700}// 슬라이드 속도
+                        observer={true}
+                        observeParents={true}
+                        onSlideChange={() => console.log('recombookSlide')}
+                    >
+                        {slideData?.map((item, idx) => (
+                            <SwiperSlide key={`slide-${idx}`}>
+                                <Link className="slide-link" to={item.detailUrl} title={`${item.bookName}도서 상세페이지 바로가기`}>
+                                    <span className="cateName">{item.bookCateNm}</span>
+                                    <strong className="tit">{item.bookName}</strong>
+                                    <span className="author">{item.author}</span>
+                                    <p className="desc">{item.bookDesc}</p>
+                                    <div className="img-box">
+                                        <div className="img-inner">
+                                            <img className="img" src={item.bookImgList?.[0]} alt={item.bookName}/>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
 
-            <Swiper
-                ref={swiperRef}
-                onSwiper={(swiper) => {
-                    swiperRef.current = swiper; // Swiper 인스턴스를 저장
-                }}
-                modules={[Pagination, Navigation, Autoplay]}
-                className="slide-list clearfix"
-               // pagination={activeTab === naviId ? customPagination : false}
-                loop={slideData?.length >0}//
-                autoplay={{ delay: 2000, disableOnInteraction: false }}
-                navigation={{ // 각 탭의 슬라이드의 컨트롤을 각각 적용해줘야 기능이 적용됨
-                    nextEl: `.custom-next-recom`,
-                    prevEl: `.custom-prev-recom`
-                }}
-                spaceBetween={10}   // 간격 없애기
-                centeredSlides={true} // 가운데 정렬 강제
-                slidesPerView={1} // 총 보여지는 슬라이드 개수
-                slidesPerGroup={1}//넘어가는 슬라이드 개수
-                speed={700}// 슬라이드 속도
-                observer={true}
-                observeParents={true}
-                onSlideChange={() => console.log('recombookSlide')}
-            >
-                {slideData?.map((item, idx) => (
-                    <SwiperSlide key={`slide-${idx}`}>
-                        <Link className="slide-link" to={item.detailUrl} title={`${item.bookName}도서 상세페이지 바로가기`}>
-                            <span className="cateName">{item.bookCateNm}</span>
-                            <strong className="tit">{item.bookName}</strong>
-                            <span className="author">{item.author}</span>
-                            <p className="desc">{item.bookDesc}</p>
-                            <div className="img-box">
-                                <div className="img-inner">
-                                    <img className="img" src={item.bookImgList?.[0]} alt={item.bookName}/>
-                                </div>
-                            </div>
-                        </Link>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
 
+                    <div className="button-group">
+                        {/*이전*/}
+                        <button type="button" className={`swiper-button bordered custom-prev custom-prev-recom`}>
+                            <span className="sr-only">이전슬라이드</span>
+                        </button>
+                        {/*재생 & 정지 */}
+                        <button type="button"
+                                className={`swiper-button bordered ${play ? `swiper-button-stop` : `swiper-button-start`}`}
+                                onClick={() => {
+                                    playAndPause()
+                                }}>
+                            <span className="sr-only"> {play ? '정지' : '재생'}</span>
+                        </button>
+                        {/*다음*/}
+                        <button type="button" className={`swiper-button bordered custom-next custom-next-recom`}>
+                            <span className="sr-only">다음슬라이드</span>
+                        </button>
+                    </div>
+                </>
+            ):(<p>해당도서 데이터 없음</p>)}
 
-            <div className="button-group">
-                {/*이전*/}
-                <button type="button" className={`swiper-button bordered custom-prev custom-prev-recom`}>
-                    <span className="sr-only">이전슬라이드</span>
-                </button>
-                {/*재생 & 정지 */}
-                <button type="button"
-                        className={`swiper-button bordered ${play ? `swiper-button-stop` : `swiper-button-start`}`}
-                        onClick={() => {
-                            playAndPause()
-                        }}>
-                    <span className="sr-only"> {play ? '정지' : '재생'}</span>
-                </button>
-                {/*다음*/}
-               <button type="button" className={`swiper-button bordered custom-next custom-next-recom`}>
-                    <span className="sr-only">다음슬라이드</span>
-                </button>
-            </div>
         </>
 
     );
