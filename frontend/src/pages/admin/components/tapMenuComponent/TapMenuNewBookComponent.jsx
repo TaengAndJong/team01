@@ -117,8 +117,8 @@ const TapMenuNewBookComponent = () => {
   };
 
   return (
-    <div className="book-tab-container shadow">
-      <h3>신규 등록 도서</h3>
+    <>
+      <h3 className="title">신규 등록 도서</h3>
 
       {/* 탭 버튼 */}
       <div className="tab-buttons">
@@ -164,7 +164,7 @@ const TapMenuNewBookComponent = () => {
           }
         />
       </div>
-    </div>
+    </>
   );
 };
 

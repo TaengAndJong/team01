@@ -118,8 +118,8 @@ const TapMenuStockComponent = () => {
   };
 
   return (
-    <div className="book-tab-container shadow">
-      <h3>재고 부족 도서</h3>
+    <>
+      <h3 className="title">재고 부족 도서</h3>
 
       {/* 탭 버튼 */}
       <div className="tab-buttons">
@@ -167,7 +167,7 @@ const TapMenuStockComponent = () => {
           }
         />
       </div>
-    </div>
+    </>
   );
 };
 

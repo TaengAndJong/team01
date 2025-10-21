@@ -1,0 +1,144 @@
+.dashboard-container {
+  min-height: 1200px;
+  padding: 60px;
+}
+
+.dashboard-container .inner {
+  width: 100%;
+  max-width: 50%;
+}
+
+/* top-section */
+.dashboard-container .section {
+  gap: 60px;
+  padding: 30px 0;
+  margin-bottom: 150px;
+}
+/* 그래프 */
+.graph-container {
+}
+
+/* 카드 */
+.card-container {
+  gap: 20px;
+}
+
+/* 아이콘 배경 CSS */
+.icon-bg {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 4px;
+}
+
+.icon-bg > .delivery {
+  width: 50px;
+  height: 50px;
+}
+
+.iconContain {
+}
+
+.cardwrapper {
+  width: calc(50% - 10px);
+  height: 120px;
+  background-color: #fff8d0;
+}
+.cardwrapper.qnaOne {
+}
+
+.cardwrapper.product {
+  background-color: #ffeaec;
+}
+
+.cardwrapper.delivery {
+  background-color: #e8f1ff;
+}
+
+.cardwrapper.qnaskip {
+  background-color: #bed297;
+}
+
+.cardwrapper .count {
+  font-size: 24px;
+}
+.card-title {
+  font-size: 24px;
+}
+
+/* bottom-section */
+.table-container {
+  width: 40%;
+}
+
+.bottom-section {
+  gap: 20px;
+}
+
+.table-container {
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  /* padding: 30px 0; */
+  background-color: #fff;
+}
+
+.table-container.newbook {
+}
+
+.table-container.bookstock {
+}
+
+/* 제목 */
+.table-container .title {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+/* 탭 버튼 영역 */
+.tab-buttons {
+}
+
+/* 탭 버튼 스타일 */
+.tab-button {
+  padding: 20px;
+  border: none;
+  background-color: #e0d3ca;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+/* 선택된 탭 */
+.tab-button.active,
+.tab-button:hover,
+.tab-button:focus {
+  background-color: #bed297;
+  font-weight: bold;
+}
+
+/* 테이블 */
+.tab-content {
+  padding: 0;
+  margin-top: 0;
+  background-color: #fff;
+}
+.tab-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+  border-bottom: 1px solid #ddd;
+  padding: 20px 10px;
+  text-align: center;
+}
+
+.table-container thead {
+  background-color: #bed297;
+}
