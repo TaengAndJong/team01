@@ -17,15 +17,16 @@
 //category
 .tultip{
   margin-bottom: 1rem;
-  background-color: $cate00;
+  margin-left: 0.5rem;
+  background-color: $cate01;
   font-size: 1.2rem;
   font-weight: bold;
   padding:.8rem;
   border-radius: .4rem;
   &.normal{}
-  &.recom{background-color: $cate01;}
+  &.recom{background-color: $cate00;} // 판매중 // cncjs
   &.popular, &.uncomplete{background-color: $cate02;} //답변대기
-  &.complete{background-color:$cate03} //답변완료
+  &.complete{background-color:$cate03} //답변완료 , // 단종
 
 }
 

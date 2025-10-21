@@ -13,6 +13,8 @@ import {validStock} from "../../../util/validation.jsx";
 import {formatToDate, getToday} from "../../../util/dateUtils.jsx";
 import {BookDispatchContext} from "../adminBookComponent.jsx";
 import "@assets/css/book/adminbookModify.css";
+import SalesStatus from "./salesStatus.jsx";
+import RecomeType from "./recomeType.jsx";
 
 const AdminBookModify = () => {
 
@@ -254,7 +256,17 @@ const AdminBookModify = () => {
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookModifyForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
-                   <Category setDefaultData={setModifyBookData} defaultData={modifyBookData} categoryList={categoryList} />
+                    <div className="d-flex align-items-center mb-1">
+                        {/*카테고리*/}
+                        <Category setDefaultData={setModifyBookData} defaultData={modifyBookData} categoryList={categoryList}/>
+                    </div>
+                    <div className="d-flex align-items-center mb-1">
+                        {/*등록타입*/}
+                        <RecomeType setDefaultData={setModifyBookData} defaultData={modifyBookData} />
+                        {/* 판매상태관리 */}
+                        <SalesStatus setDefaultData={setModifyBookData} defaultData={modifyBookData} />
+                    </div>
+
                     {/*도서명*/}
                     <div className="d-flex align-items-center mb-1">
                         <FormTag id="bookName" label="도서명" labelClass="form-title" className="form-control"
@@ -271,13 +283,15 @@ const AdminBookModify = () => {
                     <PublishDate publishDate={modifyBookData.publishDate} handleChange={handleChange}/>
                     <div className="d-flex align-items-center mb-1">
                         {/*재고 & 가격*/}
-                        <PriceStock bookPrice={String(modifyBookData?.bookPrice || 0)} stock={String(modifyBookData?.stock || 0)}
+                        <PriceStock bookPrice={String(modifyBookData?.bookPrice || 0)}
+                                    stock={String(modifyBookData?.stock || 0)}
                                     stockStatus={modifyBookData?.stockStatus || '재고없음'} handleChange={handleChange}/>
                         <div className="d-flex align-items-center">
                             <FormTag id="createDate" label="등록일" labelClass="form-title" className="form-control"
                                      name="createDate"
                                      type="text"
-                                     placeholder="등록일" value={formatToDate(new Date(modifyBookData.createDate))} readOnly={true}/>
+                                     placeholder="등록일" value={formatToDate(new Date(modifyBookData.createDate))}
+                                     readOnly={true}/>
                         </div>
                     </div>
 
