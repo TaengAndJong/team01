@@ -4,6 +4,7 @@ import LeftMenu from "../../layout/LeftMenu.jsx";
 import { useMenu } from "../common/MenuContext.jsx";
 import { menuNavi } from "../../util/menuNavi.jsx";
 import { ModalProvider } from "@pages/common/modal/ModalContext.jsx";
+import { useAuth } from "@pages/common/AuthContext.jsx";
 
 // 3개 카테고리별 상태 관리를 위한 reducer
 function boardReducer(state, action) {
@@ -131,7 +132,7 @@ export const PaginationContext = React.createContext();
 export const CheckboxContext = React.createContext(); // 체크박스 상태관리 context
 const AdminBoard = () => {
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
-
+  const { userData } = useAuth();
   // 3개 카테고리별 초기 상태
   const initialState = {
     one: [],
