@@ -23,11 +23,11 @@ public class QnaDeliveryServiceImple implements QnaDeliveryService {
     private final AttachmentService attachmentService;
 
     @Override
-    public List<QnaDeliveryVO> getAllQnaDeliveryList(Pagination pagination) {
+    public List<QnaDeliveryVO> getAllQnaDeliveryList(Pagination pagination, String userId) {
         log.info("컨트롤러에서 받아온 배송 문의 파라미터 pagination:{}", pagination.toString());
 
         //전체 데이터 레코드 행 조회해오기
-        int total = qnaDeliveryDao.totalRecord(pagination);
+        int total = qnaDeliveryDao.totalRecord(pagination, userId);
         log.info("서비스 total record-----------:{}", total);
         pagination.setTotalRecord(total);
         log.info("서비스 pagination 총 레코드 수 -----------:{}", pagination.getTotalRecord());
@@ -37,7 +37,7 @@ public class QnaDeliveryServiceImple implements QnaDeliveryService {
         log.info("컨트롤러에서 받아온 파라미터 pagination2222:{}", pagination.toString());
 
         // 1:1 문의 데이터 전체 조회해오기
-        List<QnaDeliveryVO> qnaDelivList = qnaDeliveryDao.getAllQnaDeliveryList(pagination);
+        List<QnaDeliveryVO> qnaDelivList = qnaDeliveryDao.getAllQnaDeliveryList(pagination, userId);
         log.info("페이지에 해당하는 데이터 리스트 -------:{}", qnaDelivList);
 
         return qnaDelivList;

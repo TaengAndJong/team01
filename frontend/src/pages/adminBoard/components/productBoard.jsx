@@ -6,10 +6,11 @@ import { BookBoardStateContext } from "@pages/adminBoard/adminBoardComponent.jsx
 import Pagination from "@util/pagination.jsx";
 import Btn from "@util/reuseBtn.jsx";
 import { useModal } from "@pages/common/modal/ModalContext.jsx";
+import { useAuth } from "@pages/common/AuthContext.jsx";
 
 const ProductBoard = () => {
   const { product } = useContext(BookBoardStateContext); // 차후 지워보자
-
+  const { userData } = useAuth();
   const [boardList, setBoardList] = useState(null); // 확인 하는 방법
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -32,11 +33,12 @@ const ProductBoard = () => {
   const [lastSearchKeyword, setLastSearchKeyword] = useState(""); // 마지막 검색어 저장
 
   const getProductBoard = async (page = 1, pageSize = 5) => {
+    if (!userData || !userData.clientId) return; // userData 없으면 요청 취소
     setIsLoading(true);
     setIsError(false);
 
     const response = await fetch(
-      `/api/admin/board/qnaProductList?currentPage=${page}&pageSize=${pageSize}`
+      `/api/admin/board/qnaProductList?currentPage=${page}&pageSize=${pageSize}&userId=${userData.clientId}`
     );
 
     if (response.ok) {
@@ -59,8 +61,13 @@ const ProductBoard = () => {
   };
 
   useEffect(() => {
-    console.log("getProductBoard 실행됨 ---------------------");
-    getProductBoard();
+    if (userData && userData.clientId) {
+      console.log("✅ userData 로드 완료:", userData.clientId);
+      console.log("getProductBoard 실행됨 ---------------------");
+      getProductBoard();
+    } else {
+      console.log("⚠️ userData 아직 없음:", userData);
+    }
 
     // console.log("콘텍스트에서 가져온 product", product);
     if (!product || !Array.isArray(product) || product.length === 0) {
@@ -72,7 +79,7 @@ const ProductBoard = () => {
       Array.isArray(item.items) ? item.items : []
     );
     setBoardList(allItems);
-  }, []);
+  }, [userData]);
 
   //페이지버튼 클릭시 실행되는 핸들러
   const onChangeProPageHandler = async (page) => {
@@ -128,7 +135,7 @@ const ProductBoard = () => {
     setIsLoading(true);
     setIsError(false);
     // 2. 요청 URL 확인
-    const requestUrl = `/api/admin/board/qnaProductList?keyword=${keywordParam}&currentPage=${page}&pageSize=${pageSize}`;
+    const requestUrl = `/api/admin/board/qnaProductList?keyword=${keywordParam}&currentPage=${page}&pageSize=${pageSize}&userId=${userData.clientId}`;
     console.log("요청 URL:", requestUrl);
 
     const response = await fetch(requestUrl, {

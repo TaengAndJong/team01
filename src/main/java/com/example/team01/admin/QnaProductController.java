@@ -27,11 +27,12 @@ public class QnaProductController {
     public ResponseEntity<?> getQnaProductList(
         @RequestParam(defaultValue = "1") int currentPage,
         @RequestParam(defaultValue = "5") int pageSize,
+        @RequestParam String userId,
         @RequestParam(required = false) String searchType,
         @RequestParam(required = false) String keyword,
         HttpServletRequest request
     ) {
-
+        log.info("currentPage, pageSize userId searchType keyword {},{},{} ,{}, {}",currentPage,pageSize,userId,searchType,keyword);
         List<QnaProductVO> qnaProductList = null; // 게시물 데이터 저장 할 변수 생성
         Pagination pagination = new Pagination(currentPage, pageSize); // 페이지네이션 객체 미리 세팅하기
 
@@ -40,7 +41,7 @@ public class QnaProductController {
 	    pagination.addDetailCondition("searchType", searchType);
 	    pagination.addDetailCondition("keyword", keyword);
 	
-	    qnaProductList = qnaProductService.getAllQnaProductList(pagination); //검색 된 리스트 데이터
+	    qnaProductList = qnaProductService.getAllQnaProductList(pagination , userId); //검색 된 리스트 데이터
 
 	        for (QnaProductVO qnaProductVO : qnaProductList) {
                 log.info("여기--검색 책목록:{}", qnaProductVO);
@@ -49,7 +50,7 @@ public class QnaProductController {
             }
         }else{
 
-        qnaProductList = qnaProductService.getAllQnaProductList(pagination); // 전체 데이터
+        qnaProductList = qnaProductService.getAllQnaProductList(pagination, userId); // 전체 데이터
         
         }
 

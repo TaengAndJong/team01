@@ -6,10 +6,11 @@ import { BookBoardStateContext } from "@pages/adminBoard/adminBoardComponent.jsx
 import Pagination from "@util/pagination.jsx";
 import Btn from "@util/reuseBtn.jsx";
 import { useModal } from "@pages/common/modal/ModalContext.jsx";
+import { useAuth } from "@pages/common/AuthContext.jsx";
 
 const DeliveryBoard = () => {
   const { delivery } = useContext(BookBoardStateContext);
-
+  const { userData } = useAuth();
   const [boardList, setBoardList] = useState(null); // 확인 하는 방법
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -32,11 +33,12 @@ const DeliveryBoard = () => {
   const [lastSearchKeyword, setLastSearchKeyword] = useState(""); // 마지막 검색어 저장
 
   const getDeliveryBoard = async (page = 1, pageSize = 5) => {
+    if (!userData || !userData.clientId) return;
     setIsLoading(true);
     setIsError(false);
 
     const response = await fetch(
-      `/api/admin/board/qnaDeliveryList?currentPage=${page}&pageSize=${pageSize}`
+      `/api/admin/board/qnaDeliveryList?currentPage=${page}&pageSize=${pageSize}&userId=${userData.clientId}`
     );
 
     if (response.ok) {
@@ -59,7 +61,13 @@ const DeliveryBoard = () => {
   };
 
   useEffect(() => {
-    getDeliveryBoard();
+    if (userData && userData.clientId) {
+      console.log("✅ userData 로드 완료:", userData.clientId);
+      console.log("getProductBoard 실행됨 ---------------------");
+      getDeliveryBoard();
+    } else {
+      console.log("⚠️ userData 아직 없음:", userData);
+    }
 
     if (!delivery || !Array.isArray(delivery) || delivery.length === 0) {
       setBoardList([]);
@@ -71,7 +79,7 @@ const DeliveryBoard = () => {
     );
 
     setBoardList(allItems);
-  }, []);
+  }, [userData]);
 
   //페이지버튼 클릭시 실행되는 핸들러
   const onChangeDelivPageHandler = async (page) => {
@@ -127,7 +135,7 @@ const DeliveryBoard = () => {
     setIsLoading(true);
     setIsError(false);
     // 2. 요청 URL 확인
-    const requestUrl = `/api/admin/board/qnaDeliveryList?keyword=${keywordParam}&currentPage=${page}&pageSize=${pageSize}`;
+    const requestUrl = `/api/admin/board/qnaDeliveryList?keyword=${keywordParam}&currentPage=${page}&pageSize=${pageSize}&userId=${userData.clientId}`;
     console.log("요청 URL:", requestUrl);
 
     const response = await fetch(requestUrl, {

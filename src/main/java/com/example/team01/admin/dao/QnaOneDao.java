@@ -12,9 +12,9 @@ import java.util.List;
 public interface QnaOneDao {
 
 
-    public List<QnaOneVO> getAllQnaOneList(@Param("pagination") Pagination pagination);
+    public List<QnaOneVO> getAllQnaOneList(@Param("pagination") Pagination pagination, @Param("userId") String userId);
 
-    int totalRecord(@Param("pagination") Pagination pagination);
+    int totalRecord(@Param("pagination") Pagination pagination ,@Param("userId") String userId);
 
     public QnaOneVO getQnaOneDetailBoard(@Param("boardId") String boardId, @Param("userId") String userId);
 

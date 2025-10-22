@@ -26,8 +26,9 @@ public class QnaDeliveryController {
   @GetMapping("/qnaDeliveryList")
   public ResponseEntity<?>  getQnaDeliveryList(
         @RequestParam(defaultValue = "1")
-        int currentPage, @RequestParam(defaultValue = "5")
-        int pageSize, @RequestParam(required = false) String searchType,
+        int currentPage, @RequestParam(defaultValue = "5")int pageSize,
+        @RequestParam String userId,
+        @RequestParam(required = false) String searchType,
         @RequestParam(required = false) String keyword,
         HttpServletRequest request) {
 
@@ -39,7 +40,7 @@ public class QnaDeliveryController {
 	    pagination.addDetailCondition("searchType", searchType);
 	    pagination.addDetailCondition("keyword", keyword);
 	
-	    qnaDeliveryList = qnaDeliveryService.getAllQnaDeliveryList(pagination); //검색 된 리스트 데이터
+	    qnaDeliveryList = qnaDeliveryService.getAllQnaDeliveryList(pagination , userId); //검색 된 리스트 데이터
 
  		for (QnaDeliveryVO qnaDeliveryVO : qnaDeliveryList) {
          	log.info("여기--검색 책목록:{}", qnaDeliveryVO);
@@ -48,7 +49,7 @@ public class QnaDeliveryController {
       }
             }
         else{
-            qnaDeliveryList = qnaDeliveryService.getAllQnaDeliveryList(pagination); // 전체 데이터
+            qnaDeliveryList = qnaDeliveryService.getAllQnaDeliveryList(pagination, userId); // 전체 데이터
         }
 
       Map<String, Object> result = new HashMap<>();
