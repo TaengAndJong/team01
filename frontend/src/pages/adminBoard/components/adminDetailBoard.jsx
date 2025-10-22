@@ -71,6 +71,7 @@ const AdminDetailBoard = ({ userType }) => {
           {
             commentCon: answer,
             comWriter: userData.clientId,
+            comWriterName: userData.clientName,
           }
         );
 
