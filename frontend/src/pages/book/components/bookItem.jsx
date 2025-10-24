@@ -55,6 +55,35 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
     }
 
 
+    const recomTypeMap = {
+        NORMAL: { recomType: "normal", label: "일반" },
+        RECOMMEND: { recomType: "recom", label: "추천" },
+        POPULAR: { recomType: "popular", label: "인기" },
+    };
+
+    const recomTultip = (status) => {
+        console.log(
+            `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
+        );
+
+        return (
+            <span className={`tultip d-inline-flex ${recomTypeMap[status]?.recomType}`}>
+        {recomTypeMap[status]?.label}
+      </span>
+        );
+    };
+
+    const saleStatus=(status)=>{
+        switch (status) {
+            case "판매중": return (<span className="tultip d-inline-flex normal">{status}</span>);
+            case "미판매": return (<span className="tultip d-inline-flex popular">{status}</span>);
+            case "단종": return (<span className="tultip d-inline-flex complete">{status}</span>);
+            default:return "판매상태 알수없음";
+        }
+    }
+
+
+
     return (
         <div className="book-list-inner overflow-hidden">
             {bookList && (
@@ -73,6 +102,8 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
                                     </div>
                                     <div className="bookInfo card-body">
                                         <strong className="book-title title-dotted d-block">
+                                            {recomTultip(book.recomType)}
+                                            {saleStatus(book.saleStatus)}
                                             <span>{book.bookName}</span>
                                         </strong>
                                         <ul className="ul bullet">
@@ -84,6 +115,7 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
                                             <li className="li"><span className="tit fw-bold">배송비</span><span>2,000</span>원
                                             </li>
                                         </ul>
+
                                     </div>
                                 </div>
                             </Link>

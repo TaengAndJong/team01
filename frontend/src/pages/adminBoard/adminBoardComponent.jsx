@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import {Link, Outlet, useLocation} from "react-router-dom";
 import React, { useEffect, useState, useReducer } from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import { useMenu } from "../common/MenuContext.jsx";
@@ -412,9 +412,12 @@ const AdminBoard = () => {
   //   }));
   // };
 
+  // 상세페지이 클래스 추가기준
+  const location = useLocation().pathname;
+
   return (
     <>
-      <div className="page admin d-flex">
+      <div className={`page admin d-flex ${location.toLowerCase().includes("detail")? "detail":""}`}>
         <div className="left">
           <LeftMenu menu={menu} />
         </div>

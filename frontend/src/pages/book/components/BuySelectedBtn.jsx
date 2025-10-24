@@ -4,10 +4,13 @@ import cartList from "../../cart/components/cartList.jsx";
 import axios from "axios";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 import {catchError} from "../../../util/error.jsx";
+import {useAuth} from "../../common/AuthContext.jsx";
 
 // 선택도서구매와 바로구매 동일 버튼 사용하게 구현하기
 // 버튼은 type으로 구분, 도서 데이터 book,
 const BuySelectedBtn = ({type, book,cartId}) => {
+    // 로그인 여부
+    const { isAuthenticated } = useAuth(); //
 
     const params = {type,book,cartId};
     const navigate = useNavigate();
@@ -33,19 +36,27 @@ const BuySelectedBtn = ({type, book,cartId}) => {
         
         // 서버 세션유지확인 & 에러처리
         try{
-            const response = await axios.get("/api/auth",)
-
-            if(response.status === 200) {
-                //세션유지,로그인 확인 시
-                console.log("결제하러가자---------------",response);
-                // 결제페이지로 파라미터를 담아서 이동하기
-                navigate("/payment",{
-                    state:{
-                        book,
-                        type :type,
-                        cartId: type === "selected" ? cartId : null // 결제페이지에서 null 체크 필요
-                    }
+            if (!isAuthenticated) {
+                openModal({
+                    modalType:"confirm",
+                    data:{message:"로그인페이지로 이동하시겠습니까?"},
+                    onConfirm: () => {closeModal(); navigate("/login");}
                 });
+                return;
+            }else{
+                const response = await axios.get("/api/auth",)
+                if(response.status === 200) {
+                    //세션유지,로그인 확인 시
+                    console.log("결제하러가자---------------",response);
+                    // 결제페이지로 파라미터를 담아서 이동하기
+                    navigate("/payment",{
+                        state:{
+                            book,
+                            type :type,
+                            cartId: type === "selected" ? cartId : null // 결제페이지에서 null 체크 필요
+                        }
+                    });
+                }
             }
 
         }catch(err){

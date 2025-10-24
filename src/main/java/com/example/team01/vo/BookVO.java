@@ -22,11 +22,11 @@ public class BookVO implements BookImgChange {
     private String author;//저자
     private String publishDate;//발행일
     private String recomType;//도서등록분류
-    private String stockStatus;//재고상태
     private String cateId;//카테고리 아이디
     private int bookPrice;//도서가격
     private int stock;//재고 ==> 등록된 도서가 0 일때 품절 표시, 0초과일 때 재고수량 표시
-
+    private String stockStatus;//재고상태
+    private String saleStatus;// 판매 상태관리
 
     private String bookImgPath; //도서이미지 DB 저장 용
     private List<String> bookImgList; // 서버주소 + 파일명

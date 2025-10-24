@@ -53,8 +53,7 @@ const AdminBookCreate = () => {
         new: [],      // 공통
     });
     // 업로드 파일 상태관리
-    //발행일
-    const [publishDate, setPublishDate] = useState(new Date()); // 오늘날짜를 초기값으로
+
 
 
     //get 요청서 categoryList 받아오기
@@ -342,7 +341,7 @@ const AdminBookCreate = () => {
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
-                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} setCreatebook={setCreateBook}/>
+                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} setDefaultData={setCreateBook}/>
                     </div>
 
 

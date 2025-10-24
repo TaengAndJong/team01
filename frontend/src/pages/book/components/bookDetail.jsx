@@ -7,6 +7,7 @@ import BookSlide from "../../common/bookSlide.jsx";
 import BuySelectedBtn from "./BuySelectedBtn.jsx";
 import AddCartBtn from "./addCartBtn.jsx";
 import BookCount from "./bookCount.jsx";
+import WishBtn from "./wishBtn.jsx";
 
 
 const BookDetail = () => {
@@ -46,12 +47,43 @@ const BookDetail = () => {
 
     }
 
+
+    const recomTypeMap = {
+        NORMAL: { recomType: "normal", label: "일반" },
+        RECOMMEND: { recomType: "recom", label: "추천" },
+        POPULAR: { recomType: "popular", label: "인기" },
+    };
+
+    const recomTultip = (status) => {
+        console.log(
+            `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
+        );
+
+        return (
+            <span className={`tultip d-inline-flex ${recomTypeMap[status]?.recomType}`}>
+        {recomTypeMap[status]?.label}
+      </span>
+        );
+    };
+
+    const saleStatus=(status)=>{
+        switch (status) {
+            case "판매중": return (<span className="tultip d-inline-flex normal">{status}</span>);
+            case "미판매": return (<span className="tultip d-inline-flex popular">{status}</span>);
+            case "단종": return (<span className="tultip d-inline-flex complete">{status}</span>);
+            default:return "판매상태 알수없음";
+        }
+    }
+
+
     useEffect(() => {
         fetchBookDetails();
         console.log("상세페이지 렌더링")
     },[]) // 렌더링(마운트) 시 한번 실행
 
     console.log("bookDetail--------", bookDetail);
+
+
 
     return (
         <>
@@ -63,9 +95,15 @@ const BookDetail = () => {
                             <BookSlide slideData={bookDetail}/>
                         </div>
                         <div className="bookInfo card-body">
-                            <h3 className="book-title title-dotted">
-                                <i className="icon book me-3"></i><span>{bookDetail.bookName}</span>
-                            </h3>
+                            <div className="title-dotted d-flex">
+                                <i className="icon book me-3"></i>
+                                <h3 className="book-title p-0 me-3">
+                                    <span>{bookDetail.bookName}</span>
+                                </h3>
+                                {recomTultip(bookDetail.recomType)}
+                                {saleStatus(bookDetail.saleStatus)}
+                            </div>
+
                             <ul className="ul bullet">
                                 <li className="li"><span className="tit">저자</span>{bookDetail.author}</li>
                                 <li className="li"><span className="tit">발행일</span>{bookDetail.publishDate}</li>
@@ -77,13 +115,21 @@ const BookDetail = () => {
                             </ul>
                             {/* 수량 및 액션 버튼 영역 */}
 
-                            <div className="btn d-flex">
-                                {/*수량*/}
-                                <BookCount bookId={bookDetail.bookId} bookCount={bookCount} setBookCount={setBookCount} />
-                                {/*장바구니추가*/}
-                                <AddCartBtn bookId={bookDetail.bookId} quantity={bookCount[bookDetail.bookId] ?? 1}  />
-                                {/*바로구매*/}
-                                <BuySelectedBtn  type={"buyNow"}  book={ {...bookDetail, quantity: bookCount[bookDetail.bookId] ?? 1} } />
+                            <div className="item-inner d-flex align-items-center mt-4">
+                                {bookDetail.stock === 0 ? (
+                                    <span className="tultip complete text-white">품절</span>
+                                ) : (
+                                    <>
+                                        {/*수량*/}
+                                        <BookCount bookId={bookDetail.bookId} bookCount={bookCount}
+                                                   setBookCount={setBookCount}/>
+                                        {/*장바구니추가*/}
+                                        <AddCartBtn bookId={bookDetail.bookId} quantity={bookCount[bookDetail.bookId] ?? 1}/>
+                                        {/*바로구매*/}
+                                        <BuySelectedBtn type={"buyNow"}
+                                                        book={{...bookDetail, quantity: bookCount[bookDetail.bookId] ?? 1}}/>
+                                    </>
+                                )}
                             </div>
                             {/*bookDesc end */}
                         </div>
@@ -106,7 +152,7 @@ const BookDetail = () => {
                         <Btn className={"modify btn btn-primary"} type={"button"}
                              path={`${pathsData.page.adminBookModify}/${bookId}`}
                              text="수정"/>
-                        )}
+                    )}
 
                 </div>
 
