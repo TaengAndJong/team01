@@ -52,8 +52,11 @@
         , "bookImgPath"
         , "writer"
         , "createDate"
+        ,"recomType"
+        ,"saleStatus"
         FROM book
         <include refid="searchFrag" />
+        WHERE "saleStatus" NOT IN ('미판매', '단종')
         ORDER BY "bookId" DESC
         ) a
         )
@@ -78,6 +81,8 @@
              , "bookImgPath"
              , "writer"
              , "createDate"
+             ,"recomType"
+             ,"saleStatus"
         from book
         where "bookId"=#{bookId}
     </select>

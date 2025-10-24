@@ -96,14 +96,15 @@ const AdminBookDetail = () => {
                                 <em className="d-block">{bookDetail.bookName}</em>
                             </h3>
                             <ul className="ul bullet">
-                            <li className="li"><span className="tit fw-bold">저자</span>{bookDetail.author}</li>
+                                <li className="li"><span className="tit fw-bold">저자</span>{bookDetail.author}</li>
                                 <li className="li"><span className="tit fw-bold">발행일</span>{bookDetail.publishDate}</li>
-                                <li className="li"><span className="tit fw-bold">가격</span>{bookDetail.bookPrice}<span>원</span>
+                                <li className="li"><span
+                                    className="tit fw-bold">가격</span>{bookDetail.bookPrice}<span>원</span>
+                                </li>
+                                <li className="li"><span
+                                    className="tit fw-bold">재고</span>{bookDetail.stock}<span>권</span>
                                 </li>
 
-                                {/*할인적용할건지 */}
-                                {/*<li className="li"><span className="tit">할인가</span><span>원</span>*/}
-                                {/*</li>*/}
                             </ul>
                             <div className="btn d-flex">
                                 <button className="cart btn custom-btn00 me-2">장바구니</button>

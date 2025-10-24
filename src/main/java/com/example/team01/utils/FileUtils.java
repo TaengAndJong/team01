@@ -63,18 +63,18 @@ public class FileUtils {
         String bookImgPath=""; //반환할 데이터베이스 텍스트경로
 
         if(!files.isEmpty()) {
-            log.info("bookImgPath ---------11111:{}",bookImgPath);
+            log.info("들어오는 파일 객체:{}",bookImgPath);
             for (MultipartFile file : files) {
                 String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename(); //랜덤 파일 명칭(중복방지)
-                log.info("fileName-----------------------:{}", fileName);
+                log.info("새로 생성된 파일이름:{}", fileName);
 
-                //2. 데이터베이스에 1개 이상의 파일경로 문자열로 변환과정
+                //2. 데이터베이스에 2개 이상의 파일경로 문자열로 변환과정
                 if(!bookImgPath.equals("")) { // 북이미지 텍스트 배열로 받고 구분하기 위한 조건 ( 텍스트 파일 경로가 존재하면, 기존 경로 + 파일명)
                     bookImgPath= bookImgPath +","+fileName;//랜덤 파일명칭 텍스트로 생성
-                    log.info("bookImgPath:{}", bookImgPath);
+                    log.info("2개 이상일 경우 :{}", bookImgPath);
                 }else{
                     bookImgPath = fileName;
-                    log.info("bookImgPath:{}", bookImgPath);
+                    log.info("1개일 경우 :{}", bookImgPath);
                 }
 
                 //실제파일을 프로젝트 내부에(서버) 저장
@@ -91,11 +91,11 @@ public class FileUtils {
                     log.error("파일 저장 실패: {}", e.getMessage());
                 }
 
-                //저장한 후에 서버 주소 추가 ??
+
 
             }
             // List<String> bookImgPath를 하나의 문자열로 변환
-            log.info("bookImgPath---------------------데이터베이스에 저장할 문자열:{}", bookImgPath); // 리스트 객체
+            log.info("데이터베이스에 저장할 문자열 bookImgpath:{}", bookImgPath); // 리스트 객체
             // 객체를 또 순회해서 문자열로 만들어야함 ?????
         }else{
             log.info("파일 객체가 널인데 ");
@@ -119,12 +119,11 @@ public class FileUtils {
         log.info("foler------------:{} , fileList--------- :{}", folder, Files);
 
         if(Files != null) {
-        log.info("파일 객체 있따----------");
+        log.info("파일 객체 존재할 경우---");
             for (File file : Files) {
                 String name = file.getName().toLowerCase();
-                log.info("파일 이름과 확장자 전부 소무자로 대체했다 --------------:{} ",name);
+                log.info("파일 이름과 확장자 전부 소무자로 대체:{} ",name);
                 if(name.equals("noimg.png") || name.equals("noimg.jpg")) {
-
                    // 서버에서 클라이언트로 이미지를 리소스를 보낼때 상대경로를 사용해야 함
                     //절대경로는 파일 시스템경로를 반환하기때문에 클라이언에서 사용불가
                    // noImgPath ="images/" + name;
@@ -229,6 +228,7 @@ public class FileUtils {
     //실서버에 저장된 이미지파일 삭제만
     public String deleteFiles(String fileNames,String middlePath) {
         log.info("fileNames----------del:{}",fileNames);
+
         // 삭제할 파일 레코드 아이디 받아오기 ==> List<String> fileNames
         String deleteFilePath = uploadDir + File.separator + middlePath + File.separator;//운영체제에 맞게 파일 경로 생성하기 위한 코드
         //File 클래스를 사용하는 이유는, 파일시스템에서 해당경로의 파일을 조작하기 위해서 파일 객체를 사용
@@ -239,10 +239,14 @@ public class FileUtils {
                         boolean deleted = file.delete();
                         log.info("삭제성공여부:{}",deleted);
                         log.info("삭제성공여부:{}",file.getPath());
+                        // 삭제한 파일을 제외한 값을 반환해줘야함
                     } else {
                         log.info("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
                     }
                 });
+
+
+
        return "이미지파일 삭제";
     }
 }

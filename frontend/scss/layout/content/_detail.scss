@@ -1,10 +1,10 @@
 
 //class 속성 안에 "-detail"이라는 문자열이 포함된 모든 요소를 선택
-[class*="detail"]{
+[class*="detail"],[class*="modify"]{
   .right{
     width: 100%;}
   .left,.menu-navi{display: none !important;}
-  [class*="-title"]{
+ .board-title{
     padding-left: 30px;
     .icon{position: absolute;
       left: 0; top:0.6rem}
@@ -12,6 +12,8 @@
   .swiper .img-box {background: #F2F2F2;}
 
 }
+
+
 
 
 

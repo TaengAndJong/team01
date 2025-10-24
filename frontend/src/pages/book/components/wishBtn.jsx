@@ -15,6 +15,8 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
     //서버에서 클라이언트까지 응답이 도달할 때까지의 상태관리
     const [isLoading, setIsLoading] = useState(false);
 
+    console.log("isAuthenticated",isAuthenticated);
+
 
     //찜목록 비동기 fetch 요청
     const wishFetch = async(bookId) =>{
@@ -79,13 +81,23 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
 
         //bookId를 받아서 비동기요청, 컨트롤러로 전송
         try{
-            //로그인 중인지 검증필요
-            const response = await axios.get("/api/auth",{ withCredentials: true });
-            console.log("response status",response.status);
-            if(response.status === 200) {
-                console.log("찜목록 페치요청 보내는 듕");
-                console.log("엑시오스 찜목록 버튼",response.status);
-                wishFetch(bookId);
+            if (!isAuthenticated) {
+                openModal({
+                    modalType:"confirm",
+                    data:{message:"로그인페이지로 이동하시겠습니까?"},
+                    onConfirm: () => {closeModal(); navigate("/login");}
+                });
+                return;
+            }else{
+                //로그인 중인지  세션 체크검증필요
+                const response = await axios.get("/api/auth",{ withCredentials: true });
+                console.log("response status",response);
+
+                if(response.status === 200) {
+                    console.log("찜목록 페치요청 보내는 듕");
+                    console.log("엑시오스 찜목록 버튼",response.status);
+                    wishFetch(bookId);
+                }
             }
 
         }catch(err){

@@ -30,7 +30,7 @@ const qnaOneBoardSearchBar = ({ search, setSearch, handleSearch }) => {
         </select>
 
         <input
-          className="form-form-control w-auto"
+          className="form-control w-auto"
           type="text"
           name="keyword"
           placeholder="검색어 입력"

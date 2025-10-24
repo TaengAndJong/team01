@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
@@ -33,7 +33,9 @@ const AdminBookModify = () => {
     console.log("bookId modify",  typeof bookId);
 
     //도서 정보데이터
-    const [modifyBookData, setModifyBookData] = useState([]);
+    const [modifyBookData, setModifyBookData] = useState({
+        bookId: bookId,
+    });
     const [categoryList, setCategoryList] = useState([]);
     //파일
     const [bookImg, setBookImg] = useState({
@@ -87,22 +89,22 @@ const AdminBookModify = () => {
 
     console.log("modifyBookData----",modifyBookData);
 
+
+    // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
+        console.log("userData---- 수정",userData);
         fetchModify();
-        if (userData != null) { // userData가 있을 때만 실행
-            setModifyBookData(prevState => ({
-                ...prevState,
-                roleId: userData.roles[0],  // 최신 값으로 갱신
+        if (userData && userData.roles?.length > 0) {
+            setModifyBookData(prev => ({
+                ...prev,
+                roleId: userData.roles[0],
                 writer: userData.clientName,
             }));
         }
 
-    }, [bookId,userData]); //bookId가 변경될 때마다 데이터 변경
+    }, [bookId,userData]);  // userData가 변경될 때 실행
 
 
-
-    //발행일
-    const [publishDate, setPublishDate] = useState(new Date()); // 오늘날짜를 초기값으로
 
     //핸들러 값 변경 시 실행되는 함수
     const handleChange = (e) => {
@@ -245,14 +247,11 @@ const AdminBookModify = () => {
     }
 
 
-
-    console.log("modifyBookData",modifyBookData);
-
     return(
         <>
             {/* 도서 등록 구조 작성 */}
 
-            <div className="page modifybook">
+            <div className=" modifybook">
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookModifyForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
@@ -318,7 +317,7 @@ const AdminBookModify = () => {
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
-                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} defualtData={modifyBookData.bookImgPath}/>
+                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} defualtData={modifyBookData} setDefaultData={setModifyBookData}/>
                     </div>
                 </form>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
