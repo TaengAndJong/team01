@@ -106,18 +106,18 @@ function Admin() {
               countData={countData.deliveryCount}
             />
             <Link
+              to="/admin/board"
               className="qnaskip cardwrapper rounded-4 p-5 shadow"
               type={"button"}
-              title={"문의 게시판 바로가기"}
-              path={null}
+              title={"문의 게시판"}
             >
-              <h2 className="card-title text-start">
-                <i className={null}></i>
-                문의 게시판
+              <h2 className="card-title text-start d-flex">
+                <i className="board-icon board"></i>
+                <span className="title-text pt-1">문의 게시판</span>
               </h2>
               <span className="float-end mt-4">
-                <i>
-                  화살표<span className="sr-only">바로가기</span>
+                <i className="board-icon goboard">
+                  <span className="sr-only">바로가기</span>
                 </i>
               </span>
             </Link>
