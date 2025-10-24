@@ -933,21 +933,21 @@ header, .header-inner, .gnb {
   background-color: #ffffff;
 }
 
-[class*=detail] .right {
+[class*=detail] .right, [class*=modify] .right {
   width: 100%;
 }
-[class*=detail] .left, [class*=detail] .menu-navi {
+[class*=detail] .left, [class*=detail] .menu-navi, [class*=modify] .left, [class*=modify] .menu-navi {
   display: none !important;
 }
-[class*=detail] [class*=-title] {
+[class*=detail] .board-title, [class*=modify] .board-title {
   padding-left: 30px;
 }
-[class*=detail] [class*=-title] .icon {
+[class*=detail] .board-title .icon, [class*=modify] .board-title .icon {
   position: absolute;
   left: 0;
   top: 0.6rem;
 }
-[class*=detail] .swiper .img-box {
+[class*=detail] .swiper .img-box, [class*=modify] .swiper .img-box {
   background: #F2F2F2;
 }
 

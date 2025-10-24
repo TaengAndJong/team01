@@ -42,9 +42,6 @@ const Book = () => {
     pageSize: 6,
   });
 
-  // 상세페지이 클래스 추가기준
-  const location = useLocation().pathname;
-
 
   const onInit = (bookData) => {
     console.log("bookList bookData", bookData);
@@ -120,14 +117,25 @@ const Book = () => {
   let subNavi = clientMenuTree?.filter((item) =>
     item.menuPath.includes(standardPoint)
   );
-  console.log("메뉴트리", clientMenuTree);
-  console.log("홈", clientHome);
-  console.log("서브메뉴", subNavi);
+
+
+  // 상세페지이 클래스 추가기준
+  const location = useLocation().pathname;
+  const  pageSubClass = (subUrl)=>{
+    if (!subUrl) return "";
+
+    const lower = subUrl.toLowerCase();
+    if (lower.includes("detail")) return "detail";
+    if (lower.includes("modify")) return "modify";
+
+    return "";
+  }
+
+
   return (
     <>
 
-
-      <div className={`page d-flex ${location.toLowerCase().includes("detail")? "detail":""}`} >
+      <div className={`page d-flex ${pageSubClass(location)}`} >
         <div className="left">
           <LeftMenu />
         </div>

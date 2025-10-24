@@ -174,10 +174,20 @@ const AdminBook = () => {
 
   // 상세페지이 클래스 추가기준
   const location = useLocation().pathname;
+  const  pageSubClass = (subUrl)=>{
+    if (!subUrl) return "";
+
+    const lower = subUrl.toLowerCase();
+    if (lower.includes("detail")) return "detail";
+    if (lower.includes("modify")) return "modify";
+
+    return "";
+  }
 
   return (
     <>
-      <div className={`page bookBoard d-flex ${location.toLowerCase().includes("detail")? "detail":""}`}>
+      <div className={`page bookBoard d-flex ${pageSubClass(location)}`}
+      >
         <div className="left">
           <LeftMenu />
         </div>

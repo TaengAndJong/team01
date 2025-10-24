@@ -3,10 +3,9 @@ import React, {useEffect, useRef, useState} from "react";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
-const FileUpload =({bookImg,setBookImg,defualtData,setCreateBook})=>{//부모한테 받은 props 객체 기입
+const FileUpload =({bookImg,setBookImg,defualtData,setDefaultData})=>{//부모한테 받은 props 객체 기입
 
-    console.log("--1",bookImg);
-    console.log("defualtData--------------imgfile",defualtData);
+
     //모달
     const {openModal,closeModal} = useModal();
 
@@ -16,14 +15,19 @@ const FileUpload =({bookImg,setBookImg,defualtData,setCreateBook})=>{//부모한
 
     // defualtData 가 있으면, bookImg 재설정, 이전데이터를 유지하기위한 prevState 파라미터, defualtData가 변경될때마다 실행해야하니까 의존성배열 추가
     useEffect(() => {
+
+        console.log("--1",bookImg);
+        console.log("defualtData-------------",defualtData);
+        console.log("defualtData bookImg : newImg-------------",defualtData?.bookImg);
+
         // 기존 이미지파일이 존재할 경우,( 문자열로 들어오기때문에 타입 검증)
         // .split() 함수를 사용해 문자열을 배열로 반환 ==> 키가 name인 객체로 담아야함
         //existing은 등록을 통해 서버에 존재하는 파일을 담은 객체
-      if(defualtData){ // 수정페이지에서 기존 이미지 데이터가 있으면 조건
+      if(defualtData?.bookImgPath){ // 수정페이지에서 기존 이미지 데이터가 있으면 조건
           setBookImg((prev)=>({
               ...prev,
-              existing: typeof defualtData === 'string'? defualtData.split(',').map((fileName) => ({ name: fileName }))
-                  : defualtData || [],
+              existing: typeof defualtData.bookImgPath === 'string'? defualtData.bookImgPath.split(',').map((fileName) => ({ name: fileName }))
+                  : defualtData.bookImgPath || [],
           }))
       }
 
@@ -66,31 +70,35 @@ const FileUpload =({bookImg,setBookImg,defualtData,setCreateBook})=>{//부모한
 
     //삭제 핸들러
     const handleRemoveFile = (file, type) => {
+        console.log("파일 삭제중 ", file, type);
+
         setBookImg((prev) => {
-            const updated = {
+            const updatedExisting = prev.existing.filter(f => f.name !== file.name);
+            const updatedRemoved = type === "existing" ? [...prev.removed, file] : prev.removed;
+
+            // bookImgPath를 항상 문자열로 만들어서 setDefaultData
+            setDefaultData((prevData) => ({
+                ...prevData,
+                bookImgPath: updatedExisting.map(f => f.name).join(",")
+            }));
+
+            return {
                 ...prev,
-                [type]: prev[type].filter((f) => f.name !== file.name),
+                existing: updatedExisting,
+                removed: updatedRemoved,
             };
-
-            // 서버에 존재하는 기존 파일만 removed에 추가
-            if (type === "existing") {
-                updated.removed = [...prev.removed, file];
-            }
-
-            return updated;
         });
     };
 
-    console.log("bookImg--3 existing 배열로 반환확인",bookImg);
 
     // 파일 리스트 출력
     const renderFileList = (files, type) => (
             <>
                 {files.map((file, index) => (
-                    <div
+                    <div key={`${file.name}`}
                         className="file-row d-flex justify-content-start align-items-center w-100 mt-1 py-1 border-bottom">
-                        <label className="form-title">업로드목록.{index + 1}</label>
-                        <span className="d-inline-block ">{file.name}</span>
+                        <label className="form-title" htmlFor={`file${index+ 1}`}>업로드목록.{index + 1}</label>
+                        <span className="d-inline-block" id={`file${index+ 1}`}>{file.name}</span>
                         <button type="button" className={"btn btn-danger ms-auto"}
                                 onClick={() => handleRemoveFile(file, type)}>
                             삭제

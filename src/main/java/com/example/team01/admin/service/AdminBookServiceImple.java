@@ -166,11 +166,24 @@ public class AdminBookServiceImple implements AdminBookService {
             try{
                 // 도서 이미지가 존재 새로 추가되어 비어있지 않은 경우
                 if(book.getBookImg() != null && !book.getBookImg().isEmpty()){
+                    //들어온 파일을 서버에 저장하는역할
                     bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
                     log.info("bookImgPath--------------------- 파일 유틸 반환값 확인: {}",bookImgPath);
 
+                    //기존 bookImgPath가 있을경우 결합 후 설정 필요
+                    String updateBookImgPath="";
+                    //1.기존  해당 등록도서의 bookImgPath 조회해오기
+                     String preBookImgPath= dao.selectOneBook(book.getBookId()).getBookImgPath();
+                     log.info("preBookImgPath : {} ",preBookImgPath);
+                      if(preBookImgPath !=""){
+                          log.info("업데이트 북이미지 경로 생성 bookImgPath : {} ",bookImgPath);
+                          // 추가된 경우 BookImgPath 경로와 다시 결합 다시 설정
+                         updateBookImgPath    = String.join(",",preBookImgPath,bookImgPath);
+                         log.info("updateBookImgPath : {} ",updateBookImgPath);
+                      }
+
                     //반환된 bookImgPath 데이터베이스에 전달할 객체설정
-                    book.setBookImgPath(bookImgPath);
+                    book.setBookImgPath(updateBookImgPath);
                 }else{
                     // 새로 추가된 이미지가 없는 경우
                     log.info("bookImgPath--------------------- 기존이미지패스: {}",book.getBookImgPath());
