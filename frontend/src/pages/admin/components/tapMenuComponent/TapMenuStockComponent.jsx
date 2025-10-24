@@ -164,7 +164,7 @@ const TapMenuStockComponent = () => {
                       1}
                   </td>
                   <td
-                    onClick={() => navigate(`/book/bookDetail/${book.bookId}`)}
+                    onClick={() => navigate(`book/bookDetail/${book.bookId}`)}
                   >
                     <span>{book.bookName}</span>
                   </td>
