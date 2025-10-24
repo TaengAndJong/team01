@@ -179,6 +179,10 @@
   border-collapse: collapse;
 }
 
+.tab-content span {
+  cursor: pointer;
+}
+
 .table-container th,
 .table-container td {
   border-bottom: 1px solid #ddd;

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import Pagination from "@util/pagination.jsx";
+import { useNavigate } from "react-router-dom";
 const TapMenuStockComponent = () => {
   const [activeTab, setActiveTab] = useState("국내도서");
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
+  const navigate = useNavigate();
   const [bookData, setBookData] = useState({
     국내도서: { items: [], pagination: {} },
     국외도서: { items: [], pagination: {} },
@@ -161,7 +163,11 @@ const TapMenuStockComponent = () => {
                       i +
                       1}
                   </td>
-                  <td>{book.bookName}</td>
+                  <td
+                    onClick={() => navigate(`/book/bookDetail/${book.bookId}`)}
+                  >
+                    <span>{book.bookName}</span>
+                  </td>
                   <td>{book.author}</td>
                   <td>{book.stock}</td>
                   <td>{book.publishDate}</td>
