@@ -168,6 +168,7 @@ public class AdminBookServiceImple implements AdminBookService {
                 if(book.getBookImg() != null && !book.getBookImg().isEmpty()){
                     bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
                     log.info("bookImgPath--------------------- 파일 유틸 반환값 확인: {}",bookImgPath);
+
                     //반환된 bookImgPath 데이터베이스에 전달할 객체설정
                     book.setBookImgPath(bookImgPath);
                 }else{
