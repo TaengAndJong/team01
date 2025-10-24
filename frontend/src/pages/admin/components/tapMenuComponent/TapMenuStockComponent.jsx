@@ -121,7 +121,6 @@ const TapMenuStockComponent = () => {
   return (
     <>
       <h3 className="title">재고 부족 도서</h3>
-
       {/* 탭 버튼 */}
       <div className="tab-buttons">
         {Object.keys(bookData).map((category) => (
@@ -136,15 +135,15 @@ const TapMenuStockComponent = () => {
           </button>
         ))}
       </div>
-
       {/* 테이블 */}
       <div className="tab-content">
         <table>
           <thead>
             <tr>
-              <th>재고</th>
+              <th>번호</th>
               <th>도서명</th>
               <th>저자</th>
+              <th>재고</th>
               <th>등록일</th>
             </tr>
           </thead>
@@ -156,24 +155,29 @@ const TapMenuStockComponent = () => {
             ) : (
               bookData[activeTab].items.map((book, i) => (
                 <tr key={i}>
-                  <td>{book.stock}</td>
+                  <td>
+                    {(bookData[activeTab].pagination.currentPage - 1) *
+                      bookData[activeTab].pagination.pageSize +
+                      i +
+                      1}
+                  </td>
                   <td>{book.bookName}</td>
                   <td>{book.author}</td>
+                  <td>{book.stock}</td>
                   <td>{book.publishDate}</td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
-
-        {/*pagination*/}
-        <Pagination
-          paginationInfo={bookData[activeTab].pagination}
-          onChangePageHandler={(page) =>
-            onChangePageHandler({ page, category: activeTab })
-          }
-        />
       </div>
+      {/*pagination*/}
+      <Pagination
+        paginationInfo={bookData[activeTab].pagination}
+        onChangePageHandler={(page) =>
+          onChangePageHandler({ page, category: activeTab })
+        }
+      />
     </>
   );
 };
