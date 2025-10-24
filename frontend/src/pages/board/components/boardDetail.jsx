@@ -85,12 +85,25 @@ const BoardDetail = ({ userType }) => {
             })}
           </ol>
         )}
+      </div>
 
-        {/*첨부파일 이름*/}
-      </div>
-      <div className="comment-box p-4 border-top">
-        {board?.comment?.commentCon || <span>답변 대기중 입니다.</span>}
-      </div>
+      {board?.comment ? (
+        <div className="comment-container">
+          <div className="mt-4">
+            <div className="d-flex justify-content-between align-items-center comment-title">
+              <strong>관리자 답변</strong>
+              <span className="tultip">
+                {board.comment.comWriterName}({board.comment.comWriter})
+              </span>
+            </div>
+            <div className="comment-box p-4 mb-4 text-left">
+              {board?.comment.commentCon}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <span>답변 대기중 입니다.</span>
+      )}
 
       <div className="d-grid gap-2 d-md-flex justify-content-md-end pt-4 border-top">
         <Btn

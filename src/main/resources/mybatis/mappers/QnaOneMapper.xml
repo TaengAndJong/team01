@@ -10,7 +10,7 @@
         FROM qnaOne
         <where>
         <include refid="searchFrag"/>
-        AND ("qnaDel" = 'N' OR "qnaDel" IS NULL)
+        AND ("qnaDel" = 'N' OR "qnaDel" IS NULL) AND "clientId" != #{userId} 
         </where>
     </select>
 
@@ -98,7 +98,7 @@
                 FROM QnaOne
                 <trim prefix="WHERE" prefixOverrides="AND|OR">
                 <include refid="searchFrag"/>
-                AND ("qnaDel" = 'N' OR "qnaDel" IS NULL)
+                AND ("qnaDel" = 'N' OR "qnaDel" IS NULL) AND "clientId" != #{userId}
                 </trim>
                 ORDER BY "qnaOneId" DESC
             ) a

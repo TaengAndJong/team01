@@ -12,9 +12,9 @@ import java.util.List;
 public interface QnaDeliveryDao {
 
 
-    public List<QnaDeliveryVO> getAllQnaDeliveryList(@Param("pagination") Pagination pagination);
+    public List<QnaDeliveryVO> getAllQnaDeliveryList(@Param("pagination") Pagination pagination, @Param("userId")String userId);
 
-    int totalRecord(@Param("pagination") Pagination pagination);
+    int totalRecord(@Param("pagination") Pagination pagination, String userId);
 
     public QnaDeliveryVO getDeliveryDetailBoard(@Param("boardId") String boardId, @Param("userId") String userId);
 

@@ -12,10 +12,10 @@ import java.util.List;
 public interface QnaProductDao {
 
     // 상품 문의 목록 조회
-    public List<QnaProductVO> getAllQnaProductList(@Param("pagination") Pagination pagination);
+    public List<QnaProductVO> getAllQnaProductList(@Param("pagination") Pagination pagination,@Param("userId")String userId);
 
     // 상품 문의 총 개수
-    int totalRecord(@Param("pagination") Pagination pagination);
+    int totalRecord(@Param("pagination") Pagination pagination,@Param("userId") String userId);
 
     // 상품 문의 상세 조회
     public QnaProductVO getProDetailBoard(@Param("boardId") String boardId, @Param("userId") String userId);

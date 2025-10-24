@@ -27,8 +27,9 @@ public class QnaOneController {
         @GetMapping("/qnaOneList")
         public ResponseEntity<?>  getQnaOneList(
             @RequestParam(defaultValue = "1")
-            int currentPage, @RequestParam(defaultValue = "5")
-            int pageSize, @RequestParam(required = false) String searchType,
+            int currentPage, @RequestParam(defaultValue = "5")int pageSize,
+            @RequestParam String userId,
+            @RequestParam(required = false) String searchType,
             @RequestParam(required = false) String keyword,
             HttpServletRequest request
             ) {
@@ -41,7 +42,7 @@ public class QnaOneController {
 	    pagination.addDetailCondition("searchType", searchType);
 	    pagination.addDetailCondition("keyword", keyword);
 	
-	    qnaOneList = qnaOneService.getAllQnaOneList(pagination); //검색 된 리스트 데이터
+	    qnaOneList = qnaOneService.getAllQnaOneList(pagination , userId); //검색 된 리스트 데이터
 
 	        for (QnaOneVO qnaOneVO : qnaOneList) {
                 log.info("여기--검색 책목록:{}", qnaOneVO);
@@ -50,12 +51,8 @@ public class QnaOneController {
             }
         }else{
 
-        qnaOneList = qnaOneService.getAllQnaOneList(pagination); // 전체 데이터
+        qnaOneList = qnaOneService.getAllQnaOneList(pagination, userId); // 전체 데이터
         }
-
-         //서비스로 데이터 넘기기
-        qnaOneList  = qnaOneService.getAllQnaOneList(pagination);
-        log.info("qnaOneList size------------ = {}", qnaOneList.size());
 
             Map<String, Object> result = new HashMap<>();
             result.put("items", qnaOneList);

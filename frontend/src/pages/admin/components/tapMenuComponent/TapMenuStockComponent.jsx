@@ -117,6 +117,7 @@ const TapMenuStockComponent = () => {
     }
   };
 
+  console.log("bookData", bookData);
   return (
     <>
       <h3 className="title">재고 부족 도서</h3>
@@ -148,14 +149,20 @@ const TapMenuStockComponent = () => {
             </tr>
           </thead>
           <tbody>
-            {bookData[activeTab].items.map((book, i) => (
-              <tr key={i}>
-                <td>{book.stock}</td>
-                <td>{book.bookName}</td>
-                <td>{book.author}</td>
-                <td>{book.publishDate}</td>
+            {bookData[activeTab].items.length === 0 ? (
+              <tr>
+                <td colSpan="4">재고가 부족한 도서가 없습니다.</td>
               </tr>
-            ))}
+            ) : (
+              bookData[activeTab].items.map((book, i) => (
+                <tr key={i}>
+                  <td>{book.stock}</td>
+                  <td>{book.bookName}</td>
+                  <td>{book.author}</td>
+                  <td>{book.publishDate}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
 

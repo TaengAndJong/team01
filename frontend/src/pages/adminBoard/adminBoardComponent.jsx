@@ -4,6 +4,7 @@ import LeftMenu from "../../layout/LeftMenu.jsx";
 import { useMenu } from "../common/MenuContext.jsx";
 import { menuNavi } from "../../util/menuNavi.jsx";
 import { ModalProvider } from "@pages/common/modal/ModalContext.jsx";
+import { useAuth } from "@pages/common/AuthContext.jsx";
 
 // 3개 카테고리별 상태 관리를 위한 reducer
 function boardReducer(state, action) {
@@ -130,8 +131,8 @@ export const BookBoardDispatchContext = React.createContext(); // 생성, 수정
 export const PaginationContext = React.createContext();
 export const CheckboxContext = React.createContext(); // 체크박스 상태관리 context
 const AdminBoard = () => {
+  const { userData } = useAuth();
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
-
   // 3개 카테고리별 초기 상태
   const initialState = {
     one: [],
@@ -179,6 +180,7 @@ const AdminBoard = () => {
   });
 
   const initFetch = async () => {
+    if (!userData || !userData.clientId) return; // userData 없으면 요청 취소
     try {
       // 각 게시판별 파라미터 생성
       const oneParams = new URLSearchParams({
@@ -189,6 +191,7 @@ const AdminBoard = () => {
       const productParams = new URLSearchParams({
         currentPage: productPagination.currentPage,
         pageSize: productPagination.pageSize,
+        userId: userData.clientId,
       });
 
       const deliveryParams = new URLSearchParams({
@@ -241,7 +244,7 @@ const AdminBoard = () => {
       dispatch({ type: "INIT_DELIVERY", data: deliveryData });
 
       // 페이지네이션 정보 게시판 별로 받아오기
-      if (oneData && oneData.currentPage) {
+      if (oneData && oneData.currentPage !== onePagination.currentPage) {
         setOnePagination({
           currentPage: oneData.currentPage,
           pageSize: oneData.pageSize || onePagination.pageSize,
@@ -250,7 +253,10 @@ const AdminBoard = () => {
         });
       }
 
-      if (productData && productData.currentPage) {
+      if (
+        productData &&
+        productData.currentPage !== productPagination.currentPage
+      ) {
         setProductPagination({
           currentPage: productData.currentPage,
           pageSize: productData.pageSize || productPagination.pageSize,
@@ -259,7 +265,10 @@ const AdminBoard = () => {
         });
       }
 
-      if (deliveryData && deliveryData.currentPage) {
+      if (
+        deliveryData &&
+        deliveryData.currentPage !== deliveryPagination.currentPage
+      ) {
         setDeliveryPagination({
           currentPage: deliveryData.currentPage,
           pageSize: deliveryData.pageSize || deliveryPagination.pageSize,
@@ -275,8 +284,9 @@ const AdminBoard = () => {
 
   // 최초 렌더 시 한 번만 실행
   useEffect(() => {
-    initFetch();
+    if (userData && userData.clientId) initFetch();
   }, [
+    userData,
     onePagination.currentPage,
     productPagination.currentPage,
     deliveryPagination.currentPage,

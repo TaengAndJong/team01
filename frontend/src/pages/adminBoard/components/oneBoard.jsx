@@ -6,10 +6,10 @@ import { BookBoardStateContext } from "@pages/adminBoard/adminBoardComponent.jsx
 import Pagination from "@util/pagination.jsx";
 import Btn from "@util/reuseBtn.jsx";
 import { useModal } from "@pages/common/modal/ModalContext.jsx";
-
+import { useAuth } from "@pages/common/AuthContext.jsx";
 const OneBoard = () => {
   const { one } = useContext(BookBoardStateContext);
-
+  const { userData } = useAuth();
   const [boardList, setBoardList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -32,11 +32,12 @@ const OneBoard = () => {
   const [lastSearchKeyword, setLastSearchKeyword] = useState(""); // 마지막 검색어 저장
 
   const getOneBoard = async (page = 1, pageSize = 5) => {
+    if (!userData || !userData.clientId) return; // userData 없으면 요청 취소
     setIsLoading(true);
     setIsError(false);
 
     const response = await fetch(
-      `/api/admin/board/qnaOneList?currentPage=${page}&pageSize=${pageSize}`
+      `/api/admin/board/qnaOneList?currentPage=${page}&pageSize=${pageSize}&userId=${userData.clientId}`
     );
 
     if (response.ok) {
@@ -59,7 +60,13 @@ const OneBoard = () => {
   };
 
   useEffect(() => {
-    getOneBoard();
+    if (userData && userData.clientId) {
+      console.log("✅ userData 로드 완료:", userData.clientId);
+      console.log("getProductBoard 실행됨 ---------------------");
+      getOneBoard();
+    } else {
+      console.log("⚠️ userData 아직 없음:", userData);
+    }
 
     if (!one || !Array.isArray(one) || one.length === 0) {
       setBoardList([]);
@@ -128,7 +135,7 @@ const OneBoard = () => {
     setIsError(false);
 
     // 2. 요청 URL 확인
-    const requestUrl = `/api/admin/board/qnaOneList?keyword=${keywordParam}&currentPage=${page}&pageSize=${pageSize}`;
+    const requestUrl = `/api/admin/board/qnaOneList?keyword=${keywordParam}&currentPage=${page}&pageSize=${pageSize}&userId=${userData.clientId}`;
     console.log("요청 URL:", requestUrl);
 
     const response = await fetch(requestUrl, {
