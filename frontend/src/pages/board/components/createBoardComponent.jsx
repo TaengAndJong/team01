@@ -1,23 +1,28 @@
 import "@assets/css/board/userBoard.css";
 import Btn from "@util/reuseBtn.jsx";
 import { maskUserId } from "@util/maskingID.jsx";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@pages/common/AuthContext.jsx";
 import { BoardRefreshTriggerContext } from "@pages/board/boardComponent.jsx";
 import { useContext } from "react";
+import FileUploadComponent from "./fileUploadComponent";
+import { useModal } from "@pages/common/modal/ModalContext.jsx";
+
+const MAX_FILES = 5;
+const MAX_SIZE_MB = 20;
+
 const CreateBoardComponent = () => {
   // useContext(UserDataContext)로 root 컴포넌트에 있는 UserDataContext를 사용 가능
   // const userData = useContext(UserDataContext);
   const refreshTrigger = useContext(BoardRefreshTriggerContext);
   const { userData } = useAuth();
   console.log("userData사용자----", userData);
-  const fileRef = useRef(null); // file input 연결할 ref
   const navigate = useNavigate();
   const location = useLocation();
   const { category } = location.state || {}; // state에서 category 가져오기
   console.log("넘어온 category:", category);
-
+  const { openModal, closeModal } = useModal();
   const [formData, setFormData] = useState({
     clientId: "",
     clientName: "",
@@ -26,7 +31,6 @@ const CreateBoardComponent = () => {
     content: "",
     files: [],
   });
-
   // category가 변경될 때 formData 업데이트
   useEffect(() => {
     if (category) {
@@ -70,10 +74,58 @@ const CreateBoardComponent = () => {
 
   // 사용자가 파일을 선택하면, 그 파일 목록을 배열로 변환하여 formData.files에 저장. 파일 다중 선택
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files); // FileList → 배열
+    const newFiles = Array.from(e.target.files); // FileList → 배열
+
+    if (formData.files.length + newFiles.length > MAX_FILES) {
+      openModal({
+        modalType: "confirm",
+        data: {
+          message: "최대 허용 갯수를 초과 했습니다.",
+        },
+        onConfirm: () => {
+          closeModal();
+        },
+        onClose: closeModal,
+      });
+      return;
+    }
+
+    // 총 용량 계산
+    const totalSizeMB = (
+      [...formData.files, ...newFiles].reduce(
+        (acc, file) => acc + file.size,
+        0
+      ) /
+      1024 /
+      1024
+    ).toFixed(2);
+
+    if (totalSizeMB > MAX_SIZE_MB) {
+      openModal({
+        modalType: "confirm",
+        data: {
+          message: `최대 용량  ${MAX_SIZE_MB}를 초과 했습니다.`,
+        },
+        onConfirm: () => {
+          closeModal();
+        },
+        onClose: closeModal,
+      });
+      return;
+    }
+
     setFormData((prev) => ({
       ...prev,
-      files: files,
+      files: [...prev.files, ...newFiles],
+    }));
+
+    e.target.value = "";
+  };
+
+  const fileRemove = (removeIndex) => {
+    setFormData((prev) => ({
+      ...prev,
+      files: prev.files.filter((_, idx) => idx !== removeIndex),
     }));
   };
 
@@ -91,13 +143,20 @@ const CreateBoardComponent = () => {
     console.log("서버로 전송 할 문의 데이터 ------", formData);
 
     if (!formData.title.trim()) {
-      alert("문의 제목을 입력해 주세요");
+      openModal({
+        modalType: "confirm",
+        data: { message: "문의 제목을 입력해 주세요" },
+        onConfirm: closeModal,
+        onClose: closeModal,
+      });
       return;
     } else if (!formData.content.trim()) {
-      alert("문의 내용을 입력해 주세요");
-      return;
-    } else if (!formData.category.trim()) {
-      alert("문의 종류를 선택해 주세요");
+      openModal({
+        modalType: "confirm",
+        data: { message: "문의 내용을 입력해 주세요" },
+        onConfirm: closeModal,
+        onClose: closeModal,
+      });
       return;
     }
 
@@ -179,7 +238,7 @@ const CreateBoardComponent = () => {
             />
           </div>
 
-          <div className="d-flex align-items-center mb-1">
+          <div className="d-flex align-items-center mb-4">
             <span className="form-title inquireContents">문의 내용</span>
 
             <textarea
@@ -190,25 +249,11 @@ const CreateBoardComponent = () => {
             />
           </div>
 
-          <div className="d-flex align-items-center mb-1">
-            <span className="form-title attachfiles">첨부 파일</span>
-            <div>
-              <p>이미지 파일만 첨부해 주세요</p>
-              <input
-                type="file"
-                multiple
-                ref={fileRef}
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
-              <a className="btn" onClick={() => fileRef.current.click()}>
-                파일 첨부하기
-              </a>
-              <span>
-                &quot;(<b>최대 5개</b>, 10MB)&quot;
-              </span>
-            </div>
-          </div>
+          <FileUploadComponent
+            fileRemove={fileRemove}
+            files={formData.files}
+            handleFileChange={handleFileChange}
+          />
           <div className="createBtnBox">
             <Btn
               className={"Btn postBoard btn-danger mx-1 "}
