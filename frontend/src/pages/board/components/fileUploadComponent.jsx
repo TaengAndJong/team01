@@ -1,8 +1,14 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import "@assets/css/board/userBoard.css";
 const FileUploadComponent = ({ files = [], handleFileChange, fileRemove }) => {
   console.log("files", files);
   const fileRef = useRef(null);
+
+  const totalSizeMB = (
+    files.reduce((acc, file) => acc + file.size, 0) /
+    1024 /
+    1024
+  ).toFixed(2);
 
   return (
     <>
@@ -13,13 +19,9 @@ const FileUploadComponent = ({ files = [], handleFileChange, fileRemove }) => {
             이미지 파일만 첨부해 주세요{" "}
             <span className="ms-1">
               &quot;(<b>{files.length}</b>
-              <b>/최대 5개</b>,{" "}
+              <b>/최대 5개</b>,
               <b>
-                {(
-                  files.reduce((acc, file) => acc + file.size, 0) /
-                  1024 /
-                  1024
-                ).toFixed(2)}
+                {totalSizeMB}
                 /20MB
               </b>
               )&quot;

@@ -7,6 +7,7 @@ import { useAuth } from "@pages/common/AuthContext.jsx";
 import { BoardRefreshTriggerContext } from "@pages/board/boardComponent.jsx";
 import { useContext } from "react";
 import FileUploadComponent from "./fileUploadComponent";
+import { useModal } from "@pages/common/modal/ModalContext.jsx";
 
 const MAX_FILES = 5;
 const MAX_SIZE_MB = 20;
@@ -21,7 +22,7 @@ const CreateBoardComponent = () => {
   const location = useLocation();
   const { category } = location.state || {}; // state에서 category 가져오기
   console.log("넘어온 category:", category);
-
+  const { openModal, closeModal } = useModal();
   const [formData, setFormData] = useState({
     clientId: "",
     clientName: "",
@@ -75,6 +76,44 @@ const CreateBoardComponent = () => {
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files); // FileList → 배열
 
+    if (formData.files.length + newFiles.length > MAX_FILES) {
+      openModal({
+        modalType: "confirm",
+        data: {
+          message: "최대 허용 갯수를 초과 했습니다.",
+        },
+        onConfirm: () => {
+          closeModal();
+        },
+        onClose: closeModal,
+      });
+      return;
+    }
+
+    // 총 용량 계산
+    const totalSizeMB = (
+      [...formData.files, ...newFiles].reduce(
+        (acc, file) => acc + file.size,
+        0
+      ) /
+      1024 /
+      1024
+    ).toFixed(2);
+
+    if (totalSizeMB > MAX_SIZE_MB) {
+      openModal({
+        modalType: "confirm",
+        data: {
+          message: `최대 용량  ${MAX_SIZE_MB}를 초과 했습니다.`,
+        },
+        onConfirm: () => {
+          closeModal();
+        },
+        onClose: closeModal,
+      });
+      return;
+    }
+
     setFormData((prev) => ({
       ...prev,
       files: [...prev.files, ...newFiles],
@@ -104,13 +143,20 @@ const CreateBoardComponent = () => {
     console.log("서버로 전송 할 문의 데이터 ------", formData);
 
     if (!formData.title.trim()) {
-      alert("문의 제목을 입력해 주세요");
+      openModal({
+        modalType: "confirm",
+        data: { message: "문의 제목을 입력해 주세요" },
+        onConfirm: closeModal,
+        onClose: closeModal,
+      });
       return;
     } else if (!formData.content.trim()) {
-      alert("문의 내용을 입력해 주세요");
-      return;
-    } else if (!formData.category.trim()) {
-      alert("문의 종류를 선택해 주세요");
+      openModal({
+        modalType: "confirm",
+        data: { message: "문의 내용을 입력해 주세요" },
+        onConfirm: closeModal,
+        onClose: closeModal,
+      });
       return;
     }
 
