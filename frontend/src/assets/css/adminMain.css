@@ -168,6 +168,8 @@
 
 /* 테이블 */
 .tab-content {
+  display: block;
+  min-height: 342px;
   padding: 0;
   margin-top: 0;
   background-color: #fff;
@@ -175,6 +177,10 @@
 .tab-content table {
   width: 100%;
   border-collapse: collapse;
+}
+
+.tab-content span {
+  cursor: pointer;
 }
 
 .table-container th,

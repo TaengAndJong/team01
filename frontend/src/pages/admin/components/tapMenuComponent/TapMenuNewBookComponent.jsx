@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Pagination from "@util/pagination.jsx";
+import { useNavigate } from "react-router-dom";
 
 const TapMenuNewBookComponent = () => {
   const [activeTab, setActiveTab] = useState("국내도서");
@@ -11,6 +12,8 @@ const TapMenuNewBookComponent = () => {
     국외도서: { items: [], pagination: {} },
     "E-book": { items: [], pagination: {} },
   });
+
+  const navigate = useNavigate();
 
   const getNewDomestic = async (page = 1, pageSize = 5) => {
     setIsLoading(true);
@@ -140,6 +143,7 @@ const TapMenuNewBookComponent = () => {
         <table>
           <thead>
             <tr>
+              <th>번호</th>
               <th>도서명</th>
               <th>저자</th>
               <th>등록일</th>
@@ -148,28 +152,49 @@ const TapMenuNewBookComponent = () => {
           <tbody>
             {bookData[activeTab].items.length === 0 ? (
               <tr>
-                <td colSpan="3">새로 등록된 도서가 없습니다.</td>
+                <td colSpan="4">새로 등록된 도서가 없습니다.</td>
               </tr>
             ) : (
               bookData[activeTab].items.map((book, i) => (
                 <tr key={i}>
-                  <td>{book.bookName}</td>
+                  <td>
+                    {(bookData[activeTab].pagination.currentPage - 1) *
+                      bookData[activeTab].pagination.pageSize +
+                      i +
+                      1}
+                  </td>
+                  <td
+                    onClick={() => navigate(`book/bookDetail/${book.bookId}`)}
+                  >
+                    <span>{book.bookName}</span>
+                  </td>
                   <td>{book.author}</td>
                   <td>{book.publishDate}</td>
                 </tr>
               ))
             )}
+            {/* {Array.from({
+              length:
+                (bookData[activeTab].pagination.pageSize || 5) -
+                bookData[activeTab].items.length,
+            }).map((_, i) => (
+              <tr key={`empty-${i}`}>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            ))} */}
           </tbody>
         </table>
-
-        {/*pagination*/}
-        <Pagination
-          paginationInfo={bookData[activeTab].pagination}
-          onChangePageHandler={(page) =>
-            onChangePageHandler({ page, category: activeTab })
-          }
-        />
       </div>
+      {/*pagination*/}
+      <Pagination
+        paginationInfo={bookData[activeTab].pagination}
+        onChangePageHandler={(page) =>
+          onChangePageHandler({ page, category: activeTab })
+        }
+      />
     </>
   );
 };
