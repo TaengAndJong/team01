@@ -7,7 +7,6 @@ import FormTag from "../../../util/formTag.jsx";
 import PublishDate from "./publishDate.jsx";
 import PriceStock from "./priceStock.jsx";
 import FileUpload from "./fileUpload.jsx";
-import ReusableModal from "./modal.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 import {validStock} from "../../../util/validation.jsx";
 import {formatToDate, getToday} from "../../../util/dateUtils.jsx";
@@ -15,6 +14,8 @@ import {BookDispatchContext} from "../adminBookComponent.jsx";
 import "@assets/css/book/adminbookModify.css";
 import SalesStatus from "./salesStatus.jsx";
 import RecomeType from "./recomeType.jsx";
+import {useModal} from "../../common/modal/ModalContext.jsx";
+import axios from "axios";
 
 const AdminBookModify = () => {
 
@@ -28,9 +29,8 @@ const AdminBookModify = () => {
     const {bookId} = useParams(); // URL에서 bookId 값 받아오기
     const {userData} = useAuth();// 로그인한 사용자 데이터
     const {onUpdate} = useContext(BookDispatchContext);
+    const {openModal,closeModal} = useModal();
     const navigate = useNavigate();
-    console.log("bookId modify", bookId);
-    console.log("bookId modify",  typeof bookId);
 
     //도서 정보데이터
     const [modifyBookData, setModifyBookData] = useState({
@@ -44,46 +44,25 @@ const AdminBookModify = () => {
         removed: [],   // 삭제한 기존 파일
     });
 
-    //모달 상태관리
-    const [show, setShow] = useState(false);
-    const [errorData, setErrorData] = useState({});
-    const handleClose = () => {
-        console.log("close modal");
-        setShow(false)}
-    const handleShow = () => {
-        console.log("handleShow");
-        setShow(true)}
-   // const [modalType, setModalType] = useState("confirm");
-
-
 
 
     //발행일
-    //fetch 함수 작성하기
-    const fetchModify = async()=>{
-        try{
-            //fetch 요청 보내기
-            const response = await fetch(`/api/admin/book/bookModify/${bookId}`,{
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-            // 응답 에러
-            if(!response.ok){
-                console.log(response.status);
-                throw new Error("서버응답에러");
-            }
-            //응답 정상이면 받아 온 응답데이터 bookData에 갱신
+    //수정 조회 fetch 함수
+    const fetchModify = async () => {
 
-            const bookData = await response.json();
-            console.log("bookData",bookData);
+        try{
+            const response =
+                await axios.get(`/api/admin/book/bookModify/${bookId}`);
+            const bookData = response.data;
             const {book,cateData} = bookData; // 객체형으로 구조분해할당하기
             setModifyBookData(book);
             setCategoryList(cateData);
 
         }catch(err){
-            console.log("catch-Error", err);
+            openModal({
+                modalType:"error",
+                data:{error:`${err}`},
+            });
         }
     }
 
@@ -104,7 +83,67 @@ const AdminBookModify = () => {
 
     }, [bookId,userData]);  // userData가 변경될 때 실행
 
+    //formData에 데이터 담아주기
+    const buildFormData = (modifyBookData, bookImg) => {
+        const formData = new FormData();
 
+        Object.entries(modifyBookData).forEach(([key, value]) => {
+
+
+            if (key === "bookImg") {
+                const { new: newFiles, existing, removed } = bookImg;
+                //새로 업로드한 파일이   있다면
+                if (Array.isArray(newFiles) && newFiles.length > 0) {
+                    newFiles.forEach((file) => {
+                        formData.append("bookImg", file);
+                    });
+                }
+                // 2. 삭제할 기존 파일이 있다면 추가
+                if (Array.isArray(removed) && removed.length > 0) {
+                    removed.forEach((file) => {
+                        formData.append("removedBookImg", file.name); // 또는 file이 string이면 그대로
+                    });
+                }
+            }
+            else if (["bookCateDepth", "bookCateNm", "cateId"].includes(key) && Array.isArray(value)) {
+                // 배열 처리 (카테고리 계층)
+                value.forEach(v => formData.append(key, v));
+            }
+            else if (key === "createDate") {
+                //수정완료시 데이터를 서버로 전송하면 오늘날짜로 변경해서 데이터베이스에 넣어주기
+                modifyBookData["createDate"]= getToday(); //서버로 전송할 데이터객체형태로 변경
+                formData.append("createDate",  modifyBookData["createDate"]);
+            }
+            else {
+                // 일반 문자열 처리
+                formData.append(key, value ?? ""); //value가 null 이면 "" 처리
+            }
+        });
+
+        return formData;
+    };
+
+    // formData에 검증
+    const validateFormData = (formData) => {
+        const entries = Array.from(formData.entries());
+
+        const optionalKeys = ["bookImgPath","viewCnt","wishID"];
+
+        for (const [key, value] of entries) {
+            // console.log("createBook valid key ",key);
+            // bookImgPath는 비어 있어도 통과
+            if (optionalKeys.includes(key)) continue;
+
+            if (typeof value === "string" && value.trim() === "") {
+                return key; // 비어있는 문자열 키 반환
+            }
+            if (!value) {
+                return key; // null, undefined 등 비어있는 값
+            }
+        }
+
+        return null; // 문제 없음
+    };
 
     //핸들러 값 변경 시 실행되는 함수
     const handleChange = (e) => {
@@ -115,14 +154,14 @@ const AdminBookModify = () => {
         if((name === "stock" || name === "bookPrice") && value.trim() !== ""){
             //검증 유틸 사용
             const result = validStock(value);
-            console.log("재고 검증 결과 ----",result)
-            //검증 통과 여부
-            console.log("result.message",result.message)
-            console.log("result.valid",result.valid)
+
             if(!result.valid){
                 // 숫자 검증 false 일 경우, 모달 알림 뜸
-                setShow(true);
-                setErrorData(result); // result에 담긴 메시지 모달로 보내기
+                openModal({
+                    modalType:"error",
+                    type: "error",
+                    data:{message:result.message},
+                })
             }
 
         }
@@ -135,114 +174,47 @@ const AdminBookModify = () => {
             }),
         })
     }
-
+    // 서버로 전송
     const handleSubmit = async () => {
-        //  formData 객체에 데이터 담기 및 fetch Post요청으로 컨트롤러로 데이터 전송하기
-        const formData = new FormData(); //<form> 요소 없이도 key-value 쌍으로 데이터를 추가할 수 있음
-        //createBook의 모든 데이터를 formData에 담아서 서버의 컨트롤러로 전송
-        Object.entries(modifyBookData).forEach(([key, value]) => {
-            // Array.isArray(value) ==> file 객체
-            // bookImg가 값이 비어있거나 없을 경우 noImg 파일 가져와서
-            // 파일 객체로 만들어 bookImg에 배열로 담아 서버로 넘겨야 함
-            if (key === "bookImg") {
-                //bookImg.new 는 newFiles라는 새 변수명으로 할당함
-                const { new: newFiles, existing, removed } = bookImg;
-                // 1. 새 파일이 있다면 추가
-                if (Array.isArray(newFiles) && newFiles.length > 0) {
-                    newFiles.forEach((file) => {
-                        formData.append("bookImg", file);
-                    });
-                }
-                // 2. 삭제할 기존 파일이 있다면 추가
-                if (Array.isArray(removed) && removed.length > 0) {
-
-                    removed.forEach((file) => {
-                        formData.append("removedBookImg", file.name); // 또는 file이 string이면 그대로
-                    });
-                }
-            }else if(key==="bookCateDepth"&& Array.isArray(value)){
-                value.forEach((depth) => {
-                    formData.append("bookCateDepth", depth);
-                })
-            }else if(key==="bookCateNm"&& Array.isArray(value)){
-                value.forEach((name) => {
-                    formData.append("bookCateNm", name);
-                })
-            }else if(key==="cateId"&& Array.isArray(value)){
-
-                value.forEach((id) => {
-                    formData.append("cateId", id);
-                })
-            } else if(key === "createDate") {
-                //수정완료시 데이터를 서버로 전송하면 오늘날짜로 변경해서 데이터베이스에 넣어주기
-                modifyBookData["createDate"]=getToday(); //서버로 전송할 데이터객체형태로 변경
-                formData.append("createDate",  modifyBookData["createDate"]);
-
-            } else {
-                // 일반 문자열 데이터 추가
-                formData.append(key, value);
-            }
-        });
-
-        // 디버깅: FormData에 추가된 값 확인
-        // ==> iterator 반복 객체는 for ..of 또는 Array.from으로 내부 구조확인 가능, entries는 반복객체를 반환
-        for (let [key,val] of formData.entries()) {
-            console.log(`formDate 확인 key : ${key} , val: ${val}`);
-        }
-        // formData가 전부 채워졌는지 검증 ==> 하나라도 비어있으면 모달로 알림띄기
-
-        //formData를  entries()를 통해 키,값 으로 담긴 순회가 가능한 반복객체를 반환 후 Array.from으로 배열객체로 변환
-        const hasEmpty = Array.from(formData.entries())
-            .some(([key, value]) =>{
-                if(typeof(value) === "string"){
-                    return  value.trim() === ""
-                }
-               return !value;
-            });//해당 키값의 값이 null 또는 undefined,빈 문자열일경우
-
-        // true 반환,조건문 진입
-        if (hasEmpty) { //true이면
-            console.log(`formDate 확인==== hasEmpty : ${hasEmpty}`);
-            setShow(true);
-            setErrorData({
-                valid: false,
-                message: "빈값을 입력해주세요." }
-            )
-            return; // 종료시키키
-        }
-
-
-        //서버 컨트롤러로 전송
-        try{
-            const response =await fetch(`/api/admin/book/bookModify/${bookId}`, {
-                method: "POST",
-                body: formData // 파일 객체 데이터가 있는경우, json.stringify 사용 불가, 서버에서 문자열과 파일 객체를 나눠줘야함
+        const formData = buildFormData(modifyBookData, bookImg);
+        //빈값 검증
+        const emptyKey = validateFormData(formData);
+        if (emptyKey) {
+            openModal({
+                modalType: "error",
+                data: { message: `${emptyKey} 값을 채워주세요.`},
+                onClose: () => {closeModal()}
             });
+            return;
+        }
 
-            if (!response.ok) {
-                throw new Error(`도서 등록 실패: ${response.status}`);
-            }
-            console.log("도서 등록 성공!");
-            // 서버로 보내어 저장 완료된 데이터를 다시 json으로 받아서 Context에  새로 반영
-            // 생성 완료 후 목록을 조회할 때  새로운 데이터도 반영되어야 하기때문에 ( 데이터를 반환받지 않으면 이전 상태를  유지)
-            const newUpdatingData = await response.json();
-
+        try{
+            const response = await axios.post(`/api/admin/book/bookModify/${bookId}`,
+                formData, {});
+            //서버응답
+            const newUpdatingData=response.data;
             // onUpdate를 통해 데이터 클라이언트 데이터 갱신?
             onUpdate(newUpdatingData);
             // 목록 페이지로 이동
             navigate("/admin/book/bookList");
         }catch(err){
-            console.error("서버 요청 오류 발생",err);
+            openModal({
+                modalType: "error",
+                data: {
+                    message: "서버 요청 중 오류가 발생했습니다. 다시 시도해주세요.",
+                    error:`${err}`,
+                    onClose: () => {closeModal()}
+                },
+            });
         }
-
+        
     }
 
     //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
         //파일 객체  [] 배열이면 기본으로 이미지 추가하기
-        console.log("데이터 제출하겠따")
-        console.log("데이터제출 modifyBookData",modifyBookData);
+      //  console.log("데이터제출 modifyBookData",modifyBookData);
         handleSubmit();
     }
 
@@ -328,13 +300,8 @@ const AdminBookModify = () => {
                          text="확인"/>
                 </div>
             </div>
+            {/* 알림 모달 추가하기 */}
 
-            {show && (
-                <ReusableModal show={show}
-                               onClose={handleClose}
-                               errorData={errorData}
-                               modalType="error"/>
-            )}
         </>
 
     )

@@ -16,9 +16,54 @@ import Pagination from "@util/pagination.jsx";
 
 const AdminBookList = () => {
   const bookdata = useContext(BookStateContext);
-  const { paginationInfo, onChangePageHandler } = useContext(PaginationContext);
+  const { paginationInfo,setPaginationInfo, onChangePageHandler } = useContext(PaginationContext);
   const { onDelete, onInit } = useContext(BookDispatchContext); // 사용할 함수 가져올때 전역설정이면 context 훅 불러와야함
   const [bookList, setBookList] = useState([]);
+
+  //get요청, 페이지번호변경 시 사용하는 fetch요청 함수
+  const initFetch = async () => {
+    try {
+      //page, pageSize
+      const params = new URLSearchParams({
+        currentPage: paginationInfo.currentPage, // 클라이언트가 결정하는 현재페이지, 기본값은 1
+        pageSize: paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
+      });
+
+
+
+      // 서버로 응답 요청
+      const response = await fetch(
+          `/api/admin/book/bookList?${params.toString()}`,
+          {
+            method: "GET",
+          }
+      );
+      // 돌아온 응답 상태
+      if (!response.ok) {
+        // 응답 상태가 200아니면
+        console.log(response.status);
+        throw new Error("서버 응답 에러");
+      }
+      // 응답 성공시
+      const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
+
+
+      //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
+      const { currentPage, items, pageSize, totalPages, totalRecord } = bookVO;
+      onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
+      // console.log("초기 데이터 갱신완료", bookVO);
+      //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
+      setPaginationInfo({
+        currentPage: currentPage,
+        pageSize: pageSize,
+        totalPages: totalPages,
+        totalRecord: totalRecord,
+      });
+    } catch (err) {
+      console.log("도서 데이터 불러오기 실패", err); // 오류 처리
+    }
+  }; //fetch end
+
 
   // bookdata가 존재할 때만 bookList 업데이트
   useEffect(() => {
@@ -69,6 +114,7 @@ const AdminBookList = () => {
     }
   };
 
+
   const onDeleteHandler = async (deleteItems) => {
     //fetch 요청 보내기
     try {
@@ -89,10 +135,11 @@ const AdminBookList = () => {
         const errorResponse = await response.json();
         console.log("errorResponse", errorResponse);
       }
-      // 삭제성공후 데이터가 한번 갱신되어야 함 (삭제된 아이템들을 제외하고 )
-      console.log("deleteItems 배열?", Array.isArray(deleteItems));
-      onDelete(deleteItems); // 삭제 상태관리
+
+      // 삭제 성공 후 서버에서 다시 1페이지 기준 데이터 조회
+      await initFetch(); // fetch 후 onInit으로 상태 갱신
       setShow(false);
+
       console.log("bookData 삭제성공", bookdata);
     } catch (err) {
       console.error("요청 실패", err);
@@ -148,11 +195,11 @@ const AdminBookList = () => {
 
   const recomTultip = (status) => {
     console.log(
-      `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
+        `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
     );
 
     return (
-      <span className={`tultip ${recomTypeMap[status]?.recomType}`}>
+        <span className={`tultip ${recomTypeMap[status]?.recomType}`}>
         {recomTypeMap[status]?.label}
       </span>
     );
@@ -304,47 +351,47 @@ const AdminBookList = () => {
         </div>
         {/*pagination*/}
         <Pagination
-              paginationInfo={paginationInfo}
-              onChangePageHandler={onChangePageHandler}
+            paginationInfo={paginationInfo}
+            onChangePageHandler={onChangePageHandler}
+        />
+
+        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+          <Btn
+              className={"delete btn btn-danger"}
+              id={"deleteBtn"}
+              type={"button"}
+              onClick={() => handleShow()}
+              text="삭제"
           />
-
-          <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-            <Btn
-                className={"delete btn btn-danger"}
-                id={"deleteBtn"}
-                type={"button"}
-                onClick={() => handleShow()}
-                text="삭제"
+          <Btn
+              className={"create btn custom-btn02"}
+              id={"createBtn"}
+              type={"button"}
+              path={pathsData.page.adminBookCreate}
+              text="등록"
+          />
+        </div>
+        {/*checkedInput만 하면 빈 배열이라도 true로 판정해서 모달이 열리기때문에 요소의 개수로 판단*/}
+        {show && checkedInput.length === 0 && (
+            <ReusableModal
+                show={show}
+                onClose={handleClose}
+                modalType="noSelection"
             />
-            <Btn
-                className={"create btn custom-btn02"}
-                id={"createBtn"}
-                type={"button"}
-                path={pathsData.page.adminBookCreate}
-                text="등록"
-            />
-          </div>
-          {/*checkedInput만 하면 빈 배열이라도 true로 판정해서 모달이 열리기때문에 요소의 개수로 판단*/}
-          {show && checkedInput.length === 0 && (
-              <ReusableModal
-                  show={show}
-                  onClose={handleClose}
-                  modalType="noSelection"
-              />
-          )}
+        )}
 
-          {show && checkedInput.length > 0 && (
-              <ReusableModal
-                  show={show}
-                  onClose={handleClose}
-                  onConfirm={() => onDeleteHandler(checkedInput)}
-                  modalType="delete"
-              />
-          )}
-        </>
-        );
+        {show && checkedInput.length > 0 && (
+            <ReusableModal
+                show={show}
+                onClose={handleClose}
+                onConfirm={() => onDeleteHandler(checkedInput)}
+                modalType="delete"
+            />
+        )}
+      </>
+  );
 };
 
 
 
-        export default AdminBookList;
+export default AdminBookList;
