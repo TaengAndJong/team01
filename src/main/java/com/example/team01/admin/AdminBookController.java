@@ -37,9 +37,6 @@ public class AdminBookController {
         //카테고리 목록 가져오기
         Map<String, List<CategoryVO>> cateData  = categoryService.getAllCategories();
         log.info("도서 생성 get API cateData:{}",cateData);
-
-
-
         return  ResponseEntity.ok(cateData);
     }
 
@@ -62,6 +59,7 @@ public class AdminBookController {
         createBook.setBookCateDepth(String.join(",", bookCateDepth));
         createBook.setCateId(String.join(",", cateId));
 
+        // bookImg
 
         // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
         int result = bookService.createBook(createBook);

@@ -27,7 +27,7 @@ const modalConfig = {
                 <p>{data?.error}</p>
             </>
         ),
-        footer: <Button onClick={onClose}>닫기</Button>,
+        footer: <Button variant="danger" onClick={onClose}>확인</Button>,
     }),
     login: ({ data, onClose ,onConfirm}) => ({
         body: (
@@ -94,9 +94,7 @@ const modalConfig = {
 
 // 재사용 가능한 모달 컴포넌트
 const publicModal = ({ show, onClose, onConfirm, modalType, data,content }) => {
-    // console.log(`show-----------  ${show}, onClose ${onClose}`);
-    // console.log(`modalType ${modalType}, onConfirm ${onConfirm}`);
-    // console.log(` errorData ${data}`);
+
     console.log(`content 퍼블릭모달-----------  ${content}`);
 
     const current = modalConfig[modalType]

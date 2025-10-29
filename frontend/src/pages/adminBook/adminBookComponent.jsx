@@ -42,7 +42,7 @@ function reducer(state, action) {
       //state는 새로 들어온 데이터객체를 담고있는 배열
       // action.data의 bookId가 기존데이터인 book의 bookId와 같으면 새로들어온 action.data로 교체 아니면 기존 데이터 유지
       return state.map((book) =>
-        book.bookId === action.data.bookId ? action.data : book
+          book.bookId === action.data.bookId ? action.data : book
       );
     default:
       return state;
@@ -57,7 +57,7 @@ export const PaginationContext = React.createContext();
 
 const AdminBook = () => {
   //init 데이터가 변경이 감지되면 초기값변경하기위해 기본값 false
-  const [isDataLoaded, setIsDataLoaded] = useState(false); //데이터가 로드되기 전에 컴포넌트가 먼저 렌더링되도록 하기 위함
+  //const [isDataLoaded, setIsDataLoaded] = useState(false); //데이터가 로드되기 전에 컴포넌트가 먼저 렌더링되도록 하기 위함
   const [bookdata, dispatch] = useReducer(reducer, null);
 
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
@@ -72,10 +72,10 @@ const AdminBook = () => {
 
   let adminMenuTree = menuNavi(menu?.adminList);
   let adminHome = menu?.adminList?.find(
-    (item) => item.menuId === "admin"
+      (item) => item.menuId === "admin"
   )?.menuPath;
   let subNavi = adminMenuTree?.filter((item) =>
-    item.menuPath.includes(standardPoint)
+      item.menuPath.includes(standardPoint)
   );
 
   //console.log("paginationInfo", paginationInfo);
@@ -92,16 +92,16 @@ const AdminBook = () => {
 
       // 서버로 응답 요청
       const response = await fetch(
-        `/api/admin/book/bookList?${params.toString()}`,
-        {
-          method: "GET",
-        }
+          `/api/admin/book/bookList?${params.toString()}`,
+          {
+            method: "GET",
+          }
       );
       // 돌아온 응답 상태
       if (!response.ok) {
         // 응답 상태가 200아니면
         console.log(response.status);
-        throw new Error("서버 응답 에러");
+        throw new Error(`서버 응답 에러 ${response.status}`);
       }
       // 응답 성공시
       const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
@@ -126,6 +126,7 @@ const AdminBook = () => {
   useEffect(() => {
     // 마운트 시 서버 또는 db에서 데이터를 받아온 후 onInit을 실행해야 함
     initFetch();
+
   }, [paginationInfo.currentPage]); // 마운트 시에 한 번실행 됨
 
   const onInit = (bookdata) => {
@@ -185,72 +186,72 @@ const AdminBook = () => {
   }
 
   return (
-    <>
-      <div className={`page bookBoard d-flex ${pageSubClass(location)}`}
-      >
-        <div className="left">
-          <LeftMenu />
-        </div>
+      <>
+        <div className={`page bookBoard d-flex ${pageSubClass(location)}`}
+        >
+          <div className="left">
+            <LeftMenu />
+          </div>
 
-        {/*링크이동할 사이드메뉴 */}
-        <div className="right">
-          <section className="content custom-border">
-            <div className="content-inner">
-              {/*현재경로의 페이지명 depth 2 */}
-              <h3 className="sub-title current-title title-border">
-                {menu?.adminList?.map((item) => {
-                  if (item.menuPath.startsWith(`${currentPath}`)) {
-                    return item.menuName;
-                  }
-                })}
-              </h3>
+          {/*링크이동할 사이드메뉴 */}
+          <div className="right">
+            <section className="content custom-border">
+              <div className="content-inner">
+                {/*현재경로의 페이지명 depth 2 */}
+                <h3 className="sub-title current-title title-border">
+                  {menu?.adminList?.map((item) => {
+                    if (item.menuPath.startsWith(`${currentPath}`)) {
+                      return item.menuName;
+                    }
+                  })}
+                </h3>
 
-              {/*depth별 네비주소,현재페이지일 경우 표시필요*/}
+                {/*depth별 네비주소,현재페이지일 경우 표시필요*/}
 
-              <ol className="menu-navi title-border">
-                {/* 서브페이지 네비게이션 */}
-                <li>
-                  <Link to={adminHome} className="home icon">
-                    <span className="sr-only">홈</span>
-                  </Link>
-                </li>
-                {subNavi?.[0] && (
+                <ol className="menu-navi title-border">
+                  {/* 서브페이지 네비게이션 */}
                   <li>
-                    <Link to={subNavi?.[0].menuPath}>
-                      {subNavi?.[0].menuName}
+                    <Link to={adminHome} className="home icon">
+                      <span className="sr-only">홈</span>
                     </Link>
                   </li>
-                )}
-                {subNavi?.[0]?.secondChild?.length > 0 && (
-                  <li>
+                  {subNavi?.[0] && (
+                      <li>
+                        <Link to={subNavi?.[0].menuPath}>
+                          {subNavi?.[0].menuName}
+                        </Link>
+                      </li>
+                  )}
+                  {subNavi?.[0]?.secondChild?.length > 0 && (
+                      <li>
                     <span>
                       {subNavi?.[0]?.secondChild
-                        ?.filter(
-                          (item) =>
-                            item.menuDepth === "2차메뉴" &&
-                            item.menuPath.includes(currentPath)
-                        )
-                        .map((item) => item.menuName)}
+                          ?.filter(
+                              (item) =>
+                                  item.menuDepth === "2차메뉴" &&
+                                  item.menuPath.includes(currentPath)
+                          )
+                          .map((item) => item.menuName)}
                     </span>{" "}
-                  </li>
-                )}
-              </ol>
-              <BookStateContext.Provider value={bookdata}>
-                <BookDispatchContext.Provider
-                  value={{ onInit, onCreate, onDelete, onUpdate }}
-                >
-                  <PaginationContext.Provider
-                    value={{ paginationInfo, onChangePageHandler }}
+                      </li>
+                  )}
+                </ol>
+                <BookStateContext.Provider value={bookdata}>
+                  <BookDispatchContext.Provider
+                      value={{ onInit, onCreate, onDelete, onUpdate }}
                   >
-                    <Outlet />
-                  </PaginationContext.Provider>
-                </BookDispatchContext.Provider>
-              </BookStateContext.Provider>
-            </div>
-          </section>
+                    <PaginationContext.Provider
+                        value={{ paginationInfo, setPaginationInfo,onChangePageHandler }}
+                    >
+                      <Outlet />
+                    </PaginationContext.Provider>
+                  </BookDispatchContext.Provider>
+                </BookStateContext.Provider>
+              </div>
+            </section>
+          </div>
         </div>
-      </div>
-    </>
+      </>
   );
 };
 export default AdminBook;
