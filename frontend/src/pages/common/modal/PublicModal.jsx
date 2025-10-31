@@ -7,28 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 
 //함수형 구성객체 : 함수를 담은 객체를 의미 , 모달 속성 설정 객체
 const modalConfig = {
-    noSelection: ({ data, onClose }) => ({
-        body: <p>{data?.message || "선택된 데이터가 없습니다."}</p>,
-        footer: <Button onClick={onClose}>확인</Button>,
-    }),
-    notFound: ({ data, onClose }) => ({
-        body: (
-            <>
-                <p>{data?.message}</p>
-                <p>{data?.missingIds?.join(", ")}</p>
-            </>
-        ),
-        footer: <Button onClick={onClose}>확인</Button>,
-    }),
-    error: ({ data, onClose }) => ({
-        body: (
-            <>
-                <p>{data?.message}</p>
-                <p>{data?.error}</p>
-            </>
-        ),
-        footer: <Button variant="danger" onClick={onClose}>확인</Button>,
-    }),
+    //로그인
     login: ({ data, onClose ,onConfirm}) => ({
         body: (
             <>
@@ -38,47 +17,27 @@ const modalConfig = {
         ),
         footer: (
             <>
-                <Button variant="danger" onClick={onConfirm}>확인</Button>
-                <Button variant="secondary" onClick={onClose}>취소</Button>
+                <Button variant="primary" onClick={onConfirm}>확인</Button>
+                <Button variant="danger" onClick={onClose}>취소</Button>
             </>
         ),
     }),
-    confirm: ({ data,onClose, onConfirm }) => ({
-        body: <p dangerouslySetInnerHTML={{__html: data.message}}/>,
+    //오류
+    error: ({ content, onClose }) => ({
+        body: content,
+        footer: <Button variant="primary" onClick={onClose}>확인</Button>,
+    }),
+    // 수정, 생성, 삭제 , 등록
+    confirm: ({ content,onClose, onConfirm }) => ({
+        body: content,
         footer: (
             <>
-                <Button variant="danger" onClick={onConfirm}>확인</Button>
+                <Button variant="primary" onClick={onConfirm}>확인</Button>
+                <Button variant="danger" onClick={onClose}>취소</Button>
             </>
         ),
     }),
 
-    delete: ({onClose, onConfirm}) => ({
-        body: <p>삭제하시겠습니까?</p>,
-        footer: (
-            <>
-                <Button variant="danger" onClick={onConfirm}>확인</Button>
-                <Button variant="secondary" onClick={onClose}>취소</Button>
-            </>
-        ),
-    }),
-    modify: ({ onClose, onConfirm }) => ({
-        body: <p>수정하시겠습니까?</p>,
-        footer: (
-            <>
-                <Button variant="danger" onClick={onConfirm}>확인</Button>
-                <Button variant="secondary" onClick={onClose}>취소</Button>
-            </>
-        ),
-    }),
-    create: ({ onClose, onConfirm }) => ({
-        body: <p>생성하시겠습니까?</p>,
-        footer: (
-            <>
-                <Button variant="danger" onClick={onConfirm}>확인</Button>
-                <Button variant="secondary" onClick={onClose}>취소</Button>
-            </>
-        ),
-    }),
     // jsx 문법 태그 사용할때 content
     default: ({content,onConfirm,onClose }) => (
         {
@@ -86,7 +45,7 @@ const modalConfig = {
         footer: (
             <>
                 <Button variant="danger" onClick={onConfirm}>확인</Button>
-                <Button variant="secondary" onClick={onClose}>취소</Button>
+                <Button variant="secondary" onClick={onClose}>닫기</Button>
             </>
         ),
     }),

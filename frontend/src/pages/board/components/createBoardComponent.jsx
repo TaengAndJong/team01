@@ -78,14 +78,8 @@ const CreateBoardComponent = () => {
 
     if (formData.files.length + newFiles.length > MAX_FILES) {
       openModal({
-        modalType: "confirm",
-        data: {
-          message: "최대 허용 갯수를 초과 했습니다.",
-        },
-        onConfirm: () => {
-          closeModal();
-        },
-        onClose: closeModal,
+        modalType: "error",
+        content:<><p>최대 허용 갯수를 초과 했습니다.</p></>,
       });
       return;
     }
@@ -102,15 +96,10 @@ const CreateBoardComponent = () => {
 
     if (totalSizeMB > MAX_SIZE_MB) {
       openModal({
-        modalType: "confirm",
-        data: {
-          message: `최대 용량  ${MAX_SIZE_MB}를 초과 했습니다.`,
-        },
-        onConfirm: () => {
-          closeModal();
-        },
-        onClose: closeModal,
+        modalType: "error",
+        content:<><p>`최대 용량  ${MAX_SIZE_MB}를 초과 했습니다.`</p></>,
       });
+
       return;
     }
 
@@ -145,18 +134,15 @@ const CreateBoardComponent = () => {
     if (!formData.title.trim()) {
       openModal({
         modalType: "confirm",
-        data: { message: "문의 제목을 입력해 주세요" },
-        onConfirm: closeModal,
-        onClose: closeModal,
+        content:<><p>문의 제목을 입력해 주세요.</p></>,
       });
       return;
     } else if (!formData.content.trim()) {
       openModal({
         modalType: "confirm",
-        data: { message: "문의 내용을 입력해 주세요" },
-        onConfirm: closeModal,
-        onClose: closeModal,
+        content:<><p>문의 내용을 입력해 주세요.</p></>,
       });
+
       return;
     }
 

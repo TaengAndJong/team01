@@ -184,9 +184,7 @@ const AdminDetailBoard = ({ userType }) => {
               onClick={() =>
                 openModal({
                   modalType: "confirm",
-                  data: {
-                    message: "선택된 답변을 삭제하시겠습니까?",
-                  },
+                  content:<><p>선택된 답변을 삭제하시겠습니까?</p></>,
                   onConfirm: () => {
                     handleCommentDelete(), closeModal();
                   },

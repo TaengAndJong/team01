@@ -6,7 +6,7 @@ import {catchError} from "../../../util/error.jsx";
 
 const AddCartBtn = ({bookId,quantity}) =>{
 
-    console.log(`addBTn bookId: ${bookId}, quantity:${quantity}`);
+  //  console.log(`addBTn bookId: ${bookId}, quantity:${quantity}`);
     //전역모달 사용
     const {openModal,closeModal}=useModal();
     //네입게이트 리액트훅
@@ -17,8 +17,8 @@ const AddCartBtn = ({bookId,quantity}) =>{
     //장밥구니 컨트롤러로 전송할 fetch 함수
     const sendCartFetch= async(bookId,quantity)=>{
       //  console.log("addCartBtn-------data",data);
-        console.log("bookId---------sendCartFetch",bookId);
-        console.log("quantity-----------sendCartFetch",quantity);
+      //   console.log("bookId---------sendCartFetch",bookId);
+      //   console.log("quantity-----------sendCartFetch",quantity);
         try{
          const response = await axios.post("/api/cart",
              {bookId:bookId,quantity:quantity} // 서버로 보내는 데이터
@@ -27,33 +27,33 @@ const AddCartBtn = ({bookId,quantity}) =>{
 
          //여기 resonse data 있을경우 조건 추가 ?
             if(response.status === 200){
-                console.log("장바구니 추가 비동기요청 ",response.data);
+               // console.log("장바구니 추가 비동기요청 ",response.data);
                 // insert 요청일때와 , 중복도서 존재할때 모달 분기
 
                 if(response.data.exist){
                     openModal({
-                        modalType:"confirm",
-                        data:{message:response.data.message},
+                        modalType: "confirm",
+                        content:<><p>`${response.data.message}`</p></>,
                         onConfirm:()=>{
                             closeModal(); // 모달 닫고
                             navigate(`/cart`);  // 장바구니로 이동
-                            },
+                        },
                     });
+
                 }else{
                     //exist가 false ==> 중복도서가 없어서 도서가 추가됨
                     openModal({
-                        modalType:"confirm",
-                        data:{message:response.data.message},
-                        onConfirm: closeModal,
+                        modalType:"default",
+                        content:<><p>`${response.data.message}`</p></>,
                     });
                 }
 
             }
 
         }catch(err){
-            console.error("서버 상태 코드:", err.response.status);
-            console.error("서버 메시지---데이터:", err.response.data);
-            console.error("서버 메시지--- 메시지:", err.response.data.message);
+            // console.error("서버 상태 코드:", err.response.status);
+            // console.error("서버 메시지---데이터:", err.response.data);
+            // console.error("서버 메시지--- 메시지:", err.response.data.message);
             //에러 처리 핸들러
             catchError(err, { openModal, closeModal, navigate });
         }

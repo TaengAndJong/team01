@@ -307,9 +307,7 @@ const OneBoard = () => {
                 onClick={() =>
                   openModal({
                     modalType: "confirm",
-                    data: {
-                      message: "선택된 게시물을 삭제하시겠습니까?",
-                    },
+                    content:<><p>선택된 답변을 삭제하시겠습니까?</p></>,
                     onConfirm: () => {
                       onDeleteHandler(checkedInput), closeModal();
                     },

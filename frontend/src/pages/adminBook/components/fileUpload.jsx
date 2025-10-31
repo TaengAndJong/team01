@@ -39,12 +39,56 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
     const handleImgUpload = (e) => {
         //이벤트요소로 파일 객체에 접근, 파일 여러개 지정할 경우 배열로 변환필요
         const selectedFiles = Array.from(e.target.files);
+        // 이미지 파일 확장자만 배열로
+        const fileMimeType = ["image/png", "image/jpeg", "image/jpg", "image/gif"]
+        // 이미지 확장자 파일 파입이 아닌경우 filter 함수로 필터링
+        const invalidFiles = selectedFiles.filter(file => !fileMimeType.includes(file.type));
+
+
+        if (invalidFiles.length > 0) {
+            openModal({
+                modalType:"default",
+                content: <>
+                            <span>이미지 파일만 업로드 가능합니다.</span>
+                            <span>({`${invalidFiles.map(f => f.name).join(",")}`})</span>
+                        </>
+            });
+
+            e.target.value = ""; // 선택 초기화
+            return;
+        }
+
+
+        // 중복 파일 검사 (기존 new + existing 모두 포함)
+        const existingFileNames = [
+            ...(bookImg.existing?.map(f => f.name) || []),
+            ...(bookImg.new?.map(f => f.name) || [])
+        ];
+
+        const duplicateFiles = selectedFiles.filter(f => existingFileNames.includes(f.name));
+        if (duplicateFiles.length > 0) {
+            openModal({
+                modalType:"error",
+                content: <>
+                    <span>이미 추가된 파일입니다.</span>
+                </>
+
+            })
+
+            e.target.value = "";
+            return;
+        }
 
         //파일 용량 크기 제한
         const oversizedFiles = selectedFiles.filter(f => f.size > maxFileSize);
         if (oversizedFiles.length > 0) {
             openModal({
-                data:{message : `업로드 실패: ${oversizedFiles.map(f => f.name).join(", ")}\n(각 파일은 5MB 이하만 업로드 가능합니다.)`}
+                modalType:"error",
+                content: <>
+                            <span>`업로드 실패: ${oversizedFiles.map(f => f.name).join(", ")}`</span>
+                            <span>(각 파일은 5MB 이하만 업로드 가능합니다.)</span>
+                        </>
+
             })
             e.target.value = ""; // 선택 초기화
             return;
@@ -53,8 +97,14 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         const totalSize =
             [...(bookImg.new || []), ...selectedFiles].reduce((sum, f) => sum + (f.size || 0), 0);
         if (totalSize > maxTotalSize) {
+            console.log("파일 용량초과")
             openModal({
-                data:{message : `총 업로드 용량 초과 (${(totalSize / 1024 / 1024).toFixed(2)}MB).\n전체 파일 크기는 20MB 이하여야 합니다.`}
+                modalType:"error",
+                content:
+                    <>
+                        <span>총 업로드 용량 초과 (${(totalSize / 1024 / 1024).toFixed(2)}MB)</span>
+                        <span>(전체 파일 크기는 20MB 이하여야 합니다.)</span>
+                    </>
             })
             e.target.value = "";
             return;
@@ -150,7 +200,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
                      onChange={handleImgUpload}
                      multiple={true}
             />
-
+            <span> </span>
             {/* 기존 이미지 리스트 */}
             {bookImg?.existing?.length > 0 && renderFileList(bookImg.existing, "existing")}
             {/* 새로 추가된 이미지 리스트 */}

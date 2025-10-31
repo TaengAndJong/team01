@@ -38,10 +38,11 @@ const BuySelectedBtn = ({type, book,cartId}) => {
         try{
             if (!isAuthenticated) {
                 openModal({
-                    modalType:"confirm",
-                    data:{message:"로그인페이지로 이동하시겠습니까?"},
+                    modalType: "confirm",
+                    content:<><p>로그인페이지로 이동하시겠습니까?</p></>,
                     onConfirm: () => {closeModal(); navigate("/login");}
                 });
+
                 return;
             }else{
                 const response = await axios.get("/api/auth",)

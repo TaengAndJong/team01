@@ -20,23 +20,22 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
 
     //찜목록 비동기 fetch 요청
     const wishFetch = async(bookId) =>{
-        console.log("wishFetch --- 진입")
+      //  console.log("wishFetch --- 진입")
         // bookId는 쿼리스트링보다 body 에 담아주는게 더 나음
         const UrlSearchParams = new URLSearchParams();
         UrlSearchParams.append("bookId", bookId);
-        console.log("bookId wishList",bookId);
+       // console.log("bookId wishList",bookId);
 
         try{
             //경로에 bookId 담아서 보내기
             const response = await axios.post(`/api/mypage/wishlist/save?${UrlSearchParams.toString()}`,{bookId:bookId});
 
-            console.log("찜목록 페치 응답",response);
+           // console.log("찜목록 페치 응답",response);
             if(!response.data.userWishList || !response.data.userWishList.length){ // null , undefined  ||  빈 배열 확인
                 //찜목록추가완료 모달
                 openModal({
-                    modalType:"confirm",
-                    data:{message:"찜목록 삭제 성공"},
-                    onConfirm:closeModal,
+                    modalType:"default",
+                    content:<><p>찜목록 삭제 성공.</p></>,
                 });
                 return; // 찜목록 삭제시 여기서 종료
             }
@@ -51,9 +50,8 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
 
                 //찜목록추가완료 모달
                 openModal({
-                    modalType:"confirm",
-                    data:{message:"찜목록 추가 성공"},
-                    onConfirm:closeModal,
+                    modalType:"default",
+                    content:<><p>찜목록 추가성공.</p></>,
                 })
             }
 
@@ -84,27 +82,28 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
             if (!isAuthenticated) {
                 openModal({
                     modalType:"confirm",
-                    data:{message:"로그인페이지로 이동하시겠습니까?"},
+                    content:<><p>로그인페이지로 이동하시겠습니까?</p></>,
                     onConfirm: () => {closeModal(); navigate("/login");}
                 });
+
                 return;
             }else{
                 //로그인 중인지  세션 체크검증필요
                 const response = await axios.get("/api/auth",{ withCredentials: true });
-                console.log("response status",response);
+                //console.log("response status",response);
 
                 if(response.status === 200) {
-                    console.log("찜목록 페치요청 보내는 듕");
-                    console.log("엑시오스 찜목록 버튼",response.status);
+                    // console.log("찜목록 페치요청 보내는 듕");
+                    // console.log("엑시오스 찜목록 버튼",response.status);
                     wishFetch(bookId);
                 }
             }
 
         }catch(err){
-            console.error("찜 토글 실패", err);
-            console.error("서버 상태 코드:", err.response.status);
-            console.error("서버 메시지---데이터:", err.response.data);
-            console.error("서버 메시지--- 메시지:", err.response.data.message);
+            // console.error("찜 토글 실패", err);
+            // console.error("서버 상태 코드:", err.response.status);
+            // console.error("서버 메시지---데이터:", err.response.data);
+            // console.error("서버 메시지--- 메시지:", err.response.data.message);
             //에러 처리 핸들러
             catchError(err, { openModal, closeModal,navigate});
         } finally {
