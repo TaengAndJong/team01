@@ -13,14 +13,13 @@ const inputRegexs = {
     //각 전화번호 : 숫자사용, 자리수는 4자리까지
     telEachRegex:/^\d{0,4}$/,
     //숫자만
-    //numberRegex: /^\d+$/,
-
- numberRegex: /^[1-9][0-9]*$/, // ^ : 시작, 첫자리 [1-9], 그 뒤로 [0-9]* 가 0개 이상 , $ 끝
+    //priceRegex: /^[1-9][0-9]*$/,
+    numberRegex: /^[0-9][0-9]*$/, // ^ : 시작, 첫자리 [1-9], 그 뒤로 [0-9]* 가 0개 이상 , $ 끝
 };
 
 // 공통 유효성 검사 함수작성
 export const validateInput = (regex, value,name,type) => {
-    console.log(regex, value,name,type);
+    console.log("regex",regex, value,name,type)
     if (!value || value.trim() === "") { // value가 비어있거나 공백만 있을 경우
         return { valid: false,message: `${type}을(를) 입력해 주세요.`  };
     }
@@ -40,7 +39,7 @@ export const validateInput = (regex, value,name,type) => {
             }
         }
         //문자열에 숫자가 들어있을경우
-        if (name.toLowerCase().includes("stock")) {
+        if (name.toLowerCase().includes("stock") || name.toLowerCase().includes("bookPrice")) {
             return { valid: false, message: "0 이상 숫자만 입력해 주세요." };
         }
     }
@@ -48,6 +47,7 @@ export const validateInput = (regex, value,name,type) => {
 
     // 2. 숫자 범위 검증 (문자열 → 숫자로 변환 후 검증)
     if (name.toLowerCase().includes("stock")) {
+
         const stockValue = Number(value);
         if (isNaN(stockValue)) {
             return { valid: false, message: "숫자만 입력해 주세요." };
@@ -61,8 +61,10 @@ export const validateInput = (regex, value,name,type) => {
     }
 
     //값이 숫자인 도서가격 검증
-    if (name.toLowerCase().includes("bookPrice")) {
+    if (name.toLowerCase().includes("bookprice")) { // bookPrice ==> bookprice로 바뀌기때문에 주의!
+
         const priceValue = Number(value);
+        console.log("priceValue---valie", priceValue);
         if (isNaN(priceValue)) { //숫자가 아닌 값에 대한 값이 들어왔을 경우
             return { valid: false, message: "가격은 숫자로만 입력해 주세요." };
         }
@@ -87,8 +89,9 @@ export const validPW = (pw) => validateInput(inputRegexs.pwRegex, pw,"password",
 export const validEachTel = (name,tel) => validateInput(inputRegexs.telEachRegex, tel, name,"전화번호");
 export const validFullTel = (tel) => validateInput(inputRegexs.telRegex, tel, "전화번호");
 export const validEmail = (email) => validateInput(inputRegexs.emailRegex, email,"이메일");
-export const validStock = (stock)=>validateInput(inputRegexs.numberRegex,stock,"stock","재고");
-
+//export const validStock = (stock)=>validateInput(inputRegexs.stockRegex,stock,"stock","재고");
+export const validNumber = (value, fieldName, label) =>
+    validateInput(inputRegexs.numberRegex, value, fieldName, label); // 가격, 도서재고 공통검증
 
 // 중복 체크 추가 (서버와 통신하기 때문에 비동기로 작성)
 export const checkDuplicate = async (apiAddr,field, value) => {

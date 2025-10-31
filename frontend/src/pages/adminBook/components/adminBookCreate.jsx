@@ -10,8 +10,7 @@ import Category from "./category.jsx";
 import {useNavigate} from "react-router-dom";
 import {formatToDate, getToday} from "../../../util/dateUtils.jsx";
 import PriceStock from "./priceStock.jsx";
-import {validStock} from "../../../util/validation.jsx";
-import ReusableModal from "./modal.jsx";
+import {validNumber} from "../../../util/validation.jsx";
 import PublishDate from "./publishDate.jsx";
 import RecomeType from "./recomeType.jsx";
 import SalesStatus from "./salesStatus.jsx";
@@ -36,7 +35,7 @@ const AdminBookCreate = () => {
         bookCateDepth:[],
         bookDesc: '',
         author:'',
-        bookPrice: '1',
+        bookPrice: '0',
         stock: '0',
         stockStatus:'재고없음',
         publishDate:'', //발행일
@@ -106,26 +105,25 @@ const AdminBookCreate = () => {
 
 
 
-    //체크박스 전체선택 && 단일 선택 상태관리
     //핸들러 값 변경 시 실행되는 함수
     const handleChange = (e) => {
 
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
         const { name, value } = e.target;
-
         //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
-        if((name === "stock" || name === "bookPrice") && value.trim() !== ""){
-            //검증 유틸 사용
-            const result = validStock(value);
-
-            //검증 통과 여부
-            // console.log("result.message",result.message)
-            // console.log("result.valid",result.valid)
+        if ((name === "stock" || name === "bookPrice") && value.trim() !== "") {
+            console.log("name " , name);
+            console.log("value " , value);
+            const result = name === "bookPrice" ? validNumber(value,name,"도서가격") : validNumber(value,name,"재고");
+            console.log("result--- 재고, 가격 검증", result);
             if(!result.valid){
                 // 숫자 검증 false 일 경우, 모달 알림 뜸
-                return; // 종료시키키
+                openModal({
+                    modalType:"error",
+                    type: "error",
+                    data:{message:result.message},
+                })
             }
-
         }
 
         setCreateBook({

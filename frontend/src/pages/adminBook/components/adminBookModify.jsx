@@ -8,7 +8,7 @@ import PublishDate from "./publishDate.jsx";
 import PriceStock from "./priceStock.jsx";
 import FileUpload from "./fileUpload.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
-import {validStock} from "../../../util/validation.jsx";
+import {validNumber} from "../../../util/validation.jsx";
 import {formatToDate, getToday} from "../../../util/dateUtils.jsx";
 import {BookDispatchContext} from "../adminBookComponent.jsx";
 import "@assets/css/book/adminbookModify.css";
@@ -35,6 +35,9 @@ const AdminBookModify = () => {
     //도서 정보데이터
     const [modifyBookData, setModifyBookData] = useState({
         bookId: bookId,
+        bookPrice: 0, // 초기값을 0으로 지정
+        stock: 0,
+        stockStatus: '재고없음'
     });
     const [categoryList, setCategoryList] = useState([]);
     //파일
@@ -151,10 +154,11 @@ const AdminBookModify = () => {
         const { name, value } = e.target;
         console.log("handleChange===========", name, value);
         //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
-        if((name === "stock" || name === "bookPrice") && value.trim() !== ""){
-            //검증 유틸 사용
-            const result = validStock(value);
-
+        if ((name === "stock" || name === "bookPrice") && value.trim() !== "") {
+            console.log("name " , name);
+            console.log("value " , value);
+            const result = name === "bookPrice" ? validNumber(value,name,"도서가격") : validNumber(value,name,"재고");
+            console.log("result--- 재고, 가격 검증", result);
             if(!result.valid){
                 // 숫자 검증 false 일 경우, 모달 알림 뜸
                 openModal({
@@ -163,7 +167,6 @@ const AdminBookModify = () => {
                     data:{message:result.message},
                 })
             }
-
         }
         setModifyBookData({
             ...modifyBookData,//기존에 있는 데이터들 스프레드 연산자로 합쳐주기
@@ -253,9 +256,9 @@ const AdminBookModify = () => {
                     {/*발행일*/}
                     <PublishDate publishDate={modifyBookData.publishDate} handleChange={handleChange}/>
                     <div className="d-flex align-items-center mb-1">
-                        {/*재고 & 가격*/}
-                        <PriceStock bookPrice={String(modifyBookData?.bookPrice || 0)}
-                                    stock={String(modifyBookData?.stock || 0)}
+                        {/*재고 & 가격 : ??(null병합 연산자로 값이 있을경우와 없을 경우 분기     */}
+                        <PriceStock bookPrice={String(modifyBookData?.bookPrice ?? "")}
+                                    stock={String(modifyBookData?.stock ?? "")}
                                     stockStatus={modifyBookData?.stockStatus || '재고없음'} handleChange={handleChange}/>
                         <div className="d-flex align-items-center">
                             <FormTag id="createDate" label="등록일" labelClass="form-title" className="form-control"
