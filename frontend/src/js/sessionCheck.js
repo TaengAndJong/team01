@@ -56,7 +56,7 @@ export const useSessionCheck = () =>{
 
 
            } catch (err) {
-               console.log("세션 무효 : ",err);
+               console.log("세션 무효 : ",err.message);
                //에러데이터는 에러처리 유틸로
                catchError(err, { openModal, closeModal, navigate });
            }

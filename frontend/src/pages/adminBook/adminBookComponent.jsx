@@ -26,7 +26,10 @@ function reducer(state, action) {
       }
       return [action.data, ...state]; // 새 객체(action.data) + 기존 배열, action.data는 단일객체
     case "DELETE":
+      console.log("action:", action);
+      console.log("action.data:", action.data);
       if (action.data) {
+
         console.log("delete action", action.data);
         console.log("delete Array", Array.isArray(action.data));
       }
@@ -146,8 +149,8 @@ const AdminBook = () => {
   };
 
   const onDelete = (bookIds) => {
-    // console.log("deleteBook", bookIds);
-    // console.log("deleteBook", Array.isArray(bookIds));
+    console.log("deleteBook----", bookIds);
+    console.log("deleteBook", Array.isArray(bookIds));
     dispatch({
       type: "DELETE",
       data: bookIds,

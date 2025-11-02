@@ -116,12 +116,21 @@ const AdminBookList = () => {
                 ,deleteItems, // 자동직렬화가 되기때문에 Json.stringify(직렬화대상객체); 미사용
                 { withCredentials: true }); // 인증 세션 또는 쿠키 사용시 필요함
             //conetent-Type : application/json도 자동처리로 미사용
+
+        console.log("도서 삭제 목록 응답 데이터",response.data);
+
+        onDelete(bookdata);// 삭제이후에 새로 변경된 bookData 로 상태갱신
+
+        //삭제확인 알림
         openModal({
-          modalType:"confirm",
+          modalType:"default",
           content: <><p>{`${response.data.message}`}</p></>,
           onConfirm:()=>{ closeModal()}
         });
-        console.log("도서 삭제 목록 응답 데이터",response.data);
+        // 삭제할 배열 초기화 ==> 초기화안하면 이전에 삭제한 아이디값이 남아있게됨
+        setCheckedInput([]);
+        await initFetch();//초기화
+
       }catch(err){
         // fetch는 네트워크에러만 감지, axios는 http오류(400,500)e도 감지
         console.error("요청 실패", err);

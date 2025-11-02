@@ -39,7 +39,7 @@ export const ModalProvider = ({children}) => { //children을 통해 provider 자
         setState({
             show,// 모달열림 불린값
             modalType:modalType, // 모달 타입 : error,delete, modify,create 등등
-            data: data || {}, //erroData가 있으면 , 없으면
+            data: data || {}, //erroData가 있으면 , 없으면 ==> data  객체 사용할때 사용하면됨
             onConfirm:onConfirm || null, // 확인 버튼
             onClose:onClose || null , // 닫기, 취소버튼
             content:content || null, // 컨텐츠
