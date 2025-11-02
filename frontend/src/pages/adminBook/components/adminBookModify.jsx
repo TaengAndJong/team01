@@ -110,7 +110,13 @@ const AdminBookModify = () => {
             }
             else if (["bookCateDepth", "bookCateNm", "cateId"].includes(key) && Array.isArray(value)) {
                 // 배열 처리 (카테고리 계층)
-                value.forEach(v => formData.append(key, v));
+                if (value.length > 0) {
+                    value.forEach(v => formData.append(key, v));
+                } else {
+                    console.log("빈배열 일 경우 key",key);
+                    // 빈 배열일 경우도 append
+                    formData.append(key, "");
+                }
             }
             else if (key === "createDate") {
                 //수정완료시 데이터를 서버로 전송하면 오늘날짜로 변경해서 데이터베이스에 넣어주기
