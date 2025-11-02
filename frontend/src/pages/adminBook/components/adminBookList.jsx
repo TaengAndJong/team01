@@ -13,6 +13,8 @@ import ReusableModal from "./modal.jsx";
 import { formatToDate } from "@util/dateUtils.jsx";
 import SearchBar from "@pages/adminBook/components/searchBar.jsx";
 import Pagination from "@util/pagination.jsx";
+import {useModal} from "../../common/modal/ModalContext.jsx";
+import axios from "axios";
 
 const AdminBookList = () => {
   const bookdata = useContext(BookStateContext);
@@ -79,19 +81,8 @@ const AdminBookList = () => {
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
   //체크박스 상태관리(단일선택, 다중선택 초기값은 배열로)
   const [checkedInput, setCheckedInput] = useState([]);
-  //모달 상태관리
-  const [show, setShow] = useState(false);
-  const handleClose = () => {
-    console.log("close modal");
-    setShow(false);
-  };
-  const handleShow = () => {
-    console.log("handleShow");
-    setShow(true);
-  };
+  const {openModal,closeModal} = useModal();
 
-  const [modalType, setModalType] = useState("confirm");
-  const [errorData, setErrorData] = useState({});
 
   const handleSelectAll = (isChecked) => {
     setSelectAll(isChecked);
@@ -114,37 +105,35 @@ const AdminBookList = () => {
     }
   };
 
+  //삭제핸들러
+  const onDeleteHandler = async(deleteItems)=>{
+      console.log("deleteHandler", deleteItems);
+      console.log("타입:", typeof deleteItems);
+      try{
 
-  const onDeleteHandler = async (deleteItems) => {
-    //fetch 요청 보내기
-    try {
-      const response = await fetch("/api/admin/book/bookDelete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(deleteItems),
-        // body에 담길 내용이 간단한 배열일 경우엔 객체나 배열을 문자열로 변환하여 서버에 요청을 보냄
-        // 파일, 이미지 , blob등과 같은 바이너리 데이터가 있을경우 또는  enctype(encoding type) 이 존재할경우 에만 formData 형태로 변환해 보내야함
-        // form-data랑 x-www-form-urlencoded
-      });
+        const response = 
+            await axios.post(`/api/admin/book/bookDelete`
+                ,deleteItems, // 자동직렬화가 되기때문에 Json.stringify(직렬화대상객체); 미사용
+                { withCredentials: true }); // 인증 세션 또는 쿠키 사용시 필요함
+            //conetent-Type : application/json도 자동처리로 미사용
+        openModal({
+          modalType:"confirm",
+          content: <><p>{`${response.data.message}`}</p></>,
+          onConfirm:()=>{ closeModal()}
+        });
+        console.log("도서 삭제 목록 응답 데이터",response.data);
+      }catch(err){
+        // fetch는 네트워크에러만 감지, axios는 http오류(400,500)e도 감지
+        console.error("요청 실패", err);
+        openModal({
+          modalType:"error",
+          content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>
+        });
 
-      if (!response.ok) {
-        //삭제하려는 도서가 없을 경우
-        console.log(response.statusText, response.status);
-        const errorResponse = await response.json();
-        console.log("errorResponse", errorResponse);
       }
+      //공통로직
+  }
 
-      // 삭제 성공 후 서버에서 다시 1페이지 기준 데이터 조회
-      await initFetch(); // fetch 후 onInit으로 상태 갱신
-      setShow(false);
-
-      console.log("bookData 삭제성공", bookdata);
-    } catch (err) {
-      console.error("요청 실패", err);
-    }
-  };
 
   //검색어 필터 상태관리 ==> 초기값 빈 배열!
   const [search, setSearch] = useState({
@@ -360,7 +349,7 @@ const AdminBookList = () => {
               className={"delete btn btn-danger"}
               id={"deleteBtn"}
               type={"button"}
-              onClick={() => handleShow()}
+              onClick={() => onDeleteHandler(checkedInput)}
               text="삭제"
           />
           <Btn
@@ -372,22 +361,22 @@ const AdminBookList = () => {
           />
         </div>
         {/*checkedInput만 하면 빈 배열이라도 true로 판정해서 모달이 열리기때문에 요소의 개수로 판단*/}
-        {show && checkedInput.length === 0 && (
-            <ReusableModal
-                show={show}
-                onClose={handleClose}
-                modalType="noSelection"
-            />
-        )}
+        {/*{show && checkedInput.length === 0 && (*/}
+        {/*    <ReusableModal*/}
+        {/*        show={show}*/}
+        {/*        onClose={handleClose}*/}
+        {/*        modalType="noSelection"*/}
+        {/*    />*/}
+        {/*)}*/}
 
-        {show && checkedInput.length > 0 && (
-            <ReusableModal
-                show={show}
-                onClose={handleClose}
-                onConfirm={() => onDeleteHandler(checkedInput)}
-                modalType="delete"
-            />
-        )}
+        {/*{show && checkedInput.length > 0 && (*/}
+        {/*    <ReusableModal*/}
+        {/*        show={show}*/}
+        {/*        onClose={handleClose}*/}
+        {/*        onConfirm={() => onDeleteHandler(checkedInput)}*/}
+        {/*        modalType="delete"*/}
+        {/*    />*/}
+        {/*)}*/}
       </>
   );
 };
