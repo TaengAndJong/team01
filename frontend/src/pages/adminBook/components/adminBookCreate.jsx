@@ -66,8 +66,6 @@ const AdminBookCreate = () => {
                 pageSize: paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
             });
 
-
-
             // 서버로 응답 요청
             const response = await fetch(
                 `/api/admin/book/bookList?${params.toString()}`,
@@ -195,7 +193,13 @@ const AdminBookCreate = () => {
             }
             else if (["bookCateDepth", "bookCateNm", "cateId"].includes(key) && Array.isArray(value)) {
                 // 배열 처리 (카테고리 계층)
-                value.forEach(v => formData.append(key, v));
+                if (value.length > 0) {
+                    value.forEach(v => formData.append(key, v));
+                } else {
+                    console.log("빈배열 일 경우 key",key);
+                    // 빈 배열일 경우도 append
+                    formData.append(key, "");
+                }
             }
             else if (key === "createDate") {
                 // 등록일 생성
@@ -216,8 +220,8 @@ const AdminBookCreate = () => {
         const entries = Array.from(formData.entries());
 
         for (const [key, value] of entries) {
-            // console.log("createBook valid key ",key);
-            // bookImgPath는 비어 있어도 통과
+           // console.log("createBook valid key ",key);
+            //bookImgPath는 비어 있어도 통과
             if (key === "bookImgPath") continue;
 
             if (typeof value === "string" && value.trim() === "") {
@@ -237,6 +241,7 @@ const AdminBookCreate = () => {
 
         const emptyKey = validateFormData(formData);
         if (emptyKey) {
+           // console.log("emptykey",emptyKey);
             openModal({
                 modalType: "error",
                 content:<>
