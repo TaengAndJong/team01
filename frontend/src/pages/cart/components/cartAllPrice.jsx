@@ -27,7 +27,7 @@ const cartAllPrice = ({cartList,selectItem,deliveryFee,gotoPayment,totalPrice}) 
                 {/*결제 실행 핸들러 필요 */}
                 <li className="d-inline ms-auto">
                     <button type="submit" aria-label="구매하기"
-                            className="submit btn custom-btn00" onClick={allPayment}>구매하기
+                            className="submit btn btn-dark" onClick={allPayment}>구매하기
                     </button>
                 </li>
             </ul>

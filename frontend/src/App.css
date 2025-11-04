@@ -155,7 +155,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 
 .tultip {
   margin-right: 0.5rem;
-  background-color: #ffffff;
+  background-color: #e1cfc7;
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.8rem;
@@ -1222,7 +1222,7 @@ header, .header-inner, .gnb {
   border: none;
 }
 .modal-content .modal-header {
-  background-color: #FFE377;
+  background-color: #FFECA4;
   border: none;
 }
 .modal-content .modal-title {
@@ -1236,14 +1236,14 @@ header, .header-inner, .gnb {
 
 html {
   font-size: 62.5%;
-  font-family: "NanumHuman", sans-serif;
-  word-break: keep-all;
   box-sizing: border-box;
   color: #333333;
 }
 
 body {
   font-size: 1.6rem; /* 기본 16px */
+  font-family: "NanumHuman", sans-serif;
+  word-break: keep-all;
 }
 
 a, span, em, i {

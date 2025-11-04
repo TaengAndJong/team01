@@ -112,7 +112,7 @@ const CartAddress= ({addrList}) =>{
                                 <strong className="title mx-2">상세주소</strong>{orderAddr.detailAddr}
                             </li>
                         </ul>
-                        <button aria-label="배송지변경" className="btn btn-sm btn-primary ms-3" onClick={handleShow}>변경
+                        <button aria-label="배송지변경" className="btn btn-sm custom-btn02 ms-3" onClick={handleShow}>변경
                         </button>
                     </div>
                 ) : (
@@ -125,28 +125,31 @@ const CartAddress= ({addrList}) =>{
 
                 {show && (
                     <Modal show={show} onHide={handleClose} centered>
-                    <Modal.Dialog>
+                    <Modal.Dialog className={"address-change"}>
                             <Modal.Header closeButton>
                                 <Modal.Title>배송지 변경</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 <ul>
                                     {selectAddr?.map((item, index) => (
-                                        <li key={item.addrId}>
-                                            <label key={item.addrId} className="btn btn-outline-primary">
-                                                <input
-                                                    type="radio"
-                                                    name="address"
-                                                    value={item.addrId}
-                                                    checked={selectedId === item.addrId}
-                                                    onChange={() => setSelectedId(item.addrId)}
-                                                />
-                                                <span>{`No.${index + 1}`}</span>
-                                                <span> addrId : {item.addrId}</span>
-                                                <span>분류 : {item.addrType}</span>
-                                                <span>우편번호 : {item.zoneCode}</span>
-                                                <span>주소 : {item.addr}</span>
-                                                <span>상세주소 : {item.detailAddr}</span>
+                                        <li key={item.addrId} className="my-2">
+                                            <label key={item.addrId} className="address-radio text-start">
+                                                {/*<span><em className="title">addrId</em>  {item.addrId}</span>*/}
+                                                <div className="d-flex align-items-center">
+                                                    <input
+                                                        className="me-3"
+                                                        type="radio"
+                                                        name="address"
+                                                        value={item.addrId}
+                                                        checked={selectedId === item.addrId}
+                                                        onChange={() => setSelectedId(item.addrId)}
+                                                    />
+                                                    <em className="title tultip normal">등록주소</em>{index + 1}
+                                                </div>
+                                                <span className="d-inline-flex align-items-center"><em className="title tultip">분류</em> {item.addrType}</span>
+                                                <span className="d-inline-flex align-items-center"><em className="title tultip">주소</em>{item.addr}</span>
+                                                <span className="d-inline-flex align-items-center"><em className="title tultip">상세주소</em> {item.detailAddr}</span>
+                                                <span className="d-inline-flex align-items-center"><em className="title tultip">우편번호</em> {item.zoneCode}</span>
                                             </label>
 
                                         </li>
@@ -154,8 +157,8 @@ const CartAddress= ({addrList}) =>{
                                 </ul>
                             </Modal.Body>
                         <Modal.Footer>
-                            <Button onClick={handleClose}>취소</Button>
-                            <Button onClick={()=>changeAddrFetch()}>확인</Button>
+                            <Button type="button" className="btn btn-danger" onClick={handleClose}>취소</Button>
+                            <Button type="button" className="btn btn-dark"  onClick={()=>changeAddrFetch()}>확인</Button>
                         </Modal.Footer>
                         </Modal.Dialog>
                     </Modal>

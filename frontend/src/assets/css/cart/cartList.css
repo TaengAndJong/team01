@@ -27,3 +27,14 @@
 .cart-item-count .total-price{padding-left: 150px}
 .cart-item-count .total-price > em{font-size:30px}
 
+/*장바구니 주소변경 모달 스타일변경*/
+.modal-dialog.address-change{}
+.modal-dialog.address-change .address-radio{padding : 10px; border:1px solid #e1cfc7;border-radius:5px;transition: border-color .2s;}
+.modal-dialog.address-change .address-radio > div{}
+.modal-dialog.address-change .address-radio > span{margin:6px 10px 5px 0px; }
+.modal-dialog.address-change .address-radio > span .tultip{ background: #F7ECE7;;}
+
+
+.modal-dialog.address-change .address-radio:hover,
+.modal-dialog.address-change .address-radio:focus,
+.modal-dialog.address-change .address-radio:focus-within{border-color: #A47763}
