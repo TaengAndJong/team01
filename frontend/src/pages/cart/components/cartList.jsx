@@ -262,10 +262,13 @@ const CartList = () => {
                                   </div>
                               </div>
                               {/* 도서 정보*/}
-                              <div className="bookInfo card-body">
-                                  <strong className="book-title title-dotted d-block">카트 아이디 : {item.cartId}</strong>
-                                  <strong className="book-title title-dotted d-block">{item.book.bookId}</strong>
-                                  <strong className="book-title title-dotted d-block">{item.book.bookName}</strong>
+                              <div className="book-info card-body">
+                                  <div>
+                                      <span className="cart tultip normal"><i className="icon book"></i>{item.cartId}</span>
+                                      <span className="book tultip uncomplete"><i className="icon cart01"></i>{item.book.bookId}</span>
+                                      <strong className="book-title title-dotted d-block"><span>{item.book.bookName}</span></strong>
+                                  </div>
+
                                   <ul className="ul bullet">
                                       <li className="li"><span className="tit">저자</span>{item.book.author}</li>
                                       <li className="li"><span className="tit">발행일</span>{item.book.publishDate}</li>
@@ -275,7 +278,7 @@ const CartList = () => {
                                           <span className="tit">수량</span>
                                           <em>{item.book.quantity}</em>
                                           {/*수량 변경 버튼*/}
-                                          <button className="btn btn-light" onClick={() =>
+                                          <button className="btn custom-btn00 ms-5" onClick={() =>
                                               setShowBookCount(prev => ({
                                                   ...prev,                  // 기존 상태 그대로 복사
                                                   [item.cartId]: !prev[item.cartId] // 현재 상태 반전

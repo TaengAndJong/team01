@@ -43,7 +43,7 @@ const AdminBookList = () => {
       // 돌아온 응답 상태
       if (!response.ok) {
         // 응답 상태가 200아니면
-        console.log(response.status);
+       // console.log(response.status);
         throw new Error("서버 응답 에러");
       }
       // 응답 성공시
@@ -62,7 +62,11 @@ const AdminBookList = () => {
         totalRecord: totalRecord,
       });
     } catch (err) {
-      console.log("도서 데이터 불러오기 실패", err); // 오류 처리
+      //console.log("도서 데이터 불러오기 실패", err); // 오류 처리
+      openModal({
+        modalType:"error",
+        content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>
+      });
     }
   }; //fetch end
 
@@ -71,11 +75,11 @@ const AdminBookList = () => {
   useEffect(() => {
     //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
     if (bookdata) {
-      console.log("bookdata--------useEffect", bookdata);
+      //console.log("bookdata--------useEffect", bookdata);
       setBookList(bookdata);
     }
   }, [bookdata]);
-  console.log("bookList--------", bookList);
+  //console.log("bookList--------", bookList);
 
   //전체선택
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
@@ -87,7 +91,7 @@ const AdminBookList = () => {
   const handleSelectAll = (isChecked) => {
     setSelectAll(isChecked);
     if (isChecked) {
-      console.log("selectAll", isChecked);
+      //console.log("selectAll", isChecked);
       // 모든 bookId를 배열에 추가
       const allIds = bookList.map((item) => item.bookId);
       setCheckedInput(allIds);
@@ -107,8 +111,7 @@ const AdminBookList = () => {
 
   //삭제핸들러
   const onDeleteHandler = async(deleteItems)=>{
-      console.log("deleteHandler", deleteItems);
-      console.log("타입:", typeof deleteItems);
+
       try{
 
         const response = 
@@ -117,7 +120,7 @@ const AdminBookList = () => {
                 { withCredentials: true }); // 인증 세션 또는 쿠키 사용시 필요함
             //conetent-Type : application/json도 자동처리로 미사용
 
-        console.log("도서 삭제 목록 응답 데이터",response.data);
+       // console.log("도서 삭제 목록 응답 데이터",response.data);
 
         onDelete(bookdata);// 삭제이후에 새로 변경된 bookData 로 상태갱신
 
@@ -133,7 +136,7 @@ const AdminBookList = () => {
 
       }catch(err){
         // fetch는 네트워크에러만 감지, axios는 http오류(400,500)e도 감지
-        console.error("요청 실패", err);
+       // console.error("요청 실패", err);
         openModal({
           modalType:"error",
           content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>
@@ -150,7 +153,6 @@ const AdminBookList = () => {
     searchType: "bookName", // bookName(도서명), author(저자)
     keyword: "", // 검색어
   });
-  console.log("search 상태관리", search);
 
   const handleSearch = async () => {
     //search 초기 데이터 URLsearchParam으로 가공
@@ -192,12 +194,12 @@ const AdminBookList = () => {
   };
 
   const recomTultip = (status) => {
-    console.log(
-        `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
-    );
+    // console.log(
+    //     `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
+    // );
 
     return (
-        <span className={`tultip ${recomTypeMap[status]?.recomType}`}>
+        <span className={`tultip ${recomTypeMap[status]?.recomType} mb-3`}>
         {recomTypeMap[status]?.label}
       </span>
     );
@@ -316,7 +318,7 @@ const AdminBookList = () => {
                             title={`${item.bookName} 상세페이지로 이동`}
                         >
                           {recomTultip(item.recomType)}
-                          <p>{item.bookName}</p>
+                          <p className="book-title"><span>{item.bookName}</span></p>
                         </Link>
                       </td>
                       {/*<td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>*/}
