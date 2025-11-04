@@ -20,11 +20,11 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
 
     //찜목록 비동기 fetch 요청
     const wishFetch = async(bookId) =>{
-      //  console.log("wishFetch --- 진입")
+        console.log("wishFetch --- 진입")
         // bookId는 쿼리스트링보다 body 에 담아주는게 더 나음
         const UrlSearchParams = new URLSearchParams();
         UrlSearchParams.append("bookId", bookId);
-       // console.log("bookId wishList",bookId);
+        console.log("bookId wishList",bookId);
 
         try{
             //경로에 bookId 담아서 보내기
@@ -34,8 +34,9 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
             if(!response.data.userWishList || !response.data.userWishList.length){ // null , undefined  ||  빈 배열 확인
                 //찜목록추가완료 모달
                 openModal({
-                    modalType:"default",
+                    modalType:"error",
                     content:<><p>찜목록 삭제 성공.</p></>,
+                    onConfirm: () => {closeModal();},
                 });
                 return; // 찜목록 삭제시 여기서 종료
             }
@@ -50,8 +51,9 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
 
                 //찜목록추가완료 모달
                 openModal({
-                    modalType:"default",
+                    modalType:"error",
                     content:<><p>찜목록 추가성공.</p></>,
+                    onConfirm: () => {closeModal();},
                 })
             }
 

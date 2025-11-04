@@ -15,7 +15,10 @@
 }
 
 .book-item{
-    background: #E8F1FF;
+    /*background: #E8F1FF;*/
+    /*background: #F7ECE7;*/
+    border:2px solid #e1cfc7;
+    border-radius: 10px;
     width:calc((100%/2) - 1.6rem);
     margin: 0 2px;
     padding: 40px 50px 30px 50px;

@@ -33,7 +33,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
                 if(response.data.exist){
                     openModal({
                         modalType: "confirm",
-                        content:<><p>`${response.data.message}`</p></>,
+                        content:<><p>{`${response.data.message}`}</p></>,
                         onConfirm:()=>{
                             closeModal(); // 모달 닫고
                             navigate(`/cart`);  // 장바구니로 이동
@@ -44,7 +44,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
                     //exist가 false ==> 중복도서가 없어서 도서가 추가됨
                     openModal({
                         modalType:"default",
-                        content:<><p>`${response.data.message}`</p></>,
+                        content:<><p>{`${response.data.message}`}</p></>,
                     });
                 }
 

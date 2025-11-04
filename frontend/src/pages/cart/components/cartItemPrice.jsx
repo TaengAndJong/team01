@@ -10,7 +10,7 @@ const CartItemPrice = ({ cartList, deliveryFee}) => {
 
     return (
         <>
-            <ul className="cart-item-count ul bullet border-top border-bottom py-3 mt-5 d-flex">
+            <ul className="cart-item-count border-top border-bottom py-3 mt-5 d-flex">
                 <li className="li d-inline-flex  align-items-center pe-3">
                     <span className="me-4">결제금액</span>
                     <span className="price"><em>{cartList.book.bookPrice}</em>원</span>
@@ -37,11 +37,6 @@ const CartItemPrice = ({ cartList, deliveryFee}) => {
                     />
 
 
-                    {/*<button type="button" aria-label="선택도서구매"*/}
-                    {/*        className="btn btn-secondary" onClick={() => {*/}
-                    {/*    gotoPayment(cartList, cartList.cartId)*/}
-                    {/*}}>선택도서구매*/}
-                    {/*</button>*/}
                 </li>
             </ul>
         </>

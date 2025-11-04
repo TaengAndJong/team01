@@ -11,7 +11,7 @@
 }
 
 .custom-btn00{ //초록, 노랑
-  background-color: $color03;color:$color08;
+  background-color: $color02;color:$color08;
   &:hover,&:focus{ background-color: $color06; font-weight: bold }
 }
 
@@ -24,6 +24,12 @@
   background-color: $color01; color:$color08;
   &:hover,&:focus{ background-color: $color00; color:$color08;font-weight: bold }
 }
+
+.custom-btn03{/// 갈색
+  background-color: $color12; color:$color08;
+  &:hover,&:focus{ background-color: $color09; color:$color01;font-weight: bold }
+}
+
 
 .custom-outline-btn{
   border: 1px solid $color01;
