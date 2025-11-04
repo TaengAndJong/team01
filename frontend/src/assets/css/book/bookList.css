@@ -38,3 +38,4 @@
 
 }
 
+.book-item .count input[name="bookCountInput"]{ max-width: 50px; text-align: center;}

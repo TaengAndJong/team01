@@ -90,7 +90,7 @@
 .section.books .sc-inner{padding: 20rem 0 10rem;text-align:center;}
 .section.books .sc-tit{}
 .section.books .sc-content{margin-top: 9rem;}
-.section.books .nav{padding: 0 6rem;}
+.section.books .nav{padding: 0 6rem;margin-bottom: 4rem;}
 
 
 /*books slide*/
@@ -101,23 +101,23 @@
     margin: 0 auto;
     overflow: hidden;
 }
-.section.books .swiper{height: 420px;}
-.section.books .swiper-wrapper{
-    /*margin: 0 -4rem;*/
-    /*padding: 2rem*/
+.section.books .swiper{
+    background: rgba(187,171,162,50%);
+    height: 500px;
 }
-.section.books .swiper-slide{}
+.section.books .swiper-wrapper{} /*여기에 패딩주면 안쪽 아이템이 최대 높이를 벗어남*/
+.section.books .swiper-slide{padding: 4rem 0;}/*슬라이드 아이템에 패딩주기*/
 .section.books .swiper-pagination{
     margin-top: 0.5em;
     background: transparent; display: flex; justify-content: center; align-items: center; top: auto; left:auto; position:relative; }
 .section.books .swiper-pagination .swiper-pagination-bullet-active{background:#56453EFF }
 
-.section.books .book-link{background:rgba(255,255,255,0.5);border-radius: 1rem;overflow: hidden}
+.section.books .book-link{background:rgba(255,255,255,0.5);border-radius: 1rem;overflow: hidden;height: 100%;}
 .section.books .img-box{
     z-index: 3; position: relative;max-height: 30rem}
 .section.books .txt-box{padding:4rem 1rem 2rem;}
 .section.books .txt-box > .tit{padding:0.5rem 0;text-align: center; word-break: keep-all; font-weight: bold;}
-.section.books .button-group{top: -9.8rem; right: 6rem;}
+.section.books .button-group{top: -8.4rem; right: 6rem;}
 
 
 /*section curation*/
