@@ -16,6 +16,8 @@ const  PopularBookSlide= ({slideData}) =>{
 
     //서드파트 인스턴스 직접 제어
     const swiperRef = useRef(null);
+    // 보여주는 슬라이드 개수
+    const ctrlViewCount = swiperRef?.current?.params.slidesPerView;
     //재생,정지 상태관리 변수
     const [play,setPlay] = useState(true);// 기본값은 재생(true)
 
@@ -50,7 +52,7 @@ const  PopularBookSlide= ({slideData}) =>{
                 className="slide-list clearfix"
                 direction="vertical"
                 //pagination={activeTab === naviId ? customPagination : false}
-                loop={slideData?.length > 1}
+                loop={ctrlViewCount+1}
                 autoplay={{ delay: 2000, disableOnInteraction: false }}
                 navigation={{ // 각 탭의 슬라이드의 컨트롤을 각각 적용해줘야 기능이 적용됨
                     nextEl: `.custom-next-popular`,
@@ -63,46 +65,57 @@ const  PopularBookSlide= ({slideData}) =>{
                 observeParents={true}
                 onSlideChange={() => console.log('popularSlide')}
             >
-                {slideData?.map((item) => (
-                    <SwiperSlide key={`slide-${item.bookId}`}>
-                        <Link className="slide-link" to={item.detailUrl} title={`${item.bookName}도서 상세페이지 바로가기`}>
-                            <span className="cateName">{item.bookCateNm}</span>
-                            <strong className="tit">
-                                <em>{item.bookName}</em>
-                            </strong>
-                            <span className="author">
+
+                {slideData?.length > 0 ? (
+                    slideData?.map((item) => (
+                        <SwiperSlide key={`slide-${item.bookId}`}>
+                            <Link className="slide-link" to={item.detailUrl} title={`${item.bookName}도서 상세페이지 바로가기`}>
+                                <span className="cateName">{item.bookCateNm}</span>
+                                <strong className="tit">
+                                    <em>{item.bookName}</em>
+                                </strong>
+                                <span className="author">
                                 {item.author}
                             </span>
-                            <div className="img-box">
-                                <div className="img-inner">
-                                    <img className="img" src={item.bookImgList?.[0]} alt={item.bookName}/>
+                                <div className="img-box">
+                                    <div className="img-inner">
+                                        <img className="img" src={item.bookImgList?.[0]} alt={item.bookName}/>
+                                    </div>
                                 </div>
-                            </div>
-                        </Link>
+                            </Link>
+                        </SwiperSlide>
+                    ))
+                ) : (
+                    <SwiperSlide>
+                        <div className="nodata-slide">
+                            <p>해당 도서 데이터가 없습니다.</p>
+                        </div>
                     </SwiperSlide>
-                ))}
+                )}
+
             </Swiper>
 
+            {slideData?.length >  ctrlViewCount && (
+                <div className="button-group">
+                    {/*이전*/}
+                    <button type="button" className={`swiper-button bordered custom-prev custom-prev-popular`}>
+                        <span className="sr-only">이전슬라이드</span>
+                    </button>
+                    {/*재생 & 정지 */}
+                    <button type="button"
+                            className={`swiper-button bordered ${play ? `swiper-button-stop` : `swiper-button-start`}`}
+                            onClick={() => {
+                                playAndPause()
+                            }}>
+                        <span className="sr-only"> {play ? '정지' : '재생'}</span>
+                    </button>
+                    {/*다음*/}
+                    <button type="button" className={`swiper-button bordered custom-next custom-next-popular`}>
+                        <span className="sr-only">다음슬라이드</span>
+                    </button>
+                </div>
+            )}
 
-
-            <div className="button-group">
-                {/*이전*/}
-                <button type="button" className={`swiper-button bordered custom-prev custom-prev-popular`}>
-                    <span className="sr-only">이전슬라이드</span>
-                </button>
-                {/*재생 & 정지 */}
-                <button type="button"
-                        className={`swiper-button bordered ${play ? `swiper-button-stop` : `swiper-button-start`}`}
-                        onClick={() => {
-                            playAndPause()
-                        }}>
-                    <span className="sr-only"> {play ? '정지' : '재생'}</span>
-                </button>
-                {/*다음*/}
-                <button type="button" className={`swiper-button bordered custom-next custom-next-popular`}>
-                    <span className="sr-only">다음슬라이드</span>
-                </button>
-            </div>
         </>
 
     );
