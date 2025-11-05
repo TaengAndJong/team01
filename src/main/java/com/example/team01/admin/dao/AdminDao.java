@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.example.team01.dto.admin.ChartDataDTO;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.BookVO;
 
@@ -34,4 +35,7 @@ public interface AdminDao {
 
     public int countStockEBooks();
     public List<BookVO> getStockEBooks(@Param("pagination") Pagination pagination);
+
+    // 페이지 방문자 페이지 뷰 카운팅
+    public List<ChartDataDTO> selectVisitPageViewCount(@Param("startDate") String startDate, @Param("endDate") String endDate );
 }

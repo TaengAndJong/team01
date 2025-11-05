@@ -3,6 +3,8 @@ package com.example.team01.admin;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +15,11 @@ import com.example.team01.utils.Pagination;
 import com.example.team01.vo.QnaProductVO;
 import com.example.team01.admin.service.AdminService;
 import com.example.team01.dto.admin.StockBookDTO;
+import com.example.team01.dto.admin.ChartDataDTO;
 import com.example.team01.dto.admin.NewBookDTO;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -212,5 +217,16 @@ public class AdminController {
         log.info("result---get:{}", result);
 
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/visitCount")
+    public ResponseEntity<?> getVisitPageViewCount(ChartDataDTO chartDataDTO) {
+            log.info("차트 데이터 요청 들어옴");
+    LocalDate endDate = LocalDate.now();
+    LocalDate startDate = endDate.minusDays(5);
+    log.info("endDate :{},startDate:{}",endDate,startDate);
+        List<ChartDataDTO> chartDataList = adminService.getVisitPageViewCount(startDate.toString(), endDate.toString());
+    log.info("chartDataList : {}",chartDataList);
+        return ResponseEntity.ok("카운팅 통신 완료");
     }
 }
