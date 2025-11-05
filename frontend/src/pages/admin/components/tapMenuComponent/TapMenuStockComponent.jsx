@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Pagination from "@util/pagination.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 const TapMenuStockComponent = () => {
   const [activeTab, setActiveTab] = useState("국내도서");
   const [isLoading, setIsLoading] = useState(true);
@@ -136,6 +136,14 @@ const TapMenuStockComponent = () => {
             {category}
           </button>
         ))}
+        <Link
+          to="/admin/book/bookList"
+          className="gobooklist"
+          type={"button"}
+          title={"신규도서 더보기"}
+        >
+          <strong className="ps-5">+</strong>
+        </Link>
       </div>
       {/* 테이블 */}
       <div className="tab-content">
