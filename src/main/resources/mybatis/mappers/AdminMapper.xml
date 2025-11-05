@@ -25,7 +25,10 @@
             <!-- 신규 등록 도서 -->
             <!-- 국내도서 -->
             <select id="countNewDomesticBooks" resultType="int">
-                SELECT COUNT(*)FROM book WHERE "bookCateNm" LIKE '%국내도서%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                SELECT COUNT(*)FROM book
+                WHERE "bookCateNm" LIKE '%국내도서%'
+                  AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                  AND "delStatus" = 'N'
             </select>
 
             <select id="getNewDomesticBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
@@ -34,6 +37,7 @@
                 FROM (
                     SELECT * FROM book
                     WHERE "bookCateNm" LIKE '%국내도서%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                      AND "delStatus" = 'N'
                     ORDER BY "bookId" ASC
                     ) a
                 )
@@ -43,8 +47,11 @@
             </select>
 
             <!-- 국외도서 -->
-                        <select id="countNewForeignBooks" resultType="int">
-                SELECT COUNT(*)FROM book WHERE "bookCateNm" LIKE '%국외도서%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+            <select id="countNewForeignBooks" resultType="int">
+                SELECT COUNT(*)FROM book
+                WHERE "bookCateNm" LIKE '%국외도서%'
+                  AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                  AND "delStatus" = 'N'
             </select>
             
             <select id="getNewForeignBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
@@ -52,7 +59,9 @@
                 SELECT ROWNUM as rnum, a.*
                 FROM (
                     SELECT * FROM book
-                    WHERE "bookCateNm" LIKE '%국외도서%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                    WHERE "bookCateNm" LIKE '%국외도서%'
+                      AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                      AND "delStatus" = 'N'
                     ORDER BY "bookId" ASC
                     ) a
                 )
@@ -63,7 +72,10 @@
             
             <!-- E-Book -->
             <select id="countNewEBooks" resultType="int">
-                SELECT COUNT(*)FROM book WHERE "bookCateNm" LIKE '%EBOOK%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                SELECT COUNT(*)FROM book
+                WHERE "bookCateNm" LIKE '%EBOOK%'
+                  AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                  AND "delStatus" = 'N'
             </select>
 
             <select id="getNewEBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
@@ -71,7 +83,9 @@
                 SELECT ROWNUM as rnum, a.*
                 FROM (
                     SELECT * FROM book
-                    WHERE "bookCateNm" LIKE '%EBOOK%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                    WHERE "bookCateNm" LIKE '%EBOOK%'
+                      AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
+                      AND "delStatus" = 'N'
                     ORDER BY "bookId" ASC
                     ) a
                 )
@@ -86,6 +100,7 @@
                     SELECT COUNT(*)
                     FROM book
                     WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국내도서%'
+                    AND "delStatus" = 'N'
             </select>
 
             <select id="getStockDomesticBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
@@ -94,6 +109,7 @@
                 FROM (
                     SELECT * FROM book
                     WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국내도서%'
+                      AND "delStatus" = 'N'
                     ORDER BY "bookId" ASC
                     ) a
                 )
@@ -107,6 +123,7 @@
                     SELECT COUNT(*)
                     FROM book
                     WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국외도서%'
+                      AND "delStatus" = 'N'
             </select>
 
             <select id="getStockForeignBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
@@ -114,7 +131,9 @@
                 SELECT ROWNUM as rnum, a.*
                 FROM (
                     SELECT * FROM book
-                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국외도서%'
+                    WHERE "stock" &lt;= 10
+                      AND "bookCateNm" LIKE '%국외도서%'
+                      AND "delStatus" = 'N'
                     ORDER BY "bookId" ASC
                     ) a
                 )
@@ -127,7 +146,9 @@
             <select id="countStockEBooks" resultType="int">
                     SELECT COUNT(*)
                     FROM book
-                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%EBOOK%'
+                    WHERE "stock" &lt;= 10
+                      AND "bookCateNm" LIKE '%EBOOK%'
+                      AND "delStatus" = 'N'
             </select>
 
             <select id="getStockEBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
@@ -135,7 +156,9 @@
                 SELECT ROWNUM as rnum, a.*
                 FROM (
                     SELECT * FROM book
-                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%EBOOK%'
+                    WHERE "stock" &lt;= 10
+                      AND "bookCateNm" LIKE '%EBOOK%'
+                      AND "delStatus" = 'N'
                     ORDER BY "bookId" ASC
                     ) a
                 )
