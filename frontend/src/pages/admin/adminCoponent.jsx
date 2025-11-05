@@ -17,6 +17,11 @@ function Admin() {
     productCount: 0,
     deliveryCount: 0,
   });
+  const [chartData, setChartData] = useState({
+    date: [],
+    visitor: [],
+    pageView: [],
+  });
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,6 +82,22 @@ function Admin() {
     if (response.ok) {
       const data = await response.json();
       console.log("getChartData 통신", data);
+
+      const newDates = [];
+      const newVisitors = [];
+      const newPageViews = [];
+
+      data.forEach((item) => {
+        newDates.push(item.visitTime);
+        newVisitors.push(item.visitCount);
+        newPageViews.push(item.pageViewCount);
+      });
+
+      setChartData({
+        date: newDates,
+        visitor: newVisitors,
+        pageView: newPageViews,
+      });
     } else {
       setIsError(true);
       console.log("에러");
@@ -105,7 +126,7 @@ function Admin() {
       <div className="dashboard-container">
         <div className="section top d-flex justify-content-around">
           <div className="graph-container inner">
-            <ChartComponent />
+            <ChartComponent data={chartData} />
           </div>
           <div className="card-container inner d-flex flex-wrap  justify-content-between">
             <CountCard

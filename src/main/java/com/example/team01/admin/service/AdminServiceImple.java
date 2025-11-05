@@ -188,7 +188,8 @@ public class AdminServiceImple implements AdminService {
 
         List<ChartDataDTO> result = dao.selectVisitPageViewCount(startDate, endDate);
         log.info("차트 데이터 result : {}",result);
-        return null;
+
+        return result;
     }
     };
 

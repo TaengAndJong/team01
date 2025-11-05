@@ -227,6 +227,6 @@ public class AdminController {
     log.info("endDate :{},startDate:{}",endDate,startDate);
         List<ChartDataDTO> chartDataList = adminService.getVisitPageViewCount(startDate.toString(), endDate.toString());
     log.info("chartDataList : {}",chartDataList);
-        return ResponseEntity.ok("카운팅 통신 완료");
+        return ResponseEntity.ok(chartDataList);
     }
 }
