@@ -166,6 +166,12 @@
   font-weight: bold;
 }
 
+/* gobooklist */
+.gobooklist {
+  font-size: 32px;
+  align-items: right;
+}
+
 /* 테이블 */
 .tab-content {
   display: block;
