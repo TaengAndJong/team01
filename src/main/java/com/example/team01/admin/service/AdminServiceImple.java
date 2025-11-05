@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import com.example.team01.admin.dao.AdminDao;
+import com.example.team01.dto.admin.ChartDataDTO;
 import com.example.team01.dto.admin.NewBookDTO;
 import com.example.team01.dto.admin.StockBookDTO;
 import com.example.team01.dto.book.BookDTO;
@@ -179,5 +180,15 @@ public class AdminServiceImple implements AdminService {
                 .stockStatus(vo.getStock() > 0 ? "재고 있음" : "품절")
                 .build();
         }
+
+
+        @Override
+    public List<ChartDataDTO> getVisitPageViewCount(String startDate, String endDate){
+        log.info("startDate :{}, endDate: {}",startDate, endDate);
+
+        List<ChartDataDTO> result = dao.selectVisitPageViewCount(startDate, endDate);
+        log.info("차트 데이터 result : {}",result);
+        return null;
+    }
     };
 

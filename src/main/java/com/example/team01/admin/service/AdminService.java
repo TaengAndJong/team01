@@ -3,6 +3,7 @@ package com.example.team01.admin.service;
 import java.util.List;
 
 import com.example.team01.dto.admin.StockBookDTO;
+import com.example.team01.dto.admin.ChartDataDTO;
 import com.example.team01.dto.admin.NewBookDTO;
 import com.example.team01.utils.Pagination;
 
@@ -21,4 +22,7 @@ public interface AdminService {
     public List<StockBookDTO> getStockDomesticBooks(Pagination pagination);
     public List<StockBookDTO> getStockForeignBooks(Pagination pagination);
     public List<StockBookDTO> getStockEBooks(Pagination pagination);
+
+    // 차트 데이터 가져오는 서비스
+    public List<ChartDataDTO> getVisitPageViewCount(String startDate, String endDate);
 }

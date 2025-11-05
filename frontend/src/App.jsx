@@ -54,6 +54,9 @@ import PaymentComponent from "@pages/pay/paymentComponent.jsx";
 //aixos  로그인 여부확인용 js ==> 전역처리할경우 사용, 각 컴포넌트에서 로그인여부 사용할경우 필요없음
 //import "@js/AxiosInterceptor";
 
+//log
+import VisitRecorder from "./pages/common/VisitRecorder.jsx";
+
 function App() {
   let location = useLocation();
   const headerName = () => {
@@ -66,6 +69,7 @@ function App() {
   return (
     <div className={`App ${headerName()}`}>
       <MenuProvider>
+        <VisitRecorder />
         <Routes>
           {/* Index 컴포넌트 */}
           <Route path={PathData.page.index} element={<Index />} />
@@ -128,8 +132,7 @@ function App() {
 
             {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
             <Route path="/admin" element={<Admin />} />
-            <Route index path="dashboard" element={<AdminDashboard />} />
-
+            {/* <Route index path="dashboard" element={<AdminDashboard />} /> */}
             <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
               {/*첫페이지 설정*/}
               <Route index element={<Navigate to="oneBoard" />} />

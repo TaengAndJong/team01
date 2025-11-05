@@ -6,7 +6,7 @@ import "@css/adminMain.css";
 import CountCard from "./components/cardComponent/CountCard.jsx";
 import TapMenuStockComponent from "./components/tapMenuComponent/TapMenuStockComponent.jsx";
 import TapMenuNewBookComponent from "./components/tapMenuComponent/TapMenuNewBookComponent.jsx";
-// import ChartComponent from "./components/ChartComponent";
+import ChartComponent from "./components/chartComponent.jsx";
 
 function Admin() {
   const [isLoading, setIsLoading] = useState(true);
@@ -64,8 +64,29 @@ function Admin() {
     setIsLoading(false);
   };
 
+  const getChartData = async () => {
+    setIsLoading(true);
+    setIsError(false);
+
+    const response = await fetch(`/api/admin/visitCount`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json", // JSON 형식임을 서버에 알림
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log("getChartData 통신", data);
+    } else {
+      setIsError(true);
+      console.log("에러");
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     getNewCount();
+    getChartData();
   }, []);
 
   return (
@@ -84,7 +105,7 @@ function Admin() {
       <div className="dashboard-container">
         <div className="section top d-flex justify-content-around">
           <div className="graph-container inner">
-            {/* <ChartComponent /> */}
+            <ChartComponent />
           </div>
           <div className="card-container inner d-flex flex-wrap  justify-content-between">
             <CountCard
