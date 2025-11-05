@@ -3,6 +3,8 @@ import com.example.team01.common.support.BookImgChange;
 import com.example.team01.vo.AdminBookVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value; // 롬복 사용하면 안됨, inMemory에서 가져오려면 이 패키지 사용해야 함
@@ -13,10 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.team01.utils.severUrlUtil.baseImageUrl;
@@ -151,33 +150,39 @@ public class FileUtils {
 
         // 1. bookImgList가 비었을 경우, bookImgPath로부터 리스트 생성
         if (bookImgList == null || bookImgList.isEmpty()) {
-            bookImgList = Arrays.stream(vo.getBookImgPath().split(","))
-                    .map(String::trim)
-                    .filter(item -> !item.isEmpty())
-                    .collect(Collectors.toList());
+            bookImgList =  Arrays.stream(Optional.ofNullable(vo.getBookImgPath()).orElse("").split(","))
+                    .map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
             log.info("bookImgList 비어있을 경우 재구성됨: {}", bookImgList);
         }
 
         // 2. 공통 URL 생성 처리
         List<String> imgUrlList = bookImgList.stream()
                 .map(fileName -> {
-                    String folder = fileName.toLowerCase().contains("noimg") ? "images" : "uploads/book";
-                   //파일존재여부 검증
-                    String realPath = request.getServletContext().getRealPath("/" + folder + "/" + fileName);
-                    File file = new File(realPath);
 
-                    if (!file.exists()) {
-                        // 파일 없으면 대체 이미지 사용
-                        fileName = "noImg.png";
-                        folder = "images"; // 기본 이미지 폴더
+                    // 빈값 체크 , noimg로 설정
+                    if (fileName == null || fileName.isBlank()) {
+                        return baseImageUrl(request, "images") + "noImg.png";
                     }
 
-                    return baseImageUrl(request, folder) + fileName;
+                    // 1) 외부 파일시스템 체크 (외부경로 : 절대경로기준 , fileSystemResource )
+                    Path fsPath = Paths.get(uploadDir, "book", fileName);
+                    if (Files.exists(fsPath)) { // 실제 운영서버에 파일이 존재한다면
+                        return baseImageUrl(request, "uploads/book") + fileName;
+                    }
+                    // 2) 클래스패스 static에서 체크 (개발환경 : 빌드된 클래스 패스 내부에서 찾기 ,
+                    // 클래스패스 기준경로 src/main/resources 이하(jar 내부) ClassPathResource)
+                    Resource res = new ClassPathResource("static/uploads/book/" + fileName);
+                    if (res.exists()) { // 클래스 패스 기준 해당경로에 파일이 존재한다면
+                        return baseImageUrl(request, "uploads/book") + fileName;
+                    }
+                    // 둘 다 아니면
+                    return baseImageUrl(request, "images") + "noImg.png";
                 })
                 .collect(Collectors.toList());
-
+    
+        // bookImgList을 변경된 내용으로 재설정
         vo.setBookImgList(imgUrlList);
-        log.info("이미지 URL 최종 변환 완료: {}", vo);
+        log.info("서버주소와 결합한 이미지 URL 최종 변환 완료----------------: {}", vo);
         return vo;
     }
 
@@ -191,36 +196,43 @@ public class FileUtils {
         log.info("bookImgList--------------:{}",bookImgList);
         log.info("bookImgList--------------:{}",baseImageUrl(request,"uploads/book"));
 
+
         // 1. bookImgList가 비었을 경우, bookImgPath로부터 리스트 생성
         if (bookImgList == null || bookImgList.isEmpty()) {
-            bookImgList = Arrays.stream(dto.getBookImgPath().split(","))
-                    .map(String::trim)
-                    .filter(item -> !item.isEmpty())
-                    .collect(Collectors.toList());
+            bookImgList =  Arrays.stream(Optional.ofNullable(dto.getBookImgPath()).orElse("").split(","))
+                    .map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
             log.info("bookImgList 비어있을 경우 재구성됨: {}", bookImgList);
         }
 
         // 2. 공통 URL 생성 처리
         List<String> imgUrlList = bookImgList.stream()
                 .map(fileName -> {
-                    String folder = fileName.toLowerCase().contains("noimg") ? "images" : "uploads/book";
 
-                    //파일존재여부 검증
-                    String realPath = request.getServletContext().getRealPath("/" + folder + "/" + fileName);
-                    File file = new File(realPath);
-
-                    if (!file.exists()) {
-                        // 파일 없으면 대체 이미지 사용
-                        fileName = "noImg.png";
-                        folder = "images"; // 기본 이미지 폴더
+                    // 빈값 체크 , noimg로 설정
+                    if (fileName == null || fileName.isBlank()) {
+                        return baseImageUrl(request, "images") + "noImg.png";
                     }
 
-                    return baseImageUrl(request, folder) + fileName;
+                    // 1) 외부 파일시스템 체크 (외부경로 : 절대경로기준 , fileSystemResource )
+                    Path fsPath = Paths.get(uploadDir, "book", fileName);
+                    if (Files.exists(fsPath)) { // 실제 운영서버에 파일이 존재한다면
+                        return baseImageUrl(request, "uploads/book") + fileName;
+                    }
+                    // 2) 클래스패스 static에서 체크 (개발환경 : 빌드된 클래스 패스 내부에서 찾기 ,
+                    // 클래스패스 기준경로 src/main/resources 이하(jar 내부) ClassPathResource)
+                    Resource res = new ClassPathResource("static/uploads/book/" + fileName);
+                    if (res.exists()) { // 클래스 패스 기준 해당경로에 파일이 존재한다면
+                        return baseImageUrl(request, "uploads/book") + fileName;
+                    }
+                    // 둘 다 아니면
+                    return baseImageUrl(request, "images") + "noImg.png";
                 })
                 .collect(Collectors.toList());
 
+        // bookImgList을 변경된 내용으로 재설정
+
         dto.setBookImgList(imgUrlList);
-        log.info("이미지 URL 최종 변환 완료: {}", dto);
+        log.info(" dto 서버주소와 결합한 이미지 URL 최종 변환 완료----------------: {}", dto);
         return dto;
     }
 

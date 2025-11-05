@@ -815,7 +815,8 @@ header, .header-inner, .gnb {
   height: 66px;
   position: absolute;
   left: 6rem;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 99;
   padding: 12px 10px 8px 0px;
 }

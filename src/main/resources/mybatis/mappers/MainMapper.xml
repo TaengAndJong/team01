@@ -16,12 +16,16 @@
             t."cateId",
             t."writer",
             t."bookImgPath",
+            t."saleStatus",
+            t."delStatus",
             TRIM(t."recomType") AS "recomType"
+
         FROM (
             SELECT
                 ROW_NUMBER() OVER (PARTITION BY b."bookCateNm" ORDER BY b."bookId" DESC) AS rank,
                 b.*
             FROM book b
+            where "delStatus" = 'N'
         ) t
         <![CDATA[ WHERE t.rank <= 8]]>
     </select>

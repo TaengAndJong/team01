@@ -16,6 +16,8 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
     console.log("slideData --------naviId",naviId);
     //서드파트 인스턴스 직접 제어
     const swiperRef = useRef(null);
+    // 보여주는 슬라이드 개수
+    const ctrlViewCount = swiperRef?.current?.params.slidesPerView;
     //재생,정지 상태관리 변수
     const [play,setPlay] = useState(true);// 기본값은 재생(true)
 
@@ -74,7 +76,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                 modules={[//Pagination,
                     Navigation, Autoplay]}
                 pagination={activeTab === naviId ? customPagination : false}
-                loop={slideData?.length >1}//
+                loop={ctrlViewCount+1}//
                 autoplay={{ delay: 2000, disableOnInteraction: false }}
                 slidesPerView={Math.min(4, slideData?.length || 1)}
                 // 총 보여지는 슬라이드 개수
@@ -89,40 +91,56 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                 observeParents={true}
                 onSlideChange={() => console.log('mainbookSlide')}
             >
-                {slideData?.map((item) => (
-                    <SwiperSlide key={`slide-${item.bookId}`}>
-                        <Link to={item.detailUrl} className={"book-link"} title={`${item.bookName}도서 상세페이지 바로가기`}>
-                            <div className="img-box">
-                                <div className="img-inner">
-                                    <img className="img" src={item.bookImgList?.[0]} alt={item.bookName} />
+                {slideData?.length >0 ? (
+                    slideData?.map((item) => (
+                        <SwiperSlide key={`slide-${item.bookId}`}>
+                            <Link to={item.detailUrl} className={"book-link"} title={`${item.bookName}도서 상세페이지 바로가기`}>
+                                <div className="img-box">
+                                    <div className="img-inner">
+                                        <img className="img" src={item.bookImgList?.[0]} alt={item.bookName} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="txt-box">
-                                <strong className="tit bold d-block">
-                                    <em>{item.bookName}</em>
-                                </strong>
-                                <span className="tit bold d-block">{item.author}</span>
-                            </div>
-                        </Link>
+                                <div className="txt-box">
+                                    <strong className="tit bold d-block">
+                                        <em>{item.bookName}</em>
+                                    </strong>
+                                    <span className="tit bold d-block">{item.author}</span>
+                                </div>
+                            </Link>
+                        </SwiperSlide>
+                    ))
+                ):(
+                    <SwiperSlide>
+                        <div className="nodata-slide">
+                            <p>해당 도서 데이터가 없습니다.</p>
+                        </div>
                     </SwiperSlide>
-                ))}
+                )
+
+                }
             </Swiper>
-            <div className="button-group">
-                {/*이전*/}
-                <button type="button" className={`swiper-button bordered custom-prev custom-prev-${naviId}`}>
-                    <span className="sr-only">이전슬라이드</span>
-                </button>
-                {/*재생 & 정지 */}
-                <button type="button"
-                        className={`swiper-button bordered ${play ? `swiper-button-stop` : `swiper-button-start`}`}
-                        onClick={() => {playAndPause()}}>
-                    <span className="sr-only"> {play ? '정지' : '재생'}</span>
-                </button>
-                {/*다음*/}
-                <button type="button" className={`swiper-button bordered custom-next custom-next-${naviId}`}>
-                    <span className="sr-only">다음슬라이드</span>
-                </button>
-            </div>
+
+            {slideData?.length > ctrlViewCount && (
+                <div className="button-group">
+                    {/*이전*/}
+                    <button type="button" className={`swiper-button bordered custom-prev custom-prev-${naviId}`}>
+                        <span className="sr-only">이전슬라이드</span>
+                    </button>
+                    {/*재생 & 정지 */}
+                    <button type="button"
+                            className={`swiper-button bordered ${play ? `swiper-button-stop` : `swiper-button-start`}`}
+                            onClick={() => {
+                                playAndPause()
+                            }}>
+                        <span className="sr-only"> {play ? '정지' : '재생'}</span>
+                    </button>
+                    {/*다음*/}
+                    <button type="button" className={`swiper-button bordered custom-next custom-next-${naviId}`}>
+                        <span className="sr-only">다음슬라이드</span>
+                    </button>
+                </div>
+            )}
+
         </>
 
     );
