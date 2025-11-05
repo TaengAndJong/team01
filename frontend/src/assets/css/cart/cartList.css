@@ -1,9 +1,13 @@
 
-.cart-item .item-inner{padding:30px}
-.cart-item .item-inner:first-child{flex-wrap: wrap;}
-.cart-item .check-one{top:10%; left:3%}
-.cart-item .card-header{ padding: 0;}
+.cart .select-address > .title{font-size: 20px}
 
+
+
+.cart-item .item-inner{padding:30px;position: relative}
+.cart-item .item-inner:first-child{flex-wrap: wrap;}
+.cart-item .check-one{top:10%; left:calc(1% + 30px)}
+.cart-item .card-header{ padding: 0;}
+.cart-item .book-info{padding-left: 40px;}
 
 .main.cart{padding-left:30px;padding-right:30px;}
 .cart .content-inner{padding-bottom: 60px;}
@@ -11,6 +15,26 @@
 .cart-list .card-header
 ,.cart-list .img-box
 ,.cart-list .img-inner
-,.cart-list .img{ display: inline-block;max-width: 200px; width: 100%; margin:0 auto}
+,.cart-list .img{ display: inline-block;max-width: 270px; width: 100%; margin:0 auto}
 .cart-list .card-header{}
 .cart-list .card-body{}
+
+.cart-list .icon{width: 15px; height: 15px; }
+
+.cart-item-count .li{position:relative;}
+.cart-item-count .total-header{position:absolute; top:50%;
+    left: 0; transform: translateY(-50%);}
+.cart-item-count .total-price{padding-left: 150px}
+.cart-item-count .total-price > em{font-size:30px}
+
+/*장바구니 주소변경 모달 스타일변경*/
+.modal-dialog.address-change{}
+.modal-dialog.address-change .address-radio{padding : 10px; border:1px solid #e1cfc7;border-radius:5px;transition: border-color .2s;}
+.modal-dialog.address-change .address-radio > div{}
+.modal-dialog.address-change .address-radio > span{margin:6px 10px 5px 0px; }
+.modal-dialog.address-change .address-radio > span .tultip{ background: #F7ECE7;;}
+
+
+.modal-dialog.address-change .address-radio:hover,
+.modal-dialog.address-change .address-radio:focus,
+.modal-dialog.address-change .address-radio:focus-within{border-color: #A47763}

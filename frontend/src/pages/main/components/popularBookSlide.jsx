@@ -70,7 +70,9 @@ const  PopularBookSlide= ({slideData}) =>{
                             <strong className="tit">
                                 <em>{item.bookName}</em>
                             </strong>
-                            <span className="author">{item.author}</span>
+                            <span className="author">
+                                {item.author}
+                            </span>
                             <div className="img-box">
                                 <div className="img-inner">
                                     <img className="img" src={item.bookImgList?.[0]} alt={item.bookName}/>

@@ -75,7 +75,7 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
 
     const saleStatus=(status)=>{
         switch (status) {
-            case "판매중": return (<span className="tultip d-inline-flex normal">{status}</span>);
+            case "판매중": return (<span className="tultip d-inline-flex">{status}</span>);
             case "미판매": return (<span className="tultip d-inline-flex popular">{status}</span>);
             case "단종": return (<span className="tultip d-inline-flex complete">{status}</span>);
             default:return "판매상태 알수없음";

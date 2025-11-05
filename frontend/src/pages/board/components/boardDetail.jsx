@@ -40,46 +40,46 @@ const BoardDetail = ({ userType }) => {
     <div className="board-detail">
       <div className="boardInfo card-body">
         <div className="info-header clearfix">
-          <h3 className="board-title title-dotted">
+          <h3 className="board-title title-dotted  d-flex align-items-center">
             <i className="icon qna me-3"></i>
             {board?.qnaTitle}
           </h3>
-          <span className="detail-date tultip popular float-end d-inline-block">
+          <span className="detail-date tultip uncomplete float-end d-inline-block">
             <i className="sr-only">작성일</i>
             {formatToDate(new Date(board?.qnaDate))}
           </span>
         </div>
         <div className="content-box p-4 text-left">{board?.qnaContent} </div>
-        <div className="attachment-box border-top border-bottom d-block p-4">
+        <div className="attachment-box border-top  d-block p-4">
           <strong className="py-2 d-inline-block">원본 첨부파일</strong>
           <span className="mx-2 fw-bold">
             <em className="text-danger ">{board?.attachmentList.length}</em>개
           </span>
         </div>
         {board?.attachmentList.length > 0 && (
-          <ol className="file-list p-4 list">
+          <ol className="file-list px-4  list">
             {board?.attachmentList?.map((file, idx) => {
               return (
                 <li
                   key={idx}
                   className="d-flex align-items-center mb-2 bullet-li"
                 >
-                  <strong
-                    className="fw-bold me-2"
-                    onClick={() => {
-                      handleFileDownload(file?.fileName, file?.fileData);
-                    }}
+                  <button type="button" className="btn btn-link d-inline-flex align-items-center"
+                          title={`${file?.fileName} 다운로드 버튼`}
+                          onClick={() => {
+                            handleFileDownload();
+                          }}
                   >
-                    {file.fileName}
-                  </strong>
-                  <span
-                    className="icon down"
-                    onClick={() => {
-                      handleFileDownload();
-                    }}
-                  >
-                    <em className="sr-only">다운로드</em>
-                  </span>
+                    <i className="icon down me-3"></i>
+                    <strong
+                        className="fw-bold me-2"
+                        onClick={() => {
+                          handleFileDownload(file?.fileName, file?.fileData);
+                        }}
+                    >
+                      {file.fileName}
+                    </strong>
+                  </button>
                 </li>
               );
             })}
@@ -88,9 +88,9 @@ const BoardDetail = ({ userType }) => {
       </div>
 
       {board?.comment ? (
-        <div className="comment-container">
-          <div className="mt-4">
-            <div className="d-flex justify-content-between align-items-center comment-title">
+          <div className="comment-container">
+            <div className="mt-4">
+              <div className="d-flex justify-content-between align-items-center comment-title">
               <strong>관리자 답변</strong>
               <span className="tultip">
                 {board.comment.comWriterName}({board.comment.comWriter})
@@ -102,7 +102,7 @@ const BoardDetail = ({ userType }) => {
           </div>
         </div>
       ) : (
-        <span>답변 대기중 입니다.</span>
+        <p className="bg-warning-subtle p-3 mb-4">답변 대기중 입니다.</p>
       )}
 
       <div className="d-grid gap-2 d-md-flex justify-content-md-end pt-4 border-top">

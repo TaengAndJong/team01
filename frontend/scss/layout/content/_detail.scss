@@ -7,7 +7,7 @@
  .board-title{
     padding-left: 30px;
     .icon{position: absolute;
-      left: 0; top:0.6rem}
+      left: 0;top:50%; transform:translateY(-50%)}
   }
   .swiper .img-box {background: #F2F2F2;}
 

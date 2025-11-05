@@ -20,12 +20,13 @@
 //common
 html{
   font-size: 62.5%;
-  font-family:"NanumHuman",sans-serif; word-break:keep-all;
+  //font-family:"NanumHuman",sans-serif; word-break:keep-all; // 여기에하면 부트스트랩에 덮힘
   box-sizing: border-box;
   color:$default-font-color;
 }
 body {
   font-size: 1.6rem; /* 기본 16px */
+  font-family:"NanumHuman",sans-serif; word-break:keep-all;
 }
 //* { font-size:16px;}
 a,span,em,i{display:inline-block; color:$default-font-color;}
