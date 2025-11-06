@@ -222,7 +222,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 }
 
 .title-dotted {
-  padding: 13px 0;
+  padding: 0 0 13px;
   margin-bottom: 20px;
   border-bottom: dotted 2px #8B655A;
 }
@@ -593,6 +593,7 @@ table .imgbox img {
   height: 100%;
   background-size: 60% 40%;
   background-repeat: no-repeat;
+  background-position: center center;
 }
 [class^=swiper-button]:hover, [class^=swiper-button]:focus {
   background-color: #56453E;
@@ -981,6 +982,9 @@ header, .header-inner, .gnb {
 }
 [class*=detail] .swiper .img-box, [class*=modify] .swiper .img-box {
   background: #F2F2F2;
+}
+[class*=detail] .count input[name=bookCountInput], [class*=modify] .count input[name=bookCountInput] {
+  max-width: 50px;
 }
 
 .sub {

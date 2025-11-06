@@ -75,6 +75,7 @@
       @extend %pseudoEL;
       background-size: 60% 40%;
       background-repeat: no-repeat;
+      background-position: center center;
     }
     &:hover,&:focus {
       background-color: $color01;

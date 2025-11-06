@@ -97,7 +97,7 @@ const BookDetail = () => {
                         <div className="bookInfo card-body">
                             <div className="title-dotted d-flex">
                                 <i className="icon book me-3"></i>
-                                <h3 className="book-title p-0 me-3">
+                                <h3 className="book-title p-0 me-3 d-flex align-items-center">
                                     <span>{bookDetail.bookName}</span>
                                 </h3>
                                 {recomTultip(bookDetail.recomType)}
@@ -136,7 +136,6 @@ const BookDetail = () => {
                     </div>
 
                 </div>
-
 
                 <div className="box">
                     <h4 className="h4 title-dotted">도서설명</h4>

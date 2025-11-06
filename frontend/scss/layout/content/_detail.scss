@@ -10,7 +10,9 @@
       left: 0;top:50%; transform:translateY(-50%)}
   }
   .swiper .img-box {background: #F2F2F2;}
-
+  .count {
+    input[name="bookCountInput"]{max-width: 50px;}
+  }
 }
 
 
