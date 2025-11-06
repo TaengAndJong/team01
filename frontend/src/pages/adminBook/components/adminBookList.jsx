@@ -20,6 +20,7 @@ const AdminBookList = () => {
   const bookdata = useContext(BookStateContext);
   const {
     paginationInfo,
+    setPaginationInfo,
     onChangePageHandler,
     search,
     setSearch,
@@ -35,9 +36,12 @@ const AdminBookList = () => {
     if(bookdata){
       setBookList(bookdata);
     }
-  },[bookdata])
-  console.log("bookList--------",bookList);
 
+    console.log("1bookList--------",bookList);
+    console.log("1bookdata--------",bookdata);
+  },[bookdata])
+   console.log("2bookdata--------",bookdata);
+  console.log("2bookList--------",bookList);
 
   //전체선택
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
@@ -75,23 +79,33 @@ const AdminBookList = () => {
         const response = 
             await axios.post(`/api/admin/book/bookDelete`
                 ,deleteItems, // 자동직렬화가 되기때문에 Json.stringify(직렬화대상객체); 미사용
-                { withCredentials: true }); // 인증 세션 또는 쿠키 사용시 필요함
+                { withCredentials: true,
+                        params: { currentPage: paginationInfo.currentPage, pageSize: paginationInfo.pageSize }
+                }); // 인증 세션 또는 쿠키 사용시 필요함
             //conetent-Type : application/json도 자동처리로 미사용
 
-       // console.log("도서 삭제 목록 응답 데이터",response.data);
+           // console.log("도서 삭제 목록 응답 데이터",response.data);
+          const data = response.data;
+            onDelete(data.items);// 삭제이후에 새로 변경된 bookData 로 상태갱신
+           // onInit(data.items);
+            console.log("삭제 응답 :response", data);
+          //페이지네이션 갱신
+            setPaginationInfo({
+              currentPage: data.currentPage ?? paginationInfo.currentPage,
+              pageSize: data.pageSize ?? paginationInfo.pageSize,
+              totalPages: data.totalPages ?? paginationInfo.totalPages,
+              totalRecord: data.totalRecord ?? paginationInfo.totalRecord,
+            });
 
-        onDelete(bookdata);// 삭제이후에 새로 변경된 bookData 로 상태갱신
-        console.log(":response", response.data);
+            //삭제확인 알림
+            openModal({
+              modalType:"default",
+              content: <><p>{`${response.data.message}`}</p></>,
+              onConfirm:()=>{ closeModal()}
+            });
 
-
-        //삭제확인 알림
-        openModal({
-          modalType:"default",
-          content: <><p>{`${response.data.message}`}</p></>,
-          onConfirm:()=>{ closeModal()}
-        });
-        // 삭제할 배열 초기화 ==> 초기화안하면 이전에 삭제한 아이디값이 남아있게됨
-        setCheckedInput([]);
+            // 삭제할 배열 초기화 ==> 초기화안하면 이전에 삭제한 아이디값이 남아있게됨
+            setCheckedInput([]);
 
 
       }catch(err){

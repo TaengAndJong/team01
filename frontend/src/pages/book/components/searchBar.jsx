@@ -13,8 +13,8 @@ const SearchBar = ({search,setSearch,handleSearch}) =>{
         const name =e.target.name;
         const value=e.target.value;
 
-        console.log("searchName",name);
-        console.log("searchValue", value);
+        //console.log("searchName",name);
+       // console.log("searchValue", value);
 
         setSearch((prev) =>(
             {
@@ -23,7 +23,7 @@ const SearchBar = ({search,setSearch,handleSearch}) =>{
             }
         )); // 부모에게 전달
     };
-console.log("search------------", search);
+//console.log("search------------", search);
 
     return(
         <>

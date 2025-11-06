@@ -15,29 +15,25 @@ function reducer(state, action) {
   // console.log("배열이냐 객체냐", Array.isArray(action.data));
 
   switch (action.type) {
-    case "INIT":
+    case "INIT": //초기데이터
       if (action.data) {
         console.log("INIT action", action.data, Array.isArray(action.data));
       }
       // 서버에서 단일객체{} 또는 여러 개의 객체가  action.data로 넘어오면 배열에 담아줘야 함.
       return Array.isArray(action.data) ? action.data : [action.data];
-    case "CREATE":
+    case "CREATE"://생성
       if (action.data) {
         console.log("create action", action.data, Array.isArray(action.data)); // 객체로 넘어옴
       }
       return [action.data, ...state]; // 새 객체(action.data) + 기존 배열, action.data는 단일객체
-    case "DELETE":
-      console.log("action:", action);
-      console.log("action.data:", action.data);
-      if (action.data) {
+    case "DELETE"://삭제
 
+      if (action.data) {
         console.log("delete action", action.data);
         console.log("delete Array", Array.isArray(action.data));
       }
-      // action.data가 배열이고(객체일경우, key가 없는 데이터일경우, 키로 접근할수 없음!)
-      return state.filter((item) => {
-        return !action.data.includes(String(item.bookId));
-      });
+      //서버에서 재조회된 items 배열로 전체 교체
+      return Array.isArray(action.data) ? [...action.data] : state;
 
     case "UPDATE":
       if (action.data) {
@@ -216,8 +212,9 @@ const AdminBook = () => {
 
   }, [paginationInfo.currentPage]); // 마운트 시에 한 번실행 됨
 
+  //초기데이터 설정
   const onInit = (bookdata) => {
-    //  console.log("onInit", bookdata);
+    console.log("onInit", bookdata);
     dispatch({
       type: "INIT",
       data: bookdata,
@@ -232,12 +229,12 @@ const AdminBook = () => {
     });
   };
 
-  const onDelete = (bookIds) => {
-    console.log("deleteBook----", bookIds);
-    console.log("deleteBook", Array.isArray(bookIds));
+  const onDelete = (newBookList) => {
+    console.log("deleteBook----", newBookList);
+    console.log("deleteBook", Array.isArray(newBookList));
     dispatch({
       type: "DELETE",
-      data: bookIds,
+      data: newBookList,
     });
   };
 
@@ -248,9 +245,6 @@ const AdminBook = () => {
       data: updateBook,
     });
   };
-
-
-
 
 
   // 상세페지이 클래스 추가기준
@@ -320,7 +314,7 @@ const AdminBook = () => {
                   <BookDispatchContext.Provider
                       value={{ onInit, onCreate, onDelete, onUpdate }}
                   >
-                    <PaginationContext.Provider value={{ paginationInfo,onChangePageHandler,search,setSearch,handleSearch}}>
+                    <PaginationContext.Provider value={{ paginationInfo,setPaginationInfo,onChangePageHandler,search,setSearch,handleSearch}}>
                       <Outlet />
                     </PaginationContext.Provider>
                   </BookDispatchContext.Provider>

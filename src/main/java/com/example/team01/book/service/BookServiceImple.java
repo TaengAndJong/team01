@@ -33,8 +33,6 @@ public class BookServiceImple implements BookService{
 
     @Override
     public List<BookVO> selectAllBooks(Pagination pagination) {
-
-
         //전체 데이터 레코드 조회해오기
         int total = dao.totalRecord(pagination);
         log.info("서비스 total record-----------:{}", total);
