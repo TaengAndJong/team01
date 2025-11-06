@@ -16,6 +16,7 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
     const [isLoading, setIsLoading] = useState(false);
 
     console.log("isAuthenticated",isAuthenticated);
+    console.log("wishIds",wishIds);
 
 
     //찜목록 비동기 fetch 요청
@@ -30,31 +31,38 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
             //경로에 bookId 담아서 보내기
             const response = await axios.post(`/api/mypage/wishlist/save?${UrlSearchParams.toString()}`,{bookId:bookId});
 
-           // console.log("찜목록 페치 응답",response);
-            if(!response.data.userWishList || !response.data.userWishList.length){ // null , undefined  ||  빈 배열 확인
-                //찜목록추가완료 모달
-                openModal({
-                    modalType:"error",
-                    content:<><p>찜목록 삭제 성공.</p></>,
-                    onConfirm: () => {closeModal();},
-                });
-                return; // 찜목록 삭제시 여기서 종료
-            }
+           console.log("찜목록 페치 응답",response);
+
 
             if(response.status === 200){
                 // wishIds 값 재설정할 때에 이전 상태값에 대해서 bookId가 있는 지 확인후 동일한 bookId 이면 필터링해서 새배열반환, 없으면 기존배열을 복사 후 bookId 추가
                 setWishIds((prev) =>
-                    prev.includes(bookId) //bookId를 포함하고 있다면
-                        ? prev.filter((id) => id !== bookId) // 제거
-                        : [...prev, bookId] // 없으면 추가
+                    {
+                        // 이전 상태값에 bookId가 있는지 확인
+                        const existId = prev.includes(bookId);
+
+                        // 찜목록 모달 분기 기준 (이미 담겨져 있을경우 재요청은 찜해제요청)
+                        if(existId){
+                            openModal({
+                                modalType:"error",
+                                content:<><p>찜목록 삭제 성공.</p></>,
+                                onConfirm: () => {closeModal();},
+                            });
+                            // 기존 존재하는 아이디를 제외하고 배열 반환
+                            return  prev.filter((id) => id !== bookId) // 제거;
+                        }else{
+                            // 존재하지 않는다면 추가 (찜목록 추가)
+                            openModal({
+                                modalType: "error",
+                                content: <><p>찜목록에 추가되었습니다.</p></>,
+                                onConfirm: () => closeModal(),
+                            });
+                            // 기존 배열에 새로운 찜목록 도서 아이디 추가
+                            return [...prev,bookId];
+                        }
+                    }
                 );
 
-                //찜목록추가완료 모달
-                openModal({
-                    modalType:"error",
-                    content:<><p>찜목록 추가성공.</p></>,
-                    onConfirm: () => {closeModal();},
-                })
             }
 
         }catch(err){
