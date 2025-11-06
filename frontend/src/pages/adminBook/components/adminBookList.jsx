@@ -9,7 +9,7 @@ import {
   PaginationContext,
 } from "../adminBookComponent.jsx";
 import { Link } from "react-router-dom";
-import ReusableModal from "./modal.jsx";
+
 import { formatToDate } from "@util/dateUtils.jsx";
 import SearchBar from "@pages/adminBook/components/searchBar.jsx";
 import Pagination from "@util/pagination.jsx";
@@ -18,68 +18,26 @@ import axios from "axios";
 
 const AdminBookList = () => {
   const bookdata = useContext(BookStateContext);
-  const { paginationInfo,setPaginationInfo, onChangePageHandler } = useContext(PaginationContext);
-  const { onDelete, onInit } = useContext(BookDispatchContext); // 사용할 함수 가져올때 전역설정이면 context 훅 불러와야함
+  const {
+    paginationInfo,
+    onChangePageHandler,
+    search,
+    setSearch,
+    handleSearch
+  } = useContext(PaginationContext);
+
+  const { onDelete,onInit } = useContext(BookDispatchContext); // 사용할 함수 가져올때 전역설정이면 context 훅 불러와야함
   const [bookList, setBookList] = useState([]);
 
-  //get요청, 페이지번호변경 시 사용하는 fetch요청 함수
-  const initFetch = async () => {
-    try {
-      //page, pageSize
-      const params = new URLSearchParams({
-        currentPage: paginationInfo.currentPage, // 클라이언트가 결정하는 현재페이지, 기본값은 1
-        pageSize: paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
-      });
-
-
-
-      // 서버로 응답 요청
-      const response = await fetch(
-          `/api/admin/book/bookList?${params.toString()}`,
-          {
-            method: "GET",
-          }
-      );
-      // 돌아온 응답 상태
-      if (!response.ok) {
-        // 응답 상태가 200아니면
-       // console.log(response.status);
-        throw new Error("서버 응답 에러");
-      }
-      // 응답 성공시
-      const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-
-
-      //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
-      const { currentPage, items, pageSize, totalPages, totalRecord } = bookVO;
-      onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
-      // console.log("초기 데이터 갱신완료", bookVO);
-      //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
-      setPaginationInfo({
-        currentPage: currentPage,
-        pageSize: pageSize,
-        totalPages: totalPages,
-        totalRecord: totalRecord,
-      });
-    } catch (err) {
-      //console.log("도서 데이터 불러오기 실패", err); // 오류 처리
-      openModal({
-        modalType:"error",
-        content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>
-      });
-    }
-  }; //fetch end
-
-
-  // bookdata가 존재할 때만 bookList 업데이트
+// bookdata가 존재할 때만 bookList 업데이트
   useEffect(() => {
     //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
-    if (bookdata) {
-      //console.log("bookdata--------useEffect", bookdata);
+    if(bookdata){
       setBookList(bookdata);
     }
-  }, [bookdata]);
-  //console.log("bookList--------", bookList);
+  },[bookdata])
+  console.log("bookList--------",bookList);
+
 
   //전체선택
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
@@ -123,6 +81,8 @@ const AdminBookList = () => {
        // console.log("도서 삭제 목록 응답 데이터",response.data);
 
         onDelete(bookdata);// 삭제이후에 새로 변경된 bookData 로 상태갱신
+        console.log(":response", response.data);
+
 
         //삭제확인 알림
         openModal({
@@ -132,7 +92,7 @@ const AdminBookList = () => {
         });
         // 삭제할 배열 초기화 ==> 초기화안하면 이전에 삭제한 아이디값이 남아있게됨
         setCheckedInput([]);
-        await initFetch();//초기화
+
 
       }catch(err){
         // fetch는 네트워크에러만 감지, axios는 http오류(400,500)e도 감지
@@ -147,45 +107,6 @@ const AdminBookList = () => {
   }
 
 
-  //검색어 필터 상태관리 ==> 초기값 빈 배열!
-  const [search, setSearch] = useState({
-    bookType: "ALL", // 전체 / 국내도서 / 국외도서
-    searchType: "bookName", // bookName(도서명), author(저자)
-    keyword: "", // 검색어
-  });
-
-  const handleSearch = async () => {
-    //search 초기 데이터 URLsearchParam으로 가공
-    console.log("search--fetch", search);
-    const param = new URLSearchParams(search);
-    console.log("search--param", param);
-    //URLSearchParam {size: 3}
-    const paramString = param.toString();
-    console.log("search--paramString", paramString);
-    //type=DOMESTIC&keyword=%ED%8C%A8%ED%8B%B0&field=category
-
-    //검색버튼 누르면 서버로 검색 필터 전송
-    try {
-      //URLSearchParam 객체르 사용해서 url에 쿼리스트링으로 값을 담아 보내기때문에
-      // Content-Type,body 사용할 필요 없음 (body는 클라이언트가 데이터를 서버로 보낼 때 필요)
-      const response = await fetch(`/api/admin/book/bookList?${paramString}`, {
-        method: "POST",
-      });
-
-      // 요청 성공실패
-      if (!response.ok) {
-        console.log("통신에러", response.status);
-        throw Error(response.statusText);
-      }
-      //요청 성공
-      const data = await response.json();
-      console.log("search---------------", data);
-      //setbookData에 데이터 갱신 처리 해주어함?
-      onInit(data);
-    } catch (e) {
-      console.log("검색실패", e);
-    }
-  };
 
   const recomTypeMap = {
     NORMAL: { recomType: "normal", label: "일반" },
@@ -210,11 +131,7 @@ const AdminBookList = () => {
 
   return (
       <>
-        <SearchBar
-            search={search}
-            setSearch={setSearch}
-            handleSearch={handleSearch}
-        />
+        <SearchBar search={search} setSearch={setSearch}  handleSearch={handleSearch}/>
         <div className="table-responsive">
           <table className="table table-custom mt-4">
             <caption className="sr-only">등록된 도서상품 테이블</caption>
@@ -371,23 +288,7 @@ const AdminBookList = () => {
               text="등록"
           />
         </div>
-        {/*checkedInput만 하면 빈 배열이라도 true로 판정해서 모달이 열리기때문에 요소의 개수로 판단*/}
-        {/*{show && checkedInput.length === 0 && (*/}
-        {/*    <ReusableModal*/}
-        {/*        show={show}*/}
-        {/*        onClose={handleClose}*/}
-        {/*        modalType="noSelection"*/}
-        {/*    />*/}
-        {/*)}*/}
 
-        {/*{show && checkedInput.length > 0 && (*/}
-        {/*    <ReusableModal*/}
-        {/*        show={show}*/}
-        {/*        onClose={handleClose}*/}
-        {/*        onConfirm={() => onDeleteHandler(checkedInput)}*/}
-        {/*        modalType="delete"*/}
-        {/*    />*/}
-        {/*)}*/}
       </>
   );
 };

@@ -15,23 +15,23 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
     //서버에서 클라이언트까지 응답이 도달할 때까지의 상태관리
     const [isLoading, setIsLoading] = useState(false);
 
-    console.log("isAuthenticated",isAuthenticated);
-    console.log("wishIds",wishIds);
+    // console.log("isAuthenticated",isAuthenticated);
+    // console.log("wishIds",wishIds);
 
 
     //찜목록 비동기 fetch 요청
     const wishFetch = async(bookId) =>{
-        console.log("wishFetch --- 진입")
+     //   console.log("wishFetch --- 진입")
         // bookId는 쿼리스트링보다 body 에 담아주는게 더 나음
         const UrlSearchParams = new URLSearchParams();
         UrlSearchParams.append("bookId", bookId);
-        console.log("bookId wishList",bookId);
+       // console.log("bookId wishList",bookId);
 
         try{
             //경로에 bookId 담아서 보내기
             const response = await axios.post(`/api/mypage/wishlist/save?${UrlSearchParams.toString()}`,{bookId:bookId});
 
-           console.log("찜목록 페치 응답",response);
+          // console.log("찜목록 페치 응답",response);
 
 
             if(response.status === 200){
@@ -105,7 +105,7 @@ const WishBtn = ({wishIds,setWishIds,bookId}) =>{
                 if(response.status === 200) {
                     // console.log("찜목록 페치요청 보내는 듕");
                     // console.log("엑시오스 찜목록 버튼",response.status);
-                    wishFetch(bookId);
+                    await wishFetch(bookId);
                 }
             }
 

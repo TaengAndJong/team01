@@ -7,6 +7,7 @@ import com.example.team01.common.exception.BookNotFoundException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
+import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CategoryVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -113,7 +114,7 @@ public class AdminBookController {
                                                    @RequestParam(required = false) String searchType,
                                                  @RequestParam String keyword,
                                                  @RequestParam(defaultValue = "1") int page,
-                                                 @RequestParam(defaultValue = "10") int pageSize,
+                                                 @RequestParam(defaultValue = "6") int pageSize,
                                                  HttpServletRequest request){
             log.info("도서 목록 searchkeyword API 호출됨");
             log.info("bookType --------------------: {}",bookType);
@@ -140,10 +141,16 @@ public class AdminBookController {
                 fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
                 log.info("다음--검색 책목록:{}", adminBookVO);
             }
-            log.info("result -----------------: {}",bookList);
 
+            Map<String, Object> result = new HashMap<>();
+            result.put("items", bookList);
+            result.put("currentPage", pagination.getCurrentPage());
+            result.put("pageSize", pagination.getPageSize());
+            result.put("totalPages", pagination.getTotalPages());
+            result.put("totalRecord", pagination.getTotalRecord());
+            log.info("result -----------------: {}",bookList);
             //응답 반환
-            return  ResponseEntity.ok(bookList);
+            return  ResponseEntity.ok(result);
 
         }
 
@@ -243,6 +250,18 @@ public class AdminBookController {
 
             int result = bookService.deleteBooks(bookIds);
 
+            if (result > 0) {
+                // 삭제 성공시 데이터 반환
+                //전체도서 데이터 조회 후 반환값에 담아주기
+                
+                //프론트로 반환
+                return ResponseEntity.ok(Map.of(
+                        "message", "삭제 완료",
+                        "deletedCount", result
+                ));
+            }else{
+
+            }
             return ResponseEntity.ok(Map.of(
                     "message", "삭제 완료",
                     "deletedCount", result
