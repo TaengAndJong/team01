@@ -238,7 +238,7 @@ public class AdminBookController {
 //                                        @RequestParam(required = false) String bookType,
 //                                        @RequestParam(required = false) String searchType,
 //                                        @RequestParam String keyword,
-                                        @RequestParam(defaultValue = "1") int page,
+                                        @RequestParam(defaultValue = "1", name = "currentPage") int page, // 넘어오는 파라미터 명이 다르면 name 설정해주기
                                         @RequestParam(defaultValue = "6") int pageSize,
                                         HttpServletRequest request
                                         ) {

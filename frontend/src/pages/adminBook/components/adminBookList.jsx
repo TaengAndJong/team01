@@ -87,17 +87,17 @@ const AdminBookList = () => {
            // console.log("도서 삭제 목록 응답 데이터",response.data);
           const data = response.data;
             onDelete(data.items);// 삭제이후에 새로 변경된 bookData 로 상태갱신
-           // onInit(data.items);
             console.log("삭제 응답 :response", data);
-          //페이지네이션 갱신
-            setPaginationInfo({
-              currentPage: data.currentPage ?? paginationInfo.currentPage,
-              pageSize: data.pageSize ?? paginationInfo.pageSize,
-              totalPages: data.totalPages ?? paginationInfo.totalPages,
-              totalRecord: data.totalRecord ?? paginationInfo.totalRecord,
-            });
+            //페이지네이션 갱신
+            if (data.items.length === 0 && paginationInfo.currentPage > 1) {
+              const newPage = paginationInfo.currentPage - 1;
+              setPaginationInfo((prev) => ({ ...prev, currentPage: newPage }));
+              onChangePageHandler(newPage); // 👉 새 페이지로 데이터 재요청
+            } else {
+              onChangePageHandler(paginationInfo.currentPage); // 👉 현재 페이지 다시 불러오기
+            }
 
-            //삭제확인 알림
+        //삭제확인 알림
             openModal({
               modalType:"default",
               content: <><p>{`${response.data.message}`}</p></>,
