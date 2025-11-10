@@ -186,7 +186,7 @@ const TapMenuStockComponent = () => {
         type={"button"}
         title={"신규도서 더보기"}
       >
-        <strong className="ps-5">+</strong>
+        <strong className="p-2">+</strong>
       </Link>
       {/*pagination*/}
       <Pagination

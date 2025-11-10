@@ -133,9 +133,11 @@
 }
 
 .table-container.newbook {
+  position: relative;
 }
 
 .table-container.bookstock {
+  position: relative;
 }
 
 /* 제목 */
@@ -169,7 +171,9 @@
 /* gobooklist */
 .gobooklist {
   font-size: 32px;
-  align-items: right;
+  top: 12%;
+  right: 40px;
+  position: absolute;
 }
 
 /* 테이블 */
