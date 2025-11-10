@@ -136,14 +136,6 @@ const TapMenuNewBookComponent = () => {
             {category}
           </button>
         ))}
-        <Link
-          to="/admin/book/bookList"
-          className="gobooklist"
-          type={"button"}
-          title={"신규도서 더보기"}
-        >
-          <strong className="ps-5">+</strong>
-        </Link>
       </div>
 
       {/* 테이블 */}
@@ -171,10 +163,13 @@ const TapMenuNewBookComponent = () => {
                       i +
                       1}
                   </td>
-                  <td
-                    onClick={() => navigate(`book/bookDetail/${book.bookId}`)}
-                  >
-                    <span>{book.bookName}</span>
+                  <td>
+                    <Link
+                      to={`book/bookDetail/${book.bookId}`}
+                      title={`${book.bookName} 상세 정보 보기`}
+                    >
+                      <span>{book.bookName}</span>
+                    </Link>
                   </td>
                   <td>{book.author}</td>
                   <td>{book.publishDate}</td>
@@ -196,6 +191,15 @@ const TapMenuNewBookComponent = () => {
           </tbody>
         </table>
       </div>
+      <Link
+        to="/admin/book/bookList"
+        className="gobooklist"
+        type={"button"}
+        title={"신규도서 더보기"}
+      >
+        <strong className="p-2">+</strong>
+      </Link>
+
       {/*pagination*/}
       <Pagination
         paginationInfo={bookData[activeTab].pagination}
