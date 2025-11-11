@@ -101,28 +101,7 @@
     마이바티스가 #{}바인딩 변수를 사용해서 문자열을 치환하면 varchar 타입으로 변환해 char 타입일 경우 인식이
     안될 수도 있음. ==> cast 사용해도 안되는 경우에는 ??
     -->
-<!--    <select id="searchBook" resultType="AdminBookVO" parameterType="SearchConditionVO">-->
-<!--        select   trim("bookId") as "bookId"-->
-<!--             , "bookCateNm"-->
-<!--             , "bookCateDepth"-->
-<!--             , "bookName"-->
-<!--             , "bookDesc"-->
-<!--             , "author"-->
-<!--             , "bookPrice"-->
-<!--             , "stock"-->
-<!--             , "stockStatus"-->
-<!--             , "publishDate"-->
-<!--             , "roleId"-->
-<!--             , "cateId"-->
-<!--             , "bookImgPath"-->
-<!--             , "writer"-->
-<!--             , "createDate"-->
-<!--        from book-->
-<!--        <include refid="searchFrag" />-->
-<!--        ORDER BY "bookId" DESC-->
 
-<!--    </select>-->
-<!--    OFFSET #{offset} ROWS FETCH NEXT #{pageSize} ROWS ONLY-->
 
     <insert id="createBook" parameterType="AdminBookVO">
         <selectKey keyProperty="bookId" resultType="String" order="BEFORE">
@@ -176,13 +155,6 @@
         </foreach>
     </select>
     <!--  도서존재유무 유효성 검사 후 존재하고 있는 데이터 삭제 쿼리   -->
-<!--    <delete id="deleteBooks" parameterType="list">-->
-<!--        DELETE FROM book-->
-<!--        WHERE trim("bookId") IN-->
-<!--        <foreach collection="existBookIds" item="bookId" open="(" separator="," close=")">-->
-<!--           #{bookId}-->
-<!--        </foreach>-->
-<!--    </delete>-->
 
     <!--도서삭제 시, 업데이트쿼리로 상태값 변경하여 삭제처리, 참조키로 연결된 데이터처리(클라이언트의 찜목록, 장바구니 등 ) -->
     <update id="deleteBooks" parameterType="list">
@@ -194,6 +166,12 @@
         </foreach>
     </update>
 
+    <!--도서에 등록된 이미지 삭제시 갱신 쿼리 -->
+    <update id="deleteBookFiles" parameterType="String">
+        update book
+        set "bookImgPath" = #{bookImgPath}
+        WHERE "bookId"=#{bookId}
+    </update>
 
     <update id="updateBook" parameterType="AdminBookVO">
         UPDATE book
@@ -250,11 +228,11 @@
         WHERE "bookId" = #{bookId}
     </update>
 
-
-    <update id="deleteBookImgPath" parameterType="list">
-        update table book
+    <!-- 도서 등록, 수정시 데이터베이스에 저장될 이미지 경로 갱신쿼리-->
+    <update id="updateBookImgPath" parameterType="list">
+        update  book
         <foreach collection="existBookIds" item="bookId" open="(" separator="," close=")">
-            set bookImgpath =   #{bookImgPath}
+            set bookImgpath =  #{bookImgPath}
         </foreach>
         WHERE "bookId" = #{bookId}
     </update>

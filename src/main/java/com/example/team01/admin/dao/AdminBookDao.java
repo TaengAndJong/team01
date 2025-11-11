@@ -35,10 +35,12 @@ public interface AdminBookDao {
 //                                        @Param("keyword") String keyword );
 
     //수정시이미지가 삭제되었을 경우
-    public int deleteBookImgPath(@Param("bookImgPaths") List<String> bookImgPaths);
+    public int updateBookImgPath(@Param("bookImgPaths") List<String> bookImgPaths);
 
    //totalRecode
    public int totalRecord(@Param("pagination") Pagination pagination);
+
+   //
 
 
 }

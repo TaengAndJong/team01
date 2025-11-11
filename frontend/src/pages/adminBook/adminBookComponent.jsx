@@ -3,6 +3,7 @@ import React, { useEffect, useReducer, useState } from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import { useMenu } from "../common/MenuContext.jsx";
 import { menuNavi } from "../../util/menuNavi.jsx";
+import {useModal} from "../common/modal/ModalContext.jsx";
 
 // 주소에 해당하는 제목 데이터 가져와서 레프트 메뉴 이름과 제목열에 데이터 나열하기
 
@@ -14,29 +15,25 @@ function reducer(state, action) {
   // console.log("배열이냐 객체냐", Array.isArray(action.data));
 
   switch (action.type) {
-    case "INIT":
+    case "INIT": //초기데이터
       if (action.data) {
         console.log("INIT action", action.data, Array.isArray(action.data));
       }
       // 서버에서 단일객체{} 또는 여러 개의 객체가  action.data로 넘어오면 배열에 담아줘야 함.
       return Array.isArray(action.data) ? action.data : [action.data];
-    case "CREATE":
+    case "CREATE"://생성
       if (action.data) {
         console.log("create action", action.data, Array.isArray(action.data)); // 객체로 넘어옴
       }
       return [action.data, ...state]; // 새 객체(action.data) + 기존 배열, action.data는 단일객체
-    case "DELETE":
-      console.log("action:", action);
-      console.log("action.data:", action.data);
-      if (action.data) {
+    case "DELETE"://삭제
 
+      if (action.data) {
         console.log("delete action", action.data);
         console.log("delete Array", Array.isArray(action.data));
       }
-      // action.data가 배열이고(객체일경우, key가 없는 데이터일경우, 키로 접근할수 없음!)
-      return state.filter((item) => {
-        return !action.data.includes(String(item.bookId));
-      });
+      //서버에서 재조회된 items 배열로 전체 교체
+      return Array.isArray(action.data) ? [...action.data] : state;
 
     case "UPDATE":
       if (action.data) {
@@ -62,16 +59,27 @@ const AdminBook = () => {
   //init 데이터가 변경이 감지되면 초기값변경하기위해 기본값 false
   //const [isDataLoaded, setIsDataLoaded] = useState(false); //데이터가 로드되기 전에 컴포넌트가 먼저 렌더링되도록 하기 위함
   const [bookdata, dispatch] = useReducer(reducer, null);
-
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
   //pagination
-
   const [paginationInfo, setPaginationInfo] = useState({
     currentPage: 1,
     totalPages: 0,
     totalRecord: 0,
     pageSize: 6,
   });
+  //검색상태 조건분기(검색중인지 아닌지)
+  const [isSearching, setIsSearching] = useState(false);
+  //search
+  //검색어 필터 상태관리 ==> 초기값 빈 배열!
+  const [search, setSearch] = useState({
+    bookType: "ALL", // 전체 / 국내도서 / 국외도서
+    searchType: "bookName", // bookName(도서명), author(저자)
+    keyword: "", // 검색어
+  });
+
+  //modal
+  const {openModal,closeModal} = useModal();
+
 
   let adminMenuTree = menuNavi(menu?.adminList);
   let adminHome = menu?.adminList?.find(
@@ -89,9 +97,10 @@ const AdminBook = () => {
       const params = new URLSearchParams({
         currentPage: paginationInfo.currentPage, // 클라이언트가 결정하는 현재페이지, 기본값은 1
         pageSize: paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
+        ...search,//검색조건을 포함하도록 수정? 왜 ?
       });
 
-      //  console.log("params.toString()", params.toString());
+       console.log("params.toString()", params.toString());
 
       // 서버로 응답 요청
       const response = await fetch(
@@ -123,17 +132,89 @@ const AdminBook = () => {
       });
     } catch (err) {
       console.log("도서 데이터 불러오기 실패", err); // 오류 처리
+      openModal({
+        modalType:"error",
+        content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>
+      });
+
     }
   }; //fetch end
 
+
+  //search 핸들러
+  const handleSearch = async () => {
+    //search 초기 데이터 URLsearchParam으로 가공
+    console.log("search--fetch", search);
+    //search 초기 데이터 URLsearchParam으로 가공
+    const param = new URLSearchParams({
+      ...search,
+      currentPage: paginationInfo.currentPage, // 현재 페이지 포함
+      pageSize: paginationInfo.pageSize,
+    });
+    console.log("search--param", param); //URLSearchParam {size: 3}
+    const paramString = param.toString();
+    console.log("search--paramString", paramString);  //type=DOMESTIC&keyword=%ED%8C%A8%ED%8B%B0&field=category
+
+    //검색버튼 누르면 서버로 검색 필터 전송
+    try {
+      setIsSearching(true); // 검색 중 상태로 변경
+      //URLSearchParam 객체르 사용해서 url에 쿼리스트링으로 값을 담아 보내기때문에
+      // Content-Type,body 사용할 필요 없음 (body는 클라이언트가 데이터를 서버로 보낼 때 필요)
+      const response = await fetch(`/api/admin/book/bookList?${paramString}`, {
+        method: "POST",
+      });
+
+      // 요청 성공실패
+      if (!response.ok) {
+        console.log("통신에러", response.status);
+        throw Error(response.statusText);
+      }
+      //요청 성공
+      const data = await response.json();
+      console.log("search---------------", data);
+      //setbookData에 데이터 갱신 처리 해주어함?
+      onInit(data.items);
+      setPaginationInfo((prev)=>({
+        ...prev,
+        currentPage:  paginationInfo.currentPage,
+        totalPages: data.totalPages ?? 1,
+        totalRecord: data.totalRecord ?? data.items.length ?? 0
+      }))
+
+    } catch (e) {
+      console.log("검색실패", e);
+    }
+  };
+
+
+  //페이지버튼 클릭시 실행되는 핸들러
+  const onChangePageHandler = (page) => {
+    //console.log("changePage----", page);
+    //pagination의 currentPage 값 갱신
+    setPaginationInfo((prev) => ({
+      ...prev,
+      currentPage: page,
+    }));
+  };
+
+  // 첫 렌더링 시 기본 목록 조회
   useEffect(() => {
-    // 마운트 시 서버 또는 db에서 데이터를 받아온 후 onInit을 실행해야 함
     initFetch();
+  }, []);
+
+  useEffect(() => {
+    // 검색 중이면 전체목록조회를 막음
+    if (isSearching) {
+      handleSearch(); // 검색 상태일 때는 검색 API 호출 유지
+    } else {
+      initFetch(); // 기본 목록 상태일 때만 전체 조회
+    }
 
   }, [paginationInfo.currentPage]); // 마운트 시에 한 번실행 됨
 
+  //초기데이터 설정
   const onInit = (bookdata) => {
-    //  console.log("onInit", bookdata);
+    console.log("onInit", bookdata);
     dispatch({
       type: "INIT",
       data: bookdata,
@@ -148,12 +229,12 @@ const AdminBook = () => {
     });
   };
 
-  const onDelete = (bookIds) => {
-    console.log("deleteBook----", bookIds);
-    console.log("deleteBook", Array.isArray(bookIds));
+  const onDelete = (newBookList) => {
+    console.log("deleteBook----", newBookList);
+    console.log("deleteBook", Array.isArray(newBookList));
     dispatch({
       type: "DELETE",
-      data: bookIds,
+      data: newBookList,
     });
   };
 
@@ -165,16 +246,6 @@ const AdminBook = () => {
     });
   };
 
-  //페이지버튼 클릭시 실행되는 핸들러
-  const onChangePageHandler = (page) => {
-    //console.log("changePage----", page);
-    //pagination의 currentPage 값 갱신
-    setPaginationInfo((prev) => ({
-      ...prev,
-      currentPage: page,
-    }));
-
-  };
 
   // 상세페지이 클래스 추가기준
   const location = useLocation().pathname;
@@ -243,9 +314,7 @@ const AdminBook = () => {
                   <BookDispatchContext.Provider
                       value={{ onInit, onCreate, onDelete, onUpdate }}
                   >
-                    <PaginationContext.Provider
-                        value={{ paginationInfo, setPaginationInfo,onChangePageHandler }}
-                    >
+                    <PaginationContext.Provider value={{ paginationInfo,setPaginationInfo,onChangePageHandler,search,setSearch,handleSearch}}>
                       <Outlet />
                     </PaginationContext.Provider>
                   </BookDispatchContext.Provider>

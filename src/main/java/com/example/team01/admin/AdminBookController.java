@@ -7,6 +7,7 @@ import com.example.team01.common.exception.BookNotFoundException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
+import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CategoryVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -113,7 +114,7 @@ public class AdminBookController {
                                                    @RequestParam(required = false) String searchType,
                                                  @RequestParam String keyword,
                                                  @RequestParam(defaultValue = "1") int page,
-                                                 @RequestParam(defaultValue = "10") int pageSize,
+                                                 @RequestParam(defaultValue = "6") int pageSize,
                                                  HttpServletRequest request){
             log.info("도서 목록 searchkeyword API 호출됨");
             log.info("bookType --------------------: {}",bookType);
@@ -140,10 +141,16 @@ public class AdminBookController {
                 fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
                 log.info("다음--검색 책목록:{}", adminBookVO);
             }
-            log.info("result -----------------: {}",bookList);
 
+            Map<String, Object> result = new HashMap<>();
+            result.put("items", bookList);
+            result.put("currentPage", pagination.getCurrentPage());
+            result.put("pageSize", pagination.getPageSize());
+            result.put("totalPages", pagination.getTotalPages());
+            result.put("totalRecord", pagination.getTotalRecord());
+            log.info("result -----------------: {}",bookList);
             //응답 반환
-            return  ResponseEntity.ok(bookList);
+            return  ResponseEntity.ok(result);
 
         }
 
@@ -227,28 +234,72 @@ public class AdminBookController {
 
 
     @PostMapping("/bookDelete")
-    public ResponseEntity<?> deleteBook(@RequestBody List<String> bookIds) {
+    public ResponseEntity<?> deleteBook(@RequestBody List<String> bookIds,
+//                                        @RequestParam(required = false) String bookType,
+//                                        @RequestParam(required = false) String searchType,
+//                                        @RequestParam String keyword,
+                                        @RequestParam(defaultValue = "1", name = "currentPage") int page, // 넘어오는 파라미터 명이 다르면 name 설정해주기
+                                        @RequestParam(defaultValue = "6") int pageSize,
+                                        HttpServletRequest request
+                                        ) {
         //1) 유효성검사  ==> 삭제할 도서 아이디가  데이터베이스에 존재하는지에 대한 여부
         //2) 예외 처리: 도서가 존재하지 않거나 삭제가 불가능한 상태일 경우 예외 던지기
         log.info("삭제할 ID들: :{}",bookIds ); // [1, 2, 3]
+        log.info("도서 목록 searchkeyword API 호출됨");
+//        log.info("bookType --------------------: {}",bookType);
+//        log.info("searchType -------------------: {}",searchType);
+//        log.info("keyword -----------------: {}",keyword);
 
         if (bookIds == null || bookIds.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of(
-                    "error", "삭제할 ID가 없습니다."
+                    "message", "삭제할 ID가 없습니다."
             ));
         }
 
+        Map<String, Object> result = new HashMap<>();
         //Advice 미사용 시, 예외에 대해서 try-catch 구문을 사용해서 처리해주기
         try {
 
-            int result = bookService.deleteBooks(bookIds);
+            //페이지 계산 클래스 불러오기
+            Pagination pagination = new Pagination(page, pageSize);
+            log.info("pagination -----------------: {}",pagination);
 
-            return ResponseEntity.ok(Map.of(
-                    "message", "삭제 완료",
-                    "deletedCount", result
-            ));
+            //검색필터 설정해주기
+//            pagination.addDetailCondition("bookType", bookType);
+//            pagination.addDetailCondition("searchType", searchType);
+//            pagination.addDetailCondition("keyword", keyword);
+//            log.info("DetailContion-----:{}",pagination.getDetailCondition());
+
+            int delResult = bookService.deleteBooks(bookIds);
+            log.info("delResult -----------------: {}",delResult);
+
+            if (delResult > 0) {
+                // 삭제 성공시 데이터 반환
+                //전체도서 데이터 조회  : 검색 파라미터 넘겨준 후 반환값에 담
+                List<AdminBookVO> bookList = bookService.getAllBooks(pagination);
+                log.info("bookList -----------------: {}",bookList);
+                // 레코드 순회
+                for (AdminBookVO adminBookVO : bookList) {
+                    fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+                }
+                //남은 도서가 없을경우
+                if (bookList.isEmpty()) {
+                    result.put("message", "삭제 완료. 남은 도서가 없습니다.");
+                } else {
+                    result.put("message", "삭제 완료");
+                }
+
+                result.put("items", bookList);
+                result.put("currentPage", pagination.getCurrentPage());
+                result.put("pageSize", pagination.getPageSize());
+                result.put("totalPages", pagination.getTotalPages());
+                result.put("totalRecord", pagination.getTotalRecord());
+                result.put("deletedCount", delResult);
+                log.info("result -----------------: {}",result);
+
+            }
+
         } catch (BookNotFoundException ex) {
-
             // 여기서 예외를 직접 처리!
             return ResponseEntity.badRequest().body(Map.of(
                     "error", "존재하지 않는 도서가 포함되어 있습니다.",
@@ -256,7 +307,8 @@ public class AdminBookController {
                     "message", ex.getMessage()
             ));
         }
-
+        //프론트로 응답 반환
+        return  ResponseEntity.ok(result);
 
     }
 

@@ -112,10 +112,19 @@ public class BookController {
             fileUtils.changeImgPath(bookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
             log.info("다음--검색 책목록:{}", bookVO);
         }
-        log.info("result -----------------: {}",bookList);
+        //currentPage=1, pageSize=6, startRow=1, endRow=0, totalRecord=0, totalPages=0 재설정필요 ?
+        Map<String, Object> result = new HashMap<>();
+        result.put("items", bookList);
+        result.put("currentPage", pagination.getCurrentPage());
+        result.put("pageSize", pagination.getPageSize());
+        result.put("totalPages", pagination.getTotalPages());
+        result.put("totalRecord", pagination.getTotalRecord());
+        log.info("Search 페이지네이션 result -----------------: {}",result);
+
+        //검색결과가  0 이면 알림메시지 반환
 
         //응답 반환
-        return  ResponseEntity.ok(bookList);
+        return  ResponseEntity.ok(result);
 
     }
 

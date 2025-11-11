@@ -57,7 +57,7 @@ public class FileUtils {
 
     // 여러 파일 저장 메서드
 //날데이터 받아서 문자열로 경로반환 저장메서드
-    public String saveFile(List<MultipartFile> files,String middlePath) throws FileNotFoundException {
+    public String saveFile(List<MultipartFile> files,String middlePath) {
         log.info("saveFile 파일 저장 시작 파일 객체:{}", files);
         String bookImgPath=""; //반환할 데이터베이스 텍스트경로
 
@@ -237,8 +237,8 @@ public class FileUtils {
     }
 
 
-    //실서버에 저장된 이미지파일 삭제만
-    public String deleteFiles(String fileNames,String middlePath) {
+    //실서버에 저장된 이미지파일 삭제( + 데이터베이스 bookImgPath 에서도 해당 파일 삭제(갱신) 해줘야 데이터 정합성이 유지됨)
+    public String deleteFiles(String fileNames,String middlePath) { 
         log.info("fileNames----------del:{}",fileNames);
 
         // 삭제할 파일 레코드 아이디 받아오기 ==> List<String> fileNames
@@ -257,8 +257,6 @@ public class FileUtils {
                     }
                 });
 
-
-
-       return "이미지파일 삭제";
+       return "서버에 저장된 이미지파일 삭제완료 ";
     }
 }
