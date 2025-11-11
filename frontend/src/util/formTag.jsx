@@ -12,20 +12,20 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
        switch (type) {
            case "text":
                return (
-                   <input id={id} name={name} type={type} value={value || ""} onChange={onChange}
+                   <input id={id} name={name} type={type} value={value || ""} onChange={onChange}  ref={ref}
                           className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required} />
            );
            case "checkbox":
            case "radio":
-               return <input id={id} name={name} type={type} value={value} checked={checked} onChange={onChange}
+               return <input id={id} name={name} type={type} value={value} checked={checked} onChange={onChange}   ref={ref}
                              className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required} />
            case "textarea":
-               return <textarea id={id} name={name} value={value} onChange={onChange}
+               return <textarea id={id} name={name} value={value} onChange={onChange}  ref={ref}
                                 className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required}/>
            case "password":
                return (
                    <input
-                       id={id} name={name} type={type} value={value || ""} onChange={onChange}
+                       id={id} name={name} type={type} value={value || ""} onChange={onChange}  ref={ref}
                        className={msg ? "msg form-control" : className}
                        required={required}
                        readOnly={readOnly}
@@ -43,6 +43,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                        type={type}
                        value={value}
                        onChange={onChange}
+                       ref={ref}
                        checked={checked}
                        className={msg ? "msg form-control" : className}
                        readOnly={readOnly}
@@ -56,6 +57,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                    <DatePicker
                        selected={value}
                        onChange={onChange}
+                       ref={ref}
                        dateFormat="yyyy.MM.dd"
                        locale={ko}
                        className={msg ? "msg form-control" : className}
@@ -73,6 +75,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                        type="text"
                        value={value || ""}
                        onChange={onChange}
+                       ref={ref}
                        checked={checked}
                        className={msg ? "msg form-control" : className}
                        disabled={disabled}
