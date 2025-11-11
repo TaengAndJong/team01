@@ -4,7 +4,7 @@ import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
 const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모한테 받은 props 객체 기입
-
+    console.log("defaultData-------------",defaultData);
 
     //모달
     const {openModal,closeModal} = useModal();
@@ -16,7 +16,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
     // defaultData 가 있으면, bookImg 재설정, 이전데이터를 유지하기위한 prevState 파라미터, defaultData가 변경될때마다 실행해야하니까 의존성배열 추가
     useEffect(() => {
 
-        console.log("--1",bookImg);
+        console.log("fileUpload--1",bookImg);
         console.log("defaultData-------------",defaultData);
         console.log("defaultData bookImg : newImg-------------",defaultData?.bookImg);
 
@@ -24,6 +24,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         // .split() 함수를 사용해 문자열을 배열로 반환 ==> 키가 name인 객체로 담아야함
         //existing은 등록을 통해 서버에 존재하는 파일을 담은 객체
       if(defaultData?.bookImgPath){ // 수정페이지에서 기존 이미지 데이터가 있으면 조건
+          console.log("수정페이지 bookImgPath")
           setBookImg((prev)=>({
               ...prev,
               existing: typeof defaultData.bookImgPath === 'string'? defaultData.bookImgPath.split(',').map((fileName) => ({ name: fileName }))
@@ -40,7 +41,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         //이벤트요소로 파일 객체에 접근, 파일 여러개 지정할 경우 배열로 변환필요
         const selectedFiles = Array.from(e.target.files);
         // 이미지 파일 확장자만 배열로
-        const fileMimeType = ["image/png", "image/jpeg", "image/jpg", "image/gif"]
+        const fileMimeType = ["image/png", "image/jpeg", "image/jpg", "image/gif","image/svg"]
         // 이미지 확장자 파일 파입이 아닌경우 filter 함수로 필터링
         const invalidFiles = selectedFiles.filter(file => !fileMimeType.includes(file.type));
 
@@ -141,10 +142,10 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
             console.log("updatedNew", updatedNew);
 
             // 최종데이터객체에 반영
-            // setDefaultData(prevData => ({
-            //     ...prevData,
-            //     bookImgPath: (updatedExisting?.map(f => f.name).join(",")) || ""
-            // }));
+            setDefaultData(prevData => ({
+                ...prevData,
+                bookImgPath: updatedExisting // 삭제된 이미지를 제외하고 새로 갱신
+            }));
 
 
             return {
@@ -168,14 +169,14 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         });
     }, [bookImg.existing]);
 
-    // 파일 리스트 출력
+    // 파일 리스트 출력 ==> noimg가 넘어오면 목록에 출력 x
     const renderFileList = (files, type) => (
             <>
-                {files.map((file, index) => (
-                    <div key={`${file.name}`}
+                {files.filter(file => !/noimg/i.test(file.name || file)).map((file, index) => (
+                    <div  key={`${file.name || file}`}
                         className="file-row d-flex justify-content-start align-items-center w-100 mt-1 py-1 border-bottom">
                         <label className="form-title" htmlFor={`file${index+ 1}`}>업로드목록.{index + 1}</label>
-                        <span className="d-inline-block" id={`file${index+ 1}`}>{file.name}</span>
+                        <span className="d-inline-block" id={`file${index+ 1}`}> {file.name || file}</span>
                         <button type="button" className={"btn btn-danger ms-auto"}
                                 onClick={() => handleRemoveFile(file, type)}>
                             삭제
@@ -200,7 +201,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
                      onChange={handleImgUpload}
                      multiple={true}
             />
-            <span> </span>
+
             {/* 기존 이미지 리스트 */}
             {bookImg?.existing?.length > 0 && renderFileList(bookImg.existing, "existing")}
             {/* 새로 추가된 이미지 리스트 */}

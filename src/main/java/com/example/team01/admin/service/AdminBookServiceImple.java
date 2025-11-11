@@ -111,36 +111,27 @@ public class AdminBookServiceImple implements AdminBookService {
 
         if(book != null) {
             log.info("createBook에 파일 객체도 담겨서 넘어옴:{}", book );
-            log.info("book.file?????:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
+            log.info("createBook book.file 새로추가된 도서 객체:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
 
             //파일 유틸 클래스에서 이미지객체 존재 여부에 대해 검증하고 예외처리하기때문에 try - catch 구문 사용, 예외처리 없다면 사용하지 않아도 된다고 함
-            try{
-                bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
-                log.info("bookImgPath--------------------- 파일 유틸 반환값 확인: {}",bookImgPath);
 
-                //반환된 bookImgPath 데이터베이스에 전달할 객체설정
-                book.setBookImgPath(bookImgPath);
-
-            }catch (FileNotFoundException e){
-                log.error("파일이 존재하지 않음: {}", e.getMessage());
-                // 기본 이미지 경로로 대체하거나 에러 응답 처리
-                book.setBookImgPath(fileUtils.getDefaultImgPath());
-
-            } catch (Exception e){
-                log.info("파일 저장 중  Exception :{}",e.getMessage());
-                log.error("파일 저장 중 Exception 발생", e);
-                e.printStackTrace();
-                // 기본 이미지 경로로 대체하거나 에러 응답 처리
-                book.setBookImgPath(fileUtils.getDefaultImgPath());
-            }
-
+                if(book.getBookImg() != null && !book.getBookImg().isEmpty()){
+                    bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
+                    log.info("bookImgPath--------------------- 파일 유틸 반환값 확인: {}",bookImgPath);
+                    //반환된 bookImgPath 데이터베이스에 전달할 객체설정
+                    book.setBookImgPath(bookImgPath);
+                }else{
+                    // 등록된 이미지가 없을 경우 noImg로 경로 설정
+                    book.setBookImgPath(fileUtils.getDefaultImgPath());
+                }
 
             //파일 유틸 끝
-            log.info(" 생성 시 객체 확인 - 파일객체 확인하기 -------------------------------------:{} ",book);
+            log.info(" 도서 등록 객체확인 -------------------------------------:{} ",book);
+            log.info(" 도서 등록 이미지객체확인 -------------------------------------:{} ",book.getBookImgPath());
 
             //공통처리부분
             cnt = dao.createBook(book); // 처리가 되면 값이 1로 변경
-            log.info("cnt------------------- : {} ", cnt);
+            log.info("도서 등록 cnt : {} ", cnt);
             return cnt; // 1 반환
         }
         return cnt;
@@ -149,7 +140,7 @@ public class AdminBookServiceImple implements AdminBookService {
     @Override
     public int updateBook(AdminBookVO book) {
 
-        log.info("updateBook-----------:{}",book);
+        log.info("수정 updateBook-----------:{}",book);
 
         int cnt =0;
         // 여기서부터 노이미지 파일 유틸에 들어가야함, 받을 파라미터는 BookVO book
@@ -157,49 +148,62 @@ public class AdminBookServiceImple implements AdminBookService {
 
         if(book != null) { // 도서 객체가 있는지 확인
             log.info("updateBook 파일 객체도 담겨서 넘어옴:{}", book );
-            log.info("book.file?????:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
-
+            log.info("수정 updateBook book.file새로추가된:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
             //파일 유틸 클래스에서 이미지객체 존재 여부에 대해 검증하고 예외처리하기때문에
             // try - catch 구문 사용, 예외처리 없다면 사용하지 않아도 됨
-            try{
+
                 // 도서 이미지가 존재 새로 추가되어 비어있지 않은 경우
                 if(book.getBookImg() != null && !book.getBookImg().isEmpty()){
-                    //들어온 파일을 서버에 저장하는역할
+                    //들어온 파일을 서버에 저장하는역할 ==> 내부에서 빈값이면 noImg로 대체해서 반환해줌
                     bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
-                    log.info("bookImgPath--------------------- 파일 유틸 반환값 확인: {}",bookImgPath);
+                    log.info("실서버에 저장된 파일 객체 값: {}",bookImgPath);
 
                     //기존 bookImgPath가 있을경우 결합 후 설정 필요
                     String updateBookImgPath="";
-                    //1.기존  해당 등록도서의 bookImgPath 조회해오기
+                    //1.기존  해당 등록도서의 이전 bookImgPath 조회해오기
                      String preBookImgPath= dao.selectOneBook(book.getBookId()).getBookImgPath();
-                     log.info("preBookImgPath : {} ",preBookImgPath);
-                      if(preBookImgPath !=""){
-                          log.info("업데이트 북이미지 경로 생성 bookImgPath : {} ",bookImgPath);
-                          // 추가된 경우 BookImgPath 경로와 다시 결합 다시 설정
-                         updateBookImgPath    = String.join(",",preBookImgPath,bookImgPath);
-                         log.info("updateBookImgPath : {} ",updateBookImgPath);
-                      }
+                     log.info("이전 도서 이미지 경로 존재 여부 확인 : {} ",preBookImgPath);
 
+                     //preBookImgPath가 이미 noImg를 포함하고 있다면 조건 분기
+                    if(preBookImgPath == null && preBookImgPath.trim().isEmpty()){
+                        log.info("업데이트 북이미지 경로 생성 : 혹시모를 null값 방어코드 ");
+                        //디비 조회해온 이미지가 없고, 빈값이면 가져온 이미지로 대체
+                        updateBookImgPath = bookImgPath;
+                    }else if(preBookImgPath.toLowerCase().contains("noimg")){
+                        log.info("업데이트 북이미지 경로 생성 : 노이미지 >> 여기까지 조건문이 들어오나 ?  ");
+                        //대소문자 구분 없이 'noimg' 포함되어 있으면 새 경로로 대체(노이미지 삭제)
+                        updateBookImgPath = bookImgPath;
+                    }else{
+                        log.info("업데이트 북이미지 경로 생성 bookImgPath : {} ",bookImgPath);
+                        //디비조회한 이미지가 noimg가 아니고, 이전 값이 존재하는 경우  BookImgPath 경로와 다시 결합 후 반환
+                        updateBookImgPath = String.join(",",preBookImgPath,bookImgPath);
+                    }
+                    log.info("최종 이미지 경로 updateBookImgPath : {} ",updateBookImgPath);
                     //반환된 bookImgPath 데이터베이스에 전달할 객체설정
                     book.setBookImgPath(updateBookImgPath);
                 }else{
-                    // 새로 추가된 이미지가 없는 경우
-                    log.info("bookImgPath--------------------- 기존이미지패스: {}",book.getBookImgPath());
+                    // 새로 추가된 이미지가 없는 경우 ( 기존 도서 일부 또는 전체 삭제[bookImgPath = 빈값])
+                    log.info("새로 추가되지 않을 경우, 일부 삭제만 했을 경우 , 빈값일 경우도 여기서 처리 : {}",book.getBookImgPath());
+                    String preBookImgPath = book.getBookImgPath();
+                   if(preBookImgPath != null && !preBookImgPath.isEmpty()) { // 이미지를 전체 삭제했을 경우
+                       log.info("새로 추가되지 않을 경우, 일부 삭제만 했을 경우 처리 블록 : {}",preBookImgPath);
+                       //기존 bookImgPath 재설정
+                       book.setBookImgPath(preBookImgPath);
+                       log.info("새로 추가되지 않을 경우, 일부 삭제만 했을 경우: {}",book.getBookImgPath());
+                   }else{
+                       log.info("전체삭제: {}",book.getBookImgPath());
+                       book.setBookImgPath(fileUtils.getDefaultImgPath());
+                       log.info("전체삭제 했을 (빈값 일)경우 처리 블록  noImg처리: {}",book.getBookImgPath());
+                   }
                 }
-
-            } catch (Exception e){
-                log.info("파일 저장 중  Exception :{}",e.getMessage());
-                log.error("파일 저장 중 Exception 발생", e);
-                e.printStackTrace();
-                // 기본 이미지 경로로 대체하거나 에러 응답 처리 ( 기존이미지 유지)
-                book.setBookImgPath(fileUtils.getDefaultImgPath());
-            }
+                
             //파일 유틸 끝
-            log.info(" 도서수정 후 객체 확인 - 파일객체 확인하기 -------------------------------------:{} ",book);
+            log.info(" 도서수정 후 객체 확인 - 파일객체 확인하기 전체:{} ",book);
+            log.info(" 도서수정 후 객체 확인 - 파일객체 확인하기 bookImgPath:{} ",book.getBookImgPath());
 
             //공통처리부분
             cnt = dao.updateBook(book); // 처리가 되면 값이 1로 변경
-            log.info("도서수정 완료 cnt------------------- : {} ", cnt);
+            log.info("도서수정완료 cnt------------------- : {} ", cnt);
             return cnt; // 1 반환
         }
         return cnt; // false 일경우 0 반환
@@ -223,49 +227,28 @@ public class AdminBookServiceImple implements AdminBookService {
         }
         //존재하는 아이디 값만 넘겨서 삭제성공이면  cnt = 성공한 개수로 반환
 
-
         //서버에 저장된 이미지 삭제하기
         for(String bookId : existBookIds){
             AdminBookVO adminBookVO = dao.selectOneBook(bookId);
-            log.info("del img :{}", adminBookVO.getBookImgPath());
+            log.info("도서 삭제 :{}", adminBookVO.getBookImgPath());
             //noImg가 포함되어있지 않으면
             if(!adminBookVO.getBookImgPath().contains("noImg")){
-                //서버에서 삭제할 이미지파일 파라미터 넘겨주기
+
+                //서버에서 삭제할 이미지파일 파라미터 넘겨주기(실제파일 저장경로에서 삭제=물리삭제)
                 fileUtils.deleteFiles(adminBookVO.getBookImgPath(),"book");
+
+            }else{
+                log.info("NOImg 인 경우:{}", adminBookVO.getBookImgPath());
+                // noImg가 포함된 경우 실제 파일 삭제는 없음
+                //DB 상 bookImgPath를 기본 이미지 경로로 갱신 (일관성 유지)
             }
         }
-        //디비에서 레코드 삭제
+
+        //디비에서 레코드 삭제(delStatus로 로 관리해서 참조키관련 삭제관계 고려하지 않아도 됨 )
         cnt = dao.deleteBooks(existBookIds);
         log.info("delete cnt:{}",cnt);
         return cnt;
     }
 
 
-
-//    @Override
-//    public List<BookVO> searchBook(String type, String field, String keyword) {
-//
-//        List<BookVO> searchBookList = dao.searchBook(type,field,keyword);
-//        log.info("searchBookList-----------:{}",searchBookList);
-//
-//
-//        List<String> bookImgePaths = new ArrayList<>();
-//        //실제이미지 파일 클라이언트로 전송하는 로직
-//        //1.데이터베이스에서 도서 객체 조회
-//        for(BookVO bookVO : searchBookList){
-//            //한 행의 레코드 하나씩 조회
-//            log.info("bookVO-----------------------:{}",bookVO);
-//            //2. bookImgPath "," 기준으로 자르고 배열반환
-//            String[] getBookImg= bookVO.getBookImgPath().split(",");
-//
-//            if(bookVO.getBookImgPath()!=null || !bookImgePaths.isEmpty()){
-//                log.info("getBookImg ------------: {}",getBookImg);
-//            }
-//            /// 여기에서 bookVO객체 배열로변경해서 설정해야하는뎅
-//            bookVO.setBookImgList(Arrays.asList(getBookImg));
-//        }//end
-//
-//        //5. 전체 객체 반환하기
-//        return searchBookList;
-//    }
 }

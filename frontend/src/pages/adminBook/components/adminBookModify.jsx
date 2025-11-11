@@ -299,7 +299,14 @@ const AdminBookModify = () => {
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}
-                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} defualtData={modifyBookData} setDefaultData={setModifyBookData}/>
+                        {modifyBookData.bookId && (
+                            <FileUpload
+                                bookImg={bookImg}
+                                setBookImg={setBookImg}
+                                defaultData={modifyBookData}
+                                setDefaultData={setModifyBookData}
+                            />
+                            )}
                     </div>
                 </form>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
