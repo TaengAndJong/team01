@@ -204,6 +204,22 @@
   background-color: #bed297;
 }
 
+main:after{
+  content: "";
+  display: block;
+
+  position: absolute;
+  bottom: 205px;
+  left:0;
+  width:100%;
+  height:200px;
+  background-image: url("/assets/images/common/bgFram.png");
+  background-size:contain;
+  background-repeat: repeat-x;
+  background-position: left bottom;
+}
+
+
 /* 애니메이션 효과 */
 
 /* 깜빡임 애니메이션 정의 */

@@ -50,18 +50,7 @@
 .admin .footer{
 
   position: relative;
-  &:before{
-    position: absolute;
-    top:-100%;
-    left:0;
-    @extend %pseudoEL;
-    width:200%;
-    height:106%;
-    background-image: url("/assets/images/common/bgFram.png");
-    background-size:contain;
-    background-repeat: repeat-x;
-    background-position: left bottom;
-  }
+
 }
 
 .client .footer{

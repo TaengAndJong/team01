@@ -78,7 +78,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                 pagination={activeTab === naviId ? customPagination : false}
                 loop={ctrlViewCount+1}//
                 autoplay={{ delay: 2000, disableOnInteraction: false }}
-                slidesPerView={Math.min(4, slideData?.length || 1)}
+                slidesPerView={Math.min(5, slideData?.length || 1)}
                 // 총 보여지는 슬라이드 개수
                 slidesPerGroup={1}//넘어가는 슬라이드 개수
                 spaceBetween={20}
