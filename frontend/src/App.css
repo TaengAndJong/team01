@@ -814,12 +814,6 @@ header, .header-inner, .gnb {
   display: inline-block;
   width: 140px;
   height: 66px;
-  position: absolute;
-  left: 6rem;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 99;
-  padding: 12px 10px 8px 0px;
 }
 .logo > a, .logo em, .logo span, .logo strong {
   width: 100%;
@@ -859,6 +853,15 @@ header, .header-inner, .gnb {
 }
 .logo-link:hover .logo-inner .leaves:after, .logo-link:focus .logo-inner .leaves:after {
   animation: beforeLeaf 2.5s linear infinite;
+}
+
+.header .logo {
+  position: absolute;
+  left: 6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 99;
+  padding: 12px 10px 8px 0px;
 }
 
 .user-info {
