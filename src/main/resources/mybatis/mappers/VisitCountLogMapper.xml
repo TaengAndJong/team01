@@ -21,30 +21,4 @@
     )
         </insert>
 
-        <insert id="insertDailyPageView" parameterType="com.example.team01.dto.common.VisitRequestDTO">
-            MERGE INTO dailyStats t
-            USING (
-                SELECT
-                TRUNC(#{visitTime}) AS visitTime,
-                #{pageUrl} AS pageUrl
-                FROM dual
-                ) s
-                ON (t."visitTime" = s.visitTime AND t."pageUrl" = s.pageUrl)
-                WHEN MATCHED THEN
-                    UPDATE SET
-                    "pageViewCount" = t."pageViewCount" + 1
-                WHEN NOT MATCHED THEN
-                    INSERT (
-                            "statId",
-                            "visitTime",
-                            "pageUrl",
-                            "pageViewCount"
-                            ) VALUES (
-                            dailyStats_seq.NEXTVAL,
-                            s.visitTime,
-                            s.pageUrl,
-                            1
-                            )
-        </insert>
-
     </mapper>
