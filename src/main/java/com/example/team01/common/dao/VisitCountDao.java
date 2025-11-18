@@ -7,5 +7,4 @@ import com.example.team01.dto.common.VisitRequestDTO;
 public interface VisitCountDao {
     public int insertVisitLog(VisitRequestDTO dto);
     public int insertDailyPageView(VisitRequestDTO dto);
-
 }

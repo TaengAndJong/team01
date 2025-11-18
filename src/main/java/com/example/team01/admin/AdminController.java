@@ -224,8 +224,9 @@ public class AdminController {
             log.info("차트 데이터 요청 들어옴");
     LocalDate endDate = LocalDate.now();
     LocalDate startDate = endDate.minusDays(5);
-    log.info("endDate :{},startDate:{}",endDate,startDate);
-        List<ChartDataDTO> chartDataList = adminService.getVisitPageViewCount(startDate.toString(), endDate.toString());
+    LocalDate queryEndDate = endDate.plusDays(1);
+    log.info("endDate :{},startDate:{}","queryEndDate:{}",endDate,startDate,queryEndDate);
+        List<ChartDataDTO> chartDataList = adminService.getVisitPageViewCount(startDate.toString(), queryEndDate.toString());
     log.info("chartDataList : {}",chartDataList);
         return ResponseEntity.ok(chartDataList);
     }
