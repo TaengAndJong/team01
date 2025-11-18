@@ -137,7 +137,7 @@ const BookDetail = () => {
 
                 </div>
 
-                <div className="box">
+                <div className="box my-5 desc">
                     <h4 className="h4 title-dotted">도서설명</h4>
                     {bookDetail.bookDesc}
                 </div>

@@ -998,6 +998,11 @@ header, .header-inner, .gnb {
 [class*=detail] .count input[name=bookCountInput], [class*=modify] .count input[name=bookCountInput] {
   max-width: 50px;
 }
+[class*=detail] .desc, [class*=modify] .desc {
+  white-space: pre-wrap; /* 줄바꿈 문자 유지 + 자동 줄바꿈 허용 */
+  word-wrap: break-word; /* 긴 단어도 줄바꿈 가능 */
+  line-height: 1.4;
+}
 
 .sub {
   background-color: #ffffff;
