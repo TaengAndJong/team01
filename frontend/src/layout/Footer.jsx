@@ -9,13 +9,13 @@ const Footer = () => {
                         <a href="#" className="link">개인정보처리방침</a>
                     </li>
                     <li className="d-inline-block">
-                        <a href="#" className="link">원격저장소</a>
+                        <a href="https://github.com/TaengAndJong/team01" className="link" target="_blank">원격저장소</a>
                     </li>
                     <li className="d-inline-block">
-                        <a href="#" className="link">김태은</a>
+                        <a href="https://kbo831.github.io/aboutMe25" className="link" target="_blank">김태은</a>
                     </li>
                     <li className="d-inline-block">
-                        <a href="#" className="link">김종호</a>
+                        <a href="https://jonghoske.github.io/" className="link" target="_blank">김종호</a>
                     </li>
                 </ul>
                 <div className="logo footer-logo">

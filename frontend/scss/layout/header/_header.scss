@@ -141,8 +141,6 @@ header,.header-inner,.gnb{position:relative}
 
 .logo{
   @include logo(140px,66px,inline-block);
-  position:absolute; left:6rem; top:50%;transform: translateY(-50%);
-  z-index: 99; padding: 12px 10px 8px 0px;
   >a,em,span,strong{width: 100%;height: 100%; display: block;}
 
  }
@@ -178,8 +176,9 @@ header,.header-inner,.gnb{position:relative}
 
 
 //main
-.main-header{
-  .logo{}
+.header{
+  .logo{position:absolute; left:6rem; top:50%;transform: translateY(-50%);
+    z-index: 99; padding: 12px 10px 8px 0px;}
 }
 
 .user-info{

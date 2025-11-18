@@ -27,6 +27,7 @@ html{
 body {
   font-size: 1.6rem; /* 기본 16px */
   font-family:"NanumHuman",sans-serif; word-break:keep-all;
+  overflow-x: hidden;
 }
 //* { font-size:16px;}
 a,span,em,i{display:inline-block; color:$default-font-color;}

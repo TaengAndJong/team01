@@ -7,13 +7,16 @@
  .board-title{
     padding-left: 30px;
     .icon{position: absolute;
-      left: 0;top:50%; transform:translateY(-50%)}
+      left: 0;top:calc(50% - 6.5px); transform:translateY(-50%)
+    }
   }
   .swiper .img-box {background: #F2F2F2;}
   .count {
     input[name="bookCountInput"]{max-width: 50px;}
   }
 }
+
+
 
 
 
