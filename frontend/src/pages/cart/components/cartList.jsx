@@ -220,7 +220,7 @@ const CartList = () => {
             return (
                 <ul className="cart-list">
                     <li className="cart-item mb-2 text-center">
-                        <p>장바구니에 담긴 상품이 없습니다.</p>
+                        <p className="mb-4">장바구니에 담긴 상품이 없습니다.</p>
                         <Link to="/book" className={"btn btn-secondary"}>도서보러가기</Link>
                     </li>
                 </ul>

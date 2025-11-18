@@ -357,9 +357,9 @@ const AdminBookCreate = () => {
                     <div className="d-flex align-items-center mb-1">
                         <label htmlFor="bookDesc" className="form-title">도서설명</label>
                         <textarea id="bookDesc" className="form-control" name="bookDesc" type="text"
-                                  placeholder="도서설명 100글자 이내로 입력" value={createBook.bookDesc}
-                                  aria-describedby="bookDescHelp" maxLength="100" required onChange={handleChange}/>
-                        {/*100글자 넘어가면 에러메시지 출력 */}
+                                  placeholder="도서설명 255글자 이내로 입력" value={createBook.bookDesc}
+                                  aria-describedby="bookDescHelp" maxLength="255" required onChange={handleChange}/>
+                        {/*255글자 넘어가면 에러메시지 출력 */}
                     </div>
 
                     {/*도서이미지

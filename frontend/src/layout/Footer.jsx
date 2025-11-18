@@ -15,7 +15,7 @@ const Footer = () => {
                         <a href="https://kbo831.github.io/aboutMe25" className="link" target="_blank">김태은</a>
                     </li>
                     <li className="d-inline-block">
-                        <a href="#" className="link" target="_blank">김종호</a>
+                        <a href="https://jonghoske.github.io/" className="link" target="_blank">김종호</a>
                     </li>
                 </ul>
                 <div className="logo footer-logo">
