@@ -7,19 +7,19 @@
             <!-- 1:1문의 -->
             <select id="getQnaOneLength" resultType="int" >
                 SELECT COUNT(*) AS qna_count FROM qnaOne
-                WHERE "qnaDate" &gt;= SYSDATE - 8
+                WHERE "qnaDate" &gt;= SYSDATE - 8 AND "qnaDel" === NULL || "qnaDel" === "N"
             </select>
 
             <!-- 상품문의 -->
             <select id="getProductLength" resultType="int" >
                 SELECT COUNT(*) AS qna_count FROM qnaPro
-                WHERE "qnaDate" &gt;= SYSDATE - 8
+                WHERE "qnaDate" &gt;= SYSDATE - 8 AND "qnaDel" === NULL || "qnaDel" === "N"
             </select>
 
             <!-- 배송문의 -->
             <select id="getDeliveryLength" resultType="int" >
                 SELECT COUNT(*) AS qna_count FROM qnaDeliv
-                WHERE "qnaDate" &gt;= SYSDATE - 8
+                WHERE "qnaDate" &gt;= SYSDATE - 8 AND "qnaDel" === NULL || "qnaDel" === "N"
             </select>
 
             <!-- 신규 등록 도서 -->
