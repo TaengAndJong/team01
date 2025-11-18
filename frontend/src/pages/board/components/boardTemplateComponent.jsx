@@ -112,7 +112,7 @@ const BoardTemplateComponent = ({ category }) => {
         <tbody className="">
           {list && list.length === 0 ? (
             <tr className="">
-              <td colSpan="12" className="text-center">
+              <td colSpan="12" className="text-center p-4">
                 데이터가 없습니다.
               </td>
             </tr>

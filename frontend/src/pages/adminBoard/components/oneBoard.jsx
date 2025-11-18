@@ -270,7 +270,7 @@ const OneBoard = () => {
               {/* undefined 와 데이터의 개수 검증*/}
               {boardList && boardList?.length === 0 ? (
                 <tr className="">
-                  <td colSpan="12" className="text-center">
+                  <td colSpan="12" className="text-center p-4">
                     데이터가 없습니다.
                   </td>
                 </tr>
@@ -307,7 +307,11 @@ const OneBoard = () => {
                 onClick={() =>
                   openModal({
                     modalType: "confirm",
-                    content:<><p>선택된 게시물을 삭제하시겠습니까?</p></>,
+                    content: (
+                      <>
+                        <p>선택된 게시물을 삭제하시겠습니까?</p>
+                      </>
+                    ),
                     onConfirm: () => {
                       onDeleteHandler(checkedInput), closeModal();
                     },
