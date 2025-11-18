@@ -168,7 +168,7 @@
             </select>
 
 
-            
+
             <!-- 방문자, 페이지뷰 카운트 가져오기 날짜 기준 7일전 데이터 까지 가져오기-->
             <select id="selectVisitPageViewCount" resultType="com.example.team01.dto.admin.ChartDataDTO">
                 SELECT
