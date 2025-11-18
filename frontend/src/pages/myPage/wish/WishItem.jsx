@@ -75,17 +75,17 @@ const WishItem = ({wishList}) => {
                             {filteredList.map((item, index) => (
                                 <li
                                     key={index}
-                                    className="book-item mb-3 mx-2 default-border overflow-hidden p-4 float-start"
+                                    className="book-item default-border overflow-hidden float-start"
                                 >
                                     <Link
                                         to={`/book/bookDetail/${item.bookVO.bookId}`}
                                         className="book-link d-block"
                                         id={item.bookVO.bookId}
                                     >
-                                        <span className="wishId">{item.wishId}</span>
+                                        {/*<span className="wishId">{item.wishId}</span>*/}
                                         <div
                                             className="item-inner book-img card flex-row position-relative justify-content-center">
-                                            <div className="card-header border-end rounded-4 overflow-hidden">
+                                            <div className="card-header overflow-hidden">
                                                 <div className="img-box">
                                                     <div className="img-inner">
                                                         <img
@@ -99,7 +99,7 @@ const WishItem = ({wishList}) => {
                                         </div>
                                         <div className="bookInfo card-body mt-4">
                                             <strong className="book-title title-dotted d-block">
-                                                {item.bookVO.bookName}
+                                               <span> {item.bookVO.bookName}</span>
                                             </strong>
                                             <ul className="ul bullet">
                                                 <li className="li">
