@@ -139,7 +139,10 @@ function Login({data}) {
                             <button type="submit" className="btn custom-btn00 w-50 ms-1">로그인 </button>
                         </div>
                     </form>
-                    {loginError && <div className="msg error"><p>{loginError}</p></div>} {/* 실패 메시지 표시 */}
+                    {loginError && <div className="msg error">
+                        <p className="d-flex align-items-center"><span className="icon info me-2"></span> {loginError}</p>
+
+                    </div>} {/* 실패 메시지 표시 */}
                 </div>
             </div>
         </>

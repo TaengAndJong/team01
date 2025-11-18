@@ -170,8 +170,8 @@ const AdminBookModify = () => {
                 openModal({
                     modalType:"error",
                     content: <>
-                                <p>`${result.message}`</p>
-                            </>
+                        <p>`${result.message}`</p>
+                    </>
                 })
             }
         }
@@ -193,8 +193,8 @@ const AdminBookModify = () => {
             openModal({
                 modalType: "error",
                 content:<>
-                            <p>`${emptyKey} 값을 채워주세요.`</p>
-                        </>,
+                    <p>`${emptyKey} 값을 채워주세요.`</p>
+                </>,
             });
             return;
         }
@@ -217,14 +217,14 @@ const AdminBookModify = () => {
                 </>,
             });
         }
-        
+
     }
 
     //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
         //파일 객체  [] 배열이면 기본으로 이미지 추가하기
-      //  console.log("데이터제출 modifyBookData",modifyBookData);
+        //  console.log("데이터제출 modifyBookData",modifyBookData);
         handleSubmit();
     }
 
@@ -306,7 +306,7 @@ const AdminBookModify = () => {
                                 defaultData={modifyBookData}
                                 setDefaultData={setModifyBookData}
                             />
-                            )}
+                        )}
                     </div>
                 </form>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
