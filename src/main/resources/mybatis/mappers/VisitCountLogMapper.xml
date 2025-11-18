@@ -3,22 +3,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
     <mapper namespace="com.example.team01.common.dao.VisitCountDao">
-        <insert id="insertVisitLog" parameterType="com.example.team01.dto.common.VisitRequestDTO">
-        INSERT INTO visitLogs (
-        "logId",
-        "pageUrl",
-        "userAgent",
-        "ipAddress",
-        "visitTime",
-        "sessionId"
-    ) VALUES (
-        visitLogs_seq.NEXTVAL,
-        #{pageUrl},
-        #{userAgent},
-        #{ipAddress},
-        #{visitTime},
-        #{sessionId}
-    )
-        </insert>
+    <insert id="insertDailyPageView" parameterType="com.example.team01.dto.common.VisitRequestDTO">
+        MERGE INTO dailyStats t
+            USING (
+                SELECT
+                    TRUNC(#{visitTime}) AS visitTime,
+                    #{pageUrl} AS pageUrl
+                FROM dual
+            ) s
+            ON (t."visitTime" = s.visitTime AND t."pageUrl" = s.pageUrl)
+            WHEN MATCHED THEN
+                UPDATE SET
+                    "pageViewCount" = t."pageViewCount" + 1
+            WHEN NOT MATCHED THEN
+                INSERT (
+                        "statId",
+                        "visitTime",
+                        "pageUrl",
+                        "pageViewCount"
+                    ) VALUES (
+                                 dailyStats_seq.NEXTVAL,
+                                 s.visitTime,
+                                 s.pageUrl,
+                                 1
+                             )
+    </insert>
 
-    </mapper>
+</mapper>
