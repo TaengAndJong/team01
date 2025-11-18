@@ -90,7 +90,9 @@ public class IndexController {
             return fileUtils.changeImgPath(bookVO,request);
         }).collect(Collectors.toList());
 
+
         log.info("mainController---변경된 데이터:{}", data);
+
 
         return ResponseEntity.ok(data); // 클라이언트로 응답을 보내기
     }

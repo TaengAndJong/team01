@@ -136,7 +136,7 @@
         SELECT COUNT(*)
         FROM wishList
          <![CDATA[
-        WHERE "clientId" = 'user02'
+        WHERE "clientId" = #{clientId}
           AND "wishDate" >= ADD_MONTHS(SYSDATE, -3)
         ]]>
     </select>

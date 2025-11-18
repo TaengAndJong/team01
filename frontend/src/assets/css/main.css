@@ -179,7 +179,15 @@
     width: 100%; height: 100%;}
 .book.recommend .img-box{width: 180px;
     height: 235px;position: absolute; right:4rem; top: 5rem; }
-
+.book.recommend .desc{
+    margin-top:2rem;
+    display: -webkit-box;
+    line-height: 1.3;
+    -webkit-line-clamp: 5;     /* 원하는 줄 수 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 
 

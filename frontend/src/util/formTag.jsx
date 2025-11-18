@@ -91,7 +91,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
             {/* labelClass가 null이나 undefined 이면 "" (빈문자열 반환) */}
             <label htmlFor={name} className={labelClass ? labelClass : ""}>{label}</label>
             {inputType()}
-            {msg && <span className="msg tip">{msg}</span>}
+            {msg && <div className="msg tip">{msg}</div>}
         </>
     );
 };

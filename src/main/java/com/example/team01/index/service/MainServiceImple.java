@@ -22,7 +22,7 @@ public class MainServiceImple implements MainService {
     public Map<String,Object> getPartOfBooks() {
         // row_number() 윈도우 함수와 over() 절의 partition By를 사용하여 각 도서의 카테고리별 8개순위까지 제한
         List<BookVO> books = dao.selectBooks();
-        log.info("getPartOfBooks---------------- 도서 recomType으로 분류 필요 :{}",books);
+        log.info("도서전체조회--- 메일 슬라이드 도서 :{}",books);
         Map<String,Object> partialBooks= booksMap(books);
         log.info("partialBooks :{}",partialBooks);
         //books를 순회하면서 국내,국외, EBOOK으로 데이터 나누기
@@ -56,6 +56,7 @@ public class MainServiceImple implements MainService {
             String cate = book.getBookCateNm().trim().toUpperCase();
             String recomType = book.getRecomType();
             book.setDetailUrl("/book/bookDetail/" + book.getBookId());
+            log.info("recomType all-------------:{}",recomType);
 
             if(RecomStatus.NORMAL.getRecomType().equals(recomType)){
                 log.info("recomType Normal-------------:{}",recomType);
@@ -71,10 +72,10 @@ public class MainServiceImple implements MainService {
                 }
 
             }else if(RecomStatus.RECOMMEND.getRecomType().equals(recomType)){
-                log.info("추천 슬라이드");
+                log.info("추천 슬라이드---------------:{}",book);
                 recomSlide.add(book);
             }else{
-                log.info("인기 슬라이드");
+                log.info("인기 슬라이드---------------{}",book);
                 popularSlide.add(book);
             }
 

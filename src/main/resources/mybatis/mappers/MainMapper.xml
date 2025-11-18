@@ -27,7 +27,7 @@
             FROM book b
             where "delStatus" = 'N'
         ) t
-        <![CDATA[ WHERE t.rank <= 8]]>
+<!--        <![CDATA[ WHERE t.rank <= 8]]>-->
     </select>
 
 

@@ -14,9 +14,9 @@ const FileUploadComponent = ({ files = [], handleFileChange, fileRemove }) => {
     <>
       <div className="d-flex align-items-center mb-1">
         <span className="form-title attachfiles">첨부 파일</span>
-        <div>
-          <p className="pb-2">
-            이미지 파일만 첨부해 주세요{" "}
+        <div className="w-100">
+          <p className="d-flex align-items-center mb-2 pb-3 border-bottom">
+            <span className="icon info me-2"></span>이미지 파일만 첨부해 주세요{" "}
             <span className="ms-1">
               &quot;(<b>{files.length}</b>
               <b>/최대 5개</b>,

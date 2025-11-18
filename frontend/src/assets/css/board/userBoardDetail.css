@@ -1,9 +1,6 @@
-.comment-box {
-  white-space: pre-wrap; /* 줄바꿈 문자 유지 + 자동 줄바꿈 허용 */
-  word-wrap: break-word; /* 긴 단어도 줄바꿈 가능 */
-}
 
-.content-box {
+.content-box,.comment-box  {
   white-space: pre-wrap; /* 줄바꿈 문자 유지 + 자동 줄바꿈 허용 */
   word-wrap: break-word; /* 긴 단어도 줄바꿈 가능 */
+  line-height: 1.4;
 }
