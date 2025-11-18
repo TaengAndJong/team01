@@ -31,15 +31,21 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         //existing은 등록을 통해 서버에 존재하는 파일을 담은 객체
       if(defaultData?.bookImgPath){ // 수정페이지에서 기존 이미지 데이터가 있으면 조건  + noImg일 경우 existing 은 빈 배열로 설정필요
           console.log("수정페이지 bookImgPath",defaultData?.bookImgPath)
+          console.log("수정페이지 bookImgPath 타입",typeof defaultData.bookImgPath === "string")
           // 문자열일 경우 split 함수를 사용해 배열 변환
           const imgPaths = typeof defaultData.bookImgPath === "string"
-              ? defaultData.bookImgPath.split(",")
+              ? defaultData.bookImgPath.split(",") //배열로 반환
               : defaultData.bookImgPath || [];
 
-          // "noImg"가 포함되어 있으면 빈 배열로 설정 , 노이미지로 설정되어있는 지 필터링 조건으로 확인
-          const existingImgs = imgPaths.filter((fileName) => fileName.toLowerCase().includes("noImg"))
+          console.log("수정페이지 bookImgPath imgPaths",imgPaths);
+          // "noImg"가 포함되어 있으면 빈 배열로 설정 , 노이미지로 설정되어있는 지 필터링 조건으로 확인 
+          // 주의, 빈 배열은 true를 반환하기때문에 배열의 내부 개수를 꼭 확인해야함
+          const existingImgs = imgPaths?.filter((fileName) => fileName.toLowerCase().includes("noImg")).length > 0
               ? []
-              : imgPaths.map((fileName) => ({ name: fileName }));
+              : imgPaths?.map((fileName) => {
+                  console.log("수정페이지 bookImgPath fileName", fileName);
+                  return { name: fileName }
+              });
           console.log("수정페이지 existingImgs",existingImgs)
           //이미지객체 갱신
           setBookImg((prev)=>({

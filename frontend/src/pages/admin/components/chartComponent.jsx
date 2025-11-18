@@ -71,12 +71,12 @@ const ChartComponent = ({ data }) => {
       {
         label: "방문자",
         data: data.visitor,
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "rgba(168, 154,143 , 0.7)",
       },
       {
         label: "페이지 뷰",
         data: data.pageView,
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        backgroundColor: "rgba(237, 221, 251, 0.7)",
       },
     ],
   };
