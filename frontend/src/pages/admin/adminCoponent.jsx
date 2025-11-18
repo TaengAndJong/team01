@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import AdminDashboard from "../adminBoard/components/adminDashboard.jsx";
 import "@css/adminMain.css";
@@ -7,22 +7,51 @@ import CountCard from "./components/cardComponent/CountCard.jsx";
 import TapMenuStockComponent from "./components/tapMenuComponent/TapMenuStockComponent.jsx";
 import TapMenuNewBookComponent from "./components/tapMenuComponent/TapMenuNewBookComponent.jsx";
 import ChartComponent from "./components/chartComponent.jsx";
-
+import { useAuth } from "@pages/common/AuthContext.jsx";
+import { useModal } from "@pages/common/modal/ModalContext.jsx";
 function Admin() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [data, setData] = useState(null);
+
   const [countData, setCountData] = useState({
     qnaCount: 0,
     productCount: 0,
     deliveryCount: 0,
   });
+
   const [chartData, setChartData] = useState({
     date: [],
     visitor: [],
     pageView: [],
   });
+
+  const navigate = useNavigate();
+  const { userData, isAuthenticated } = useAuth();
+
+  // 모달 관련 커스텀 훅
+  const { openModal, closeModal } = useModal();
+  console.log("userData 관리자 대쉬보드", userData.roles);
+
   useEffect(() => {
+    setIsLoading(true);
+    setIsError(false);
+    console.log("관리자 대쉬보드 랜더링 시작");
+    if (isAuthenticated === false) {
+      return openModal({
+        modalType: "confirm",
+        content: (
+          <>
+            <p>로그인 후 이용해 주세요</p>
+          </>
+        ),
+        onConfirm: () => {
+          navigate("/login"), closeModal();
+        },
+        onClose: closeModal,
+      });
+    }
+
     const fetchData = async () => {
       try {
         const response = await fetch("/api/admin", {
@@ -42,11 +71,14 @@ function Admin() {
             setData({ message: textData }); // 비인증 응답 처리
           }
         } else {
+          setIsError(true);
           console.error("HTTP Error:", response.status, response.statusText);
         }
       } catch (error) {
+        setIsError(true);
         console.error("Fetch Error:", error);
       }
+      setIsLoading(false);
     };
 
     fetchData();
