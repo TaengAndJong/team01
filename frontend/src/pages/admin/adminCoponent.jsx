@@ -36,21 +36,6 @@ function Admin() {
   useEffect(() => {
     setIsLoading(true);
     setIsError(false);
-    console.log("관리자 대쉬보드 랜더링 시작");
-    if (isAuthenticated === false) {
-      return openModal({
-        modalType: "confirm",
-        content: (
-          <>
-            <p>로그인 후 이용해 주세요</p>
-          </>
-        ),
-        onConfirm: () => {
-          navigate("/login"), closeModal();
-        },
-        onClose: closeModal,
-      });
-    }
 
     const fetchData = async () => {
       try {
@@ -141,7 +126,7 @@ function Admin() {
     getNewCount();
     getChartData();
   }, []);
-
+  console.log("chartData-----!", chartData);
   return (
     <>
       {/* <div className="top">
