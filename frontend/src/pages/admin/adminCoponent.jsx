@@ -166,18 +166,16 @@ function Admin() {
             />
             <Link
               to="/admin/board"
-              className="qnaskip cardwrapper rounded-4 p-5 shadow"
+              className="qnaskip cardwrapper rounded-4  shadow"
               type={"button"}
               title={"문의 게시판"}
             >
-              <h2 className="card-title text-start d-flex">
-                <i className="board-icon board"></i>
-                <span className="title-text pt-1">문의 게시판</span>
+              <i className="board-icon board"></i>
+              <h2 className="card-title text-start">
+                <span className="title-text">문의 게시판</span>
               </h2>
-              <span className="float-end mt-4">
-                <i className="board-icon goboard">
-                  <span className="sr-only">바로가기</span>
-                </i>
+              <span className="card-text">
+                <em className="goboard">바로가기</em>
               </span>
             </Link>
           </div>

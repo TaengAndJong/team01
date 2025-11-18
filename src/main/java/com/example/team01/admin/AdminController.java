@@ -223,7 +223,7 @@ public class AdminController {
     public ResponseEntity<?> getVisitPageViewCount(ChartDataDTO chartDataDTO) {
             log.info("차트 데이터 요청 들어옴");
     LocalDate endDate = LocalDate.now();
-    LocalDate startDate = endDate.minusDays(5);
+    LocalDate startDate = endDate.minusDays(3);
     LocalDate queryEndDate = endDate.plusDays(1);
     log.info("endDate :{},startDate:{}","queryEndDate:{}",endDate,startDate,queryEndDate);
         List<ChartDataDTO> chartDataList = adminService.getVisitPageViewCount(startDate.toString(), queryEndDate.toString());
