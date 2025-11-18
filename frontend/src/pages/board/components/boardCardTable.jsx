@@ -1,13 +1,13 @@
 import "@assets/css/board/userDashBoard.css";
 import Btn from "@util/reuseBtn.jsx";
 import { formatToDate } from "@util/dateUtils.jsx";
-import NoDataTable from "@common/Nodata.jsx";
+// import NoDataTable from "@common/Nodata.jsx";
 const BoardCardTable = ({ items, category }) => {
   console.log("items:", items);
   console.log("category", category);
-  if (!items || items.length === 0) {
-    return <NoDataTable />;
-  }
+  // if (!items || items.length === 0) {
+  //   return <NoDataTable />;
+  // }
 
   // 카테고리별 ID 선택 함수
   const categoryId = (item, category) => {
@@ -90,36 +90,42 @@ const BoardCardTable = ({ items, category }) => {
           </tr>
         </thead>
         <tbody className="">
-          {items?.slice(0, 5)?.map((item, idx) => {
-            return (
-              <tr className="rd-5 card-item-box  border-bottom" key={idx}>
-                <td className="text-center">{idx + 1}.</td>
-                <td className="text-left">
-                  <a
-                    href={`/board/detailBoard/${category}/${categoryId(
-                      item,
-                      category
-                    )}/?userId=${item.clientId}`}
-                    className="fw-bold"
-                  >
-                    {item.qnaTitle}
-                  </a>
-                </td>
-                <td className="text-center">
-                  <span
-                    className={`tultip ${qnStatus(
-                      item.qnaStatus.replace(/\s/g, "")
-                    )}`}
-                  >
-                    {item.qnaStatus.replace(/\s/g, "")}
-                  </span>
-                </td>
-                <td className="text-center">
-                  {formatToDate(new Date(item.qnaDate))}
-                </td>
-              </tr>
-            );
-          })}
+          {items.length === 0 ? (
+            <tr className="text-center">
+              <td colSpan="4">새로 등록된 도서가 없습니다.</td>
+            </tr>
+          ) : (
+            items?.slice(0, 5)?.map((item, idx) => {
+              return (
+                <tr className="rd-5 card-item-box border-bottom" key={idx}>
+                  <td className="text-center">{idx + 1}.</td>
+                  <td className="text-left">
+                    <a
+                      href={`/board/detailBoard/${category}/${categoryId(
+                        item,
+                        category
+                      )}/?userId=${item.clientId}`}
+                      className="fw-bold"
+                    >
+                      {item.qnaTitle}
+                    </a>
+                  </td>
+                  <td className="text-center">
+                    <span
+                      className={`tultip ${qnStatus(
+                        item.qnaStatus.replace(/\s/g, "")
+                      )}`}
+                    >
+                      {item.qnaStatus.replace(/\s/g, "")}
+                    </span>
+                  </td>
+                  <td className="text-center">
+                    {formatToDate(new Date(item.qnaDate))}
+                  </td>
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
 
