@@ -1,8 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import PaymentItems from "./PaymentItems.jsx";
-import {data} from "react-router-dom";
-import Nodata from "../../common/Nodata.jsx";
+
 
 const PaymentHistory=()=>{
 
