@@ -169,7 +169,7 @@
 
 
 
-            <!-- 방문자, 페이지뷰 카운트 가져오기 날짜 기준 7일전 데이터 까지 가져오기-->
+            <!-- 방문자, 페이지뷰 카운트 가져오기 날짜 기준 ?일전 데이터 까지 가져오기-->
             <select id="selectVisitPageViewCount" resultType="com.example.team01.dto.admin.ChartDataDTO">
                 SELECT
                     TO_CHAR(TRUNC("visitTime"), 'YYYY-MM-DD') AS visitTime,
@@ -178,7 +178,7 @@
                 FROM
                     visitLogs
                 WHERE
-                    "visitTime" BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+                    "visitTime" &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD') AND "visitTime" &lt;TO_DATE(#{endDate}, 'YYYY-MM-DD')
                 GROUP BY
                     TO_CHAR(TRUNC("visitTime"), 'YYYY-MM-DD')
                 ORDER BY
