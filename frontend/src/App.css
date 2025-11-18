@@ -120,7 +120,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   clear: both;
 }
 
-.hoverLeaf::before, .hoverLeaf::after, .leaf::after, .quick .quick-btn:before, .depth.first-depth .depth-menu.first::after, .depth.first-depth .second-depth > li::before, .menu-navi > li:not(:last-child)::before, .footer .f-tit:after, .footer-info > li:not(:last-child)::after, .admin .footer:before, .leaves:before, .leaves:after, [class^=swiper-button]:after, .circle-btn:before, .form-group-title::after, .form-title::after, .title-border::before, .title-border::after, .bullet > li .tit::before, .bullet-li:before {
+.hoverLeaf::before, .hoverLeaf::after, .leaf::after, .quick .quick-btn:before, .depth.first-depth .depth-menu.first::after, .depth.first-depth .second-depth > li::before, .menu-navi > li:not(:last-child)::before, .footer .f-tit:after, .footer-info > li:not(:last-child)::after, .leaves:before, .leaves:after, [class^=swiper-button]:after, .circle-btn:before, .form-group-title::after, .form-title::after, .title-border::before, .title-border::after, .bullet > li .tit::before, .bullet-li:before {
   content: "";
   display: inline-block;
 }
@@ -955,17 +955,6 @@ header, .header-inner, .gnb {
 .admin .footer {
   position: relative;
 }
-.admin .footer:before {
-  position: absolute;
-  top: -100%;
-  left: 0;
-  width: 200%;
-  height: 106%;
-  background-image: url("/assets/images/common/bgFram.png");
-  background-size: contain;
-  background-repeat: repeat-x;
-  background-position: left bottom;
-}
 
 .client .footer {
   background-color: #625B5B;
@@ -997,6 +986,11 @@ header, .header-inner, .gnb {
 }
 [class*=detail] .count input[name=bookCountInput], [class*=modify] .count input[name=bookCountInput] {
   max-width: 50px;
+}
+[class*=detail] .desc, [class*=modify] .desc {
+  white-space: pre-wrap; /* 줄바꿈 문자 유지 + 자동 줄바꿈 허용 */
+  word-wrap: break-word; /* 긴 단어도 줄바꿈 가능 */
+  line-height: 1.4;
 }
 
 .sub {
