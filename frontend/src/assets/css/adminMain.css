@@ -1,6 +1,6 @@
 .title-text,
 .card-text{
-  font-size: 35px;
+  font-size: 3.2rem;
 }
 
 .dashboard-container {
@@ -56,8 +56,8 @@
   background-color: #ffe377;
 }
 
-.cardwrapper .card-text{font-size: 25px}
-.cardwrapper .count{font-size: 30px}
+.cardwrapper .card-text{font-size: 2.5rem}
+.cardwrapper .count{font-size: 3.5rem}
 /* 아이콘 배경 CSS */
 .icon-bg {
   width: 60px;
