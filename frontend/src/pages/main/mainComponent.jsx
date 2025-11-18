@@ -7,8 +7,10 @@ import SectionSkipBtns from "./components/sectionSkipBtns.jsx";
 import SectionCuration from "./components/SectionCuration.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {useAuth} from "../common/AuthContext.jsx";
 
 const mainComponent = () => {
+
   const [books, setBooks] = useState([]); // slide data 배열로 초기값
   const [recom,setRecom ] = useState([]);
   const [popular,setPopular ] = useState([]);
@@ -42,18 +44,19 @@ const mainComponent = () => {
     }
   };
 
-  const curationFecth = async () => {
-    //axios 요청 보내기
-    try {
-      const response = await axios.get("/api", {
-        params: { curation: true },
-      });
-      console.log("response data------main curationFecth", response.data);
-    } catch (e) {
-      console.log("curationFecth 에러");
-      console.error(e);
-    }
-  };
+  // const curationFecth = async () => {
+  //   //axios 요청 보내기
+  //   try {
+  //     const response = await axios.get("/api", {
+  //       params: { curation: true },
+  //     });
+  //     console.log("response data------main curationFecth", response.data);
+  //   } catch (e) {
+  //     console.log("curationFecth 에러");
+  //     console.error(e);
+  //   }
+  // };
+
 
   //마운트 시 1번 실행
   useEffect(() => {

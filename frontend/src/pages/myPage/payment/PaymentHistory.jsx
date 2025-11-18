@@ -55,7 +55,9 @@ const PaymentHistory=()=>{
                 (
                     <PaymentItems paymentProps={paymentProps}  />
                 ) :(
-                    <Nodata/>
+                   <>
+                       <p>결제 내역이 없습니다.</p>
+                   </>
                 )
             }
         </>
