@@ -39,7 +39,7 @@ const Mypage = () => {
 
     return(
         <>
-            <div className="hoverLeaf"></div>
+            {/*<div className="hoverLeaf"></div>*/}
 
             <div className="page mypage d-flex">
                 <div className="left">
