@@ -130,9 +130,9 @@ const PaymentItems = ({paymentProps}) =>{
 
                             {data.map((payment, i) => (
                                 <div className="table-responsive" key={i}>
-                                    <h6 className="title my-3">{`No.${payment.payId} ${formatToDate(new Date(payment.payDate))} 결제내역`}</h6>
+                                    <h4 className="title my-3">{`No.${payment.payId} ( ${formatToDate(new Date(payment.payDate))} )결제내역`}</h4>
                                     <table
-                                           className="table table-bordered table-hover align-middle text-center">
+                                           className="table table-custom table-bordered table-hover align-middle text-center">
                                         <thead className="table-light">
                                         <tr>
                                             <th className="text-center">
@@ -201,8 +201,8 @@ const PaymentItems = ({paymentProps}) =>{
                                         </tbody>
                                     </table>
                                     {/* 총 결제 금액*/}
-                                    <div className="resultAccount mt-2 mb-5 d-block">
-                                        <ul className="d-flex flex-wrap justify-content-end border p-3 btn-outline-info rounded-1">
+                                    <div className="resultAccount mt-2 mb-5 d-block bg-warning-subtle">
+                                        <ul className="d-flex flex-wrap justify-content-end  p-3 btn-outline-info rounded-1">
                                             <li className="mx-3 d-inline-flex align-items-center">
                                                 <span className="mx-3 fw-bold">총 결제금액</span>
                                                 {payment?.books && payment.books.length > 0 && // 데이터 undefined 방지
@@ -211,7 +211,7 @@ const PaymentItems = ({paymentProps}) =>{
                                                     )}
                                             </li>
                                             <li>
-                                                    <button type="button" className="btn btn-secondary ms-auto"
+                                                    <button type="button" className="btn btn-dark ms-auto"
                                                             onClick={() => allCancelHandler(selected)}
                                                             aria-disabled={payment?.payStatus !== "COMPLETED"}
                                                             disabled={payment?.payStatus !== "COMPLETED"}
