@@ -60,3 +60,7 @@
   cursor: pointer;
   font-weight: bold;
 }
+
+.table-custom td {
+  border-bottom: 1px solid #ddd;
+}

@@ -63,7 +63,7 @@ public class AdminController {
         resultMap.put("qnaCount", result1);
         resultMap.put("productCount", result2);
         resultMap.put("deliveryCount", result3);
-
+        log.info("resultMap 나오나요",resultMap);
         return  ResponseEntity.ok(resultMap);
     }
     // // 금일 기준(00시) 신규 가입자 반환

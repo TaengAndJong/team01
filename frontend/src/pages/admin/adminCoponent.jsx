@@ -32,7 +32,7 @@ function Admin() {
   // 모달 관련 커스텀 훅
   const { openModal, closeModal } = useModal();
   console.log("userData 관리자 대쉬보드", userData.roles);
-
+  console.log("countData", countData);
   useEffect(() => {
     setIsLoading(true);
     setIsError(false);
