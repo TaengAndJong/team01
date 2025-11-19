@@ -80,7 +80,7 @@ const  RecomBookSlide= ({slideData}) =>{
                 speed={700}// 슬라이드 속도
                 observer={true}
                 observeParents={true}
-                onSlideChange={() => console.log('recombookSlide')}
+                // onSlideChange={() => console.log('recombookSlide')}
             >
                 {slideData?.length > 0 ? (
                     slideData?.map((item, idx) => (
