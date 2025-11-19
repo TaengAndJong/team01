@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 
 const MainBookSlide = ({slideData,naviId,activeTab}) =>{
 
-    console.log("slideData --------mainbookS",slideData);
+    // console.log("slideData --------mainbookS",slideData);
     console.log("slideData --------naviId",naviId);
     //서드파트 인스턴스 직접 제어
     const swiperRef = useRef(null);
@@ -89,7 +89,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                 }}
                 observer={true}
                 observeParents={true}
-                onSlideChange={() => console.log('mainbookSlide')}
+                // onSlideChange={() => console.log('mainbookSlide')}
             >
                 {slideData?.length >0 ? (
                     slideData?.map((item) => (

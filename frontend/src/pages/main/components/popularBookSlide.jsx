@@ -63,7 +63,7 @@ const  PopularBookSlide= ({slideData}) =>{
                 speed={700}// 슬라이드 속도
                 observer={true}
                 observeParents={true}
-                onSlideChange={() => console.log('popularSlide')}
+                // onSlideChange={() => console.log('popularSlide')}
             >
 
                 {slideData?.length > 0 ? (
