@@ -110,7 +110,14 @@ const  RecomBookSlide= ({slideData}) =>{
             {slideData?.length > ctrlViewCount && (
                 <div className="button-group">
                     {/*이전*/}
-                    <button type="button" className={`swiper-button bordered custom-prev custom-prev-recom`}>
+                    <button type="button" className={`swiper-button bordered custom-prev custom-prev-recom`}
+                            onClick={() => {
+                                //console.log(`추천 이전 버튼 클릭됨`);
+                                if (swiperRef.current) {
+                                    swiperRef.current.slidePrev();
+                                }
+                            }}
+                    >
                         <span className="sr-only">이전슬라이드</span>
                     </button>
                     {/*재생 & 정지 */}
@@ -122,7 +129,14 @@ const  RecomBookSlide= ({slideData}) =>{
                         <span className="sr-only"> {play ? '정지' : '재생'}</span>
                     </button>
                     {/*다음*/}
-                    <button type="button" className={`swiper-button bordered custom-next custom-next-recom`}>
+                    <button type="button" className={`swiper-button bordered custom-next custom-next-recom`}
+                            onClick={() => {
+                               // console.log(`추천 다음 버튼 클릭됨`);
+                                if (swiperRef.current) {
+                                    swiperRef.current.slideNext();
+                                }
+                            }}
+                    >
                         <span className="sr-only">다음슬라이드</span>
                     </button>
                 </div>
