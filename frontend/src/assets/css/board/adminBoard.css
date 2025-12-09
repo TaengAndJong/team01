@@ -16,9 +16,7 @@
   word-wrap: break-word; /* 긴 단어도 줄바꿈 가능 */
 }
 
- {
-  /*코멘트 모달*/
-}
+
 .comment-modal-overlay {
   position: fixed;
   top: 0;

@@ -23,7 +23,7 @@ const BookSlide = ({slideData}) =>{
         }
     }, [imgList]);
 
-    console.log("imgList---------",imgList);
+
 
     return (
         <>
@@ -38,7 +38,6 @@ loop value true로 하면 pagenation 에러 및 loop length not enough 에러 �
                 slidesPerGroup={1}
                 spaceBetween={20}
                 onSlideChange={() => console.log('slide change')}
-                navigation={true}
                 pagination={{
                     type: 'fraction',//숫자
                 }}

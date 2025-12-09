@@ -24,7 +24,7 @@ export default defineConfig({
   },
   build: {
     // 빌드 결과물이 생성되는 경로
-    outDir: "../src/main/resources/static",
+    // outDir: "../src/main/resources/static",
   },
   server: {
     proxy: {
