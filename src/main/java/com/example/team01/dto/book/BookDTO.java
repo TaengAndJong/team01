@@ -32,6 +32,6 @@ public class BookDTO implements BookImgChange {
     private List<String> bookImgList; // 서버주소 + 파일명
 
     private String partPayStatus; // 결제내역 상태
-  
+
 
 }

@@ -26,7 +26,7 @@ public class UserInfoDTO {
     private String email; // 이메일
    // private byte[] picture; // 프로필사진 BLOB는 byte[]로
     private LocalDateTime joinDate; // 회원가입일, db의 timestamp는 localDatetime으로
-    private LocalDateTime withDrowDate; // 탈퇴일
+    private LocalDateTime withdrawDate; // 탈퇴일
     private String status;
     private String selecedAddrId; // 주소변경시 선택된 주소 아이디
 

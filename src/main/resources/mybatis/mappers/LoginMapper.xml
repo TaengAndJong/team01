@@ -4,38 +4,25 @@
 <mapper namespace="com.example.team01.login.dao.LoginDao">
 
     <select id="selectLoginAll" resultType="LoginVO">
-     select * from client
+        select * from client
     </select>
 
     <select id="selectClientId" resultType="LoginVO" parameterType="String">
-        WITH "joinClient" AS (
-            SELECT "clientId", "clientName","password", "roleId"
+        WITH joinClient AS (
+            SELECT clientId, clientName,password, roleId
             FROM client
         )
         SELECT a.*
         FROM (
-                 SELECT c."clientId",
-                        c."clientName",
-                        c."password",
-                        r."roleId",
-                        r."roleName"
-                 FROM "joinClient" c
-                          JOIN "ROLES" r ON c."roleId" = r."roleId"
+                 SELECT c.clientId,
+                        c.clientName,
+                        c.password,
+                        r.roleId,
+                        r.roleName
+                 FROM joinClient c
+                          JOIN ROLES r ON c.roleId = r.roleId
              ) a
-        WHERE a."clientId" = #{clientId}
+        WHERE a.clientId = #{clientId}
     </select>
 
-
-<!--    <select id="selectLogin" resultType="LoginVO" parameterType="String">-->
-
-
-
-<!--    </select>-->
-
-
-<!--    <select id="selectRole" resultType="LoginVO" parameterType="String">-->
-<!--        SELECT  roleId, roleName-->
-<!--        FROM ROLES-->
-<!--        WHERE roleId = #{roleId}-->
-<!--    </select>-->
 </mapper>

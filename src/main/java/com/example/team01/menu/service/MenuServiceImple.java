@@ -30,16 +30,14 @@ public class MenuServiceImple implements MenuService {
         Map<String, List<MenuVO>> menuMap = new HashMap<>();
 
         for(MenuVO vo : menuList){
+
             if(vo.getMenuType().equals("사용자")){
-                //log.info("vo:{}", vo.getMenuType().equals("사용자"));
                 clientList.add(vo);
             }else if(vo.getMenuType().equals("관리자")){
-                //log.info("vo:{}", vo.getMenuType().equals("관리자"));
                 adminList.add(vo);
             }else{
             log.info("vo:{}", vo.getMenuType().equals("공통"));
-//                clientList.add(vo);
-//                adminList.add(vo);
+
                 commonList.add(vo);
             }
         }

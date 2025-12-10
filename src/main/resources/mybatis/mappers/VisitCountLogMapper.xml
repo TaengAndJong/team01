@@ -5,46 +5,36 @@
 <mapper namespace="com.example.team01.common.dao.VisitCountDao">
     <insert id="insertVisitLog" parameterType="com.example.team01.dto.common.VisitRequestDTO">
         INSERT INTO visitLogs (
-            "logId",
-            "pageUrl",
-            "userAgent",
-            "ipAddress",
-            "visitTime",
-            "sessionId"
+            pageUrl,
+            userAgent,
+            ipAddress,
+            visitTime,
+            sessionId
         ) VALUES (
-                    visitLogs_seq.NEXTVAL,
-                    #{pageUrl},
-                    #{userAgent},
-                    #{ipAddress},
-                    #{visitTime},
-                    #{sessionId}
-                )
+
+                     #{pageUrl},
+                     #{userAgent},
+                     #{ipAddress},
+                     #{visitTime},
+                     #{sessionId}
+                 )
     </insert>
 
-        <insert id="insertDailyPageView" parameterType="com.example.team01.dto.common.VisitRequestDTO">
-            MERGE INTO dailyStats t
+    <insert id="insertDailyPageView" parameterType="com.example.team01.dto.common.VisitRequestDTO">
+        MERGE INTO dailyStats AS t
             USING (
                 SELECT
-                TRUNC(#{visitTime}) AS visitTime,
-                #{pageUrl} AS pageUrl
-                FROM dual
-                ) s
-                ON (t."visitTime" = s.visitTime AND t."pageUrl" = s.pageUrl)
-                WHEN MATCHED THEN
-                    UPDATE SET
-                    "pageViewCount" = t."pageViewCount" + 1
-                WHEN NOT MATCHED THEN
-                    INSERT (
-                            "statId",
-                            "visitTime",
-                            "pageUrl",
-                            "pageViewCount"
-                            ) VALUES (
-                            dailyStats_seq.NEXTVAL,
-                            s.visitTime,
-                            s.pageUrl,
-                            1
-                            )
-        </insert>
+                    DATE_TRUNC('day', #{visitTime}) AS visitTime,
+                    #{pageUrl} AS pageUrl
+            ) AS s
+            ON t.visittime = s.visittime
+                AND t.pageurl = s.pageurl
+            WHEN MATCHED THEN
+                UPDATE SET pageviewcount = t.pageviewcount + 1
+            WHEN NOT MATCHED THEN
+                INSERT (visittime, pageurl, pageviewcount)
+                    VALUES (s.visittime, s.pageurl, 1);
 
-    </mapper>
+    </insert>
+
+</mapper>

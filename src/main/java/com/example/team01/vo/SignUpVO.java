@@ -26,7 +26,7 @@ public class SignUpVO implements Serializable {
     private String email;         // 이메일 주소
     private byte[] picture;       // 프로필 사진 (BLOB)
     private LocalDateTime joinDate; // 가입 일자 (TIMESTAMP)
-    private LocalDateTime withDrawalDate; // 탈퇴 일자 (TIMESTAMP)
+    private LocalDateTime  withdrawaldate; // 탈퇴 일자 (TIMESTAMP)
     private String status; // 가입시 기본값 '회원' --> 탈퇴시 '탈퇴'로 변경
 
     private String staffId;// 사원 번호

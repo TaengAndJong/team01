@@ -5,21 +5,21 @@
 
     <sql id="searchFrag">
         <trim prefix="WHERE" suffixOverrides="AND">
-            "saleStatus" NOT IN ('미판매', '단종') AND
-            "delStatus" ='N'
+            saleStatus NOT IN ('미판매', '단종') AND
+            delStatus ='N'
             <!-- bookType이 비어있지 않고 'ALL'이 아닐 때만 필터 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.bookType) and pagination.detailCondition.bookType != 'ALL'">
-                INSTR("bookCateNm", #{pagination.detailCondition.bookType}) > 0 AND
+                INSTR(bookCateNm, #{pagination.detailCondition.bookType}) > 0 AND
             </if>
 
             <!-- keyword가 비어있지 않을 때만 검색조건 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
                 <choose>
                     <when test="pagination.detailCondition.searchType == 'bookName'">
-                        INSTR("bookName", #{pagination.detailCondition.keyword}) > 0 AND
+                        INSTR(bookName, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
                     <when test="pagination.detailCondition.searchType == 'author'">
-                        INSTR("author", #{pagination.detailCondition.keyword}) > 0 AND
+                        INSTR(author, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
                 </choose>
             </if>
@@ -35,78 +35,75 @@
 
 
     <select id="selectAllBooks" resultType="BookVO">
-        with filterData as (
-        select ROWNUM as rnum,a.*
-        from(
-        SELECT TRIM("bookId") AS "bookId"
-        , "bookCateNm"
-        , "bookCateDepth"
-        , "bookName"
-        , "bookDesc"
-        , "author"
-        , "bookPrice"
-        , "stock"
-        , "stockStatus"
-        , "publishDate"
-        , "roleId"
-        , "cateId"
-        , "bookImgPath"
-        , "writer"
-        , "createDate"
-        ,"recomType"
-        ,"saleStatus"
+        SELECT
+        TRIM(bookId) AS bookId,
+        bookCateNm,
+        bookCateDepth,
+        bookName,
+        bookDesc,
+        author,
+        bookPrice,
+        stock,
+        stockStatus,
+        publishDate,
+        roleId,
+        cateId,
+        bookImgPath,
+        writer,
+        createDate,
+        recomType,
+        saleStatus
         FROM book
-        <include refid="searchFrag" />
+        <include refid="searchFrag"/>
 
-        ORDER BY "bookId" DESC
-        ) a
-        )
-        SELECT *
-        FROM filterData
-        WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+        ORDER BY bookId DESC
+
+        LIMIT #{pagination.pageSize}
+        OFFSET #{pagination.offset}
+
     </select>
 
     <select id="selectOneBook" resultType="BookVO">
-        select  trim("bookId") as "bookId"
-             , "bookCateNm"
-             , "bookCateDepth"
-             , "bookName"
-             , "bookDesc"
-             , "author"
-             , "bookPrice"
-             , "stock"
-             , "stockStatus"
-             , "publishDate"
-             , "roleId"
-             , "cateId"
-             , "bookImgPath"
-             , "writer"
-             , "createDate"
-             ,"recomType"
-             ,"saleStatus"
+        select  trim(bookId) as bookId
+             , bookCateNm
+             , bookCateDepth
+             , bookName
+             , bookDesc
+             , author
+             , bookPrice
+             , stock
+             , stockStatus
+             , publishDate
+             , roleId
+             , cateId
+             , bookImgPath
+             , writer
+             , createDate
+             ,recomType
+             ,saleStatus
         from book
-        where "bookId"=#{bookId}
+        where bookId=#{bookId}
     </select>
 
     <update id="increaseBookQuantity">
         UPDATE book
-        SET "stock" = "stock" + #{quantity}
-        WHERE "bookId" = #{bookId}
+        SET stock = stock + #{quantity}
+        WHERE bookId = #{bookId}
     </update>
 
     <update id="decreaseBookQuantity">
         UPDATE book
-        SET "stock" = "stock" - #{quantity}
-        WHERE "bookId" = #{bookId}
-          AND "stock" >= #{quantity}
+        SET stock = stock - #{quantity}
+        WHERE bookId = #{bookId}
+          AND stock >= #{quantity}
     </update>
 
     <!-- 조회할 VO 객체를 결과 타입으로 선언해야 데이터가 매핑되어 반환됨 -->
     <select id="checkBookCount" parameterType="String" resultType="int">
         SELECT
-             "stock"
+             stock
         FROM book
-        WHERE "bookId" = #{bookId}
+        WHERE bookId = #{bookId}
     </select>
 
 </mapper>

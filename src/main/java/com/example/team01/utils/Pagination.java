@@ -21,6 +21,7 @@ import java.util.Map;
 public class Pagination {
 
     private int currentPage;//현재 페이지
+    private int offset;
     private int pageSize;// 보여줄 페이지 개수
     private int startRow;    // 조회 시작 행 번호
     private int endRow;      // 조회 끝 행 번호
@@ -71,13 +72,10 @@ public class Pagination {
 
     //현재페이지를 기준으로 테이블 데이터 조회할 행 제한
     public void setLimitRows(int currentPage) {
-
         //시작페이지 번호
-        this.startRow = (currentPage - 1) * pageSize + 1;
-        //마지막 페이지에서 데이터 수보다 큰 번호를 방지, 마지막페이지 번호
-        this.endRow = Math.min(currentPage * pageSize, totalRecord);
-        //totalRecord는  dao 메서드를 통해 데이터를 조회한 후 pagination setter로 설정해 줌
-        log.info("startRow:{},endRow:{}",startRow,endRow);
+        this.offset = (currentPage - 1) * pageSize;
+        log.info("offset:{}", offset);
+
     }
 
     // 찜목록 반환 값에 대한 페이지 설정에 필요한 메서드 ==> Pagination 생성자의 사용에 대해서 같이 고민해보기

@@ -69,7 +69,7 @@ public class UserInfoServiceImple implements UserInfoService {
                 .email(vo.getEmail())
                 .joinDate(vo.getJoinDate())
                 .status(vo.getStatus())
-                .withDrowDate(vo.getWithDrowDate())
+                .withdrawDate(vo.getWithdrawaldate())
                 .build();
 
 

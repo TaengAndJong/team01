@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class WishListVO implements Serializable { // 직렬화 자바데이터타입 => 바이트로 변경
 
-    private String wishId; //찜한 목록 ID
+    private Long wishId; //찜한 목록 ID ==> primary key ( || index) 는 Long, Integer, int로 보편적으로 지정하며, psql에서 자동증가 타입은 문자열 불가
     private LocalDateTime wishDate; // 찜한날짜 ==> 자동증가일 경우 insert문 쿼리에 기입 안 해도 됨
     private String clientId; // 클라이언트에서 서버로 데이터를 전송할때 파라미터를 받아오는 인스턴스
     private String bookId; // 클라이언트에서 서버로 데이터를 전송할때 파라미터를 받아오는 인스턴스
