@@ -10,7 +10,6 @@ import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.antlr.v4.runtime.CodePointBuffer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,15 +26,6 @@ public class CartServiceImple implements CartService{
     private final CartDao dao;
     private final FileUtils fileUtils;
 
-
-    // 장바구니 추가 전 도서 수량 확인 메서드
-//    @Override
-//    public CartVO checkBookCount(String bookId) {
-//        //boolean 1이면 true, 0이하면 false
-//        BookVO bookStock = dao.checkBookCount(bookId); //true
-
-//        return null;
-//    }
 
     // 장바구니에서 도서 데이터 조회할 메서드(단일추가)
     @Override

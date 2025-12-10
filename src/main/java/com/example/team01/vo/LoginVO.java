@@ -1,16 +1,9 @@
 package com.example.team01.vo;
 
-import jakarta.persistence.Id;
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
 
 
 @ToString
@@ -20,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor //파라미터로 받는 생성자 전부 생성, 객체 생성시 모든 필드 초기화
 public class LoginVO implements Serializable {
 
-    @Id
     private String clientId;  // 사용자 아이디 (예: 이메일 또는 사용자 이름)
     private String clientName;  // 사용자 아이디 (예: 이메일 또는 사용자 이름)
     private String password;  // 비밀번호

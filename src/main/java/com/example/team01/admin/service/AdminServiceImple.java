@@ -10,13 +10,9 @@ import com.example.team01.admin.dao.AdminDao;
 import com.example.team01.dto.admin.ChartDataDTO;
 import com.example.team01.dto.admin.NewBookDTO;
 import com.example.team01.dto.admin.StockBookDTO;
-import com.example.team01.dto.book.BookDTO;
-import com.example.team01.dto.cart.CartDTO;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.BookVO;
-import com.example.team01.vo.CartVO;
-
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Transactional

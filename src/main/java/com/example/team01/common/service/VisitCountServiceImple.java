@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.team01.common.dao.VisitCountDao;
 import com.example.team01.dto.common.VisitRequestDTO;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Slf4j
