@@ -103,7 +103,7 @@ const AddressComponent = () =>{
 
     useEffect(() => {
         addrFetch();
-        console.log("deliveryData onInit --- 마운트",deliveryData);
+        //console.log("deliveryData onInit --- 마운트",deliveryData);
     },[]);
 
     console.log("deliveryData-------",deliveryData);

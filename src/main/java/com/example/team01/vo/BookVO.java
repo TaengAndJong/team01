@@ -41,7 +41,7 @@ public class BookVO implements BookImgChange {
 
     //정규화로 view 테이블 따로 만들건지 고려 필요
     private String viewCnt; // 특정 도서에 대한 조회수 ==> 좋아요 ?
-    private String wishID;  // 찜 목록 아이디
+    private Long wishId;  // 찜 목록 아이디
 }
 
 

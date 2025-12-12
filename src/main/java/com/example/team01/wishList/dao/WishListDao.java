@@ -15,13 +15,13 @@ public interface WishListDao {
     public List<WishListVO> getWishList(@Param("pagination") Pagination pagination);
 
     //찜목록 저장  (해당 유저 구분 == clientId, 저장할 도서 구분 == bookId)
-    public int insertWishList(@Param("clientId")String clientId, @Param("bookId")String bookId);
+    public int insertWishList(@Param("clientId")String clientId, @Param("bookId") Long bookId);
 
     //찜목록 삭제 (해당 유저 구분 == clientId, 삭제할 도서 구분 == bookId)
-    public int wishListStatus(@Param("clientId")String clientId, @Param("bookId")String bookId);
+    public int wishListStatus(@Param("clientId")String clientId, @Param("bookId") Long bookId);
 
     //해당유저의 찜목록 데이터가 디비에 존재하는지 여부 판단쿼리
-    public int existWishList(@Param("clientId")String clientId, @Param("bookId")String bookId);
+    public int existWishList(@Param("clientId")String clientId, @Param("bookId") Long bookId);
 
     //totalRecode
     public int totalRecord(@Param("pagination") Pagination pagination);

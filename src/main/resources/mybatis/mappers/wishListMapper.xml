@@ -28,17 +28,17 @@
 
             <!-- bookType이 비어있지 않고 'ALL'이 아닐 때만 필터 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.bookType) and pagination.detailCondition.bookType != 'ALL'">
-                INSTR(b.bookCateNm, #{pagination.detailCondition.bookType}) > 0 AND
+                STRPOS(b.bookCateNm, #{pagination.detailCondition.bookType}) > 0 AND
             </if>
 
             <!-- keyword가 비어있지 않을 때만 검색조건 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
                 <choose>
                     <when test="pagination.detailCondition.searchType == 'bookName'">
-                        INSTR(b.bookName, #{pagination.detailCondition.keyword}) > 0 AND
+                        STRPOS(b.bookName, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
                     <when test="pagination.detailCondition.searchType == 'author'">
-                        INSTR(b.author, #{pagination.detailCondition.keyword}) > 0 AND
+                        STRPOS(b.author, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
                 </choose>
             </if>
@@ -59,51 +59,57 @@
     <select id="getWishList" resultMap="wishListMap" parameterType="com.example.team01.utils.Pagination" >
         WITH userWish AS (
         SELECT
-            wishId,
-            wishDate,
-            wishStatus,
-            clientId,
-            bookId
+        wishId,
+        wishDate,
+        wishStatus,
+        clientId,
+        bookId
         FROM wishList
-        WHERE clientId = #{pagination.clientId} AND wishStatus = 'Y'
+        WHERE clientId = #{pagination.clientId}
+        AND wishStatus = 'Y'
         ),
         filterData AS (
         SELECT
-        ROW_NUMBER() OVER (ORDER BY w.wishDate DESC) AS rnum,
-            w.wishId,
-            w.wishDate,
-            w.wishStatus,
-            w.clientId,
-            b.bookId,
-            b.bookName,
-            b.bookCateNm,
-            b.author,
-            b.bookPrice,
-            b.publishDate,
-            b.bookImgPath
-            FROM userWish w
-            JOIN book b ON w.bookId = b.bookId
+        w.wishId,
+        w.wishDate,
+        w.wishStatus,
+        w.clientId,
+        b.bookId,
+        b.bookName,
+        b.bookCateNm,
+        b.author,
+        b.bookPrice,
+        b.publishDate,
+        b.bookImgPath
+        FROM userWish w
+        JOIN book b ON w.bookId = b.bookId
         WHERE 1=1
         <include refid="searchFrag"/>
+        ORDER BY w.wishDate DESC
         )
         SELECT *
         FROM filterData
-        WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+        LIMIT #{pagination.pageSize}
+        OFFSET #{pagination.offset};
+
     </select>
 
 
-
-
     <!--    null 방지 처리는 Integer 타입 선언 또는 Count로 결과값 반환 -->
-    <select id="existWishList" parameterType="String">
+    <select id="existWishList" resultType="int">
         SELECT COUNT(*) FROM WISHLIST
         WHERE clientId = #{clientId} AND bookId = #{bookId}
     </select>
 
-    <insert id="insertWishList" parameterType="String">
-        INSERT INTO WISHLIST
-            (clientId,bookId)
-        values(#{clientId},#{bookId})
+    <insert id="insertWishList">
+        <selectKey keyProperty="wishId" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('wish_qec')
+        </selectKey>
+
+        INSERT INTO wishlist
+        (wishId, clientId, bookId)
+        VALUES
+        (#{wishId}, #{clientId}, #{bookId})
     </insert>
 
 

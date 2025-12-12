@@ -15,7 +15,7 @@ public interface WishListService {
     public List<WishListVO> getWishList(Pagination pagination,HttpServletRequest request);
 
     //찜목록 저장  (해당 유저 구분 == clientId, 저장할 도서 구분 == bookId)
-    public WishStatus insertWishList(String clientId, String bookId);
+    public WishStatus insertWishList(String clientId, Long bookId);
 
     //해당유저의 찜목록 bookId만 조회
     public List<String> selectWishIds(String clientId);

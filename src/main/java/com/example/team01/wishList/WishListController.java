@@ -115,7 +115,7 @@ public class WishListController {
     public ResponseEntity<?> saveWishList(
             @RequestParam(defaultValue = "1") int currentPage,
             @RequestParam(defaultValue = "4") int pageSize,
-            @RequestParam String bookId,
+            @RequestParam Long bookId,
             @AuthenticationPrincipal PrincipalDetails principalDetails
             , HttpServletRequest request) {
         log.info("saveWishList-------:{}", bookId);

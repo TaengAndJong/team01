@@ -57,7 +57,7 @@ public class WishListServiceImple implements WishListService {
 
 
     @Override
-    public WishStatus insertWishList(String clientId, String bookId) {
+    public WishStatus insertWishList(String clientId, Long bookId) {
         //컨트롤러에게 반환할 cnt (마이바티스는 update, delete, insert 에대해서  int로 반환)
 
         // 파리미터를 받아와서 존재여부 판단
