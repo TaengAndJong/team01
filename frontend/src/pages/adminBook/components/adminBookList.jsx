@@ -216,7 +216,7 @@ const AdminBookList = () => {
                 bookList?.map((item, index) => (
                     <tr key={index} className="table-light border-bottom">
                       <td className="text-center">
-                        {item.bookId}
+
                         <input
                             type="checkbox"
                             id={`item${index}`}

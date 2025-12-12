@@ -9,23 +9,27 @@
 <!--
     searchFlag 동적 쿼리 , Pagination pagination에 DetailCondition에 검색조건필터를 담아서 받아온 경우
     detailCondition.bookType 의 형태로 접근해야 함
+
+    오라클에서는 INSTR(string, keword) 함수 사용 , psql에서는 POSITION()  또는 STRPOS() 사용
 -->
     <sql id="searchFrag">
         <trim prefix="WHERE" suffixOverrides="AND">
 
             <!-- bookType이 비어있지 않고 'ALL'이 아닐 때만 필터 적용 -->
-            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.bookType) and pagination.detailCondition.bookType != 'ALL'">
-                INSTR(bookCateNm, #{pagination.detailCondition.bookType}) > 0 AND
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.bookType)
+          and pagination.detailCondition.bookType != 'ALL'">
+                STRPOS(bookCateNm, #{pagination.detailCondition.bookType}) > 0 AND
             </if>
 
             <!-- keyword가 비어있지 않을 때만 검색조건 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
                 <choose>
                     <when test="pagination.detailCondition.searchType == 'bookName'">
-                        INSTR(bookName, #{pagination.detailCondition.keyword}) > 0 AND
+                        STRPOS(bookName, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
+
                     <when test="pagination.detailCondition.searchType == 'author'">
-                        INSTR(author, #{pagination.detailCondition.keyword}) > 0 AND
+                        STRPOS(author, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
                 </choose>
             </if>

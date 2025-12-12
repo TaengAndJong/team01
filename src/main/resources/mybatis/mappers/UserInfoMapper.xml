@@ -19,7 +19,7 @@
                withDrawalDate,
                status,
 --                staffId,
-               selecedAddrId from CLIENT
+               selectedaddrId from CLIENT
         where clientId=#{clientId} and roleId=#{roleId}
     </select>
 

@@ -69,6 +69,7 @@ const EditForm = ({editItem,setEditItem,setShowEditForm}) => {
                                     <FormTag
                                         label="분류"
                                         labelClass="form-title" className="form-control"
+                                        id="addrType"
                                         name="addrType"
                                         value={editItem?.addrType}
                                         placeholder="배송지분류"
