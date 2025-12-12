@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserViewBookService {
 
     //사용자 조회 도서 insert
-    public int insertUserViewBook(String bookId,String clientId);
+    public int insertUserViewBook(Long bookId,String clientId);
 
     // 사용자 조회 도서 select
     public List<UserBookResponseDTO> selectUserViewBook(String clientId);

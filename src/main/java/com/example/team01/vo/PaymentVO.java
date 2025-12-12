@@ -30,4 +30,5 @@ public class PaymentVO implements Serializable {
     //도서상품 조회
     private List<CartVO> bookList;// 1:N ( 장바구니에 담긴 도서 정고 가져와야함, 수량때문에);
 
+
 }

@@ -70,7 +70,7 @@ public class BookServiceImple implements BookService{
     }
 
     @Override
-    public BookVO selectOneBook(String bookId) {
+    public BookVO selectOneBook(Long bookId) {
 
         BookVO bookVO = dao.selectOneBook(bookId);
         log.info("selectOneBook ------bookVO: {}",bookVO);

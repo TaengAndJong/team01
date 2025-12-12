@@ -16,9 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AdminBookVO implements BookImgChange {
 
-
-
-    private String bookId; //도서등록고유번호 ==> 데이터베이스에서 자동증가
+    private Long bookId; //도서등록고유번호 ==> 데이터베이스에서 자동증가
     private String bookCateNm; //  private String bookCateNm; // 도서 카테고리 (배열로 변경)
     private String bookCateDepth; // 도서 카테고리 뎊스 (배열로 변경)
     private String bookName;//도서명

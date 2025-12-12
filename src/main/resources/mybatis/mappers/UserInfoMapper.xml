@@ -4,47 +4,47 @@
 <mapper namespace="com.example.team01.mypage.userInfo.dao.UserInfoDao">
 
     <select id="selectClientInfo" parameterType="String" resultType="ClientVO">
-        select "clientId",
-               "roleId",
-               "clientName",
-               "password",
-               "birth",
-               "tel",
-               "zoneCode",
-               "addr",
-               "detailAddr",
-               "email",
---                "picture",
-               "joinDate",
-               "withDrawalDate",
-               "status",
---                "staffId",
-               "selecedAddrId" from CLIENT
-        where "clientId"=#{clientId} and "roleId"=#{roleId}
+        select clientId,
+               roleId,
+               clientName,
+               password,
+               birth,
+               tel,
+               zoneCode,
+               addr,
+               detailAddr,
+               email,
+--                picture,
+               joinDate,
+               withDrawalDate,
+               status,
+--                staffId,
+               selecedAddrId from CLIENT
+        where clientId=#{clientId} and roleId=#{roleId}
     </select>
 
     <update id="updatePassword" parameterType="String">
         UPDATE client
-        SET "password" = #{password}
-        WHERE "clientId" = #{clientId}
+        SET password = #{password}
+        WHERE clientId = #{clientId}
     </update>
 
     <update id="updateAllUserInfo" parameterType="com.example.team01.mypage.userInfo.dto.UserInfoDTO">
         UPDATE client
         <set>
-            <if test="tel != null">"tel" = #{tel}</if>
-            <if test="zoneCode != null">, "zoneCode" = #{zoneCode}</if>
-            <if test="addr != null">, "addr" = #{addr}</if>
-            <if test="detailAddr != null">, "detailAddr" = #{detailAddr}</if>
-            <if test="email != null">, "email" = #{email}</if>
+            <if test="tel != null">tel = #{tel}</if>
+            <if test="zoneCode != null">, zoneCode = #{zoneCode}</if>
+            <if test="addr != null">, addr = #{addr}</if>
+            <if test="detailAddr != null">, detailAddr = #{detailAddr}</if>
+            <if test="email != null">, email = #{email}</if>
         </set>
-        WHERE "clientId" = #{clientId}
+        WHERE clientId = #{clientId}
         AND (
-        ("tel" != #{tel} OR "tel" IS NULL)
-        OR ("zoneCode" != #{zoneCode} OR "zoneCode" IS NULL)
-        OR ("addr" != #{addr} OR "addr" IS NULL)
-        OR ("detailAddr" != #{detailAddr} OR "detailAddr" IS NULL)
-        OR ("email" != #{email} OR "email" IS NULL)
+        (tel != #{tel} OR tel IS NULL)
+        OR (zoneCode != #{zoneCode} OR zoneCode IS NULL)
+        OR (addr != #{addr} OR addr IS NULL)
+        OR (detailAddr != #{detailAddr} OR detailAddr IS NULL)
+        OR (email != #{email} OR email IS NULL)
         )
     </update>
 

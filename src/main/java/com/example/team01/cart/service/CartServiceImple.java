@@ -29,7 +29,7 @@ public class CartServiceImple implements CartService{
 
     // 장바구니에서 도서 데이터 조회할 메서드(단일추가)
     @Override
-    public CartVO selectBookInfo(String bookId) {
+    public CartVO selectBookInfo(Long bookId) {
         CartVO bookInfo = dao.selectBookInfo(bookId);
         log.info("selectBookInfo--------serviceImple:{}",bookInfo);
         return bookInfo;
@@ -44,7 +44,7 @@ public class CartServiceImple implements CartService{
         int cnt = 0;
         log.info("insertBook--------cartVO:{}",cartVO);
         // 디비 cart 테이블이 도서목록이 존재하는지 확인
-        String bookId = cartVO.getBookId();
+        Long bookId = cartVO.getBookId();
         int quantity = cartVO.getQuantity();
 
         // 있으면 수량만 갱신 및 도서테이블의 수량 갱신 필요
@@ -98,7 +98,7 @@ public class CartServiceImple implements CartService{
 
     //장바구니에 담긴 해당 클라이언트의 특정상품 중복 조회
     @Override
-    public int selectDuplicateCheck(String clientId, String bookId) {
+    public int selectDuplicateCheck(String clientId, Long bookId) {
 
         log.info("selectDuplicateCheck clientId:{} , bookId :{}",clientId,bookId);
         // 중복이면 1 , 아니면 0 반환
@@ -133,7 +133,7 @@ public class CartServiceImple implements CartService{
 
         //넘겨줄 파라미터 분리하기
         String cartId = bookInfo.getCartId();
-        String bookId = bookInfo.getBookId();
+        Long bookId = bookInfo.getBookId();
         int quantity = bookInfo.getQuantity();
          cnt = dao.updateCartQuantity(cartId,bookId,quantity);
         log.info("장바구니 도서수량 변경 cnt:{}",cnt);

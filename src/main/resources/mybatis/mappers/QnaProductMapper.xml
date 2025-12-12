@@ -10,7 +10,7 @@
         FROM qnaPro
         <where>
         <include refid="searchFrag"/>
-        AND ("qnaDel" = 'N' OR "qnaDel" IS NULL) AND "clientId" != #{userId}
+        AND (qnaDel = 'N' OR qnaDel IS NULL) AND clientId != #{userId}
         </where>
     </select>
 
@@ -22,57 +22,57 @@
             <!-- 전체 -->
             <when test="pagination.detailCondition.searchType == 'all'">
             (
-                INSTR("qnaTitle", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("qnaWriter", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("qnaStatus", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR(TO_CHAR("qnaDate", 'YYYY-MM-DD HH24:MI:SS'), #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("clientId", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("qnaContent", #{pagination.detailCondition.keyword}) > 0
+                INSTR(qnaTitle, #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR(qnaWriter, #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR(qnaStatus, #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR(TO_CHAR(qnaDate, 'YYYY-MM-DD HH24:MI:SS'), #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR(clientId, #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR(qnaContent, #{pagination.detailCondition.keyword}) > 0
                 ) AND
             </when>
 
             <!-- 제목 -->
             <when test="pagination.detailCondition.searchType == 'title'">
-            INSTR("qnaTitle", #{pagination.detailCondition.keyword}) > 0 AND
+                INSTR(qnaTitle, #{pagination.detailCondition.keyword}) > 0 AND
             </when>
         
             <!-- 제목 + 내용 -->
             <when test="pagination.detailCondition.searchType == 'title_content'">
             (
-                INSTR("qnaTitle", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("qnaContent", #{pagination.detailCondition.keyword}) > 0
+                INSTR(qnaTitle, #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR(qnaContent, #{pagination.detailCondition.keyword}) > 0
             ) AND
             </when>
 
             <!-- 내용 -->
             <when test="pagination.detailCondition.searchType == 'content'">
-            INSTR("qnaContent", #{pagination.detailCondition.keyword}) > 0 AND
+                INSTR(qnaContent, #{pagination.detailCondition.keyword}) > 0 AND
             </when>
 
             <!-- 작성자 -->
             <when test="pagination.detailCondition.searchType == 'userId'">
             (
-                INSTR("qnaWriter", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("clientId", #{pagination.detailCondition.keyword}) > 0
+                INSTR(qnaWriter, #{pagination.detailCondition.keyword}) > 0 OR
+                INSTR(clientId, #{pagination.detailCondition.keyword}) > 0
             ) AND
             </when>
 
             <!-- 답변 여부 -->
             <when test="pagination.detailCondition.searchType == 'answerStatus'">
-            INSTR("qnaStatus", #{pagination.detailCondition.keyword}) > 0 AND
+                INSTR(qnaStatus, #{pagination.detailCondition.keyword}) > 0 AND
             </when>
 
                         <!-- 키워드가 존재할 경우, 전체 컬럼 검색 -->
             <otherwise>
                 <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
-                (
-                INSTR("qnaTitle", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("qnaWriter", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("qnaStatus", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR(TO_CHAR("qnaDate", 'YYYY-MM-DD HH24:MI:SS'), #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("clientId", #{pagination.detailCondition.keyword}) > 0 OR
-                INSTR("qnaContent", #{pagination.detailCondition.keyword}) > 0
-                ) AND
+                    (
+                    INSTR(qnaTitle, #{pagination.detailCondition.keyword}) > 0 OR
+                    INSTR(qnaWriter, #{pagination.detailCondition.keyword}) > 0 OR
+                    INSTR(qnaStatus, #{pagination.detailCondition.keyword}) > 0 OR
+                    INSTR(TO_CHAR(qnaDate, 'YYYY-MM-DD HH24:MI:SS'), #{pagination.detailCondition.keyword}) > 0 OR
+                    INSTR(clientId, #{pagination.detailCondition.keyword}) > 0 OR
+                    INSTR(qnaContent, #{pagination.detailCondition.keyword}) > 0
+                    ) AND
                 </if>
             </otherwise>
             </choose>
@@ -80,57 +80,55 @@
     </sql>
 
     <select id="getAllQnaProductList" resultType="QnaProductVO" parameterType="com.example.team01.utils.Pagination">
-        with filterData as (
-            select ROWNUM as rnum,a.*
-            from(
-                SELECT TRIM("qnaProId") AS "qnaProId"
-                    , "qnaTitle"
-                    , "qnaWriter"
-                    , "clientId"
-                    , "qnaStatus"
-                    , "qnaDate"
-                    , "qnaDel"
-                FROM qnaPro
-                <trim prefix="WHERE" prefixOverrides="AND|OR">
-                <include refid="searchFrag"/>
-                AND ("qnaDel" = 'N' OR "qnaDel" IS NULL) AND  "clientId" != #{userId}
-            </trim>
-                ORDER BY "qnaProId" DESC
-            ) a
-        )
-        SELECT *
-        FROM filterData
-        WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+        SELECT
+        TRIM(qnaProId) AS qnaProId,
+        qnaTitle,
+        qnaWriter,
+        clientId,
+        qnaStatus,
+        qnaDate,
+        qnaDel
+        FROM qnaPro
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+
+            <include refid="searchFrag"/>
+            AND (qnaDel = 'N' OR qnaDel IS NULL)
+            AND clientId != #{userId}
+        </trim>
+        ORDER BY qnaProId DESC
+        LIMIT #{pagination.pageSize}
+        OFFSET #{pagination.offset}
     </select>
 
     <select id="getProDetailBoard" resultType="QnaProductVO" parameterType="map">
-        SELECT "qnaProId",
-        "qnaTitle",
-        TO_CHAR("qnaContent") as qnaContent,
-        "qnaWriter",
-        "qnaDate",
-        "qnaDel",
-        "qnaStatus",
-        "clientId",
-        "roleId",
-        "attachmentID"
-    FROM qnaPro
-    WHERE "qnaProId" = #{boardId}
-    AND "clientId" = #{userId}
-    AND ROWNUM = 1
+        SELECT
+            qnaProId,
+            qnaTitle,
+            qnaContent::text AS qnaContent,
+                qnaWriter,
+            qnaDate,
+            qnaDel,
+            qnaStatus,
+            clientId,
+            roleId,
+            attachmentID
+        FROM qnaPro
+        WHERE qnaProId = #{boardId}
+          AND clientId = #{userId}
+            LIMIT 1
     </select>
 
     <delete id="deleteProductBoard" parameterType="map">
         update qnaPro
-        set "qnaDel" = 'Y',
-        "qnaDelDate" = SYSDATE
-        where "qnaProId" = #{boardId}
+        set qnaDel = 'Y',
+            qnaDelDate = SYSDATE
+        where qnaProId = #{boardId}
     </delete>
         
 
     <update id="updateQnaProductStatus" parameterType="map">
         update qnaPro
-        set "qnaStatus" = '답변 완료'
-        where "qnaProId" = #{boardId}
+        set qnaStatus = '답변 완료'
+        where qnaProId = #{boardId}
     </update>
 </mapper>

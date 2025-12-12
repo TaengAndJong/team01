@@ -57,7 +57,7 @@ public class PayHistoryController {
         log.info("postPayCancelList-----params:{}",params);
         String clientId = userInfo.getUsername();
         String payId = params.getPayId();
-        String bookId = params.getBookId();
+        Long bookId = params.getBookId();
 
         // 개별결제취소 서비스로 파라미터 전달
         paymentService.partialCancel(payId,clientId,bookId);
@@ -76,7 +76,7 @@ public class PayHistoryController {
 
 
         if(canceledAll){ // 전체취소이면
-            List<String> bookIds = paymentList.stream()
+            List<Long> bookIds = paymentList.stream()
                     .filter(dto-> dto.getPayId().equals(payId))
                     .flatMap(books -> books.getBooks().stream())// ==> 이중배열구조에서 [bookDTO,bookDTO,bookDTO]로 변형
                     .map(BookDTO::getBookId).collect(Collectors.toList());  // 각객체에서 bookId만 모아서 반환
@@ -113,7 +113,7 @@ public class PayHistoryController {
     //1.paymentList 테이블에서 partPayStatus가 cancel인경우를 제외하고 partPayStatus 상태 cancel로 갱신하기
 
         String payId = params.getPayId();
-        List<String> bookIds = params.getBookIds();
+        List<Long> bookIds = params.getBookIds();
         //서비스로 파라미터 넘겨주기
         int result =  paymentService.allCancel(payId,bookIds,clientId); //int 탕비
         log.info("result-----paymentController:{}",result);

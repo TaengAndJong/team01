@@ -14,47 +14,66 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
     const maxFileSize = 5 * 1024 * 1024; // 5MB
     const maxTotalSize = 20 * 1024 * 1024; // 총합 20MB 제한 (옵션)
 
-    // defaultData 가 있으면, bookImg 재설정, 이전데이터를 유지하기위한 prevState 파라미터, defaultData가 변경될때마다 실행해야하니까 의존성배열 추가
     useEffect(() => {
+        // 안전한 방어코드: defaultData가 없으면 종료 ==> 값이 없으면 굳이 로직을 실행할 필요가 없기때문에
+        if (!defaultData) return;
 
-        console.log("fileUpload--1",bookImg);
-        console.log("defaultData-------------",defaultData);
-        console.log("defaultData bookImg : newImg-------------",defaultData?.bookImg);
-        /* 무한렌더링 방지 : 
-        defaultData?.bookImgPath가  빈 배열 또는 undefined일 경우 코드 종료
-        빈 배열은 값이 있음으로 처리되기 때문에 배열의 개수로 값의 유무를 확인해야 함
-        */
-        if (!defaultData?.bookImgPath || !defaultData?.bookImgPath.length > 0) return;
+        const raw = defaultData.bookImgPath;
 
-        // 기존 이미지파일이 존재할 경우,( 문자열로 들어오기때문에 타입 검증)
-        // .split() 함수를 사용해 문자열을 배열로 반환 ==> 키가 name인 객체로 담아야함
-        //existing은 등록을 통해 서버에 존재하는 파일을 담은 객체
-      if(defaultData?.bookImgPath){ // 수정페이지에서 기존 이미지 데이터가 있으면 조건  + noImg일 경우 existing 은 빈 배열로 설정필요
-          console.log("수정페이지 bookImgPath",defaultData?.bookImgPath)
-          console.log("수정페이지 bookImgPath 타입",typeof defaultData.bookImgPath === "string")
-          // 문자열일 경우 split 함수를 사용해 배열 변환
-          const imgPaths = typeof defaultData.bookImgPath === "string"
-              ? defaultData.bookImgPath.split(",") //배열로 반환
-              : defaultData.bookImgPath || [];
+        // bookImgPath가 null, undefined, 빈 문자열이면 빈 existing으로 설정하고 종료
+        if (raw == null || (typeof raw === "string" && raw.trim() === "")) {
+            setBookImg(prev => {
+                // 불필요한 리렌더 방지: 기존과 동일하면 그대로 반환
+                const prevJson = JSON.stringify(prev?.existing || []);
+                if (prevJson === JSON.stringify([])) return prev;
+                return { ...prev, existing: [] };
+            });
+            return;
+        }
 
-          console.log("수정페이지 bookImgPath imgPaths",imgPaths);
-          // "noImg"가 포함되어 있으면 빈 배열로 설정 , 노이미지로 설정되어있는 지 필터링 조건으로 확인 
-          // 주의, 빈 배열은 true를 반환하기때문에 배열의 내부 개수를 꼭 확인해야함
-          const existingImgs = imgPaths?.filter((fileName) => fileName.toLowerCase().includes("noImg")).length > 0
-              ? []
-              : imgPaths?.map((fileName) => {
-                  console.log("수정페이지 bookImgPath fileName", fileName);
-                  return { name: fileName }
-              });
-          console.log("수정페이지 existingImgs",existingImgs)
-          //이미지객체 갱신
-          setBookImg((prev)=>({
-              ...prev,
-              existing:existingImgs,
-          }))
-      }
+        // 1) 정규화(normalize) : 어떤 형태로 들어오든 "문자열 배열"로 수정
+        //  기존 imgPaths?.filter((fileName) => fileName.toLowerCase().includes("noimg")).length > 0 코드에서는
+        // imgpaths의 원본데이터인 raw 형태가 동일하게 유지 되지 못해 에러가 발생했기때문에, 원본데이터형태를 유지할 수 있게 코드 수정
+        // string인지 array인지 object array인지에 상관없이 안전하게 처리
+        let imgPaths = [];
+
+        if (typeof raw === "string") {
+            //raw문자데이터를 ','를 기준으로 배열로 반환한 후 , map함수로 순회하여 공백제거 및 false값을 필터링
+            // false값 판정은 ""(빈문자열), 공백문자열, null, undefined, 0, false, NaN
+            imgPaths = raw.split(",").map(item => item.trim()).filter(Boolean);
+        } else if (Array.isArray(raw)) {
+            imgPaths = raw
+                .map(item => {
+                    if (typeof item === "string") return item.trim();
+                    // 객체일 때는 가능한 필드들에서 파일명 꺼내기
+                    if (item && typeof item === "object") {
+                        return (item.name || item.fileName || item.filename || "").trim();
+                    }
+                    return "";
+                })
+                .filter(Boolean);
+        } else {
+            // 예기치 않은 타입이면 처리 중단
+            return;
+        }
+
+        // 2) "noimg" 포함 검사 (대소문자 구분 없이)
+        const hasNoImg = imgPaths.some(name => name.toLowerCase().includes("noimg"));
+
+        // 3) 최종 existing 생성: noImg 있으면 빈 배열, 아니면 { name } 객체 배열
+        const existingImgs = hasNoImg ? [] : imgPaths.map(name => ({ name }));
+
+        // 4) 상태 갱신: 이전과 동일하면 setState 하지 않아 불필요한 렌더 방지
+        setBookImg(prev => {
+            const prevExisting = prev?.existing || [];
+            if (JSON.stringify(prevExisting) === JSON.stringify(existingImgs)) {
+                return prev;
+            }
+            return { ...prev, existing: existingImgs };
+        });
 
     }, [defaultData]);
+
 
     console.log("bookImg--2",bookImg);
     console.log("bookImg--typeof",typeof bookImg.existing); // String 타입

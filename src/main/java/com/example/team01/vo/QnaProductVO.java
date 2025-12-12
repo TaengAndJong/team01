@@ -1,8 +1,6 @@
 package com.example.team01.vo;
 
 import lombok.*;
-import java.io.Serializable;
-import java.sql.Clob;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -64,11 +64,14 @@ const AdminBookList = () => {
   };
 
   const onChangeCheck = (bookId, isChecked) => {
+    console.log("onChangeCheck", bookId, isChecked);
     if (isChecked) {
       setCheckedInput((prev) => [...prev, bookId]);
     } else {
       setCheckedInput((prev) => prev.filter((id) => id !== bookId));
     }
+    
+    console.log("checkedInput---단일체크 후 체크값",checkedInput );
   };
 
   //삭제핸들러
@@ -213,13 +216,14 @@ const AdminBookList = () => {
                 bookList?.map((item, index) => (
                     <tr key={index} className="table-light border-bottom">
                       <td className="text-center">
+                        {item.bookId}
                         <input
                             type="checkbox"
                             id={`item${index}`}
                             name={`item${index}`}
                             checked={checkedInput.includes(item.bookId)} // 상태 기반 체크 여부 결정
                             onChange={(e) =>
-                                onChangeCheck(`${item.bookId}`, e.target.checked)
+                                onChangeCheck(item.bookId, e.target.checked)
                             }
                         />
                         <label

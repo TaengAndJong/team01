@@ -18,7 +18,7 @@ public class CartVO implements Serializable {
     private String cartId; //장바구니 생성아이디
     private LocalDateTime addCartDate; // 장바구니에 담은 날짜
     private int quantity; // 구매수량
-    private String bookId; // 구입할 도서 아이디
+    private Long bookId; // 구입할 도서 아이디
     private String clientId; // 로그인한 유저 아이디
     private String roleId; // 로그인한 유저의 역할
 

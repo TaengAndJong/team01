@@ -5,18 +5,41 @@
 
 
     <select id="categoryList" resultType="CategoryVO">
+        WITH RECURSIVE category_tree AS (
+            -- 루트 노드: cateName을 text 로 명시적 캐스팅
+            SELECT
+                cateId,
+                cateName,
+                parentId,
+                depthLevel,
+                1 AS level,
+                cateName::text AS fullPath
+            FROM categories
+            WHERE parentId IS NULL
+
+            UNION ALL
+
+            -- 자식 노드
+            SELECT
+                c.cateId,
+                c.cateName,
+                c.parentId,
+                c.depthLevel,
+                ct.level + 1 AS level,
+                (ct.fullPath || ' > ' || c.cateName)::text AS fullPath
+            FROM categories c
+                     JOIN category_tree ct
+                          ON c.parentId = ct.cateId
+        )
         SELECT
-            trim(LPAD(' ', LEVEL * 2) || "cateName") AS cateNames,
-            "cateId",
-            "parentId",
-            "depthLevel",
-            LEVEL,
-            SUBSTR(SYS_CONNECT_BY_PATH("cateName", ' > '), 4) AS fullPath
-        FROM
-            categories
-                START WITH "parentId" IS NULL
-        CONNECT BY PRIOR "cateId" = "parentId"
-        ORDER SIBLINGS BY "cateName"
+            LPAD(' ', level * 2) || cateName AS cateNames,
+            cateId,
+            parentId,
+            depthLevel,
+            level,
+            fullPath
+        FROM category_tree
+        ORDER BY fullPath
     </select>
 
 </mapper>

@@ -15,21 +15,21 @@
 
             <!-- bookType이 비어있지 않고 'ALL'이 아닐 때만 필터 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.bookType) and pagination.detailCondition.bookType != 'ALL'">
-                INSTR("bookCateNm", #{pagination.detailCondition.bookType}) > 0 AND
+                INSTR(bookCateNm, #{pagination.detailCondition.bookType}) > 0 AND
             </if>
 
             <!-- keyword가 비어있지 않을 때만 검색조건 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
                 <choose>
                     <when test="pagination.detailCondition.searchType == 'bookName'">
-                        INSTR("bookName", #{pagination.detailCondition.keyword}) > 0 AND
+                        INSTR(bookName, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
                     <when test="pagination.detailCondition.searchType == 'author'">
-                        INSTR("author", #{pagination.detailCondition.keyword}) > 0 AND
+                        INSTR(author, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
                 </choose>
             </if>
-            "delStatus"='N'
+            delStatus='N'
         </trim>
     </sql>
 <!-- 페이지네이션파라미터가 안넘어옴! 파라미터 타입 확인해야함-->
@@ -44,90 +44,83 @@
 <!-- 문자열로 숫자를 표현하면 순서가 꼬일 수 있어서 숫자로 변환해줘야 하기때문에 varchar2 말고 number 타입을 선언하기   -->
     <select id="selectAllBook" resultType="AdminBookVO" parameterType="com.example.team01.utils.Pagination">
 
-        with filterData as (
-            select ROWNUM as rnum,a.*
-                from(
-                        SELECT TRIM("bookId") AS "bookId"
-                             , "bookCateNm"
-                             , "bookCateDepth"
-                             , "bookName"
-                             , "bookDesc"
-                             , "author"
-                             , "bookPrice"
-                             , "stock"
-                             , "stockStatus"
-                             , "publishDate"
-                             , "roleId"
-                             , "cateId"
-                             , "bookImgPath"
-                             , "writer"
-                             , "createDate"
-                            ,"recomType"
-                            ,"saleStatus"
-                        FROM book
-                        <include refid="searchFrag" />
+        SELECT
+            bookId
+        , bookCateNm
+        , bookCateDepth
+        , bookName
+        , bookDesc
+        , author
+        , bookPrice
+        , stock
+        , stockStatus
+        , publishDate
+        , roleId
+        , cateId
+        , bookImgPath
+        , writer
+        , createDate
+        , recomType
+        , saleStatus
+        FROM book
+        <include refid="searchFrag" />
 
-                        ORDER BY TO_NUMBER("bookId") DESC
-                ) a
-        )
+        ORDER BY bookId DESC
 
-        SELECT *
-        FROM filterData
-        WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+        LIMIT #{pagination.pageSize}
+        OFFSET #{pagination.offset}
     </select>
 
-    <select id="selectOneBook" resultType="AdminBookVO" parameterType="String">
-        select  trim("bookId") as "bookId"
-             , "bookCateNm"
-             , "bookCateDepth"
-             , "bookName"
-             , "bookDesc"
-             , "author"
-             , "bookPrice"
-             , "stock"
-             , "stockStatus"
-             , "publishDate"
-             , "roleId"
-             , "cateId"
-             , "bookImgPath"
-             , "writer"
-             , "createDate"
-            ,"recomType"
-            , "saleStatus"
+<!-- long 과 Long은 다름
+ long 기본타입이라 mybatis가  alias를 가지고 있어서 long만 기입해도 인식 , Long은 객체(래퍼 타입)라서 FQCN를 정확히 써줘야함 -->
+    <select id="selectOneBook" resultType="AdminBookVO" parameterType="java.lang.Long" >
+        select  bookId
+             , bookCateNm
+             , bookCateDepth
+             , bookName
+             , bookDesc
+             , author
+             , bookPrice
+             , stock
+             , stockStatus
+             , publishDate
+             , roleId
+             , cateId
+             , bookImgPath
+             , writer
+             , createDate
+             ,recomType
+             , saleStatus
         from book
-        where "bookId"=#{bookId} and "delStatus" = 'N'
+        where bookId=#{bookId} and delStatus = 'N'
     </select>
     <!-- 인덱스 역할을 하는 파라미터를 String으로 하면 #{} 이 인식을 못할 경우 , ${} 사용하기
     마이바티스가 #{}바인딩 변수를 사용해서 문자열을 치환하면 varchar 타입으로 변환해 char 타입일 경우 인식이
     안될 수도 있음. ==> cast 사용해도 안되는 경우에는 ??
     -->
 
-
-    <insert id="createBook" parameterType="AdminBookVO">
-        <selectKey keyProperty="bookId" resultType="String" order="BEFORE">
-            SELECT BOOK_SECQUENCE.NEXTVAL FROM DUAL
-        </selectKey>
-
+<!--psql로 변경시 , useGeneratedKeys="true" keyProperty="bookId" 작성해주어야 VO.bookId 에 생성된 PK를 넣어줌-->
+    <insert id="createBook" parameterType="AdminBookVO" useGeneratedKeys="true" keyProperty="bookId">
         INSERT INTO BOOK (
-        "bookId"
-        , "bookCateNm"
-        , "bookCateDepth"
-        , "bookName"
-        , "bookDesc"
-        , "author"
-        , "bookPrice"
-        , "stock"
-        , "stockStatus"
-        , "publishDate"
-        , "roleId"
-        , "cateId"
-        , "bookImgPath"
-        , "writer"
-        ,"recomType"
-        ,"saleStatus"
+
+            bookCateNm
+            , bookCateDepth
+            , bookName
+            , bookDesc
+            , author
+            , bookPrice
+            , stock
+            , stockStatus
+            , publishDate
+            , roleId
+            , cateId
+            , bookImgPath
+            , writer
+            ,recomType
+            ,saleStatus
         ) VALUES (
-        #{bookId}
-        , #{bookCateNm}
+
+         #{bookCateNm}
         , #{bookCateDepth}
         , #{bookName}
         , #{bookDesc}
@@ -146,10 +139,10 @@
 
     </insert>
     <!-- 도서 존재유뮤 유효성검사 쿼리 -->
-    <select id="existBooks" parameterType="list" resultType="string">
-        SELECT trim("bookId") as "bookId"
-        FROM BOOK
-        WHERE trim("bookId") IN
+    <select id="existBooks" parameterType="list" resultType="java.lang.Long">
+        SELECT bookId
+        FROM book
+        WHERE bookId IN
         <foreach collection="bookIds" item="bookId" open="(" separator="," close=")">
             #{bookId}
         </foreach>
@@ -159,73 +152,73 @@
     <!--도서삭제 시, 업데이트쿼리로 상태값 변경하여 삭제처리, 참조키로 연결된 데이터처리(클라이언트의 찜목록, 장바구니 등 ) -->
     <update id="deleteBooks" parameterType="list">
         update book
-        set "delStatus" = 'Y'
-        WHERE trim("bookId") IN
+        set delStatus = 'Y'
+        WHERE bookId IN
         <foreach collection="existBookIds" item="bookId" open="(" separator="," close=")">
            #{bookId}
         </foreach>
     </update>
 
     <!--도서에 등록된 이미지 삭제시 갱신 쿼리 -->
-    <update id="deleteBookFiles" parameterType="String">
+    <update id="deleteBookFiles" parameterType="AdminBookVO">
         update book
-        set "bookImgPath" = #{bookImgPath}
-        WHERE "bookId"=#{bookId}
+        set bookImgPath = #{bookImgPath}
+        WHERE bookId=#{bookId}
     </update>
 
     <update id="updateBook" parameterType="AdminBookVO">
         UPDATE book
         <set>
             <if test="bookCateNm != null and bookCateNm != ''">
-                "bookCateNm" = #{bookCateNm},
+                bookCateNm = #{bookCateNm},
             </if>
             <if test="bookCateDepth != null and bookCateDepth != ''">
-                "bookCateDepth" = #{bookCateDepth},
+                bookCateDepth = #{bookCateDepth},
             </if>
             <if test="bookName != null and bookName != ''">
-                "bookName" = #{bookName},
+                bookName = #{bookName},
             </if>
             <if test="bookDesc != null and bookDesc != ''">
-                "bookDesc" = #{bookDesc},
+                bookDesc = #{bookDesc},
             </if>
             <if test="author != null and author != ''">
-                "author" = #{author},
+                author = #{author},
             </if>
             <if test="bookPrice != null">
-                "bookPrice" = #{bookPrice},
+                bookPrice = #{bookPrice},
             </if>
             <if test="stock != null">
-                "stock" = #{stock},
+                stock = #{stock},
             </if>
             <if test="stockStatus != null and stockStatus != ''">
-                "stockStatus" = #{stockStatus},
+                stockStatus = #{stockStatus},
             </if>
             <if test="publishDate != null and publishDate != ''">
-                "publishDate" = #{publishDate},
+                publishDate = #{publishDate},
             </if>
             <if test="roleId != null and roleId != ''">
-                "roleId" = #{roleId},
+                roleId = #{roleId},
             </if>
             <if test="cateId != null and cateId != ''">
-                "cateId" = #{cateId},
+                cateId = #{cateId},
             </if>
             <if test="bookImgPath != null and bookImgPath != ''">
-                "bookImgPath" = #{bookImgPath},
+                bookImgPath = #{bookImgPath},
             </if>
             <if test="writer != null and writer != ''">
-                "writer" = #{writer},
+                writer = #{writer},
             </if>
             <if test="createDate != null and writer != ''">
-                "createDate" = #{createDate},
+                createDate = #{createDate},
             </if>
             <if test="recomType != null and recomType != ''">
-                "recomType" = #{recomType} ,
+                recomType = #{recomType} ,
             </if>
             <if test="saleStatus != null and saleStatus != ''">
-                "saleStatus"= #{saleStatus}
+                saleStatus= #{saleStatus}
             </if>
         </set>
-        WHERE "bookId" = #{bookId}
+        WHERE bookId = #{bookId}
     </update>
 
     <!-- 도서 등록, 수정시 데이터베이스에 저장될 이미지 경로 갱신쿼리-->
@@ -234,7 +227,7 @@
         <foreach collection="existBookIds" item="bookId" open="(" separator="," close=")">
             set bookImgpath =  #{bookImgPath}
         </foreach>
-        WHERE "bookId" = #{bookId}
+        WHERE bookId = #{bookId}
     </update>
 
 

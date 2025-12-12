@@ -78,7 +78,7 @@ public class PaymentServiceImple implements PaymentService {
         //bookDao.checkBookCount(PaymentVO.getClientId());
         for(CartVO book : PaymentVO.getBookList()){
             log.info("book:{}",book);
-            String bookId = book.getBookId();
+            Long bookId = book.getBookId();
             int bookStock= bookDao.checkBookCount(bookId);
             //도서구입수량이  bookStrock 을 초과했을경우 
             if(bookStock < book.getQuantity()){
@@ -163,7 +163,7 @@ public class PaymentServiceImple implements PaymentService {
     //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
     @Override
     @Transactional//하나의 작업이 취소되면 전부 취소되게 해주는 어노테이션(2개이상작업 있을경우 필요)
-    public int partialCancel(String payId,String clientId,String bookId) {
+    public int partialCancel(String payId,String clientId,Long bookId) {
         log.info("partialCancel-- payId:{},clientId:{},bookId:{}",payId,clientId,bookId);
 
         int cnt =0;
@@ -191,7 +191,7 @@ public class PaymentServiceImple implements PaymentService {
 
     @Override
     @Transactional//하나의 작업이 취소되면 전부 취소되게 해주는 어노테이션(2개이상작업 있을경우 필요)
-    public int allCancel(String payId,List<String> bookIds,String clientId) {
+    public int allCancel(String payId,List<Long> bookIds,String clientId) {
         int cnt =0;
 
         log.info("allCancel-- payId:{},bookIds:{},clientId:{}",payId,bookIds,clientId);

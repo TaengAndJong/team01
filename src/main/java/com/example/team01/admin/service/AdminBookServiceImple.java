@@ -84,7 +84,10 @@ public class AdminBookServiceImple implements AdminBookService {
     }
 
     @Override
-    public AdminBookVO deTailBook(String bookId) {
+    public AdminBookVO deTailBook(Long bookId) {
+        //psql 수정후 bookId를 못받아오고 있음 ==>
+        // mapper.xml에서  insert 시 vo.bookId를 설정해주는 useGeneratedKeys="true" keyProperty="bookId" 작성 필요
+        log.info("detailBook--bookId:{}", bookId);
         AdminBookVO adminBookVO = dao.selectOneBook(bookId);
 
         log.info("detailBook--modify:{}", adminBookVO);
@@ -210,25 +213,27 @@ public class AdminBookServiceImple implements AdminBookService {
     }
 
     @Override
-    public int deleteBooks(List<String> bookIds) {
+    public int deleteBooks(List<Long> bookIds) {
         log.info("서비스구현체 파라미터오나?-----bookIds:{}",bookIds);
         int cnt;
         //삭제할 아이디데이터 조회
-        List<String> existBookIds = dao.existBooks(bookIds);
+        List<Long> existBookIds = dao.existBooks(bookIds);
         log.info("existBookIds-----:{}",existBookIds);
         //삭제할 아이디데이터와 클라이언트가 삭제하려고 보낸 데이터의 일치여부판단
         if(existBookIds.size() != bookIds.size()){
             log.info("삭제할 데이터 개수 일치하지 않음-----:{},{}",existBookIds.size(),bookIds.size());
-            //일치하지 않는 도서 데이터 펼쳐서 필터 후 하나로 묶어서 리스트로 만들기
+            //일치하지 않는 도서 데이터 펼쳐서 필터 후 하나로 묶어서 리스트로 만들기 ( Long => String  변환)
             List<String> missingIds = bookIds.stream()
-                    .filter(bookId -> !existBookIds.contains(bookId)).collect(Collectors.toList());
+                    .filter(bookId -> !existBookIds.contains(bookId))
+                    .map(String::valueOf)
+                    .collect(Collectors.toList());
             //예외처리
             throw new BookNotFoundException("존재하지 않는 도서 ID ",missingIds);
         }
         //존재하는 아이디 값만 넘겨서 삭제성공이면  cnt = 성공한 개수로 반환
 
         //서버에 저장된 이미지 삭제하기
-        for(String bookId : existBookIds){
+        for(Long bookId : existBookIds){
             AdminBookVO adminBookVO = dao.selectOneBook(bookId);
             log.info("도서 삭제 :{}", adminBookVO.getBookImgPath());
             //noImg가 포함되어있지 않으면

@@ -15,13 +15,13 @@ import java.util.List;
 public class PaymentCancelDTO {
 
     private String payId;
-    private String bookId;
+    private Long bookId;
     private String partPayStatus;
 
-    private List<String> bookIds;
+    private List<Long> bookIds;
     private List<String> payIds; //전체 결제 취소
 
-    public PaymentCancelDTO(String payId, List<String> bookIds) {
+    public PaymentCancelDTO(String payId, List<Long> bookIds) {
         this.payId = payId;
         this.bookIds = bookIds;
     }

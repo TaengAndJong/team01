@@ -1,5 +1,6 @@
 package com.example.team01.admin;
 import com.example.team01.admin.service.QnaOneService;
+import com.example.team01.security.PrincipalDetails;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.QnaOneVO;
 import com.example.team01.utils.FileUtils;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.example.team01.comments.service.CommentsService;
 import com.example.team01.vo.CommentsVO;
@@ -28,13 +30,19 @@ public class QnaOneController {
         public ResponseEntity<?>  getQnaOneList(
             @RequestParam(defaultValue = "1")
             int currentPage, @RequestParam(defaultValue = "5")int pageSize,
-            @RequestParam String userId,
+//            @RequestParam String userId,
             @RequestParam(required = false) String searchType,
             @RequestParam(required = false) String keyword,
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
             HttpServletRequest request
             ) {
-        
-        List<QnaOneVO> qnaOneList = null; // 게시물 데이터 저장 할 변수 생성
+
+            // 로그인 정보 가져오기
+            String userId = principalDetails.getUsername();
+            log.info("userId----------- getQnaOneList",userId);
+
+
+            List<QnaOneVO> qnaOneList = null; // 게시물 데이터 저장 할 변수 생성
         Pagination pagination = new Pagination(currentPage, pageSize); // 페이지네이션 객체 미리 세팅하기
         
         if (keyword != null && !keyword.isEmpty()) { // 검색어 유무에 따라 분기

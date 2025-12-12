@@ -58,7 +58,7 @@
             c.*,b.*
         from
         (select * from cart
-         where "clientId"=#{clientId}) c
+         where clientId=#{clientId}) c
         join book b on (c."bookId" = b."bookId")
     </select>
 

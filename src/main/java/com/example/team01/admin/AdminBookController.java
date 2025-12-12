@@ -64,9 +64,12 @@ public class AdminBookController {
 
         // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
         int result = bookService.createBook(createBook);
-
+        log.info("adminBookControll- result:{}",result);
         // 데이터 insert 성공시 결과 반환
         if (result > 0) {
+            // 디비에 insert 된 후의 도서 Id를 받아와야함
+            log.info("bookId :{} ",createBook.getBookId());
+
             AdminBookVO addBookData = bookService.deTailBook(createBook.getBookId());
             //파일 경로 서버주소 반영하는 파일Util
             fileUtils.changeImgPath(addBookData,request);
@@ -157,7 +160,7 @@ public class AdminBookController {
 // 인덱스와 primary key 역할을 겸한다면 long type으로 설정해야 데이터베이스 성능이 좋아짐
 
     @GetMapping("/bookDetail/{bookId}")
-    public ResponseEntity<?> getBookDetail(@PathVariable String bookId,HttpServletRequest request){
+    public ResponseEntity<?> getBookDetail(@PathVariable Long bookId,HttpServletRequest request){
 
 
         // 아이디를 파라미터로 데이터베이스에 넘겨서 데이터 받아오기
@@ -173,7 +176,7 @@ public class AdminBookController {
     }
 
     @GetMapping("/bookModify/{bookId}")
-    public ResponseEntity<?>  getBookModify(@PathVariable String bookId,HttpServletRequest request){
+    public ResponseEntity<?>  getBookModify(@PathVariable Long bookId,HttpServletRequest request){
         log.info("도서 수정 API 호출됨");
 
         //카테고리 목록 가져오기
@@ -234,7 +237,7 @@ public class AdminBookController {
 
 
     @PostMapping("/bookDelete")
-    public ResponseEntity<?> deleteBook(@RequestBody List<String> bookIds,
+    public ResponseEntity<?> deleteBook(@RequestBody List<Long> bookIds,
 //                                        @RequestParam(required = false) String bookType,
 //                                        @RequestParam(required = false) String searchType,
 //                                        @RequestParam String keyword,
