@@ -53,70 +53,70 @@
         <result column="resultPayAccount" property="resultPayAccount"/>
     </resultMap>
 
-    <select id="selectCartList" parameterType="String" resultMap="bookMap">
+    <select id="selectCartList"  resultMap="bookMap">
         select
             c.*,b.*
         from
         (select * from cart
-         where clientId=#{clientId}) c
-        join book b on (c."bookId" = b."bookId")
+         where clientId = #{clientId}) c
+        join book b on (c.bookId = b.bookId)
     </select>
 
     <insert id="insertPayment" parameterType="PaymentVO">
-        <selectKey keyProperty="payId" resultType="String" order="BEFORE">
-            SELECT PAYID_SQE.NEXTVAL FROM DUAL
+        <selectKey keyProperty="payId" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('payid_seq')
         </selectKey>
         INSERT INTO payment
-            ("payId", "payAccount","payStatus", "payMethod","addrId","clientId")
+        (payId, payAccount, payStatus, payMethod, addrId, clientId)
         VALUES
-            (#{payId}, #{payAccount},#{payStatus}, #{payMethod},#{addrId},#{clientId})
+        (#{payId}, #{payAccount}, #{payStatus}, #{payMethod}, #{addrId}, #{clientId})
     </insert>
 
     <insert id="insertPaymentList" parameterType="PaymentVO">
         INSERT INTO paymentList
-        ("payId","bookId","quantity")
+            (payId,bookId,quantity)
         VALUES
-        (#{payId},#{bookId}, #{quantity})
+            (#{payId},#{bookId}, #{quantity})
     </insert>
 
     <select id="selectPaymentList" parameterType="String" resultMap="PaymentListVOMap">
         with payAndBook as (
             select
-                p."payId",
-                p."bookId",
-                p."quantity",
-                p."partPayStatus",
-                b."bookCateNm",
-                b."bookCateDepth",
-                b."bookName",
-                b."author",
-                b."bookPrice",
-                b."publishDate",
-                b."roleId",
-                b."cateId",
-                b."bookImgPath"
+                p.payId,
+                p.bookId,
+                p.quantity,
+                p.partPayStatus,
+                b.bookCateNm,
+                b.bookCateDepth,
+                b.bookName,
+                b.author,
+                b.bookPrice,
+                b.publishDate,
+                b.roleId,
+                b.cateId,
+                b.bookImgPath
             from paymentList p
                      join book b
-                          on (p."bookId" = b."bookId")
+                          on (p.bookId = b.bookId)
         )
         select
             a.*,
-            b."payAccount",
-            b."payStatus",
-            b."payDate",
-            b."payMethod",
-            b."payUpdateDate",
-            b."addrId",
-            b."clientId",
-            c."addr",
-            c."addrType",
-            c."detailAddr",
-            c."zoneCode"
+            b.payAccount,
+            b.payStatus,
+            b.payDate,
+            b.payMethod,
+            b.payUpdateDate,
+            b.addrId,
+            b.clientId,
+            c.addr,
+            c.addrType,
+            c.detailAddr,
+            c.zoneCode
         from payAndBook a
-                 join payment b on (a."payId" = b."payId")
-                 join address c on (b."addrId" = c."addrId")
-        where b."clientId" = #{clientId}
-        order by a."payId" desc
+                 join payment b on (a.payId = b.payId)
+                 join address c on (b.addrId = c.addrId)
+        where b.clientId = #{clientId}
+        order by a.payId desc
     </select>
 
     <!-- 3개월 이내 결제건수 조회    -->
@@ -124,94 +124,89 @@
         SELECT COUNT(*)
         FROM payment
         <![CDATA[
-        WHERE "clientId" = #{clientId}
-          AND "payStatus" = 'COMPLETED'
-          AND "payDate" >= ADD_MONTHS(SYSDATE, -3)
+        WHERE clientId = #{clientId}
+          AND payStatus = 'COMPLETED'
+          AND payDate >= CURRENT_DATE - INTERVAL '3 months'
         ]]>
     </select>
 
     <!-- 전체취소할 PaymentList 결제내역 조회    -->
     <select id="selectAllCancelPaymentList" parameterType="String" resultMap="PaymentListVOMap">
         select
-            "payId"
-             ,"bookId"
-             ,"quantity"
-             ,"partPayStatus"
+            payId
+            ,bookId
+            ,quantity
+            ,partPayStatus
         from paymentList
-        where "payId"=#{payId} and "bookId" IN
+        where payId=#{payId} and bookId IN
         <foreach collection="bookIds" item="bookId" open="(" separator="," close=")">
             #{bookId}
         </foreach>
-        and "partPayStatus" != 'CANCEL'
+        and partPayStatus != 'CANCEL'
     </select>
     <!-- payment 결제취소 상태 갱신 , 파라미터 payId, clientId-->
     <update id="UpdateCancelPaymentAccount" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
         update payment
-        set "payAccount" = #{payAccount}
-            ,"payUpdateDate" = CURRENT_TIMESTAMP
-        where "payId" = #{payId}
-          and "clientId"=#{clientId}
+        set payAccount = #{payAccount}
+          ,payUpdateDate = CURRENT_TIMESTAMP
+        where payId = #{payId}
+          and clientId=#{clientId}
     </update>
 
 
     <!-- paymentList 결제취소 상태 갱신 , 파라미터 payId, clientId-->
     <update id="UpdatePaymentListCancelStatus" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
         update paymentList
-        set "partPayStatus" = #{partPayStatus}
-          ,"cancelDate" = CURRENT_TIMESTAMP
-        where "payId" = #{payId}
-          and "bookId"=#{bookId}
+        set partPayStatus = #{partPayStatus}
+          ,cancelDate = CURRENT_TIMESTAMP
+        where payId = #{payId}
+          and bookId=#{bookId}
     </update>
 
     <!-- 결제취소  -->
-    <select id="selectCancelBooksInfo" parameterType="String" resultMap="PaymentListVOMap">
-        select
-        a."payId",
-        a."payAccount",
-        b."bookPrice",
-        a."quantity",
-        a."partPayStatus",
-        SUM(b."bookPrice" * a."quantity") as cancelPayAccount,
-        a."payAccount" - SUM(b."bookPrice" * a."quantity") AS resultPayAccount
-        from
-        (select
-        p."payId",
-        p."payAccount",
-        p."payStatus",
-        p."payDate",
-        p."payMethod",
-        p."clientId",
-        pl."bookId",
-        pl."quantity",
-        pl."partPayStatus"
-        from payment p join paymentList pl
-        on (p."payId" = pl."payId")) a join book b
-        on a."bookId" = b."bookId"
-        where a."payId" =#{payId}
-          and a."bookId" = #{bookId}
+    <select id="selectCancelBooksInfo" resultMap="PaymentListVOMap">
+        SELECT
+            p.payId,
+            p.payAccount,
+            b.bookPrice,
+            pl.quantity,
+            pl.partPayStatus,
+            SUM(b.bookPrice * pl.quantity) AS cancelPayAccount,
+            p.payAccount - SUM(b.bookPrice * pl.quantity) AS resultPayAccount
+        FROM payment p
+                 JOIN paymentList pl
+                      ON p.payId = pl.payId
+                 JOIN book b
+                      ON pl.bookId = b.bookId
+        WHERE p.payId = #{payId}
+          AND pl.bookId = #{bookId}
         GROUP BY
-        a."payId",a."quantity",a."payAccount",b."bookPrice", a."partPayStatus"
+            p.payId,
+            p.payAccount,
+            b.bookPrice,
+            pl.quantity,
+            pl.partPayStatus
     </select>
 
-    <select id="selectCancelPaymentList" parameterType="String" resultMap="PaymentListVOMap">
+    <select id="selectCancelPaymentList"  resultMap="PaymentListVOMap">
         select
-            "payId",
-            "bookId",
-            "partPayStatus"
+        payId,
+        bookId,
+        partPayStatus
         from paymentList
-        where "payId" = #{payId}
-        and "bookId" IN
+        where payId = #{payId}
+        and bookId IN
         <foreach collection="bookIds" item="bookId" open="(" separator="," close=")">
             #{bookId}
         </foreach>
     </select>
 
     <!-- 전체취소후 payment의 paystatus 갱신  -->
-    <update id="updateCancelPayment" parameterType="String">
+    <update id="updateCancelPayment">
         update payment
-            set "payStatus"=#{payStatus}
-        where "payId"=#{payId}
-        and "clientId"=#{clientId}
+        set payStatus=#{payStatus}
+        where payId=#{payId}
+          and clientId=#{clientId}
     </update>
 
 </mapper>

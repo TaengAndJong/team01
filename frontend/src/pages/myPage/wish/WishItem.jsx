@@ -34,11 +34,7 @@ const WishItem = ({wishList}) => {
         console.log("wishList-------찜상태 변경", data);
         //변경된 bookId 넘겨야함
         const {currentPage,userWishList,pageSize,totalPages,totalRecord} = data;
-        console.log("currentPage",currentPage);
-        console.log("pageSize",pageSize);
-        console.log("totalPages",totalPages);
-        console.log("totalRecord",totalRecord);
-        console.log("userWishList",userWishList);
+
         onInit(userWishList);
         setPaginationInfo({
             currentPage: currentPage,
@@ -53,7 +49,6 @@ const WishItem = ({wishList}) => {
 
     //찜해제 핸들러
     const toggleWishHandler = (bookId) =>{
-
 
         //비동기 요청
         toggleWishFetch(bookId);
@@ -86,6 +81,7 @@ const WishItem = ({wishList}) => {
                                         <div
                                             className="item-inner book-img card flex-row position-relative justify-content-center">
                                             <div className="card-header overflow-hidden">
+
                                                 <div className="img-box">
                                                     <div className="img-inner">
                                                         <img
@@ -131,8 +127,12 @@ const WishItem = ({wishList}) => {
                             ))}
                         </ul>
                     ) : (
-                        <div className="text-center mt-5">찜한 도서목록이 없습니다.</div>
-                    );
+                        <div className="text-center mt-5">
+                            <p className="custom-border dotted rounded-2">
+                                <span className="fw-bold">찜한 도서목록이 없습니다.</span>
+                            </p>
+                        </div>
+                );
                 })()}
             </div>
 

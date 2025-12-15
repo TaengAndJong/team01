@@ -67,9 +67,13 @@ public class WishListServiceImple implements WishListService {
 
         if (exist > 0) { // 이미 있으면 wishStatus  'Y','N' 갱신
             int result = wishListDao.wishListStatus(clientId, bookId);
+
             // wishStatus 갱신 해줘야함
             log.info("insertWishList-----wishStatus:{}",result);
-            if(result > 0) return WishStatus.UPDATE;
+            if(result > 0) {
+                log.info("wishStatus.update",WishStatus.UPDATE);
+                return WishStatus.UPDATE;
+            }
         }else{
             // 디비에 처음부터 존재하지 않으면 insert
             int result = wishListDao.insertWishList(clientId, bookId);

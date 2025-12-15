@@ -114,7 +114,7 @@
 
 
     <!--행을 삭제하지 않아서 유저의 찜목록 히스토리 추적가능-->
-    <update id="wishListStatus" parameterType="String">
+    <update id="wishListStatus">
         update WISHLIST
         set wishStatus =
             case

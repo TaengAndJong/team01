@@ -30,13 +30,14 @@ public interface CartDao {
     public List<CartVO> selectUserBookList(@Param("clientId") String clientId);
 
     //장바구니에서 삭제
-    public int deleteToCartList(@Param("deleteIds") List<String> deleteIds);
+    public int deleteToCartList(@Param("deleteIds") List<Long> deleteIds);
 
     //배송지 선택 변경 업데이트
     public int updateCartAddress(@Param("clientId") String clientId,@Param("addrId") String addrId);
 
     //장바구니 수량 업데이트
-    public int updateCartQuantity(@Param("cartId") String cartId,@Param("bookId") Long bookId,@Param("quantity") int quantity);
+    public int updateCartQuantity(@Param("cartId") Long cartId,@Param("bookId") Long bookId,@Param("quantity") int quantity);
+
 
 
 }

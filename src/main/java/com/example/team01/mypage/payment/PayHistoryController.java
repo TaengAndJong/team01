@@ -56,7 +56,7 @@ public class PayHistoryController {
         log.info("postPayCancelList:{}",userInfo.getUsername());
         log.info("postPayCancelList-----params:{}",params);
         String clientId = userInfo.getUsername();
-        String payId = params.getPayId();
+        Long payId = params.getPayId();
         Long bookId = params.getBookId();
 
         // 개별결제취소 서비스로 파라미터 전달
@@ -112,7 +112,7 @@ public class PayHistoryController {
     // [PaymentCancelDTO(payId=101, bookId=null, partPayStatus=null, bookIds=[16, 17], payIds=null)]
     //1.paymentList 테이블에서 partPayStatus가 cancel인경우를 제외하고 partPayStatus 상태 cancel로 갱신하기
 
-        String payId = params.getPayId();
+        Long payId = params.getPayId();
         List<Long> bookIds = params.getBookIds();
         //서비스로 파라미터 넘겨주기
         int result =  paymentService.allCancel(payId,bookIds,clientId); //int 탕비
@@ -149,7 +149,7 @@ public class PayHistoryController {
     //PaymentCancelDTO 타입의 dtoList를 파라미터로 받아오기
         log.info("isCancelAllpayment -----:{}",dtoList);
         //dtoList의 bookIds의 결제 취소하려는 bookId의 개수가 quantity의 수량과 동일하지않으면 return false
-        List<String> payIds = dtoList.stream().map(dto -> dto.getPayId()).collect(Collectors.toList());
+        List<Long> payIds = dtoList.stream().map(dto -> dto.getPayId()).collect(Collectors.toList());
         log.info("payIds--controller:{}",payIds);
         //paymentList에서 기존 결제 수량 quantity 조회오기
         List<PaymentQuantityVO> defaultQuantity = paymentService.selectPaymentQuantity(payIds);
@@ -161,7 +161,7 @@ public class PayHistoryController {
         //디비에 저장되어있는 payId, bookIds 객체 순회
         for(PaymentQuantityVO vo : defaultQuantity){ 
             log.info("vo--isCancelAllpayment:{}",vo);
-            String payId = vo.getPayId(); //기존 디비 저장된 payId
+            Long payId = vo.getPayId(); //기존 디비 저장된 payId
             //dtoList로 받아온 결제처리 데이터를 기존 디비의 데이터와 동일한 payId로 필터
             long cancelBookCount = dtoList.stream()
                     .filter(dto -> {
@@ -179,7 +179,7 @@ public class PayHistoryController {
             //true,false 반환 결정
             boolean isCancelAllpayment = cancelBookCount == totalBookCount;
 
-            result.put(payId,isCancelAllpayment);
+            result.put(String.valueOf(payId),isCancelAllpayment);
         }
 
         log.info("result--controller:{}",result);

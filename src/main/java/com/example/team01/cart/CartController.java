@@ -135,7 +135,7 @@ public class CartController {
 
     //axios로 delete 요청 시 어노테이션
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteCart(@RequestBody List<String> ids
+    public ResponseEntity<?> deleteCart(@RequestBody List<Long> ids
             ,@AuthenticationPrincipal PrincipalDetails userDetails,
                                         HttpServletRequest request){
         log.info("deleteCart API 통신 받는 중");
@@ -216,7 +216,7 @@ public class CartController {
        int result =  cartService.updateToCartQuantity(cartvo);
         log.info("updateCartQuantity API---------------------result:{}",result);
 
-
+//지금 디비 데이터처리가 연동이 안되고 있다!!!!
         return  ResponseEntity.ok(cartvo.getQuantity());
     }
 

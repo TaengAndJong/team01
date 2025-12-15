@@ -264,8 +264,8 @@ const CartList = () => {
                               {/* 도서 정보*/}
                               <div className="book-info card-body">
                                   <div>
-                                      <span className="cart tultip normal"><i className="icon book"></i>{item.cartId}</span>
-                                      <span className="book tultip uncomplete"><i className="icon cart01"></i>{item.book.bookId}</span>
+                                      <span className="cart tultip normal"><i className="icon cart01"></i>{item.cartId}</span>
+                                      <span className="book tultip uncomplete"><i className="icon book"></i>{item.book.bookId}</span>
                                       <strong className="book-title title-dotted d-block"><span>{item.book.bookName}</span></strong>
                                   </div>
 

@@ -2,12 +2,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "@assets/css/payment.css";
-import CartItemPrice from "../cart/components/cartItemPrice.jsx";
 import PayItem from "./components/payItem.jsx";
 import SelectPayment from "./components/selectPayment.jsx";
 import PayAllPrice from "./components/payAllPrice.jsx";
-import ReusableModal from "./components/modal.jsx";
 import validationPay from "../../util/validationPay.jsx";
+import {useModal} from "../common/modal/ModalContext.jsx";
 
 const PaymentComponent = () => {
   const location = useLocation();
@@ -15,7 +14,8 @@ const PaymentComponent = () => {
   console.log("location----", location?.state);
   // location에 담겨온 state 객체들 구조분해할당
   const {  book, type, cartIds,cartId } = location?.state;
-
+  //공통모달
+   const {openModal, closeModal} = useModal();
 
 
   //주소 상태관리 ==> 단일 객체로 넘어오면 null이 나을까 {}가 나을까?
@@ -35,28 +35,9 @@ const PaymentComponent = () => {
     payConfirm: "false",
   });
 
-  //모달 상태관리
-  const [show, setShow] = useState(false);
-  const [modalType,setModalType] = useState("confirm");
-  const [errorData, setErrorData] = useState({});
+
   const [confirmData, setConfirmData] = useState({});
-  const handleClose = () => {
-    setShow(false);
-  };
-  //
 
-
-  //props 그룹화
-  const modalState = {
-    show,
-    setShow,
-    errorData,
-    setErrorData,
-    setModalType,
-    handleClose,
-    confirmData,
-    setConfirmData
-  };
 
   //1.필요한 데이터는 books의 도서들 가격 의 총합 + 배송비
   // 2. 결제버튼 누르면 paymentInfo 서버로 submit할 핸들러 함수
@@ -118,17 +99,16 @@ const PaymentComponent = () => {
     console.log("페치요청 마지막 검증", formValid.valid);
 
     if (!formValid.valid) {
-      console.log("페치요청 마지막 검증 true??", formValid.valid);
+      console.log("페치요청 마지막 검증 true", formValid.valid);
       //모달띄우기
-      setShow(true);
-      setModalType("error");
-      setErrorData({
-        message: "결제불가",
-        error: "결제정보를 입력해주세요.",
+      openModal({
+        modalType:"confirm",
+        content:<><p><span class="fw-bold">결제불가</span>결제정보를 입력해주세요.</p></>,
+        onConfirm: () => {closeModal()}
       });
-      return; // 여기서 return 안 하면 서버로 계속 요청 감
+      return; // 여기서 return 안 하면 종료가 되지않아서  서버로 계속 요청 감
     }
-    console.log("paymentInfo 여기여기", paymentInfo);
+    console.log("paymentInfo", paymentInfo);
     //서버로 비동기 요청 보낼 함수 실행,  서버로 보내줄 파라미터 넘겨주기
     await submitPaymentHandler(updatedPaymentInfo); // 이 핸들러 끝날 때까지 기다려라! ==> async , await 사용안하면 onclick 이벤트가  먼저 끝나버림
     //갱신된 내용 반영
@@ -159,7 +139,7 @@ const PaymentComponent = () => {
         
       })
       .catch((error) => {
-        console.log("error---", error);
+        console.log("error---결제정보창 에러 처리어떻게 ?", error);
       });
   }, []);
 
@@ -179,23 +159,23 @@ const PaymentComponent = () => {
             {/*content*/}
             <h3 className="paymentForm title-border title">결제정보</h3>
             <div className="select-address mt-4 mb-5">
-              <h5 className="title my-3">배송지</h5>
+              <h4 className="title my-3">배송지</h4>
 
               <div className="d-flex select-address border border-dark-subtle p-4 bg-white bg-opacity-50 rounded-1">
                 {address && (
-                  <ul className="d-flex align-items-center">
-                    <li className="me-3">
-                      <strong className="title me-2">분류</strong>
+                  <ul className="">
+                    <li className="me-4 d-inline-flex align-items-center">
+                      <strong className="title tultip recom me-2">분류</strong>
                       {address.addrType}
                     </li>
-                    <li className="me-3">
-                      <strong className="title me-2">우편주소</strong>
+                    <li className="me-4 d-inline-flex align-items-center">
+                      <strong className="title tultip normal me-2">우편주소</strong>
                       {address.zoneCode}
                     </li>
-                    <li className="me-3">
-                      <strong className="title me-2">주소</strong>
+                    <li className="me-4 d-inline-flex align-items-center">
+                      <strong className="title tultip normal me-2">주소</strong>
                       {address.addr}
-                      <strong className="title mx-2">상세주소</strong>
+                      <strong className="title tultip normal mx-4">상세주소</strong>
                       {address.detailAddr}
                     </li>
                   </ul>
@@ -208,28 +188,27 @@ const PaymentComponent = () => {
                 aria-labelledby="cartSectionTitle"
                 className="align-items-center mb-1"
               >
-                <h5 id="cartSectionTitle" className="title my-3 d-block">
+                <h4 id="cartSectionTitle" className="title my-3 d-block">
                   결제할 목록
-                </h5>
+                </h4>
                 {/*장바구니 결제목록과 바로결제에 따라서 books의 데이터 변경 필요*/}
-                
                 <PayItem books={books} />
-                
+
               </section>
               {/* 결제 수단 선택 */}
               <SelectPayment
                 paymentInfo={paymentInfo}
                 setPaymentInfo={setPaymentInfo}
-                modalState={modalState}
               />
+
               {/* 총 결제금액*/}
               <section className="mt-4" aria-labelledby="priceSummary">
-                <h5 id="priceSummary" className="title my-3">
+                <h4 id="priceSummary" className="title my-3">
                   결제 금액 요약
-                </h5>
-                <ul className="border border-dark-subtle p-4 bg-white bg-opacity-50 rounded-1 d-flex align-items-center">
+                </h4>
+                <ul className="bg-warning-subtle p-4 d-flex align-items-center">
                   <PayAllPrice deliveryPay={2000} allPrice={allPrice} />
-                  <li className="ms-auto ">
+                  <li className="ms-auto li">
                     <button
                       type="submit"
                       className="btn btn-danger"
@@ -245,15 +224,6 @@ const PaymentComponent = () => {
           </div>
         </section>
       </div>
-      {show && (
-        <ReusableModal
-          show={show}
-          onClose={handleClose}
-          errorData={modalType === "error" ? errorData : null}
-          confirmData={modalType === "confirm" ? confirmData : null}
-          modalType={modalType}
-        />
-      )}
     </>
   );
 };

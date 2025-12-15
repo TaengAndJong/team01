@@ -16,7 +16,7 @@ import java.util.List;
 @Builder// new연산자 + 생성자() 메서드를 생성하지 않고 값 설정 가능
 public class PaymentListDTO {
 
-    private String payId;
+    private Long payId;
     private String payMethod;
     private String payStatus;
     private String payDate;

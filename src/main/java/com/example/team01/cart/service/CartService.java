@@ -27,7 +27,7 @@ public interface CartService {
     public int selectDuplicateCheck(String clientId,Long bookId);
 
     //장바구니에서 삭제
-    public int deleteToCartList(List<String> deleteIds);
+    public int deleteToCartList(List<Long> deleteIds);
 
     //장바구니 수량변경
     public int updateToCartQuantity(CartVO bookInfo);

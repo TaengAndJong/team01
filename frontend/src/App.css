@@ -173,7 +173,7 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
 .tultip.uncomplete {
   background-color: #F7ECE7;
 }
-.tultip.complete {
+.tultip.complete, .tultip.canceled, .tultip.allcanceled {
   background-color: #A0080B;
   color: #ffffff;
 }
@@ -270,6 +270,16 @@ mixin은 함수 내부에 css 코드 덩어리를 저장하여, 다른 CSS 섹�
   -webkit-line-clamp: 2; /* 최대 2줄까지만 표시 */
   text-overflow: ellipsis; /* ... 표시 */
   max-height: 2.4em; /* 2줄 기준으로 높이 제한 */
+}
+
+.custom-border {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #A37865;
+}
+.custom-border.dotted {
+  border-style: dotted;
+  padding: 2rem;
 }
 
 table {

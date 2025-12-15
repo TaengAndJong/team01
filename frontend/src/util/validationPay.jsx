@@ -37,10 +37,20 @@ const ValidationPay = (paymentInfo) =>{
                 String(paymentInfo.bankAccount ?? "").trim()//공백제거
             // .replace(/\s+/g, ""); // 모든 공백 제거;
             const bankName = String(paymentInfo.bankName ?? "").trim();
+
             console.log("bankNumberStr",bankNumberStr);
+
             if(!bankNumberStr){
                 return { valid : false, message : "계좌번호를 입력해주세요."}
             }
+            if (!/^\d+$/.test(bankNumberStr)) {
+                return { valid: false, message: "계좌번호는 숫자만 입력해주세요." };
+            }
+
+            if (bankNumberStr.length < 8 || bankNumberStr.length > 20) {
+                return { valid: false, message: "계좌번호 형식이 올바르지 않습니다." };
+            }
+
             if(!bankName){
                 return{valid:false,message: "은행을 선택해주세요"};
             }

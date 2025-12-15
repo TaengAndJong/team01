@@ -93,7 +93,7 @@
 
     <update id="updateCartAddress" parameterType="String">
         UPDATE client
-        SET selecedAddrId = #{addrId}
+        SET selectedaddrId = #{addrId}
         WHERE clientId = #{clientId}
     </update>
 
@@ -101,15 +101,15 @@
         with cl as (select
                         clientId
                          ,clientName
-                         ,selecedAddrId
+                         ,selectedaddrId
                     from client
                     where clientId = #{clientId})
 
         select
             cl.*,
             a.*
-        from cl join address a on ( cl.selecedAddrId = a.addrId)
-        where cl.selecedAddrId = #{addrId}
+        from cl join address a on ( cl.selectedaddrId = a.addrId)
+        where cl.selectedaddrId = #{addrId}
     </select>
 
     <!--  client 테이블과 address 테이블 조인해서 selectedId 조회해오기 -->
@@ -129,7 +129,7 @@
                  *
              from client
              where clientId=#{clientId}) c
-                join address a on (c.selecedAddrId = a.addrId)
+                join address a on (c.selectedaddrId = a.addrId)
     </select>
 
 </mapper>

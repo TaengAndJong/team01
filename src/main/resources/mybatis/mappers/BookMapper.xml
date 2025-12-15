@@ -99,7 +99,7 @@
     </update>
 
     <!-- 조회할 VO 객체를 결과 타입으로 선언해야 데이터가 매핑되어 반환됨 -->
-    <select id="checkBookCount" parameterType="String" resultType="int">
+    <select id="checkBookCount" resultType="int">
         SELECT
              stock
         FROM book

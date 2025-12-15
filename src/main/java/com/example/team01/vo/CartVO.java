@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor//기본생성자
 public class CartVO implements Serializable {
 
-    private String cartId; //장바구니 생성아이디
+    private Long cartId; //장바구니 생성아이디
     private LocalDateTime addCartDate; // 장바구니에 담은 날짜
     private int quantity; // 구매수량
     private Long bookId; // 구입할 도서 아이디

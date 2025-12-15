@@ -22,7 +22,10 @@ const cartAllPrice = ({cartList,selectItem,deliveryFee,gotoPayment,totalPrice}) 
                         <i className="icon answer"></i><strong className="fw-bold mx-3">총 결제금액</strong>
                     </span>
 
-                    <span className="total-price"><em className="fw-bold">{totalPrice(cartList,selectItem)}</em>원</span>
+                    <span className="total-price">
+                        <em className="fw-bold">{totalPrice(cartList, selectItem)}</em>
+                        <span className="fw-bold ms-2">원</span>
+                    </span>
                 </li>
                 {/*결제 실행 핸들러 필요 */}
                 <li className="d-inline ms-auto">

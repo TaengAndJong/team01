@@ -42,11 +42,11 @@ const PaymentItems = ({paymentProps}) =>{
         console.log("payStatusText---------------결제상태",status);
 
         switch(status){
-            case "COMPLETED": return "결제완료";
-            case "CANCEL": return "결제취소";
-            case "CANCELALL": return "전체취소";
-            case "READY": return "결제대기";
-            case "FAILED": return "결제실패";
+            case "COMPLETED": return <span class="tultip">결제완료</span>;
+            case "CANCEL": return <span className="tultip canceled">결제취소</span>;
+            case "CANCELALL": return <span className="tultip allcanceled">전체취소</span>;
+            case "READY": return <span className="tultip normal">결제대기</span>;
+            case "FAILED": return <span className="tultip uncomplete">결제실패</span>;
             default: return "";
         }
 

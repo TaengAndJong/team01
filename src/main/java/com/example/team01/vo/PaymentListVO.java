@@ -16,7 +16,7 @@ public class PaymentListVO implements Serializable {
 
     //펼친상태(flat한 상태로 구현하는게 나음
 
-    public String payId; // payment와 조인할 fk
+    public Long payId; // payment와 조인할 fk
     public Long bookId; // book과 조인할 fk
     public int quantity; //기본값 0으로 디비에 설정 되어있음
     private String bookCateNm;
