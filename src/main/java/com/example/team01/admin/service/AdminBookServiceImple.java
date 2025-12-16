@@ -106,8 +106,7 @@ public class AdminBookServiceImple implements AdminBookService {
     public int createBook(AdminBookVO book) {
 
         log.info("createBook-----------:{}",book);
-
-
+        
         int cnt =0;
         // 여기서부터 노이미지 파일 유틸에 들어가야함, 받을 파라미터는 BookVO book
         String bookImgPath=""; // 데이터베이스에 담을 파일명 담는 문자열 변수
@@ -116,8 +115,7 @@ public class AdminBookServiceImple implements AdminBookService {
             log.info("createBook에 파일 객체도 담겨서 넘어옴:{}", book );
             log.info("createBook book.file 새로추가된 도서 객체:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
 
-            //파일 유틸 클래스에서 이미지객체 존재 여부에 대해 검증하고 예외처리하기때문에 try - catch 구문 사용, 예외처리 없다면 사용하지 않아도 된다고 함
-
+            //파일 유틸 클래스에서 이미지객체 존재 여부에 대해 검증하고 예외처리하기때문에 try - catch 구문 사용, 예외처리 없다면 사용하지 않아도 됨
                 if(book.getBookImg() != null && !book.getBookImg().isEmpty()){
                     bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
                     log.info("bookImgPath--------------------- 파일 유틸 반환값 확인: {}",bookImgPath);
@@ -127,9 +125,17 @@ public class AdminBookServiceImple implements AdminBookService {
                     // 등록된 이미지가 없을 경우 noImg로 경로 설정
                     book.setBookImgPath(fileUtils.getDefaultImgPath());
                 }
-
+            //book 카테고리 공백 제거 ==> 데이터 문자열 정제
+            if(book.getBookCateNm() !=null && !book.getBookCateNm().isEmpty()){
+                String trimBookCateNm=book.getBookCateNm().trim()
+                        .replaceAll("\\s*,\\s*", ",") // 콤마 양옆 공백 정리
+                        .replaceAll("\\s+", " ");     // 불필요한 공백 정리;
+                //정제된 카테고리 데이터 값 재설정
+                book.setBookCateNm(trimBookCateNm);
+            }
             //파일 유틸 끝
             log.info(" 도서 등록 객체확인 -------------------------------------:{} ",book);
+            log.info(" 도서 등록 이미지객체확인 -------------------------------------:{} ",book.getBookCateNm());
             log.info(" 도서 등록 이미지객체확인 -------------------------------------:{} ",book.getBookImgPath());
 
             //공통처리부분
@@ -199,7 +205,16 @@ public class AdminBookServiceImple implements AdminBookService {
                        log.info("전체삭제 했을 (빈값 일)경우 처리 블록  noImg처리: {}",book.getBookImgPath());
                    }
                 }
-                
+
+
+            //book 카테고리 공백 제거 ==> 데이터 문자열 정제
+            if(book.getBookCateNm() !=null && !book.getBookCateNm().isEmpty()){
+                String trimBookCateNm=book.getBookCateNm().trim()
+                        .replaceAll("\\s*,\\s*", ",") // 콤마 양옆 공백 정리
+                        .replaceAll("\\s+", " ");     // 불필요한 공백 정리;
+                //정제된 카테고리 데이터 값 재설정
+                book.setBookCateNm(trimBookCateNm);
+            }
             //파일 유틸 끝
             log.info(" 도서수정 후 객체 확인 - 파일객체 확인하기 전체:{} ",book);
             log.info(" 도서수정 후 객체 확인 - 파일객체 확인하기 bookImgPath:{} ",book.getBookImgPath());

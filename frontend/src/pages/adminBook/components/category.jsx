@@ -1,82 +1,122 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
+import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
-const Category=({setDefaultData,defaultData,categoryList})=>{
- //   console.log("category --categoryList",categoryList)
+const Category=({mode,setDefaultData,defaultData,categoryList})=>{
+    console.log("category --categoryList",categoryList)
+    console.log("category --mode",mode)
     //1번 기본 데이터가 넘어옴
- //   console.log("category --defaultData",defaultData);
+    console.log("category --defaultData",defaultData);
 
+    //카테고리 선택박스 초기상태
     const [selectedCategory, setSelectedCategory] = useState({
-        names: defaultData?.bookCateNm ||  [],
-        ids:  defaultData?.cateId || [],
-        depth:  defaultData?.bookCateDepth || [],
+        names: [],
+        ids:  [],
+        depth: [],
     });
 
+    const {openModal,closeModal} = useModal();
 
-    //console.log("selectedCategory--중간",selectedCategory);
 
+    console.log("selectedCategory--중간",selectedCategory);
+    const isInitialized = useRef(false); // 카테고리값 초기화 상태관리변수
     //useEffect로 초기값 갱신하기
     useEffect(() => {
-     //   console.log("defaultData----- typeOf", typeof defaultData.bookCateNm);
-        setSelectedCategory({
-            names: typeof defaultData.bookCateNm === 'string' ? defaultData.bookCateNm.split(",") : defaultData.bookCateNm || [],
-            ids: typeof defaultData.cateId === 'string' ? defaultData.cateId.split(",") : defaultData.cateId || [],
-            depth: typeof defaultData.bookCateDepth === 'string' ? defaultData.bookCateDepth.split(",") : defaultData.bookCateDepth || [],
-        });
 
-    }, [defaultData]);
+        if(mode !== "modify") return; // 수정모드라면 상태값 갱신 코드 실행되지않게 코드실행 종료
+        if (isInitialized.current) return; // 초기화가 되었으면 재초기화 금지
+        if (!defaultData?.bookCateNm?.length) return;// 수정 데이터가 아직 안 왔으면 대기
+
+        console.log("defaultData----- bookCateNm", defaultData.bookCateNm);
+        console.log("defaultData----- typeOf", typeof defaultData.bookCateNm);
+
+        setSelectedCategory({
+            names: Array.isArray(defaultData.bookCateNm)
+                ? defaultData.bookCateNm
+                : defaultData.bookCateNm.split(","),
+            ids: Array.isArray(defaultData.cateId)
+                ? defaultData.cateId
+                : defaultData.cateId.split(","),
+            depth: Array.isArray(defaultData.bookCateDepth)
+                ? defaultData.bookCateDepth
+                : defaultData.bookCateDepth.split(","),
+        });
+        isInitialized.current = true; // 초기화 잠금?
+
+    }, [mode,defaultData]);
 
 
    // 카테고리 onChange핸들러
-    const handleCategory= (e) =>{
-        const selectedOption = e.target.selectedOptions[0]
-        const dataCateId  = selectedOption.getAttribute('data-cate-id')
-        const cateName = selectedOption.value; // 선택된 카테고리명
+    const handleCategory = (e) => {
+        const selectedOption = e.target.selectedOptions[0];
+        const dataCateId = selectedOption.getAttribute("data-cate-id");
+        const cateName = selectedOption.value.trim();
 
-        // console.log("selectedOption",selectedOption);
-        // console.log("dataCateId",dataCateId);
-        // console.log("cateName",cateName);
+        let index = e.target.name === "firstCategory" ? 0
+                : e.target.name === "secondCategory" ? 1
+                : 2;
 
- // 1. 타겟팅된 카테고리 목록이름을 전부 하나로 묶으려면 ?
-        if(dataCateId!=null){
-            //selectCategory 데이터 갱신 함수
-            setSelectedCategory(prev =>{ // 기존값 받아올 파라미터
-                let updatedCategory = { ...prev }; // 기존 객체 복사
-
-                let index = -1;  // 선택한 카테고리의 인덱스로 구별 (1차, 2차, 3차), 초기값 -1(어떤것도 선택안됨)
-                // 현재 선택된 select 요소의 name 값을 기반으로 위치 지정 (1차, 2차, 3차)
-                if (e.target.name === "firstCategory") {
-                    index = 0;
-                } else if (e.target.name === "secondCategory") {
-                    index =1;
-                } else if (e.target.name === "thirdCategory") {
-                    index = 2;
+        //  placeholder 카테고리 선택 시
+        if (dataCateId.startsWith("cate")) {
+            openModal({
+                modalType: "confirm",
+                content:<>
+                <p>{`${index + 1}차 카테고리를 선택해주세요`}</p>
+                </>,
+                onConfirm: () => {
+                    closeModal();
                 }
+            })
 
-                if (index !== -1) { // index 가 0부터 ~.. 하면 실행될 코드
-                    updatedCategory.names[index] = cateName;
-                    updatedCategory.ids[index] = dataCateId;
-                    updatedCategory.depth[index] = `${index+1}차 카테고리`;
-                    console.log("catename",updatedCategory.names[index] = cateName)
-                    console.log("depth", updatedCategory.depth[index] = `${index+1}차 카테고리`)
-                }
-                return updatedCategory; // selectCategory 에 갱신할 데이터 반환
+            setSelectedCategory(prev => {
+                const updated = {
+                    names: [...prev.names],
+                    ids: [...prev.ids],
+                    depth: [...prev.depth],
+                };
+
+                // 현재 단계의 하위 단계 전부 제거 ( ***  splidce 는 현재 인덱스를 포함한 다음 요소들도 모두 제거)
+                updated.names.splice(index);
+                updated.ids.splice(index);
+                updated.depth.splice(index);
+
+                // 부모 상태도 같이 비움
+                setDefaultData(prevState => ({
+                    ...prevState,
+                    cateId: updated.ids,
+                    bookCateNm: updated.names,
+                    bookCateDepth: updated.depth,
+                }));
+
+                return updated;
             });
+
+            return; // 종료
         }
 
-   //     console.log("setSelectedCategory----------마지막",setSelectedCategory);
-        // 3. createBook 객체에 데이터 갱신해주기
-        setDefaultData(prevState =>({
-            ...prevState, // 이전데이터와 병합
-            cateId:selectedCategory.ids,
-            bookCateNm :selectedCategory.names, // depth에 따른 도서명 배열
-            bookCateDepth:selectedCategory.depth // 1차,2차,3차 배열
-        }))
+        // 카테고리 선택 시
+        setSelectedCategory(prev => {
+            const updated = {
+                names: [...prev.names],
+                ids: [...prev.ids],
+                depth: [...prev.depth],
+            };
 
+            updated.names[index] = cateName;
+            updated.ids[index] = dataCateId;
+            updated.depth[index] = `${index + 1}차 카테고리`;
 
-    }
-    // console.log("setSelectedCategory----------마지막",setSelectedCategory);
-    // console.log("defaultData----------마지막",defaultData);
+            setDefaultData(prevState => ({
+                ...prevState,
+                cateId: updated.ids,
+                bookCateNm: updated.names,
+                bookCateDepth: updated.depth,
+            }));
+
+            return updated; // set 함수는 변화된 상태값을 반환해주어 기존 selectCatogory 값을 갱신해줘야함
+        });
+    };
+
 
     return (
         <>
@@ -85,10 +125,13 @@ const Category=({setDefaultData,defaultData,categoryList})=>{
                 {/*1차 카테고리만 데이터 */}
 
                 <label htmlFor="firstCategory" className="visually-hidden form-title">1차 카테고리</label>
-                <select id="firstCategory" className="form-select w-auto" name="firstCategory" onChange={handleCategory} value={selectedCategory?.names?.[0] || ""} >
+                <select id="firstCategory" className="form-select w-auto" name="firstCategory" onChange={handleCategory}
+                        value={selectedCategory?.names?.[0] || ""} >
+
+
                     {categoryList?.firstDepth?.map(cate => (
-                            <option key={cate.cateId} value={cate.cateNames} data-cate-id={cate.cateId}>
-                                {cate.cateNames}
+                            <option key={cate.cateId} value={cate.cateNames.trim()} data-cate-id={cate.cateId}>
+                                {cate.cateNames.trim()}
                             </option>
                         ))}
                 </select>
@@ -99,8 +142,8 @@ const Category=({setDefaultData,defaultData,categoryList})=>{
                         <label htmlFor="secondCategory" className="visually-hidden form-title">2차 카테고리</label>
                         <select id="secondCategory" className="form-select w-auto mx-1" name="secondCategory" onChange={handleCategory} value={selectedCategory?.names?.[1] || ""} >
                             {categoryList?.secondDepth?.map(cate => (
-                                <option key={cate.cateId} value={cate.cateNames} data-cate-id={cate.cateId}>
-                                    {cate.cateNames}
+                                <option key={cate.cateId} value={cate.cateNames.trim()} data-cate-id={cate.cateId}>
+                                    {cate.cateNames.trim()}
                                 </option>
                             ))}
                         </select>
@@ -113,8 +156,8 @@ const Category=({setDefaultData,defaultData,categoryList})=>{
                         <select id="thirdCategory" className="form-select w-auto" name="thirdCategory"
                                 onChange={handleCategory} value={selectedCategory?.names?.[2] || ""} >
                             {categoryList?.thirdDepth?.map(cate => (
-                                <option key={cate.cateId} value={cate.cateNames} data-cate-id={cate.cateId}>
-                                    {cate.cateNames}
+                                <option key={cate.cateId} value={cate.cateNames.trim()} data-cate-id={cate.cateId}>
+                                    {cate.cateNames.trim()}
                                 </option>
                             ))}
                         </select>

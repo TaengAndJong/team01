@@ -60,27 +60,33 @@ public class MainServiceImple implements MainService {
             String cateId = book.getCateId();  // 디비에 카테고리 분기 기준
             String recomType = book.getRecomType();// 도서 추천타입 분류 변수
             book.setDetailUrl("/book/bookDetail/" + book.getBookId()); // 도서상품에 연결할  URL 세팅(가공)
-            
 
 
+            log.info("전자도서 cateId : ",cateId);
             //일반도서 --> 메인슬라이드
             if (RecomStatus.NORMAL.matches(recomType)) {
+                log.info("NORMAL cateId E: {} recomType :{} ",cateId, recomType);
                 if (cateId.startsWith("E")) {
+
                     bookSlide.get("ebook").add(book);
                 } else if (cateId.startsWith("N")) {
+                    log.info("NORMAL cateId N: {} ,recomType :{}",cateId,recomType);
                     bookSlide.get("national").add(book);
                 } else if (cateId.startsWith("F")) {
+                    log.info("NORMAL cateId F: {} ,recomType :{}",cateId,recomType);
                     bookSlide.get("foreigner").add(book);
                 }
             }
     
             //추천도서 
             if (RecomStatus.RECOMMEND.matches(recomType)) {
+                log.info(" recomSlide RecomStatus: ",recomType);
                 recomSlide.add(book);
                 
             }
             //인기도서
             if (RecomStatus.POPULAR.matches(recomType)) {
+                log.info(" POPULAR RecomStatus: ",recomType);
                 popularSlide.add(book);
 
             }

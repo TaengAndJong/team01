@@ -75,9 +75,7 @@ const AdminBookCreate = () => {
             );
             // 돌아온 응답 상태
             if (!response.ok) {
-                // 응답 상태가 200아니면
-                console.log(response.status);
-                throw new Error("서버 응답 에러");
+                throw new Error("서버 응답 에러"); // 오류 처리 어떻게 ?
             }
             // 응답 성공시
             const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
@@ -95,7 +93,7 @@ const AdminBookCreate = () => {
                 totalRecord: totalRecord,
             });
         } catch (err) {
-            console.log("도서 데이터 불러오기 실패", err); // 오류 처리
+            console.log("도서 데이터 불러오기 실패", err); // 오류 처리 어떻게 ?
         }
     }; //fetch end
 
@@ -111,12 +109,12 @@ const AdminBookCreate = () => {
             });
 
             if(!response.ok){
-                console.log("통신에러",response.status);
+
                 throw  Error(response.statusText);
             }
             // 요청 성공 시 ,응답 제이슨으로 받아오기
             const data = await response.json();
-            console.log("data--- createData",data);
+
             setCategoryList(data);
         }catch(err){
             console.error("getCategories 실패:", err);
@@ -125,7 +123,6 @@ const AdminBookCreate = () => {
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
-        console.log("userData---- 등록",userData);
         if (userData && userData.roles?.length > 0) {
             setCreateBook(prev => ({
                 ...prev,
@@ -178,8 +175,6 @@ const AdminBookCreate = () => {
         })
     }
 
-    console.log("createbook--- stock",createBook);
-
     //formData에 데이터 담아주기
     const buildFormData = (createBook, bookImg) => {
         const formData = new FormData();
@@ -220,7 +215,7 @@ const AdminBookCreate = () => {
         const entries = Array.from(formData.entries());
 
         for (const [key, value] of entries) {
-           // console.log("createBook valid key ",key);
+
             //bookImgPath는 비어 있어도 통과
             if (key === "bookImgPath") continue;
 
@@ -241,7 +236,7 @@ const AdminBookCreate = () => {
 
         const emptyKey = validateFormData(formData);
         if (emptyKey) {
-           // console.log("emptykey",emptyKey);
+
             openModal({
                 modalType: "error",
                 content:<>
@@ -278,17 +273,12 @@ const AdminBookCreate = () => {
         }
     };
 
-//    console.log("createBook --------------111 " , createBook);
 //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
-        //파일 객체  [] 배열이면 기본으로 이미지 추가하기
-        //   console.log("데이터제출 createBook",createBook);
-        // file 객체 값 이미지객체 빈값인지 확인하는 함수
-        //  console.log("데이터제출  후 createBook.bookImg)",createBook.bookImg);
         handleSubmit();
     }
-    //console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음
+
 //return start
     return(
         <>
@@ -300,7 +290,7 @@ const AdminBookCreate = () => {
                 <form className="bookCreateForm" onSubmit={onSubmit}>
                     <div className="d-flex align-items-center mb-1">
                         {/*카테고리*/}
-                        <Category setDefaultData={setCreateBook} defaultData={createBook} categoryList={categoryList}/>
+                        <Category mode="create" setDefaultData={setCreateBook} defaultData={createBook} categoryList={categoryList}/>
                     </div>
                     <div className="d-flex align-items-center mb-1">
                         {/*등록타입*/}

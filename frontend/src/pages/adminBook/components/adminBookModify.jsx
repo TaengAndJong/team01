@@ -71,7 +71,6 @@ const AdminBookModify = () => {
 
     console.log("modifyBookData----",modifyBookData);
 
-
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
         console.log("userData---- 수정",userData);
@@ -158,13 +157,12 @@ const AdminBookModify = () => {
     const handleChange = (e) => {
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
         const { name, value } = e.target;
-        console.log("handleChange===========", name, value);
+
         //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
         if ((name === "stock" || name === "bookPrice") && value.trim() !== "") {
-            console.log("name " , name);
-            console.log("value " , value);
+
             const result = name === "bookPrice" ? validNumber(value,name,"도서가격") : validNumber(value,name,"재고");
-            console.log("result--- 재고, 가격 검증", result);
+
             if(!result.valid){
                 // 숫자 검증 false 일 경우, 모달 알림 뜸
                 openModal({
@@ -223,8 +221,6 @@ const AdminBookModify = () => {
     //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
-        //파일 객체  [] 배열이면 기본으로 이미지 추가하기
-        //  console.log("데이터제출 modifyBookData",modifyBookData);
         handleSubmit();
     }
 
@@ -239,7 +235,7 @@ const AdminBookModify = () => {
                     {/*카테고리*/}
                     <div className="d-flex align-items-center mb-1">
                         {/*카테고리*/}
-                        <Category setDefaultData={setModifyBookData} defaultData={modifyBookData} categoryList={categoryList}/>
+                        <Category mode="modify" setDefaultData={setModifyBookData} defaultData={modifyBookData} categoryList={categoryList}/>
                     </div>
                     <div className="d-flex align-items-center mb-1">
                         {/*등록타입*/}

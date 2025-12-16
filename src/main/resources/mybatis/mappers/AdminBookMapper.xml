@@ -106,7 +106,6 @@
 <!--psql로 변경시 , useGeneratedKeys="true" keyProperty="bookId" 작성해주어야 VO.bookId 에 생성된 PK를 넣어줌-->
     <insert id="createBook" parameterType="AdminBookVO" useGeneratedKeys="true" keyProperty="bookId">
         INSERT INTO BOOK (
-
             bookCateNm
             , bookCateDepth
             , bookName
@@ -123,7 +122,6 @@
             ,recomType
             ,saleStatus
         ) VALUES (
-
          #{bookCateNm}
         , #{bookCateDepth}
         , #{bookName}
