@@ -8,9 +8,6 @@ import React from "react";
 const SearchBar = ({search,setSearch, handleSearch}) =>{
 
     const handleSearchChange = (e) => {
-        //검색조건 필터에 대해서 이벤트객체로 받아오기
-        console.log("e.target.name",e.target.name);
-        console.log("e.target.value", e.target.value);
 
         setSearch((prev) =>(
             {
@@ -19,7 +16,7 @@ const SearchBar = ({search,setSearch, handleSearch}) =>{
             }
         )); // 부모에게 전달
     };
-    console.log("search------------", search);
+
 
     return(
         <>
@@ -31,7 +28,7 @@ const SearchBar = ({search,setSearch, handleSearch}) =>{
                     <option value="EBOOK">Ebook</option>
                 </select>
                 <select className="form-control form-select w-auto" name="searchType" value={search?.searchType|| ""} onChange={(e)=>handleSearchChange(e)}>
-                    <option value="title">도서명</option>
+                    <option value="bookName">도서명</option>
                     <option value="author">저자</option>
                 </select>
                 <input className="form-control w-auto"

@@ -21,9 +21,8 @@ import axios from "axios";
 
 const AdminBookCreate = () => {
 
-    const {onCreate,onInit} = useContext(BookDispatchContext);
     const {userData} = useAuth();
-    const { paginationInfo,setPaginationInfo } = useContext(PaginationContext);
+    const { setPaginationInfo,setSearchCondition } = useContext(PaginationContext);
     const navigate = useNavigate();
     const {openModal,closeModal} = useModal();
 
@@ -56,46 +55,6 @@ const AdminBookCreate = () => {
         removed: []   // 삭제한 기존 파일
     });
     // 업로드 파일 상태관리
-
-    //get요청, 페이지번호변경 시 사용하는 fetch요청 함수
-    const initFetch = async () => {
-        try {
-            //page, pageSize
-            const params = new URLSearchParams({
-                currentPage: paginationInfo.currentPage, // 클라이언트가 결정하는 현재페이지, 기본값은 1
-                pageSize: paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
-            });
-
-            // 서버로 응답 요청
-            const response = await fetch(
-                `/api/admin/book/bookList?${params.toString()}`,
-                {
-                    method: "GET",
-                }
-            );
-            // 돌아온 응답 상태
-            if (!response.ok) {
-                throw new Error("서버 응답 에러"); // 오류 처리 어떻게 ?
-            }
-            // 응답 성공시
-            const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-
-
-            //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
-            const { currentPage, items, pageSize, totalPages, totalRecord } = bookVO;
-            onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
-            // console.log("초기 데이터 갱신완료", bookVO);
-            //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
-            setPaginationInfo({
-                currentPage: currentPage,
-                pageSize: pageSize,
-                totalPages: totalPages,
-                totalRecord: totalRecord,
-            });
-        } catch (err) {
-            console.log("도서 데이터 불러오기 실패", err); // 오류 처리 어떻게 ?
-        }
-    }; //fetch end
 
 
     //get 요청서 categoryList 받아오기
@@ -256,12 +215,15 @@ const AdminBookCreate = () => {
                     },
                 });
 
-            const newBookData = response.data;
-            onCreate(newBookData);
-            await initFetch();//초기화
-            // 페이지 갱신 및 이동
-            setPaginationInfo(prev => ({ ...prev, currentPage: 1 }));
-            navigate("/admin/book/bookList");
+                console.log("create response", response);
+
+                setSearchCondition(null); // 검색어 상태를 초기화 해줘야 등록완료후 처음으로돌아감
+                // 1. 페이지 1로 이동
+                setPaginationInfo(prev => ({ ...prev, currentPage: 1 }));
+                // 3. 목록 페이지로 이동
+                navigate("/admin/book/bookList");
+
+
         } catch (err) {
             openModal({
                 modalType: "error",

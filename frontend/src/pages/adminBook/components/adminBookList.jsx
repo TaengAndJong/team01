@@ -27,7 +27,7 @@ const AdminBookList = () => {
     handleSearch
   } = useContext(PaginationContext);
 
-  const { onDelete,onInit } = useContext(BookDispatchContext); // 사용할 함수 가져올때 전역설정이면 context 훅 불러와야함
+
   const [bookList, setBookList] = useState([]);
 
 // bookdata가 존재할 때만 bookList 업데이트
@@ -37,11 +37,7 @@ const AdminBookList = () => {
       setBookList(bookdata);
     }
 
-    console.log("1bookList--------",bookList);
-    console.log("1bookdata--------",bookdata);
   },[bookdata])
-   console.log("2bookdata--------",bookdata);
-  console.log("2bookList--------",bookList);
 
   //전체선택
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
@@ -64,14 +60,14 @@ const AdminBookList = () => {
   };
 
   const onChangeCheck = (bookId, isChecked) => {
-    console.log("onChangeCheck", bookId, isChecked);
+
     if (isChecked) {
       setCheckedInput((prev) => [...prev, bookId]);
     } else {
       setCheckedInput((prev) => prev.filter((id) => id !== bookId));
     }
     
-    console.log("checkedInput---단일체크 후 체크값",checkedInput );
+
   };
 
   //삭제핸들러
@@ -82,25 +78,22 @@ const AdminBookList = () => {
         const response = 
             await axios.post(`/api/admin/book/bookDelete`
                 ,deleteItems, // 자동직렬화가 되기때문에 Json.stringify(직렬화대상객체); 미사용
-                { withCredentials: true,
-                        params: { currentPage: paginationInfo.currentPage, pageSize: paginationInfo.pageSize }
-                }); // 인증 세션 또는 쿠키 사용시 필요함
-            //conetent-Type : application/json도 자동처리로 미사용
+                { withCredentials: true}); // 인증 세션 또는 쿠키 사용시 필요함
 
-           // console.log("도서 삭제 목록 응답 데이터",response.data);
-          const data = response.data;
-            onDelete(data.items);// 삭제이후에 새로 변경된 bookData 로 상태갱신
-            console.log("삭제 응답 :response", data);
-            //페이지네이션 갱신
-            if (data.items.length === 0 && paginationInfo.currentPage > 1) {
-              const newPage = paginationInfo.currentPage - 1;
-              setPaginationInfo((prev) => ({ ...prev, currentPage: newPage }));
-              onChangePageHandler(newPage); // 👉 새 페이지로 데이터 재요청
-            } else {
-              onChangePageHandler(paginationInfo.currentPage); // 👉 현재 페이지 다시 불러오기
-            }
+            const data = response.data;
 
-        //삭제확인 알림
+            /*onDelete(data.items);// 삭제이후에 새로 변경된 bookData 로 상태갱신
+         * 부모컴포넌트에서 페이지네이션이 변경되면 초기화가 이루어지기때문에 불필요
+         * */
+        
+          //서버에서 응답준 페이지 데이터를 다시 페이지네이션에 갱신해주기
+            setPaginationInfo({
+              currentPage: data.currentPage,
+              pageSize: data.pageSize,
+              totalPages: data.totalPages,
+              totalRecord: data.totalRecord,
+            });
+          //삭제확인 알림
             openModal({
               modalType:"default",
               content: <><p>{`${response.data.message}`}</p></>,
@@ -113,7 +106,6 @@ const AdminBookList = () => {
 
       }catch(err){
         // fetch는 네트워크에러만 감지, axios는 http오류(400,500)e도 감지
-       // console.error("요청 실패", err);
         openModal({
           modalType:"error",
           content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>

@@ -46,7 +46,7 @@ public class AdminServiceImple implements AdminService {
     public List<NewBookDTO> getNewDomesticBooks(Pagination pagination){
         int total = dao.countNewDomesticBooks();
         pagination.setTotalRecord(total);
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
 
         List<BookVO> bookVOList = dao.getNewDomesticBooks(pagination);
         
@@ -61,7 +61,7 @@ public class AdminServiceImple implements AdminService {
     public List<NewBookDTO> getNewForeignBooks(Pagination pagination){
         int total = dao.countNewForeignBooks();
         pagination.setTotalRecord(total);
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
 
         List<BookVO> bookVOList = dao.getNewForeignBooks(pagination);
         
@@ -75,7 +75,7 @@ public class AdminServiceImple implements AdminService {
     public List<NewBookDTO> getNewEBooks(Pagination pagination){
         int total = dao.countNewEBooks();
         pagination.setTotalRecord(total);
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
 
         List<BookVO> bookVOList = dao.getNewEBooks(pagination);
         
@@ -94,7 +94,7 @@ public class AdminServiceImple implements AdminService {
         
         int total = dao.countStockDomesticBooks();
         pagination.setTotalRecord(total);
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
 
         log.info("[Service] 국내도서 after setLimitRows - total={}, startRow={}, endRow={}",
             total, pagination.getStartRow(), pagination.getEndRow());
@@ -115,7 +115,7 @@ public class AdminServiceImple implements AdminService {
 
         int total = dao.countStockForeignBooks();
         pagination.setTotalRecord(total);
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
 
                 log.info("[Service] 국외도서 after setLimitRows - total={}, startRow={}, endRow={}",
             total, pagination.getStartRow(), pagination.getEndRow());
@@ -136,7 +136,7 @@ public class AdminServiceImple implements AdminService {
 
         int total = dao.countStockEBooks();
         pagination.setTotalRecord(total);
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
         log.info("[Service] EBOOK after setLimitRows - total={}, startRow={}, endRow={}",
             total, pagination.getStartRow(), pagination.getEndRow());
         List<BookVO> bookVOList = dao.getStockEBooks(pagination);

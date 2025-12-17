@@ -70,7 +70,6 @@
         <include refid="searchFrag" />
 
         ORDER BY bookId DESC
-
         LIMIT #{pagination.pageSize}
         OFFSET #{pagination.offset}
     </select>

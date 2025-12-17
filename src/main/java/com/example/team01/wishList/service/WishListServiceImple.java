@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -38,7 +37,7 @@ public class WishListServiceImple implements WishListService {
         // 전체페이지  설정해주기
         pagination.setTotalRecord(total);
        //startRow && endRow 설정
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
         log.info("getWishList-----------2222:{}",pagination);
         // 데이터 조회
         List<WishListVO>  wishList = wishListDao.getWishList(pagination);

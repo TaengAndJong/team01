@@ -4,32 +4,11 @@ import "@assets/css/pagination.css";
 const Pagination = ({ paginationInfo, onChangePageHandler}) => {
     console.log("paginationInfo -- 첫번째 ", paginationInfo);
 
-    const {currentPage, totalItems, pageSize} = paginationInfo;
-    const totalPages = Math.ceil(totalItems / pageSize);
-
+    const {currentPage, totalPages,totalRecord, pageSize} = paginationInfo;
 
     if (totalPages === 0) return null;
-
-    const getPageNumbers = () => {
-        const pageNumbers = [];
-
-        // 간단하게 전체 페이지 다 보여주는 방식 (추후 개선 가능)
-        for (let i = 1; i <= totalPages; i++) {
-            pageNumbers.push(i);
-        }
-
-        return pageNumbers;
-    };
-
-    const handlePrev = () => {
-        if (currentPage > 1) onChangePageHandler(currentPage - 1);
-    };
-
-    const handleNext = () => {
-        if (currentPage < totalPages) onChangePageHandler(currentPage + 1);
-    };
-
-    //
+    
+ 
     const pageButtons = [];
     for (let i = 1; i <= paginationInfo.totalPages; i++) {
         pageButtons.push(

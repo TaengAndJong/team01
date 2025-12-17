@@ -31,8 +31,8 @@ function Admin() {
 
   // 모달 관련 커스텀 훅
   const { openModal, closeModal } = useModal();
-  console.log("userData 관리자 대쉬보드", userData.roles);
-  console.log("countData", countData);
+  // console.log("userData 관리자 대쉬보드", userData.roles);
+  // console.log("countData", countData);
   useEffect(() => {
     setIsLoading(true);
     setIsError(false);
@@ -77,11 +77,11 @@ function Admin() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("getQnaData 통신", data);
+     // console.log("getQnaData 통신", data);
       setCountData(data);
     } else {
       setIsError(true);
-      console.log("에러");
+    //  console.log("에러");
     }
     setIsLoading(false);
   };
@@ -98,7 +98,7 @@ function Admin() {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log("getChartData 통신", data);
+   //   console.log("getChartData 통신", data);
 
       const newDates = [];
       const newVisitors = [];
@@ -117,7 +117,7 @@ function Admin() {
       });
     } else {
       setIsError(true);
-      console.log("에러");
+   //   console.log("에러");
     }
     setIsLoading(false);
   };
@@ -126,7 +126,7 @@ function Admin() {
     getNewCount();
     getChartData();
   }, []);
-  console.log("chartData-----!", chartData);
+  //console.log("chartData-----!", chartData);
   return (
     <>
       {/* <div className="top">

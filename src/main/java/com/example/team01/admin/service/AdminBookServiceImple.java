@@ -1,12 +1,10 @@
 package com.example.team01.admin.service;
 
 import com.example.team01.admin.dao.AdminBookDao;
-import com.example.team01.book.dao.BookDao;
 import com.example.team01.common.exception.BookNotFoundException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
-import com.example.team01.vo.BookVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -43,33 +40,30 @@ public class AdminBookServiceImple implements AdminBookService {
         log.info("컨트롤러에서 받아온 파라미터 pagination:{}", pagination.toString());
         //전체 데이터 레코드 조회해오기
         int total = dao.totalRecord(pagination);
-        log.info("서비스 total record-----------:{}", total);
         // 전체 데이터 페이지네이션 멤버변수 값 설정
         pagination.setTotalRecord(total);
-        log.info("서비스 pagination 총 레코드 수 -----------:{}", pagination.getTotalRecord());
-        log.info("서비스 pagination 총 getCurrentPage 수 -----------:{}", pagination.getCurrentPage());
+
         //startRow && endRow 설정
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
+
         log.info("컨트롤러에서 받아온 파라미터 pagination2222:{}", pagination.toString());
 
         // 조회된 전체 데이터의 행의 개수 조회
         List<AdminBookVO> adminBookVOList = dao.selectAllBook(pagination);
-
-        log.info("서비스 adminBookVOList-----------:{}",adminBookVOList);
 
         List<String> bookImgePaths = new ArrayList<>();
         //실제이미지 파일 클라이언트로 전송하는 로직
         //1.데이터베이스에서 도서 객체 조회
         for(AdminBookVO adminBookVO : adminBookVOList){
             //한 행의 레코드 하나씩 조회
-            log.info("bookVO-----------------------:{}", adminBookVO);
+
             //bookImgPath가 null이 아니고, 비어 있지 않을 때만 실행
             String bookImgPath = adminBookVO.getBookImgPath();
 
             if(adminBookVO.getBookImgPath()!=null && !bookImgePaths.isEmpty()){
                 //2.값이 있을 경우 split로  bookImgPath "," 기준으로 자르고 배열반환
                 String[] getBookImg= adminBookVO.getBookImgPath().split(",");
-                log.info("getBookImg ------------: {}",getBookImg);
+
                 /// 여기에서 bookVO객체 배열로변경해서 설정
                 adminBookVO.setBookImgList(Arrays.asList(getBookImg));
             }else{

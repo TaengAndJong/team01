@@ -52,9 +52,6 @@ public class AdminBookController {
             @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg,HttpServletRequest request) throws FileNotFoundException {
 
 
-        log.info("createBook-----들어오는 데이터확인하기:{}",createBook);
-        log.info("createDate-----들어오는 데이터확인하기:{}",createDate);
-        log.info("bookImg-----create",bookImg);
         //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
         createBook.setBookCateNm(String.join(",", bookCateNm));
         createBook.setBookCateDepth(String.join(",", bookCateDepth));
@@ -64,11 +61,10 @@ public class AdminBookController {
 
         // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
         int result = bookService.createBook(createBook);
-        log.info("adminBookControll- result:{}",result);
+
         // 데이터 insert 성공시 결과 반환
         if (result > 0) {
             // 디비에 insert 된 후의 도서 Id를 받아와야함
-            log.info("bookId :{} ",createBook.getBookId());
 
             AdminBookVO addBookData = bookService.deTailBook(createBook.getBookId());
             //파일 경로 서버주소 반영하는 파일Util
@@ -84,21 +80,35 @@ public class AdminBookController {
 
     @GetMapping("/bookList")
     public ResponseEntity<?>  getBookList( @RequestParam(defaultValue = "1") int currentPage,
-                                           @RequestParam(defaultValue = "6") int pageSize
+                                           @RequestParam(defaultValue = "6") int pageSize,
+
+                                           @RequestParam(required = false) String bookType,
+                                           @RequestParam(required = false) String searchType,
+                                           @RequestParam(required = false) String keyword
                                             ,HttpServletRequest request){
-        log.info("도서 목록 API 호출됨");
+        log.info("도서 목록 API 호출됨 ------ getbookList");
+        log.info("도서 목록 currentPage : {} ,pageSize:{},bookType:{} ,searchType:{},keyword:{}",currentPage,pageSize,bookType,searchType,keyword);
         //페이지 계산 클래스 불러오기
         Pagination pagination = new Pagination(currentPage, pageSize); //현재페이지 && 보여줄 페이지 수
+
+        //검색조건이 있을 경우
+        if (keyword != null && !keyword.isBlank()) {
+            log.info("검색키워드 없음 미진입 keword : {} ",keyword);
+            pagination.addDetailCondition("bookType", bookType);
+            pagination.addDetailCondition("searchType", searchType);
+            pagination.addDetailCondition("keyword", keyword);
+            log.info("pagination.addDetailCondition:{}",pagination.getDetailCondition());
+        }
 
         log.info("pagination -----------------: {} pageSize:{}",currentPage,pageSize);
         //서비스로 데이터 넘기기
         List<AdminBookVO> bookList  = bookService.getAllBooks(pagination);
 
         for (AdminBookVO adminBookVO : bookList) {
-            log.info("여기:{}", adminBookVO);
+           // log.info("여기:{}", adminBookVO);
 
             fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
-            log.info("다음:{}", adminBookVO);
+           // log.info("다음:{}", adminBookVO);
         }
 
         Map<String, Object> result = new HashMap<>();
@@ -112,50 +122,50 @@ public class AdminBookController {
        return  ResponseEntity.ok(result);
     }
 
-    @PostMapping("/bookList")
-    public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) String bookType,
-                                                   @RequestParam(required = false) String searchType,
-                                                 @RequestParam String keyword,
-                                                 @RequestParam(defaultValue = "1") int page,
-                                                 @RequestParam(defaultValue = "6") int pageSize,
-                                                 HttpServletRequest request){
-            log.info("도서 목록 searchkeyword API 호출됨");
-            log.info("bookType --------------------: {}",bookType);
-            log.info("searchType -------------------: {}",searchType);
-            log.info("keyword -----------------: {}",keyword);
-            //페이지 계산 클래스 불러오기
-            Pagination pagination = new Pagination(page, pageSize);
-            log.info("pagination -----------------: {}",pagination);
-
-            //검색필터 설정해주기
-            pagination.addDetailCondition("bookType", bookType);
-            pagination.addDetailCondition("searchType", searchType);
-            pagination.addDetailCondition("keyword", keyword);
-
-            log.info("DetailContion-----:{}",pagination.getDetailCondition());
-
-            //서비스로 검색 파라미터 넘겨주기
-            List<AdminBookVO> bookList = bookService.getAllBooks(pagination);
-
-            // 레코드 순회
-            for (AdminBookVO adminBookVO : bookList) {
-                log.info("여기--검색 책목록:{}", adminBookVO);
-
-                fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
-                log.info("다음--검색 책목록:{}", adminBookVO);
-            }
-
-            Map<String, Object> result = new HashMap<>();
-            result.put("items", bookList);
-            result.put("currentPage", pagination.getCurrentPage());
-            result.put("pageSize", pagination.getPageSize());
-            result.put("totalPages", pagination.getTotalPages());
-            result.put("totalRecord", pagination.getTotalRecord());
-            log.info("result -----------------: {}",bookList);
-            //응답 반환
-            return  ResponseEntity.ok(result);
-
-        }
+//    @PostMapping("/bookList")
+//    public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) String bookType,
+//                                                   @RequestParam(required = false) String searchType,
+//                                                 @RequestParam String keyword,
+//                                                 @RequestParam(defaultValue = "1") int currentPage,
+//                                                 @RequestParam(defaultValue = "6") int pageSize,
+//                                                 HttpServletRequest request){
+//            log.info("도서 목록 searchkeyword API 호출됨");
+//            log.info("bookType --------------------: {}",bookType);
+//            log.info("searchType -------------------: {}",searchType);
+//            log.info("keyword -----------------: {}",keyword);
+//            //페이지 계산 클래스 불러오기
+//            Pagination pagination = new Pagination(currentPage, pageSize);
+//            log.info("pagination -----------------: {}",pagination);
+//
+//            //검색필터 설정해주기
+//            pagination.addDetailCondition("bookType", bookType);
+//            pagination.addDetailCondition("searchType", searchType);
+//            pagination.addDetailCondition("keyword", keyword);
+//
+//            log.info("DetailContion-----:{}",pagination.getDetailCondition());
+//
+//            //서비스로 검색 파라미터 넘겨주기
+//            List<AdminBookVO> bookList = bookService.getAllBooks(pagination);
+//
+//            // 레코드 순회
+//            for (AdminBookVO adminBookVO : bookList) {
+//                log.info("여기--검색 책목록:{}", adminBookVO);
+//
+//                fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+//                log.info("다음--검색 책목록:{}", adminBookVO);
+//            }
+//
+//            Map<String, Object> result = new HashMap<>();
+//            result.put("items", bookList);
+//            result.put("currentPage", pagination.getCurrentPage());
+//            result.put("pageSize", pagination.getPageSize());
+//            result.put("totalPages", pagination.getTotalPages());
+//            result.put("totalRecord", pagination.getTotalRecord());
+//            log.info("result -----------------: {}",bookList);
+//            //응답 반환
+//            return  ResponseEntity.ok(result);
+//
+//        }
 
 // 인덱스와 primary key 역할을 겸한다면 long type으로 설정해야 데이터베이스 성능이 좋아짐
 
@@ -249,9 +259,6 @@ public class AdminBookController {
         //2) 예외 처리: 도서가 존재하지 않거나 삭제가 불가능한 상태일 경우 예외 던지기
         log.info("삭제할 ID들: :{}",bookIds ); // [1, 2, 3]
         log.info("도서 목록 searchkeyword API 호출됨");
-//        log.info("bookType --------------------: {}",bookType);
-//        log.info("searchType -------------------: {}",searchType);
-//        log.info("keyword -----------------: {}",keyword);
 
         if (bookIds == null || bookIds.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of(
@@ -268,16 +275,19 @@ public class AdminBookController {
             log.info("pagination -----------------: {}",pagination);
 
             //검색필터 설정해주기
-//            pagination.addDetailCondition("bookType", bookType);
-//            pagination.addDetailCondition("searchType", searchType);
-//            pagination.addDetailCondition("keyword", keyword);
-//            log.info("DetailContion-----:{}",pagination.getDetailCondition());
 
             int delResult = bookService.deleteBooks(bookIds);
             log.info("delResult -----------------: {}",delResult);
 
             if (delResult > 0) {
                 // 삭제 성공시 데이터 반환
+                //페이지 버튼 개수 수정
+                int totalPages = pagination.getTotalPages();
+
+                if (pagination.getCurrentPage() > totalPages) {
+                    pagination.setCurrentPage(totalPages == 0 ? 1 : totalPages);
+                }
+
                 //전체도서 데이터 조회  : 검색 파라미터 넘겨준 후 반환값에 담
                 List<AdminBookVO> bookList = bookService.getAllBooks(pagination);
                 log.info("bookList -----------------: {}",bookList);

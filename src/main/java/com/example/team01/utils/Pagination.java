@@ -66,12 +66,17 @@ public class Pagination {
         this.totalRecord = totalRecord;
         this.totalPages = (int) Math.ceil((double) totalRecord / pageSize); 
         // 필터를 통해 조회된 데이터의 전체레코드 수 / UI로 보여줄 페이지네이션 블럭사이즈
+        // 총 페이지 버튼 수 수정
+        if (this.currentPage > this.totalPages) {
+            this.currentPage = (this.totalPages == 0) ? 1 : this.totalPages;
+        }
+        
         log.info("totalRecord:{}",totalRecord);
         log.info("totalPages:{}",totalPages);
     }
 
     //현재페이지를 기준으로 테이블 데이터 조회할 행 제한
-    public void setLimitRows(int currentPage) {
+    public void setLimitRows() {
         //시작페이지 번호
         this.offset = (currentPage - 1) * pageSize;
         log.info("offset:{}", offset);

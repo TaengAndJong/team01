@@ -12,8 +12,8 @@ const Gnb = ({ menu, commonMenuItems }) => {
 
   // 로그인상태와 사용자데이터 가져오는 커스텀훅
   const { isAuthenticated, userData, logout ,loginFailure} = useAuth();
-  console.log(` 사용자데이터 : ${userData} , 세션유효: ${isAuthenticated}`);
-  console.log(` 메뉴 : ${menu}  공통메뉴 : ${commonMenuItems} ` );
+  // console.log(` 사용자데이터 : ${userData} , 세션유효: ${isAuthenticated}`);
+  // console.log(` 메뉴 : ${menu}  공통메뉴 : ${commonMenuItems} ` );
   //모달
   const {openModal,closeModal} = useModal();
 
@@ -40,7 +40,7 @@ const Gnb = ({ menu, commonMenuItems }) => {
   // 로그아웃 fetch 요청
   const handleLogout = async () => {
     
-   console.log("gnb 로그아웃 -------------------------");
+   //console.log("gnb 로그아웃 -------------------------");
 
     try {
       // 서버로 로그아웃 요청 보내기
@@ -86,7 +86,7 @@ const Gnb = ({ menu, commonMenuItems }) => {
     //pathname과 role의 변경에 따른 menuNavi변경
   }, [pathname, role, menu]);
 
-  console.log("GNB Role 권한 확인", role);
+  //console.log("GNB Role 권한 확인", role);
 
 
   return (
