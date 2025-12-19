@@ -27,39 +27,45 @@
 
 
     <!-- 사용자별 도서상품 조회 데이터 추가 쿼리  -->
-    <insert id="insertUserViewBook" parameterType="String">
-        MERGE INTO userViewBook uvb
-            USING (SELECT #{clientId} AS "clientId", #{bookId} AS "bookId" FROM dual) src
-            ON (uvb."clientId" = src."clientId" AND uvb."bookId" = src."bookId")
-            WHEN MATCHED THEN
-                UPDATE SET uvb."viewDate" = SYSTIMESTAMP
-            WHEN NOT MATCHED THEN
-                INSERT ("viewId","clientId", "bookId", "viewDate")
-                    VALUES (USERVIEWID_SEQ.NEXTVAL,src."clientId", src."bookId", SYSTIMESTAMP)
+    <insert id="insertUserViewBook">
+        INSERT INTO userviewbook (
+            clientid,
+            bookid,
+            viewdate
+        )
+        VALUES (
+                   #{clientId},
+                   #{bookId},
+                   CURRENT_TIMESTAMP
+               )
+            ON CONFLICT (clientid, bookid)
+            DO UPDATE SET viewdate = CURRENT_TIMESTAMP
     </insert>
 
 
     <!-- 사용자가 조회한 도서데이터 8건까지 끊기 -->
     <select id="selectUserViewBook" parameterType="String" resultMap="userBookViewMap">
-        select * from (select
-                           uv."viewId"
-                            ,uv."clientId"
-                            ,uv."viewDate"
-                            ,uv."bookId"
-                            ,b."bookName"
-                            ,b."bookCateNm"
-                            ,b."bookCateDepth"
-                            ,b."author"
-                            ,b."bookPrice"
-                            ,b."publishDate"
-                            ,b."stockStatus"
-                            ,b."cateId"
-                            ,b."bookImgPath"
-                            ,b."recomType"
-                       from USERVIEWBOOK uv join book b on(uv."bookId" = b."bookId")
-                       where  uv."clientId" = #{clientId}
-                       ORDER BY uv."viewDate" DESC)
-       <![CDATA[where ROWNUM <=8]]>
+        SELECT
+            uv.viewId,
+            uv.clientId,
+            uv.viewDate,
+            uv.bookId,
+            b.bookName,
+            b.bookCateNm,
+            b.bookCateDepth,
+            b.author,
+            b.bookPrice,
+            b.publishDate,
+            b.stockStatus,
+            b.cateId,
+            b.bookImgPath,
+            b.recomType
+        FROM userviewbook uv
+                 JOIN book b
+                      ON uv.bookId = b.bookId
+        WHERE uv.clientId = #{clientId}
+        ORDER BY uv.viewDate DESC
+            LIMIT 8;
     </select>
 
 </mapper>
