@@ -45,3 +45,6 @@ build/
 ### security ###
 /src/main/java/com/example/team01/config/SecurityConfig.java
 /src/main/resources/application.properties
+
+### idea ###
+.idea/
