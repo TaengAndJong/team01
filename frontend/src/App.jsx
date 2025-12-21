@@ -76,7 +76,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             {/* 공통 컴포넌트 */}
             <Route path={PathData.page.login} element={<Login />} />
-            <Route path={PathData.page.logout} element={<Logout />} />
+            {/*<Route path={PathData.page.logout} element={<Logout />} />*/}
             <Route path={PathData.page.myPage} element={<Mypage />}>
               <Route index element={<MyPageMain />} />
               <Route path="personal" element={<PersonalInfo />} />
