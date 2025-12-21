@@ -18,7 +18,7 @@ import Cart from "@pages/cart/cartComponent.jsx";
 import Admin from "@pages/admin/adminCoponent.jsx";
 import AdminDeliveryBoard from "@pages/adminBoard/components/deliveryBoard.jsx";
 import AdminProductBoard from "@pages/adminBoard/components/productBoard.jsx";
-import AdminOneBoard from "@pages/adminBoard/components/OneBoard.jsx";
+import AdminOneBoard from "@pages/adminBoard/components/oneBoard.jsx";
 import AdminBoard from "@pages/adminBoard/adminBoardComponent.jsx";
 import AdminBook from "@pages/adminBook/adminBookComponent.jsx";
 import AdminDetailBoard from "@pages/adminBoard/components/adminDetailBoard.jsx";
@@ -76,7 +76,6 @@ function App() {
           <Route path="/" element={<Layout />}>
             {/* 공통 컴포넌트 */}
             <Route path={PathData.page.login} element={<Login />} />
-            {/*<Route path={PathData.page.logout} element={<Logout />} />*/}
             <Route path={PathData.page.myPage} element={<Mypage />}>
               <Route index element={<MyPageMain />} />
               <Route path="personal" element={<PersonalInfo />} />
