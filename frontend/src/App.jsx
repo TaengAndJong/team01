@@ -33,7 +33,7 @@ import AdminBookList from "@pages/adminBook/components/adminBookList.jsx";
 import Board from "@pages/board/boardComponent.jsx";
 import CreateBoard from "@pages/board/components/createBoardComponent.jsx";
 import BoardTemplateComponent from "@pages/board/components/boardTemplateComponent.jsx";
-import DetailBoard from "@pages/board/components/BoardDetail.jsx";
+import DetailBoard from "@pages/board/components/boardDetail.jsx";
 import BoardDashboard from "@pages/board/components/boardDashboard.jsx";
 
 import BookList from "@pages/book/components/bookList.jsx";
