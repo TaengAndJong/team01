@@ -1,6 +1,20 @@
 
 
 services:
+  db:
+    image: postgres:18
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: team02          # 원하는 DB 사용자명
+      POSTGRES_PASSWORD: java  # 원하는 비밀번호
+      POSTGRES_DB: team02db              # 생성할 DB 이름
+    volumes:
+      - pgdata:/var/lib/postgresql/18/docker
+    networks:
+      - app-network
+    ports:
+      - "5432:5432"                  # 외부 접속이 필요하면 주석 해제
   backend:
     build:
       context: .
@@ -10,6 +24,14 @@ services:
       - "8080"           # 외부 노출 안됨, 내부 통신만
     networks:
       - app-network
+    depends_on:
+      - db
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/team02db
+      SPRING_DATASOURCE_USERNAME: team02
+      SPRING_DATASOURCE_PASSWORD: java
+
 
   frontend:
     build:
@@ -32,6 +54,9 @@ services:
       - frontend
     networks:
       - app-network
+
+volumes:
+  pgdata:
 
 networks:
   app-network:
