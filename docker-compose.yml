@@ -27,10 +27,12 @@ services:
     depends_on:
       - db
     environment:
-      SPRING_PROFILES_ACTIVE: prod
+      SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/team02db
       SPRING_DATASOURCE_USERNAME: team02
       SPRING_DATASOURCE_PASSWORD: java
+
+
     volumes:
       - uploads:/opt/team01/uploads/
       - noimages:/opt/team01/images/
