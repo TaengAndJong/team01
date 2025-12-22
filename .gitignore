@@ -41,5 +41,5 @@ build/
 /src/main/resources/static/uploads/**
 
 
-##application.properties ==> 로컬에서만 사용하니까 깃에 올리지말기
-#/src/main/resources/application-dev.properties
+##application.properties
+/src/main/resources/application-dev.properties
