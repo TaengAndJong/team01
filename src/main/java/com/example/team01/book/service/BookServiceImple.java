@@ -50,9 +50,6 @@ public class BookServiceImple implements BookService{
             //2. bookImgPath "," 기준으로 자르고 배열반환
             String[] getBookImg= bookVO.getBookImgPath().split(",");
 
-            if(bookVO.getBookImgPath()!=null || !bookImgePaths.isEmpty()){
-                log.info("getBookImg ------------: {}",getBookImg);
-            }
             /// 여기에서 bookVO객체 배열로변경해서 설정해야하는뎅
             bookVO.setBookImgList(Arrays.asList(getBookImg));
         }//end
@@ -65,16 +62,14 @@ public class BookServiceImple implements BookService{
     public BookVO selectOneBook(Long bookId) {
 
         BookVO bookVO = dao.selectOneBook(bookId);
-        log.info("selectOneBook ------bookVO: {}",bookVO);
+
         // 텍스트 이미지경로 to ArrayList 이미지경로
         //bookImgPath  배열로 변경해서 넣어야함
         // 텍스트 이미지 split(",") 사용해서 문자 배열로 변경
         String[] bookImgPaths = bookVO.getBookImgPath().split(",");
-        log.info("bookImgPaths ------: {}",bookImgPaths);
-
         // bookVO의 bookImgList에 String 배열을 List 배열로 변경해 담아주기
         bookVO.setBookImgList(Arrays.asList(bookImgPaths));
-        log.info("selectOneBook ------: {}",bookVO);
+
         //파일유틸에 경로변경
 
         return dao.selectOneBook(bookId);

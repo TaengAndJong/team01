@@ -15,6 +15,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -35,6 +36,17 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Frontend###
+frontend/node_modules/
+frontend/dist/
+
+frontend/.env
+frontend/.env.*
+
+### Build outputs copied to backend###
+src/main/resources/static/assets/
+src/main/resources/static/uploads/
 
 
 ### img ###
