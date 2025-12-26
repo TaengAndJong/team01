@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,8 +50,18 @@ public class WishListServiceImple implements WishListService {
         // stream API를 통해 내부를 순회, map을 통해 사용할 객체를 가져옴 , filter로 null예외 발생 방지
        
         wishList.stream().map(WishListVO::getBookVO).filter(Objects::nonNull)
-                .forEach(vo -> fileUtils.changeImgPath(vo,request));
-
+                .forEach(vo -> {
+                    List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+                    if(vo.getBookImgPath() != null && !vo.getBookImgPath().isEmpty()){
+                        imgArray =  new ArrayList<>(
+                                Arrays.asList(
+                                        vo.getBookImgPath().split(",") //String [] 배열로 반환
+                                )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                        );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+                    }
+                    // admingbookVO bookImgList에 담아주기
+                    vo.setBookImgList(imgArray);
+                });
         return wishList;
     }
 

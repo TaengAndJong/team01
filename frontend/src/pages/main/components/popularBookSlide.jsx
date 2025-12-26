@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import {Link} from "react-router-dom";
-
+import ImgBaseUrl from "@/util/imgBaseUrl";
 
 const  PopularBookSlide= ({slideData}) =>{
 
@@ -79,7 +79,7 @@ const  PopularBookSlide= ({slideData}) =>{
                             </span>
                                 <div className="img-box">
                                     <div className="img-inner">
-                                        <img className="img" src={item.bookImgList?.[0]} alt={item.bookName}/>
+                                        <img className="img" src={ImgBaseUrl(item.bookImgList?.[0])} alt={item.bookName}/>
                                     </div>
                                 </div>
                             </Link>

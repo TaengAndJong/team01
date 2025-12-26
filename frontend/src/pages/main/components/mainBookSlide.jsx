@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import {Link} from "react-router-dom";
-
+import ImgBaseUrl from "@/util/imgBaseUrl";
 
 const MainBookSlide = ({slideData,naviId,activeTab}) =>{
 
@@ -99,7 +99,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                             <Link to={item.detailUrl} className={"book-link"} title={`${item.bookName}도서 상세페이지 바로가기`}>
                                 <div className="img-box">
                                     <div className="img-inner">
-                                        <img className="img" src={item.bookImgList?.[0]} alt={item.bookName} />
+                                        <img className="img" src={ImgBaseUrl(item.bookImgList?.[0])} alt={item.bookName} />
                                     </div>
                                 </div>
                                 <div className="txt-box">

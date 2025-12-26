@@ -4,6 +4,7 @@ package com.example.team01.index;
 import com.example.team01.index.service.MainService;
 import com.example.team01.menu.service.MenuService;
 import com.example.team01.utils.FileUtils;
+import com.example.team01.vo.AdminBookVO;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.MenuVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -63,8 +64,24 @@ public class IndexController {
         for (Map.Entry<String, List<BookVO>> entry : bookObjs.entrySet()) {
             String category = entry.getKey();
             List<BookVO> bookList = entry.getValue();
-            // 각 BookVO의 bookImgPath 변경
-            bookList.forEach(book -> fileUtils.changeImgPath(book, request));
+            // 각 BookVO의 bookImgPath 변경해서 bookImgList에 담아주기
+            for (BookVO bookvo : bookList) {
+            log.info("bookVO --- :{}",bookvo);
+                // BookVO 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
+                List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+                if(bookvo.getBookImgPath() != null && !bookvo.getBookImgPath().isEmpty()){
+                    imgArray =  new ArrayList<>(
+                            Arrays.asList(
+                                    bookvo.getBookImgPath().split(",") //String [] 배열로 반환
+                            )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                    );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+
+                }
+                //for문 종료
+                // admingbookVO bookImgList에 담아주기
+                bookvo.setBookImgList(imgArray);
+            }
+            log.info("bookList------------ 인데스 컨트롤러 '{}' 이미지 경로 변경 완료", bookList);
 
             // 변경된 리스트 다시 세팅 (사실 entry.getValue()는 이미 참조이므로 생략 가능)
             entry.setValue(bookList);
@@ -80,14 +97,39 @@ public class IndexController {
         log.info("mainController-- 추천,인기 슬라이드- 객체순환시작");
         //recomSlide 는 배열 ==> map으로 순회
         recomList.stream().map(bookVO->{//map함수를 통해 객체를 순회하면서 이미지의 경로를 변경
+            List<String> imgArray = new ArrayList<>();
+            if(bookVO.getBookImgPath() != null && !bookVO.getBookImgPath().isEmpty()){
+                imgArray =  new ArrayList<>(
+                        Arrays.asList(
+                                bookVO.getBookImgPath().split(",") //String [] 배열로 반환
+                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+
+            }
+            //for문 종료
+            // admingbookVO bookImgList에 담아주기
+            bookVO.setBookImgList(imgArray);
             log.info("mainController---recomList변경된 데이터:{}", bookVO);
-            return fileUtils.changeImgPath(bookVO,request);
+            return bookVO;
         }).collect(Collectors.toList());
 
         //popularSlide도 배열 ==> map으로 순회
         popularList.stream().map(bookVO->{//map함수를 통해 객체를 순회하면서 이미지의 경로를 변경
-            log.info("mainController---popularList 데이터:{}", bookVO);
-            return fileUtils.changeImgPath(bookVO,request);
+
+            List<String> imgArray = new ArrayList<>();
+            if(bookVO.getBookImgPath() != null && !bookVO.getBookImgPath().isEmpty()){
+                imgArray =  new ArrayList<>(
+                        Arrays.asList(
+                                bookVO.getBookImgPath().split(",") //String [] 배열로 반환
+                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+
+            }
+            //for문 종료
+            // admingbookVO bookImgList에 담아주기
+            bookVO.setBookImgList(imgArray);
+
+            return bookVO;
         }).collect(Collectors.toList());
 
 

@@ -1,22 +1,27 @@
 package com.example.team01.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
+
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+@Slf4j
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Value("${file.upload-dir}")
     private String uploadDir;
+    @Value("${file.images-dir}")
+    private String imagesDir;
+
     //전역 CORS 설정
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
@@ -42,9 +47,18 @@ public class WebConfig implements WebMvcConfigurer {
  //정적 리소스 허용 설정 보류
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        log.info("addResourceHandlers : {}",registry);
+        log.info("uploadDir : {}",uploadDir);
+        log.info("imagesDir : {}",imagesDir);
+
         WebMvcConfigurer.super.addResourceHandlers(registry);
-        registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:" + uploadDir);
+        //파일업로드 경로 허용
+        registry.addResourceHandler("/uploads/**") // 프론트의 URl 요청 
+                .addResourceLocations("file:" + uploadDir); // 파일시스템 경로연결(실제파일위치) ==> 여기서 file: 넣어줘야  " : " 때문에 에러안남
+        //이미지저장 경로 허용
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:" + imagesDir);
+
     }
 
 

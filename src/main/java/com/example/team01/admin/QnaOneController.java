@@ -51,12 +51,13 @@ public class QnaOneController {
 	    pagination.addDetailCondition("keyword", keyword);
 	
 	    qnaOneList = qnaOneService.getAllQnaOneList(pagination , userId); //검색 된 리스트 데이터
-
+            //   이미지 없는데 이코드 왜씀 ?
 	        for (QnaOneVO qnaOneVO : qnaOneList) {
                 log.info("여기--검색 책목록:{}", qnaOneVO);
                 // fileUtils.changeImgPath(qnaProductVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
                 log.info("다음--검색 책목록:{}", qnaOneVO);
             }
+            //  이미지 없는데 이코드 왜씀 ?
         }else{
 
         qnaOneList = qnaOneService.getAllQnaOneList(pagination, userId); // 전체 데이터

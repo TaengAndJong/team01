@@ -4,7 +4,6 @@ import React, { useContext, useEffect, useState } from "react";
 import Btn from "@util/reuseBtn.jsx";
 import pathsData from "@assets/pathsData.jsx";
 import {
-  BookDispatchContext,
   BookStateContext,
   PaginationContext,
 } from "../adminBookComponent.jsx";
@@ -14,6 +13,7 @@ import { formatToDate } from "@util/dateUtils.jsx";
 import SearchBar from "@pages/adminBook/components/searchBar.jsx";
 import Pagination from "@util/pagination.jsx";
 import {useModal} from "../../common/modal/ModalContext.jsx";
+import ImgBaseUrl from "@/util/imgBaseUrl";
 import axios from "axios";
 
 const AdminBookList = () => {
@@ -135,6 +135,11 @@ const AdminBookList = () => {
     );
   };
 
+const bookListlog =  bookList?.forEach((book) => {
+  console.log("book",book);
+})
+
+  console.log("bookListlog",bookListlog);
 
 
 
@@ -208,7 +213,6 @@ const AdminBookList = () => {
                 bookList?.map((item, index) => (
                     <tr key={index} className="table-light border-bottom">
                       <td className="text-center">
-
                         <input
                             type="checkbox"
                             id={`item${index}`}
@@ -230,7 +234,7 @@ const AdminBookList = () => {
                       <td className="text-center" id={`bookImg${index}`}>
                         <div className="imgbox">
                           <img
-                              src={`${item.bookImgList[0]}`}
+                              src={ImgBaseUrl(item.bookImgList[0])}
                               alt={`${item.bookName}도서 이미지`}
                           />
                         </div>

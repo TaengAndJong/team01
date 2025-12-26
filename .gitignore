@@ -50,8 +50,8 @@ src/main/resources/static/uploads/
 
 
 ### img ###
-/src/main/resources/static/uploads/**
-
+/images/
+/uploads/
 
 ##application.properties
 /src/main/resources/application-dev.properties

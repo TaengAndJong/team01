@@ -47,8 +47,8 @@ public class FileUtils {
     // inMemory 설정에서 업로드 디렉토리 값 주입
     @Value("${file.upload-dir}")
     private  String uploadDir;
-    @Value("${file.noImg-dir}")
-    private  String noImgDir;
+    @Value("${file.images-dir}")
+    private  String imagesDir;
     
  // MultipartFile 파라미터 받아서 파일 저장 메서드
     public String saveSingleMultiPartFile(MultipartFile file, String middlePath) throws FileNotFoundException {
@@ -113,7 +113,9 @@ public class FileUtils {
         // 파일 객체가 없으면,src/main/resources/static/images에서 noImg.png(jpg) 가져오기
       //  log.info(" noImgDir-------------------------- : {}",noImgDir);
         // png,jpg 파일의 확장자 구분 및 실제 존재여부 확인 ==> 파일객체로 실제 파일을 스캔하여 확인
-        File folder = new File(noImgDir);
+
+        log.info("imagesDir :{} ",imagesDir);
+        File folder = new File(imagesDir);
         File[] Files = folder.listFiles();
       //  log.info("foler------------:{} , fileList--------- :{}", folder, Files);
 
@@ -138,108 +140,10 @@ public class FileUtils {
     }
     // file.getAbsolutePath 반환하면 자동으로 noImgPath에 대입 되는가?
 
-    //BookImgList 레코드 값의 배열 조회를 통한 서버주소 추가 후 배열 갱신, 제네릭타입 선언<<<
-    // VO객체와 request 파라미터를 넘겨줘야함!
-    public <T extends BookImgChange> T changeImgPath(T vo, HttpServletRequest request){
-
-        List<String> bookImgList = vo.getBookImgList();
-        //vo.getBookImgList() 가 null 일 경우와 아닌 경우 분리하기
-
-        //log.info("bookImgList--------------:{}",bookImgList);
-        //log.info("bookImgList--------------:{}",baseImageUrl(request,"uploads/book"));
-
-        // 1. bookImgList가 비었을 경우, bookImgPath로부터 리스트 생성
-        if (bookImgList == null || bookImgList.isEmpty()) {
-            bookImgList =  Arrays.stream(Optional.ofNullable(vo.getBookImgPath()).orElse("").split(","))
-                    .map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
-           // log.info("bookImgList 비어있을 경우 재구성됨: {}", bookImgList);
-        }
-
-        // 2. 공통 URL 생성 처리
-        List<String> imgUrlList = bookImgList.stream()
-                .map(fileName -> {
-
-                    // 빈값 체크 , noimg로 설정
-                    if (fileName == null || fileName.isBlank()) {
-                        return baseImageUrl(request, "images") + "noImg.png";
-                    }
-
-                    // 1) 외부 파일시스템 체크 (외부경로 : 절대경로기준 , fileSystemResource )
-                    Path fsPath = Paths.get(uploadDir, "book", fileName);
-                    if (Files.exists(fsPath)) { // 실제 운영서버에 파일이 존재한다면
-                        return baseImageUrl(request, "uploads/book") + fileName;
-                    }
-                    // 2) 클래스패스 static에서 체크 (개발환경 : 빌드된 클래스 패스 내부에서 찾기 ,
-                    // 클래스패스 기준경로 src/main/resources 이하(jar 내부) ClassPathResource)
-                    Resource res = new ClassPathResource("static/uploads/book/" + fileName);
-                    if (res.exists()) { // 클래스 패스 기준 해당경로에 파일이 존재한다면
-                        return baseImageUrl(request, "uploads/book") + fileName;
-                    }
-                    // 둘 다 아니면
-                    return baseImageUrl(request, "images") + "noImg.png";
-                })
-                .collect(Collectors.toList());
-    
-        // bookImgList을 변경된 내용으로 재설정
-        vo.setBookImgList(imgUrlList);
-        //log.info("서버주소와 결합한 이미지 URL 최종 변환 완료----------------: {}", vo);
-        return vo;
-    }
-
-
-    // DTO를 사용했을 경우 컨트롤러에서 이미지 주소변경 메서드로 해당 DTO에 BookImgChange를 상속해야함
-    public <T extends BookImgChange> T changeImgPathDto(T dto, HttpServletRequest request){
-
-        List<String> bookImgList = dto.getBookImgList();
-        //vo.getBookImgList() 가 null 일 경우와 아닌 경우 분리하기
-
-        //log.info("bookImgList--------------:{}",bookImgList);
-        //log.info("bookImgList--------------:{}",baseImageUrl(request,"uploads/book"));
-
-
-        // 1. bookImgList가 비었을 경우, bookImgPath로부터 리스트 생성
-        if (bookImgList == null || bookImgList.isEmpty()) {
-            bookImgList =  Arrays.stream(Optional.ofNullable(dto.getBookImgPath()).orElse("").split(","))
-                    .map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
-            //log.info("bookImgList 비어있을 경우 재구성됨: {}", bookImgList);
-        }
-
-        // 2. 공통 URL 생성 처리
-        List<String> imgUrlList = bookImgList.stream()
-                .map(fileName -> {
-
-                    // 빈값 체크 , noimg로 설정
-                    if (fileName == null || fileName.isBlank()) {
-                        return baseImageUrl(request, "images") + "noImg.png";
-                    }
-
-                    // 1) 외부 파일시스템 체크 (외부경로 : 절대경로기준 , fileSystemResource )
-                    Path fsPath = Paths.get(uploadDir, "book", fileName);
-                    if (Files.exists(fsPath)) { // 실제 운영서버에 파일이 존재한다면
-                        return baseImageUrl(request, "uploads/book") + fileName;
-                    }
-                    // 2) 클래스패스 static에서 체크 (개발환경 : 빌드된 클래스 패스 내부에서 찾기 ,
-                    // 클래스패스 기준경로 src/main/resources 이하(jar 내부) ClassPathResource)
-                    Resource res = new ClassPathResource("static/uploads/book/" + fileName);
-                    if (res.exists()) { // 클래스 패스 기준 해당경로에 파일이 존재한다면
-                        return baseImageUrl(request, "uploads/book") + fileName;
-                    }
-                    // 둘 다 아니면
-                    return baseImageUrl(request, "images") + "noImg.png";
-                })
-                .collect(Collectors.toList());
-
-        // bookImgList을 변경된 내용으로 재설정
-
-        dto.setBookImgList(imgUrlList);
-     //   log.info(" dto 서버주소와 결합한 이미지 URL 최종 변환 완료----------------: {}", dto);
-        return dto;
-    }
-
 
     //실서버에 저장된 이미지파일 삭제( + 데이터베이스 bookImgPath 에서도 해당 파일 삭제(갱신) 해줘야 데이터 정합성이 유지됨)
     public String deleteFiles(String fileNames,String middlePath) { 
-      //  log.info("fileNames----------del:{}",fileNames);
+
 
         // 삭제할 파일 레코드 아이디 받아오기 ==> List<String> fileNames
         String deleteFilePath = uploadDir + File.separator + middlePath + File.separator;//운영체제에 맞게 파일 경로 생성하기 위한 코드

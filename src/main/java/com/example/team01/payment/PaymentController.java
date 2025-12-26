@@ -20,10 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -49,8 +46,19 @@ public class PaymentController {
                     //cartDTO 내부의 bookDTO 가져오기
                     BookDTO bookDTO = cartDTO.getBook();
                     log.info("changeImg----getPayment:{}",bookDTO);
-                    //bookDto와 ,request 를 파라미터로 전송하여, bookImgPath 변경
-                    fileUtils.changeImgPathDto(bookDTO,request); //bookImgpath가 변경된 DTO 반환
+                   // BookVO 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
+                   List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+                   if(bookDTO.getBookImgPath() != null && !bookDTO.getBookImgPath().isEmpty()){
+                       imgArray =  new ArrayList<>(
+                               Arrays.asList(
+                                       bookDTO.getBookImgPath().split(",") //String [] 배열로 반환
+                               )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                       );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+
+                   }
+                   // admingbookVO bookImgList에 담아주기
+                    bookDTO.setBookImgList(imgArray);
+
                     //최종 반환값은 CartDto 이기 때문에 CartDTO의 bookDTO 재설정
                     cartDTO.setBook(bookDTO);
                     log.info("fileUtis cartDTO : {}",cartDTO);

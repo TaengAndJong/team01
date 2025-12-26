@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -59,7 +57,16 @@ public class MypageController {
                     //도서상품상세주소
                     book.setDetailUrl("/book/bookDetail/"+dto.getBook().getBookId());
                     //book 이미지 경로변경 ==> dto 반환됨
-                    fileUtils.changeImgPathDto(book, request);
+                    List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+                    if(book.getBookImgPath() != null && !book.getBookImgPath().isEmpty()){
+                        imgArray =  new ArrayList<>(
+                                Arrays.asList(
+                                        book.getBookImgPath().split(",") //String [] 배열로 반환
+                                )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                        );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+                    }
+                    // admingbookVO bookImgList에 담아주기
+                    book.setBookImgList(imgArray);
                     //반환 Dto book 객체 재설정
                     dto.setBook(book);
                     log.info("window.location.origin---dto:{}",dto);

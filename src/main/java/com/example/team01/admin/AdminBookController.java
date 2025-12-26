@@ -68,7 +68,23 @@ public class AdminBookController {
 
             AdminBookVO addBookData = bookService.deTailBook(createBook.getBookId());
             //파일 경로 서버주소 반영하는 파일Util
-            fileUtils.changeImgPath(addBookData,request);
+
+            log.info("addBookData --- :{}",addBookData);
+            // addBookData 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
+            List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+            if(addBookData.getBookImgPath() != null && !addBookData.getBookImgPath().isEmpty()){
+                imgArray =  new ArrayList<>(
+                        Arrays.asList(
+                                addBookData.getBookImgPath().split(",") //String [] 배열로 반환
+                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+
+            }
+            //for문 종료
+            // addBookData bookImgList에 담아주기
+            addBookData.setBookImgList(imgArray);
+            log.info("addBookData --- :{}",addBookData);
+
             return ResponseEntity.ok(addBookData);// 저장된 데이터 전체를 클라이언트에 반환
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -105,12 +121,23 @@ public class AdminBookController {
         List<AdminBookVO> bookList  = bookService.getAllBooks(pagination);
 
         for (AdminBookVO adminBookVO : bookList) {
-           // log.info("여기:{}", adminBookVO);
+            // adminBookVO의 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
+            List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+            if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
+                imgArray =  new ArrayList<>(
+                        Arrays.asList(
+                                adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
+                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
 
-            fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
-           // log.info("다음:{}", adminBookVO);
+            }
+            //for문 종료
+
+            // admingbookVO bookImgList에 담아주기
+            adminBookVO.setBookImgList(imgArray);
         }
 
+        //
         Map<String, Object> result = new HashMap<>();
         result.put("items", bookList);
         result.put("currentPage", pagination.getCurrentPage());
@@ -122,61 +149,27 @@ public class AdminBookController {
        return  ResponseEntity.ok(result);
     }
 
-//    @PostMapping("/bookList")
-//    public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) String bookType,
-//                                                   @RequestParam(required = false) String searchType,
-//                                                 @RequestParam String keyword,
-//                                                 @RequestParam(defaultValue = "1") int currentPage,
-//                                                 @RequestParam(defaultValue = "6") int pageSize,
-//                                                 HttpServletRequest request){
-//            log.info("도서 목록 searchkeyword API 호출됨");
-//            log.info("bookType --------------------: {}",bookType);
-//            log.info("searchType -------------------: {}",searchType);
-//            log.info("keyword -----------------: {}",keyword);
-//            //페이지 계산 클래스 불러오기
-//            Pagination pagination = new Pagination(currentPage, pageSize);
-//            log.info("pagination -----------------: {}",pagination);
-//
-//            //검색필터 설정해주기
-//            pagination.addDetailCondition("bookType", bookType);
-//            pagination.addDetailCondition("searchType", searchType);
-//            pagination.addDetailCondition("keyword", keyword);
-//
-//            log.info("DetailContion-----:{}",pagination.getDetailCondition());
-//
-//            //서비스로 검색 파라미터 넘겨주기
-//            List<AdminBookVO> bookList = bookService.getAllBooks(pagination);
-//
-//            // 레코드 순회
-//            for (AdminBookVO adminBookVO : bookList) {
-//                log.info("여기--검색 책목록:{}", adminBookVO);
-//
-//                fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
-//                log.info("다음--검색 책목록:{}", adminBookVO);
-//            }
-//
-//            Map<String, Object> result = new HashMap<>();
-//            result.put("items", bookList);
-//            result.put("currentPage", pagination.getCurrentPage());
-//            result.put("pageSize", pagination.getPageSize());
-//            result.put("totalPages", pagination.getTotalPages());
-//            result.put("totalRecord", pagination.getTotalRecord());
-//            log.info("result -----------------: {}",bookList);
-//            //응답 반환
-//            return  ResponseEntity.ok(result);
-//
-//        }
 
 // 인덱스와 primary key 역할을 겸한다면 long type으로 설정해야 데이터베이스 성능이 좋아짐
 
     @GetMapping("/bookDetail/{bookId}")
     public ResponseEntity<?> getBookDetail(@PathVariable Long bookId,HttpServletRequest request){
 
-
         // 아이디를 파라미터로 데이터베이스에 넘겨서 데이터 받아오기
         AdminBookVO adminBookVO = bookService.deTailBook(bookId);
+        // adminBookVO 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
+        List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
+            imgArray =  new ArrayList<>(
+                    Arrays.asList(
+                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
+                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
 
-        fileUtils.changeImgPath(adminBookVO,request);
+        }
+        // admingbookVO bookImgList에 담아주기
+        adminBookVO.setBookImgList(imgArray);
+
         log.info("adminBookVO -----------:{}",adminBookVO);
 
         Map<String, Object> response = new HashMap<>();
@@ -194,8 +187,20 @@ public class AdminBookController {
 
         //해당 아이디에 대한 도서 정보 가져오기
         AdminBookVO adminBookVO = bookService.deTailBook(bookId);
-        fileUtils.changeImgPath(adminBookVO, request); // 필요 시 이미지 경로 수정
 
+        List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
+            imgArray =  new ArrayList<>(
+                    Arrays.asList(
+                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
+                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+
+        }
+
+        // admingbookVO bookImgList에 담아주기
+        adminBookVO.setBookImgList(imgArray);
+        log.info("adminBookVO -- 삭제 : {}",adminBookVO);
         Map<String,Object> response = new HashMap<>();
         //해당 아이디에 대한 도서데이터와 , 카테고리 데이터를 클라이언트에게 전송하기!
         //문자열 데이터 List 형태로 바꿔서 bookVO재설정하기
@@ -232,7 +237,21 @@ public class AdminBookController {
             AdminBookVO updateData = bookService.deTailBook(modifyBook.getBookId());
 
             //파일 경로 서버주소 반영하는 파일Util
-            fileUtils.changeImgPath(updateData,request);
+            log.info("adminBookVO -- 수정 : {}",updateData);
+
+            List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+            if(updateData.getBookImgPath() != null && !updateData.getBookImgPath().isEmpty()){
+                imgArray =  new ArrayList<>(
+                        Arrays.asList(
+                                updateData.getBookImgPath().split(",") //String [] 배열로 반환
+                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+
+            }
+
+            // admingbookVO bookImgList에 담아주기
+            updateData.setBookImgList(imgArray);
+
             //삭제된 이미지 목록이 있을 경우에만 실행
             if (removedBookImg != null && !removedBookImg.isEmpty()) {
                 fileUtils.deleteFiles(String.join(",", removedBookImg), "book");
@@ -248,9 +267,6 @@ public class AdminBookController {
 
     @PostMapping("/bookDelete")
     public ResponseEntity<?> deleteBook(@RequestBody List<Long> bookIds,
-//                                        @RequestParam(required = false) String bookType,
-//                                        @RequestParam(required = false) String searchType,
-//                                        @RequestParam String keyword,
                                         @RequestParam(defaultValue = "1", name = "currentPage") int page, // 넘어오는 파라미터 명이 다르면 name 설정해주기
                                         @RequestParam(defaultValue = "6") int pageSize,
                                         HttpServletRequest request
@@ -293,7 +309,18 @@ public class AdminBookController {
                 log.info("bookList -----------------: {}",bookList);
                 // 레코드 순회
                 for (AdminBookVO adminBookVO : bookList) {
-                    fileUtils.changeImgPath(adminBookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+
+                    List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+                    if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
+                        imgArray =  new ArrayList<>(
+                                Arrays.asList(
+                                        adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
+                                )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                        );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+                    }
+
+                    // adminBookVO bookImgList에 담아주기
+                    adminBookVO.setBookImgList(imgArray);
                 }
                 //남은 도서가 없을경우
                 if (bookList.isEmpty()) {

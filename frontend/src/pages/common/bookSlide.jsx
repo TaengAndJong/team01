@@ -7,13 +7,14 @@ import {Autoplay, Navigation, Pagination} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
+import ImgBaseUrl from "@/util/imgBaseUrl";
 
 const BookSlide = ({slideData}) =>{
     // 받아온 props의 값을 왼쪽의 변수에 구조분해할당해주기( 데이터 분해 방향은 오른쪽에서 왼쪽)
     const imgList = slideData.bookImgList; // 배열로 넘어오면 변수에 저장하면 됨!
     const swiperRef = useRef(null);
 
+    console.log("imgList---------------",imgList);
 
 
     useEffect(() => {
@@ -62,7 +63,8 @@ loop value true로 하면 pagenation 에러 및 loop length not enough 에러 �
                         <SwiperSlide key={`slide-${index}`}>
                             <div className="img-box">
                                 <div className="img-inner">
-                                    <img className="img" src={`${item}`} alt="도서이미지"/>
+                                    {/*<img className="img" src={ImgBaseUrl(item.bookImgList)} alt="도서이미지"/>*/}
+                                    <img className="img" src={ImgBaseUrl(item)} alt="도서이미지"/>
                                 </div>
                             </div>
                         </SwiperSlide>

@@ -17,10 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -136,7 +133,18 @@ public class PayHistoryController {
 
         paymentList.forEach(dto -> {
             List<BookDTO> updatedBooks = dto.getBooks().stream()
-                    .map(book -> fileUtils.changeImgPathDto(book, request))
+                    .map(book -> {
+                        List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+                        if(book.getBookImgPath() != null && !book.getBookImgPath().isEmpty()){
+                            imgArray =  new ArrayList<>(
+                                    Arrays.asList(
+                                            book.getBookImgPath().split(",") //String [] 배열로 반환
+                                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+                        }
+                        book.setBookImgList(imgArray);
+                        return book;
+                    })
                     .collect(Collectors.toList());
             log.info("updatedBooks--controller:{}",updatedBooks);
             dto.setBooks(updatedBooks);
