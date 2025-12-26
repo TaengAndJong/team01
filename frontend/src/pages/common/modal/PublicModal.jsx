@@ -55,7 +55,7 @@ const modalConfig = {
 const publicModal = ({ show, onClose, onConfirm, modalType, data,content }) => {
 
     console.log(`content 퍼블릭모달-----------  ${content}`);
-
+    console.log(`content 퍼블릭모달-----------data ", ${data}`);
     const current = modalConfig[modalType]
         ? modalConfig[modalType]({ data, onClose, onConfirm,content })
         : {

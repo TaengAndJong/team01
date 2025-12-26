@@ -1,16 +1,11 @@
 package com.example.team01.utils;
-import com.example.team01.common.support.BookImgChange;
-import com.example.team01.vo.AdminBookVO;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value; // 롬복 사용하면 안됨, inMemory에서 가져오려면 이 패키지 사용해야 함
 
 import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -141,21 +136,35 @@ public class FileUtils {
     //실서버에 저장된 이미지파일 삭제( + 데이터베이스 bookImgPath 에서도 해당 파일 삭제(갱신) 해줘야 데이터 정합성이 유지됨)
     public String deleteFiles(String fileNames,String middlePath) { 
 
-
+        log.info("fileNames------deleteFiles :{} ",fileNames);
+        log.info("fileNames------middlePath :{} ",middlePath);
         // 삭제할 파일 레코드 아이디 받아오기 ==> List<String> fileNames
         String deleteFilePath = uploadDir + File.separator + middlePath + File.separator;//운영체제에 맞게 파일 경로 생성하기 위한 코드
         //File 클래스를 사용하는 이유는, 파일시스템에서 해당경로의 파일을 조작하기 위해서 파일 객체를 사용
-        Arrays.stream(fileNames.split(","))
-                .map(fileName -> new File(deleteFilePath + fileName))
-                .forEach(file -> {
-                    if (file.exists()) {
-                        boolean deleted = file.delete();
-                        //log.info("삭제성공여부:{}",deleted);
-                       // log.info("삭제성공여부:{}",file.getPath());
-                        // 삭제한 파일을 제외한 값을 반환해줘야함
-                    } else {
-                        log.info("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
-                    }
+
+        //삭제할 파일 필터 순서 1) 문자열 필터 2) noimg 필터
+        Arrays.stream(fileNames.split(",")) // 문자열 파일객체를 ','를 기준으로 String [] 배열로 반환 후 stream으로 펼침
+                .map(String::trim)//문자열 공백 삭제
+                .filter(fileName ->
+                        fileName != null && // fileName null 이 아님
+                        !fileName.isBlank() && //"", " " 같은 값 제거
+                        !fileName.toLowerCase().contains("noimg") // 대소문자 구분없이 noimg 삭제 대상에서 제외
+                )
+                .map(fileName -> new File(deleteFilePath + fileName))// 삭제할 실제 파일시스템 객체 경로
+                .forEach(file -> { // 해당 파일이 존재하면 
+                   try{
+                       if (file.exists()) {
+                           boolean deleted = file.delete();
+                           log.info("삭제성공여부:{}",deleted);
+                           log.info("삭제성공여부:{}",file.getPath());
+                           // 삭제한 파일을 제외한 값을 반환해줘야함
+                       } else {
+                           //존재하지 않으면
+                           log.warn("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
+                       }
+                   }catch (Exception e){
+                       log.warn("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
+                   }
                 });
 
        return "서버에 저장된 이미지파일 삭제완료 ";

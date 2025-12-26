@@ -306,21 +306,29 @@ public class AdminBookController {
                 //전체도서 데이터 조회  : 검색 파라미터 넘겨준 후 반환값에 담
                 List<AdminBookVO> bookList = bookService.getAllBooks(pagination);
                 log.info("bookList -----------------: {}",bookList);
-                // 레코드 순회
+                // 레코드 순회 ==> bookImgpath => bookImgList 에 담아주기
                 for (AdminBookVO adminBookVO : bookList) {
-
+                    log.info("bookList ----------------- 이미지 : {}",bookList);
                     List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
-                    if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
-                        imgArray =  new ArrayList<>(
-                                Arrays.asList(
-                                        adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
-                                )//Arrays.asList() 는 배열을 List로 => 고정크기 List
-                        );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+                    //분기  noimg 일경우 아닐경우
+                    if(!adminBookVO.getBookImgPath().toLowerCase().equals("noimg.png")){
+                        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
+                            imgArray =  new ArrayList<>(
+                                    Arrays.asList(
+                                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
+                                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+                        }
+                    }else{
+                        //noImg 이면 가변리스트로 가공해서 noimg 담아주기?
+                        imgArray = new ArrayList<>(Arrays.asList(adminBookVO.getBookImgPath()));
                     }
 
-                    // adminBookVO bookImgList에 담아주기
+                    // 공통로직 adminBookVO bookImgList에 담아주기
                     adminBookVO.setBookImgList(imgArray);
                 }
+
+                log.info("bookList -----------------: {}",bookList);
                 //남은 도서가 없을경우
                 if (bookList.isEmpty()) {
                     result.put("message", "삭제 완료. 남은 도서가 없습니다.");

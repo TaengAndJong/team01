@@ -102,10 +102,13 @@ const AdminBook = () => {
         }
       });
 
+      console.log("AdminbookComponent",response.data);
       //서버에서 넘온 데이터 객체구조분해
       const { currentPage, items, pageSize, totalPages, totalRecord } = response.data;
 
       console.log("currentPage, items, pageSize, totalPages, totalRecord",currentPage, items, pageSize, totalPages, totalRecord)
+      console.log("items",items);
+
       // 도서 목록 갱신
       onInit(items);
 
@@ -165,6 +168,7 @@ const AdminBook = () => {
 
   // 검색어 변경되었을 때 , 페이지변경되었을 때
   useEffect(() => {
+    console.log("페이지네이션 변경될때 실행됨")
      fetchBookList();
   }, [paginationInfo.currentPage, paginationInfo.pageSize,searchCondition]);
 
@@ -179,7 +183,7 @@ const AdminBook = () => {
   };
 
   const onCreate = (createBook) => {
-    // console.log("createBook", createBook);
+     console.log("createBook", createBook);
     dispatch({
       type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
       data: createBook,

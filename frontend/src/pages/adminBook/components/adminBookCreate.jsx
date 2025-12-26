@@ -22,7 +22,7 @@ import axios from "axios";
 const AdminBookCreate = () => {
 
     const {userData} = useAuth();
-    const { setPaginationInfo,setSearchCondition } = useContext(PaginationContext);
+    const {setPaginationInfo,setSearchCondition,fetchBookList } = useContext(PaginationContext);
     const navigate = useNavigate();
     const {openModal,closeModal} = useModal();
 
@@ -73,8 +73,8 @@ const AdminBookCreate = () => {
             }
             // 요청 성공 시 ,응답 제이슨으로 받아오기
             const data = await response.json();
-
             setCategoryList(data);
+
         }catch(err){
             console.error("getCategories 실패:", err);
         }
@@ -218,8 +218,10 @@ const AdminBookCreate = () => {
                 console.log("create response", response);
 
                 setSearchCondition(null); // 검색어 상태를 초기화 해줘야 등록완료후 처음으로돌아감
-                // 1. 페이지 1로 이동
+                // 1. 페이지 1로 이동 ( 이미 1페이지면 state 변경이 안됨)
                 setPaginationInfo(prev => ({ ...prev, currentPage: 1 }));
+                // 2. 다시 서버로 재요청 (명시적으로 fetch 호출이 안전)
+                await fetchBookList();
                 // 3. 목록 페이지로 이동
                 navigate("/admin/book/bookList");
 

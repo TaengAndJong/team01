@@ -120,6 +120,7 @@
             , writer
             ,recomType
             ,saleStatus
+            ,delstatus
         ) VALUES (
          #{bookCateNm}
         , #{bookCateDepth}
@@ -136,8 +137,8 @@
         , #{writer}
         ,#{recomType}
         ,#{saleStatus}
+        ,'N'
         )
-
     </insert>
     <!-- 도서 존재유뮤 유효성검사 쿼리 -->
     <select id="existBooks" parameterType="list" resultType="java.lang.Long">

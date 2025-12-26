@@ -22,6 +22,7 @@ const AdminBookList = () => {
     paginationInfo,
     setPaginationInfo,
     onChangePageHandler,
+    fetchBookList,
     search,
     setSearch,
     handleSearch
@@ -81,35 +82,41 @@ const AdminBookList = () => {
                 ,deleteItems, // 자동직렬화가 되기때문에 Json.stringify(직렬화대상객체); 미사용
                 { withCredentials: true}); // 인증 세션 또는 쿠키 사용시 필요함
 
-            const data = response.data;
+          const data = response.data;
 
             /*onDelete(data.items);// 삭제이후에 새로 변경된 bookData 로 상태갱신
          * 부모컴포넌트에서 페이지네이션이 변경되면 초기화가 이루어지기때문에 불필요
          * */
         
-          //서버에서 응답준 페이지 데이터를 다시 페이지네이션에 갱신해주기
+            //서버에서 응답준 페이지 데이터를 다시 페이지네이션에 갱신해주기 => 동일한 값이라면 변경없음
             setPaginationInfo({
               currentPage: data.currentPage,
               pageSize: data.pageSize,
               totalPages: data.totalPages,
               totalRecord: data.totalRecord,
             });
-          //삭제확인 알림
+
+            //삭제확인 알림
             openModal({
               modalType:"default",
-              content: <><p>{`${response.data.message}`}</p></>,
-              onConfirm:()=>{ closeModal()}
+              content: <><p>{`${data.message}`}</p></>,
+              onConfirm:async ()=>{
+                closeModal();
+                // 삭제할 배열 초기화 ==> 초기화안하면 이전에 삭제한 아이디값이 남아있게됨
+                setCheckedInput([]);
+                await fetchBookList();
+
+              }
             });
 
-            // 삭제할 배열 초기화 ==> 초기화안하면 이전에 삭제한 아이디값이 남아있게됨
-            setCheckedInput([]);
+
 
 
       }catch(err){
         // fetch는 네트워크에러만 감지, axios는 http오류(400,500)e도 감지
         openModal({
           modalType:"error",
-          content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>
+          content: <><p>{`상태메시지 : ${err.response?.statusText} (상태코드: ${err.response?.status}), `}</p></>
         });
 
       }

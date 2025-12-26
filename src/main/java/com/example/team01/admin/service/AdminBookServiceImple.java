@@ -104,13 +104,12 @@ public class AdminBookServiceImple implements AdminBookService {
         String bookImgPath=""; // 데이터베이스에 담을 파일명 담는 문자열 변수
 
         if(book != null) {
-            log.info("createBook에 파일 객체도 담겨서 넘어옴:{}", book );
-            log.info("createBook book.file 새로추가된 도서 객체:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
 
+            log.info("createBook book.file 새로추가된 도서 객체:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
             //파일 유틸 클래스에서 이미지객체 존재 여부에 대해 검증하고 예외처리하기때문에 try - catch 구문 사용, 예외처리 없다면 사용하지 않아도 됨
                 if(book.getBookImg() != null && !book.getBookImg().isEmpty()){
                     bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
-                    log.info("bookImgPath--------------------- 파일 유틸 반환값 확인: {}",bookImgPath);
+
                     //반환된 bookImgPath 데이터베이스에 전달할 객체설정
                     book.setBookImgPath(bookImgPath);
                 }else{
@@ -126,9 +125,6 @@ public class AdminBookServiceImple implements AdminBookService {
                 book.setBookCateNm(trimBookCateNm);
             }
             //파일 유틸 끝
-            log.info(" 도서 등록 객체확인 -------------------------------------:{} ",book);
-            log.info(" 도서 등록 이미지객체확인 -------------------------------------:{} ",book.getBookCateNm());
-            log.info(" 도서 등록 이미지객체확인 -------------------------------------:{} ",book.getBookImgPath());
 
             //공통처리부분
             cnt = dao.createBook(book); // 처리가 되면 값이 1로 변경
@@ -237,26 +233,18 @@ public class AdminBookServiceImple implements AdminBookService {
             //예외처리
             throw new BookNotFoundException("존재하지 않는 도서 ID ",missingIds);
         }
-        //존재하는 아이디 값만 넘겨서 삭제성공이면  cnt = 성공한 개수로 반환
+        //존재하는 아이디 값만 넘겨서 삭제 성공이면  cnt = 성공한 개수로 반환
 
         //서버에 저장된 이미지 삭제하기
         for(Long bookId : existBookIds){
             AdminBookVO adminBookVO = dao.selectOneBook(bookId);
             log.info("도서 삭제 :{}", adminBookVO.getBookImgPath());
-            //noImg가 포함되어있지 않으면
-            if(!adminBookVO.getBookImgPath().contains("noImg")){
-
-                //서버에서 삭제할 이미지파일 파라미터 넘겨주기(실제파일 저장경로에서 삭제=물리삭제)
-                fileUtils.deleteFiles(adminBookVO.getBookImgPath(),"book");
-
-            }else{
-                log.info("NOImg 인 경우:{}", adminBookVO.getBookImgPath());
-                // noImg가 포함된 경우 실제 파일 삭제는 없음
-                //DB 상 bookImgPath를 기본 이미지 경로로 갱신 (일관성 유지)
-            }
+            
+            //아니면 실제경로에서 파일삭제
+            fileUtils.deleteFiles(adminBookVO.getBookImgPath(),"book");
         }
 
-        //디비에서 레코드 삭제(delStatus로 로 관리해서 참조키관련 삭제관계 고려하지 않아도 됨 )
+        //디비에서 레코드 삭제(delStatus로 관리해서 참조키관련 삭제관계 고려하지 않아도 됨 )
         cnt = dao.deleteBooks(existBookIds);
         log.info("delete cnt:{}",cnt);
         return cnt;
