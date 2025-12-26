@@ -58,8 +58,6 @@ public class AdminBookServiceImple implements AdminBookService {
             //한 행의 레코드 하나씩 조회
 
             //bookImgPath가 null이 아니고, 비어 있지 않을 때만 실행
-            String bookImgPath = adminBookVO.getBookImgPath();
-
             if(adminBookVO.getBookImgPath()!=null && !bookImgePaths.isEmpty()){
                 //2.값이 있을 경우 split로  bookImgPath "," 기준으로 자르고 배열반환
                 String[] getBookImg= adminBookVO.getBookImgPath().split(",");

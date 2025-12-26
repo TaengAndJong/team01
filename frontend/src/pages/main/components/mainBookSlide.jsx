@@ -12,7 +12,7 @@ import ImgBaseUrl from "@/util/imgBaseUrl";
 
 const MainBookSlide = ({slideData,naviId,activeTab}) =>{
 
-    console.log("MainBookSlide",slideData);
+
     //서드파트 인스턴스 직접 제어
     const swiperRef = useRef(null);
     // 보여주는 슬라이드 개수
@@ -22,7 +22,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
 
     //정지,재생 컨트롤 메서드
     const playAndPause=()=>{
-        console.log("pause----- 슬라이드 정지");
+
         if (!swiperRef.current) return; // 현재 슬라이드가 아니면 코드 종료
 
         if(swiperRef.current.autoplay.running){ // 자동재생중이면 == true
@@ -34,7 +34,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
         }
         //상태값을 재생상태관리 변수에 반영;
         setPlay((prev) => !prev);
-        //이전값을 기반으로 초기값 변경해야 안전
+        // 이전값을 기반으로 초기값 변경해야 안전
         // 재생이면 !ture == false , 정지이면 !false == true // 로 상태관리 재설정
     }
 

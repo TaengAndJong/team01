@@ -24,14 +24,12 @@ import java.util.stream.Collectors;
 public class CartServiceImple implements CartService{
 
     private final CartDao dao;
-    private final FileUtils fileUtils;
 
 
     // 장바구니에서 도서 데이터 조회할 메서드(단일추가)
     @Override
     public CartVO selectBookInfo(Long bookId) {
         CartVO bookInfo = dao.selectBookInfo(bookId);
-        log.info("selectBookInfo--------serviceImple:{}",bookInfo);
         return bookInfo;
 
     }

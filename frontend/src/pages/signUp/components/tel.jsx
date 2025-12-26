@@ -8,7 +8,7 @@ const Tel=({formData,setFormData,msg,setMsg})=>{
 
     //전화번호 : handlerObject , e.target.name, e.target.value
     const [tel, setTel] = useState({}); // 빈값으로 두면 undefind로 출력되기때문에 태그요소 value 초기값 설정하기
-    const handleTelChange=(eventTarget,name)=>{
+    const handleTelChange = (eventTarget,name)=>{
         // Select 컴포넌트의 onChange
         if (name) { // 파라미터에 name값이 넘어올 경우
             setTel((prevState) => ({

@@ -41,7 +41,6 @@ public class BookServiceImple implements BookService{
         // 조회된 전체 데이터의 행의 개수 조회
         List<BookVO> bookVOList = dao.selectAllBooks(pagination);
 
-        List<String> bookImgePaths = new ArrayList<>();
         //실제이미지 파일 클라이언트로 전송하는 로직
         //1.데이터베이스에서 도서 객체 조회
         for(BookVO bookVO : bookVOList){

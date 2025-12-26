@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from "react";
 import {Link} from "react-router-dom";
 import {PaginationContext, WishDispatchContext} from "./WishComponent.jsx";
 import AddCartBtn from "../../book/components/addCartBtn.jsx";
-
+import ImgBaseUrl from "@/util/imgBaseUrl";
 
 const WishItem = ({wishList}) => {
     // 컨텍스트에 value가 하나면 구조분해할당 구조 사용할 필요가 없음, value가 여러개 넘어 올 때 사용해야 함 (에러 유발 주의)
@@ -86,7 +86,7 @@ const WishItem = ({wishList}) => {
                                                     <div className="img-inner">
                                                         <img
                                                             className="img"
-                                                            src={item.bookVO.bookImgList[0]}
+                                                            src={ImgBaseUrl(item.bookVO.bookImgList[0])}
                                                             alt="노이미지"
                                                         />
                                                     </div>

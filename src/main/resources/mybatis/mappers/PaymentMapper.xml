@@ -204,9 +204,9 @@
     <!-- 전체취소후 payment의 paystatus 갱신  -->
     <update id="updateCancelPayment">
         update payment
-        set payStatus=#{payStatus}
-        where payId=#{payId}
-          and clientId=#{clientId}
+        set payStatus = #{payStatus}
+        where payId = #{payId}
+          and clientId = #{clientId}
     </update>
 
 </mapper>

@@ -38,7 +38,7 @@ const qnaOneBoardSearchBar = ({ search, setSearch, handleSearch }) => {
           onChange={(e) => searchHandler(e)}
         />
         <button
-          className={"search btn custom-btn00"}
+          className={"search btn btn-dark"}
           type={"button"}
           onClick={() => handleSearch()}
         >

@@ -28,7 +28,7 @@ public class PrincipalDetails implements UserDetails {
     //dao에서 사용할 데이터 가져오기
 
    private LoginVO userData;
-   private LoginDao dao;
+
 
    //인증 객체
    public PrincipalDetails(LoginVO userData) {

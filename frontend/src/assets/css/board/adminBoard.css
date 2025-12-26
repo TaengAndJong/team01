@@ -62,3 +62,16 @@
 .table-custom td {
   border-bottom: 1px solid #ddd;
 }
+
+
+/*morebtn*/
+.more:hover .icon.more,
+.more:focus .icon.more,
+.more.active .icon.more {transform: rotate(-90deg);transition: 0.3s all ease-in;}
+.more:hover .icon.more:before
+,.more:hover .icon.more:after
+,.more:focus .icon.more:before
+,.more:focus .icon.more:after
+,.more.active icon.more:before
+,.more.active icon.more:after
+{background-color: #56453E; transition: 0.3s all ease-in-out; border-radius: 1rem;}

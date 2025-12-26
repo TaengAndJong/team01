@@ -16,9 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.example.team01.utils.severUrlUtil.baseImageUrl;
 
 
 /*
@@ -51,7 +48,7 @@ public class FileUtils {
     private  String imagesDir;
     
  // MultipartFile 파라미터 받아서 파일 저장 메서드
-    public String saveSingleMultiPartFile(MultipartFile file, String middlePath) throws FileNotFoundException {
+    public String saveSingleMultiPartFile(MultipartFile file, String middlePath){
         return saveFile(List.of(file), middlePath);
     }
 

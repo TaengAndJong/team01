@@ -150,12 +150,6 @@ const AdminBoard = () => {
     item.menuPath.includes(standardPoint)
   );
 
-  // const [paginationInfo, setPaginationInfo] = useState({
-  //   currentPage: 1,
-  //   totalPages: 0,
-  //   totalRecord: 0,
-  //   pageSize: 5,
-  // });
 
   // 게시판 별 페이지네이션
   const [onePagination, setOnePagination] = useState({
@@ -392,35 +386,7 @@ const AdminBoard = () => {
     });
   };
 
-  // //페이지버튼 클릭시 실행되는 핸들러
-  // const onChangeOnePageHandler = async (page) => {
-  //   console.log("changePage----", page);
-  //   //pagination의 currentPage 값 갱신
-  //   setOnePagination((prev) => ({
-  //     ...prev,
-  //     currentPage: page,
-  //   }));
-  // };
 
-  // //페이지버튼 클릭시 실행되는 핸들러
-  // const onChangeProPageHandler = async (page) => {
-  //   console.log("changePage----", page);
-  //   //pagination의 currentPage 값 갱신
-  //   setProductPagination((prev) => ({
-  //     ...prev,
-  //     currentPage: page,
-  //   }));
-  // };
-
-  // //페이지버튼 클릭시 실행되는 핸들러
-  // const onChangeDelivPageHandler = async (page) => {
-  //   console.log("changePage----", page);
-  //   //pagination의 currentPage 값 갱신
-  //   setDeliveryPagination((prev) => ({
-  //     ...prev,
-  //     currentPage: page,
-  //   }));
-  // };
 
   // 상세페지이 클래스 추가기준
   const location = useLocation().pathname;

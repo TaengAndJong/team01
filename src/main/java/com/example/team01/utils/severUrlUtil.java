@@ -28,9 +28,4 @@ public class severUrlUtil {
 
     }
 
-//이미지 
-    public static String baseImageUrl(HttpServletRequest request, String middlePath) {
-        return getPathUrl(request) + "/" + middlePath + "/";
-    }
-
 }

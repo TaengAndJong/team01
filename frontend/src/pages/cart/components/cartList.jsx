@@ -8,6 +8,7 @@ import CartAllPrice from "./cartAllPrice.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import ReusableModal from "./modal.jsx";
 import BookCount from "../../book/components/bookCount.jsx";
+import ImgBaseUrl from "@/util/imgBaseUrl";
 
 
 
@@ -257,7 +258,7 @@ const CartList = () => {
                               <div className="card-header border-end rounded-4 overflow-hidden">
                                   <div className="img-box">
                                       <div className="img-inner">
-                                          <img className="img" src={`${item.book.bookImgList[0]}`} alt="노이미지"/>
+                                          <img className="img" src={ImgBaseUrl(item.book.bookImgList[0])} alt="노이미지"/>
                                       </div>
                                   </div>
                               </div>

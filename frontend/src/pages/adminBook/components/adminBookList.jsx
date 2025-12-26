@@ -34,6 +34,7 @@ const AdminBookList = () => {
   useEffect(() => {
     //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
     if(bookdata){
+      console.log("도서관리 bookData",bookdata);
       setBookList(bookdata);
     }
 
@@ -124,9 +125,6 @@ const AdminBookList = () => {
   };
 
   const recomTultip = (status) => {
-    // console.log(
-    //     `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
-    // );
 
     return (
         <span className={`tultip ${recomTypeMap[status]?.recomType} mb-3`}>
@@ -134,13 +132,6 @@ const AdminBookList = () => {
       </span>
     );
   };
-
-const bookListlog =  bookList?.forEach((book) => {
-  console.log("book",book);
-})
-
-  console.log("bookListlog",bookListlog);
-
 
 
   return (
@@ -252,7 +243,6 @@ const bookListlog =  bookList?.forEach((book) => {
                           <p className="book-title"><span>{item.bookName}</span></p>
                         </Link>
                       </td>
-                      {/*<td className="text-left" id={`bookDesc${index}`}>{item.bookDesc}</td>*/}
                       <td className="text-center" id={`bookAuthor${index}`}>
                         {item.author}
                       </td>

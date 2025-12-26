@@ -1,6 +1,6 @@
 package com.example.team01.payment.dao;
 
-import com.example.team01.dto.payment.PaymentListDTO;
+
 import com.example.team01.vo.CartVO;
 import com.example.team01.vo.PaymentListVO;
 import com.example.team01.vo.PaymentQuantityVO;

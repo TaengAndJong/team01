@@ -30,12 +30,7 @@ public interface AdminBookDao {
     //도서 삭제
     public int deleteBooks(@Param("existBookIds") List<Long> existBookIds);
     //xml로 여러개의 파라미터를 넘겨주려면 @Param으로 바인딩할 파라미터명을 명시해줘야 함
-//    public List<BookVO> searchBook(@Param("type") String bookType,
-//                                        @Param("field") String searchType,
-//                                        @Param("keyword") String keyword );
 
-    //수정시이미지가 삭제되었을 경우
-    public int updateBookImgPath(@Param("bookImgPaths") List<String> bookImgPaths);
 
    //totalRecode
    public int totalRecord(@Param("pagination") Pagination pagination);

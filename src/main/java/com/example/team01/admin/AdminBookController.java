@@ -49,7 +49,7 @@ public class AdminBookController {
             @RequestParam(name = "bookCateNm") List<String> bookCateNm,
             @RequestParam(name = "bookCateDepth") List<String> bookCateDepth,
             @RequestParam(name = "cateId") List<String> cateId,
-            @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg,HttpServletRequest request) throws FileNotFoundException {
+            @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg) {
 
 
         //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
@@ -219,8 +219,7 @@ public class AdminBookController {
             @RequestParam(name = "bookCateDepth") List<String> bookCateDepth,
             @RequestParam(name = "cateId") List<String> cateId,
             @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg,
-            @RequestParam(name = "removedBookImg", required = false) List<String> removedBookImg,
-            HttpServletRequest request) throws FileNotFoundException {
+            @RequestParam(name = "removedBookImg", required = false) List<String> removedBookImg){
 
         //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
         modifyBook.setBookCateNm(String.join(",", bookCateNm));
