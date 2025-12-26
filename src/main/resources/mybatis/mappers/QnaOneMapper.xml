@@ -126,7 +126,7 @@
     <delete id="deleteOneBoard" parameterType="map">
         update qnaOne
         set qnaDel = 'Y',
-            qnaDelDate = SYSDATE
+            qnaDelDate = CURRENT_TIMESTAMP
         where qnaOneId = #{boardId}
     </delete>
 

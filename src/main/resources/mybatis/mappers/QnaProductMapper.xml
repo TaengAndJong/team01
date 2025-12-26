@@ -121,7 +121,7 @@
     <delete id="deleteProductBoard" parameterType="map">
         update qnaPro
         set qnaDel = 'Y',
-            qnaDelDate = SYSDATE
+            qnaDelDate = CURRENT_TIMESTAMP
         where qnaProId = #{boardId}
     </delete>
         
