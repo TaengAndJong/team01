@@ -1,61 +1,58 @@
-HELP.md
+# ======================
+# Backend (Spring)
+# ======================
 target/
+HELP.md
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
+# ======================
+# IDE / Editor
+# ======================
 .idea/
 *.iws
 *.iml
 *.ipr
 *.log
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### Cursor ###
+.vscode/
 .cursor/
 
-### VS Code ###
-.vscode/
+.classpath
+.project
+.settings
+.factorypath
+.springBeans
+.sts4-cache
+.apt_generated
 
-### Frontend###
+.DS_Store
+
+# ======================
+# Frontend (Vite / Node)
+# ======================
 frontend/node_modules/
 frontend/node/
 frontend/dist/
-frontend/.env
-frontend/.env.*
-# Node
+frontend/.env*
+node_modules/
 node/
 node.exe
-node_modules/
+dist-ssr
+*.local
 
-### Build outputs copied to backend###
+# ======================
+# Runtime / Uploads
+# ======================
+uploads/
+images/
+logs/
+
 src/main/resources/static/assets/
 src/main/resources/static/uploads/
 
-
-### img ###
-/images/
-/uploads/
-
-##application.properties
-/src/main/resources/application-dev.properties
+# ======================
+# Application config
+# ======================
+/src/main/resources
