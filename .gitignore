@@ -39,10 +39,14 @@ build/
 
 ### Frontend###
 frontend/node_modules/
+frontend/node/
 frontend/dist/
-
 frontend/.env
 frontend/.env.*
+# Node
+node/
+node.exe
+node_modules/
 
 ### Build outputs copied to backend###
 src/main/resources/static/assets/
