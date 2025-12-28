@@ -184,7 +184,14 @@
 						</goals>
 						<configuration>
 							<target>
-								<copy todir="${project.basedir}/src/main/resources/static">
+								<!-- 실제 경로를 로그에 출력 -->
+								<echo message="Project Base Directory: ${project.basedir}"/>
+								<echo message="Frontend Dist Directory: ${project.basedir}/frontend/dist"/>
+								<!-- 1. 대상 디렉토리가 없으면 생성 (권한 문제 방지) -->
+								<mkdir dir="${project.basedir}/src/main/resources/static"/>
+
+								<!-- 2. 복사 실행 (소스 폴더가 없어도 빌드가 중단되지 않게 failonerror="false" 권장) -->
+								<copy todir="${project.basedir}/src/main/resources/static" failonerror="false">
 									<fileset dir="${project.basedir}/frontend/dist"/>
 								</copy>
 							</target>
