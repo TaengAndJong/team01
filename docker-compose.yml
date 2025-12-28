@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: java  # 원하는 비밀번호
       POSTGRES_DB: team02db              # 생성할 DB 이름
     volumes:
-      - pgdata:/var/lib/postgresql/data # postGres 공식 이지미 기준 경로
+      - pgdata:/var/lib/postgresql # 18버전 이상 사용 시 /data 삭제, 알아서 생성
     networks:
       - app-network
 
