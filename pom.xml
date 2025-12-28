@@ -151,26 +151,6 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<target>
-								<copy todir="${project.basedir}/src/main/resources/static">
-									<fileset dir="${project.basedir}/src/main/frontend/dist"/>
-								</copy>
-							</target>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<!-- 빌드후 frontend/dist 를 src/main/resources/static 로 복사 	-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -185,11 +165,11 @@
 						<configuration>
 							<target>
 								<!-- 실제 경로를 로그에 출력 -->
-								<echo message="Project Base Directory: ${project.basedir}"/>
-								<echo message="Frontend Dist Directory: ${project.basedir}/frontend/dist"/>
+								<echo message="Copying frontend assets..."/>
+								<echo message="From: ${project.basedir}/frontend/dist"/>
+								<echo message="To: ${project.basedir}/src/main/resources/static"/>
 								<!-- 1. 대상 디렉토리가 없으면 생성 (권한 문제 방지) -->
 								<mkdir dir="${project.basedir}/src/main/resources/static"/>
-
 								<!-- 2. 복사 실행 (소스 폴더가 없어도 빌드가 중단되지 않게 failonerror="false" 권장) -->
 								<copy todir="${project.basedir}/src/main/resources/static" failonerror="false">
 									<fileset dir="${project.basedir}/frontend/dist"/>
