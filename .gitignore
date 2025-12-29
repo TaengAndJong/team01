@@ -9,6 +9,7 @@ target/
 .DS_Store
 
 # Frontend
+frontend/dist/
 frontend/node_modules/
 node_modules/
 frontend/.env*
@@ -23,3 +24,4 @@ src/main/resources/static/uploads/
 #스프링정적리소스 사용안함
 src/main/resources/static/assets/
 src/main/resources/static/uploads/
+src/main/resources/application-dev.properties

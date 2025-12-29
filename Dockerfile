@@ -1,7 +1,5 @@
-# 1단계: 프론트엔드 빌드
 
-
-# 2단계: 백엔드 빌드
+#1단계: 백엔드 빌드
 FROM eclipse-temurin:17-jdk AS backend-builder
 WORKDIR /app
 
