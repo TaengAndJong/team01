@@ -20,9 +20,13 @@ public class MyBatisConfig {
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-        // application.properties에서 설정된 DataSource 사용
+        // application.properties에서 설정된 DataSource 사용하지만 (MyBatis Spring Boot Starter 공식 문서를 참고)
+        // , set으로 설정한 내용들이 application.properties에 적혀있더라도  무시되고 이 클래스 파일에 적힌 내용으로 설정됨 (mybatisCofig.xml도 무시)
         factoryBean.setDataSource(dataSource);
         factoryBean.setConfigLocation(new org.springframework.core.io.ClassPathResource("mybatis/config.xml")); // MyBatis 설정 파일 경로
+
+        // 별칭(Alias)을 위해 VO 패키지 경로를 등록
+        factoryBean.setTypeAliasesPackage("com.example.team01.vo");
 
         // Mapper XML 파일 경로, 클래스패스루트는 src/main/resources
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

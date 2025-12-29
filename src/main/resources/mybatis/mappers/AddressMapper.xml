@@ -69,7 +69,7 @@
         where addrId=#{addrId}
     </update>
 
-    <delete id="deleteAddress" parameterType="String">
+    <delete id="deleteAddress">
       delete from Address
       where addrId=#{addrId}
         and clientId=#{clientId}
