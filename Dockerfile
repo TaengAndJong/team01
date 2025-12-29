@@ -1,14 +1,10 @@
 # 1단계: 프론트엔드 빌드
-FROM node:20 AS frontend-builder
-WORKDIR /app/frontend
-COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ ./
-RUN npm run build
+
 
 # 2단계: 백엔드 빌드
 FROM eclipse-temurin:17-jdk AS backend-builder
 WORKDIR /app
+
 COPY pom.xml ./
 COPY mvnw ./
 COPY .mvn .mvn
@@ -18,8 +14,6 @@ RUN ./mvnw dependency:go-offline -B
 
 #소스코드 후 빌드
 COPY src src
-# [수정된 부분] 1단계(frontend-builder)에서 만든 dist를 2단계의 frontend/dist로 복사
-COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 RUN ./mvnw clean package -DskipTests  # -o는 오프라인 모드 실행 ( 최초빌드시 실패가능)
 
 # 3단계: 실행 이미지
