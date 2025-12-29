@@ -1,58 +1,25 @@
-# ======================
-# Backend (Spring)
-# ======================
+# Backend
 target/
-HELP.md
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-# ======================
-# IDE / Editor
-# ======================
+# IDE
 .idea/
-*.iws
-*.iml
-*.ipr
-*.log
-
 .vscode/
-.cursor/
-
-.classpath
-.project
-.settings
-.factorypath
-.springBeans
-.sts4-cache
-.apt_generated
-
+*.log
 .DS_Store
 
-# ======================
-# Frontend (Vite / Node)
-# ======================
+# Frontend
 frontend/node_modules/
-frontend/node/
-frontend/dist/
-frontend/.env*
 node_modules/
-node/
-node.exe
-dist-ssr
-*.local
+frontend/.env*
 
-# ======================
-# Runtime / Uploads
-# ======================
+# Runtime
 uploads/
 images/
 logs/
 
+# Static uploads only
+src/main/resources/static/uploads/
+#스프링정적리소스 사용안함
 src/main/resources/static/assets/
 src/main/resources/static/uploads/
-
-# ======================
-# Application config
-# ======================
-/src/main/resources
