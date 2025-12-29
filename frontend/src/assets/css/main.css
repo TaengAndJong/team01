@@ -44,7 +44,7 @@
 /*main*/
 .section.main{}
 .section.main .sc-inner{
-    background: url("assets/images/main/main_cl.jpg") no-repeat center bottom;
+    background: url("/assets/images/main/main_cl.jpg") no-repeat center bottom;
     background-size: cover;
     padding-top: 100px;
     min-height: 1080px;
@@ -219,14 +219,14 @@
 }
 
 .skip-btn.qna{background-color: #E8F1FF;
-    background-image: url("assets/images/main/book01.png");
+    background-image: url("/assets/images/main/book01.png");
 }
 .skip-btn.wishlist{background-color: #FFEAEC;
-    background-image: url("assets/images/main/book02.png");
+    background-image: url("/assets/images/main/book02.png");
     background-position: right center;
 }
 .skip-btn.join{background-color: #FFF8D0;
-    background-image: url("assets/images/main/join01.png");}
+    background-image: url("/assets/images/main/join01.png");}
 
 .skip-btn:hover .circle-btn:before,
 .skip-btn:focus .circle-btn:before{
