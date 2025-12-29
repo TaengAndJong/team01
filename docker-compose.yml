@@ -35,7 +35,7 @@ services:
 
     volumes:
       - uploads:/opt/team01/uploads/
-      - noimages:/opt/team01/images/
+      - images:/opt/team01/images/
 
 
   nginx:
