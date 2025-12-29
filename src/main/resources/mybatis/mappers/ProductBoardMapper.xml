@@ -57,8 +57,7 @@
         UPDATE qnaOne
         SET qnaDel = 'Y',
             qnaDelDate = CURRENT_TIMESTAMP
-        WHERE qnaOneId = #{boardId};
-
+        WHERE qnaOneId = #{boardId}
     </delete>
 
 </mapper>

@@ -65,7 +65,7 @@
                       ON uv.bookId = b.bookId
         WHERE uv.clientId = #{clientId}
         ORDER BY uv.viewDate DESC
-            LIMIT 8;
+            LIMIT 8
     </select>
 
 </mapper>

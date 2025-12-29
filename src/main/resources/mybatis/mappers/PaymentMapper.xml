@@ -4,9 +4,9 @@
 <mapper namespace="com.example.team01.payment.dao.PaymentDao">
 
 <!--    //문자열 clinetId를 받아서 반환되는 데이터들은 목록은 CartVO타입-->
-<!--    public List<CartVO> selectCartList(String clientId);-->
+<!--    public List<CartVO> selectCartList(String clientId)-->
 <!--    // 문자열 clinetId를 받아서 반환되는 데이터들은 PaymentVO 타입-->
-<!--    public PaymentVO selectAddress(String clientId);-->
+<!--    public PaymentVO selectAddress(String clientId)-->
 
 
     <!-- 결제 목록 도서 1:다  -->

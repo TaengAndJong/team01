@@ -11,7 +11,7 @@
              , menutype
              , menuvisible
         FROM menu
-        ORDER BY menutype;
+        ORDER BY menutype
     </select>
 
 

@@ -33,7 +33,7 @@
                 UPDATE SET pageviewcount = t.pageviewcount + 1
             WHEN NOT MATCHED THEN
                 INSERT (visittime, pageurl, pageviewcount)
-                    VALUES (s.visittime, s.pageurl, 1);
+                    VALUES (s.visittime, s.pageurl, 1)
 
     </insert>
 

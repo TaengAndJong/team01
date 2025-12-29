@@ -90,7 +90,7 @@
         SELECT *
         FROM filterData
         LIMIT #{pagination.pageSize}
-        OFFSET #{pagination.offset};
+        OFFSET #{pagination.offset}
 
     </select>
 

@@ -75,7 +75,7 @@
             c.withdrawaldate,
             c.status
         FROM Client c join clientEmp e
-                           on  c.staffId = e.staffId  and c.clientName=e.staffName;
+                           on  c.staffId = e.staffId  and c.clientName=e.staffName
 
     </select>
 
