@@ -28,7 +28,7 @@ services:
       - db
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/team02db #컨테이너끼리 포트 공개없이 통신가능
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/team02db #컨테이너끼리 포트 공개없이 통신가능
       SPRING_DATASOURCE_USERNAME: team02
       SPRING_DATASOURCE_PASSWORD: java
 

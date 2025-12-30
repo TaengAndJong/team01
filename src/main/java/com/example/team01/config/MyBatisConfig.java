@@ -20,17 +20,24 @@ public class MyBatisConfig {
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-        // application.properties에서 설정된 DataSource 사용하지만 (MyBatis Spring Boot Starter 공식 문서를 참고)
+        factoryBean.setDataSource(dataSource); // application.properties에서 설정된 DataSource 사용하지만 (MyBatis Spring Boot Starter 공식 문서를 참고)
         // , set으로 설정한 내용들이 application.properties에 적혀있더라도  무시되고 이 클래스 파일에 적힌 내용으로 설정됨 (mybatisCofig.xml도 무시)
-        factoryBean.setDataSource(dataSource);
-        factoryBean.setConfigLocation(new org.springframework.core.io.ClassPathResource("mybatis/config.xml")); // MyBatis 설정 파일 경로
 
-        // 별칭(Alias)을 위해 VO 패키지 경로를 등록
-        factoryBean.setTypeAliasesPackage("com.example.team01.vo");
+        // 카멜케이스 설정을 위한 Configuration 객체 생성 및 주입
+        org.apache.ibatis.session.Configuration mybatisConfig = new org.apache.ibatis.session.Configuration();
+        mybatisConfig.setMapUnderscoreToCamelCase(true); // db_column -> dbColumn 자동 변환
+        factoryBean.setConfiguration(mybatisConfig);
 
         // Mapper XML 파일 경로, 클래스패스루트는 src/main/resources
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         factoryBean.setMapperLocations(resolver.getResources("classpath:mybatis/mappers/**/*.xml"));
+
+        // 별칭(Alias)을 위해 VO 패키지 경로를 등록
+        factoryBean.setTypeAliasesPackage("com.example.team01.vo");
+
+
+        // 마이바티스 컨피그.xml연결코드
+        // factoryBean.setConfigLocation(new org.springframework.core.io.ClassPathResource("mybatis/config.xml")); // MyBatis 설정 파일 경로
 
         return factoryBean.getObject();
     }
