@@ -57,7 +57,7 @@ services:
 volumes:
   pgdata:
   uploads:
-  noimages:
+  images:
 
 networks:
   app-network:
