@@ -49,6 +49,8 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./frontend/dist:/usr/share/nginx/html
       - /etc/letsencrypt:/etc/letsencrypt:ro   # 인증서 디렉토리 읽기전용(:ro) 마운트 ,
+      - uploads:/team01/uploads/  # 백엔드가 저장하는 그 볼륨을 같이 마운트!
+      - images:/team01/images/
     depends_on:
       - backend
     networks:
