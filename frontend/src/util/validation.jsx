@@ -49,6 +49,7 @@ export const validateInput = (regex, value,name,type) => {
     if (name.toLowerCase().includes("stock")) {
 
         const stockValue = Number(value);
+
         if (isNaN(stockValue)) {
             return { valid: false, message: "숫자만 입력해 주세요." };
         }

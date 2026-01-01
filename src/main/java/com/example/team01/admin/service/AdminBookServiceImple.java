@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,36 +103,48 @@ public class AdminBookServiceImple implements AdminBookService {
         int cnt =0;
         // 여기서부터 노이미지 파일 유틸에 들어가야함, 받을 파라미터는 BookVO book
         String bookImgPath=""; // 데이터베이스에 담을 파일명 담는 문자열 변수
-
-        if(book != null) {
+        try {
 
             log.info("createBook book.file 새로추가된 도서 객체:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
             //파일 유틸 클래스에서 이미지객체 존재 여부에 대해 검증하고 예외처리하기때문에 try - catch 구문 사용, 예외처리 없다면 사용하지 않아도 됨
-                if(book.getBookImg() != null && !book.getBookImg().isEmpty()){
-                    bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
+            if (book.getBookImg() != null && !book.getBookImg().isEmpty()) {
+                bookImgPath = fileUtils.saveFile(book.getBookImg(), "book");
 
-                    //반환된 bookImgPath 데이터베이스에 전달할 객체설정
-                    book.setBookImgPath(bookImgPath);
-                }else{
-                    // 등록된 이미지가 없을 경우 noImg로 경로 설정
-                    book.setBookImgPath(fileUtils.getDefaultImgPath());
-                }
+                //반환된 bookImgPath 데이터베이스에 전달할 객체설정
+                book.setBookImgPath(bookImgPath);
+            } else {
+                // 등록된 이미지가 없을 경우 noImg로 경로 설정
+                book.setBookImgPath(fileUtils.getDefaultImgPath());
+            }
+
             //book 카테고리 공백 제거 ==> 데이터 문자열 정제
-            if(book.getBookCateNm() !=null && !book.getBookCateNm().isEmpty()){
-                String trimBookCateNm=book.getBookCateNm().trim()
+            if (book.getBookCateNm() != null && !book.getBookCateNm().isEmpty()) {
+                String trimBookCateNm = book.getBookCateNm().trim()
                         .replaceAll("\\s*,\\s*", ",") // 콤마 양옆 공백 정리
                         .replaceAll("\\s+", " ");     // 불필요한 공백 정리;
                 //정제된 카테고리 데이터 값 재설정
                 book.setBookCateNm(trimBookCateNm);
             }
-            //파일 유틸 끝
 
-            //공통처리부분
-            cnt = dao.createBook(book); // 처리가 되면 값이 1로 변경
-            log.info("도서 등록 cnt : {} ", cnt);
-            return cnt; // 1 반환
+            // 3. DB 등록 및 예외 처리
+            cnt = dao.createBook(book);
+            log.info("도서 등록 성공 여부(cnt): {}", cnt);
+            // 저장이 안 된 상황이라면?
+            if (cnt == 0) {
+                throw new RuntimeException("도서 정보가 저장되지 않았습니다. 입력값을 확인해주세요.");
+            }
+            return cnt; // 성공 시 1 반환
+        }catch (DataIntegrityViolationException e){//파일 자료형용량초과 예외처리
+            // DB 컬럼 길이 초과 등 데이터 무결성 제약 조건 위반 시 발생
+            log.error("데이터 길이 초과 혹은 제약 조건 위반 발생: {}", e.getMessage());
+            // 프론트엔드에 전달할 에러 메시지 (보안을 위해 SQL 정보는 숨김) ==> throw 로 컨트롤에서 예외 던지기
+            throw new RuntimeException("허용 가능한 파일 개수를 초과하였습니다.");
+        }catch (Exception e) {
+            // 그 외 예상치 못한 모든 에러 처리
+            log.error("도서 등록 중 시스템 오류 발생: ", e);
+            throw new RuntimeException("도서 등록 중 오류가 발생했습니다. 관리자에게 문의하세요.");
         }
-        return cnt;
+
     }
 
     @Override

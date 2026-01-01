@@ -106,7 +106,7 @@ const AdminBookCreate = () => {
     const handleChange = (e) => {
 
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
-        const { name, value } = e.target;
+        let { name, value } = e.target;
         //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
         if ((name === "stock" || name === "bookPrice") && value.trim() !== "") {
             const result = name === "bookPrice" ? validNumber(value,name,"도서가격") : validNumber(value,name,"재고");
@@ -118,7 +118,10 @@ const AdminBookCreate = () => {
                         <p>{`${result.message}`}</p>
                     </>,
                 })
+                // 여기에 value 값 '' 으로 변경
+                value = "";
             }
+
         }
 
         setCreateBook({
@@ -224,11 +227,13 @@ const AdminBookCreate = () => {
 
 
         } catch (err) {
+            console.log("에러 ",err)
+            console.log("에러 ",err.response?.data);
             openModal({
                 modalType: "error",
                 content:<>
                     <p>서버 요청 중 오류가 발생했습니다. 다시 시도해주세요.</p>
-                    <p>{`에러 : ${err}`}</p>
+                    <p>error :{err.response?.data}</p>
                 </>,
             });
         }

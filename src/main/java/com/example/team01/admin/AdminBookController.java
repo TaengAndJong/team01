@@ -52,43 +52,36 @@ public class AdminBookController {
             @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg) {
 
 
-        //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
-        createBook.setBookCateNm(String.join(",", bookCateNm));
-        createBook.setBookCateDepth(String.join(",", bookCateDepth));
-        createBook.setCateId(String.join(",", cateId));
+        try{
+            //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
+            createBook.setBookCateNm(String.join(",", bookCateNm));
+            createBook.setBookCateDepth(String.join(",", bookCateDepth));
+            createBook.setCateId(String.join(",", cateId));
 
-        // bookImg
+            // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
+            bookService.createBook(createBook); //실패시 catch로 건너뜀
 
-        // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
-        int result = bookService.createBook(createBook);
-
-        // 데이터 insert 성공시 결과 반환
-        if (result > 0) {
-            // 디비에 insert 된 후의 도서 Id를 받아와야함
-
+            // 방금 등록된 도서 상세 정보 가져오기
             AdminBookVO addBookData = bookService.deTailBook(createBook.getBookId());
-            //파일 경로 서버주소 반영하는 파일Util
-
-            log.info("addBookData --- :{}",addBookData);
-            // addBookData 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
-            List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+            // 이미지 경로 리스트화
+            List<String> imgArray = new ArrayList<>();
             if(addBookData.getBookImgPath() != null && !addBookData.getBookImgPath().isEmpty()){
-                imgArray =  new ArrayList<>(
-                        Arrays.asList(
-                                addBookData.getBookImgPath().split(",") //String [] 배열로 반환
-                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
-                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
-
+                imgArray = new ArrayList<>(Arrays.asList(addBookData.getBookImgPath().split(",")));
             }
-            //for문 종료
-            // addBookData bookImgList에 담아주기
             addBookData.setBookImgList(imgArray);
-            log.info("addBookData --- :{}",addBookData);
+            log.info("등록 완료 데이터: {}", addBookData);
 
-            return ResponseEntity.ok(addBookData);// 저장된 데이터 전체를 클라이언트에 반환
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Book creation failed");
+            return ResponseEntity.ok(addBookData);
+           
+
+        }catch(RuntimeException e) {
+            // 서비스에서 throw한 메시지를 e로 받아서 프론트로 전달
+            log.error("도서 등록 비즈니스 로직 에러: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }catch (Exception e){
+            // 서버 시스템 에러 (보안을 위해 상세 내용은 로그에만 남김)
+            log.error("도서 등록 서버 내부 에러: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
         }
 
     }
