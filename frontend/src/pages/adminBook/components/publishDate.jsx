@@ -32,7 +32,7 @@ const PublishDate = ({publishDate,handleChange}) =>{
 
             <FormTag id="publishDate" label="발행일" labelClass="form-title" className="form-control w-auto"
                      name="publishDate"  type="date"
-                     placeholder="yyyy.mm.dd"
+                     placeholder="yyyy-mm-dd"
                      value={publishDate}  onChange={dateHandler}/>
         </>
     )
