@@ -36,7 +36,7 @@ public class AdminBookVO implements BookImgChange {
     private String recomType; // 등록분류
     private String saleStatus;// 판매 상태관리
 
-    @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createDate; // 도서등록일
 
 

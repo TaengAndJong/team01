@@ -109,10 +109,7 @@ const AdminBookCreate = () => {
         const { name, value } = e.target;
         //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
         if ((name === "stock" || name === "bookPrice") && value.trim() !== "") {
-            console.log("name " , name);
-            console.log("value " , value);
             const result = name === "bookPrice" ? validNumber(value,name,"도서가격") : validNumber(value,name,"재고");
-            console.log("result--- 재고, 가격 검증", result);
             if(!result.valid){
                 // 숫자 검증 false 일 경우, 모달 알림 뜸
                 openModal({
@@ -279,9 +276,6 @@ const AdminBookCreate = () => {
                         {/*발행일*/}
                         <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>
                     </div>
-                    {/*<div className="d-flex align-items-center mb-1">*/}
-                    {/*    <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>*/}
-                    {/*</div>*/}
 
                     <div className="d-flex align-items-center mb-1 ">
                         {/*재고 & 가격*/}
