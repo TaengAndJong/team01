@@ -39,7 +39,7 @@
             level,
             fullPath
         FROM category_tree
-        ORDER BY fullPath
+        ORDER BY depthLevel, cateId
     </select>
 
 </mapper>
