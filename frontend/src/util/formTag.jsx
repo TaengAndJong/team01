@@ -52,6 +52,11 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
 
                );
                break;
+           case "date":
+               return (
+                   <input id={id} name={name} type={type} value={value || ""} onChange={onChange}  ref={ref}
+                          className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required} />
+               );
            case "datePicker" :
                return(
                    <DatePicker
