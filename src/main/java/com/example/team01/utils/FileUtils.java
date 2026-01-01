@@ -72,12 +72,12 @@ public class FileUtils {
                 //여기에서 실제 경로에 파일저장
                 String saveFilePath = uploadDir + File.separator + middlePath + File.separator + fileName;//운영체제에 맞게 파일 경로 생성하기 위한 코드
                 Path path = Paths.get(saveFilePath); //파라미터에 해당하는 파일 경로를 가져오는 Path 변수로, 해당 파일을 저장할 파일명을 포함한 경로를 의미
-                //log.info("path-------------------:{}", path);
+
                 try {
                     //upload 디렉토리가 없는 경우 noSuchFileExcption 방지
                     Files.createDirectories(path.getParent()); // 디렉터리(폴더) 없으면 생성
                     Files.write(path, file.getBytes()); // 파일 저장
-                  //  log.info("파일 저장 완료: {}", saveFilePath);
+
                 } catch (IOException e) {
                     log.error("파일 저장 실패: {}", e.getMessage());
                 }
@@ -86,7 +86,6 @@ public class FileUtils {
 
             }
             // List<String> bookImgPath를 하나의 문자열로 변환
-          //  log.info("데이터베이스에 저장할 문자열 bookImgpath:{}", bookImgPath); // 리스트 객체
             // 객체를 또 순회해서 문자열로 만들어야함 ?????
         }else{
           //  log.info("파일 객체가 널인데 ");
@@ -94,7 +93,7 @@ public class FileUtils {
             bookImgPath = this.getDefaultImgPath();
           //  log.info("noImg booImgPath================:{}",bookImgPath);
         }
-      //  log.info("최종 이미지 패스 : {}",bookImgPath);
+
         return bookImgPath; // 여기에서 bookImaPath 반환하여 초기값 갱신
     }
     //method end
@@ -102,12 +101,12 @@ public class FileUtils {
     // 이미지가 없는 경우 사용할 메소드 , IOException > FileNotFoundException
     public String getDefaultImgPath(){
         String noImgPath="";
-        // 파일 객체가 없으면,src/main/resources/static/images에서 noImg.png(jpg) 가져오기
-      //  log.info(" noImgDir-------------------------- : {}",noImgDir);
-        // png,jpg 파일의 확장자 구분 및 실제 존재여부 확인 ==> 파일객체로 실제 파일을 스캔하여 확인
 
-        log.info("imagesDir :{} ",imagesDir);
-        File folder = new File(imagesDir);
+        // 파일 객체가 없으면, frontend/dist/assets/images/common/noImg.png(jpg) 가져오기
+        // png,jpg 파일의 확장자 구분 및 실제 존재여부 확인 ==> 파일객체로 실제 파일을 스캔하여 확인
+        log.info("imagesDir 노이미지 루트경로 :{} ",imagesDir);
+        File folder = new File(imagesDir); // 팡,
+        log.info("folder -- 노이미지 프론트 빌드 경로:{} ",folder);
         File[] Files = folder.listFiles();
       //  log.info("foler------------:{} , fileList--------- :{}", folder, Files);
 
