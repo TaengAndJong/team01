@@ -11,7 +11,7 @@ const PublishDate = ({publishDate,handleChange}) =>{
 
     const dateHandler = (e)=>{
         // onChange 핸들러 이벤트가 발생하면 
-        const { name, value } = e.target; // 이벤트 타겟에 담긴 name, value 할당
+        const { name, value } = e.target; // 이벤트 타겟에 담긴 name, value 할당--
         const val = value.replace(/[^\d]/g, '').slice(0, 8);
         // 정수가 아닌 모든 부분을 공백으로 변경, sliece로 날짜의 총 개수만 나타나게 자름
 

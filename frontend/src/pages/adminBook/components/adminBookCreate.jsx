@@ -17,7 +17,7 @@ import SalesStatus from "./salesStatus.jsx";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 import axios from "axios";
 
-//전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
+//전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰--
 
 const AdminBookCreate = () => {
 
