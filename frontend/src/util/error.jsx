@@ -82,7 +82,10 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
             openModal({
                 modalType: "error",
                 content: <p>{ data?.message || "알 수 없는 오류가 발생했습니다." }</p>,
-                onConfirm: () => closeModal(),
+                onConfirm: () => {
+                    console.log("여기 실행?")
+                    closeModal()
+                },
             })
         }
     );// sendError end

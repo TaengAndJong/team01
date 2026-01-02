@@ -5,6 +5,7 @@ import { useMenu } from "../common/MenuContext.jsx";
 import { menuNavi } from "../../util/menuNavi.jsx";
 import {useModal} from "../common/modal/ModalContext.jsx";
 import axios from "axios";
+import {catchError} from "../../util/error.jsx";
 
 // 주소에 해당하는 제목 데이터 가져와서 레프트 메뉴 이름과 제목열에 데이터 나열하기
 
@@ -56,6 +57,8 @@ const AdminBook = () => {
   //const [isDataLoaded, setIsDataLoaded] = useState(false); //데이터가 로드되기 전에 컴포넌트가 먼저 렌더링되도록 하기 위함
   const [bookdata, dispatch] = useReducer(reducer, null);
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
+  //네입게이트 리액트훅
+  const navigate=useNavigate();
 
   //search
   //검색어 입력중 상태관리 
@@ -128,17 +131,8 @@ const AdminBook = () => {
 
     }catch(err){
       console.log("도서 데이터 불러오기 실패", err);
-      openModal({
-        modalType: "error",
-        content: (
-            <>
-              <p>
-                {err.response?.statusText}
-                ( {err.response?.status})
-              </p>
-            </>
-        ),
-      });
+      //에러 처리 핸들러
+      catchError(err, { openModal, closeModal, navigate });
     }
     //try end
   }; //fetch end

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 import {catchError} from "../../../util/error.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -12,7 +13,7 @@ const AddCartBtn = ({ bookId, bookCount }) => {
     //전역모달 사용
     const {openModal,closeModal}=useModal();
     //네입게이트 리액트훅
-    const navigate=useNavigate();
+    const navigate= useNavigate();
 
     //장밥구니 컨트롤러로 전송할 fetch 함수
     const sendCartFetch= async(bookId,quantity)=>{
@@ -27,19 +28,14 @@ const AddCartBtn = ({ bookId, bookCount }) => {
         }catch(err){
             if (err.response) {
                 // 서버가 응답은 했지만 상태코드가 400, 401, 403, 500 등
-                console.error("서버 상태 코드:", err.response.status);
-                console.error("서버 메시지---:", err.response.data.message);
                 openModal({
                     modalType:"error",
                     content:<><p><span>`${err.response.status}`</span>${err.response.data.message}</p></>
                 });
+                catchError(err, { openModal, closeModal, navigate });
 
             }  else {
-                // openModal({
-                //     modalType:"error",
-                //     content:<><p>서버에러</p></>
-                // });
-                //에러 처리 핸들러
+               //서버에러  처리 핸들러
                 catchError(err, { openModal, closeModal, navigate });
             }
         }
