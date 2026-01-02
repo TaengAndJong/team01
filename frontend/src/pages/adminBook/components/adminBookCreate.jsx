@@ -117,7 +117,7 @@ const AdminBookCreate = () => {
                     content:<>
                             <p>{`${result.message}`}</p>
                         </>,
-                    onConfirm: closeModal()
+
                 })
                 // 여기에 value 값 '' 으로 변경
                 value = "";
@@ -202,7 +202,7 @@ const AdminBookCreate = () => {
                 content:<>
                     <p>{`${emptyKey} 값을 채워주세요.`}</p>
                 </>,
-                onConfirm: closeModal()
+
             });
             return;
         }
@@ -237,7 +237,7 @@ const AdminBookCreate = () => {
                         <p>서버 요청 중 오류가 발생했습니다. 다시 시도해주세요.</p>
                         <p>error :{err.response?.data}</p>
                     </>,
-                onConfirm: closeModal()
+
             });
         }
     };

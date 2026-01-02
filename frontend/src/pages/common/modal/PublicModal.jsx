@@ -23,9 +23,9 @@ const modalConfig = {
         ),
     }),
     //오류
-    error: ({ content, onConfirm }) => ({ // 401, 400, 500 등
+    error: ({ content,onClose }) => ({ // 401, 400, 500 등
         body: content,
-        footer: <Button variant="primary" onClick={onConfirm}>확인</Button>,
+        footer: <Button variant="primary" onClick={onClose}>확인</Button>,
     }),
     // 수정, 생성, 삭제 , 등록
     confirm: ({ content,onClose, onConfirm }) => ({
