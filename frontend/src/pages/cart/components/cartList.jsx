@@ -31,6 +31,12 @@ const CartList = () => {
         // 삭제 , 갱신 등의 데이터 조작이 필요한 경우 상태관리 변수 사용 
         // ==> 전역데이터를 한 번더 담아주는 이유는 초기 렌더링 시 null, undefined 방지
         //전역상태 데이터를 바로 사용하면 리렌더링될 때마다 갱신발생, UI상태관리가 힘들어짐
+    
+        // 배송주소를 입력하지 않으면 구매 버튼 비활성화 관리조건 ( null과 undifined , 객체키의 개수 이중조건판단)
+        //true 이면 구매버튼 비활성화 아니면 활성화
+        const emptyAddr = !address || Object.keys(address).length === 0;
+    
+    
         const [cartList, setCartList] = useState(null);
 
         //목록선택 개별상태관리변수
@@ -217,10 +223,8 @@ const CartList = () => {
             )
         }
 
-
-
         const addCartList = (cartList) => {
-       //     console.log("addCartList-----bookList", cartList); // undefined여서 에러나는데
+
             return (
           <>
               {/*label 내부에 input 기입 시, htmlFor 기입 불필요*/}
@@ -294,6 +298,7 @@ const CartList = () => {
                                   {/* 도서 가격  도서가격, 도서수량 */}
                                   <CartItemPrice cartList={item}
                                                  deliveryFee={2000}
+                                                 isDisable={emptyAddr}
                                                  gotoPayment={() => gotoPayment(cartList, item.cartId)}
                                   />
 
@@ -323,7 +328,7 @@ const CartList = () => {
 
                 {/* cartAccount */}
                 <CartAllPrice cartList={cartList} selectItem={selectItem} deliveryFee={2000} gotoPayment={gotoPayment}
-                              totalPrice={totalPrice}
+                              totalPrice={totalPrice} isDisabled={emptyAddr}
                 />
             </div>
 
@@ -350,13 +355,13 @@ const CartList = () => {
                 </div>
             )}
 
-            {/* 알림모달 */}
-            {/*{show && (*/}
-            {/*    <ReusableModal show={show}*/}
-            {/*                   onClose={handleClose}*/}
-            {/*                   errorData={errorData}*/}
-            {/*                   modalType="error"/>*/}
-            {/*)}*/}
+            // 알림모달
+            {show && (
+                <ReusableModal show={show}
+                               onClose={handleClose}
+                               errorData={errorData}
+                               modalType="error"/>
+            )}
 
         </>
     )
