@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import {CartStateContext} from "../cartComponent.jsx";
 import addressList from "../../myPage/delivery/AddressList.jsx";
+import {useModal} from "../../common/modal/ModalContext.jsx";
 
 //객체를 prop로 받아올때   { } <<== 유의하기, 구조분해할당 구조로 받아와야 데이터 분리가능
 const CartAddress= ({addrList}) =>{
@@ -17,6 +18,11 @@ const CartAddress= ({addrList}) =>{
 
     //배송지 목록 상태관리 변수
     const [orderAddr, setOrderAddr] = useState(null);
+
+    //모달 상태관리
+    const {openModal,closeModal} = useModal();
+
+
     //모달 상태관리
     const [show, setShow] = useState(false);
     const handleShow = () => {
@@ -117,7 +123,7 @@ const CartAddress= ({addrList}) =>{
                     </div>
                 ) : (
                     <div className="select-address">
-                        <button aria-label="배송지 선택" className="btn btn-sm btn-primary ms-3"> 배송지 선택
+                        <button aria-label="배송지 등록" className="btn btn-sm btn-primary ms-3"> 배송지 등록
                         </button>
                     </div>
                 )}

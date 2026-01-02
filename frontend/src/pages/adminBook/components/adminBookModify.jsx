@@ -64,7 +64,7 @@ const AdminBookModify = () => {
         }catch(err){
             openModal({
                 modalType:"error",
-                content:<><p>`${err}`</p></>
+                content:<><p>`${err.response?.data?.message}`</p></>
             });
         }
     }
