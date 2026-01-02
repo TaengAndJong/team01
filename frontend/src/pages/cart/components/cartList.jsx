@@ -155,7 +155,6 @@ const CartList = () => {
     //1. 변경 버튼을 누르면 모달창이 뜨고 수량변경 Ui 출력후 완료 버튼을 통해 변경을 해준다
     //2.  수량 부분을 input 태그로 수정하고 직접 관리하여 변경한다
     const modifyQuantity = async (cartId,bookId,quantity) =>{
-
         // 비동기 요청 보내기
         const response=  await axios.patch("/api/cart/quantity",{
             cartId:cartId,
@@ -352,12 +351,12 @@ const CartList = () => {
             )}
 
             {/* 알림모달 */}
-            {show && (
-                <ReusableModal show={show}
-                               onClose={handleClose}
-                               errorData={errorData}
-                               modalType="error"/>
-            )}
+            {/*{show && (*/}
+            {/*    <ReusableModal show={show}*/}
+            {/*                   onClose={handleClose}*/}
+            {/*                   errorData={errorData}*/}
+            {/*                   modalType="error"/>*/}
+            {/*)}*/}
 
         </>
     )
