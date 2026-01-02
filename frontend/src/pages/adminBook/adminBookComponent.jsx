@@ -215,7 +215,7 @@ const AdminBook = () => {
 
   return (
       <>
-        <div className={`page bookBoard d-flex ${pageSubClass(location)}`}
+        <div className={`page adminBook d-flex ${pageSubClass(location)}`}
         >
           <div className="left">
             <LeftMenu />
