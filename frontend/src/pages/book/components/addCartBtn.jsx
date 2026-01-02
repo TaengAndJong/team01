@@ -6,7 +6,7 @@ import {catchError} from "../../../util/error.jsx";
 
 const AddCartBtn = ({bookId,quantity}) =>{
 
-  //  console.log(`addBTn bookId: ${bookId}, quantity:${quantity}`);
+
     //전역모달 사용
     const {openModal,closeModal}=useModal();
     //네입게이트 리액트훅
@@ -16,9 +16,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
     
     //장밥구니 컨트롤러로 전송할 fetch 함수
     const sendCartFetch= async(bookId,quantity)=>{
-      //  console.log("addCartBtn-------data",data);
-      //   console.log("bookId---------sendCartFetch",bookId);
-      //   console.log("quantity-----------sendCartFetch",quantity);
+
         try{
          const response = await axios.post("/api/cart",
              {bookId:bookId,quantity:quantity} // 서버로 보내는 데이터
@@ -33,7 +31,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
                 if(response.data.exist){
                     openModal({
                         modalType: "confirm",
-                        content:<><p>{`${response.data.message}`}</p></>,
+                        content:<><p>{response.data.message}</p></>,
                         onConfirm:()=>{
                             closeModal(); // 모달 닫고
                             navigate(`/cart`);  // 장바구니로 이동
@@ -44,16 +42,13 @@ const AddCartBtn = ({bookId,quantity}) =>{
                     //exist가 false ==> 중복도서가 없어서 도서가 추가됨
                     openModal({
                         modalType:"default",
-                        content:<><p>{`${response.data.message}`}</p></>,
+                        content:<><p>{response.data.message}</p></>,
                     });
                 }
 
             }
 
         }catch(err){
-            console.error("장바구니 서버 상태 코드 :", err.response.status);
-            console.error("장바구니  서버 메시지---데이터:", err.response.data);
-            console.error("장바구니  서버 메시지--- 메시지:", err.response.data.message);
             //에러 처리 핸들러
             catchError(err, { openModal, closeModal, navigate });
         }

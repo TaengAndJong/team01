@@ -162,7 +162,7 @@ const PaymentComponent = () => {
               <h4 className="title my-3">배송지</h4>
 
               <div className="d-flex select-address border border-dark-subtle p-4 bg-white bg-opacity-50 rounded-1">
-                {address && (
+                {address ? (
                   <ul className="">
                     <li className="me-4 d-inline-flex align-items-center">
                       <strong className="title tultip recom me-2">분류</strong>
@@ -179,8 +179,15 @@ const PaymentComponent = () => {
                       {address.detailAddr}
                     </li>
                   </ul>
+                ): (
+                    <div className="select-address">
+                      <button aria-label="배송지 등록" className="btn btn-sm btn-primary ms-3"> 배송지 등록
+                      </button>
+                    </div>
                 )}
               </div>
+
+
             </div>
             <form aria-labelledby="paymentForm" onSubmit={submitPaymentHandler}>
               {/*결제할 장바구니 목록*/}

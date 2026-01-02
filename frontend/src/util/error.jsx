@@ -2,10 +2,11 @@
 //함수는 {} 객체로 묶어서 파라미터로 가져옴
 export const catchError =(err,{openModal,closeModal,navigate})=>{
 
-    console.log("catchError:", err);
+    console.log("!!! catchError 진입 성공 !!!");
+    console.log("catchError-------------:", err);
     //1) 서버 응답 없을 경우
     if(!err.response){
-        console.error("서버 응답 없음:", err.request || err.message);
+        console.error("서버 응답 없음:", err.request || err.response.data.message);
         openModal({
             modalType: "error",
             content: { message: "서버에 연결할 수 없습니다. 네트워크를 확인해주세요." },
@@ -24,8 +25,8 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
         //status: 화살표 함수
         401:()=>{
             openModal({
-                modalType:"login",
-                content:{message:data?.message},
+                modalType:"error",
+                content:<><p>{data?.message}</p></>,
                 onConfirm:()=>{
                     navigate("/login");//로그인페이지로 이동
                     //모달 닫기
