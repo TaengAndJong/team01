@@ -45,7 +45,7 @@ const  RecomBookSlide= ({slideData}) =>{
     const customPagination = {
         clickable: true,
         renderBullet: function (index, className) {
-            return '<span class="' + className + '">' +'<i class="sr-only">'+ (naviId)+'의'+ (index + 1) + '번째 슬라이드</i></span>';
+            return '<span className="' + className + '">' +'<i className="sr-only">'+ (naviId)+'의'+ (index + 1) + '번째 슬라이드</i></span>';
         },
     }
 

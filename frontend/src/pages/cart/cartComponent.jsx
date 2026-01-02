@@ -39,13 +39,10 @@ const Cart = () => {
     //4.장바구니 전역관리 상태 함수
     const [cartData, dispatch] = useReducer(reducer,null);
 
-    console.log("cart Component -------------------", cartData);
 
     //메뉴 받아오기
-    const {menu,currentPath,standardPoint}  = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
+    const {menu}  = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
     let adminMenuTree = menuNavi(menu?.adminList);
-    //let adminHome = menu?.adminList?.find(item => item.menuId === "admin")?.menuPath;
-    //let subNavi = adminMenuTree?.filter(item => item.menuPath.includes(standardPoint));
 
     //초기값 갱신 함수
     const onInit = (cartData) =>{

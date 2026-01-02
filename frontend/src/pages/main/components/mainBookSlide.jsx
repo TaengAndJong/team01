@@ -41,14 +41,12 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
     const customPagination = {
         clickable: true,
         renderBullet: function (index, className) {
-            return '<span class="' + className + '">' +'<i class="sr-only">'+ (naviId)+'의'+ (index + 1) + '번째 슬라이드</i></span>';
+            return '<span className="' + className + '">' +'<i className="sr-only">'+ (naviId)+'의'+ (index + 1) + '번째 슬라이드</i></span>';
         },
     }
 
     //탭이 변경될 때마다 실행
     useEffect(() => {
-        
-        console.log("naviId-------메인슬라이드",naviId);
         
         if (swiperRef.current) {
             swiperRef.current.slideTo(0); // 슬라이드를 첫번째로 이동

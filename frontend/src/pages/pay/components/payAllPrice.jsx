@@ -7,8 +7,8 @@ const PayAllPrice = ({allPrice,deliveryPay}) =>{
     return (
         <>
             <li className="li d-inline-flex align-items-center me-3">
-                <i class="icon answer"></i>
-                <strong class="fw-bold tultip mx-3">상품금액</strong>
+                <i className="icon answer"></i>
+                <strong className="fw-bold tultip mx-3">상품금액</strong>
                 <em className="fw-bold">{allPrice}</em>원
             </li>
             <li className="li me-3"><span className="fw-bold">+</span></li>

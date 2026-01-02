@@ -19,22 +19,15 @@ const CartAddress= ({addrList}) =>{
     //배송지 목록 상태관리 변수
     const [orderAddr, setOrderAddr] = useState(null);
 
-    //모달 상태관리
-    const {openModal,closeModal} = useModal();
-
-
-    //모달 상태관리
+    //배송지 선택 개인모달
     const [show, setShow] = useState(false);
     const handleShow = () => {
-        console.log("Show modal");
         setShow(true)
     }
     const handleClose = () => {
-        console.log("close modal");
         setShow(false)
     }
     const handleSubmit = () => {
-        console.log("handleSubmit");
         setShow(false);
     }
     //배송지 목록 비동기 요청 핸들러
@@ -56,8 +49,8 @@ const CartAddress= ({addrList}) =>{
             //console.log("get 요청 성공 data",data);
             setSelectAddr(data);
 
-        }catch(e){
-            console.log(e);
+        }catch(err){
+            console.log(" 에러 데이터",err);
         }
 
     }
@@ -82,8 +75,6 @@ const CartAddress= ({addrList}) =>{
         }
 
         const data = await response.json();
-       // console.log("data----------업데이트된 주소데이터",data);
-       // console.log("data----------업데이트된 주소데이터",data.updateAddr);
         setOrderAddr(data.updateAddr); // 기존 배송주소 데이터 갱신
         setShow(false);// 모달창 닫기
     }
@@ -97,8 +88,6 @@ const CartAddress= ({addrList}) =>{
             setOrderAddr(addrList);
         }
     }, [addrList]); // addrList 변경시 데이터 갱신
-
-    console.log("orderAddr-----------",orderAddr);
 
     return (
         <>

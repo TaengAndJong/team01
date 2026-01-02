@@ -103,7 +103,7 @@ const PaymentComponent = () => {
       //모달띄우기
       openModal({
         modalType:"confirm",
-        content:<><p><span class="fw-bold">결제불가</span>결제정보를 입력해주세요.</p></>,
+        content:<><p><span className="fw-bold">결제불가</span>결제정보를 입력해주세요.</p></>,
         onConfirm: () => {closeModal()}
       });
       return; // 여기서 return 안 하면 종료가 되지않아서  서버로 계속 요청 감
