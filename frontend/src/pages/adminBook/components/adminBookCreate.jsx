@@ -231,6 +231,9 @@ const AdminBookCreate = () => {
         } catch (err) {
             console.log("에러 ",err)
             console.log("에러 ",err.response?.data);
+            //총 파일목록 넘겨줄 때 검증필요
+
+
             openModal({
                 modalType: "error",
                 content:<>

@@ -86,8 +86,8 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         // 이미지 확장자 파일 파입이 아닌경우 filter 함수로 필터링
         const invalidFiles = selectedFiles.filter(file => !fileMimeType.includes(file.type));
 
-
         if (invalidFiles.length > 0) {
+            console.log("invalidFiles",invalidFiles);
             openModal({
                 modalType:"error",
                 content: <>
@@ -110,6 +110,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
 
         const duplicateFiles = selectedFiles.filter(f => existingFileNames.includes(f.name));
         if (duplicateFiles.length > 0) {
+            console.log("duplicateFiles",duplicateFiles);
             openModal({
                 modalType:"error",
                 content: <>
@@ -125,6 +126,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         //파일 용량 크기 제한
         const oversizedFiles = selectedFiles.filter(f => f.size > maxFileSize);
         if (oversizedFiles.length > 0) {
+            console.log("oversizedFiles",oversizedFiles);
             openModal({
                 modalType:"error",
                 content: <>
@@ -140,7 +142,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         const totalSize =
             [...(bookImg.new || []), ...selectedFiles].reduce((sum, f) => sum + (f.size || 0), 0);
         if (totalSize > maxTotalSize) {
-            console.log("파일 용량초과")
+            console.log("파일 용량초과" ,totalSize,maxTotalSize)
             openModal({
                 modalType:"error",
                 content:

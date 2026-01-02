@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
 
         Map<String, Object> result = new HashMap<>();
         result.put("message", "요청한 파일을 서버에서 찾을 수 없습니다.");
-        result.put("defaultImage", "/images/default-book.png"); // 클라이언트에서 사용할 기본 이미지 경로
+        result.put("defaultImage", "/images/noImg.png"); // 클라이언트에서 사용할 기본 이미지 경로
 
         return ResponseEntity
                 .status(404)
