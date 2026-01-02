@@ -233,11 +233,11 @@ const AdminBookModify = () => {
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookModifyForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
-                    <div className="d-flex align-items-center mb-1">
+                    <div className="d-flex align-items-center mb-1 sperate">
                         {/*카테고리*/}
                         <Category mode="modify" setDefaultData={setModifyBookData} defaultData={modifyBookData} categoryList={categoryList}/>
                     </div>
-                    <div className="d-flex align-items-center mb-1">
+                    <div className="d-flex align-items-center mb-1 sperate">
                         {/*등록타입*/}
                         <RecomeType setDefaultData={setModifyBookData} defaultData={modifyBookData} />
                         {/* 판매상태관리 */}
@@ -252,39 +252,40 @@ const AdminBookModify = () => {
                     </div>
                     {/*저자명 */}
                     <div className="d-flex align-items-center mb-1">
-                        <FormTag id="author" label="저자" labelClass="form-title" className="form-control" name="author"
+                        <FormTag id="author" label="저자" labelClass="form-title" className="form-control  w-50" name="author"
                                  type="text"
                                  placeholder="저자입력" value={modifyBookData.author} onChange={handleChange}/>
-                    </div>
+
                     {/*발행일*/}
-                    <PublishDate publishDate={modifyBookData.publishDate} handleChange={handleChange}/>
-                    <div className="d-flex align-items-center mb-1">
+                        <PublishDate publishDate={modifyBookData.publishDate} handleChange={handleChange}/>
+                    </div>
+                    <div className="d-flex align-items-center mb-1 sperate">
                         {/*재고 & 가격 : ??(null병합 연산자로 값이 있을경우와 없을 경우 분기     */}
                         <PriceStock bookPrice={String(modifyBookData?.bookPrice ?? "")}
                                     stock={String(modifyBookData?.stock ?? "")}
                                     stockStatus={modifyBookData?.stockStatus || '재고없음'} handleChange={handleChange}/>
-                        <div className="d-flex align-items-center">
-                            <FormTag id="createDate" label="등록일" labelClass="form-title" className="form-control"
-                                     name="createDate"
-                                     type="text"
-                                     placeholder="등록일" value={formatToDate(new Date(modifyBookData.createDate))}
-                                     readOnly={true}/>
-                        </div>
                     </div>
 
                     {/*작성자*/}
-                    <div className="d-flex align-items-center mb-1">
+                    <div className="d-flex align-items-center mb-1 sperate">
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
-                        <FormTag id="writer" label="작성자" labelClass="form-title" className="form-control" name="writer"
+                        <FormTag id="writer" label="작성자" labelClass="form-title" className="form-control w-50" name="writer"
                                  type="text"
                                  placeholder="작성자" value={userData?.clientName} readOnly={true}/>
+
+                        <FormTag id="createDate" label="등록일" labelClass="form-title" className="form-control w-50"
+                                 name="createDate"
+                                 type="text"
+                                 placeholder="등록일" value={formatToDate(new Date(modifyBookData.createDate))}
+                                 readOnly={true}/>
+
                     </div>
                     {/*도서설명*/}
                     <div className="d-flex align-items-center mb-1">
                         <label htmlFor="bookDesc" className="form-title">도서설명</label>
                         <textarea id="bookDesc" className="form-control" name="bookDesc" type="text"
                                   placeholder="도서설명을 입력해주세요" value={modifyBookData.bookDesc}
-                                  aria-describedby="bookDescHelp"  required onChange={handleChange}/>
+                                  aria-describedby="bookDescHelp" required onChange={handleChange}/>
                         {/*255글자 넘어가면 에러메시지 출력 */}
                     </div>
 

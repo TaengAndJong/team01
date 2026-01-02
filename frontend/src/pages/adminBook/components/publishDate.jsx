@@ -28,14 +28,15 @@ const PublishDate = ({publishDate,handleChange}) =>{
 
 
     return (
-        <>
+                <>
 
-            <FormTag id="publishDate" label="발행일" labelClass="form-title" className="form-control w-auto"
-                     name="publishDate"  type="date"
-                     placeholder="yyyy-mm-dd"
-                     value={publishDate}  onChange={dateHandler}/>
-        </>
-    )
-}
+                    <FormTag id="publishDate" label="발행일" labelClass="form-title" className="form-control w-50"
+                             name="publishDate" type="date"
+                             placeholder="yyyy-mm-dd"
+                             value={publishDate} onChange={dateHandler}/>
 
-export default PublishDate;
+                </>
+            )
+    }
+
+    export default PublishDate;

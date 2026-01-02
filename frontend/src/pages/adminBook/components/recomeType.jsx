@@ -31,7 +31,7 @@ const RecomType=({setDefaultData})=>{
         <>
                 <strong className="form-title">등록분류</strong>
                 <label htmlFor="recomType" className="visually-hidden form-title">등록분류</label>
-                <select id="recomType" className="form-select flex-fill" name="recomType" onChange={(e)=>recomTypeHandler(e)} >
+                <select id="recomType" className="form-select flex-fill w-50" name="recomType" onChange={(e)=>recomTypeHandler(e)} >
                     {options?.map((option,index) => (
                         <option key={option.code} value={option.code}>
                             {option.title}

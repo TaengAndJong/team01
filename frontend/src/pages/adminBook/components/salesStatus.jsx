@@ -24,7 +24,7 @@ const SalesStatus = ({setDefaultData}) =>{
         <>
                 <strong className="form-title">판매상태</strong>
                 <label htmlFor="saleStatus" className="visually-hidden form-title">판매상태</label>
-                <select id="saleStatus" className="form-select flex-fill me-3" name="saleStatus"
+                <select id="saleStatus" className="form-select flex-fill me-3 w-50" name="saleStatus"
                         onChange={(e) => saleStatusHandler(e)}>
                     {options?.map((option, index) => (
                         <option key={option.code} value={option.code}>
