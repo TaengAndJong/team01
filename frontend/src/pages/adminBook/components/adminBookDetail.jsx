@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, { useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
@@ -10,7 +10,8 @@ import BookSlide from "../../common/bookSlide.jsx";
 const AdminBookDetail = () => {
     const { bookId } = useParams(); // URL 파라미터에서 bookId 가져오기
     const [bookDetail, setBookDetail] = useState([]);
-    
+    const location= useLocation();
+    console.log("location --- 관리자 상세", location);
 
 
 
@@ -106,10 +107,14 @@ const AdminBookDetail = () => {
                                 </li>
 
                             </ul>
-                            <div className="btn d-flex">
-                                <button className="cart btn custom-btn00 me-2">장바구니</button>
-                                <button className="buy btn custom-btn02">구매하기</button>
-                            </div>
+
+                            {!location.pathname.includes("admin") && (
+                                <div className="btn d-flex">
+                                    <button className="cart btn custom-btn00 me-2">장바구니</button>
+                                    <button className="buy btn custom-btn02">구매하기</button>
+                                </div>
+                            )}
+
                             {/*bookDesc end */}
                         </div>
                     </div>
@@ -118,7 +123,7 @@ const AdminBookDetail = () => {
 
 
                 <div className="box my-5 desc">
-                <h4 className="h4 title-dotted">도서설명</h4>
+                    <h4 className="h4 title-dotted">도서설명</h4>
                     {bookDetail.bookDesc}
                 </div>
                 {/*bookDetail end */}
