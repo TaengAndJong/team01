@@ -14,7 +14,7 @@ const PayAllPrice = ({allPrice,deliveryPay}) =>{
             <li className="li me-3"><span className="fw-bold">+</span></li>
             <li className="li me-3">
                 <strong className="fw-bold tultip me-3">배송비</strong>
-                <em class="fw-bold">{deliveryPay}</em>원
+                <em className="fw-bold">{deliveryPay}</em>원
             </li>
             <li className="li me-3"><span className="fw-bold">=</span></li>
             <li className="li me-3 d-inline-flex align-items-center">
