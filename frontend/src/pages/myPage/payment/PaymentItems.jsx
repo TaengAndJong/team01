@@ -3,6 +3,7 @@ import {formatToDate} from "../../../util/dateUtils.jsx";
 import CancelPaymentBtn from "./CancelPaymentBtn.jsx";
 import AddCartBtn from "./addCartBtn.jsx";
 import axios from "axios";
+import ImgBaseUrl from "../../../util/imgBaseUrl.js";
 
 
 
@@ -39,7 +40,7 @@ const PaymentItems = ({paymentProps}) =>{
 
     //payStatus 상태값에 따른 텍스트 출력 함수
     const payStatusText = (status) =>{
-        console.log("payStatusText---------------결제상태",status);
+
 
         switch(status){
             case "COMPLETED": return <span className="tultip">결제완료</span>;
@@ -59,7 +60,7 @@ const PaymentItems = ({paymentProps}) =>{
         if(checked){ // 이벤트가 발생한 대상으로 checked조건 여부 판단하여 각 결제항목에만 check 가능
             //부모인 PayId의 자식인 bookIds만 배열로 반환 
             const bookIds = books.map(book=> book.bookId);
-            console.log("bookIds---서버로 전송할 ",bookIds); // 이미 결제가 취소된 부분은 서버에서 검증을 통해 필터링하기
+           // 이미 결제가 취소된 부분은 서버에서 검증을 통해 필터링하기
 
             // 결제내역 선택 수량 제한
             if(Object.keys(selected).length < 1){ // 객체를 직접참조하지않고 Objects.keys를 사용해 selected 객체의 key값을 복사해 참조
@@ -86,7 +87,7 @@ const PaymentItems = ({paymentProps}) =>{
 
     //전체결제취소 핸들러
     const allCancelHandler= async (selected)=>{
-        console.log("전체취소핸들러 클릭클릭",selected);
+
         const payId = Object.keys(selected)[0]; // '101'
         const bookIds = selected[payId];        // ['16', '17']
 
@@ -99,9 +100,9 @@ const PaymentItems = ({paymentProps}) =>{
         try{
             // 전체취소 버튼 클릭 시 서버로 전체결제취소 데이터 전송
             const response =await axios.post("/api/mypage/payAllCancel",params); 
-            console.log("response---전체선택 결제취소",response);
+
             const recievedData = response.data;
-            console.log("canceledAll----------",recievedData);
+
             setPaymetInfo(recievedData);
         }catch(e){
             console.log("response---전체선택 결제취소 e",e);
@@ -172,11 +173,13 @@ const PaymentItems = ({paymentProps}) =>{
                                                     />
                                                 </td>
                                                 <td className="text-center">
-                                                    <img
-                                                        src={book.bookImgList[0] || "/default.png"}
-                                                        alt={book.bookName || "도서 이미지"}
-                                                        style={{width: "80px", height: "auto"}}
-                                                    />
+                                                    <div class="img-box">
+                                                        <div class="img-inner">
+                                                            <img class="img"
+                                                            src={ImgBaseUrl(book.bookImgList[0])}
+                                                            alt={book.bookName}/>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td className="text-center">{book.bookName}/{book.author}</td>
                                                 <td className="text-center">{payment.address?.addrType}</td>
@@ -203,24 +206,32 @@ const PaymentItems = ({paymentProps}) =>{
                                     {/* 총 결제 금액*/}
                                     <div className="resultAccount mt-2 mb-5 d-block bg-warning-subtle">
                                         <ul className="d-flex flex-wrap justify-content-end  p-3 btn-outline-info rounded-1">
-                                            <li className="mx-3 d-inline-flex align-items-center">
-                                                <span className="mx-3 fw-bold">총 결제금액</span>
+                                            <li className="mx-3 d-inline-flex align-items-center pe-3">
+                                                <span className="total-header d-inline-flex  align-items-center">
+                                                    <i className="icon answer"></i>
+                                                </span>
+                                                <strong className="fw-bold mx-3">총 결제금액</strong>
                                                 {payment?.books && payment.books.length > 0 && // 데이터 undefined 방지
                                                     (
-                                                        <span>{payAccount(payment.books)}원</span>
+                                                        <span className="total-price">
+                                                            <em className="fw-bold">{payAccount(payment.books)}</em>
+                                                            <span className="fw-bold ms-2">원</span>
+                                                        </span>
                                                     )}
                                             </li>
-                                            <li>
-                                                    <button type="button" className="btn btn-dark ms-auto"
-                                                            onClick={() => allCancelHandler(selected)}
-                                                            aria-disabled={payment?.payStatus !== "COMPLETED"}
-                                                            disabled={payment?.payStatus !== "COMPLETED"}
-                                                            tabIndex={payment?.payStatus !== "COMPLETED" ? 0 : -1}
-                                                    >
-                                                        전체 결제취소
-                                                    </button>
 
-                                            </li>
+
+                                            {/*<li> 작업중*/}
+                                            {/*        <button type="button" className="btn btn-dark ms-auto"*/}
+                                            {/*                onClick={() => allCancelHandler(selected)}*/}
+                                            {/*                aria-disabled={payment?.payStatus !== "COMPLETED"}*/}
+                                            {/*                disabled={payment?.payStatus !== "COMPLETED"}*/}
+                                            {/*                tabIndex={payment?.payStatus !== "COMPLETED" ? 0 : -1}*/}
+                                            {/*        >*/}
+                                            {/*            전체 결제취소*/}
+                                            {/*        </button>*/}
+
+                                            {/*</li>*/}
                                         </ul>
                                     </div>
                                 </div>

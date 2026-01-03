@@ -18,12 +18,14 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
     //2) 응답이 있는 경우 = status : 에러 상태 코드, data : 서버에서 반환하는 자세한 에러데이터내용
     const {status, data} = err?.response; // 객체 구조분해할당
 
-    console.log("data --------- 여기여기 ",data);
-    console.log("status --------- 여기여기 ",status);
+    console.log("에러 jsx data--------- 여기여기 ",data);
+    console.log("에러 jsx status --------- 여기여기 ",status);
     //3) 상태값에 따른 에러 처리 핸들러
     const errorHandler = {
+
         //status: 화살표 함수
         401:()=>{
+            console.log("401코드");
             openModal({
                 modalType:"error",
                 content:<><p>{data?.message}</p></>,
@@ -36,27 +38,30 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
             return;//종료
         },//401
 
+        //400
         400:()=>{
-            console.log("400코드 ")
-            //주문재고가 0일경우
+            console.log("400코드");
+            //주문재고가 0일경우 , 품절
             if (data?.maxQuantity === 0) {
-                console.log("재고수량 0", data?.maxQuantity);
                 openModal({
                     modalType: "error",
-                    content: <p>{data?.message}</p>,
+                    content: <p>{`${data?.message} (품절)`}</p>,
                     onConfirm: () => closeModal(),
                 });
-                return;
+                return; //종료
             }
             // 주문가능수량 에러처리 ( typeof "number" 체크시 , 0 이상 숫자처리, undefined, null 방지
-            if (typeof data?.maxQuantity === "number") {
+            if (typeof data?.maxQuantity === "number" && data.maxQuantity > 0) {
                 openModal({
                     modalType: "error",
-                    content: <p>{`주문가능한 수량은 ${data.maxQuantity}개 입니다.`}</p>,
-                    onConfirm: () => closeModal(),
+                    content:<>
+                        <p>{`주문가능한 수량은 ${data.maxQuantity}개 입니다.`}</p>
+                        <p>장바구니로 이동하시겠습니까?</p>
+                    </>,
+                    onConfirm: () => {closeModal(); navigate("/cart"); },
                 });
+                return; //종료
             }
-            
             //그외 에러처리
             openModal({
                 modalType: "error",
@@ -66,7 +71,10 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
             return;//종료
         },//400
 
+
+        //500
         500:()=>{
+            console.log("500코드");
             openModal({
                 modalType: "error",
                 content: <p>{  "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요." }</p>,
