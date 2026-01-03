@@ -219,6 +219,7 @@ const CreateBoardComponent = () => {
       navigate(redirectPath);
     } catch (e) {
       console.log(e, e.message);
+
       setFormData((prev) => ({
         ...prev,
         files: [],
