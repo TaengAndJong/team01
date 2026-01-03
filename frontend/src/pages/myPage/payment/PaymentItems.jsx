@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {formatToDate} from "../../../util/dateUtils.jsx";
 import CancelPaymentBtn from "./CancelPaymentBtn.jsx";
 import AddCartBtn from "./addCartBtn.jsx";
 import axios from "axios";
 import ImgBaseUrl from "../../../util/imgBaseUrl.js";
+import {useModal} from "../../common/modal/ModalContext.jsx";
+import {getCompletedPayPrice, getDeliveryPrice} from "../../../util/calculatePrice.js";
 
 
 
@@ -14,18 +16,8 @@ const PaymentItems = ({paymentProps}) =>{
 
     //테이블 당 PayId 하나의 테이블만 선택
     const [selected, setSelected] = useState({}); // {payId : [bookId1,bookId2,bookId3....]}
-
-    // //모달 상태관리
-    // const [show, setShow] = useState(false);
-    // const [errorData, setErrorData] = useState({});
-    // const handleClose = () => {
-    //     console.log("close modal");
-    //     setShow(false)}
-    // const handleShow = () => {
-    //     console.log("handleShow");
-    //     setShow(true)}
-    // const [modalType, setModalType] = useState("confirm");
-
+    //모달 상태관리
+    const {openModal,closeModal} = useModal();
 
 
     useEffect(()=>{
@@ -55,7 +47,6 @@ const PaymentItems = ({paymentProps}) =>{
 
     //테이블 당 PayId 하나의 테이블의 상품 전체선택 핸들러(객체가 1개 이상이면 경고메시지 필요)
     const allSelectHandler=(payId,books,checked)=>{
-
     
         if(checked){ // 이벤트가 발생한 대상으로 checked조건 여부 판단하여 각 결제항목에만 check 가능
             //부모인 PayId의 자식인 bookIds만 배열로 반환 
@@ -74,6 +65,10 @@ const PaymentItems = ({paymentProps}) =>{
             }else{
                 console.log("selected: 하나의 결제건만 가능",selected);
                 //모달 띄우기
+                openModal({
+                    modalType: error,
+                    content:<><p>하나의 결제건만 취소가능</p></>
+                })
             }
 
         }else{ //checked가 false이면
@@ -110,18 +105,6 @@ const PaymentItems = ({paymentProps}) =>{
 
     }
 
-// 테이블별 합산가격함수
-    const payAccount = (books)=>{
-        console.log("book---- payAccount",books);
-        // 누적합산
-        const total = books.reduce((total,book) => {
-            console.log("book---- total",total);
-            console.log("book---- book",book);
-            // 부분 취소,전체취소 적용시 검증 조건은 book.partStatus
-            return  book.partPayStatus === 'COMPLETED'?  total + (book.quantity * book.bookPrice) : 0;
-        }, 0);
-       return total;
-    }
 
     return (
         <>
@@ -129,24 +112,30 @@ const PaymentItems = ({paymentProps}) =>{
                     <h2 className="title-border title">결제 상세 정보</h2>
                     <div className="border border-dark-subtle p-4  rounded-1  bg-white bg-opacity-50">
 
-                            {data.map((payment, i) => (
-                                <div className="table-responsive" key={i}>
+                            {data?.map((payment, i) =>{ // 이중 리스트 일경우 return 문 형식사용
+                                // 먼저 해당 값 계산
+                                const itemsPrice = getCompletedPayPrice(payment.books);
+                                const deliveryPrice = getDeliveryPrice(itemsPrice);
+                                const finalPrice = itemsPrice + deliveryPrice;
+                           
+
+                                return (<div className="table-responsive" key={i}>
                                     <h4 className="title my-3">{`No.${payment.payId} ( ${formatToDate(new Date(payment.payDate))} )결제내역`}</h4>
                                     <table
                                            className="table table-custom table-bordered table-hover align-middle text-center">
                                         <thead className="table-light">
                                         <tr>
-                                            <th className="text-center">
-                                                <label htmlFor="checkedAll" className="sr-only">전체 선택</label>
-                                                <input id="checkedAll" type="checkbox"
-                                                       name="checkBox"
-                                                       checked={
-                                                           Array.isArray(selected[payment.payId]) && // 배열인지 확인하면 초기값이 undefined가 되지 않게 처리 ==> true, false로 반환
-                                                           selected[payment.payId].length === payment.books.length && // 선택된 payId의 bookIds객체 수량과 기존 books객체의 수량비교
-                                                           payment.books.every(book => selected[payment.payId].includes(book.bookId)) //대상의 배열 요소들이 순서에 상관없이 조건에 모두 만족하는지  판단, true여야 진행
-                                                       }
-                                                       onChange={(e) => allSelectHandler(payment.payId,payment.books,e.target.checked)}/>
-                                            </th>
+                                            {/*<th className="text-center">*/}
+                                            {/*    <label htmlFor="checkedAll" className="sr-only">전체 선택</label>*/}
+                                            {/*    <input id="checkedAll" type="checkbox"*/}
+                                            {/*           name="checkBox"*/}
+                                            {/*           checked={*/}
+                                            {/*               Array.isArray(selected[payment.payId]) && // 배열인지 확인하면 초기값이 undefined가 되지 않게 처리 ==> true, false로 반환*/}
+                                            {/*               selected[payment.payId].length === payment.books.length && // 선택된 payId의 bookIds객체 수량과 기존 books객체의 수량비교*/}
+                                            {/*               payment.books.every(book => selected[payment.payId].includes(book.bookId)) //대상의 배열 요소들이 순서에 상관없이 조건에 모두 만족하는지  판단, true여야 진행*/}
+                                            {/*           }*/}
+                                            {/*           onChange={(e) => allSelectHandler(payment.payId,payment.books,e.target.checked)}/>*/}
+                                            {/*</th>*/}
                                             <th scope="col" className="text-center">이미지</th>
                                             <th scope="col" className="text-center">상품정보</th>
                                             <th scope="col" className="text-center">배송지</th>
@@ -161,21 +150,21 @@ const PaymentItems = ({paymentProps}) =>{
                                         <tbody>
                                         {payment.books?.map((book, index) => (
                                             <tr key={index}>
+                                                {/*<td className="text-center">*/}
+                                                {/*    <label htmlFor="checkedOne"  className="sr-only">{`도서 ${book.bookName} 선택`}</label>*/}
+                                                {/*    <input*/}
+                                                {/*       className="sr-only"*/}
+                                                {/*        id="checkedOne"*/}
+                                                {/*        type="checkbox"*/}
+                                                {/*        name="checkBox"*/}
+                                                {/*        checked={selected[payment.payId]?.includes(book.bookId) || false}*/}
+                                                {/*        onChange={() => handleSelect(payment.payId, book.bookId)}*/}
+                                                {/*    />*/}
+                                                {/*</td>*/}
                                                 <td className="text-center">
-                                                    <label htmlFor="checkedOne"  className="sr-only">{`도서 ${book.bookName} 선택`}</label>
-                                                    <input
-                                                       className="sr-only"
-                                                        id="checkedOne"
-                                                        type="checkbox"
-                                                        name="checkBox"
-                                                        checked={selected[payment.payId]?.includes(book.bookId) || false}
-                                                        onChange={() => handleSelect(payment.payId, book.bookId)}
-                                                    />
-                                                </td>
-                                                <td className="text-center">
-                                                    <div class="img-box">
-                                                        <div class="img-inner">
-                                                            <img class="img"
+                                                    <div className="img-box">
+                                                        <div className="img-inner">
+                                                            <img className="img"
                                                             src={ImgBaseUrl(book.bookImgList[0])}
                                                             alt={book.bookName}/>
                                                         </div>
@@ -213,9 +202,10 @@ const PaymentItems = ({paymentProps}) =>{
                                                 <strong className="fw-bold mx-3">총 결제금액</strong>
                                                 {payment?.books && payment.books.length > 0 && // 데이터 undefined 방지
                                                     (
-                                                        <span className="total-price">
-                                                            <em className="fw-bold">{payAccount(payment.books)}</em>
-                                                            <span className="fw-bold ms-2">원</span>
+                                                        <span className="total-price d-flex align-items-center">
+                                                            <span className="fw-bold mx-2"> [배송비{deliveryPrice} 포함]</span>
+                                                            <em className="fw-bold mx-2">{finalPrice}</em>
+                                                            <span className="fw-bold ms-2 mt-3">원</span>
                                                         </span>
                                                     )}
                                             </li>
@@ -235,7 +225,9 @@ const PaymentItems = ({paymentProps}) =>{
                                         </ul>
                                     </div>
                                 </div>
-                            ))}
+                                )
+
+                            })}
 
                     </div>
 
