@@ -122,7 +122,8 @@ const DeliveryBoard = () => {
   const handleSearch = async (
     page = 1,
     pageSize = 5,
-    keywordParam = search.keyword
+    keywordParam = search.keyword,
+    searchType = search.searchType
   ) => {
     if (
       search.keyword === undefined ||
@@ -135,7 +136,7 @@ const DeliveryBoard = () => {
     setIsLoading(true);
     setIsError(false);
     // 2. 요청 URL 확인
-    const requestUrl = `/api/admin/board/qnaDeliveryList?keyword=${keywordParam}&currentPage=${page}&pageSize=${pageSize}&userId=${userData.clientId}`;
+    const requestUrl = `/api/admin/board/qnaDeliveryList?keyword=${keywordParam}&searchType=${searchType}&currentPage=${page}&pageSize=${pageSize}&userId=${userData.clientId}`;
     console.log("요청 URL:", requestUrl);
 
     const response = await fetch(requestUrl, {
@@ -268,7 +269,7 @@ const DeliveryBoard = () => {
               {boardList && boardList?.length === 0 ? (
                 <tr className="">
                   <td colSpan="12" className="text-center p-4">
-                    데이터가 없습니다.
+                    새로 등록된 문의글이 없습니다.
                   </td>
                 </tr>
               ) : (

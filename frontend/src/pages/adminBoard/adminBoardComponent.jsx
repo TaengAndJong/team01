@@ -1,4 +1,4 @@
-import {Link, Outlet, useLocation} from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import React, { useEffect, useState, useReducer } from "react";
 import LeftMenu from "../../layout/LeftMenu.jsx";
 import { useMenu } from "../common/MenuContext.jsx";
@@ -149,7 +149,6 @@ const AdminBoard = () => {
   let subNavi = adminMenuTree?.filter((item) =>
     item.menuPath.includes(standardPoint)
   );
-
 
   // 게시판 별 페이지네이션
   const [onePagination, setOnePagination] = useState({
@@ -386,14 +385,16 @@ const AdminBoard = () => {
     });
   };
 
-
-
   // 상세페지이 클래스 추가기준
   const location = useLocation().pathname;
 
   return (
     <>
-      <div className={`page admin d-flex ${location.toLowerCase().includes("detail")? "detail":""}`}>
+      <div
+        className={`page admin d-flex ${
+          location.toLowerCase().includes("detail") ? "detail" : ""
+        }`}
+      >
         <div className="left">
           <LeftMenu menu={menu} />
         </div>
