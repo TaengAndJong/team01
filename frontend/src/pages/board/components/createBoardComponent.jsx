@@ -86,6 +86,7 @@ const CreateBoardComponent = () => {
         ),
         onConfirm: closeModal,
       });
+      e.target.value = "";
       return;
     }
 
@@ -104,12 +105,12 @@ const CreateBoardComponent = () => {
         modalType: "error",
         content: (
           <>
-            <p>`최대 용량 ${MAX_SIZE_MB}를 초과 했습니다.`</p>
+            <p>최대 용량 {MAX_SIZE_MB}MB를 초과 했습니다.</p>
           </>
         ),
         onConfirm: closeModal,
       });
-
+      e.target.value = "";
       return;
     }
 
@@ -175,6 +176,7 @@ const CreateBoardComponent = () => {
         response = await fetch(`/api/board/oneBoard`, {
           method: "POST",
           body: form,
+          cache: "no-store",
         });
         successMessage = "1:1 문의 게시물이 등록되었습니다!";
         redirectPath = "/board";
@@ -182,6 +184,7 @@ const CreateBoardComponent = () => {
         response = await fetch(`/api/board/productBoard`, {
           method: "POST",
           body: form,
+          cache: "no-store",
         });
         successMessage = "상품 문의 게시물이 등록되었습니다!";
         redirectPath = "/board";
@@ -189,6 +192,7 @@ const CreateBoardComponent = () => {
         response = await fetch(`/api/board/deliveryBoard`, {
           method: "POST",
           body: form,
+          cache: "no-store",
         });
         successMessage = "배송 문의 게시물이 등록되었습니다!";
         redirectPath = "/board";
@@ -201,6 +205,11 @@ const CreateBoardComponent = () => {
       if (!response.ok) {
         console.error("전송 실패", response.status);
         alert("게시물 등록에 실패했습니다. 다시 시도해주세요.");
+
+        setFormData((prev) => ({
+          ...prev,
+          files: [],
+        }));
         return;
       }
 
@@ -210,13 +219,18 @@ const CreateBoardComponent = () => {
       navigate(redirectPath);
     } catch (e) {
       console.log(e, e.message);
+      setFormData((prev) => ({
+        ...prev,
+        files: [],
+      }));
+
       alert("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
   return (
     <>
       <div className="createBoard">
-        <from className="createFrom">
+        <form className="createFrom">
           <div className="d-flex align-items-center mb-1">
             <span className="form-title name">고객명</span>
 
@@ -274,7 +288,7 @@ const CreateBoardComponent = () => {
               text="등록"
             />
           </div>
-        </from>
+        </form>
       </div>
     </>
   );
