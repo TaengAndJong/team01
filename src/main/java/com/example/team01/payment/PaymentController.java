@@ -3,6 +3,7 @@ package com.example.team01.payment;
 
 import com.example.team01.book.service.BookService;
 import com.example.team01.cart.service.CartService;
+import com.example.team01.common.exception.CustomCartException;
 import com.example.team01.delivery.service.AddressService;
 import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.dto.book.BookDTO;
@@ -15,6 +16,7 @@ import com.example.team01.vo.PaymentVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,7 +34,7 @@ public class PaymentController {
      private final PaymentService paymentService;
      private final AddressService addressService;
      private final CartService cartService;
-    private final FileUtils fileUtils;
+
 
     @GetMapping()
     public ResponseEntity<?> getPayment(@AuthenticationPrincipal PrincipalDetails userDetails, HttpServletRequest request) {
@@ -84,58 +86,60 @@ public class PaymentController {
 
     @PostMapping()
     public ResponseEntity<?> postPayment(@RequestBody PaymentVO paymentVO,@AuthenticationPrincipal PrincipalDetails userDetails) {
-        // 결제한 데이터 결제 테이블에 넣어주기
+            log.info("결제 insert");
 
-        // 1. Null 체크
-        if (paymentVO == null) {
-            return ResponseEntity.badRequest().body("결제 정보가 없습니다.");
-        }
+            // 결제한 데이터 결제 테이블에 넣어주기
 
-        // 2. 필수값 체크
-        if (paymentVO.getPayAccount() <= 0 ||
-                paymentVO.getPayMethod() == null ||
-                paymentVO.getAddrId() == null || //주소값이 빠져서 에러 걸리는듯
-                paymentVO.getBookList() == null ) {
-
-            return ResponseEntity.badRequest().body("필수 결제 정보가 누락되었습니다.");
-        }
-
-        // 3. 도서 정보 체크
-        for (CartVO cart : paymentVO.getBookList()) {
-            if (cart.getBookId() == null || cart.getQuantity() <= 0) {
-                return ResponseEntity.badRequest().body("도서 정보가 유효하지 않습니다.");
+            // 1. Null 체크
+            if (paymentVO == null) {
+                return ResponseEntity.badRequest().body("결제 정보가 없습니다.");
             }
-        }
-        //결제완료
-        String clientId = userDetails.getUsername();
-        // payment 결제정보테이블에 결제 데이터 insert (목적 : 결제 정보)
-        paymentService.insertPayment(paymentVO,clientId);
-        //payment_cart 결제내역테이블에 데이터 insert ( 목적: 도서정보조회 , 결제상세내역 조회 )
-        paymentService.insertPaymentList(paymentVO);
 
-        log.info("paymentVO-------------:{}",paymentVO);
-        log.info("paymentVO.getCartIds()-------------:{}",paymentVO.getCartIds());
+            // 2. 필수값 체크
+            if (paymentVO.getPayAccount() <= 0 ||
+                    paymentVO.getPayMethod() == null ||
+                    paymentVO.getAddrId() == null || //주소값이 빠져서 에러 걸리는듯
+                    paymentVO.getBookList() == null ) {
 
-        // 장바구니 목록에서 delete //cartIds=[26, 24, 25] 파라미터를 List로 전달 ==> IN 절 다중 조회(List 파라미터 IN 절) 사용해서 삭제
-        if (paymentVO.getCartIds() != null
-                && !paymentVO.getCartIds().isEmpty()
-                && paymentVO.getCartIds().stream().anyMatch(Objects::nonNull)
-            // cartIds=[null] => null 이 담긴 빈 배열은 true 처리(값이 있다고 판단)되어서 조건 추가 필요
-        ) {
-            log.info("단건구매 결제, 장바구니 결제는 여기에서 처리 paymentVO.getCartIds(): {}",paymentVO.getCartIds());
-            cartService.deleteToCartList(paymentVO.getCartIds());
-        }else{ // 바로구매 조건분기 ( cartId가 null 인 경우 처리 )
-            log.info("바로구매결제 실행 처리 분기 ----- 장바구니 삭제 생략:{}",paymentVO.getCartIds());
+                return ResponseEntity.badRequest().body("필수 결제 정보가 누락되었습니다.");
+            }
+
+            // 3. 도서 정보 체크
+            for (CartVO cart : paymentVO.getBookList()) {
+                if (cart.getBookId() == null || cart.getQuantity() <= 0) {
+                    return ResponseEntity.badRequest().body("도서 정보가 유효하지 않습니다.");
+                }
+            }
+            //결제완료
+            String clientId = userDetails.getUsername();
+            // payment 결제정보테이블에 결제 데이터 insert (목적 : 결제 정보)
+            paymentService.insertPayment(paymentVO,clientId);
+            //payment_cart 결제내역테이블에 데이터 insert ( 목적: 도서정보조회 , 결제상세내역 조회 )
+            paymentService.insertPaymentList(paymentVO);
+
+            log.info("paymentVO-------------:{}",paymentVO);
+            log.info("paymentVO.getCartIds()-------------:{}",paymentVO.getCartIds());
+
+            // 장바구니 목록에서 delete //cartIds=[26, 24, 25] 파라미터를 List로 전달 ==> IN 절 다중 조회(List 파라미터 IN 절) 사용해서 삭제
+            if (paymentVO.getCartIds() != null
+                    && !paymentVO.getCartIds().isEmpty()
+                    && paymentVO.getCartIds().stream().anyMatch(Objects::nonNull)
+                // cartIds=[null] => null 이 담긴 빈 배열은 true 처리(값이 있다고 판단)되어서 조건 추가 필요
+            ) {
+                log.info("단건구매 결제, 장바구니 결제는 여기에서 처리 paymentVO.getCartIds(): {}",paymentVO.getCartIds());
+                cartService.deleteToCartList(paymentVO.getCartIds());
+            }else{ // 바로구매 조건분기 ( cartId가 null 인 경우 처리 )
+                log.info("바로구매결제 실행 처리 분기 ----- 장바구니 삭제 생략:{}",paymentVO.getCartIds());
+                return ResponseEntity.ok(Map.of("message", "결제 성공", "payId", paymentVO.getPayId()));
+
+            }
+
+            // 결제 완료 후 payId 넘겨주기 ==> SPA 경우에는 프론트에서 이동을 제어하는게 더 나음, payId를 공통으로 가지고 잇으니까 같이 넘겨줌
             return ResponseEntity.ok(Map.of("message", "결제 성공", "payId", paymentVO.getPayId()));
-
         }
 
-        // 결제 완료 후 payId 넘겨주기 ==> SPA 경우에는 프론트에서 이동을 제어하는게 더 나음, payId를 공통으로 가지고 잇으니까 같이 넘겨줌
-        return ResponseEntity.ok(Map.of("message", "결제 성공", "payId", paymentVO.getPayId()));
-    }
 
-
-
+//class end
 
 }
 

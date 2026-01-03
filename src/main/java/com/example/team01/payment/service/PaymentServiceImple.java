@@ -71,6 +71,8 @@ public class PaymentServiceImple implements PaymentService {
         log.info("insert dao-------:{}",cnt);
         return cnt;
     }
+
+
     @Override
     public int insertPaymentList(PaymentVO PaymentVO) {
         log.info("service insertPaymentList----------인설트 페이먼트리스트:{}",PaymentVO);
@@ -80,12 +82,14 @@ public class PaymentServiceImple implements PaymentService {
             log.info("book:{}",book);
             Long bookId = book.getBookId();
             int bookStock= bookDao.checkBookCount(bookId);
-            //도서구입수량이  bookStrock 을 초과했을경우 
-            if(bookStock < book.getQuantity()){
+
+
+            //bookStock이 0이거나 도서구입수량이  bookStock을 초과했을경우
+            if(bookStock == 0 || bookStock < book.getQuantity()){
                 // 재고 부족 CustomCartException 발생
+                log.info("지금 여기서 총 수량이 재고보다 클때 재고 수량부족에러 던짐");
                 throw CustomCartException.outOfStock(bookId,bookStock);
             }
-
         }
       //  bookDao.checkBookCount()
         int cnt = 0;
@@ -93,8 +97,6 @@ public class PaymentServiceImple implements PaymentService {
         List<CartVO> bookList = PaymentVO.getBookList();
         //로그 안찍히면  단건구매 로직 필요
         log.info("장바구니 단건구매 로그찍히는지 확인----------bookList:{}",bookList);
-//        log.info("service insertPaymentList----------payId:{}",payId);
-//        log.info("service insertPaymentList----------bookList:{}",bookList);
 
         //bookId 개수만큼 insert 해야함
         for (CartVO item : bookList) {
@@ -110,6 +112,9 @@ public class PaymentServiceImple implements PaymentService {
 
         return cnt;
     }
+
+
+
     // 결제수량 조회
     @Override
     public List<PaymentQuantityVO> selectPaymentQuantity(List<Long> payIds){

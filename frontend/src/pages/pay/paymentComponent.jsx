@@ -7,6 +7,7 @@ import SelectPayment from "./components/selectPayment.jsx";
 import PayAllPrice from "./components/payAllPrice.jsx";
 import validationPay from "../../util/validationPay.jsx";
 import {useModal} from "../common/modal/ModalContext.jsx";
+import {catchError} from "../../util/error.jsx";
 
 const PaymentComponent = () => {
   const location = useLocation();
@@ -40,7 +41,7 @@ const PaymentComponent = () => {
 
 
   //1.필요한 데이터는 books의 도서들 가격 의 총합 + 배송비
-  // 2. 결제버튼 누르면 paymentInfo 서버로 submit할 핸들러 함수
+  // 2.결제버튼 누르면 paymentInfo 서버로 submit할 핸들러 함수
   //reduce는 배열을 순회하면서 각 요소의 값을 누적하여 반환하는 함수로,
   //accPrice의 초기값은 0을 지정하고 item의 계산값을 누적하여 반환
   // null 병합 연산자로 값이 null이면 0을 대체해서 에러 방지
@@ -69,8 +70,10 @@ const PaymentComponent = () => {
       console.log("payId", payId);
       //서버로부터 받아오느 payId를 가지고 결제성공 페이지로 이동
       navigate(`/mypage/payHistory`);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      console.log("error 결제 정보 서버로 전송후 에러 처리", err);
+      catchError(err,{openModal,closeModal,navigate});
     }
   };
   //결제버튼 onClick 이벤트핸들러
@@ -103,7 +106,7 @@ const PaymentComponent = () => {
       //모달띄우기
       openModal({
         modalType:"confirm",
-        content:<><p><span className="fw-bold">결제불가</span>결제정보를 입력해주세요.</p></>,
+        content:<><p><span className="fw-bold me-2 text-danger d-inline-block">결제불가</span>결제정보를 입력해주세요.</p></>,
         onConfirm: () => {closeModal()}
       });
       return; // 여기서 return 안 하면 종료가 되지않아서  서버로 계속 요청 감
@@ -138,12 +141,13 @@ const PaymentComponent = () => {
         }
         
       })
-      .catch((error) => {
-        console.log("error---결제정보창 에러 처리어떻게 ?", error);
+      .catch((err) => {
+        console.log("error---결제정보창 에러 처리어떻게", err);
+        catchError(err,{openModal,closeModal})
       });
   }, []);
 
-  console.log("books ---------------",books)
+  console.log("paymentComponent books ---------------",books)
 
   return (
     <>

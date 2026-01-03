@@ -9,9 +9,8 @@ table {
 tr{display:table-row}
 th, td {display:table-cell; vertical-align:middle;}
 
-table .imgbox{
-      //aspect-ratio: 1 / 1;
-      max-width:200px;
+.table .img-box{
+      max-width:100px;
       width:100%;
   img{
     width: 100%;

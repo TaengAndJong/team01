@@ -22,8 +22,15 @@ const CartList = () => {
         const [loading, setLoading] = useState(false);
 
         //모달 상태관리
-        const {openModal,closeModal} = useModal();
+        const [show, setShow] = useState(false);
+        const [errorData, setErrorData] = useState({});
+        const handleClose = () => {
+            console.log("close modal");
+            setShow(false)}
+        // const [modalType, setModalType] = useState("confirm");
 
+       // 공통모달_에러 처리
+        const {openModal, closeModal} = useModal();
 
 
     // 구조분해 할당을 통한 bookList ==> 구조분해 할당 시,cartdata에 담긴 키명 그대로 받아야함 ==> 도서 상품 삭제시 주소데이터가 초기값에 없을경우는 ?
@@ -355,7 +362,7 @@ const CartList = () => {
                 </div>
             )}
 
-            // 알림모달
+
             {show && (
                 <ReusableModal show={show}
                                onClose={handleClose}

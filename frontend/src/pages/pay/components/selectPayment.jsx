@@ -69,8 +69,8 @@ const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
                 modalType:"confirm",
                 content:<>
                     {paymentInfo.payMethod === "card" ? 
-                        (<p><span className="fw-bold">카드번호</span>확인완료.</p>)
-                        : (<p><span className="fw-bold">계좌번호</span>확인완료.</p>)
+                        (<p><span className="fw-bold me-2 d-inline-block text-primary">[카드번호]</span>확인완료.</p>)
+                        : (<p><span className="fw-bold me-2 d-inline-block text-primary">[계좌번호]</span>확인완료.</p>)
                     }
                 </>,
                 onConfirm: () => {closeModal()}
