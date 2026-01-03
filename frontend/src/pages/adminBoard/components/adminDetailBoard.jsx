@@ -83,6 +83,7 @@ const AdminDetailBoard = ({ userType }) => {
           {
             commentCon: answer,
             comWriter: userData.clientId,
+            comWriterName: userData.clientName,
           }
         );
         setBoard((prev) => ({ ...prev, comment: response.data }));
@@ -138,17 +139,20 @@ const AdminDetailBoard = ({ userType }) => {
                   key={idx}
                   className=" d-flex align-items-center mb-2 bullet-li border-top"
                 >
-                  <button type="button" className="btn btn-link d-inline-flex align-items-center" title={`${file?.fileName} 다운로드 버튼`}
-                          onClick={() => {
-                            handleFileDownload();
-                          }}
+                  <button
+                    type="button"
+                    className="btn btn-link d-inline-flex align-items-center"
+                    title={`${file?.fileName} 다운로드 버튼`}
+                    onClick={() => {
+                      handleFileDownload();
+                    }}
                   >
                     <i className="icon down me-3"></i>
                     <strong
-                        className="fw-bold me-2"
-                        onClick={() => {
-                          handleFileDownload(file?.fileName, file?.fileData);
-                        }}
+                      className="fw-bold me-2"
+                      onClick={() => {
+                        handleFileDownload(file?.fileName, file?.fileData);
+                      }}
                     >
                       {file.fileName}
                     </strong>
@@ -160,11 +164,13 @@ const AdminDetailBoard = ({ userType }) => {
         )}
       </div>
       {board?.comment ? (
-          <div className="comment-container">
-            <div className="pb-4">
-              <div className="comment-title d-flex justify-content-between align-items-center p-3 bg-warning-subtle">
-              <strong className="d-flex align-items-center"><i className="icon answer me-2"></i>관리자 답변</strong>
-            <span className="tultip">
+        <div className="comment-container">
+          <div className="pb-4">
+            <div className="comment-title d-flex justify-content-between align-items-center p-3 bg-warning-subtle">
+              <strong className="d-flex align-items-center">
+                <i className="icon answer me-2"></i>관리자 답변
+              </strong>
+              <span className="tultip">
                 {board.comment.comWriterName}({board.comment.comWriter})
               </span>
             </div>
@@ -183,7 +189,11 @@ const AdminDetailBoard = ({ userType }) => {
               onClick={() =>
                 openModal({
                   modalType: "confirm",
-                  content:<><p>선택된 답변을 삭제하시겠습니까?</p></>,
+                  content: (
+                    <>
+                      <p>선택된 답변을 삭제하시겠습니까?</p>
+                    </>
+                  ),
                   onConfirm: () => {
                     handleCommentDelete(), closeModal();
                   },
