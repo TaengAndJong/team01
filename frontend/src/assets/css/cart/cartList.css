@@ -24,7 +24,7 @@
 .cart-item-count .li{position:relative;}
 .cart-item-count .total-header{position:absolute; top:50%;
     left: 0; transform: translateY(-50%);}
-.cart-item-count .total-price{padding-left: 150px}
+/*.cart-item-count .total-price{padding-left: 150px}*/
 .cart-item-count .total-price > em{font-size:30px}
 
 /*장바구니 주소변경 모달 스타일변경*/

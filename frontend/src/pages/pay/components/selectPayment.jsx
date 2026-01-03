@@ -5,14 +5,13 @@ import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
 const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
-    console.log("paymentInfo-------------",paymentInfo)
+
     const {openModal,closeModal} = useModal();
 
 
     //라디오 버튼 선택 시 결제방법 상태 업데이트 onchange() 핸들러
     const onChangePayMethod =(e)=>{
-      //
-        console.log("onChangePayMethod e.target.value",e.target.value);
+
         const target = e.target.value;
 
         setPaymentInfo(prev => ({
@@ -28,8 +27,6 @@ const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
     // 카드/계좌 정보 input 변경 핸들러
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log("name---------",name);
-        console.log(" value--------", value);
 
         setPaymentInfo((prev) => ({
             ...prev,

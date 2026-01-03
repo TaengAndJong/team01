@@ -2,7 +2,7 @@ import React from "react";
 
 
 
-const PayAllPrice = ({allPrice,deliveryPay}) =>{
+const PayAllPrice = ({allPrice,deliveryPrice}) =>{
 
     return (
         <>
@@ -14,13 +14,13 @@ const PayAllPrice = ({allPrice,deliveryPay}) =>{
             <li className="li me-3"><span className="fw-bold">+</span></li>
             <li className="li me-3">
                 <strong className="fw-bold tultip me-3">배송비</strong>
-                <em className="fw-bold">{deliveryPay}</em>원
+                <em className="fw-bold">{deliveryPrice}</em>원
             </li>
             <li className="li me-3"><span className="fw-bold">=</span></li>
             <li className="li me-3 d-inline-flex align-items-center">
                 <strong className="fw-bold mx-3">총 결제금액</strong>
                 <span className="total-price">
-                    <em className="fw-bold">{allPrice + deliveryPay}</em>
+                    <em className="fw-bold">{allPrice + deliveryPrice}</em>
                 </span>
                 <em className="fw-bold ms-2">원</em>
             </li>
