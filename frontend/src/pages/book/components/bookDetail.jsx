@@ -7,7 +7,7 @@ import BookSlide from "../../common/bookSlide.jsx";
 import BuySelectedBtn from "./BuySelectedBtn.jsx";
 import AddCartBtn from "./addCartBtn.jsx";
 import BookCount from "./bookCount.jsx";
-import WishBtn from "./wishBtn.jsx";
+
 
 
 const BookDetail = () => {

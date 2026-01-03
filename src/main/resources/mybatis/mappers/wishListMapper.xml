@@ -28,17 +28,17 @@
 
             <!-- bookType이 비어있지 않고 'ALL'이 아닐 때만 필터 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.bookType) and pagination.detailCondition.bookType != 'ALL'">
-                INSTR(b."bookCateNm", #{pagination.detailCondition.bookType}) > 0 AND
+                STRPOS(b.bookCateNm, #{pagination.detailCondition.bookType}) > 0 AND
             </if>
 
             <!-- keyword가 비어있지 않을 때만 검색조건 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
                 <choose>
                     <when test="pagination.detailCondition.searchType == 'bookName'">
-                        INSTR(b."bookName", #{pagination.detailCondition.keyword}) > 0 AND
+                        STRPOS(b.bookName, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
                     <when test="pagination.detailCondition.searchType == 'author'">
-                        INSTR(b."author", #{pagination.detailCondition.keyword}) > 0 AND
+                        STRPOS(b.author, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
                 </choose>
             </if>
@@ -49,86 +49,87 @@
     <select id="totalRecord" resultType="int" parameterType="com.example.team01.utils.Pagination">
         SELECT COUNT(*)
         FROM wishList w
-        JOIN book b ON w."bookId" = b."bookId"
-        WHERE w."clientId" = #{pagination.clientId}
-        AND w."wishStatus" = 'Y'
+        JOIN book b ON w.bookId = b.bookId
+        WHERE w.clientId = #{pagination.clientId}
+        AND w.wishStatus = 'Y'
         <include refid="searchFrag"/>
     </select>
 
 
     <select id="getWishList" resultMap="wishListMap" parameterType="com.example.team01.utils.Pagination" >
         WITH userWish AS (
-            SELECT
-                "wishId",
-                "wishDate",
-                "wishStatus",
-                "clientId",
-                "bookId"
-            FROM wishList
-            WHERE "clientId" = #{pagination.clientId} and "wishStatus" = 'Y'
+        SELECT
+        wishId,
+        wishDate,
+        wishStatus,
+        clientId,
+        bookId
+        FROM wishList
+        WHERE clientId = #{pagination.clientId}
+        AND wishStatus = 'Y'
+        ),
+        filterData AS (
+        SELECT
+        w.wishId,
+        w.wishDate,
+        w.wishStatus,
+        w.clientId,
+        b.bookId,
+        b.bookName,
+        b.bookCateNm,
+        b.author,
+        b.bookPrice,
+        b.publishDate,
+        b.bookImgPath
+        FROM userWish w
+        JOIN book b ON w.bookId = b.bookId
+        WHERE 1=1
+        <include refid="searchFrag"/>
+        ORDER BY w.wishDate DESC
         )
+        SELECT *
+        FROM filterData
+        LIMIT #{pagination.pageSize}
+        OFFSET #{pagination.offset}
 
-        select rnum,r.*
-        from (
-                 SELECT
-                     ROWNUM AS rnum,
-                     w."wishId",
-                     w."wishDate",
-                     w."wishStatus",
-                     w."clientId",
-                     b."bookId",
-                     b."bookName",
-                     b."bookCateNm",
-                     b."author",
-                     b."bookPrice",
-                     b."publishDate",
-                     b."bookImgPath"
-
-                 FROM userWish w
-                          JOIN book b ON w."bookId" = b."bookId"
-                WHERE 1=1
-                <include refid="searchFrag" />
-                 ORDER BY w."wishDate" DESC
-             ) r
-        WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
     </select>
-
-
 
 
     <!--    null 방지 처리는 Integer 타입 선언 또는 Count로 결과값 반환 -->
-    <select id="existWishList" parameterType="String">
+    <select id="existWishList" resultType="int">
         SELECT COUNT(*) FROM WISHLIST
-        WHERE "clientId" = #{clientId} AND "bookId" = #{bookId}
+        WHERE clientId = #{clientId} AND bookId = #{bookId}
     </select>
 
-    <insert id="insertWishList" parameterType="String">
-        <selectKey keyProperty="wishId" resultType="String" order="BEFORE">
-            SELECT WISH_QEC.NEXTVAL FROM DUAL
+    <insert id="insertWishList">
+        <selectKey keyProperty="wishId" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('wish_qec')
         </selectKey>
-        INSERT INTO WISHLIST
-            ("wishId","clientId","bookId")
-        values(#{wishId},#{clientId},#{bookId})
+
+        INSERT INTO wishlist
+        (wishId, clientId, bookId)
+        VALUES
+        (#{wishId}, #{clientId}, #{bookId})
     </insert>
 
 
     <!--행을 삭제하지 않아서 유저의 찜목록 히스토리 추적가능-->
-    <update id="wishListStatus" parameterType="String">
+    <update id="wishListStatus">
         update WISHLIST
-        set "wishStatus" =
+        set wishStatus =
             case
-               when"wishStatus"= 'Y'
+               when wishStatus= 'Y'
                 then 'N'
                 else 'Y'
             end
-        where "clientId"=#{clientId}
-          and "bookId"=#{bookId}
+        where clientId=#{clientId}
+          and bookId=#{bookId}
     </update>
 
     <!--해당유저의 찜목록 도서 Id만 조회-->
     <select id="selectWishIds" resultType="string">
-        select "bookId" from wishList
-        where "clientId" = #{clientId} and "wishStatus" ='Y'
+        select bookId from wishList
+        where clientId = #{clientId} and wishStatus ='Y'
     </select>
 
     <!-- 3개월 이내 찜목록 조회    -->
@@ -136,8 +137,8 @@
         SELECT COUNT(*)
         FROM wishList
          <![CDATA[
-        WHERE "clientId" = #{clientId}
-          AND "wishDate" >= ADD_MONTHS(SYSDATE, -3)
+        WHERE clientId = #{clientId}
+          AND wishDate >= CURRENT_TIMESTAMP - INTERVAL '3 months'
         ]]>
     </select>
 

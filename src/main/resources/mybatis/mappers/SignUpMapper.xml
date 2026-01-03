@@ -8,7 +8,7 @@
     <!-- 변경되는 데이터가 없을 때 resultType 안 써도 됨 -->
     <insert id="insertUserData" parameterType="SignUpVO">
         <!-- DB Code 작성 -->
-        INSERT INTO client ("clientId","roleId", "clientName", "password", "birth", "tel", "zoneCode", "addr", "detailAddr", "email", "picture","joinDate","staffId")
+        INSERT INTO client (clientId,roleId, clientName, password, birth, tel, zoneCode, addr, detailAddr, email, picture,joinDate,staffId)
         VALUES (#{clientId}, REPLACE(#{roleId}, ' ', ''), #{clientName}, #{password}, #{birth}, #{tel}, #{zoneCode}, #{addr}, #{detailAddr}, #{email},#{picture},#{joinDate},#{staffId})
     </insert>
 
@@ -16,7 +16,7 @@
     <select id="selectDuplicateId" parameterType="String" resultType="int">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
         FROM client
-        WHERE "clientId" = #{clientId}
+        WHERE clientId = #{clientId}
     </select>
 
 <!--    &lt;!&ndash; staff 아이디 중복 확인 &ndash;&gt;-->
@@ -31,21 +31,21 @@
     <!-- staff 사원 정보 -->
     <select id="selectStaffInfo" parameterType="String" resultType="SignUpVO">
         SELECT
-            emp."staffId",
-            emp."staffName",
-            emp."roleId",
-            emp."rankId",
-            emp."birth",
-            emp."tel",
-            emp."startDate",
-            dep."departId",
-            dep."departName"
+            emp.staffId,
+            emp.staffName,
+            emp.roleId,
+            emp.rankId,
+            emp.birth,
+            emp.tel,
+            emp.startDate,
+            dep.departId,
+            dep.departName
         FROM
-            (SELECT "staffId", "staffName","birth","tel","roleId","rankId","startDate", "departId"
+            (SELECT staffId, staffName,birth,tel,roleId,rankId,startDate, departId
              FROM emp
-             WHERE "staffId" = #{staffId}) emp
+             WHERE staffId = #{staffId}) emp
                 LEFT JOIN DEPARTMENT dep
-                          ON emp."departId" = dep."departId"
+                          ON emp.departId = dep.departId
     </select>
 
 
@@ -53,7 +53,7 @@
     <select id="selectDuplicateEmail" parameterType="String" resultType="int">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
         FROM client
-        WHERE  "email" = #{email}
+        WHERE  email = #{email}
     </select>
 
 

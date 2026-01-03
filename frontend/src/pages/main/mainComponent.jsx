@@ -26,6 +26,7 @@ const mainComponent = () => {
       console.log("response data-----main booksFecth", response.data);
       const {bookSlide,popularSlide,recomSlide} = response.data;
 
+
       //단축 평가(short-circuit evaluation)로 ,
       // JS의 논리 연산자 &&와 ||가 왼쪽 피연산자의 값만으로도 결과가 결정되면
       // 오른쪽을 평가하지 않는 성질을 이용한 패턴

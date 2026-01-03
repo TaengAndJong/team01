@@ -4,8 +4,7 @@
 .mypage-dash .inner{overflow: hidden;position: relative;}
 .mypage-dash .inner,.mypage-dash .box-list{width:100%;}
 /*left*/
-.mypage-dash .inner.left{
-    padding-top: 10px;}
+.mypage-dash .inner.left{padding-top: 10px;}
 .mypage-dash .inner.left .box-list{margin-bottom: 10px;}
 
 

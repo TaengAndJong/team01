@@ -38,9 +38,12 @@ public class VisitCountController {
         String ipAddress = request.getHeader("X-Forwarded-For");
         if(ipAddress == null || ipAddress.isEmpty()){
             ipAddress = request.getRemoteAddr();
+            log.info("ipAddress: {}", ipAddress);
         }
         dto.setIpAddress(ipAddress);
+
         int result = visitCountService.insertVisitLog(dto);
+
         log.info("차트통계데이터 :{}",result);
         return ResponseEntity.ok(result);
     }

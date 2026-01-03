@@ -6,182 +6,161 @@
             <!-- 신규 등록 문의 -->
             <!-- 1:1문의 -->
             <select id="getQnaOneLength" resultType="int" >
-                SELECT COUNT(*) AS qna_count FROM qnaOne
-                WHERE "qnaDate" &gt;= SYSDATE - 8 AND "qnaDel" === NULL || "qnaDel" === "N"
+                SELECT COUNT(*) AS qna_count
+                FROM qnaone
+             <![CDATA[     WHERE qnadate >= NOW() - INTERVAL '8 days'
+                  AND (qnadel IS NULL OR qnadel = 'N')]]>
             </select>
 
             <!-- 상품문의 -->
             <select id="getProductLength" resultType="int" >
                 SELECT COUNT(*) AS qna_count FROM qnaPro
-                WHERE "qnaDate" &gt;= SYSDATE - 8 AND "qnaDel" === NULL || "qnaDel" === "N"
+             <![CDATA[     WHERE qnaDate >= NOW() - INTERVAL '8 days'
+                  AND (qnadel IS NULL OR qnadel = 'N')]]>
             </select>
 
             <!-- 배송문의 -->
             <select id="getDeliveryLength" resultType="int" >
                 SELECT COUNT(*) AS qna_count FROM qnaDeliv
-                WHERE "qnaDate" &gt;= SYSDATE - 8 AND "qnaDel" === NULL || "qnaDel" === "N"
+             <![CDATA[     WHERE qnaDate >= NOW() - INTERVAL '8 days'
+                  AND (qnadel IS NULL OR qnadel = 'N')]]>
             </select>
 
             <!-- 신규 등록 도서 -->
             <!-- 국내도서 -->
             <select id="countNewDomesticBooks" resultType="int">
-                SELECT COUNT(*)FROM book
-                WHERE "bookCateNm" LIKE '%국내도서%'
-                  AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
-                  AND "delStatus" = 'N'
+                SELECT COUNT(*)
+                FROM book
+           <![CDATA[       WHERE bookcatenm LIKE '%국내도서%'
+                  AND TO_DATE(publishdate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND delstatus = 'N']]>
             </select>
 
             <select id="getNewDomesticBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
-                WITH filterData AS (
-                SELECT ROWNUM as rnum, a.*
-                FROM (
-                    SELECT * FROM book
-                    WHERE "bookCateNm" LIKE '%국내도서%' AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
-                      AND "delStatus" = 'N'
-                    ORDER BY "bookId" ASC
-                    ) a
-                )
                 SELECT *
-                from filterData
-                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+                FROM book
+             <![CDATA[     WHERE bookCateNm LIKE '%국내도서%'
+                  AND TO_DATE(publishDate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND delStatus = 'N'
+                ORDER BY bookId ASC
+                    LIMIT #{pagination.pageSize}
+                OFFSET #{pagination.offset}]]>
             </select>
 
             <!-- 국외도서 -->
             <select id="countNewForeignBooks" resultType="int">
-                SELECT COUNT(*)FROM book
-                WHERE "bookCateNm" LIKE '%국외도서%'
-                  AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
-                  AND "delStatus" = 'N'
+                SELECT COUNT(*)
+                FROM book
+             <![CDATA[     WHERE bookCateNm LIKE '%국외도서%'
+                  AND TO_DATE(publishDate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND delStatus = 'N']]>
             </select>
             
             <select id="getNewForeignBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
-                WITH filterData AS (
-                SELECT ROWNUM as rnum, a.*
-                FROM (
-                    SELECT * FROM book
-                    WHERE "bookCateNm" LIKE '%국외도서%'
-                      AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
-                      AND "delStatus" = 'N'
-                    ORDER BY "bookId" ASC
-                    ) a
-                )
                 SELECT *
-                from filterData
-                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+                FROM book
+             <![CDATA[     WHERE bookCateNm LIKE '%국외도서%'
+                  AND TO_DATE(publishDate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND delStatus = 'N'
+                ORDER BY bookId ASC
+                    LIMIT #{pagination.pageSize}
+                    OFFSET #{pagination.offset}]]>
             </select>
             
             <!-- E-Book -->
             <select id="countNewEBooks" resultType="int">
-                SELECT COUNT(*)FROM book
-                WHERE "bookCateNm" LIKE '%EBOOK%'
-                  AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
-                  AND "delStatus" = 'N'
+                SELECT COUNT(*)
+                FROM book
+               <![CDATA[   WHERE bookCateNm LIKE '%EBOOK%'
+                  AND TO_DATE(publishDate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND delStatus = 'N']]>
             </select>
 
             <select id="getNewEBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
-                WITH filterData AS (
-                SELECT ROWNUM as rnum, a.*
-                FROM (
-                    SELECT * FROM book
-                    WHERE "bookCateNm" LIKE '%EBOOK%'
-                      AND TRUNC(TO_DATE("publishDate", 'YYYY.MM.DD'))  &gt;= SYSDATE - 8
-                      AND "delStatus" = 'N'
-                    ORDER BY "bookId" ASC
-                    ) a
-                )
                 SELECT *
-                from filterData
-                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+                FROM book
+             <![CDATA[    WHERE bookCateNm LIKE '%EBOOK%'
+                  AND TO_DATE(publishDate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND delStatus = 'N'
+                ORDER BY bookId ASC
+                    LIMIT #{pagination.pageSize}
+                    OFFSET #{pagination.offset}]]>
             </select>
 
             <!-- 재고 부족 도서 -->
             <!-- 국내도서 -->
             <select id="countStockDomesticBooks" resultType="int">
-                    SELECT COUNT(*)
-                    FROM book
-                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국내도서%'
-                    AND "delStatus" = 'N'
+                SELECT COUNT(*)
+                FROM book
+             <![CDATA[   WHERE stock <= 10
+                AND bookCateNm LIKE '%국내도서%'
+                AND delStatus = 'N']]>
             </select>
 
             <select id="getStockDomesticBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
-                WITH filterData AS (
-                SELECT ROWNUM as rnum, a.*
-                FROM (
-                    SELECT * FROM book
-                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국내도서%'
-                      AND "delStatus" = 'N'
-                    ORDER BY "bookId" ASC
-                    ) a
-                )
                 SELECT *
-                from filterData
-                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+                FROM book
+              <![CDATA[  WHERE stock <= 10
+                AND bookCateNm LIKE '%국내도서%'
+                AND delStatus = 'N'
+                ORDER BY bookId ASC
+                LIMIT #{pagination.pageSize}
+                OFFSET #{pagination.offset}]]>
             </select>
 
             <!-- 국외도서 -->
             <select id="countStockForeignBooks" resultType="int">
                     SELECT COUNT(*)
                     FROM book
-                    WHERE "stock" &lt;= 10 AND "bookCateNm" LIKE '%국외도서%'
-                      AND "delStatus" = 'N'
+                   <![CDATA[   WHERE stock <= 10 AND bookCateNm LIKE '%국외도서%'
+                      AND delStatus = 'N']]>
             </select>
 
             <select id="getStockForeignBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
-                WITH filterData AS (
-                SELECT ROWNUM as rnum, a.*
-                FROM (
-                    SELECT * FROM book
-                    WHERE "stock" &lt;= 10
-                      AND "bookCateNm" LIKE '%국외도서%'
-                      AND "delStatus" = 'N'
-                    ORDER BY "bookId" ASC
-                    ) a
-                )
                 SELECT *
-                from filterData
-                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+                FROM book
+              <![CDATA[  WHERE stock <= 10
+                AND bookCateNm LIKE '%국외도서%'
+                AND delStatus = 'N'
+                ORDER BY bookId ASC
+                LIMIT #{pagination.pageSize}
+                OFFSET #{pagination.offset}]]>
             </select>
 
             <!-- E-Book -->
             <select id="countStockEBooks" resultType="int">
                     SELECT COUNT(*)
                     FROM book
-                    WHERE "stock" &lt;= 10
-                      AND "bookCateNm" LIKE '%EBOOK%'
-                      AND "delStatus" = 'N'
+                   <![CDATA[   WHERE stock <= 10
+                      AND bookCateNm LIKE '%EBOOK%'
+                      AND delStatus = 'N']]>
             </select>
 
             <select id="getStockEBooks" resultType="BookVO" parameterType="com.example.team01.utils.Pagination">
-                WITH filterData AS (
-                SELECT ROWNUM as rnum, a.*
-                FROM (
-                    SELECT * FROM book
-                    WHERE "stock" &lt;= 10
-                      AND "bookCateNm" LIKE '%EBOOK%'
-                      AND "delStatus" = 'N'
-                    ORDER BY "bookId" ASC
-                    ) a
-                )
                 SELECT *
-                from filterData
-                WHERE rnum BETWEEN #{pagination.startRow} AND #{pagination.endRow}
+                FROM book
+                <![CDATA[   WHERE stock <= 10
+                AND bookCateNm LIKE '%국외도서%'
+                AND delStatus = 'N'
+                ORDER BY bookId ASC
+                    LIMIT #{pagination.pageSize}
+                OFFSET #{pagination.offset}]]>
             </select>
-
 
 
             <!-- 방문자, 페이지뷰 카운트 가져오기 날짜 기준 ?일전 데이터 까지 가져오기-->
             <select id="selectVisitPageViewCount" resultType="com.example.team01.dto.admin.ChartDataDTO">
                 SELECT
-                    TO_CHAR(TRUNC("visitTime"), 'YYYY-MM-DD') AS visitTime,
-                    COUNT(DISTINCT "sessionId" || '-' || "ipAddress") AS visitCount,
-                    COUNT("visitTime") AS pageViewCount
+                    TO_CHAR(DATE_TRUNC('day', visitTime), 'YYYY-MM-DD') AS visitTime,
+                    COUNT(DISTINCT (sessionId || '-' || ipAddress)) AS visitCount,
+                    COUNT(visitTime) AS pageViewCount
                 FROM
-                    visitLogs
-                WHERE
-                    "visitTime" &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD') AND "visitTime" &lt;TO_DATE(#{endDate}, 'YYYY-MM-DD')
+                visitLogs
+                <![CDATA[   WHERE
+                    visitTime >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+                    AND visitTime < TO_DATE(#{endDate}, 'YYYY-MM-DD')
                 GROUP BY
-                    TO_CHAR(TRUNC("visitTime"), 'YYYY-MM-DD')
-                ORDER BY
-                    visitTime ASC
+                    TO_CHAR(DATE_TRUNC('day', visitTime), 'YYYY-MM-DD')
+                ORDER BY visitTime ASC]]>
             </select>
         </mapper>

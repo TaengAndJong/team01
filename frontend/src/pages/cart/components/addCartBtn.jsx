@@ -1,17 +1,23 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {useModal} from "../../common/modal/ModalContext.jsx";
+import {catchError} from "../../../util/error.jsx";
+import {useNavigate} from "react-router-dom";
+
+
 
 const AddCartBtn = ({ bookId, bookCount }) => {
     // bookCount props 이름 다름
     // 비동기 요청에 보낼 데이터 객체
     const [toCart, setToCart] = useState({});
-
+    //전역모달 사용
+    const {openModal,closeModal}=useModal();
+    //네입게이트 리액트훅
+    const navigate= useNavigate();
 
     //장밥구니 컨트롤러로 전송할 fetch 함수
     const sendCartFetch= async(bookId,quantity)=>{
-        //  console.log("addCartBtn-------data",data);
-        //console.log("bookId---------sendCartFetch",bookId);
-       // console.log("quantity-----------sendCartFetch",quantity);
+
         try{
             const response = await axios.post("/api/cart",
                 {bookId:bookId,quantity:quantity} // 서버로 보내는 데이터
@@ -22,14 +28,15 @@ const AddCartBtn = ({ bookId, bookCount }) => {
         }catch(err){
             if (err.response) {
                 // 서버가 응답은 했지만 상태코드가 400, 401, 403, 500 등
-                console.error("서버 상태 코드:", err.response.status);
-                console.error("서버 메시지---:", err.response.data.message);
-            } else if (err.request) {
-                // 요청은 했는데 서버가 응답이 없음
-               console.error("서버 응답 없음:", err.request);
-            } else {
-                // 기타 에러
-                console.error("요청 설정 에러:", err.message);
+                openModal({
+                    modalType:"error",
+                    content:<><p><span>`${err.response.status}`</span>${err.response.data.message}</p></>
+                });
+                catchError(err, { openModal, closeModal, navigate });
+
+            }  else {
+               //서버에러  처리 핸들러
+                catchError(err, { openModal, closeModal, navigate });
             }
         }
     }
@@ -50,9 +57,6 @@ const AddCartBtn = ({ bookId, bookCount }) => {
     //toCart 데이터 변경 감지 시 비동기요청
     useEffect(() => {
 
-        // console.log("toCart useEffect out ",toCart);
-        // console.log("toCart toCart.bookId",toCart.bookId);
-        // console.log("toCart toCart.quantity",toCart.quantity);
         // 변경된 데이터가 아래 조건과 같으면 비동기요청 실행
         if( toCart.bookId != null && toCart.quantity >  0 ){
 

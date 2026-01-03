@@ -16,36 +16,37 @@
     
     <select id="selectAddress" parameterType="String" resultMap="addressMap">
         select
-            a."addrId"
-             , c."clientId"
-             , a."addrType"
-             , a."addr"
-             , a."zoneCode"
-             , a."detailAddr"
-        from Address a join CLIENT c on  a."clientId" = c."clientId"
-        where c."clientId" =  #{clientId}
+            a.addrId
+            , c.clientId
+            , a.addrType
+            , a.addr
+            , a.zoneCode
+            , a.detailAddr
+        from Address a join CLIENT c on  a.clientId = c.clientId
+        where c.clientId =  #{clientId}
     </select>
 
     <insert id="insertAddress" parameterType="AddressVO">
         <selectKey keyProperty="addrId" resultType="String" order="BEFORE">
-            SELECT ADDRID_SQE.NEXTVAL FROM DUAL
+            SELECT nextval('ADDRID_SQE')
         </selectKey>
 
         insert into
             Address (
-                    "addrId"
-                    ,"clientId"
-                    ,"addrType"
-                    ,"addr"
-                    ,"zoneCode"
-                    ,"detailAddr")
+                    addrId
+                    ,clientId
+                    ,addrType
+                    ,addr
+                    ,zoneCode
+                    ,detailAddr
+        )
         values (
                     #{addrId}
                     ,#{client.clientId}
-                   ,#{addrType}
-                   ,#{addr}
-                   ,#{zoneCode}
-                   ,#{detailAddr}
+                    ,#{addrType}
+                    ,#{addr}
+                    ,#{zoneCode}
+                    ,#{detailAddr}
                )
     </insert>
     
@@ -53,82 +54,82 @@
         UPDATE Address
         <set>
             <if test="addrType != null and addrType != ''">
-                "addrType" = #{addrType},
+                addrType = #{addrType},
             </if>
             <if test="addr != null and addr != ''">
-                "addr" = #{addr},
+                addr = #{addr},
             </if>
             <if test="zoneCode != null and zoneCode != ''">
-                "zoneCode" = #{zoneCode},
+                zoneCode = #{zoneCode},
             </if>
             <if test="detailAddr != null and detailAddr != ''">
-                "detailAddr" = #{detailAddr},
+                detailAddr = #{detailAddr},
             </if>
         </set>
-        where "addrId"=#{addrId}
+        where addrId=#{addrId}
     </update>
 
-    <delete id="deleteAddress" parameterType="String">
+    <delete id="deleteAddress">
       delete from Address
-      where "addrId"=#{addrId}
-        and "clientId"=#{clientId}
+      where addrId=#{addrId}
+        and clientId=#{clientId}
     </delete>
 
     <select id="selectCartAddress" parameterType="String" resultMap="addressMap">
-        select a."addrId"
-             ,a."addr"
-             ,a."addrType"
-             ,a."detailAddr"
-             ,a."zoneCode"
-             ,c."clientId"
-             ,c."clientName"
-             ,c."email"
-             ,c."tel"
+        select a.addrId
+             ,a.addr
+             ,a.addrType
+             ,a.detailAddr
+             ,a.zoneCode
+             ,c.clientId
+             ,c.clientName
+             ,c.email
+             ,c.tel
         from address a join client c
-        on ( a."clientId" = c."clientId")
-        where a."clientId" = #{clientId}
-        order by a."addrId"
+                            on ( a.clientId = c.clientId)
+        where a.clientId = #{clientId}
+        order by a.addrId
     </select>
 
     <update id="updateCartAddress" parameterType="String">
         UPDATE client
-        SET "selecedAddrId" = #{addrId}
-        WHERE "clientId" = #{clientId}
+        SET selectedaddrId = #{addrId}
+        WHERE clientId = #{clientId}
     </update>
 
     <select id="selectChangeAddress" parameterType="String" resultMap="addressMap">
         with cl as (select
-                        "clientId"
-                         ,"clientName"
-                         ,"selecedAddrId"
+                        clientId
+                         ,clientName
+                         ,selectedaddrId
                     from client
-                    where "clientId" = #{clientId})
+                    where clientId = #{clientId})
 
         select
             cl.*,
             a.*
-        from cl join address a on ( cl."selecedAddrId" = a."addrId")
-        where cl."selecedAddrId" = #{addrId}
+        from cl join address a on ( cl.selectedaddrId = a.addrId)
+        where cl.selectedaddrId = #{addrId}
     </select>
 
     <!--  client 테이블과 address 테이블 조인해서 selectedId 조회해오기 -->
     <select id="selectOneAddress"  parameterType="String" resultMap="addressMap">
         select
-            c."clientName",
-            c."roleId",
-            c."staffId",
-            c."clientId",
-            a."addrId",
-            a."addrType",
-            a."addr",
-            a."detailAddr",
-            a."zoneCode"
+            c.clientName,
+            c.roleId,
+            c.staffId,
+            c.clientId,
+            a.addrId,
+            a.addrType,
+            a.addr,
+            a.detailAddr,
+            a.zoneCode
         from
             (select
                  *
              from client
-             where "clientId"=#{clientId}) c
-                join address a on (c."selecedAddrId" = a."addrId")
+             where clientId=#{clientId}) c
+                join address a on (c.selectedaddrId = a.addrId)
     </select>
 
 </mapper>

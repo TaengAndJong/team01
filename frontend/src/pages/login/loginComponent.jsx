@@ -75,7 +75,7 @@ function Login({data}) {
                     handleLoginSuccess(data); // 로그인 성공 처리
                 } else if (data.status === "error") {
                     handleLoginFailure(); // 로그인 실패 처리
-                    setLoginError(data.message);//에러 메시지 갱신
+                    setLoginError("로그인 불가",data.status);//에러 메시지 갱신
                 } else {
                     console.error("알 수 없는 상태:", data.status);
                     handleLoginFailure(); // 로그인 실패 처리

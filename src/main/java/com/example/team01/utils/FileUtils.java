@@ -1,24 +1,16 @@
 package com.example.team01.utils;
-import com.example.team01.common.support.BookImgChange;
-import com.example.team01.vo.AdminBookVO;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value; // 롬복 사용하면 안됨, inMemory에서 가져오려면 이 패키지 사용해야 함
 
 import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.example.team01.utils.severUrlUtil.baseImageUrl;
 
 
 /*
@@ -47,45 +39,45 @@ public class FileUtils {
     // inMemory 설정에서 업로드 디렉토리 값 주입
     @Value("${file.upload-dir}")
     private  String uploadDir;
-    @Value("${file.noImg-dir}")
-    private  String noImgDir;
+    @Value("${file.images-dir}")
+    private  String imagesDir;
     
  // MultipartFile 파라미터 받아서 파일 저장 메서드
-    public String saveSingleMultiPartFile(MultipartFile file, String middlePath) throws FileNotFoundException {
+    public String saveSingleMultiPartFile(MultipartFile file, String middlePath){
         return saveFile(List.of(file), middlePath);
     }
 
     // 여러 파일 저장 메서드
 //날데이터 받아서 문자열로 경로반환 저장메서드
     public String saveFile(List<MultipartFile> files,String middlePath) {
-        log.info("saveFile 파일 저장 시작 파일 객체:{}", files);
+      //  log.info("saveFile 파일 저장 시작 파일 객체:{}", files);
         String bookImgPath=""; //반환할 데이터베이스 텍스트경로
 
         if(!files.isEmpty()) {
-            log.info("들어오는 파일 객체:{}",bookImgPath);
+          //  log.info("들어오는 파일 객체:{}",bookImgPath);
             for (MultipartFile file : files) {
                 String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename(); //랜덤 파일 명칭(중복방지)
-                log.info("새로 생성된 파일이름:{}", fileName);
+              //  log.info("새로 생성된 파일이름:{}", fileName);
 
                 //2. 데이터베이스에 2개 이상의 파일경로 문자열로 변환과정
                 if(!bookImgPath.equals("")) { // 북이미지 텍스트 배열로 받고 구분하기 위한 조건 ( 텍스트 파일 경로가 존재하면, 기존 경로 + 파일명)
                     bookImgPath= bookImgPath +","+fileName;//랜덤 파일명칭 텍스트로 생성
-                    log.info("2개 이상일 경우 :{}", bookImgPath);
+                  //  log.info("2개 이상일 경우 :{}", bookImgPath);
                 }else{
                     bookImgPath = fileName;
-                    log.info("1개일 경우 :{}", bookImgPath);
+                  //  log.info("1개일 경우 :{}", bookImgPath);
                 }
 
                 //실제파일을 프로젝트 내부에(서버) 저장
                 //여기에서 실제 경로에 파일저장
                 String saveFilePath = uploadDir + File.separator + middlePath + File.separator + fileName;//운영체제에 맞게 파일 경로 생성하기 위한 코드
                 Path path = Paths.get(saveFilePath); //파라미터에 해당하는 파일 경로를 가져오는 Path 변수로, 해당 파일을 저장할 파일명을 포함한 경로를 의미
-                log.info("path-------------------:{}", path);
+
                 try {
                     //upload 디렉토리가 없는 경우 noSuchFileExcption 방지
                     Files.createDirectories(path.getParent()); // 디렉터리(폴더) 없으면 생성
                     Files.write(path, file.getBytes()); // 파일 저장
-                    log.info("파일 저장 완료: {}", saveFilePath);
+
                 } catch (IOException e) {
                     log.error("파일 저장 실패: {}", e.getMessage());
                 }
@@ -94,15 +86,14 @@ public class FileUtils {
 
             }
             // List<String> bookImgPath를 하나의 문자열로 변환
-            log.info("데이터베이스에 저장할 문자열 bookImgpath:{}", bookImgPath); // 리스트 객체
             // 객체를 또 순회해서 문자열로 만들어야함 ?????
         }else{
-            log.info("파일 객체가 널인데 ");
+          //  log.info("파일 객체가 널인데 ");
             //저장은 필요 없고, 서버의 resource 하위 경로에 저장되어있는 이미지파일리소스만 가져와서 bookImgPath에 넣어주기
             bookImgPath = this.getDefaultImgPath();
-            log.info("noImg booImgPath================:{}",bookImgPath);
+          //  log.info("noImg booImgPath================:{}",bookImgPath);
         }
-        log.info("최종 이미지 패스 : {}",bookImgPath);
+
         return bookImgPath; // 여기에서 bookImaPath 반환하여 초기값 갱신
     }
     //method end
@@ -110,24 +101,26 @@ public class FileUtils {
     // 이미지가 없는 경우 사용할 메소드 , IOException > FileNotFoundException
     public String getDefaultImgPath(){
         String noImgPath="";
-        // 파일 객체가 없으면,src/main/resources/static/images에서 noImg.png(jpg) 가져오기
-        log.info(" noImgDir-------------------------- : {}",noImgDir);
+
+        // 파일 객체가 없으면, frontend/dist/assets/images/common/noImg.png(jpg) 가져오기
         // png,jpg 파일의 확장자 구분 및 실제 존재여부 확인 ==> 파일객체로 실제 파일을 스캔하여 확인
-        File folder = new File(noImgDir);
+        log.info("imagesDir 노이미지 루트경로 :{} ",imagesDir);
+        File folder = new File(imagesDir); // 팡,
+        log.info("folder -- 노이미지 프론트 빌드 경로:{} ",folder);
         File[] Files = folder.listFiles();
-        log.info("foler------------:{} , fileList--------- :{}", folder, Files);
+      //  log.info("foler------------:{} , fileList--------- :{}", folder, Files);
 
         if(Files != null) {
-        log.info("파일 객체 존재할 경우---");
+//log.info("파일 객체 존재할 경우---");
             for (File file : Files) {
                 String name = file.getName().toLowerCase();
-                log.info("파일 이름과 확장자 전부 소무자로 대체:{} ",name);
+            //    log.info("파일 이름과 확장자 전부 소무자로 대체:{} ",name);
                 if(name.equals("noimg.png") || name.equals("noimg.jpg")) {
                    // 서버에서 클라이언트로 이미지를 리소스를 보낼때 상대경로를 사용해야 함
                     //절대경로는 파일 시스템경로를 반환하기때문에 클라이언에서 사용불가
                    // noImgPath ="images/" + name;
                     noImgPath = name;
-                    log.info("noImgPath--------------:{} ",noImgPath);
+                //    log.info("noImgPath--------------:{} ",noImgPath);
                     return noImgPath; // 경로 리턴
                 }
 
@@ -138,123 +131,39 @@ public class FileUtils {
     }
     // file.getAbsolutePath 반환하면 자동으로 noImgPath에 대입 되는가?
 
-    //BookImgList 레코드 값의 배열 조회를 통한 서버주소 추가 후 배열 갱신, 제네릭타입 선언<<<
-    // VO객체와 request 파라미터를 넘겨줘야함!
-    public <T extends BookImgChange> T changeImgPath(T vo, HttpServletRequest request){
-
-        List<String> bookImgList = vo.getBookImgList();
-        //vo.getBookImgList() 가 null 일 경우와 아닌 경우 분리하기
-
-        log.info("bookImgList--------------:{}",bookImgList);
-        log.info("bookImgList--------------:{}",baseImageUrl(request,"uploads/book"));
-
-        // 1. bookImgList가 비었을 경우, bookImgPath로부터 리스트 생성
-        if (bookImgList == null || bookImgList.isEmpty()) {
-            bookImgList =  Arrays.stream(Optional.ofNullable(vo.getBookImgPath()).orElse("").split(","))
-                    .map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
-            log.info("bookImgList 비어있을 경우 재구성됨: {}", bookImgList);
-        }
-
-        // 2. 공통 URL 생성 처리
-        List<String> imgUrlList = bookImgList.stream()
-                .map(fileName -> {
-
-                    // 빈값 체크 , noimg로 설정
-                    if (fileName == null || fileName.isBlank()) {
-                        return baseImageUrl(request, "images") + "noImg.png";
-                    }
-
-                    // 1) 외부 파일시스템 체크 (외부경로 : 절대경로기준 , fileSystemResource )
-                    Path fsPath = Paths.get(uploadDir, "book", fileName);
-                    if (Files.exists(fsPath)) { // 실제 운영서버에 파일이 존재한다면
-                        return baseImageUrl(request, "uploads/book") + fileName;
-                    }
-                    // 2) 클래스패스 static에서 체크 (개발환경 : 빌드된 클래스 패스 내부에서 찾기 ,
-                    // 클래스패스 기준경로 src/main/resources 이하(jar 내부) ClassPathResource)
-                    Resource res = new ClassPathResource("static/uploads/book/" + fileName);
-                    if (res.exists()) { // 클래스 패스 기준 해당경로에 파일이 존재한다면
-                        return baseImageUrl(request, "uploads/book") + fileName;
-                    }
-                    // 둘 다 아니면
-                    return baseImageUrl(request, "images") + "noImg.png";
-                })
-                .collect(Collectors.toList());
-    
-        // bookImgList을 변경된 내용으로 재설정
-        vo.setBookImgList(imgUrlList);
-        log.info("서버주소와 결합한 이미지 URL 최종 변환 완료----------------: {}", vo);
-        return vo;
-    }
-
-
-    // DTO를 사용했을 경우 컨트롤러에서 이미지 주소변경 메서드로 해당 DTO에 BookImgChange를 상속해야함
-    public <T extends BookImgChange> T changeImgPathDto(T dto, HttpServletRequest request){
-
-        List<String> bookImgList = dto.getBookImgList();
-        //vo.getBookImgList() 가 null 일 경우와 아닌 경우 분리하기
-
-        log.info("bookImgList--------------:{}",bookImgList);
-        log.info("bookImgList--------------:{}",baseImageUrl(request,"uploads/book"));
-
-
-        // 1. bookImgList가 비었을 경우, bookImgPath로부터 리스트 생성
-        if (bookImgList == null || bookImgList.isEmpty()) {
-            bookImgList =  Arrays.stream(Optional.ofNullable(dto.getBookImgPath()).orElse("").split(","))
-                    .map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
-            log.info("bookImgList 비어있을 경우 재구성됨: {}", bookImgList);
-        }
-
-        // 2. 공통 URL 생성 처리
-        List<String> imgUrlList = bookImgList.stream()
-                .map(fileName -> {
-
-                    // 빈값 체크 , noimg로 설정
-                    if (fileName == null || fileName.isBlank()) {
-                        return baseImageUrl(request, "images") + "noImg.png";
-                    }
-
-                    // 1) 외부 파일시스템 체크 (외부경로 : 절대경로기준 , fileSystemResource )
-                    Path fsPath = Paths.get(uploadDir, "book", fileName);
-                    if (Files.exists(fsPath)) { // 실제 운영서버에 파일이 존재한다면
-                        return baseImageUrl(request, "uploads/book") + fileName;
-                    }
-                    // 2) 클래스패스 static에서 체크 (개발환경 : 빌드된 클래스 패스 내부에서 찾기 ,
-                    // 클래스패스 기준경로 src/main/resources 이하(jar 내부) ClassPathResource)
-                    Resource res = new ClassPathResource("static/uploads/book/" + fileName);
-                    if (res.exists()) { // 클래스 패스 기준 해당경로에 파일이 존재한다면
-                        return baseImageUrl(request, "uploads/book") + fileName;
-                    }
-                    // 둘 다 아니면
-                    return baseImageUrl(request, "images") + "noImg.png";
-                })
-                .collect(Collectors.toList());
-
-        // bookImgList을 변경된 내용으로 재설정
-
-        dto.setBookImgList(imgUrlList);
-        log.info(" dto 서버주소와 결합한 이미지 URL 최종 변환 완료----------------: {}", dto);
-        return dto;
-    }
-
 
     //실서버에 저장된 이미지파일 삭제( + 데이터베이스 bookImgPath 에서도 해당 파일 삭제(갱신) 해줘야 데이터 정합성이 유지됨)
     public String deleteFiles(String fileNames,String middlePath) { 
-        log.info("fileNames----------del:{}",fileNames);
 
+        log.info("fileNames------deleteFiles :{} ",fileNames);
+        log.info("fileNames------middlePath :{} ",middlePath);
         // 삭제할 파일 레코드 아이디 받아오기 ==> List<String> fileNames
         String deleteFilePath = uploadDir + File.separator + middlePath + File.separator;//운영체제에 맞게 파일 경로 생성하기 위한 코드
         //File 클래스를 사용하는 이유는, 파일시스템에서 해당경로의 파일을 조작하기 위해서 파일 객체를 사용
-        Arrays.stream(fileNames.split(","))
-                .map(fileName -> new File(deleteFilePath + fileName))
-                .forEach(file -> {
-                    if (file.exists()) {
-                        boolean deleted = file.delete();
-                        log.info("삭제성공여부:{}",deleted);
-                        log.info("삭제성공여부:{}",file.getPath());
-                        // 삭제한 파일을 제외한 값을 반환해줘야함
-                    } else {
-                        log.info("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
-                    }
+
+        //삭제할 파일 필터 순서 1) 문자열 필터 2) noimg 필터
+        Arrays.stream(fileNames.split(",")) // 문자열 파일객체를 ','를 기준으로 String [] 배열로 반환 후 stream으로 펼침
+                .map(String::trim)//문자열 공백 삭제
+                .filter(fileName ->
+                        fileName != null && // fileName null 이 아님
+                        !fileName.isBlank() && //"", " " 같은 값 제거
+                        !fileName.toLowerCase().contains("noimg") // 대소문자 구분없이 noimg 삭제 대상에서 제외
+                )
+                .map(fileName -> new File(deleteFilePath + fileName))// 삭제할 실제 파일시스템 객체 경로
+                .forEach(file -> { // 해당 파일이 존재하면 
+                   try{
+                       if (file.exists()) {
+                           boolean deleted = file.delete();
+                           log.info("삭제성공여부:{}",deleted);
+                           log.info("삭제성공여부:{}",file.getPath());
+                           // 삭제한 파일을 제외한 값을 반환해줘야함
+                       } else {
+                           //존재하지 않으면
+                           log.warn("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
+                       }
+                   }catch (Exception e){
+                       log.warn("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
+                   }
                 });
 
        return "서버에 저장된 이미지파일 삭제완료 ";

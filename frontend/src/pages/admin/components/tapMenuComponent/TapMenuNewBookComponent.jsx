@@ -193,11 +193,11 @@ const TapMenuNewBookComponent = () => {
       </div>
       <Link
         to="/admin/book/bookList"
-        className="gobooklist"
+        className="btn more"
         type={"button"}
-        title={"신규도서 더보기"}
+        title={"신규등록도서 더보기 버튼"}
       >
-        <strong className="p-2">+</strong>
+        <span className="icon more"></span>
       </Link>
 
       {/*pagination*/}

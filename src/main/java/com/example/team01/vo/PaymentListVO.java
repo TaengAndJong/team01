@@ -16,8 +16,8 @@ public class PaymentListVO implements Serializable {
 
     //펼친상태(flat한 상태로 구현하는게 나음
 
-    public String payId; // payment와 조인할 fk
-    public String bookId; // book과 조인할 fk
+    public Long payId; // payment와 조인할 fk
+    public Long bookId; // book과 조인할 fk
     public int quantity; //기본값 0으로 디비에 설정 되어있음
     private String bookCateNm;
     private String bookCateDepth;
@@ -48,5 +48,10 @@ public class PaymentListVO implements Serializable {
     private int cancelPayAccount;
     private int resultPayAccount;
 
-
+    //string으로 들어오는 bookId 를 Long 타입으로 변환
+    public void setBookId(String bookId) {
+        this.bookId = (bookId != null && !bookId.isEmpty())
+                ? Long.parseLong(bookId)
+                : null;
+    }
 }

@@ -2,6 +2,7 @@ package com.example.team01.admin;
 
 import com.example.team01.admin.service.QnaProductService;
 import com.example.team01.comments.service.CommentsService;
+import com.example.team01.security.PrincipalDetails;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.CommentsVO;
 import com.example.team01.vo.QnaProductVO;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -27,12 +29,19 @@ public class QnaProductController {
     public ResponseEntity<?> getQnaProductList(
         @RequestParam(defaultValue = "1") int currentPage,
         @RequestParam(defaultValue = "5") int pageSize,
-        @RequestParam String userId,
+//        @RequestParam String userId,
         @RequestParam(required = false) String searchType,
         @RequestParam(required = false) String keyword,
+        @AuthenticationPrincipal PrincipalDetails principalDetails,
         HttpServletRequest request
     ) {
-        log.info("currentPage, pageSize userId searchType keyword {},{},{} ,{}, {}",currentPage,pageSize,userId,searchType,keyword);
+        log.info("currentPage, pageSize userId searchType keyword {},{},{} ,{}, {}",currentPage,pageSize,searchType,keyword);
+
+        // 로그인 정보 가져오기
+        String userId = principalDetails.getUsername();
+        log.info("userId----------- getQnaProductList",userId);
+
+
         List<QnaProductVO> qnaProductList = null; // 게시물 데이터 저장 할 변수 생성
         Pagination pagination = new Pagination(currentPage, pageSize); // 페이지네이션 객체 미리 세팅하기
 

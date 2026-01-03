@@ -8,12 +8,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import {Link} from "react-router-dom";
-
+import ImgBaseUrl from "@/util/imgBaseUrl";
 
 const MainBookSlide = ({slideData,naviId,activeTab}) =>{
 
-    console.log("slideData --------mainbookS",slideData);
-    console.log("slideData --------naviId",naviId);
+
     //서드파트 인스턴스 직접 제어
     const swiperRef = useRef(null);
     // 보여주는 슬라이드 개수
@@ -23,7 +22,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
 
     //정지,재생 컨트롤 메서드
     const playAndPause=()=>{
-        console.log("pause----- 슬라이드 정지");
+
         if (!swiperRef.current) return; // 현재 슬라이드가 아니면 코드 종료
 
         if(swiperRef.current.autoplay.running){ // 자동재생중이면 == true
@@ -35,19 +34,20 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
         }
         //상태값을 재생상태관리 변수에 반영;
         setPlay((prev) => !prev);
-        //이전값을 기반으로 초기값 변경해야 안전
+        // 이전값을 기반으로 초기값 변경해야 안전
         // 재생이면 !ture == false , 정지이면 !false == true // 로 상태관리 재설정
     }
 
     const customPagination = {
         clickable: true,
         renderBullet: function (index, className) {
-            return '<span class="' + className + '">' +'<i class="sr-only">'+ (naviId)+'의'+ (index + 1) + '번째 슬라이드</i></span>';
+            return '<span className="' + className + '">' +'<i className="sr-only">'+ (naviId)+'의'+ (index + 1) + '번째 슬라이드</i></span>';
         },
     }
 
     //탭이 변경될 때마다 실행
     useEffect(() => {
+        
         if (swiperRef.current) {
             swiperRef.current.slideTo(0); // 슬라이드를 첫번째로 이동
             swiperRef.current.autoplay.start(); // 자동 시작
@@ -87,9 +87,9 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                     nextEl: `.custom-next-${naviId}`,
                     prevEl: `.custom-prev-${naviId}`
                 }}
-                observer={true}
+                observer={true} // observer, observeParents 옵션은 Swiper가 내부 DOM 변경을 감지해서 자동으로 다시 초기화하는 기능을 담당
                 observeParents={true}
-                onSlideChange={() => console.log('mainbookSlide')}
+                // onSlideChange={() => console.log('mainbookSlide')}
             >
                 {slideData?.length >0 ? (
                     slideData?.map((item) => (
@@ -97,7 +97,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                             <Link to={item.detailUrl} className={"book-link"} title={`${item.bookName}도서 상세페이지 바로가기`}>
                                 <div className="img-box">
                                     <div className="img-inner">
-                                        <img className="img" src={item.bookImgList?.[0]} alt={item.bookName} />
+                                        <img className="img" src={ImgBaseUrl(item.bookImgList?.[0])} alt={item.bookName} />
                                     </div>
                                 </div>
                                 <div className="txt-box">
@@ -123,7 +123,14 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
             {slideData?.length > ctrlViewCount && (
                 <div className="button-group">
                     {/*이전*/}
-                    <button type="button" className={`swiper-button bordered custom-prev custom-prev-${naviId}`}>
+                    <button type="button" className={`swiper-button bordered custom-prev custom-prev-${naviId}`}
+                            onClick={() => {
+                               // console.log(`custom-prev-${naviId} 이전 버튼 클릭됨`)
+                                //직접 슬라이드 이전 이동 함수 호출 : swiper가 버튼을 감지하지 못했을 경우 보완책으로, 슬라이드를 직접  찾아구동
+                                if (swiperRef.current) {
+                                    swiperRef.current.slidePrev(); //현재슬라이드의 이전슬라이드로 이동
+                                }
+                            }}>
                         <span className="sr-only">이전슬라이드</span>
                     </button>
                     {/*재생 & 정지 */}
@@ -135,7 +142,14 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                         <span className="sr-only"> {play ? '정지' : '재생'}</span>
                     </button>
                     {/*다음*/}
-                    <button type="button" className={`swiper-button bordered custom-next custom-next-${naviId}`}>
+                    <button type="button" className={`swiper-button bordered custom-next custom-next-${naviId}`}
+                            onClick={() => {
+                                console.log(`custom-next-${naviId} 다음 버튼 클릭됨`);
+                                if (swiperRef.current) {
+                                    swiperRef.current.slideNext();
+                                }
+                            }}
+                    >
                         <span className="sr-only">다음슬라이드</span>
                     </button>
                 </div>

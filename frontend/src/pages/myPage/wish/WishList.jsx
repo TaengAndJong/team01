@@ -24,8 +24,6 @@ const WishList = () => {
     }, [wishdata]);
 
 
-
-
     //검색어 필터 상태관리 ==> 초기값 빈 배열!
     const [search,setSearch] = useState({
         bookType: 'ALL',

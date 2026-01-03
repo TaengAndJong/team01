@@ -94,16 +94,16 @@ const AddressComponent = () =>{
         console.log("deliveryData onDelete",addrId);
         dispatch({
             type:"DELETE",
-            data:addrId,
+            data: { addrId }, // reducer 함수를 실행하려면 객체형태로 만들어야함. ==> data: { addrId: addrId }로 인식
+            // data : addrId ==> action.data 의 값으로 바로 인식
+            // 때문에 reducer의 action.data.addrId 를 실행하려면 객체형식을 유지해야 화면 갱신이 됨
         })
     }
 
 
     useEffect(() => {
         addrFetch();
-        console.log("deliveryData onInit --- 마운트",deliveryData);
-
-
+        //console.log("deliveryData onInit --- 마운트",deliveryData);
     },[]);
 
     console.log("deliveryData-------",deliveryData);

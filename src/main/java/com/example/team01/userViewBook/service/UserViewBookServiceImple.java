@@ -22,7 +22,7 @@ public class UserViewBookServiceImple implements UserViewBookService {
 
 
     @Override
-    public int insertUserViewBook(String bookId,String clientId) {
+    public int insertUserViewBook(Long bookId,String clientId) {
         log.info("insertUserViewBook ---------:{}",bookId);
         int result = dao.insertUserViewBook(bookId,clientId);
 

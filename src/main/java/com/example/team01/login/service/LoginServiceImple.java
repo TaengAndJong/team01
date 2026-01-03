@@ -2,7 +2,6 @@ package com.example.team01.login.service;
 
 import com.example.team01.login.dao.LoginDao;
 import com.example.team01.vo.LoginVO;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

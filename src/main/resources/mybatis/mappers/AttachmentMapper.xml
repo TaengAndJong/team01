@@ -5,25 +5,26 @@
 
     <insert id="InsertAttachment_ID" parameterType="AttachmentVO">
     INSERT INTO attachmentid (
-        "attachmentID", "fileName", "fileType", "fileSize", "fileData", "uploadDate", "uploader", "boardType"
+        attachmentID, fileName, fileType, fileSize, fileData, uploadDate, uploader, boardType
     )
     VALUES (
         #{attachmentID}, 
         #{fileName}, 
         #{fileType}, 
         #{fileSize}, 
-        #{fileData}, 
-        SYSDATE, 
+        #{fileData},
+        CURRENT_TIMESTAMP,
         #{uploader}, 
         #{boardType}
     )
     </insert>
     <select id="GetAttachmentList" resultType="AttachmentVO">
-        SELECT * FROM attachmentid
-        WHERE "uploader" = #{userId}
-        AND "boardType" = #{boardType}
-            AND "uploadDate" BETWEEN #{boardDate} - INTERVAL '5' MINUTE 
-            AND #{boardDate} + INTERVAL '5' MINUTE
-        ORDER BY "uploadDate"
+        SELECT *
+        FROM attachmentid
+        WHERE uploader = #{userId}
+          AND boardType = #{boardType}
+          AND uploadDate BETWEEN #{boardDate} - INTERVAL '5 minute'
+          AND #{boardDate} + INTERVAL '5 minute'
+        ORDER BY uploadDate
     </select>
 </mapper>

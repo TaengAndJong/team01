@@ -30,7 +30,7 @@ public class UserViewBookController {
             @AuthenticationPrincipal PrincipalDetails userDetails) {
         //필요 파라미터 clietnId와 bookId
         String clientId =userDetails.getUsername(); //시큐리티에서 사용자 정보 가져오기
-        String bookId= viewBookId.getBookId();
+        Long bookId= viewBookId.getBookId();
         //
         log.info("사용자 데이터 조회  bookId :{} , clientId :{} ", bookId, clientId);
         //서비스로 파리미터 넘겨주기

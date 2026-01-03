@@ -1,12 +1,14 @@
 package com.example.team01.admin;
 
 import com.example.team01.admin.service.QnaDeliveryService;
+import com.example.team01.security.PrincipalDetails;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.QnaDeliveryVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import com.example.team01.comments.service.CommentsService;
@@ -27,10 +29,15 @@ public class QnaDeliveryController {
   public ResponseEntity<?>  getQnaDeliveryList(
         @RequestParam(defaultValue = "1")
         int currentPage, @RequestParam(defaultValue = "5")int pageSize,
-        @RequestParam String userId,
         @RequestParam(required = false) String searchType,
         @RequestParam(required = false) String keyword,
+        @AuthenticationPrincipal PrincipalDetails principalDetails,
         HttpServletRequest request) {
+
+      // 로그인 정보 가져오기
+      String userId = principalDetails.getUsername();
+      log.info("userId----------- getQnaDeliveryList",userId);
+
 
     List<QnaDeliveryVO> qnaDeliveryList = null;
     Pagination pagination = new Pagination(currentPage, pageSize);

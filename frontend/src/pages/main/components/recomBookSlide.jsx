@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import {Link} from "react-router-dom";
-
+import ImgBaseUrl from "@/util/imgBaseUrl";
 
 const  RecomBookSlide= ({slideData}) =>{
 
@@ -45,7 +45,7 @@ const  RecomBookSlide= ({slideData}) =>{
     const customPagination = {
         clickable: true,
         renderBullet: function (index, className) {
-            return '<span class="' + className + '">' +'<i class="sr-only">'+ (naviId)+'의'+ (index + 1) + '번째 슬라이드</i></span>';
+            return '<span className="' + className + '">' +'<i className="sr-only">'+ (naviId)+'의'+ (index + 1) + '번째 슬라이드</i></span>';
         },
     }
 
@@ -80,7 +80,7 @@ const  RecomBookSlide= ({slideData}) =>{
                 speed={700}// 슬라이드 속도
                 observer={true}
                 observeParents={true}
-                onSlideChange={() => console.log('recombookSlide')}
+                // onSlideChange={() => console.log('recombookSlide')}
             >
                 {slideData?.length > 0 ? (
                     slideData?.map((item, idx) => (
@@ -92,7 +92,7 @@ const  RecomBookSlide= ({slideData}) =>{
                                 <p className="desc">{item.bookDesc}</p>
                                 <div className="img-box">
                                     <div className="img-inner">
-                                        <img className="img" src={item.bookImgList?.[0]} alt={item.bookName}/>
+                                        <img className="img" src={ImgBaseUrl(item.bookImgList?.[0])} alt={item.bookName}/>
                                     </div>
                                 </div>
                             </Link>
@@ -110,7 +110,14 @@ const  RecomBookSlide= ({slideData}) =>{
             {slideData?.length > ctrlViewCount && (
                 <div className="button-group">
                     {/*이전*/}
-                    <button type="button" className={`swiper-button bordered custom-prev custom-prev-recom`}>
+                    <button type="button" className={`swiper-button bordered custom-prev custom-prev-recom`}
+                            onClick={() => {
+                                //console.log(`추천 이전 버튼 클릭됨`);
+                                if (swiperRef.current) {
+                                    swiperRef.current.slidePrev();
+                                }
+                            }}
+                    >
                         <span className="sr-only">이전슬라이드</span>
                     </button>
                     {/*재생 & 정지 */}
@@ -122,7 +129,14 @@ const  RecomBookSlide= ({slideData}) =>{
                         <span className="sr-only"> {play ? '정지' : '재생'}</span>
                     </button>
                     {/*다음*/}
-                    <button type="button" className={`swiper-button bordered custom-next custom-next-recom`}>
+                    <button type="button" className={`swiper-button bordered custom-next custom-next-recom`}
+                            onClick={() => {
+                               // console.log(`추천 다음 버튼 클릭됨`);
+                                if (swiperRef.current) {
+                                    swiperRef.current.slideNext();
+                                }
+                            }}
+                    >
                         <span className="sr-only">다음슬라이드</span>
                     </button>
                 </div>

@@ -16,7 +16,7 @@
         <result column="email" property="email" />
         <result column="picture" property="picture" />
         <result column="joinDate" property="joinDate" />
-        <result column="withdrawDate" property="withDrawDate" />
+        <result column="withdrawaldate" property="withdrawaldate" />
         <result column="status" property="status" />
 
         <!-- RoleVO 매핑 -->
@@ -30,52 +30,52 @@
 
     <!-- 클라이언트와 역할 정보를 조회하는 쿼리 , 클라이언트와 역할테이블의 1:1 관계로 조인 -->
     <select id="getClientWithRole" resultMap="ClientWithRoleResultMap">
-        SELECT
-            c."clientId",
-            c."clientName",
-            c."password",
-            c."birth",
-            c."tel",
-            c."zoneCode",
-            c."addr",
-            c."detailAddr",
-            c."email",
-            c."picture",
-            c."joinDate",
-            c."withDrawalDate",
-            c."status",
-            r."roleId",
-            r."roleName"
+        select
+            c.clientId,
+            c.clientName,
+            c.password,
+            c.birth,
+            c.tel,
+            c.zoneCode,
+            c.addr,
+            c.detailAddr,
+            c.email,
+            c.picture,
+            c.joinDate,
+            c.withdrawaldate,
+            c.status,
+            r.roleId,
+            r.roleName
         FROM Client c
-                 LEFT JOIN roles r ON c."roleId" = r."roleId"
-        WHERE c."clientId" = #{clientId}
+                 LEFT JOIN roles r ON c.roleId = r.roleId
+        WHERE c.clientId = #{clientId}
 
     </select>
 
     <!-- 클라이언트에 사원번호,이름, 전화번호,생일로  중복 검증 조회-->
     <select id="selectOneStaff" parameterType="String">
         WITH  clientEmp  as (
-            select * from emp e left join department d on ( e."departId" = d."departId")
-            WHERE "staffId" =#{staffId}
-              and "staffName" =#{staffName}
-              and "email" =#{email}
+            select * from emp e left join department d on ( e.departId = d.departId)
+            WHERE staffId =#{staffId}
+              and staffName =#{staffName}
+              and email =#{email}
         )
 
         SELECT
-            c."clientId",
-            c."clientName",
-            c."birth",
-            c."tel",
-            c."zoneCode",
-            c."addr",
-            c."detailAddr",
-            c."email",
-            c."picture",
-            c."joinDate",
-            c."withDrawalDate",
-            c."status"
+            c.clientId,
+            c.clientName,
+            c.birth,
+            c.tel,
+            c.zoneCode,
+            c.addr,
+            c.detailAddr,
+            c.email,
+            c.picture,
+            c.joinDate,
+            c.withdrawaldate,
+            c.status
         FROM Client c join clientEmp e
-                           on  c."staffId" = e."staffId"  and c."clientName"=e."staffName";
+                           on  c.staffId = e.staffId  and c.clientName=e.staffName
 
     </select>
 
@@ -83,7 +83,7 @@
     <select id="selectDuplicateClientStaff" parameterType="String" resultType="int">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
         FROM Client
-        WHERE "staffId" = #{staffId}
+        WHERE staffId = #{staffId}
     </select>
 
     <!--

@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserViewBookDao {
 
     //사용자 조회 도서 insert
-    public int insertUserViewBook(@Param("bookId") String bookId, @Param("clientId") String clientId);
+    public int insertUserViewBook(@Param("bookId") Long bookId, @Param("clientId") String clientId);
 
     // 사용자 조회 도서 select
     public List<UserViewBookVO> selectUserViewBook(@Param("clientId") String clientId);

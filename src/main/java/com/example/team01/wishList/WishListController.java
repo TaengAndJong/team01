@@ -5,7 +5,7 @@ import com.example.team01.common.Enum.WishStatus;
 import com.example.team01.security.PrincipalDetails;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
-import com.example.team01.vo.BookVO;
+
 import com.example.team01.vo.WishListVO;
 import com.example.team01.wishList.service.WishListService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,13 +13,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -115,7 +115,7 @@ public class WishListController {
     public ResponseEntity<?> saveWishList(
             @RequestParam(defaultValue = "1") int currentPage,
             @RequestParam(defaultValue = "4") int pageSize,
-            @RequestParam String bookId,
+            @RequestParam Long bookId,
             @AuthenticationPrincipal PrincipalDetails principalDetails
             , HttpServletRequest request) {
         log.info("saveWishList-------:{}", bookId);

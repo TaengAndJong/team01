@@ -25,96 +25,101 @@
     </resultMap>
 
 <!-- 조회할 VO 객체를 결과 타입으로 선언해야 데이터가 매핑되어 반환됨 -->
-    <select id="checkBookCount" parameterType="String" resultType="BookVO">
+    <select id="checkBookCount"  resultType="BookVO">
         SELECT
-        "bookId"
-        ,"bookName"
-        ,"bookCateNm"
-        ,"stock"
+            bookId
+            ,bookName
+            ,bookCateNm
+            ,stock
         FROM book
-        WHERE "bookId" = #{bookId}
+        WHERE bookId = #{bookId}
     </select>
 
 <!--resultMap의 Id를 파라미터로 넘겨야 1:1 , 1:다 관계로 정의한 컬럼 매핑가능 -->
 
 
     <select id="selectBookInfo" parameterType="String" resultMap="cartMap">
-        SELECT b."bookId"
-             , b."bookName"
-             , b."bookCateNm"
-             , b."bookPrice"
-             , b."stock"
-             , b."bookCateDepth"
-             , b."author"
-             , b."publishDate"
-             , b."bookImgPath"
-             , c."quantity"
+        SELECT b.bookId
+             , b.bookName
+             , b.bookCateNm
+             , b.bookPrice
+             , b.stock
+             , b.bookCateDepth
+             , b.author
+             , b.publishDate
+             , b.bookImgPath
+             , c.quantity
         FROM book b
-                 LEFT JOIN cart c ON b."bookId" = c."bookId"
-        WHERE b."bookId" = #{bookId}
+                 LEFT JOIN cart c ON b.bookId = c.bookId
+        WHERE b.bookId = #{bookId}
     </select>
 
-    <select id="existCart" parameterType="String" resultType="int">
+    <select id="existCart"  resultType="int">
         select
-           count(*)
+            count(*)
         from cart
-        where "clientId" =#{clientId} and "bookId" = #{bookId}
+        where clientId =#{clientId} and bookId = #{bookId}
     </select>
 
+<!--  bookId하고 cartid 하고 왜 동일하게 들어갔냐 확인해보기-->
     <insert id="insertCart" parameterType="CartVO">
-        <selectKey keyProperty="cartId" resultType="String" order="BEFORE">
-            SELECT CART_SEQ.NEXTVAL FROM DUAL
+        <selectKey keyProperty="cartId" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('cart_seq')
         </selectKey>
 
         INSERT INTO cart (
-            "cartId","bookId", "quantity","clientId"
+        cartId,
+        bookId,
+        quantity,
+        clientId
         )
         VALUES (
-            #{cartId},#{bookId}, #{quantity}, #{clientId}
+        #{cartId},
+        #{bookId},
+        #{quantity},
+        #{clientId}
         )
     </insert>
 
     <update id="updateCart" parameterType="CartVO">
         UPDATE cart
-            SET "quantity" = "quantity" +1
-        WHERE "bookId" = #{bookId}
+        SET quantity = quantity +1
+        WHERE bookId = #{bookId}
     </update>
 
 
     <!-- 장바구니에 담긴 도서목록조회   -->
     <select id="selectUserBookList" parameterType="String" resultMap="cartMap">
         select
-            c."cartId"
-            ,c."addCartDate"
-            ,c."quantity"
-            ,c."clientId"
-            ,b."bookId"
-            ,b."bookName"
-            ,b."bookPrice"
-            ,b."bookCateNm"
-            ,b."bookCateDepth"
-            ,b."bookImgPath"
-            ,b."author"
-            ,b."publishDate"
+            c.cartId
+             ,c.addCartDate
+             ,c.quantity
+             ,c.clientId
+             ,b.bookId
+             ,b.bookName
+             ,b.bookPrice
+             ,b.bookCateNm
+             ,b.bookCateDepth
+             ,b.bookImgPath
+             ,b.author
+             ,b.publishDate
         from
-            book b join cart c on b."bookId" = c."bookId"
-        where c."clientId"= #{clientId}
+            book b join cart c on b.bookId = c.bookId
+        where c.clientId= #{clientId}
     </select>
 
     <delete id="deleteToCartList" parameterType="List">
         delete from cart
-        where "cartId" in
+        where cartId in
         <foreach item="deleteId" collection="deleteIds" open="(" separator="," close=")">
                 #{deleteId}
         </foreach>
     </delete>
 
-    <update id="updateCartQuantity" parameterType="CartVO">
+    <update id="updateCartQuantity">
         UPDATE cart
-        SET "quantity" = #{quantity}
-        WHERE "bookId" = #{bookId} and "cartId"=#{cartId}
+        SET quantity = #{quantity}
+        WHERE bookId = #{bookId} and cartId = #{cartId}
     </update>
-
-
 
 </mapper>

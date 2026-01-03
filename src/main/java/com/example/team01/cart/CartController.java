@@ -26,9 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /* DI dependency injection ==>  필드 주입과 생성자 주입의 차이점
@@ -73,7 +71,17 @@ public class CartController {
                     //cartDTO 내부에 book객체 가져오기
                     BookDTO book = cartDTO.getBook();
                     //book 이미지 변경
-                    fileUtils.changeImgPathDto(book, request);
+                    List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+                    if(book.getBookImgPath() != null && !book.getBookImgPath().isEmpty()){
+                        imgArray =  new ArrayList<>(
+                                Arrays.asList(
+                                        book.getBookImgPath().split(",") //String [] 배열로 반환
+                                )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                        );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+
+                    }
+                    // admingbookVO bookImgList에 담아주기
+                    book.setBookImgList(imgArray);
                     //cartDTO에 다시 book객체 설정
                     cartDTO.setBook(book);
                     // 수정된 객체 반환
@@ -135,7 +143,7 @@ public class CartController {
 
     //axios로 delete 요청 시 어노테이션
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteCart(@RequestBody List<String> ids
+    public ResponseEntity<?> deleteCart(@RequestBody List<Long> ids
             ,@AuthenticationPrincipal PrincipalDetails userDetails,
                                         HttpServletRequest request){
         log.info("deleteCart API 통신 받는 중");
@@ -154,7 +162,18 @@ public class CartController {
             //log.info("삭제된 후 도서 목록---------------------장바구니 : {}",bookList);
             bookList.forEach(cartDTO -> {
                 BookDTO book = cartDTO.getBook();
-                fileUtils.changeImgPathDto(book, request);
+                List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+                if(book.getBookImgPath() != null && !book.getBookImgPath().isEmpty()){
+                    imgArray =  new ArrayList<>(
+                            Arrays.asList(
+                                    book.getBookImgPath().split(",") //String [] 배열로 반환
+                            )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                    );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+
+                }
+
+                // admingbookVO bookImgList에 담아주기
+                book.setBookImgList(imgArray);
             });
     
           //  log.info("삭제된 후 도서 목록---------------------이미지경로세팅 : {}",bookList);
@@ -216,7 +235,7 @@ public class CartController {
        int result =  cartService.updateToCartQuantity(cartvo);
         log.info("updateCartQuantity API---------------------result:{}",result);
 
-
+//지금 디비 데이터처리가 연동이 안되고 있다!!!!
         return  ResponseEntity.ok(cartvo.getQuantity());
     }
 

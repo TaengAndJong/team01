@@ -4,15 +4,12 @@ import LeftMenu from "../../layout/LeftMenu.jsx";
 import { useMenu } from "../common/MenuContext.jsx";
 import { menuNavi } from "../../util/menuNavi.jsx";
 import {useModal} from "../common/modal/ModalContext.jsx";
+import axios from "axios";
+import {catchError} from "../../util/error.jsx";
 
 // 주소에 해당하는 제목 데이터 가져와서 레프트 메뉴 이름과 제목열에 데이터 나열하기
 
 function reducer(state, action) {
-  // console.log("state", state);
-  // console.log("typeof", typeof state);
-  // console.log("Array", Array.isArray(state));
-  // console.log("action.data", action.data);
-  // console.log("배열이냐 객체냐", Array.isArray(action.data));
 
   switch (action.type) {
     case "INIT": //초기데이터
@@ -60,21 +57,26 @@ const AdminBook = () => {
   //const [isDataLoaded, setIsDataLoaded] = useState(false); //데이터가 로드되기 전에 컴포넌트가 먼저 렌더링되도록 하기 위함
   const [bookdata, dispatch] = useReducer(reducer, null);
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
+  //네입게이트 리액트훅
+  const navigate=useNavigate();
+
+  //search
+  //검색어 입력중 상태관리 
+  const [search, setSearch] = useState({
+    bookType: "ALL", // 전체 / 국내도서 / 국외도서
+    searchType: "bookName", // bookName(도서명), author(저자)
+    keyword: "", // 검색어
+  });
+
+  // 실제 조회 조건 (서버로 보내는 값으로 확정된 검색값 상태관리)
+  const [searchCondition, setSearchCondition] = useState(null);
+
   //pagination
   const [paginationInfo, setPaginationInfo] = useState({
     currentPage: 1,
     totalPages: 0,
     totalRecord: 0,
     pageSize: 6,
-  });
-  //검색상태 조건분기(검색중인지 아닌지)
-  const [isSearching, setIsSearching] = useState(false);
-  //search
-  //검색어 필터 상태관리 ==> 초기값 빈 배열!
-  const [search, setSearch] = useState({
-    bookType: "ALL", // 전체 / 국내도서 / 국외도서
-    searchType: "bookName", // bookName(도서명), author(저자)
-    keyword: "", // 검색어
   });
 
   //modal
@@ -89,107 +91,68 @@ const AdminBook = () => {
       item.menuPath.includes(standardPoint)
   );
 
-  //console.log("paginationInfo", paginationInfo);
-  //get요청, 페이지번호변경 시 사용하는 fetch요청 함수
-  const initFetch = async () => {
-    try {
-      //page, pageSize
-      const params = new URLSearchParams({
-        currentPage: paginationInfo.currentPage, // 클라이언트가 결정하는 현재페이지, 기본값은 1
-        pageSize: paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
-        ...search,//검색조건을 포함하도록 수정? 왜 ?
+
+  //get요청(초기 조회 , 검색 시 조회, 페이지번호변경 시 사용하는 fetch요청 함수
+  // 문제점 : 검색 버튼을 누르지 않았을 경우에도 검색필터가 반영됨 --- > 검색 키워드 상태값 관리 필요
+  const fetchBookList = async () => {
+
+    try{
+      const response = await axios.get("/api/admin/book/bookList",{
+        params: {
+          currentPage: paginationInfo.currentPage,
+          pageSize: paginationInfo.pageSize,
+          ...(searchCondition ?? {}),//검색조건이 있으면 포함 아니면 빈객체
+        }
       });
 
-       console.log("params.toString()", params.toString());
+      console.log("AdminbookComponent",response.data);
+      //서버에서 넘온 데이터 객체구조분해
+      const { currentPage, items, pageSize, totalPages, totalRecord } = response.data;
 
-      // 서버로 응답 요청
-      const response = await fetch(
-          `/api/admin/book/bookList?${params.toString()}`,
-          {
-            method: "GET",
-          }
-      );
-      // 돌아온 응답 상태
-      if (!response.ok) {
-        // 응답 상태가 200아니면
-        console.log(response.status);
-        throw new Error(`서버 응답 에러 ${response.status}`);
+      console.log("currentPage, items, pageSize, totalPages, totalRecord",currentPage, items, pageSize, totalPages, totalRecord)
+      console.log("items",items);
+
+      // 도서 목록 갱신
+      onInit(items);
+
+      // 데이터삭제시 페이지 개수 수정
+      let fixedPage = currentPage;
+      if (currentPage > totalPages) {
+        fixedPage = totalPages === 0 ? 1 : totalPages;
       }
-      // 응답 성공시
-      const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-      //   console.log("bookdata목록 get 요청 데이터 받아오기-----", bookVO); // 있음
-
-      //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
-      const { currentPage, items, pageSize, totalPages, totalRecord } = bookVO;
-      onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
-      // console.log("초기 데이터 갱신완료", bookVO);
-      //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
+      
+      //페이지네이션 재설정
       setPaginationInfo({
-        currentPage: currentPage,
-        pageSize: pageSize,
-        totalPages: totalPages,
-        totalRecord: totalRecord,
-      });
-    } catch (err) {
-      console.log("도서 데이터 불러오기 실패", err); // 오류 처리
-      openModal({
-        modalType:"error",
-        content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>
+        currentPage: fixedPage,
+        pageSize,
+        totalPages,
+        totalRecord,
       });
 
+    }catch(err){
+      console.log("도서 데이터 불러오기 실패", err);
+      //에러 처리 핸들러
+      catchError(err, { openModal, closeModal, navigate });
     }
+    //try end
   }; //fetch end
+
 
 
   //search 핸들러
   const handleSearch = async () => {
-    //search 초기 데이터 URLsearchParam으로 가공
-    console.log("search--fetch", search);
-    //search 초기 데이터 URLsearchParam으로 가공
-    const param = new URLSearchParams({
-      ...search,
-      currentPage: paginationInfo.currentPage, // 현재 페이지 포함
-      pageSize: paginationInfo.pageSize,
-    });
-    console.log("search--param", param); //URLSearchParam {size: 3}
-    const paramString = param.toString();
-    console.log("search--paramString", paramString);  //type=DOMESTIC&keyword=%ED%8C%A8%ED%8B%B0&field=category
 
-    //검색버튼 누르면 서버로 검색 필터 전송
-    try {
-      setIsSearching(true); // 검색 중 상태로 변경
-      //URLSearchParam 객체르 사용해서 url에 쿼리스트링으로 값을 담아 보내기때문에
-      // Content-Type,body 사용할 필요 없음 (body는 클라이언트가 데이터를 서버로 보낼 때 필요)
-      const response = await fetch(`/api/admin/book/bookList?${paramString}`, {
-        method: "POST",
-      });
-
-      // 요청 성공실패
-      if (!response.ok) {
-        console.log("통신에러", response.status);
-        throw Error(response.statusText);
-      }
-      //요청 성공
-      const data = await response.json();
-      console.log("search---------------", data);
-      //setbookData에 데이터 갱신 처리 해주어함?
-      onInit(data.items);
-      setPaginationInfo((prev)=>({
-        ...prev,
-        currentPage:  paginationInfo.currentPage,
-        totalPages: data.totalPages ?? 1,
-        totalRecord: data.totalRecord ?? data.items.length ?? 0
-      }))
-
-    } catch (e) {
-      console.log("검색실패", e);
-    }
+    setSearchCondition(search); //검색 입력값 확정
+    
+    setPaginationInfo((prev) => ({
+      ...prev,
+      currentPage: 1, // 검색후 조회는 1페이지부터
+    }));
   };
 
 
   //페이지버튼 클릭시 실행되는 핸들러
   const onChangePageHandler = (page) => {
-    //console.log("changePage----", page);
     //pagination의 currentPage 값 갱신
     setPaginationInfo((prev) => ({
       ...prev,
@@ -197,20 +160,12 @@ const AdminBook = () => {
     }));
   };
 
-  // 첫 렌더링 시 기본 목록 조회
+  // 검색어 변경되었을 때 , 페이지변경되었을 때
   useEffect(() => {
-    initFetch();
-  }, []);
+    console.log("페이지네이션 변경될때 실행됨")
+     fetchBookList();
+  }, [paginationInfo.currentPage, paginationInfo.pageSize,searchCondition]);
 
-  useEffect(() => {
-    // 검색 중이면 전체목록조회를 막음
-    if (isSearching) {
-      handleSearch(); // 검색 상태일 때는 검색 API 호출 유지
-    } else {
-      initFetch(); // 기본 목록 상태일 때만 전체 조회
-    }
-
-  }, [paginationInfo.currentPage]); // 마운트 시에 한 번실행 됨
 
   //초기데이터 설정
   const onInit = (bookdata) => {
@@ -222,7 +177,7 @@ const AdminBook = () => {
   };
 
   const onCreate = (createBook) => {
-    // console.log("createBook", createBook);
+     console.log("createBook", createBook);
     dispatch({
       type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
       data: createBook,
@@ -230,8 +185,7 @@ const AdminBook = () => {
   };
 
   const onDelete = (newBookList) => {
-    console.log("deleteBook----", newBookList);
-    console.log("deleteBook", Array.isArray(newBookList));
+
     dispatch({
       type: "DELETE",
       data: newBookList,
@@ -261,7 +215,7 @@ const AdminBook = () => {
 
   return (
       <>
-        <div className={`page bookBoard d-flex ${pageSubClass(location)}`}
+        <div className={`page adminBook d-flex ${pageSubClass(location)}`}
         >
           <div className="left">
             <LeftMenu />
@@ -314,7 +268,7 @@ const AdminBook = () => {
                   <BookDispatchContext.Provider
                       value={{ onInit, onCreate, onDelete, onUpdate }}
                   >
-                    <PaginationContext.Provider value={{ paginationInfo,setPaginationInfo,onChangePageHandler,search,setSearch,handleSearch}}>
+                    <PaginationContext.Provider value={{ paginationInfo,setPaginationInfo,onChangePageHandler,search,setSearch,handleSearch,fetchBookList,setSearchCondition}}>
                       <Outlet />
                     </PaginationContext.Provider>
                   </BookDispatchContext.Provider>

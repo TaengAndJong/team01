@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, lazy, Suspense} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import LeftMenu from "../../layout/LeftMenu.jsx";
-import AdminDashboard from "../adminBoard/components/adminDashboard.jsx";
 import "@css/adminMain.css";
 import CountCard from "./components/cardComponent/CountCard.jsx";
 import TapMenuStockComponent from "./components/tapMenuComponent/TapMenuStockComponent.jsx";
 import TapMenuNewBookComponent from "./components/tapMenuComponent/TapMenuNewBookComponent.jsx";
-import ChartComponent from "./components/chartComponent.jsx";
+
 import { useAuth } from "@pages/common/AuthContext.jsx";
 import { useModal } from "@pages/common/modal/ModalContext.jsx";
+
+const ChartComponent = lazy(() =>
+    import("./components/chartComponent.jsx")
+);
+
 function Admin() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -31,8 +34,7 @@ function Admin() {
 
   // 모달 관련 커스텀 훅
   const { openModal, closeModal } = useModal();
-  console.log("userData 관리자 대쉬보드", userData.roles);
-  console.log("countData", countData);
+
   useEffect(() => {
     setIsLoading(true);
     setIsError(false);
@@ -77,11 +79,11 @@ function Admin() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("getQnaData 통신", data);
+     // console.log("getQnaData 통신", data);
       setCountData(data);
     } else {
       setIsError(true);
-      console.log("에러");
+    //  console.log("에러");
     }
     setIsLoading(false);
   };
@@ -98,7 +100,7 @@ function Admin() {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log("getChartData 통신", data);
+   //   console.log("getChartData 통신", data);
 
       const newDates = [];
       const newVisitors = [];
@@ -117,33 +119,28 @@ function Admin() {
       });
     } else {
       setIsError(true);
-      console.log("에러");
+   //   console.log("에러");
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
     getNewCount();
-    getChartData();
+    //차트 데이터 로딩도 조건부
+    if (chartData.date.length === 0) {
+      getChartData();
+    }
   }, []);
-  console.log("chartData-----!", chartData);
+
   return (
     <>
-      {/* <div className="top">
-        <h1>관리자 페이지</h1>
-        {data ? (
-          <div>
-            <p>메시지: {data.message}</p>
-            <p>시간: {data.timestamp}</p>
-          </div>
-        ) : (
-          <p>데이터를 불러오는 중...</p>
-        )}
-      </div> */}
+
       <div className="dashboard-container">
         <div className="section top d-flex justify-content-around">
           <div className="graph-container inner">
-            <ChartComponent data={chartData} />
+            <Suspense fallback={<div>차트 로딩중...</div>}>
+              <ChartComponent data={chartData} />
+            </Suspense>
           </div>
           <div className="card-container inner d-flex flex-wrap  justify-content-between">
             <CountCard

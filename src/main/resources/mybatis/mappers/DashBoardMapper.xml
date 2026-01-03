@@ -13,21 +13,21 @@
         from
             (select count(*) as delivCnt
              from QNADELIV
-             where "clientId" = #{clientId}
+             where clientId = #{clientId}
                and
-                 <![CDATA["qnaDate" >= ADD_MONTHS(SYSDATE, -3)]]>
+                 <![CDATA[qnadate >= CURRENT_DATE - INTERVAL '3 months']]>
             ) d,
             (select count(*) as oneCnt
              from QNAONE
-             where "clientId" = #{clientId}
+             where clientId = #{clientId}
                and
-                  <![CDATA["qnaDate" >= ADD_MONTHS(SYSDATE, -3) ]]>
+                  <![CDATA[qnadate >= CURRENT_DATE - INTERVAL '3 months']]>
             ) o,
             (select count(*) as proCnt
              from QNAPRO
-             where "clientId" = #{clientId}
+             where clientId = #{clientId}
                and
-                 <![CDATA["qnaDate" >= ADD_MONTHS(SYSDATE, -3) ]]>
+                 <![CDATA[qnadate >= CURRENT_DATE - INTERVAL '3 months']]>
             ) p
     </select>
 

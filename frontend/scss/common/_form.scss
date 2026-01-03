@@ -27,7 +27,7 @@
   &.recom{background-color: $cate00;} // 판매중 // cncjs
   &.popular{background-color: $cate02;}//인기
   &.uncomplete{background-color: $color09;} //답변대기
-  &.complete{background-color:$cate03;color:#ffffff} //답변완료 , // 단종
+  &.complete,&.canceled,&.allcanceled{background-color:$cate03;color:#ffffff} //답변완료 , // 단종
 
 }
 
@@ -55,7 +55,7 @@
   margin-bottom: 60px;
   &::before,&::after{ @extend %pseudoEL;width:100%;height:1px;position:absolute;left:0}
   &::before{background-color: #89C53B; bottom:4px}
-  &::after{background-color: #A37865; bottom:0}
+  &::after{background-color: $color02; bottom:0}
 }
 
 .title-dotted{
@@ -106,3 +106,10 @@
 
 }
 
+.custom-border{
+  border-width: 1px;
+  border-style: solid;
+  border-color: $color02;
+
+  &.dotted {border-style:dotted; padding:2rem;}
+}

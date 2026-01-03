@@ -54,13 +54,14 @@ const PaymentHistory=()=>{
                 (
                     <PaymentItems paymentProps={paymentProps}  />
                 ) :(
-                   <>
-                       <p>결제 내역이 없습니다.</p>
-                   </>
+                    <>
+                        <p className="custom-border dotted rounded-2 text-center">결제 내역이 없습니다.</p>
+
+                    </>
+                        )
+                        }
+                    </>
                 )
             }
-        </>
-    )
-}
 
-export default PaymentHistory;
+            export default PaymentHistory;

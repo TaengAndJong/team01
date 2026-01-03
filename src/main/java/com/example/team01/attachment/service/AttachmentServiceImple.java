@@ -61,7 +61,6 @@ public class AttachmentServiceImple implements AttachmentService {
                 fileVO.setBoardType(attachmentVO.getCategory()); // 게시판 분류 (카테고리)
                 attachmentVO.setSavedFileName(savedFileName);
                 log.info("fileVO DAO 호출 전: {}", fileVO);
-                
                 // DAO 호출
                 attachmentDao.InsertAttachment_ID(fileVO);
                 }

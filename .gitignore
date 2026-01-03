@@ -1,47 +1,29 @@
-HELP.md
+# Backend
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-*.log
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### Cursor ###
-.cursor/
-
-### VS Code ###
+# IDE
+.idea/
 .vscode/
+*.log
+.DS_Store
 
-## Inmemory##
-*.properties
+# Frontend
+frontend/dist/
+frontend/node_modules/
+node_modules/
+frontend/.env*
 
-### img ###
-/src/main/resources/static/uploads/**
+# Runtime
+logs/
 
-### security ###
-/src/main/java/com/example/team01/config/SecurityConfig.java
-/src/main/resources/application.properties
+# Static uploads only
+src/main/resources/static/uploads/
+#스프링정적리소스 사용안함
+src/main/resources/static/assets/
+src/main/resources/static/uploads/
+src/main/resources/application-dev.properties
+
+
+#도커 정보파일 ==> 서버로 직접 전송하기
+docker-compose.yml

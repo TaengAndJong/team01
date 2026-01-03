@@ -1,24 +1,16 @@
 package com.example.team01.book.service;
 
 import com.example.team01.book.dao.BookDao;
-import com.example.team01.common.exception.BookNotFoundException;
-import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
-import com.example.team01.vo.AdminBookVO;
 import com.example.team01.vo.BookVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value; // 롬복 사용하면 안됨, inMemory에서 가져오려면 이 패키지 사용해야 함
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 //파일을 찾고 검증하는 로직은 비즈니스 로직,재사용성을 고려할 때도 서비스 계층이 더 적절
@@ -41,7 +33,7 @@ public class BookServiceImple implements BookService{
         log.info("서비스 pagination 총 레코드 수 -----------:{}", pagination.getTotalRecord());
         log.info("서비스 pagination 총 getCurrentPage 수 -----------:{}", pagination.getCurrentPage());
         //startRow && endRow 설정
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
         log.info("컨트롤러에서 받아온 파라미터 pagination2222:{}", pagination.toString());
 
         log.info("selectAllBooks : {}",dao.selectAllBooks(pagination));
@@ -49,7 +41,6 @@ public class BookServiceImple implements BookService{
         // 조회된 전체 데이터의 행의 개수 조회
         List<BookVO> bookVOList = dao.selectAllBooks(pagination);
 
-        List<String> bookImgePaths = new ArrayList<>();
         //실제이미지 파일 클라이언트로 전송하는 로직
         //1.데이터베이스에서 도서 객체 조회
         for(BookVO bookVO : bookVOList){
@@ -58,9 +49,6 @@ public class BookServiceImple implements BookService{
             //2. bookImgPath "," 기준으로 자르고 배열반환
             String[] getBookImg= bookVO.getBookImgPath().split(",");
 
-            if(bookVO.getBookImgPath()!=null || !bookImgePaths.isEmpty()){
-                log.info("getBookImg ------------: {}",getBookImg);
-            }
             /// 여기에서 bookVO객체 배열로변경해서 설정해야하는뎅
             bookVO.setBookImgList(Arrays.asList(getBookImg));
         }//end
@@ -70,19 +58,17 @@ public class BookServiceImple implements BookService{
     }
 
     @Override
-    public BookVO selectOneBook(String bookId) {
+    public BookVO selectOneBook(Long bookId) {
 
         BookVO bookVO = dao.selectOneBook(bookId);
-        log.info("selectOneBook ------bookVO: {}",bookVO);
+
         // 텍스트 이미지경로 to ArrayList 이미지경로
         //bookImgPath  배열로 변경해서 넣어야함
         // 텍스트 이미지 split(",") 사용해서 문자 배열로 변경
         String[] bookImgPaths = bookVO.getBookImgPath().split(",");
-        log.info("bookImgPaths ------: {}",bookImgPaths);
-
         // bookVO의 bookImgList에 String 배열을 List 배열로 변경해 담아주기
         bookVO.setBookImgList(Arrays.asList(bookImgPaths));
-        log.info("selectOneBook ------: {}",bookVO);
+
         //파일유틸에 경로변경
 
         return dao.selectOneBook(bookId);

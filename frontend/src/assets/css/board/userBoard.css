@@ -9,9 +9,7 @@
   margin-right: 50px;
 }
 
- {
-  /*게시판 생성 css*/
-}
+
 
 dt {
   margin-top: 32px;
@@ -34,9 +32,7 @@ dd {
   border: solid 1px black;
 }
 
- {
-  /*게시판 읽기 css*/
-}
+
 
 .readBoardBox {
   border: solid 1px black;
@@ -48,9 +44,7 @@ dd {
   margin: 0 auto;
 }
 
- {
-  /*게시판 목록 css*/
-}
+
 .BoardIndex {
   background: #bed297;
   display: flex;

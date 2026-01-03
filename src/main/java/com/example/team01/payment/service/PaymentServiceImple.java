@@ -71,6 +71,8 @@ public class PaymentServiceImple implements PaymentService {
         log.info("insert dao-------:{}",cnt);
         return cnt;
     }
+
+
     @Override
     public int insertPaymentList(PaymentVO PaymentVO) {
         log.info("service insertPaymentList----------인설트 페이먼트리스트:{}",PaymentVO);
@@ -78,23 +80,23 @@ public class PaymentServiceImple implements PaymentService {
         //bookDao.checkBookCount(PaymentVO.getClientId());
         for(CartVO book : PaymentVO.getBookList()){
             log.info("book:{}",book);
-            String bookId = book.getBookId();
+            Long bookId = book.getBookId();
             int bookStock= bookDao.checkBookCount(bookId);
-            //도서구입수량이  bookStrock 을 초과했을경우 
-            if(bookStock < book.getQuantity()){
+
+
+            //bookStock이 0이거나 도서구입수량이  bookStock을 초과했을경우
+            if(bookStock == 0 || bookStock < book.getQuantity()){
                 // 재고 부족 CustomCartException 발생
+                log.info("지금 여기서 총 수량이 재고보다 클때 재고 수량부족에러 던짐");
                 throw CustomCartException.outOfStock(bookId,bookStock);
             }
-
         }
       //  bookDao.checkBookCount()
         int cnt = 0;
-        String payId= PaymentVO.getPayId();
+        Long payId= PaymentVO.getPayId();
         List<CartVO> bookList = PaymentVO.getBookList();
         //로그 안찍히면  단건구매 로직 필요
         log.info("장바구니 단건구매 로그찍히는지 확인----------bookList:{}",bookList);
-//        log.info("service insertPaymentList----------payId:{}",payId);
-//        log.info("service insertPaymentList----------bookList:{}",bookList);
 
         //bookId 개수만큼 insert 해야함
         for (CartVO item : bookList) {
@@ -110,9 +112,12 @@ public class PaymentServiceImple implements PaymentService {
 
         return cnt;
     }
+
+
+
     // 결제수량 조회
     @Override
-    public List<PaymentQuantityVO> selectPaymentQuantity(List<String> payIds){
+    public List<PaymentQuantityVO> selectPaymentQuantity(List<Long> payIds){
         List<PaymentQuantityVO> defaultQuantity = dao.selectPaymentQuantity(payIds);
         log.info("result---selectPaymentQuantity :{}",defaultQuantity);
         return defaultQuantity;
@@ -129,7 +134,7 @@ public class PaymentServiceImple implements PaymentService {
 
 //      수정코드
 //      순서를 유지하려면 linkedHashMap()을 사용해야함
-        Map<String, List<PaymentListVO>> groupedMap = paymentListVO.stream()
+        Map<Long, List<PaymentListVO>> groupedMap = paymentListVO.stream()
                 .collect(Collectors.groupingBy(
                         PaymentListVO::getPayId,    // 그룹 기준 (Map의 key)
                         LinkedHashMap::new,         // 어떤 Map 구현체를 사용하는가 ==> 삽입순서보장 linkedHashMap
@@ -163,7 +168,7 @@ public class PaymentServiceImple implements PaymentService {
     //mypage payment 결제취소 상태 갱신(Update) , 파라미터 payId, clientId
     @Override
     @Transactional//하나의 작업이 취소되면 전부 취소되게 해주는 어노테이션(2개이상작업 있을경우 필요)
-    public int partialCancel(String payId,String clientId,String bookId) {
+    public int partialCancel(Long payId,String clientId,Long bookId) {
         log.info("partialCancel-- payId:{},clientId:{},bookId:{}",payId,clientId,bookId);
 
         int cnt =0;
@@ -191,7 +196,7 @@ public class PaymentServiceImple implements PaymentService {
 
     @Override
     @Transactional//하나의 작업이 취소되면 전부 취소되게 해주는 어노테이션(2개이상작업 있을경우 필요)
-    public int allCancel(String payId,List<String> bookIds,String clientId) {
+    public int allCancel(Long payId,List<Long> bookIds,String clientId) {
         int cnt =0;
 
         log.info("allCancel-- payId:{},bookIds:{},clientId:{}",payId,bookIds,clientId);

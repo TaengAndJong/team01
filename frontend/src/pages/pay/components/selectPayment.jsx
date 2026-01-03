@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 import validationPay from "../../../util/validationPay.jsx";
-import ReusableModal from "./modal.jsx";
+import {useModal} from "../../common/modal/ModalContext.jsx";
+
 
 
 const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
     console.log("paymentInfo-------------",paymentInfo)
-    const { show, setShow, errorData, setErrorData, handleClose,setModalType, confirmData, setConfirmData,modalType} = modalState;
+    const {openModal,closeModal} = useModal();
 
 
     //라디오 버튼 선택 시 결제방법 상태 업데이트 onchange() 핸들러
@@ -47,25 +48,34 @@ const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
 
         //카드 검증 true이면 띄우기
         console.log("payValid.valid",payValid.valid);
-        if(!payValid.valid){
-            //부모컴포넌트 상태관리변수 설정
-            setModalType("error");
-            setErrorData({message:payValid.message });
-            setShow(true);
+        if(!payValid.valid) {
+
+            openModal({
+                modalType: "error",
+                content:<>
+                    <p>{payValid.message}</p>
+                </>,
+                onConfirm: () => closeModal(),
+            })
+
         }else{
             //검증 속성 true로 변경 ==> 결제완료
             setPaymentInfo((prev) => ({
                 ...prev,
                payConfirm: true,
             }));
-            //결제완료되면  결제완료 모달띄우기
-            setConfirmData({
-                obj:paymentInfo.payMethod==="card"?  (<><strong>카드</strong></>):(<><strong>계좌이체</strong>계좌번호</>),
-                
-                message:"확인완료",
+            //결제완료되면  결제완료 모달띄우기 ( 카드결제일경우, 계좌이체일경우 분기처리 필요
+            openModal({
+                modalType:"confirm",
+                content:<>
+                    {paymentInfo.payMethod === "card" ? 
+                        (<p><span className="fw-bold me-2 d-inline-block text-primary">[카드번호]</span>확인완료.</p>)
+                        : (<p><span className="fw-bold me-2 d-inline-block text-primary">[계좌번호]</span>확인완료.</p>)
+                    }
+                </>,
+                onConfirm: () => {closeModal()}
             });
-            setModalType("confirm");
-            setShow(true);
+
         }
     }
 
@@ -73,14 +83,14 @@ const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
     return (
         <>
             <fieldset>
-                <legend className="title my-3">결제 수단 선택</legend>
-                <ul className="border border-dark-subtle p-4 bg-white bg-opacity-50 rounded-1">
+                <legend className="title my-3 clearfix">결제 수단 선택</legend>
+                <p className="d-flex align-items-center justify-content-end mb-3"><span className="icon info me-3"></span>' - ' 를 제외하고 입력해주세요</p>
+                <ul className="border border-dark-subtle p-4 bg-white bg-opacity-50 rounded-1 clearfix">
                     <li className="mb-3">
-
-                            <input type="radio" id="card" name="payMethod" value="card"
-                                   checked={paymentInfo.payMethod === 'card'}
-                                   onChange={onChangePayMethod}/>
-                            <label htmlFor="card" className="title mx-2 my-2">신용/체크카드</label>
+                        <input type="radio" id="card" name="payMethod" value="card"
+                               checked={paymentInfo.payMethod === 'card'}
+                               onChange={onChangePayMethod}/>
+                        <label htmlFor="card" className="title mx-2 my-2">신용/체크카드</label>
 
                         {/* 신용카드 체크하면 */}
                         {paymentInfo.payMethod === 'card' && (
@@ -112,7 +122,9 @@ const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
                                     />
                                 </div>
                                 <div className="d-inline-flex align-items-center">
-                                    <button type="button" className="ms-2 btn btn-primary" onClick={()=>payConfirmHandler(paymentInfo)}>확인</button>
+                                    <button type="button" className="ms-2 btn btn-primary"
+                                            onClick={() => payConfirmHandler(paymentInfo)}>확인
+                                    </button>
                                 </div>
                             </div>
                         )}
@@ -153,7 +165,9 @@ const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
                                     />
                                 </div>
                                 <div className="d-inline-flex align-items-center">
-                                    <button type="button" className="ms-2 btn btn-primary" onClick={()=>payConfirmHandler(paymentInfo)}>확인</button>
+                                    <button type="button" className="ms-2 btn btn-primary"
+                                            onClick={() => payConfirmHandler(paymentInfo)}>확인
+                                    </button>
                                 </div>
                             </div>
                         )}

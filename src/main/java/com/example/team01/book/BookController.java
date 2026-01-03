@@ -1,10 +1,9 @@
 package com.example.team01.book;
 
-import com.example.team01.admin.service.AdminBookService;
+
 import com.example.team01.book.service.BookService;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
-import com.example.team01.vo.AdminBookVO;
 import com.example.team01.vo.BookVO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -40,13 +36,22 @@ public class BookController {
         List<BookVO> allBooksService =  bookService.selectAllBooks(pagination);
 
         log.info("클라이언트 북 :{}", allBooksService);
-      // Stream,map 이용해 각 BookVO에 changeImgPath 적용
-        List<BookVO> bookList = allBooksService.stream().map(book -> fileUtils.changeImgPath(book,request))
-                .collect(Collectors.toList());
-        log.info("bookVO :{}", bookList );
+
+        List<String> bookImgList;
+
+        for (BookVO bookVO : allBooksService) {
+            bookImgList =  Arrays.stream(Optional.ofNullable(bookVO.getBookImgPath()).orElse("").split(","))
+                    .map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
+
+            log.info("bookImgList bookController :{}", bookImgList );
+            bookVO.setBookImgList(bookImgList);
+
+        }
+
+        log.info("bookImgList allBooksService :{}", allBooksService );
 
         Map<String, Object> result = new HashMap<>();
-        result.put("items", bookList);
+        result.put("items", allBooksService);
         result.put("currentPage", pagination.getCurrentPage());
         result.put("pageSize", pagination.getPageSize());
         result.put("totalPages", pagination.getTotalPages());
@@ -59,17 +64,27 @@ public class BookController {
     // get요청에 바인딩되는 bookId는 메소드의 PathVariable로 받아와야 함
     //로그인 없이 전체경로 들어오게 하려면 시큐리티 경로 처리 필수
     @GetMapping("/bookDetail/{bookId}")
-    public ResponseEntity<?> getBookDetail(@PathVariable String bookId,HttpServletRequest request){
+    public ResponseEntity<?> getBookDetail(@PathVariable Long bookId,HttpServletRequest request){
         log.info("bookId :{}", bookId);
         log.info(" 클라이언트 도서 상세페이지 API 호출됨");
 
         // 아이디를 파라미터로 데이터베이스에 넘겨서 데이터 받아오기
         BookVO bookVO = bookService.selectOneBook(bookId);
         log.info("result ---:{}", bookVO);
-        //이미지파일 경로 변경 실행 ( 서버주소 + 이미지 경로)
-        fileUtils.changeImgPath(bookVO,request);
+        // BookVO 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
+        List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+        if(bookVO.getBookImgPath() != null && !bookVO.getBookImgPath().isEmpty()){
+            imgArray =  new ArrayList<>(
+                    Arrays.asList(
+                            bookVO.getBookImgPath().split(",") //String [] 배열로 반환
+                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+
+        }
+        // BookVO bookImgList에 담아주기
+        bookVO.setBookImgList(imgArray);
         //이미지 bookList 객체 값 확인하기
-        log.info("result ---:{}", bookVO);
+        log.info("bookList------------ 북 컨트롤러 '{}' 이미지 경로 변경 완료", bookVO);
         
         // Json 형식으로 반환
         Map<String, Object> response = new HashMap<>();
@@ -109,9 +124,19 @@ public class BookController {
         // 레코드 순회
         for (BookVO bookVO : bookList) {
             log.info("여기--검색 책목록:{}", bookVO);
-            fileUtils.changeImgPath(bookVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
+            List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+            if(bookVO.getBookImgPath() != null && !bookVO.getBookImgPath().isEmpty()){
+                imgArray =  new ArrayList<>(
+                        Arrays.asList(
+                                bookVO.getBookImgPath().split(",") //String [] 배열로 반환
+                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+            }
+            // bookVO bookImgList에 담아주기
+            bookVO.setBookImgList(imgArray);
             log.info("다음--검색 책목록:{}", bookVO);
         }
+
         //currentPage=1, pageSize=6, startRow=1, endRow=0, totalRecord=0, totalPages=0 재설정필요 ?
         Map<String, Object> result = new HashMap<>();
         result.put("items", bookList);

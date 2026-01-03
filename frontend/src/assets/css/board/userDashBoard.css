@@ -18,7 +18,7 @@
   text-align: right;
 }
 
-.navigate-btn {
+.custom-border .more {
   all: unset; /* Bootstrap 버튼 스타일 초기화 */
   position: absolute;
   top: 0px;
@@ -29,14 +29,6 @@
   line-height: 1; /* 폰트 기준선 영향 제거 */
   padding: 0;
   margin: 0;
-}
-
-/*텍스트로 표현한거 다시 바꾸셈*/
-.navigate-btn:hover,.navigate-btn:focus,.navigate-btn:focus-within {
-  transform: scale(1.5);
-  border: hidden;
-  transition: all 0.3s ease;
-  color:#A37865;
 }
 
 .card-footer {

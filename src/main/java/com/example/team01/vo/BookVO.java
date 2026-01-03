@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BookVO implements BookImgChange {
 
-    private String bookId;//도서ID
+    private Long bookId;//도서ID
     private String bookCateNm;//도서카테고리 ==> Category.cateId 와 book의 cateId에 대한 고려필요
     private String bookName;//도서제목
     private String bookCateDepth; // 도서 카테고리 뎊스 (배열로 변경)
@@ -41,7 +41,7 @@ public class BookVO implements BookImgChange {
 
     //정규화로 view 테이블 따로 만들건지 고려 필요
     private String viewCnt; // 특정 도서에 대한 조회수 ==> 좋아요 ?
-    private String wishID;  // 찜 목록 아이디
+    private Long wishId;  // 찜 목록 아이디
 }
 
 

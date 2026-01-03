@@ -17,13 +17,12 @@ import SalesStatus from "./salesStatus.jsx";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 import axios from "axios";
 
-//전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
+//전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰--
 
 const AdminBookCreate = () => {
 
-    const {onCreate,onInit} = useContext(BookDispatchContext);
     const {userData} = useAuth();
-    const { paginationInfo,setPaginationInfo } = useContext(PaginationContext);
+    const {setPaginationInfo,setSearchCondition,fetchBookList } = useContext(PaginationContext);
     const navigate = useNavigate();
     const {openModal,closeModal} = useModal();
 
@@ -57,48 +56,6 @@ const AdminBookCreate = () => {
     });
     // 업로드 파일 상태관리
 
-    //get요청, 페이지번호변경 시 사용하는 fetch요청 함수
-    const initFetch = async () => {
-        try {
-            //page, pageSize
-            const params = new URLSearchParams({
-                currentPage: paginationInfo.currentPage, // 클라이언트가 결정하는 현재페이지, 기본값은 1
-                pageSize: paginationInfo.pageSize, // 보여줄 페이지 개수 10로 고정
-            });
-
-            // 서버로 응답 요청
-            const response = await fetch(
-                `/api/admin/book/bookList?${params.toString()}`,
-                {
-                    method: "GET",
-                }
-            );
-            // 돌아온 응답 상태
-            if (!response.ok) {
-                // 응답 상태가 200아니면
-                console.log(response.status);
-                throw new Error("서버 응답 에러");
-            }
-            // 응답 성공시
-            const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-
-
-            //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
-            const { currentPage, items, pageSize, totalPages, totalRecord } = bookVO;
-            onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
-            // console.log("초기 데이터 갱신완료", bookVO);
-            //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
-            setPaginationInfo({
-                currentPage: currentPage,
-                pageSize: pageSize,
-                totalPages: totalPages,
-                totalRecord: totalRecord,
-            });
-        } catch (err) {
-            console.log("도서 데이터 불러오기 실패", err); // 오류 처리
-        }
-    }; //fetch end
-
 
     //get 요청서 categoryList 받아오기
     const getCategories = async () => {
@@ -111,13 +68,13 @@ const AdminBookCreate = () => {
             });
 
             if(!response.ok){
-                console.log("통신에러",response.status);
+
                 throw  Error(response.statusText);
             }
             // 요청 성공 시 ,응답 제이슨으로 받아오기
             const data = await response.json();
-            console.log("data--- createData",data);
             setCategoryList(data);
+
         }catch(err){
             console.error("getCategories 실패:", err);
         }
@@ -125,7 +82,6 @@ const AdminBookCreate = () => {
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
-        console.log("userData---- 등록",userData);
         if (userData && userData.roles?.length > 0) {
             setCreateBook(prev => ({
                 ...prev,
@@ -150,13 +106,10 @@ const AdminBookCreate = () => {
     const handleChange = (e) => {
 
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
-        const { name, value } = e.target;
+        let { name, value } = e.target;
         //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
         if ((name === "stock" || name === "bookPrice") && value.trim() !== "") {
-            console.log("name " , name);
-            console.log("value " , value);
             const result = name === "bookPrice" ? validNumber(value,name,"도서가격") : validNumber(value,name,"재고");
-            console.log("result--- 재고, 가격 검증", result);
             if(!result.valid){
                 // 숫자 검증 false 일 경우, 모달 알림 뜸
                 openModal({
@@ -165,7 +118,10 @@ const AdminBookCreate = () => {
                         <p>{`${result.message}`}</p>
                     </>,
                 })
+                // 여기에 value 값 '' 으로 변경
+                value = "";
             }
+
         }
 
         setCreateBook({
@@ -177,8 +133,6 @@ const AdminBookCreate = () => {
             }),
         })
     }
-
-    console.log("createbook--- stock",createBook);
 
     //formData에 데이터 담아주기
     const buildFormData = (createBook, bookImg) => {
@@ -220,7 +174,7 @@ const AdminBookCreate = () => {
         const entries = Array.from(formData.entries());
 
         for (const [key, value] of entries) {
-           // console.log("createBook valid key ",key);
+
             //bookImgPath는 비어 있어도 통과
             if (key === "bookImgPath") continue;
 
@@ -241,7 +195,7 @@ const AdminBookCreate = () => {
 
         const emptyKey = validateFormData(formData);
         if (emptyKey) {
-           // console.log("emptykey",emptyKey);
+
             openModal({
                 modalType: "error",
                 content:<>
@@ -261,34 +215,36 @@ const AdminBookCreate = () => {
                     },
                 });
 
-            const newBookData = response.data;
-            onCreate(newBookData);
-            await initFetch();//초기화
-            // 페이지 갱신 및 이동
-            setPaginationInfo(prev => ({ ...prev, currentPage: 1 }));
-            navigate("/admin/book/bookList");
+                console.log("create response", response);
+
+                setSearchCondition(null); // 검색어 상태를 초기화 해줘야 등록완료후 처음으로돌아감
+                // 1. 페이지 1로 이동 ( 이미 1페이지면 state 변경이 안됨)
+                setPaginationInfo(prev => ({ ...prev, currentPage: 1 }));
+                // 2. 다시 서버로 재요청 (명시적으로 fetch 호출이 안전)
+                await fetchBookList();
+                // 3. 목록 페이지로 이동
+                navigate("/admin/book/bookList");
+
+
         } catch (err) {
+            console.log("에러 ",err)
+            console.log("에러 ",err.response?.data);
             openModal({
                 modalType: "error",
                 content:<>
                     <p>서버 요청 중 오류가 발생했습니다. 다시 시도해주세요.</p>
-                    <p>{`에러 : ${err}`}</p>
+                    <p>error :{err.response?.data}</p>
                 </>,
             });
         }
     };
 
-//    console.log("createBook --------------111 " , createBook);
 //전송
     const onSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
-        //파일 객체  [] 배열이면 기본으로 이미지 추가하기
-        //   console.log("데이터제출 createBook",createBook);
-        // file 객체 값 이미지객체 빈값인지 확인하는 함수
-        //  console.log("데이터제출  후 createBook.bookImg)",createBook.bookImg);
         handleSubmit();
     }
-    //console.log("createBook --------------222 " , createBook); // 여기에는  담겨있음
+
 //return start
     return(
         <>
@@ -300,7 +256,7 @@ const AdminBookCreate = () => {
                 <form className="bookCreateForm" onSubmit={onSubmit}>
                     <div className="d-flex align-items-center mb-1">
                         {/*카테고리*/}
-                        <Category setDefaultData={setCreateBook} defaultData={createBook} categoryList={categoryList}/>
+                        <Category mode="create" setDefaultData={setCreateBook} defaultData={createBook} categoryList={categoryList}/>
                     </div>
                     <div className="d-flex align-items-center mb-1">
                         {/*등록타입*/}
@@ -325,9 +281,6 @@ const AdminBookCreate = () => {
                         {/*발행일*/}
                         <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>
                     </div>
-                    {/*<div className="d-flex align-items-center mb-1">*/}
-                    {/*    <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>*/}
-                    {/*</div>*/}
 
                     <div className="d-flex align-items-center mb-1 ">
                         {/*재고 & 가격*/}

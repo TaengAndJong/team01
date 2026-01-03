@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import {Link} from "react-router-dom";
-
+import ImgBaseUrl from "@/util/imgBaseUrl";
 
 /*
 * 자동플레이를 하지않을경우 ,커스텀 버튼은 ref 리액트 훅으로
@@ -91,7 +91,7 @@ const RecentView = ({slideData}) =>{
                             <Link className="link" to={item.book.detailUrl} title={`${item.book.bookName}도서 상세페이지 바로가기`}>
                                 <div className="img-box">
                                     <div className="img-inner">
-                                        <img className="img" src={item.book.bookImgList?.[0]} alt={item.book.bookName}/>
+                                        <img className="img" src={ImgBaseUrl(item.book.bookImgList?.[0])} alt={item.book.bookName}/>
                                     </div>
                                 </div>
                                 <div className="txt-box">

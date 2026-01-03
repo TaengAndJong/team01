@@ -27,6 +27,7 @@ public class DeliveryBoardServiceImple implements DeliveryBoardService {
         AttachmentVO attachmentVO = new AttachmentVO();
 
         log.info("[deliveryBoard 서비스 시작------------------------------------]");
+        log.info("files --------:{}", files);
 
         try {
             // 조건: files가 null 또는 비어있을 경우

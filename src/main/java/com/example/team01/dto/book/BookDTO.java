@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class BookDTO implements BookImgChange {
 
-    private String bookId;//도서ID
+    private Long bookId;//도서ID
     private String bookCateNm;//도서카테고리 ==> Category.cateId 와 book의 cateId에 대한 고려필요
     private String bookName;//도서제목
     private String bookCateDepth; // 도서 카테고리 뎊스 (배열로 변경)
@@ -32,6 +32,6 @@ public class BookDTO implements BookImgChange {
     private List<String> bookImgList; // 서버주소 + 파일명
 
     private String partPayStatus; // 결제내역 상태
-  
+
 
 }

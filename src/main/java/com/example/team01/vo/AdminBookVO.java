@@ -16,9 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AdminBookVO implements BookImgChange {
 
-
-
-    private String bookId; //도서등록고유번호 ==> 데이터베이스에서 자동증가
+    private Long bookId; //도서등록고유번호 ==> 데이터베이스에서 자동증가
     private String bookCateNm; //  private String bookCateNm; // 도서 카테고리 (배열로 변경)
     private String bookCateDepth; // 도서 카테고리 뎊스 (배열로 변경)
     private String bookName;//도서명
@@ -38,7 +36,7 @@ public class AdminBookVO implements BookImgChange {
     private String recomType; // 등록분류
     private String saleStatus;// 판매 상태관리
 
-    @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createDate; // 도서등록일
 
 

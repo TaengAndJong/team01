@@ -1,9 +1,15 @@
 import React from "react";
+import {useModal} from "../../common/modal/ModalContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 const AddCartBtn = ({bookId,quantity}) =>{
 
+
     console.log(`addBTn bookId: ${bookId}, quantity:${quantity}`);
 
+    //모달
+    const {openModal,closeModal} = useModal();
+    const navigate = useNavigate();
     //장밥구니 컨트롤러로 전송할 fetch 함수
     const sendCartFetch= async(bookId,quantity)=>{
       //  console.log("addCartBtn-------data",data);
@@ -29,8 +35,35 @@ const AddCartBtn = ({bookId,quantity}) =>{
             const data = await response.json();
             console.log("data cart List ", data);
 
+            if(data.exist){
+                //modal 띄우기
+                openModal({
+                    modalType:"confirm",
+                    content:<>
+                        <p>{data.message}</p>
+                    </>,
+                    onConfirm: () => {
+                        closeModal();
+                        navigate("/cart");
+                    }
+                });
+                return;// 모달띄우고 종료
+            }
+            //존재하지않으면 실행
+            openModal({
+                modalType:"confirm",
+                content:<>
+                    <p>{data.message}</p>
+                </>,
+                onConfirm: () => {
+                    closeModal();
+                    navigate("/cart");
+                }
+            });
+
         }catch(err){
             console.log("장바구니에 담기 실패",err);
+            // 에러처리는 어떻게 ?
         }
     }
 

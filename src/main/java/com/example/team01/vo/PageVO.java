@@ -1,7 +1,7 @@
 package com.example.team01.vo;
 
 
-import jakarta.persistence.Id;
+
 import lombok.*;
 
 
@@ -17,7 +17,6 @@ import java.io.Serializable;
 public class PageVO implements Serializable {
 
     //접근제한자 private는 정보은닉화 함
-    @Id
     private String pageId; 
     private String pagePath;
     private String pageName;

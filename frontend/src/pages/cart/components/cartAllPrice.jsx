@@ -1,12 +1,7 @@
-import React, {useState} from "react";
+import React from "react";
 
 
-const cartAllPrice = ({cartList,selectItem,deliveryFee,gotoPayment,totalPrice}) =>{
-
-    // console.log("cartAllPrice--------cartList",cartList);
-    // console.log("cartAllPrice--------selectItem",selectItem);
-    // console.log("cartAllPrice--------deliveryFee",deliveryFee);
-
+const cartAllPrice = ({cartList,selectItem,deliveryFee,gotoPayment,totalPrice,isDisabled}) =>{
 
     const allPayment = () => {
             gotoPayment(cartList,selectItem);
@@ -22,12 +17,17 @@ const cartAllPrice = ({cartList,selectItem,deliveryFee,gotoPayment,totalPrice}) 
                         <i className="icon answer"></i><strong className="fw-bold mx-3">총 결제금액</strong>
                     </span>
 
-                    <span className="total-price"><em className="fw-bold">{totalPrice(cartList,selectItem)}</em>원</span>
+                    <span className="total-price">
+                        <em className="fw-bold">{totalPrice(cartList, selectItem)}</em>
+                        <span className="fw-bold ms-2">원</span>
+                    </span>
                 </li>
                 {/*결제 실행 핸들러 필요 */}
                 <li className="d-inline ms-auto">
                     <button type="submit" aria-label="구매하기"
-                            className="submit btn btn-dark" onClick={allPayment}>구매하기
+                            className="submit btn btn-dark" onClick={allPayment}
+                            disabled={isDisabled}
+                    >구매하기
                     </button>
                 </li>
             </ul>

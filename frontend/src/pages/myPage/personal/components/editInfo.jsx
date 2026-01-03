@@ -46,6 +46,9 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
             openModal({
                 modalType: "default",
                 content:<><p>변경된 정보가 없습니다.</p></>,
+                onConfirm: () => {
+                    closeModal();   // <- 모달 닫기
+                }
             });
             return; // try문 실행 안 함
         }
@@ -62,7 +65,7 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
             if (response.data.success) { //
                 openModal({
                     modalType:"default",
-                    content:<><p>`${response.data.msg}`</p></>,
+                    content:<><p>{response.data.msg}</p></>,
                     onConfirm: () => {
                         closeModal(); // 모달 닫고
                         onEdit();     // 수정모드 종료 (RetrieveInfo 보여주기)
@@ -74,7 +77,10 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
                 // success : false
                 openModal({
                     modalType:"default",
-                    content:<><p>`${response.data.msg }`</p></>,
+                    content:<><p>{response.data.msg }</p></>,
+                    onConfirm: () => {
+                        closeModal();   // <- 모달 닫기
+                    }
                 })
             }
 

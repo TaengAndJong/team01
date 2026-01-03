@@ -1,11 +1,8 @@
 package com.example.team01.admin.service;
 
 import com.example.team01.admin.dao.QnaDeliveryDao;
-import com.example.team01.vo.AdminBookVO;
 import com.example.team01.vo.QnaDeliveryVO;
 import com.example.team01.utils.Pagination;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import com.example.team01.attachment.service.AttachmentService;
@@ -33,7 +30,7 @@ public class QnaDeliveryServiceImple implements QnaDeliveryService {
         log.info("서비스 pagination 총 레코드 수 -----------:{}", pagination.getTotalRecord());
         log.info("서비스 pagination 총 getCurrentPage 수 -----------:{}", pagination.getCurrentPage());
         //startRow && endRow 설정
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
         log.info("컨트롤러에서 받아온 파라미터 pagination2222:{}", pagination.toString());
 
         // 1:1 문의 데이터 전체 조회해오기

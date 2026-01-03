@@ -13,6 +13,6 @@ public class VisitRequestDTO {
     private String pageUrl;
     private String userAgent;
     private String ipAddress;
-    private LocalDateTime visitTime = LocalDateTime.now();
+    private LocalDateTime visitTime = LocalDateTime.now(); //PSQL은 LOCADATETIME 시 timestamp without time zone
     private String sessionId;
 }

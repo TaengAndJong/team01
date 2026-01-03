@@ -20,14 +20,14 @@ import java.util.Map;
 
 
 @Slf4j
-@RequestMapping("/signUp") //전역 ResponseBody
-@RequiredArgsConstructor(onConstructor = @__(@Autowired)) //final 타입 사용시 생성자 주입방식 사용
+@RequestMapping("/signup") //전역 ResponseBody
+@RequiredArgsConstructor() //final 타입 사용시 생성자 주입방식 사용
 @RestController
 public class SignUpController {
 
     //SignupService 주입
     private final SignUpService signUpService;
-    private final ClientService clientService;
+
 
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
@@ -74,14 +74,14 @@ public class SignUpController {
             // 성공 메시지
             return Map.of(
                     "success", true,
-                    "message", "joinUser"+joinUser
+                    "message", "가입 완료"
             );
 
         } catch (Exception e) {
             log.error("가입 실패: {}", e.getMessage());
             return Map.of(
                     "success", false,
-                    "message", "가입 실패: " + e.getMessage());
+                    "message", "가입 실패");
         }
     }
 

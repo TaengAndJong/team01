@@ -29,13 +29,13 @@ public interface PaymentService {
     public int selectPaymentCnt(String clientId);
 
     //부분취소
-    public int partialCancel(String payId,String clientId,String bookIds);
+    public int partialCancel(Long payId,String clientId,Long bookIds);
 
     //전체취소
-    public int allCancel(String payId,List<String> bookIds,String clientId);
+    public int allCancel(Long payId,List<Long> bookIds,String clientId);
 
     
-    public  List<PaymentQuantityVO> selectPaymentQuantity(List<String> payIds);
+    public  List<PaymentQuantityVO> selectPaymentQuantity(List<Long> payIds);
 
     
 

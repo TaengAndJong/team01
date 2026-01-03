@@ -4,26 +4,27 @@
         <mapper namespace="com.example.team01.board.oneboard.dao.OneBoardDao">
 
     <insert id="CreateOneBoard" parameterType="OneBoardVO">
+        <!-- PostgreSQL selectKey -->
         <selectKey keyProperty="qnaOneId" resultType="String" order="BEFORE">
-            SELECT 'qnaone' || LPAD(ADDQNAONE_SEQ.NEXTVAL, 4, '0') FROM DUAL
+            SELECT 'qnaone' || LPAD(nextval('addqnaone_seq')::text, 4, '0')
         </selectKey>
-        
+
         INSERT INTO qnaone (
-            "qnaOneId",
-            "qnaTitle",
-            "qnaContent",
-            "qnaWriter",
-            "qnaDate",
-            "qnaStatus",
-            "clientId",
-            "roleId",
-            "attachmentID"
+            qnaOneId,
+            qnaTitle,
+            qnaContent,
+            qnaWriter,
+            qnaDate,
+            qnaStatus,
+            clientId,
+            roleId,
+            attachmentID
         ) VALUES (
             #{qnaOneId},
             #{qnaTitle},
             #{qnaContent},
             #{qnaWriter},
-            SYSDATE,
+            NOW(),
             '답변 대기',
             #{clientId},
             'ROLE_CLIENT',
@@ -32,35 +33,32 @@
     </insert>
 
     <select id="GetOneBoardList" parameterType="String" resultType="OneBoardVO">
-        <!-- SELECT * FROM qnaone WHERE "clientId" = #{userId} -->
-
-        SELECT * FROM qnaone WHERE "clientId" = #{userId} AND "qnaDel" IS NULL OR "qnaDel" = 'N'
-        ORDER BY "qnaOneId" DESC
+        SELECT * FROM qnaone WHERE clientId = #{userId} AND qnaDel IS NULL OR qnaDel = 'N'
+        ORDER BY qnaOneId DESC
     </select>
 
     <select id="getOneBoardDetail" parameterType="map" resultType="OneBoardVO">
-        SELECT "qnaOneId",
-        "qnaTitle",
-        "qnaContent",
-        "qnaWriter",
-        "qnaDate",
-        "qnaDel",
-        "qnaStatus",
-        "clientId",
-        "roleId",
-        "attachmentID"
-    FROM qnaOne
-    WHERE "qnaOneId" = #{boardId}
-    AND "clientId" = #{userId}
-    AND ROWNUM = 1
-        
+        SELECT qnaOneId,
+               qnaTitle,
+               qnaContent,
+               qnaWriter,
+               qnaDate,
+               qnaDel,
+               qnaStatus,
+               clientId,
+               roleId,
+               attachmentID
+        FROM qnaOne
+        WHERE qnaOneId = #{boardId}
+          AND clientId = #{userId}
+            LIMIT 1
     </select>
 
 
     <delete id="deleteOneBoard" parameterType="String">
         update qnaOne
-        set "qnaDel" = 'Y', 
-        "qnaDelDate" = SYSDATE
-        where "qnaOneId" = #{boardId}
+        set qnaDel = 'Y',
+            qnaDelDate = CURRENT_TIMESTAMP
+        where qnaOneId = #{boardId}
     </delete>
 </mapper>

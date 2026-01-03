@@ -1,11 +1,12 @@
 import {Link, useNavigate} from "react-router-dom";
-import React, {useEffect, useRef, useState} from "react";
-import AddCartBtn from "../../book/components/addCartBtn.jsx";
+import React, {useRef, useState} from "react";
+import AddCartBtn from "@pages/book/components/addCartBtn.jsx";
 import BuySelectedBtn from "./BuySelectedBtn.jsx";
 import BookCount from "./bookCount.jsx";
 import WishBtn from "./wishBtn.jsx";
 import axios from "axios";
-import {useAuth} from "../../common/AuthContext.jsx";
+import {useAuth} from "@common/AuthContext.jsx";
+import ImgBaseUrl from "@/util/imgBaseUrl";
 
 /*
 * 1) 조회에 대한 서버요청 줄이기 위한 조회 및 중복조회  처리
@@ -23,6 +24,7 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
 
     //console.log("북아이템 자식 컴포넌트 wishIds",wishIds);
    // console.log("북아이템 자식 컴포넌트 bookCount",bookCount);
+  console.log("북아이템 자식 컴포넌트 bookList",bookList);
 
     //로그인 정보가 있을경우
 
@@ -36,7 +38,7 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
             navigate(`/book/bookDetail/${bookId}`);
             return; // 종료
         }
-        //없는 bookID이면 ref에 추가
+        //없는 bookId 이면 ref에 추가
         viewBookRef.current.add(bookId);
         //서버로 booId전송
         //formData 또는 쿼리스트링일 때만 RequestParam, jSON boody는 RequestBody
@@ -95,7 +97,7 @@ const BookItem = ({bookList,wishIds,setWishIds}) =>{
                                     <div className="card-header border-end rounded-4 overflow-hidden">
                                         <div className="img-box">
                                             <div className="img-inner">
-                                                <img className="img" src={book.bookImgList[0]}
+                                                <img className="img" src={ImgBaseUrl(book.bookImgList[0])}
                                                      alt="노이미지"/>
                                             </div>
                                         </div>

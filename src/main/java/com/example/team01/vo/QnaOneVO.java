@@ -1,7 +1,6 @@
 package com.example.team01.vo;
 
 import lombok.*;
-import jakarta.persistence.Id; // 관계형 디비에서 사용
 import java.io.Serializable;
 import java.sql.Clob;
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor//기본생성자
 @AllArgsConstructor //파라미터로 받는 생성자 전부 생성, 객체 생성시 모든 필드 초기화
 public class QnaOneVO implements Serializable{
-    @Id
+
     private String qnaOneId; // 1:1 문의 index
     private String qnaTitle; // 1:1 문의 제목
     private String qnaContent; // 1:1 문의 내용

@@ -1,6 +1,7 @@
 import "@assets/css/board/userDashBoard.css";
 import Btn from "@util/reuseBtn.jsx";
 import { formatToDate } from "@util/dateUtils.jsx";
+import {Link} from "react-router-dom";
 // import NoDataTable from "@common/Nodata.jsx";
 const BoardCardTable = ({ items, category }) => {
   console.log("items:", items);
@@ -92,7 +93,7 @@ const BoardCardTable = ({ items, category }) => {
         <tbody className="">
           {items.length === 0 ? (
             <tr className="text-center">
-              <td colSpan="4">새로 등록된 도서가 없습니다.</td>
+              <td colSpan="4">새로 등록된 문의글이 없습니다.</td>
             </tr>
           ) : (
             items?.slice(0, 5)?.map((item, idx) => {
@@ -128,14 +129,15 @@ const BoardCardTable = ({ items, category }) => {
           )}
         </tbody>
       </table>
+      <Link
+          to={`${categoryPath(category)}`}
+          className="btn more"
+          type={"button"}
+          title={`${categoryName(category)} 더보기`}
+      >
+        <span className="icon more"></span>
+      </Link>
 
-      <Btn
-        className="navigate-btn"
-        type="button"
-        path={`${categoryPath(category)}`}
-        text="+"
-        aria-label={`${categoryName(category)} 더보기`}
-      />
     </>
   );
 };

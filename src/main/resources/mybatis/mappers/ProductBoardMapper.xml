@@ -4,59 +4,60 @@
         <mapper namespace="com.example.team01.board.productboard.dao.ProductBoardDao">
 
     <insert id="CreateProductBoard" parameterType="ProductBoardVO">
-        
+
         <selectKey keyProperty="qnaProId" resultType="String" order="BEFORE">
-            SELECT 'qnapro' || LPAD(ADDQNAPRO_SEQ.NEXTVAL, 4, '0') FROM DUAL
+            SELECT 'qnapro' || LPAD(nextval('addqnapro_seq')::text, 4, '0')
         </selectKey>
 
         INSERT INTO qnapro (
-            "qnaProId",
-            "qnaTitle",
-            "qnaContent",
-            "qnaWriter",
-            "qnaDate",
-            "qnaStatus",
-            "clientId",
-            "roleId"
+        qnaProId,
+        qnaTitle,
+        qnaContent,
+        qnaWriter,
+        qnaDate,
+        qnaStatus,
+        clientId,
+        roleId
         ) VALUES (
-            #{qnaProId},
-            #{qnaTitle},
-            #{qnaContent},
-            #{qnaWriter},
-            SYSDATE,
-            '답변 대기',
-            #{clientId},
-            'ROLE_CLIENT'
+        #{qnaProId},
+        #{qnaTitle},
+        #{qnaContent},
+        #{qnaWriter},
+        NOW(),
+        '답변 대기',
+        #{clientId},
+        'ROLE_CLIENT'
         )
     </insert>
 
     <select id="GetProductBoardlist" parameterType="String" resultType="productBoardVO">
-               SELECT * FROM qnapro WHERE "clientId" = #{userId} AND "qnaDel" IS NULL OR "qnaDel" = 'N'
-        ORDER BY "qnaProId" DESC
+        SELECT * FROM qnapro WHERE clientId = #{userId} AND qnaDel IS NULL OR qnaDel = 'N'
+        ORDER BY qnaProId DESC
     </select>
 
     <select id="getProductBoardDetail" parameterType="map" resultType="productBoardVO">
-        SELECT "qnaProId",
-        "qnaTitle",
-        "qnaContent",
-        "qnaWriter",
-        "qnaDate",
-        "qnaDel",
-        "qnaStatus",
-        "clientId",
-        "roleId",
-        "attachmentID"
-    FROM qnapro
-    WHERE "qnaProId" = #{boardId}
-    AND "clientId" = #{userId}
-    AND ROWNUM = 1
+        SELECT
+            qnaProId,
+            qnaTitle,
+            qnaContent,
+            qnaWriter,
+            qnaDate,
+            qnaDel,
+            qnaStatus,
+            clientId,
+            roleId,
+            attachmentID
+        FROM qnapro
+        WHERE qnaProId = #{boardId}
+        AND clientId = #{userId}
+        LIMIT 1
     </select>
 
     <delete id="deleteProductBoard" parameterType="String">
-        update qnapro
-        set "qnaDel" = 'Y', 
-        "qnaDelDate" = SYSDATE
-        where "qnaProId" = #{boardId}
+        UPDATE qnaOne
+        SET qnaDel = 'Y',
+            qnaDelDate = CURRENT_TIMESTAMP
+        WHERE qnaOneId = #{boardId}
     </delete>
 
 </mapper>

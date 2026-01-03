@@ -29,7 +29,7 @@ public class UserViewBookVO implements Serializable {
 
     private String viewId; // primary key
     private  String clientId; // foreign key
-    private String bookId; // foreign key
+    private Long bookId; // foreign key
 
     @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm:ss")
     private LocalDateTime viewDate; // 유저가 조회한 날짜

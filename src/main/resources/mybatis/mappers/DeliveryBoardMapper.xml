@@ -5,61 +5,61 @@
         <mapper namespace="com.example.team01.board.deliveryboard.dao.DeliveryBoardDao">
     
     <insert id="CreateDeliveryBoard" parameterType="DeliveryBoardVO">
+        <!-- PostgreSQL selectKey -->
         <selectKey keyProperty="qnaDelId" resultType="String" order="BEFORE">
-            SELECT 'qnadeliv' || LPAD(ADDQNADELIV_SEQ.NEXTVAL, 4, '0') FROM DUAL
+            SELECT 'qnadeliv' || LPAD(nextval('addqnadeliv_seq')::text, 4, '0')
         </selectKey>
-        
+
         INSERT INTO qnadeliv (
-            "qnaDelId",
-            "qnaTitle",
-            "qnaContent",
-            "qnaWriter",
-            "qnaDate",
-            "qnaStatus",
-            "clientId",
-            "roleId",
-            "attachmentID"
+            qnaDelId,
+            qnaTitle,
+            qnaContent,
+            qnaWriter,
+            qnaDate,
+            qnaStatus,
+            clientId,
+            roleId,
+            attachmentID
         ) VALUES (
             #{qnaDelId},
             #{qnaTitle},
             #{qnaContent},
             #{qnaWriter},
-            SYSDATE,
+            NOW(),
             '답변 대기',
             #{clientId},
             'ROLE_CLIENT',
-            #{attachmentID , jdbcType=VARCHAR}
+            #{attachmentID, jdbcType=VARCHAR}
         )
     </insert>
 
     <select id="GetDelivBoardlist" parameterType="String" resultType="DeliveryBoardVO">
-       SELECT * FROM qnaDeliv WHERE "clientId" = #{userId} AND "qnaDel" IS NULL OR "qnaDel" = 'N'
-        ORDER BY "qnaDelId" DESC
+        SELECT * FROM qnaDeliv WHERE clientId = #{userId} AND qnaDel IS NULL OR qnaDel = 'N'
+        ORDER BY qnaDelId DESC
     </select>
 
     <select id="getDeliveryBoardDetail" parameterType="map" resultType="DeliveryBoardVO">
-        SELECT "qnaDelId",
-        "qnaTitle",
-        "qnaContent",
-        "qnaWriter",
-        "qnaDate",
-        "qnaDel",
-        "qnaStatus",
-        "clientId",
-        "roleId",
-        "attachmentID"
-    FROM qnaDeliv
-    WHERE "qnaDelId" = #{boardId}
-    AND "clientId" = #{userId}
-    AND ROWNUM = 1
-        
+        SELECT qnaDelId,
+               qnaTitle,
+               qnaContent,
+               qnaWriter,
+               qnaDate,
+               qnaDel,
+               qnaStatus,
+               clientId,
+               roleId,
+               attachmentID
+        FROM qnaDeliv
+        WHERE qnaDelId = #{boardId}
+        AND clientId = #{userId}
+        LIMIT 1
     </select>
 
 
     <delete id="deleteDeliveryBoard" parameterType="String">
         update qnaDeliv
-        set "qnaDel" = 'Y', 
-        "qnaDelDate" = SYSDATE
-        where "qnaDelId" = #{boardId}
+        set qnaDel = 'Y',
+            qnaDelDate = CURRENT_TIMESTAMP
+        where qnaDelId = #{boardId}
     </delete>
 </mapper>

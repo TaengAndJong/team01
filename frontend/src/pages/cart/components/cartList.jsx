@@ -8,6 +8,8 @@ import CartAllPrice from "./cartAllPrice.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import ReusableModal from "./modal.jsx";
 import BookCount from "../../book/components/bookCount.jsx";
+import ImgBaseUrl from "@/util/imgBaseUrl";
+import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
 
@@ -25,7 +27,10 @@ const CartList = () => {
         const handleClose = () => {
             console.log("close modal");
             setShow(false)}
-        const [modalType, setModalType] = useState("confirm");
+        // const [modalType, setModalType] = useState("confirm");
+
+       // 공통모달_에러 처리
+        const {openModal, closeModal} = useModal();
 
 
     // 구조분해 할당을 통한 bookList ==> 구조분해 할당 시,cartdata에 담긴 키명 그대로 받아야함 ==> 도서 상품 삭제시 주소데이터가 초기값에 없을경우는 ?
@@ -33,6 +38,12 @@ const CartList = () => {
         // 삭제 , 갱신 등의 데이터 조작이 필요한 경우 상태관리 변수 사용 
         // ==> 전역데이터를 한 번더 담아주는 이유는 초기 렌더링 시 null, undefined 방지
         //전역상태 데이터를 바로 사용하면 리렌더링될 때마다 갱신발생, UI상태관리가 힘들어짐
+    
+        // 배송주소를 입력하지 않으면 구매 버튼 비활성화 관리조건 ( null과 undifined , 객체키의 개수 이중조건판단)
+        //true 이면 구매버튼 비활성화 아니면 활성화
+        const emptyAddr = !address || Object.keys(address).length === 0;
+    
+    
         const [cartList, setCartList] = useState(null);
 
         //목록선택 개별상태관리변수
@@ -46,18 +57,14 @@ const CartList = () => {
 
         //개별선택 핸들러
         const selectOneHandler = (cartId,checked)=>{
-            console.log(`개별선택 cartId : ${cartId}  checked:${checked}`);
-
             //checked가 true 이면
             if(checked){
-                console.log("선택 true");
                 //배열로 선택된 아이디 장바구니아이템 담기
                 setSelectItem((prev)=>[
                     ...prev, // 배열이 담긴 cartId
                     cartId, // 새로 선택된 cartId
                 ]);
             }else{
-                console.log("선택 false");
                 //체크가 해제된 cartId를 제외하고 배열에 반환(필터링)
                 setSelectItem((prev)=> prev.filter(item => item !== cartId)) // filter 함수는 배열로 값 반환
             }
@@ -76,25 +83,24 @@ const CartList = () => {
                 //selectItem에 이미 담긴 아이디는 제외한 Id 담기
                 const filterSelectIds= cartList.map((item)=> item.cartId) // cartList의 item의 cartId를  map 함수로 배열로 반환 후
                     .filter(id => id !== selectItem.includes(id)); // 개별선택으로 배열에 담긴 아이디와 동일하지 않은 Id만 필터링해서 반환
-                console.log("filterSelectIds", filterSelectIds);
+
                 //selectItem에 데이터 갱신
                 setSelectItem(filterSelectIds);
             }else{
                 setSelectItem([]); // 빈 배열 리셋
             }
         }
-         // console.log("selectItem----------Last",selectItem);
+
 
         //장바구이 아이템 삭제 handler
         const deleteItemHandler = async ()=>{
-            console.log(`장바구니 아이템 삭제 비동기요청 핸들러 selectItem ${selectItem}`);
 
             try{
                 //axios로 비동기 요청 보내기
                 const response
                     = await axios.delete("/api/cart/delete",{data:selectItem}) //body에 데이터 담기
                 // axios는 response.ok 없음 → HTTP 에러는 catch에서 잡힘
-                console.log("응답성공 클라이언트로 보내진 데이터",response.data);
+
                 const data = response.data;
                 //cartList 데이터 갱신필요
                 const bookList = Array.isArray(data) ? data : data.bookList;
@@ -105,36 +111,42 @@ const CartList = () => {
                 setSelectItem([]);// 삭제선택된 배열 리셋
             }catch(error){
                 console.error("삭제 실패:", error);
+                console.error("삭제 실패 장바구니 에러데이터:", error.response?.data);
                 // 에러 처리 로직 작성 (알림, 재시도 등)
+                openModal({
+                    modalType:"error",
+                    content:<><p>`${error.response?.data}`</p></>
+                });
             }
             
         }
 
         //총 가격 공통 메서드
         const totalPrice = (cartList,cartIds) =>{
-            // console.log("totalPrice----cartList",cartList);
+
             const selectedItems = cartList?.filter(item => cartIds.includes(item.cartId));
-            // console.log("totalPrice----selectedItems",selectedItems);
+
             let total = 0;
             for (let i = 0; i < selectedItems?.length; i++) {
                 total += (selectedItems[i].book.bookPrice * selectedItems[i].book.quantity);
-            // console.log("for total ",total);
             }
-            // console.log("acc total ",total);
+
             return total;
         }
         //결제 핸들러
         const gotoPayment=(cartList,cartIds)=>{
-            console.log("payment gotoPayment");
+
             const total = totalPrice(cartList,cartIds);
-            console.log("gotoPayment-----total",total);
+
             //여기에서  가격 검증해야하나
             if(total === 0 || total === null){
                 console.log("결제할 상품이 없다")
                 setShow(true);
-                setErrorData({
-                    message:"결제할 상품이 없습니다",
-                })
+                openModal({
+                    modalType:"error",
+                    content:<><p>"결제할 상품이 없습니다"</p></>
+                });
+
             }else{
                 //결제페이지로 이동할 때 필요한 파라미터 navigate객체에 담아서 보내주기
                 console.log("결제페이지로 이동");
@@ -156,9 +168,6 @@ const CartList = () => {
     //1. 변경 버튼을 누르면 모달창이 뜨고 수량변경 Ui 출력후 완료 버튼을 통해 변경을 해준다
     //2.  수량 부분을 input 태그로 수정하고 직접 관리하여 변경한다
     const modifyQuantity = async (cartId,bookId,quantity) =>{
-        // console.log(" 도서수량 수정 장바구니 아이디" , cartId);
-        // console.log(" 도서수량 수정 장바구니 아이디" , bookId);
-        // console.log(" 도서수량 수정 장바구니 아이디" , quantity);
         // 비동기 요청 보내기
         const response=  await axios.patch("/api/cart/quantity",{
             cartId:cartId,
@@ -166,7 +175,6 @@ const CartList = () => {
             quantity:quantity
         })
 
-        console.log("response---도서수량 비동기요청보냄" , response.data );
         // 서버에서 업데이트된 장바구니 아이템을 받음
         const updatedBookQuantity = response.data;
 
@@ -189,18 +197,13 @@ const CartList = () => {
 
     //cartData가 변화할 때마다 데이터 갱신 ==> 이게 지금 안되고 있음
     useEffect(() => {
-    console.log("CartData useEffect--cartList",cartData);
-    if (cartData) {
-        setCartList(bookList);
-    }
+        if (cartData) {
+            setCartList(bookList);
+        }
     },[cartData])
 
     //장바구니에 도서 담길 때 전체 선택 자동으로 될 경우
     useEffect(() => {
-        // 그냥 검증
-        console.log("전역 bookCount---------",bookCount);
-        console.log("전역 selectItem---------",selectItem);
-
     //carList가 null인지 undefined인지 확인 후 빈 배열 확인
     if(cartList && cartList.length > 0){
         const allId = cartList.map(item => item.cartId);
@@ -227,10 +230,8 @@ const CartList = () => {
             )
         }
 
-
-
         const addCartList = (cartList) => {
-       //     console.log("addCartList-----bookList", cartList); // undefined여서 에러나는데
+
             return (
           <>
               {/*label 내부에 input 기입 시, htmlFor 기입 불필요*/}
@@ -257,15 +258,15 @@ const CartList = () => {
                               <div className="card-header border-end rounded-4 overflow-hidden">
                                   <div className="img-box">
                                       <div className="img-inner">
-                                          <img className="img" src={`${item.book.bookImgList[0]}`} alt="노이미지"/>
+                                          <img className="img" src={ImgBaseUrl(item.book.bookImgList[0])} alt="노이미지"/>
                                       </div>
                                   </div>
                               </div>
                               {/* 도서 정보*/}
                               <div className="book-info card-body">
                                   <div>
-                                      <span className="cart tultip normal"><i className="icon book"></i>{item.cartId}</span>
-                                      <span className="book tultip uncomplete"><i className="icon cart01"></i>{item.book.bookId}</span>
+                                      <span className="cart tultip normal"><i className="icon cart01"></i>{item.cartId}</span>
+                                      <span className="book tultip uncomplete"><i className="icon book"></i>{item.book.bookId}</span>
                                       <strong className="book-title title-dotted d-block"><span>{item.book.bookName}</span></strong>
                                   </div>
 
@@ -304,6 +305,7 @@ const CartList = () => {
                                   {/* 도서 가격  도서가격, 도서수량 */}
                                   <CartItemPrice cartList={item}
                                                  deliveryFee={2000}
+                                                 isDisable={emptyAddr}
                                                  gotoPayment={() => gotoPayment(cartList, item.cartId)}
                                   />
 
@@ -333,7 +335,7 @@ const CartList = () => {
 
                 {/* cartAccount */}
                 <CartAllPrice cartList={cartList} selectItem={selectItem} deliveryFee={2000} gotoPayment={gotoPayment}
-                              totalPrice={totalPrice}
+                              totalPrice={totalPrice} isDisabled={emptyAddr}
                 />
             </div>
 
@@ -360,7 +362,7 @@ const CartList = () => {
                 </div>
             )}
 
-            {/* 알림모달 */}
+
             {show && (
                 <ReusableModal show={show}
                                onClose={handleClose}

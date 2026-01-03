@@ -4,28 +4,47 @@
         <mapper namespace="com.example.team01.comments.dao.CommentsDao">
 
         <insert id="insertComment" parameterType="commentsVO">
-        <selectKey keyProperty="commentId" resultType="String" order="BEFORE">
-        SELECT 'comment' || LPAD(COMMENT_SEQ.NEXTVAL, 4, '0') AS commentId FROM DUAL
-        </selectKey>
-        INSERT INTO comments ("commentId", "commentType", "commentCon", "comWriter", "comWriterName", "comDate", "comModify", "qnaRefId")
-        VALUES (#{commentId}, #{commentType}, #{commentCon}, #{comWriter}, #{comWriterName}, #{comDate}, NULL, #{qnaRefId})
+                <selectKey keyProperty="commentId" resultType="String" order="BEFORE">
+                        SELECT 'comment' || LPAD(nextval('comment_seq')::text, 4, '0')
+                </selectKey>
+
+                INSERT INTO comments (
+                commentid,
+                commenttype,
+                commentcon,
+                comwriter,
+                comwritername,
+                comdate,
+                commodify,
+                qnarefid
+                )
+                VALUES (
+                #{commentId},
+                #{commentType},
+                #{commentCon},
+                #{comWriter},
+                #{comWriterName},
+                #{comDate},
+                NULL,
+                #{qnaRefId}
+                )
         </insert>
 
         <select id="getCommentById" parameterType="map" resultType="CommentsVO">
                 SELECT * FROM comments
-                WHERE "qnaRefId" = #{qnaRefId} AND "commentType" = #{commentType}
-                AND ROWNUM = 1
+                WHERE qnaRefId = #{qnaRefId} AND commentType = #{commentType}
+                LIMIT 1
         </select>
 
         <update id="postCommentUpdate" parameterType="CommentsVO">
                 UPDATE comments
-                SET "commentCon" = #{commentCon}, "comWriter" = #{comWriter}, "comWriterName" = #{comWriterName}, "comModify" = #{comModify}
-                WHERE "commentId" = #{commentId}
+                SET commentCon = #{commentCon}, comWriter = #{comWriter}, comWriterName = #{comWriterName}, comModify = #{comModify}
+                WHERE commentId = #{commentId}
         </update>
 
         <delete id="postCommentDelete" parameterType="String">
                 DELETE FROM comments
-                WHERE "commentId" = #{commentId}
+                WHERE commentId = #{commentId}
         </delete>
 
 </mapper>

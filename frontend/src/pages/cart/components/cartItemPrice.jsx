@@ -1,7 +1,7 @@
 import BuySelectedBtn from "../../book/components/BuySelectedBtn.jsx";
 
 
-const CartItemPrice = ({ cartList, deliveryFee}) => {
+const CartItemPrice = ({ cartList, deliveryFee,isDisable}) => {
 
     const total = cartList.book.bookPrice * cartList.book.quantity + deliveryFee;
 
@@ -32,6 +32,7 @@ const CartItemPrice = ({ cartList, deliveryFee}) => {
                     {/*기존 book객체에서 quantity 만 수정*/}
                     <BuySelectedBtn type={"selected"}
                                     cartId={cartList.cartId}
+                                    isDisable={isDisable}
                                     book={ {...cartList.book, quantity: cartList.book.quantity ?? 1} }
                     />
 

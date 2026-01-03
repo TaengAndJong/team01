@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 public class CartDTO { // 하나의 레코드를 의미
     //클라이언트로 보내줄 엔터티만 작성
-    private String cartId; //장바구니 생성아이디
+    private Long cartId; //장바구니 생성아이디
     private LocalDateTime addCartDate; // 장바구니에 담은 날짜
  //   private int quantity; // 구매수량
     private String bookId; //  도서 아이디 (도서 아이디만 사용할때 )

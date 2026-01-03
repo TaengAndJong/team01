@@ -53,7 +53,7 @@ const SignUpComponent = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("/api/signUp", {
+            const response = await fetch("/api/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -85,7 +85,7 @@ const SignUpComponent = () => {
     
     // 아이디, 회원번호 검증
     const handleConfirm = async (key, value,addData = {}) => {
-        console.log(key, value);
+        console.log("아이디 중복 검사 밸류 ",key, value);
         //formData에 입력된 객체의 값을 가져와서 , URLSearchparams를 이용해 쿼리스트링으로 변경해 서버로 전송해야 함
         //URLSearchparams는 문자열을 파라미터로 받아야 함 ==> 객체에 담아서 key=value 형태로 담아야 함
         const params= new URLSearchParams({[key]:value});
@@ -103,7 +103,7 @@ const SignUpComponent = () => {
 
         try{
             // 쿼리스트링으로 서버로 검증할 파라미터 fetch로 넘겨주기
-            const response = await fetch(`/api/signUp/validate?${params.toString()}`, {
+            const response = await fetch(`/api/signup/validate?${params.toString()}`, {
                 method: "get",
             })
             //통신 실패
@@ -128,10 +128,6 @@ const SignUpComponent = () => {
         }
         //end
     }
-
-    // console.log("signupComponent ---------------------------------------")
-    // console.log("formData :", formData);
-    // console.log("signupComponent ---------------------------------------")
 
 
 

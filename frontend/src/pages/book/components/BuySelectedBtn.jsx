@@ -8,7 +8,7 @@ import {useAuth} from "../../common/AuthContext.jsx";
 
 // 선택도서구매와 바로구매 동일 버튼 사용하게 구현하기
 // 버튼은 type으로 구분, 도서 데이터 book,
-const BuySelectedBtn = ({type, book,cartId}) => {
+const BuySelectedBtn = ({type, book,cartId,isDisable}) => {
     // 로그인 여부
     const { isAuthenticated } = useAuth(); //
 
@@ -80,7 +80,9 @@ const BuySelectedBtn = ({type, book,cartId}) => {
         <>
             <button type="button" aria-label={btnName}
                     className="submit btn btn-dark"
-                    onClick={()=> gotoPayment(book,type)}>
+                    onClick={()=> gotoPayment(book,type)}
+                    disabled={isDisable}
+            >
                 {btnName}
             </button>
         </>

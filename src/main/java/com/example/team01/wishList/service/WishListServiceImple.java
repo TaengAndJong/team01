@@ -11,8 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -38,7 +39,7 @@ public class WishListServiceImple implements WishListService {
         // 전체페이지  설정해주기
         pagination.setTotalRecord(total);
        //startRow && endRow 설정
-        pagination.setLimitRows(pagination.getCurrentPage());
+        pagination.setLimitRows();
         log.info("getWishList-----------2222:{}",pagination);
         // 데이터 조회
         List<WishListVO>  wishList = wishListDao.getWishList(pagination);
@@ -49,15 +50,25 @@ public class WishListServiceImple implements WishListService {
         // stream API를 통해 내부를 순회, map을 통해 사용할 객체를 가져옴 , filter로 null예외 발생 방지
        
         wishList.stream().map(WishListVO::getBookVO).filter(Objects::nonNull)
-                .forEach(vo -> fileUtils.changeImgPath(vo,request));
-
+                .forEach(vo -> {
+                    List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+                    if(vo.getBookImgPath() != null && !vo.getBookImgPath().isEmpty()){
+                        imgArray =  new ArrayList<>(
+                                Arrays.asList(
+                                        vo.getBookImgPath().split(",") //String [] 배열로 반환
+                                )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+                        );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+                    }
+                    // admingbookVO bookImgList에 담아주기
+                    vo.setBookImgList(imgArray);
+                });
         return wishList;
     }
 
 
 
     @Override
-    public WishStatus insertWishList(String clientId, String bookId) {
+    public WishStatus insertWishList(String clientId, Long bookId) {
         //컨트롤러에게 반환할 cnt (마이바티스는 update, delete, insert 에대해서  int로 반환)
 
         // 파리미터를 받아와서 존재여부 판단
@@ -67,9 +78,13 @@ public class WishListServiceImple implements WishListService {
 
         if (exist > 0) { // 이미 있으면 wishStatus  'Y','N' 갱신
             int result = wishListDao.wishListStatus(clientId, bookId);
+
             // wishStatus 갱신 해줘야함
             log.info("insertWishList-----wishStatus:{}",result);
-            if(result > 0) return WishStatus.UPDATE;
+            if(result > 0) {
+                log.info("wishStatus.update",WishStatus.UPDATE);
+                return WishStatus.UPDATE;
+            }
         }else{
             // 디비에 처음부터 존재하지 않으면 insert
             int result = wishListDao.insertWishList(clientId, bookId);
