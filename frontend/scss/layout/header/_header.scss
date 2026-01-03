@@ -29,7 +29,7 @@ header,.header-inner,.gnb{position:relative}
 #header{}
 .header-inner{
     position: relative;
-    .gnbWrap{padding:$layoutPadding;}
+    .gnbWrap{padding:$layoutPadding;min-height: $gnb-height;}
   &.menu{ background-color:$AdminHeaderColor; }
 }
 
