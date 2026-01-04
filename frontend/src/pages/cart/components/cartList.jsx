@@ -1,5 +1,5 @@
 import "@assets/css/cart/cartList.css"
-import React, { useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useMemo, useState} from "react";
 import {CartDispatchContext, CartStateContext} from "../cartComponent.jsx";
 import CartAddress from "./cartAddress.jsx";
 import axios from "axios";
@@ -10,6 +10,7 @@ import ReusableModal from "./modal.jsx";
 import BookCount from "../../book/components/bookCount.jsx";
 import ImgBaseUrl from "@/util/imgBaseUrl";
 import {useModal} from "../../common/modal/ModalContext.jsx";
+import {getTotalPrice} from "../../../util/calculatePrice.js";
 
 
 
@@ -121,25 +122,17 @@ const CartList = () => {
             
         }
 
-        //총 가격 공통 메서드
-        const totalPrice = (cartList,cartIds) =>{
 
-            const selectedItems = cartList?.filter(item => cartIds.includes(item.cartId));
+        //전체 가격 계산 함수 호출
+        const totalPrice = useMemo(() => {
+            return getTotalPrice(cartList, selectItem);
+        }, [cartList, selectItem]);
 
-            let total = 0;
-            for (let i = 0; i < selectedItems?.length; i++) {
-                total += (selectedItems[i].book.bookPrice * selectedItems[i].book.quantity);
-            }
-
-            return total;
-        }
         //결제 핸들러
-        const gotoPayment=(cartList,cartIds)=>{
-
-            const total = totalPrice(cartList,cartIds);
+        const gotoPayment=(cartList,cartIds,totalPrice)=>{
 
             //여기에서  가격 검증해야하나
-            if(total === 0 || total === null){
+            if(totalPrice === 0 || totalPrice === null){
                 console.log("결제할 상품이 없다")
                 setShow(true);
                 openModal({
@@ -154,7 +147,7 @@ const CartList = () => {
                 navigate("/payment",{
                     state:{
                         cartIds,
-                        payAccount :total,
+                        payAccount :totalPrice,
                         addrId: address?.addrId,
                     }
                 });
@@ -164,7 +157,7 @@ const CartList = () => {
         //gotoPayment End
 
 
-//도서수량변경 핸들러
+    //도서수량변경 핸들러
     //1. 변경 버튼을 누르면 모달창이 뜨고 수량변경 Ui 출력후 완료 버튼을 통해 변경을 해준다
     //2.  수량 부분을 input 태그로 수정하고 직접 관리하여 변경한다
     const modifyQuantity = async (cartId,bookId,quantity) =>{
@@ -204,14 +197,14 @@ const CartList = () => {
 
     //장바구니에 도서 담길 때 전체 선택 자동으로 될 경우
     useEffect(() => {
-    //carList가 null인지 undefined인지 확인 후 빈 배열 확인
-    if(cartList && cartList.length > 0){
-        const allId = cartList.map(item => item.cartId);
-        //선택 상태관리 변수 갱신
-        setSelectItem(allId);
-    }else{
-        setSelectItem([]);// 없으면 빈배열
-    }
+        //carList가 null인지 undefined인지 확인 후 빈 배열 확인
+        if(cartList && cartList.length > 0){
+            const allId = cartList.map(item => item.cartId);
+            //선택 상태관리 변수 갱신
+            setSelectItem(allId);
+        }else{
+            setSelectItem([]);// 없으면 빈배열
+        }
 
     },[cartList]) // cartList 가 변경될 때마다 실행
 
@@ -258,7 +251,7 @@ const CartList = () => {
                               <div className="card-header border-end rounded-4 overflow-hidden">
                                   <div className="img-box">
                                       <div className="img-inner">
-                                          <img className="img" src={ImgBaseUrl(item.book.bookImgList[0])} alt="노이미지"/>
+                                          <img className="img" src={ImgBaseUrl(item.book.bookImgList[0])} alt={item.book.bookName}/>
                                       </div>
                                   </div>
                               </div>
@@ -304,7 +297,7 @@ const CartList = () => {
                                   </ul>
                                   {/* 도서 가격  도서가격, 도서수량 */}
                                   <CartItemPrice cartList={item}
-                                                 deliveryFee={2000}
+                                                 totalPrice={totalPrice}
                                                  isDisable={emptyAddr}
                                                  gotoPayment={() => gotoPayment(cartList, item.cartId)}
                                   />
@@ -334,8 +327,11 @@ const CartList = () => {
                 {cartList && cartList?.length > 0 ? addCartList(cartList) : emptyCartList()}
 
                 {/* cartAccount */}
-                <CartAllPrice cartList={cartList} selectItem={selectItem} deliveryFee={2000} gotoPayment={gotoPayment}
-                              totalPrice={totalPrice} isDisabled={emptyAddr}
+                <CartAllPrice cartList={cartList} selectItem={selectItem}
+                              gotoPayment={gotoPayment}
+                              isDisabled={emptyAddr}
+                    // deliveryFee={2000}
+                    // totalPrice={totalPrice}
                 />
             </div>
 

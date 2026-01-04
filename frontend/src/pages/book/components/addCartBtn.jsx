@@ -31,7 +31,10 @@ const AddCartBtn = ({bookId,quantity}) =>{
                 if(response.data.exist){
                     openModal({
                         modalType: "confirm",
-                        content:<><p>{response.data.message}</p></>,
+                        content: <>
+                            <p>{response.data.message}</p>
+                            <p>장바구니로 이동하기</p>
+                        </>,
                         onConfirm:()=>{
                             closeModal(); // 모달 닫고
                             navigate(`/cart`);  // 장바구니로 이동

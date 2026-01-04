@@ -125,7 +125,7 @@ public class CartController {
         if(existBook>0){
             //중복데이터가 있다면
             result.put("exist","true");
-            result.put("message","이미 장바구니에 해당 도서가 존재합니다.<br/> 장바구니로 이동하시겠습니까?");
+            result.put("message", "이미 장바구니에 해당 도서가 존재합니다.");
 
         }else{
             //중복데이터가 없다면 새로 insert ==> try catch 구문 사용하는 이유 알아보기

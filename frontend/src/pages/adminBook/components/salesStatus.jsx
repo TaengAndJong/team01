@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const SalesStatus = ({setDefaultData}) =>{
+const SalesStatus = ({defaultData,setDefaultData}) =>{
 
     //고정 옵션값
     const options = [
@@ -11,9 +11,7 @@ const SalesStatus = ({setDefaultData}) =>{
     ];
 
     const saleStatusHandler=(e)=>{
-        console.log("판매상태 변경되고있다");
-        console.log("event.target",e.target.value);
-        console.log("event.target",e.target.name);
+
         setDefaultData((prev)=>({
             ...prev,
             [e.target.name]: e.target.value
@@ -25,6 +23,7 @@ const SalesStatus = ({setDefaultData}) =>{
                 <strong className="form-title">판매상태</strong>
                 <label htmlFor="saleStatus" className="visually-hidden form-title">판매상태</label>
                 <select id="saleStatus" className="form-select flex-fill me-3 w-50" name="saleStatus"
+                        value={ defaultData.saleStatus|| options[0].code}
                         onChange={(e) => saleStatusHandler(e)}>
                     {options?.map((option, index) => (
                         <option key={option.code} value={option.code}>

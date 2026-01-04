@@ -3,10 +3,10 @@ import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
 const Category=({mode,setDefaultData,defaultData,categoryList})=>{
-    console.log("category --categoryList",categoryList)
-    console.log("category --mode",mode)
+    // console.log("category --categoryList",categoryList)
+    // console.log("category --mode",mode)
     //1번 기본 데이터가 넘어옴
-    console.log("category --defaultData",defaultData);
+    //console.log("category --defaultData",defaultData);
 
     //카테고리 선택박스 초기상태
     const [selectedCategory, setSelectedCategory] = useState({
@@ -27,8 +27,8 @@ const Category=({mode,setDefaultData,defaultData,categoryList})=>{
         if (isInitialized.current) return; // 초기화가 되었으면 재초기화 금지
         if (!defaultData?.bookCateNm?.length) return;// 수정 데이터가 아직 안 왔으면 대기
 
-        console.log("defaultData----- bookCateNm", defaultData.bookCateNm);
-        console.log("defaultData----- typeOf", typeof defaultData.bookCateNm);
+        // console.log("defaultData----- bookCateNm", defaultData.bookCateNm);
+        // console.log("defaultData----- typeOf", typeof defaultData.bookCateNm);
 
         setSelectedCategory({
             names: Array.isArray(defaultData.bookCateNm)
