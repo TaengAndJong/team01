@@ -1,8 +1,13 @@
 
-.client .header{width:100%;position:absolute;top:0;left:0}
+.client .header{width:100%;position:absolute;top:0;left:0;background-color: transparent}
+.client .logo-link{margin-left: 1.4rem;}
+
 /*main태그의 class명이 main*/
+.client .header-inner{max-width: 100%;}
 .client main.main{min-height:auto;width:100%;padding:100px 0 200px}
 .client .bodyWrapper{width:100%}
+.client .index .footer-inner{max-width:100%}
+
 /*.section{max-width: 1920px;margin: 0 auto;}*/
 .section,.sc-inner{width:100%}
 /*.sc-inner{min-height:1080px;}*/

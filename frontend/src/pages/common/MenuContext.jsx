@@ -30,7 +30,7 @@ export const MenuProvider = ({children}) => {
         const menuData = await response.json();
         // 받아온 데이터를 메뉴 상태관리 변수에 갱신
         setMenu(menuData);
-        console.log("메뉴데이터 갱신완료",menuData);
+
 
     }
 
@@ -40,11 +40,11 @@ export const MenuProvider = ({children}) => {
     const [standardPoint, setStandardPoint] = useState("");
 
     const pathManage  = (currentPath) =>{
-        console.log("currentPath--------",currentPath);
+
        const startPoint = currentPath.split("/");
        // "" 인 값을 제외한 배열 생성 및 반환
         const pathDepth = startPoint.filter((item) => item !== "");
-        console.log("pathDepth-------",pathDepth);
+
         let naviPath="";
 
         if(pathDepth.length<2){
@@ -60,7 +60,7 @@ export const MenuProvider = ({children}) => {
         setStandardPoint(naviPath);
     }
 
-    console.log("standardPoint-------메뉴 텍스트 ",standardPoint)
+
     //화면 렌더링 시
     useEffect(() => {
         getMenuData();
@@ -68,8 +68,6 @@ export const MenuProvider = ({children}) => {
 
     },[location.pathname]); //경로 변경될 때마다 실행
 
-
-    console.log("menuContext----기준경로",standardPoint)
 
     return (
         <>

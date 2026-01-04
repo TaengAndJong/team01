@@ -26,11 +26,13 @@
 header{height:auto;z-index: 999;}
 header,.header-inner,.gnb{position:relative}
 //header
-#header{}
+.header{background-color:$AdminHeaderColor;}
 .header-inner{
     position: relative;
-    .gnbWrap{padding:$layoutPadding;min-height: $gnb-height;}
-  &.menu{ background-color:$AdminHeaderColor; }
+    max-width:$layoutMaxwWidth;
+    margin:0 auto;
+    .gnbWrap{padding:$layoutPadding;min-height: $gnb-height; justify-content: flex-end}
+  &.menu{  }
 }
 
 //gnb
@@ -145,7 +147,7 @@ header,.header-inner,.gnb{position:relative}
 
  }
 
-.logo-link{margin-left: 15px;
+.logo-link{margin-left: 4rem;
 
   .logo-inner{
     position: relative;
@@ -177,16 +179,17 @@ header,.header-inner,.gnb{position:relative}
 
 //main
 .header{
-  .logo{position:absolute; left:6rem; top:50%;transform: translateY(-50%);
-    z-index: 99; padding: 12px 10px 8px 0px;}
+  .logo{
+    position:absolute; left:6rem; top:50%;transform: translateY(-50%);
+    z-index: 99; padding: 12px 10px 8px 0px;
+  }
+
 }
 
 .user-info{
   margin-left: 20px;
   span,button,a{
     font-size:15px; font-weight:bold;
-    //background-color: transparent;
-    //color:$fontTnbColor;
   }
   > ul{
     >li{

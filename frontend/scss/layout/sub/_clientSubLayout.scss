@@ -2,19 +2,19 @@
 // 변수
 @use "../../utils/mixins" as *; // 함수
 
-.client {
-  .left-menu{background-color:#FFCA00}
-
-  .title-border::before{
-    background-color:#D65751;
-  }
-  .title-border::after{
-    background-color:#333;
-  }
-
-  .custom-border{
-    background:rgba(255,255,255,0.3);
-    border-color:#000;
-  }
-
-}
+//.client {
+//  .left-menu{background-color:#FFCA00}
+//
+//  .title-border::before{
+//    background-color:#D65751;
+//  }
+//  .title-border::after{
+//    background-color:#333;
+//  }
+//
+//  .custom-border{
+//    background:rgba(255,255,255,0.3);
+//    border-color:#000;
+//  }
+//
+//}

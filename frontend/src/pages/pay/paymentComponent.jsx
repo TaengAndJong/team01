@@ -13,11 +13,11 @@ import {getAllPrice, getDeliveryPrice} from "../../util/calculatePrice.js";
 const PaymentComponent = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log("location----", location?.state);
+  console.log("location---- 단건구매, 바로구매 버튼 눌렀을 때 담겨온 데이터", location?.state);
   // location에 담겨온 state 객체들 구조분해할당
   const {  book, type, cartIds,cartId } = location?.state;
   //공통모달
-   const {openModal, closeModal} = useModal();
+  const {openModal, closeModal} = useModal();
 
   //주소 상태관리 ==> 단일 객체로 넘어오면 null이 나을까 {}가 나을까?
   const [address, setAddress] = useState(null);
@@ -35,9 +35,33 @@ const PaymentComponent = () => {
     cartIds: cartIds || [cartId], //전체구매일 경우는 cartIds 는 배열, 단건구매일경우 cartId는 문자열로 배열로 감싸서 넘겨야 에러안남
     payConfirm: "false",
   });
+  useEffect(() => {
+    // 주소는 공통으로 받아오기, 바로구매,선택구매( + 장바구니)일 조건으로 나눠주기
+    axios
+        .get("/api/payment")
+        .then((response) => {
 
+          const addr = response?.data.address;
+          console.log("addr",addr);
+          //주소에 데이터 갱신
+          setAddress(addr);
 
-  const [confirmData, setConfirmData] = useState({});
+          // 조건 분기에따른 books 데이터 설정
+          if ((type === "buyNow" ||type ==="selected" ) && book) {
+
+            //바로구매일 때는 location.state.book만 사용, allPrice와 구조 맞춰줘야함
+            setBooks([{book:book}]); // 배열로 감싸줌 (결제 페이지는 배열 기준이니까)
+          } else {
+            // 선택구매(장바구니)일 때는 서버에서 받아온 bookList 사용
+            setBooks(response.data.bookList);
+          }
+
+        })
+        .catch((err) => {
+          console.log("error---결제정보창 에러 처리어떻게", err);
+          catchError(err,{openModal,closeModal})
+        });
+  }, []);
 
 
   //1.필요한 데이터는 books의 도서들 가격 의 총합 + 배송비
@@ -51,7 +75,6 @@ const PaymentComponent = () => {
     return getAllPrice(books);
   }, [books]);
   //배송비 계산
-
   const deliveryPrice = useMemo(()=>{
     return getDeliveryPrice(allPrice);
   },[allPrice])
@@ -117,33 +140,7 @@ const PaymentComponent = () => {
     console.log("onClick 끝");
   };
 
-  useEffect(() => {
-    // 주소는 공통으로 받아오기, 바로구매,선택구매( + 장바구니)일 조건으로 나눠주기
-    
-    axios
-      .get("/api/payment")
-      .then((response) => {
 
-        const addr = response.data.address;
-        //주소에 데이터 갱신
-        setAddress(addr);
-        
-        // 조건 분기에따른 books 데이터 설정
-        if ((type === "buyNow" ||type ==="selected" ) && book) {
-
-          //바로구매일 때는 location.state.book만 사용, allPrice와 구조 맞춰줘야함
-          setBooks([{book:book}]); // 배열로 감싸줌 (결제 페이지는 배열 기준이니까)
-        } else {
-          // 선택구매(장바구니)일 때는 서버에서 받아온 bookList 사용
-          setBooks(response.data.bookList);
-        }
-        
-      })
-      .catch((err) => {
-        console.log("error---결제정보창 에러 처리어떻게", err);
-        catchError(err,{openModal,closeModal})
-      });
-  }, []);
 
   console.log("paymentComponent books ---------------",books)
 

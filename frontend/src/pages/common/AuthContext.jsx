@@ -68,11 +68,8 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
             // 로컬스토리지 위주로 새로고침 시에도 로그인상태 유지( UI 중심)
             const storedUserData = localStorage.getItem('userData');
-
-            console.log("storedUserData ------useEffect", storedUserData);
-
             if (storedUserData) {
-                console.log("storedUserData 데이터가있다");
+
                 setIsAuthenticated(true);
                 setUserData(JSON.parse(storedUserData)); // 로컬 스토리지에서 가져온 데이터로 로그인 상태 유지
                 checkLogin();// 로그인 되었을때만 세션 유지 확인
