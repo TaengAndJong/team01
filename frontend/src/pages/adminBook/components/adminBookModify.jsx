@@ -1,4 +1,4 @@
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
 import Btn from "../../../util/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
@@ -13,7 +13,7 @@ import {formatToDate, getToday} from "../../../util/dateUtils.jsx";
 import {BookDispatchContext} from "../adminBookComponent.jsx";
 import "@assets/css/book/adminbookModify.css";
 import SalesStatus from "./salesStatus.jsx";
-import RecomeType from "./recomeType.jsx";
+import RecomType from "./RecomType.jsx";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 import axios from "axios";
 
@@ -62,9 +62,11 @@ const AdminBookModify = () => {
             setCategoryList(cateData);
 
         }catch(err){
+            //error
             openModal({
                 modalType:"error",
-                content:<><p>`${err.response?.data?.message}`</p></>
+                content:<><p>`${err.response?.data?.message}`</p></>,
+                onConfirm:()=>{closeModal()}
             });
         }
     }
@@ -169,7 +171,8 @@ const AdminBookModify = () => {
                     modalType:"error",
                     content: <>
                         <p>`${result.message}`</p>
-                    </>
+                    </>,
+                    onConfirm:()=>{closeModal()}
                 })
             }
         }
@@ -193,6 +196,7 @@ const AdminBookModify = () => {
                 content:<>
                     <p>`${emptyKey} 값을 채워주세요.`</p>
                 </>,
+                onConfirm:()=>{closeModal()}
             });
             return;
         }
@@ -213,6 +217,7 @@ const AdminBookModify = () => {
                     <p>서버 요청 중 오류가 발생했습니다. 다시 시도해주세요.</p>
                     <p>`에러 : ${err}`</p>
                 </>,
+                onConfirm:()=>{closeModal()}
             });
         }
 
@@ -239,7 +244,7 @@ const AdminBookModify = () => {
                     </div>
                     <div className="d-flex align-items-center mb-1 sperate">
                         {/*등록타입*/}
-                        <RecomeType setDefaultData={setModifyBookData} defaultData={modifyBookData} />
+                        <RecomType setDefaultData={setModifyBookData} defaultData={modifyBookData} />
                         {/* 판매상태관리 */}
                         <SalesStatus setDefaultData={setModifyBookData} defaultData={modifyBookData} />
                     </div>

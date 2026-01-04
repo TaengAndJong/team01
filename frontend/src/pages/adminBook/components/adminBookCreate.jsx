@@ -3,7 +3,7 @@ import React, {useContext, useEffect, useState} from "react";
 import FormTag from "../../../util/formTag.jsx";
 import Btn from "../../../util/reuseBtn.jsx";
 import PathsData from "../../../assets/pathsData.jsx";
-import {BookDispatchContext, PaginationContext} from "../adminBookComponent.jsx";
+import {PaginationContext} from "../adminBookComponent.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 import FileUpload from "./fileUpload.jsx";
 import Category from "./category.jsx";
@@ -12,10 +12,11 @@ import {formatToDate, getToday} from "../../../util/dateUtils.jsx";
 import PriceStock from "./priceStock.jsx";
 import {validNumber} from "../../../util/validation.jsx";
 import PublishDate from "./publishDate.jsx";
-import RecomeType from "./recomeType.jsx";
+import RecomType from "./RecomType.jsx";
 import SalesStatus from "./salesStatus.jsx";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 import axios from "axios";
+
 
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰--
 
@@ -117,6 +118,7 @@ const AdminBookCreate = () => {
                     content:<>
                         <p>{`${result.message}`}</p>
                     </>,
+                    onConfirm:()=>{closeModal()}
                 })
                 // 여기에 value 값 '' 으로 변경
                 value = "";
@@ -139,8 +141,6 @@ const AdminBookCreate = () => {
         const formData = new FormData();
 
         Object.entries(createBook).forEach(([key, value]) => {
-            // console.log("createBook key ",key);
-
             if (key === "bookImg") {
                 // 이미지 파일 처리
                 (bookImg.new || []).forEach(img => formData.append("bookImg", img));
@@ -150,7 +150,6 @@ const AdminBookCreate = () => {
                 if (value.length > 0) {
                     value.forEach(v => formData.append(key, v));
                 } else {
-                    console.log("빈배열 일 경우 key",key);
                     // 빈 배열일 경우도 append
                     formData.append(key, "");
                 }
@@ -191,6 +190,7 @@ const AdminBookCreate = () => {
 
     // 서버로 전송
     const handleSubmit = async () => {
+        // formData
         const formData = buildFormData(createBook, bookImg);
 
         const emptyKey = validateFormData(formData);
@@ -201,6 +201,7 @@ const AdminBookCreate = () => {
                 content:<>
                     <p>{`${emptyKey} 값을 채워주세요.`}</p>
                 </>,
+                onConfirm:()=>{closeModal()}
             });
             return;
         }
@@ -215,7 +216,7 @@ const AdminBookCreate = () => {
                     },
                 });
 
-                console.log("create response", response);
+                console.log("도서 등록 response", response);
 
                 setSearchCondition(null); // 검색어 상태를 초기화 해줘야 등록완료후 처음으로돌아감
                 // 1. 페이지 1로 이동 ( 이미 1페이지면 state 변경이 안됨)
@@ -227,14 +228,13 @@ const AdminBookCreate = () => {
 
 
         } catch (err) {
-            console.log("에러 ",err)
-            console.log("에러 ",err.response?.data);
+            console.log(`도서 등록 서버에러 ${err.statusText}`);
             openModal({
                 modalType: "error",
                 content:<>
-                    <p>서버 요청 중 오류가 발생했습니다. 다시 시도해주세요.</p>
-                    <p>error :{err.response?.data}</p>
+                    <p>{err?.response?.data || "서버 요청 중 오류가 발생했습니다. 다시 시도해주세요."}</p>
                 </>,
+                onConfirm:()=>{closeModal()}
             });
         }
     };
@@ -260,7 +260,7 @@ const AdminBookCreate = () => {
                     </div>
                     <div className="d-flex align-items-center mb-1">
                         {/*등록타입*/}
-                        <RecomeType setDefaultData={setCreateBook}/>
+                        <RecomType setDefaultData={setCreateBook}/>
                         {/* 판매상태관리 */}
                         <SalesStatus setDefaultData={setCreateBook}/>
                     </div>
@@ -302,10 +302,7 @@ const AdminBookCreate = () => {
                                  placeholder="등록일" value={createBook.createDate} readOnly={true}/>
 
                     </div>
-                    {/*작성자*/}
-                    <div className="d-flex align-items-center mb-1">
 
-                    </div>
                     {/*도서설명*/}
                     <div className="d-flex align-items-center mb-1">
                         <label htmlFor="bookDesc" className="form-title">도서설명</label>
@@ -317,12 +314,11 @@ const AdminBookCreate = () => {
                     {/*도서이미지
                         이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요
                     */}
+
                     <div className="d-flex align-items-center flex-wrap">
 
-                        {/*갱신값과 초기값을 전달하기 위해서 둘 다
-                            부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
-                        */}
-                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} defaultData={createBook} setDefaultData={setCreateBook}/>
+                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} defaultData={createBook}
+                                    setDefaultData={setCreateBook}/>
                     </div>
 
 
