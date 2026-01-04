@@ -10,12 +10,16 @@ target/
 
 # Frontend
 frontend/dist/
+frontend/node/
 frontend/node_modules/
 node_modules/
 frontend/.env*
 
 # Runtime
 logs/
+# 이미지
+uploads/
+images/
 
 # Static uploads only
 src/main/resources/static/uploads/
