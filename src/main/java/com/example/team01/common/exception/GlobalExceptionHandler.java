@@ -47,6 +47,7 @@ public class GlobalExceptionHandler {
     }
 
     //비즈니스 로직 예외만 처리 ( 400 Bad Request )
+    @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Map<String, Object>> handleBusinessException(BusinessException e){
         log.warn("비즈니스로직 예외발생: {}", e.getMessage());
         
