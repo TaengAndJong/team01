@@ -26,20 +26,18 @@ const BookList = () => {
   const [bookList, setBookList] = useState([]);
   const [wishIds, setWishIds] = useState([]); //찜목록 아이디들 상태관리변수
   const { isAuthenticated } = useAuth();
-  console.log("bookdata -------------", bookdata); //
-  console.log("paginationInfo -------------", paginationInfo); // 부모 컨텍스트로부터 받아온 데이터
-  console.log("search 상태관리", search);
-  console.log("wishIds: ", wishIds);
+
 
   //찜목록에 Y 인 bookId들만 비동기요청 조회
   const wishBookIds = async () => {
     try {
       //서버로 비동기 요청
       const response = await axios.get(`/api/mypage/wishlist/selectWishIds`);
-      console.log("wishBookIds response", response.data);
+    
       //조회된 도서아이디들 값 wishIds 변수에 저장
       setWishIds(response.data.map(Number));
     } catch (e) {
+        //에러처리필요
       console.log("비동기요청 실패", e);
     }
   };
@@ -51,13 +49,8 @@ const BookList = () => {
       setBookList(bookdata);
     }
   }, [bookdata]);
-  console.log("bookList--------", bookList);
 
-  //   //찜목록 된 도서 Id들 디비에서 조회해오기
-  //   useEffect(() => {
-  //     //조회된 아이디들을 setWishIds로 값 담아주기
-  //     wishBookIds();
-  //   }, []);
+
 
   //로그 아웃 시 위시 리스트 초기화
   useEffect(() => {

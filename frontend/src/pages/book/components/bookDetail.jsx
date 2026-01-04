@@ -38,10 +38,10 @@ const BookDetail = () => {
             }
 
             const data = await response.json();
-            console.log("bookDetail-----data", data);
             setBookDetail(data.bookVO);
 
         }catch(e){
+            //에러처리필요
             console.log("catch-Error", err);
         }
 
@@ -78,8 +78,6 @@ const BookDetail = () => {
     },[]) // 렌더링(마운트) 시 한번 실행
 
     console.log("사용자 도서 상세 ", bookDetail);
-
-
 
     return (
         <>

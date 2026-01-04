@@ -20,10 +20,6 @@ const BookItem = ({ bookList, wishIds, setWishIds }) => {
   const navigate = useNavigate();
   const userData = useAuth(); // 로그인 인증 정보
 
-  //console.log("북아이템 자식 컴포넌트 wishIds",wishIds);
-  // console.log("북아이템 자식 컴포넌트 bookCount",bookCount);
-  console.log("북아이템 자식 컴포넌트 bookList", bookList);
-
   //로그인 정보가 있을경우
 
   //상세페이지로 이동시 link 태그 ( a 태그 ) 로 사용자가 조회한 bookId 서버로 전송하는 핸들러
@@ -44,10 +40,10 @@ const BookItem = ({ bookList, wishIds, setWishIds }) => {
       const response = await axios.post("/api/viewBook", { bookId });
       //  console.log("도서조회시 도서 아이디 전송에 대한 응답",response);
     } catch (error) {
+        //에러처리필요
       console.log("조회된 도서 Id 전송 에러 ", error);
     } finally {
       //최종적으로 실행 ==> 해당도서의 상세페이지로 이동
-      console.log("상세페이지로 이동 : ", bookId);
       navigate(`/book/bookDetail/${bookId}`);
     }
   };
@@ -59,10 +55,6 @@ const BookItem = ({ bookList, wishIds, setWishIds }) => {
   };
 
   const recomTultip = (status) => {
-    console.log(
-      `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
-    );
-
     return (
       <span
         className={`tultip d-inline-flex ${recomTypeMap[status]?.recomType}`}

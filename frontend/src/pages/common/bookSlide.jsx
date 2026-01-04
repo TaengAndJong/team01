@@ -14,9 +14,6 @@ const BookSlide = ({slideData}) =>{
     const imgList = slideData.bookImgList; // 배열로 넘어오면 변수에 저장하면 됨!
     const swiperRef = useRef(null);
 
-    console.log("imgList---------------",imgList);
-
-
     useEffect(() => {
         if (swiperRef.current) {
             swiperRef.current.update(); // 슬라이드 상태 갱신, 정지상태
