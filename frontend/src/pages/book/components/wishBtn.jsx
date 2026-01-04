@@ -18,17 +18,6 @@ const WishBtn = ({ wishIds, setWishIds, bookId }) => {
   // console.log("isAuthenticated",isAuthenticated);
   // console.log("wishIds",wishIds);
 
-  console.log(
-    "wishIds:",
-    wishIds,
-    "bookId:",
-    bookId,
-    "includes:",
-    wishIds.includes(bookId),
-    "types:",
-    typeof wishIds[0],
-    typeof bookId
-  );
   //찜목록 비동기 fetch 요청
   const wishFetch = async (bookId) => {
     //   console.log("wishFetch --- 진입")

@@ -142,11 +142,15 @@ const BookItem = ({ bookList, wishIds, setWishIds }) => {
               </Link>
               {/* 수량 및 액션 버튼 영역 */}
               <div className="item-inner d-flex align-items-center justify-content-end mt-4">
-                <WishBtn
-                  wishIds={wishIds}
-                  setWishIds={setWishIds}
-                  bookId={book.bookId}
-                />
+                {book.stock === 0 ? (
+                  <></>
+                ) : (
+                  <WishBtn
+                    wishIds={wishIds}
+                    setWishIds={setWishIds}
+                    bookId={book.bookId}
+                  />
+                )}
                 {book.stock === 0 ? (
                   <p>품절</p>
                 ) : (
