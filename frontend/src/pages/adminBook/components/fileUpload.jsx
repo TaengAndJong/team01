@@ -4,7 +4,7 @@ import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
 const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모한테 받은 props 객체 기입
-    console.log("defaultData-------------",defaultData);
+
     //파일객체 조작관리
     const fileInitRef = useRef(null);
     //모달
@@ -75,8 +75,19 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
     }, [defaultData]);
 
 
-    console.log("bookImg--2",bookImg);
-    console.log("bookImg--typeof",typeof bookImg.existing); // String 타입
+    //업로드된 파일크기 관리변수
+    const [totalFileSize, setTotalFileSize] = useState(0);
+    const bytesToMB = (bytes) => (bytes / 1024 / 1024).toFixed(2); // 바이트를 메가바이트로 변환하는함수
+    //bookImg 객체가 갱신될 때마다 계산
+    useEffect(() => {
+        // 기존 + 새로 추가된 파일 크기 합산
+        const existingSize = (bookImg.existing || []).reduce((sum, f) => sum + (f.size || 0), 0);
+        const newSize = (bookImg.new || []).reduce((sum, f) => sum + (f.size || 0), 0);
+
+        setTotalFileSize(existingSize + newSize);
+    }, [bookImg]);
+
+
     // 파일 선택 핸들러
     const handleImgUpload = (e) => {
         //이벤트요소로 파일 객체에 접근, 파일 여러개 지정할 경우 배열로 변환필요
@@ -86,15 +97,15 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         // 이미지 확장자 파일 파입이 아닌경우 filter 함수로 필터링
         const invalidFiles = selectedFiles.filter(file => !fileMimeType.includes(file.type));
 
-
         if (invalidFiles.length > 0) {
+            console.log("invalidFiles",invalidFiles);
             openModal({
                 modalType:"error",
                 content: <>
                             <span>이미지 파일만 업로드 가능합니다.</span>
                             <span>({`${invalidFiles.map(f => f.name).join(",")}`})</span>
                         </>,
-               // onConfirm:()=>{closeModal()}
+                onConfirm:()=>{closeModal()}
             });
 
             e.target.value = ""; // 선택 초기화
@@ -110,12 +121,13 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
 
         const duplicateFiles = selectedFiles.filter(f => existingFileNames.includes(f.name));
         if (duplicateFiles.length > 0) {
+            console.log("duplicateFiles",duplicateFiles);
             openModal({
                 modalType:"error",
                 content: <>
                     <span>이미 추가된 파일입니다.</span>
-                </>
-
+                </>,
+                onConfirm:()=>{closeModal()}
             })
 
             e.target.value = "";
@@ -125,13 +137,14 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         //파일 용량 크기 제한
         const oversizedFiles = selectedFiles.filter(f => f.size > maxFileSize);
         if (oversizedFiles.length > 0) {
+            console.log("oversizedFiles",oversizedFiles);
             openModal({
                 modalType:"error",
                 content: <>
                             <span>`업로드 실패: ${oversizedFiles.map(f => f.name).join(", ")}`</span>
                             <span>(각 파일은 5MB 이하만 업로드 가능합니다.)</span>
-                        </>
-
+                        </>,
+                onConfirm:()=>{closeModal()}
             })
             e.target.value = ""; // 선택 초기화
             return;
@@ -140,14 +153,15 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         const totalSize =
             [...(bookImg.new || []), ...selectedFiles].reduce((sum, f) => sum + (f.size || 0), 0);
         if (totalSize > maxTotalSize) {
-            console.log("파일 용량초과")
+            console.log("파일 용량초과" ,totalSize,maxTotalSize)
             openModal({
                 modalType:"error",
                 content:
                     <>
                         <span>총 업로드 용량 초과 (${(totalSize / 1024 / 1024).toFixed(2)}MB)</span>
                         <span>(전체 파일 크기는 20MB 이하여야 합니다.)</span>
-                    </>
+                    </>,
+                onConfirm:()=>{closeModal()}
             })
             e.target.value = "";
             return;
@@ -240,13 +254,16 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
 
     return (
         <>
-            <FormTag id="bookImgPath" label="도서이미지" labelClass="form-title" className="form-control w-75"
-                     name="bookImgPath" type="file"
-                     placeholder="도서 이미지 파일업로드"
-                     onChange={handleImgUpload}
-                     multiple={true}
-                     ref={fileInitRef}
-            />
+            <div className="d-flex align-items-center w-100">
+                <FormTag id="bookImgPath" label="도서이미지" labelClass="form-title" className="form-control w-75"
+                         name="bookImgPath" type="file"
+                         placeholder="도서 이미지 파일업로드"
+                         onChange={handleImgUpload}
+                         multiple={true}
+                         ref={fileInitRef}
+                />
+                <em className="totalfilesize ms-2">{`(${bytesToMB(totalFileSize)}/20MB)`}</em>
+            </div>
 
             {/* 기존 이미지 리스트 */}
             {bookImg?.existing?.length > 0 && renderFileList(bookImg.existing, "existing")}

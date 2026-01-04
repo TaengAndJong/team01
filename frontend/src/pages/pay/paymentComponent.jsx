@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import axios from "axios";
 import "@assets/css/payment.css";
 import PayItem from "./components/payItem.jsx";
@@ -8,6 +8,7 @@ import PayAllPrice from "./components/payAllPrice.jsx";
 import validationPay from "../../util/validationPay.jsx";
 import {useModal} from "../common/modal/ModalContext.jsx";
 import {catchError} from "../../util/error.jsx";
+import {getAllPrice, getDeliveryPrice} from "../../util/calculatePrice.js";
 
 const PaymentComponent = () => {
   const location = useLocation();
@@ -17,7 +18,6 @@ const PaymentComponent = () => {
   const {  book, type, cartIds,cartId } = location?.state;
   //공통모달
    const {openModal, closeModal} = useModal();
-
 
   //주소 상태관리 ==> 단일 객체로 넘어오면 null이 나을까 {}가 나을까?
   const [address, setAddress] = useState(null);
@@ -45,18 +45,16 @@ const PaymentComponent = () => {
   //reduce는 배열을 순회하면서 각 요소의 값을 누적하여 반환하는 함수로,
   //accPrice의 초기값은 0을 지정하고 item의 계산값을 누적하여 반환
   // null 병합 연산자로 값이 null이면 0을 대체해서 에러 방지
-  const allPrice =
-    books?.reduce((accPrice, item) => {
-      console.log(`item ${item}`);
-      const eachPrice = item.book.bookPrice;
-      const quantity = item.book.quantity;
-      console.log(`eachPrice ${eachPrice}`);
-      console.log(`quantity ${quantity}`);
 
-      accPrice = accPrice + eachPrice * quantity;
+  //전체 상품가격 계산
+  const allPrice = useMemo(() => {
+    return getAllPrice(books);
+  }, [books]);
+  //배송비 계산
 
-      return accPrice;
-    }, 0) ?? 0; // 계산된 값에 + 배송비
+  const deliveryPrice = useMemo(()=>{
+    return getDeliveryPrice(allPrice);
+  },[allPrice])
 
   // 결제컨트롤러로 보낼 비동기요청
   const submitPaymentHandler = async (paymentInfo) => {
@@ -218,7 +216,7 @@ const PaymentComponent = () => {
                   결제 금액 요약
                 </h4>
                 <ul className="bg-warning-subtle p-4 d-flex align-items-center">
-                  <PayAllPrice deliveryPay={2000} allPrice={allPrice} />
+                  <PayAllPrice deliveryPrice={deliveryPrice} allPrice={allPrice} />
                   <li className="ms-auto li">
                     <button
                       type="submit"

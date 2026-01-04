@@ -18,7 +18,9 @@ public class GlobalExceptionHandler {
     //특정예외처리 메서드
     @ExceptionHandler(CustomCartException.class)
     public ResponseEntity<Map<String, Object>> handleCartException(CustomCartException ex) {
-        log.info("비즈니스 예외 발생--- 장바구니 수량부족예외 handleCartException");
+        log.info("비즈니스 예외 발생--- 장바구니 수량부족예외: {}", ex.getMessage());
+        log.info("비즈니스 예외 발생--- 장바구니 수량부족예외: {}",  ex.getMessage());
+        log.info("비즈니스 예외 발생--- 장바구니 수량부족예외: {}",  ex.getStock());
 
         Map<String, Object> result = new HashMap<>();
         result.put("bookId", ex.getBookId());

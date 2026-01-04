@@ -2,6 +2,7 @@ package com.example.team01.admin.service;
 
 import com.example.team01.admin.dao.AdminBookDao;
 import com.example.team01.common.exception.BookNotFoundException;
+import com.example.team01.common.exception.BusinessException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
@@ -131,18 +132,18 @@ public class AdminBookServiceImple implements AdminBookService {
             log.info("도서 등록 성공 여부(cnt): {}", cnt);
             // 저장이 안 된 상황이라면?
             if (cnt == 0) {
-                throw new RuntimeException("도서 정보가 저장되지 않았습니다. 입력값을 확인해주세요.");
+                throw new BusinessException("도서 정보가 저장되지 않았습니다. 입력값을 확인해주세요.");
             }
             return cnt; // 성공 시 1 반환
         }catch (DataIntegrityViolationException e){//파일 자료형용량초과 예외처리
             // DB 컬럼 길이 초과 등 데이터 무결성 제약 조건 위반 시 발생
             log.error("데이터 길이 초과 혹은 제약 조건 위반 발생: {}", e.getMessage());
             // 프론트엔드에 전달할 에러 메시지 (보안을 위해 SQL 정보는 숨김) ==> throw 로 컨트롤에서 예외 던지기
-            throw new RuntimeException("허용 가능한 파일 개수를 초과하였습니다.");
+            throw new BusinessException("허용 가능한 파일 크기를 초과하였습니다.");
         }catch (Exception e) {
             // 그 외 예상치 못한 모든 에러 처리
             log.error("도서 등록 중 시스템 오류 발생: ", e);
-            throw new RuntimeException("도서 등록 중 오류가 발생했습니다. 관리자에게 문의하세요.");
+            throw new BusinessException("도서 등록 중 오류가 발생했습니다. 관리자에게 문의하세요.");
         }
 
     }

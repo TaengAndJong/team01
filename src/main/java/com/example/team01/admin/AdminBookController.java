@@ -58,6 +58,7 @@ public class AdminBookController {
             createBook.setBookCateDepth(String.join(",", bookCateDepth));
             createBook.setCateId(String.join(",", cateId));
 
+            log.info(" 도서등록 서비스 진입전");
             // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
             bookService.createBook(createBook); //실패시 catch로 건너뜀
 

@@ -14,7 +14,7 @@ const PayItem = ({books}) => {
                             <div className="card-header border-end rounded-4 overflow-hidden">
                                 <div className="img-box">
                                     <div className="img-inner">
-                                        <img className="img" src={ImgBaseUrl(item.book.bookImgList[0])} alt="노이미지"/>
+                                        <img className="img" src={ImgBaseUrl(item.book.bookImgList[0])} alt={item.book.bookName}/>
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@ const PayItem = ({books}) => {
                                         className="tit">가격</span><em>{item.book.bookPrice}</em>원
                                     </li>
                                     <li className="li"><span
-                                        className="tit">수량</span><em>{item.book.quantity}</em>
+                                        className="tit">수량</span><em>{item.book.quantity}</em>권
                                     </li>
                                 </ul>
                             </div>

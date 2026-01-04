@@ -143,4 +143,9 @@
     </select>
 
 
+    <select id="wishStatusValue" resultType="String">
+        SELECT wishStatus
+        FROM wishList WHERE clientId = #{clientId} AND bookId = #{bookId}
+    </select>
+
 </mapper>
