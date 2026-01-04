@@ -260,9 +260,9 @@ const AdminBookCreate = () => {
                     </div>
                     <div className="d-flex align-items-center mb-1">
                         {/*등록타입*/}
-                        <RecomType setDefaultData={setCreateBook}/>
+                        <RecomType setDefaultData={setCreateBook} defaultData={createBook}/>
                         {/* 판매상태관리 */}
-                        <SalesStatus setDefaultData={setCreateBook}/>
+                        <SalesStatus setDefaultData={setCreateBook} defaultData={createBook}/>
                     </div>
                     {/*도서명*/}
                     <div className="d-flex align-items-center mb-1">
