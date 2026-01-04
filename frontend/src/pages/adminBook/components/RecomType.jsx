@@ -9,10 +9,10 @@ const RecomType=({defaultData,setDefaultData})=>{
         { code: "POPULAR", title: "인기" }
     ];
 
-    const recomeTypeHandler=(e)=>{
+    const recomTypeHandler=(e)=>{
 
-        console.log("recomeTypeHandler",e.target.value);
-        console.log("recomeTypeHandler",e.target.name);
+        console.log("recomTypeHandler",e.target.value);
+        console.log("recomTypeHandler",e.target.name);
         setDefaultData((prev)=>({
                 ...prev,
                 [e.target.name]: e.target.value
@@ -24,12 +24,12 @@ const RecomType=({defaultData,setDefaultData})=>{
     return (
         <>
                 <strong className="form-title">등록분류</strong>
-                <label htmlFor="recomeType" className="visually-hidden form-title">등록분류</label>
-                <select id="recomeType"
+                <label htmlFor="recomType" className="visually-hidden form-title">등록분류</label>
+                <select id="recomType"
                         className="form-select flex-fill w-50"
-                        name="recomeType"
-                        value={defaultData?.recomeType || options[0].code}
-                        onChange={(e)=> recomeTypeHandler(e)} >
+                        name="recomType"
+                        value={defaultData?.recomType || options[0].code}
+                        onChange={(e)=> recomTypeHandler(e)} >
                         {options?.map((option,index) => (
                             <option key={option.code} value={option.code}>
                                 {option.title}
@@ -40,4 +40,4 @@ const RecomType=({defaultData,setDefaultData})=>{
     );
 }
 
-export default RecomeType;
+export default RecomType;
