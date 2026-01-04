@@ -56,10 +56,6 @@ const BookDetail = () => {
     };
 
     const recomTultip = (status) => {
-        console.log(
-            `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
-        );
-
         return (
             <span className={`tultip d-inline-flex ${recomTypeMap[status]?.recomType}`}>
         {recomTypeMap[status]?.label}
@@ -79,10 +75,9 @@ const BookDetail = () => {
 
     useEffect(() => {
         fetchBookDetails();
-        console.log("상세페이지 렌더링")
     },[]) // 렌더링(마운트) 시 한번 실행
 
-    console.log("bookDetail--------", bookDetail);
+    console.log("사용자 도서 상세 ", bookDetail);
 
 
 

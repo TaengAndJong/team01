@@ -11,9 +11,6 @@ import {Link} from "react-router-dom";
 import ImgBaseUrl from "@/util/imgBaseUrl";
 
 const  PopularBookSlide= ({slideData}) =>{
-
-    console.log("slideData --------PopularBookSlide",slideData);
-
     //서드파트 인스턴스 직접 제어
     const swiperRef = useRef(null);
     // 보여주는 슬라이드 개수
@@ -23,14 +20,14 @@ const  PopularBookSlide= ({slideData}) =>{
 
     //정지,재생 컨트롤 메서드
     const playAndPause=()=>{
-        console.log("pause----- 슬라이드 정지");
+
         if (!swiperRef.current) return; // 현재 슬라이드가 아니면 코드 종료
 
         if(swiperRef.current.autoplay.running){ // 자동재생중이면 == true
-            console.log("swiperRef.current---- pause",play);
+
             swiperRef.current.autoplay.stop();// 정지
         }else { // false
-            console.log("swiperRef.current---- play",play);
+
             swiperRef.current.autoplay.start();//재생
         }
         //상태값을 재생상태관리 변수에 반영;
