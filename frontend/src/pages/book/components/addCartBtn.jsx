@@ -33,7 +33,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
                         modalType: "confirm",
                         content: <>
                             <p>{response.data.message}</p>
-                            <p>장바구니로 이동하기</p>
+                            <p>장바구니로 이동하시겠습니까?</p>
                         </>,
                         onConfirm:()=>{
                             closeModal(); // 모달 닫고

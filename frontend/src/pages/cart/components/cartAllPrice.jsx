@@ -64,6 +64,7 @@ const cartAllPrice = ({cartList,selectItem,gotoPayment,isDisabled}) =>{
                 {/*</li>*/}
 
             </ul>
+            <p className="d-flex align-items-center justify-content-end my-3"><i className="icon info mx-2"></i>10000원 이상 구매시, 배송비 무료</p>
         </>
     )
 }

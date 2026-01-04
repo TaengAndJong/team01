@@ -37,7 +37,7 @@ public class PaymentController {
 
 
     @GetMapping()
-    public ResponseEntity<?> getPayment(@AuthenticationPrincipal PrincipalDetails userDetails, HttpServletRequest request) {
+    public ResponseEntity<?> getPayment(@AuthenticationPrincipal PrincipalDetails userDetails) {
         // 결제 성공 목록 조회해서 데이터 클라이언트로 보내주기
         String clientId = userDetails.getUsername();
         // 2) 결제테이블에추가된 장바구니 목록 정보
@@ -67,7 +67,7 @@ public class PaymentController {
                     return cartDTO;// 변경된 데이터 반환
                 }).collect(Collectors.toList());
 
-
+        log.info("bookList getPayment:{}---",bookList);
         // 1)  클라이언트가 선택한 주소 데이터
         AddressDTO address = addressService.selectOneAddress(clientId);
         log.info("getPayment--------- list:{}",bookList);

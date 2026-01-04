@@ -28,7 +28,7 @@ const RecomType=({defaultData,setDefaultData})=>{
                 <select id="recomType"
                         className="form-select flex-fill w-50"
                         name="recomType"
-                        value={defaultData?.recomType || options[0].code}
+                        value={defaultData?.recomType || options[0]?.code}
                         onChange={(e)=> recomTypeHandler(e)} >
                         {options?.map((option,index) => (
                             <option key={option.code} value={option.code}>

@@ -145,7 +145,7 @@ const Gnb = ({ menu, commonMenuItems }) => {
       )}
       {isAuthenticated ? ( // 시큐리티 인증이 true이면
           <>
-            <div className="header-inner user-info">
+            <div className="user-info">
               <ul className="d-flex align-items-center">
                 <li>
                   {" "}
@@ -188,7 +188,7 @@ const Gnb = ({ menu, commonMenuItems }) => {
           {/*   로그인 페이지와 회원가입 페이지 가 아니면  나오게 */}
           {!hideContent && (
             <>
-              <div className="header-inner user-info">
+              <div className="user-info">
                 <ul className="d-flex align-items-center">
                   <li>
                     <Link to={"/login"} className={"login btn custom-btn01"}>로그인</Link>
