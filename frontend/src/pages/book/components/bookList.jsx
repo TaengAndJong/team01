@@ -9,7 +9,7 @@ import "@assets/css/book/bookList.css";
 import SearchBar from "./searchBar.jsx";
 import BookItem from "./bookItem.jsx";
 import Pagination from "@util/pagination.jsx";
-
+import { useAuth } from "@common/AuthContext.jsx";
 import axios from "axios";
 
 const BookList = () => {
@@ -25,7 +25,7 @@ const BookList = () => {
   //  const {onInit} = useContext(BookDispatchContext); // 사용할 함수 가져올때 전역설정이면 context 훅 불러와야함
   const [bookList, setBookList] = useState([]);
   const [wishIds, setWishIds] = useState([]); //찜목록 아이디들 상태관리변수
-
+  const { isAuthenticated } = useAuth();
   console.log("bookdata -------------", bookdata); //
   console.log("paginationInfo -------------", paginationInfo); // 부모 컨텍스트로부터 받아온 데이터
   console.log("search 상태관리", search);
@@ -53,12 +53,22 @@ const BookList = () => {
   }, [bookdata]);
   console.log("bookList--------", bookList);
 
-  //찜목록 된 도서 Id들 디비에서 조회해오기
-  useEffect(() => {
-    //조회된 아이디들을 setWishIds로 값 담아주기
-    wishBookIds();
-  }, []);
+  //   //찜목록 된 도서 Id들 디비에서 조회해오기
+  //   useEffect(() => {
+  //     //조회된 아이디들을 setWishIds로 값 담아주기
+  //     wishBookIds();
+  //   }, []);
 
+  //로그 아웃 시 위시 리스트 초기화
+  useEffect(() => {
+    if (isAuthenticated) {
+      // 로그인 상태 → 서버에서 찜 목록 조회
+      wishBookIds();
+    } else {
+      // 로그아웃 상태 → 찜 목록 초기화
+      setWishIds([]);
+    }
+  }, [isAuthenticated]);
   return (
     <>
       <div className="book-list">

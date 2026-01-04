@@ -38,7 +38,7 @@ public class AddressServiceImple implements AddressService{
 
         AddressVO vo = dao.selectOneAddress(clientId);
         //AddressVO 사용하기
-        log.info("payment-------:{}",vo);
+        log.info("payment-------:{}",vo); // 여기서 null
         log.info("payment-------addrId:{}",vo.getAddrId());
 
         AddressDTO addrDto = AddressDTO.builder()

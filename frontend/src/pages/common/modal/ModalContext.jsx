@@ -29,12 +29,12 @@ export const ModalProvider = ({children}) => { //children을 통해 provider 자
         content: null,//내용 추가
     });
     //state end
-    console.log("content =-=--------------",state.content);
+
 
     //필요한 파라미터
     //모달 열기
     const openModal = ({show=true, onClose, modalType, onConfirm, data,content}) => {
-        console.log("openModal-----------------content ", content);
+
 
         setState({
             show,// 모달열림 불린값
@@ -48,7 +48,7 @@ export const ModalProvider = ({children}) => { //children을 통해 provider 자
 
     // 모달 닫기
     const closeModal = () => {
-        console.log("closeModal-----------------");
+
         setState((prev) => ({ ...prev, show: false }));
     };
 

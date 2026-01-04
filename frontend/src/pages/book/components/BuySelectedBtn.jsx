@@ -17,9 +17,9 @@ const BuySelectedBtn = ({type, book,cartId,isDisable}) => {
     // 전역 모달
     const {openModal, closeModal} = useModal();
 
-    // console.log("구매하기 --------book",book);
-    // console.log("구매하기--------type",type);
-    // console.log("단건구매 장바구니아이디--------cartId",cartId);
+    console.log("구매하기 --------book",book);
+    console.log("구매하기--------type",type);
+    console.log("단건구매 장바구니아이디--------cartId",cartId);
     //단건구매일때에는 cartId도 같이 결제페이지로 넘겨줘야함
     // 단건구매(selected)일 경우에만 cartId 추가
     if (type === "selected" && cartId) {
@@ -30,8 +30,8 @@ const BuySelectedBtn = ({type, book,cartId,isDisable}) => {
 
     //선택구매 버튼을 누르면 결제페이지로 이동되고, 도서정보도 같이 넘겨줘야함
     const gotoPayment = async (book,type) => {
-        // console.log(`book ${book}, type ${type}`);
-        // console.log(`cartId ${cartId}`);
+        console.log(`book ${book}, type ${type}`);
+        console.log(`cartId ${cartId}`);
         // 도서정보, 버튼type, cartId
         
         // 서버 세션유지확인 & 에러처리
@@ -48,7 +48,7 @@ const BuySelectedBtn = ({type, book,cartId,isDisable}) => {
                 const response = await axios.get("/api/auth",)
                 if(response.status === 200) {
                     //세션유지,로그인 확인 시
-                    console.log("결제하러가자---------------",response);
+                    console.log("세션이 연결되어 있으면 결제페이지로 이동---------------",response);
                     // 결제페이지로 파라미터를 담아서 이동하기
                     navigate("/payment",{
                         state:{

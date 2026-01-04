@@ -28,11 +28,12 @@ $cate03:$color12; //답변완료
 
 /* 레이이아웃 - header & footer*/
 $layoutPadding : 0 6rem; // header, footer,content 양 여백
-$layoutMargin : 30px;
-$headerHeight: 50px;
-$footerHeight: 300px;
-$subHeight:500px;
-$gnb-height:80px;
+$layoutMaxwWidth: 160rem;
+$layoutMargin : 3rem;
+$headerHeight: 5rem;
+$footerHeight: 30rem;
+$subHeight:50rem;
+$gnb-height:8rem;
 $gnb-font: 'TheJamsil';
 $gnb-font-color:$color01;
 $gnb-hover-color:#fff;
@@ -42,11 +43,11 @@ $default-font-color:$color07;
 $fontGnbColor: $color07; // 대메뉴 폰트 컬러
 $fontTnbColor: $color07; // 상단메뉴 폰트컬러
 
-$fontGnbSize: 36px; // 대메뉴 폰트 사이즈
-$fontTnbSize: 20px; // 상단메뉴 폰트사이즈
-$fontLarge: 30px;
-$fontRegular: 20px;
-$fontSmall: 16px;
+$fontGnbSize: 3.6rem; // 대메뉴 폰트 사이즈
+$fontTnbSize: 2rem; // 상단메뉴 폰트사이즈
+$fontLarge: 3rem;
+$fontRegular: 2rem;
+$fontSmall: 1.6rem;
 
 
 
