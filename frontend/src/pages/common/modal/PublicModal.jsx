@@ -54,10 +54,6 @@ const modalConfig = {
 // 재사용 가능한 모달 컴포넌트
 const publicModal = ({ show, onClose, onConfirm, modalType, data,content }) => {
 
-
-    console.log("content 퍼블릭모달 data:", data);
-    console.log("content 퍼블릭모달 content:", content);
-
     const current = modalConfig[modalType]
         ? modalConfig[modalType]({ data, onClose, onConfirm,content })
         : {

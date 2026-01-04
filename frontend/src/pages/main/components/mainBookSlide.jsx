@@ -26,10 +26,10 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
         if (!swiperRef.current) return; // 현재 슬라이드가 아니면 코드 종료
 
         if(swiperRef.current.autoplay.running){ // 자동재생중이면 == true
-            console.log("swiperRef.current---- pause",play);
+
             swiperRef.current.autoplay.stop();// 정지
         }else { // false
-            console.log("swiperRef.current---- play",play);
+
             swiperRef.current.autoplay.start();//재생
         }
         //상태값을 재생상태관리 변수에 반영;

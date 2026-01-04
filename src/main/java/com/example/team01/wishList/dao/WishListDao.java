@@ -23,6 +23,7 @@ public interface WishListDao {
     //해당유저의 찜목록 데이터가 디비에 존재하는지 여부 판단쿼리
     public int existWishList(@Param("clientId")String clientId, @Param("bookId") Long bookId);
 
+    public String wishStatusValue(@Param("clientId")String clientId, @Param("bookId") Long bookId);
     //totalRecode
     public int totalRecord(@Param("pagination") Pagination pagination);
 //    public int totalRecord(@Param("clientId") String clientId,@Param("pagination") Pagination pagination);
