@@ -27,6 +27,8 @@
 .footer-inner{
   @extend %box;
   padding: $layoutPadding;
+  max-width: $layoutMaxwWidth;
+  margin:0 auto;
 }
 
 .footer-info{
