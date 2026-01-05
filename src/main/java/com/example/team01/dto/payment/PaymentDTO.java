@@ -24,7 +24,7 @@ public class PaymentDTO {
     //private String payId; 시퀄스로 자동생성 시 작성할 필요 없음
     private int payAccount; // null 값이 들어올일 없으니까 Integer 할 필요 없을 듯!
     private String paymentMethod;
-    private String addrId;
+    private Long addrId;
 
 }
 

@@ -17,9 +17,8 @@
 --                picture,
                joinDate,
                withDrawalDate,
-               status,
---                staffId,
-               selectedaddrId from CLIENT
+               status
+        from CLIENT
         where clientId=#{clientId} and roleId=#{roleId}
     </select>
 

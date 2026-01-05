@@ -1,16 +1,16 @@
+.bodyWrapper.index{max-width: none;}
 
 .client .header{width:100%;position:absolute;top:0;left:0;background-color: transparent}
 .client .logo-link{margin-left: 1.4rem;}
 
 /*main태그의 class명이 main*/
-.client .header-inner{max-width: 100%;}
 .client main.main{min-height:auto;width:100%;padding:100px 0 200px}
 .client .bodyWrapper{width:100%}
-.client .index .footer-inner{max-width:100%}
+
 
 /*.section{max-width: 1920px;margin: 0 auto;}*/
-.section,.sc-inner{width:100%}
-/*.sc-inner{min-height:1080px;}*/
+.section,.sc-inner{width:100%;position: relative;}
+
 
 /*title ==> main에만 적용되게 클래스 추가하기 ==> 메인에만 스타일반영되게 변경 가능한지 찾아보기  */
 .index [class*="title"], .index [class*="title"] > span{line-height: 1;font-weight:bold;}
@@ -45,20 +45,31 @@
 
 /*button*/
 
+.section .sc-content{max-width:160rem;margin: 0 auto;}
 
 /*main*/
 .section.main{}
-.section.main .sc-inner{
+.section.main{
     background: url("/assets/images/main/main_cl.jpg") no-repeat center bottom;
     background-size: cover;
+}
+.section.main .sc-inner{
+
     padding-top: 100px;
     min-height: 1080px;
 }
-
-.section.main .text-box{
-    padding:7rem 4rem;
+.section.main .sc-inner:before{
+    content: "";
+    display: block;
+    width: 100vw;
+    height: 400px;
     background-color: #fff;
+    position: absolute;
+    top: 100px;
+    left: 0;
 }
+.section.main .sc-content{padding: 7rem 6rem;}
+
 .section.main [class*="-tit"]{
     margin-bottom: 20px;
 }
@@ -67,7 +78,7 @@
 
 .section.main .s-tit{font-size: 5rem;}
 .section.main .b-tit{}
-.section.main .circle-btn{margin: 4rem; padding: 0.5em}
+.section.main .circle-btn{margin: 9rem 0; padding: 0.5em}
 .section.main .circle-btn span{font-size: 23px;}
 
 /*slide common*/
@@ -93,9 +104,21 @@
 /*books*/
 .section.books{}
 .section.books .sc-inner{padding: 20rem 0 10rem;text-align:center;}
+.section.books .tab-content:before{
+    content: "";
+    display: block;
+    width: 1300vw;
+    background: rgba(187,171,162,50%);
+    height: 500px;
+    position: absolute;
+    top: 0;
+    left: -1000vw;
+}
 .section.books .sc-tit{}
 .section.books .sc-content{margin-top: 9rem;}
 .section.books .nav{padding: 0 6rem;margin-bottom: 4rem;}
+.section.books .nav button:first-child{
+    margin-left: 0;}
 
 
 /*books slide*/
@@ -107,8 +130,8 @@
     overflow: hidden;
 }
 .section.books .swiper{
-    background: rgba(187,171,162,50%);
-    height: 500px;
+    /*background: rgba(187,171,162,50%);*/
+    /*height: 500px;*/
 }
 .section.books .swiper-wrapper{} /*여기에 패딩주면 안쪽 아이템이 최대 높이를 벗어남*/
 .section.books .swiper-slide{
@@ -140,11 +163,18 @@
 .section.curation .sc-inner{overflow: hidden;}
 .section.curation .sc-tit{}
 .section.curation .sc-tit.m-tit{font-size: 3.4rem;margin-bottom: 3rem;}
-.section.curation .sc-content{display:flex;justify-content: flex-start; align-items: center;padding: 5rem 6rem;width: calc(100% + 20px);
-    margin: 0 -10px;}
+.section.curation .sc-content{
+    display:flex;
+    justify-content: flex-start;
+    align-items: center; gap:2rem;
+    padding: 5rem 6rem;
+    width: 100%;
+    justify-self: center;}
 /*book*/
 .section .book{
-    width: calc(50% - 20px); margin: 0 10px; padding:4rem; height:48rem;overflow: hidden;
+    /*width: calc(50% - 20px);*/
+    width: 100%;
+   padding:4rem; height:48rem;overflow: hidden;
     border-radius: 20px;
     /*border:3px solid #F7F7F7;*/
     border:3px solid rgba(187,171,162,50%);
@@ -250,6 +280,6 @@
 .skip-btn:focus .circle-btn i{color:#fff}
 
 /*공통 여백 */
-.section.main .text-box,.tab-content,
+.tab-content,
 .section.curation .sc-content,
-.section.skipbtns .sc-inner{padding-left:6rem;padding-right: 6rem;}
+.section.skipbtns .sc-content{padding-left:6rem;padding-right: 6rem;}
