@@ -21,7 +21,7 @@ public class PaymentVO implements Serializable {
     private String payStatus; //Enum 타입으로 선언해야 Enum 값으로 제한가능
     private String payMethod;
     private LocalDateTime payDate;
-    private String addrId;
+    private Long addrId;
     private List<Long> cartIds;// 클라이언트에서 받아올 cartId들 목록 필드
     private String clientId;
 

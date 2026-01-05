@@ -28,7 +28,6 @@ public class ClientVO implements Serializable {
     private LocalDateTime joinDate; // 회원가입일, db의 timestamp는 localDatetime으로
     private LocalDateTime withdrawaldate; // 탈퇴일
     private String status;
-    private String selectedaddrId;
     private String roleId; // 평탄화
 
 
