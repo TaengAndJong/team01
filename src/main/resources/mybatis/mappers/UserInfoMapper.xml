@@ -28,23 +28,17 @@
         WHERE clientId = #{clientId}
     </update>
 
+    <!--동일한 값이여도 갱신되게 set만 설정-->
     <update id="updateAllUserInfo" parameterType="com.example.team01.mypage.userInfo.dto.UserInfoDTO">
         UPDATE client
         <set>
-            <if test="tel != null">tel = #{tel}</if>
-            <if test="zoneCode != null">, zoneCode = #{zoneCode}</if>
-            <if test="addr != null">, addr = #{addr}</if>
-            <if test="detailAddr != null">, detailAddr = #{detailAddr}</if>
-            <if test="email != null">, email = #{email}</if>
+            <if test="tel != null">tel = #{tel},</if>
+            <if test="zoneCode != null">zoneCode = #{zoneCode},</if>
+            <if test="addr != null">addr = #{addr},</if>
+            <if test="detailAddr != null">detailAddr = #{detailAddr},</if>
+            <if test="email != null">email = #{email},</if>
         </set>
         WHERE clientId = #{clientId}
-        AND (
-        (tel != #{tel} OR tel IS NULL)
-        OR (zoneCode != #{zoneCode} OR zoneCode IS NULL)
-        OR (addr != #{addr} OR addr IS NULL)
-        OR (detailAddr != #{detailAddr} OR detailAddr IS NULL)
-        OR (email != #{email} OR email IS NULL)
-        )
     </update>
 
 

@@ -6,8 +6,6 @@ import FormTag from "../../../../util/formTag.jsx";
 
 const Birth = ({birth}) =>{
 
-
-
     return(
         <>
             {/* 생년월일 */}
@@ -19,7 +17,7 @@ const Birth = ({birth}) =>{
                              type="text"
                              value={birth}
                              placeholder="생년월일"
-                             readOnly
+                             readOnly={true}
                              aria-readonly="true"/>
                 </div>
             </div>

@@ -1,6 +1,4 @@
 package com.example.team01.vo;
-
-
 import lombok.*;
 
 import java.io.Serializable;
