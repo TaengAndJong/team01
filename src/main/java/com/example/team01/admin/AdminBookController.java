@@ -91,9 +91,9 @@ public class AdminBookController {
     @GetMapping("/bookList")
     public ResponseEntity<?>  getBookList( @RequestParam(defaultValue = "1") int currentPage,
                                            @RequestParam(defaultValue = "6") int pageSize,
-
                                            @RequestParam(required = false) String bookType,
                                            @RequestParam(required = false) String searchType,
+                                           @RequestParam(required = false) String stockType,
                                            @RequestParam(required = false) String keyword
                                             ,HttpServletRequest request){
         log.info("도서 목록 API 호출됨 ------ getbookList");
@@ -106,6 +106,7 @@ public class AdminBookController {
             log.info("검색키워드 없음 미진입 keword : {} ",keyword);
             pagination.addDetailCondition("bookType", bookType);
             pagination.addDetailCondition("searchType", searchType);
+            pagination.addDetailCondition("stockType", stockType);
             pagination.addDetailCondition("keyword", keyword);
             log.info("pagination.addDetailCondition:{}",pagination.getDetailCondition());
         }

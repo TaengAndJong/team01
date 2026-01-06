@@ -65,6 +65,7 @@ const AdminBook = () => {
   const [search, setSearch] = useState({
     bookType: "ALL", // 전체 / 국내도서 / 국외도서
     searchType: "bookName", // bookName(도서명), author(저자)
+    stockType: "stockType",
     keyword: "", // 검색어
   });
 
@@ -163,6 +164,7 @@ const AdminBook = () => {
   // 검색어 변경되었을 때 , 페이지변경되었을 때
   useEffect(() => {
     console.log("페이지네이션 변경될때 실행됨")
+    console.log("페이지네이션변경될때 ---- search", search);
      fetchBookList();
   }, [paginationInfo.currentPage, paginationInfo.pageSize,searchCondition]);
 
@@ -170,6 +172,7 @@ const AdminBook = () => {
   //초기데이터 설정
   const onInit = (bookdata) => {
     console.log("onInit", bookdata);
+    console.log("onInit ---- search", search);
     dispatch({
       type: "INIT",
       data: bookdata,

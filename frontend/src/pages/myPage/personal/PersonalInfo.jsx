@@ -8,7 +8,7 @@ import EditInfo from "./components/editInfo.jsx";
 const PersonalInfo = () => {
     const [userInfo, setUserInfo] = useState({}); // 조회모드
     const [isEditMode, setIsEditMode] = useState(false); // 수정모드
-    // const [errorData, setErrorData] = useState({});
+
     //에러 상태 초기화 관리
     const [msg, setMsg] = useState({});
 

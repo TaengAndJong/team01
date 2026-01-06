@@ -14,11 +14,18 @@
 -->
     <sql id="searchFrag">
         <trim prefix="WHERE" suffixOverrides="AND">
-
             <!-- bookType이 비어있지 않고 'ALL'이 아닐 때만 필터 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.bookType)
-          and pagination.detailCondition.bookType != 'ALL'">
-                STRPOS(bookCateNm, #{pagination.detailCondition.bookType}) > 0 AND
+            and pagination.detailCondition.bookType != 'ALL'">
+            STRPOS(bookCateNm, #{pagination.detailCondition.bookType}) > 0 AND
+            </if>
+
+            <!-- 재고필터  -->
+            <if test="pagination.detailCondition.stockType == 'in'">
+                stock &gt; 0 AND
+            </if>
+            <if test="pagination.detailCondition.stockType == 'out'">
+                (stock = 0 OR stock IS NULL) AND
             </if>
 
             <!-- keyword가 비어있지 않을 때만 검색조건 적용 -->
@@ -27,16 +34,16 @@
                     <when test="pagination.detailCondition.searchType == 'bookName'">
                         STRPOS(bookName, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
-
                     <when test="pagination.detailCondition.searchType == 'author'">
                         STRPOS(author, #{pagination.detailCondition.keyword}) > 0 AND
                     </when>
                 </choose>
             </if>
+
             delStatus='N'
         </trim>
     </sql>
-<!-- 페이지네이션파라미터가 안넘어옴! 파라미터 타입 확인해야함-->
+   <!-- 페이지네이션파라미터가 안넘어옴! 파라미터 타입 확인해야함-->
     <select id="totalRecord" resultType="int" parameterType="com.example.team01.utils.Pagination">
         SELECT COUNT(*)
         FROM book
