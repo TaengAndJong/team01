@@ -82,8 +82,6 @@ public class FileUtils {
                     log.error("파일 저장 실패: {}", e.getMessage());
                 }
 
-
-
             }
             // List<String> bookImgPath를 하나의 문자열로 변환
             // 객체를 또 순회해서 문자열로 만들어야함 ?????
@@ -114,10 +112,11 @@ public class FileUtils {
             log.info(" 기본이미지 경로 메서드 파일 객체 존재할 경우---");
             for (File file : Files) {
                 String name = file.getName().toLowerCase();
-            //    log.info("파일 이름과 확장자 전부 소무자로 대체:{} ",name);
+                  log.info("파일 이름과 확장자 전부 소무자로 대체 --- 여기에서 매칭이 안되나:{} ",name);
                 if(name.equals("noimg.png") || name.equals("noimg.jpg")) {
                    // 서버에서 클라이언트로 이미지를 리소스를 보낼때 상대경로를 사용해야 함
                     //절대경로는 파일 시스템경로를 반환하기때문에 클라이언에서 사용불가
+                    log.info("노이미지 이름 :{} ",name);
                    // noImgPath ="images/" + name;
                     noImgPath = name;
                     log.info("기본이미지 경로 메서드 파일 객체 존재할 경우 noImgPath--------------:{} ",noImgPath);
