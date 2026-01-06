@@ -115,7 +115,7 @@ public class AdminBookServiceImple implements AdminBookService {
                 //반환된 bookImgPath 데이터베이스에 전달할 객체설정
                 book.setBookImgPath(bookImgPath);
             } else {
-                // 등록된 이미지가 없을 경우 noImg로 경로 설정
+                // 등록된 이미지가 없을 경우 noImg로 경로 설정 ==> 경로만 설정하고 noimg.png나 jp
                 book.setBookImgPath(fileUtils.getDefaultImgPath());
             }
 
