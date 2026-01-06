@@ -21,24 +21,32 @@ const SearchBar = ({search,setSearch, handleSearch}) =>{
     return(
         <>
             <div className="search-bar d-flex justify-content-end">
-                <select className="form-control form-select w-auto" name="bookType" value={search?.bookType || ""} onChange={(e)=>handleSearchChange(e)}>
+                <select className="form-control form-select w-auto" name="bookType" value={search?.bookType || ""}
+                        onChange={(e) => handleSearchChange(e)}>
                     <option value="ALL">전체</option>
                     <option value="국내도서">국내도서</option>
                     <option value="국외도서">국외도서</option>
                     <option value="EBOOK">Ebook</option>
                 </select>
-                <select className="form-control form-select w-auto" name="searchType" value={search?.searchType|| ""} onChange={(e)=>handleSearchChange(e)}>
+                <select className="form-control form-select w-auto" name="stockType" value={search?.stockType || ""}
+                        onChange={(e) => handleSearchChange(e)}>
+                    <option value="">전체</option>
+                    <option value="in">재고있음</option>
+                    <option value="out">재고없음</option>
+                </select>
+                <select className="form-control form-select w-auto" name="searchType" value={search?.searchType || ""}
+                        onChange={(e) => handleSearchChange(e)}>
                     <option value="bookName">도서명</option>
                     <option value="author">저자</option>
                 </select>
                 <input className="form-control w-auto"
-                    type="text"
-                    name="keyword"
-                    value={search?.keyword || ""}
-                    onChange={(e)=>handleSearchChange(e)}
-                    placeholder="검색어 입력"
+                       type="text"
+                       name="keyword"
+                       value={search?.keyword || ""}
+                       onChange={(e) => handleSearchChange(e)}
+                       placeholder="검색어 입력"
                 />
-                <Btn className={"search btn btn-dark"} type={"button"}  onClick={() => handleSearch()}  text="검색"/>
+                <Btn className={"search btn btn-dark"} type={"button"} onClick={() => handleSearch()} text="검색"/>
             </div>
         </>
     )
