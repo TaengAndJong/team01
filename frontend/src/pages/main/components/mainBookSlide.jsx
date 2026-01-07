@@ -101,10 +101,11 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                                     </div>
                                 </div>
                                 <div className="txt-box">
-                                    <strong className="tit bold d-block">
+                                    <span className="cateName">{item.bookCateNm}</span>
+                                    <strong className="bold d-block tit">
                                         <em>{item.bookName}</em>
                                     </strong>
-                                    <span className="tit bold d-block">{item.author}</span>
+                                    <span className="bold d-block">{item.author}</span>
                                 </div>
                             </Link>
                         </SwiperSlide>

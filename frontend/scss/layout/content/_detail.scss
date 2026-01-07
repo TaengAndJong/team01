@@ -10,6 +10,7 @@
       left: 0;top:calc(50% - 6.5px); transform:translateY(-50%)
     }
   }
+
   .swiper .img-box {background: #F2F2F2;}
   .count {
     input[name="bookCountInput"]{max-width: 50px;}
@@ -21,6 +22,9 @@
     line-height: 1.4;
   }
 }
+
+//도서 상세페이지 이미지
+[class*="-detail"] .slide .card-header{height:330px}
 
 
 

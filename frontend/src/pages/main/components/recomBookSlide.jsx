@@ -84,7 +84,7 @@ const  RecomBookSlide= ({slideData}) =>{
                         <SwiperSlide key={`slide-${idx}`}>
                             <Link className="slide-link" to={item.detailUrl} title={`${item.bookName}도서 상세페이지 바로가기`}>
                                 <span className="cateName">{item.bookCateNm}</span>
-                                <strong className="tit">{item.bookName}</strong>
+                                <strong className="tit"><em>{item.bookName}</em></strong>
                                 <span className="author">{item.author}</span>
                                 <p className="desc">{item.bookDesc}</p>
                                 <div className="img-box">
