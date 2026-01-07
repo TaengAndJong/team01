@@ -13,15 +13,14 @@ const MAX_FILES = 5;
 const MAX_SIZE_MB = 20;
 
 const CreateBoardComponent = () => {
-  // useContext(UserDataContext)로 root 컴포넌트에 있는 UserDataContext를 사용 가능
-  // const userData = useContext(UserDataContext);
+
   const refreshTrigger = useContext(BoardRefreshTriggerContext);
   const { userData } = useAuth();
-  console.log("userData사용자----", userData);
+
   const navigate = useNavigate();
   const location = useLocation();
   const { category } = location.state || {}; // state에서 category 가져오기
-  console.log("넘어온 category:", category);
+
   const { openModal, closeModal } = useModal();
   const [formData, setFormData] = useState({
     clientId: "",
@@ -70,7 +69,7 @@ const CreateBoardComponent = () => {
       [name]: value,
     }));
   };
-  console.log("저장되는 데이터", formData);
+
 
   // 사용자가 파일을 선택하면, 그 파일 목록을 배열로 변환하여 formData.files에 저장. 파일 다중 선택
   const handleFileChange = (e) => {
@@ -130,7 +129,7 @@ const CreateBoardComponent = () => {
 
   // 게시물 등록 클릭 시 발생하는 이벤트 폼 객체에 데이터를 넣고 서버로 데이터 전송
   const postHandler = async () => {
-    console.log("postHandler 클릭");
+
     const form = new FormData();
     form.append("clientId", userData.clientId);
     form.append("clientName", userData.clientName);
@@ -139,7 +138,6 @@ const CreateBoardComponent = () => {
     form.append("content", formData.content);
     formData.files.forEach((file) => form.append("files", file));
 
-    console.log("서버로 전송 할 문의 데이터 ------", formData);
 
     if (!formData.title.trim()) {
       openModal({

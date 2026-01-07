@@ -47,12 +47,13 @@ const Board = () => {
         one: oneListRes.data,
       });
     } catch (error) {
+      //에러처리
       console.error("에러 발생:", error);
     }
   };
 
   useEffect(() => {
-    console.log("userData useEFFECT", userData);
+
     fetchData();
   }, [userData]);
 
@@ -63,7 +64,7 @@ const Board = () => {
 
   // 새로고침 트리거 작동
   useEffect(() => {
-    console.log("새로고침 트리거 작동");
+
     if (refreshTrigger > 0) {
       fetchData();
     }

@@ -10,7 +10,7 @@ import {Link, useNavigate} from "react-router-dom";
 //객체를 prop로 받아올때   { } <<== 유의하기, 구조분해할당 구조로 받아와야 데이터 분리가능
 const CartAddress= ({addrList}) =>{
 
-   // console.log("CartAddress addrList-----------",addrList);
+
     const navigate = useNavigate();
 
     //모달 주소 선택 상태관리 변수

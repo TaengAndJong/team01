@@ -101,7 +101,10 @@ const Book = () => {
       console.log("도서 데이터 불러오기 실패", err); // 오류 처리
       openModal({
         modalType:"error",
-        content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>
+        content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>,
+        onConfirm: () => {
+          closeModal();
+        },
       });
     }
   }; //fetch end

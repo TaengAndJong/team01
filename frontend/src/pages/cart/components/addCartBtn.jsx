@@ -23,7 +23,6 @@ const AddCartBtn = ({ bookId, bookCount }) => {
                 {bookId:bookId,quantity:quantity} // 서버로 보내는 데이터
                 , { withCredentials: true }//쿠키허용
             );
-            console.log("장바구니 추가 비동기요청 ",response.data);
 
         }catch(err){
             if (err.response) {
@@ -31,6 +30,9 @@ const AddCartBtn = ({ bookId, bookCount }) => {
                 openModal({
                     modalType:"error",
                     content:<><p><span>`${err.response.status}`</span>${err.response.data.message}</p></>
+                    , onConfirm: () => {
+                        closeModal();
+                    }
                 });
                 catchError(err, { openModal, closeModal, navigate });
 
@@ -43,8 +45,7 @@ const AddCartBtn = ({ bookId, bookCount }) => {
 
     //장바구니 버튼 누르면 toCart 객체에 도서정보와 수량 담아주는 핸들러 및 장바구니 컨트롤러로 전송
     const handleAddToCart = (bookId,bookCount) => {
-        console.log("handleAddToCart -bookId",bookId);
-        console.log("handleAddToCart -bookCount",bookCount);
+
         // ToCart에 먼저 변경된 데이터 갱신하기 
         setToCart( {
             bookId:bookId,

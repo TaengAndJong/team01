@@ -23,6 +23,7 @@ export const MenuProvider = ({children}) => {
         //서버로부터 응답이 false이면
         if(!response.ok){
             console.log("response not ok", response.status);
+            //에러처리
             throw Error("서버 응답 에러");
         }
         //서버로부터 응답이 true이면, json 객체로 Parsing 하여 데이터 변수에 저장

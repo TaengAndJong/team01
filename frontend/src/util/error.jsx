@@ -2,8 +2,6 @@
 //함수는 {} 객체로 묶어서 파라미터로 가져옴
 export const catchError =(err,{openModal,closeModal,navigate})=>{
 
-    console.log("!!! catchError 진입 성공 !!!");
-    console.log("catchError-------------:", err);
     //1) 서버 응답 없을 경우
     if(!err.response){
         console.error("서버 응답 없음:", err.request || err.response.data.message);
@@ -18,8 +16,6 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
     //2) 응답이 있는 경우 = status : 에러 상태 코드, data : 서버에서 반환하는 자세한 에러데이터내용
     const {status, data} = err?.response; // 객체 구조분해할당
 
-    console.log("에러 jsx data--------- 여기여기 ",data);
-    console.log("에러 jsx status --------- 여기여기 ",status);
     //3) 상태값에 따른 에러 처리 핸들러
     const errorHandler = {
 
@@ -28,7 +24,7 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
             console.log("401코드");
             openModal({
                 modalType:"login",
-                content:<><p>{`${data?.message}???--401`}</p></>,
+                content:<><p>{data?.message}</p></>,
                 onConfirm:()=>{
                     //모달 닫기
                     closeModal();
@@ -66,7 +62,7 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
             //그외 에러처리
             openModal({
                 modalType: "error",
-                content: <p>{`${data?.message}??? 400` || "잘못된 요청입니다." }</p>,
+                content: <p>{`${data?.message}` || "잘못된 요청입니다." }</p>,
                 onConfirm: () => closeModal(),
             });
             return;//종료

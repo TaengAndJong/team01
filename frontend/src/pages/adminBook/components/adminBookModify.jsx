@@ -71,11 +71,10 @@ const AdminBookModify = () => {
         }
     }
 
-    console.log("modifyBookData----",modifyBookData);
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
-        console.log("userData---- 수정",userData);
+
         fetchModify();
         if (userData && userData.roles?.length > 0) {
             setModifyBookData(prev => ({

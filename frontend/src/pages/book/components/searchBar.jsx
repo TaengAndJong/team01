@@ -13,8 +13,6 @@ const SearchBar = ({search,setSearch,handleSearch}) =>{
         const name =e.target.name;
         const value=e.target.value;
 
-        //console.log("searchName",name);
-       // console.log("searchValue", value);
 
         setSearch((prev) =>(
             {

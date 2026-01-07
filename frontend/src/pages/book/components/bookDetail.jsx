@@ -13,7 +13,7 @@ import BookCount from "./bookCount.jsx";
 const BookDetail = () => {
     //useParams()로 url의 파라미터로 넘어온 bookId 가져오기
     const {bookId} = useParams();
-    console.log("클라이언드 도서 상세----bookId",bookId);
+
     //detail 상태관리변수  ==> 초기값은 [](배열)로 해야 map함수를 바로 사용할 수 있음!
     const [bookDetail, setBookDetail] = useState([]);
     //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
@@ -41,7 +41,7 @@ const BookDetail = () => {
             setBookDetail(data.bookVO);
 
         }catch(e){
-            //에러처리필요
+            //에러처리
             console.log("catch-Error", err);
         }
 
@@ -77,7 +77,7 @@ const BookDetail = () => {
         fetchBookDetails();
     },[]) // 렌더링(마운트) 시 한번 실행
 
-    console.log("사용자 도서 상세 ", bookDetail);
+
 
     return (
         <>

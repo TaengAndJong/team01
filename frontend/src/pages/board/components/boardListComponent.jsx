@@ -10,8 +10,6 @@ const BoardListComponent = ({
   onChangeCheck,
   getBoardId,
 }) => {
-  console.log("게시물 데이터", categoryListData);
-  console.log("카테고리", category);
 
   const qnStatus = (qnaStatus) => {
     switch (qnaStatus) {

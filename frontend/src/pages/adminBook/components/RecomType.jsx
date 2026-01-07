@@ -11,8 +11,6 @@ const RecomType=({defaultData,setDefaultData})=>{
 
     const recomTypeHandler=(e)=>{
 
-        console.log("recomTypeHandler",e.target.value);
-        console.log("recomTypeHandler",e.target.name);
         setDefaultData((prev)=>({
                 ...prev,
                 [e.target.name]: e.target.value

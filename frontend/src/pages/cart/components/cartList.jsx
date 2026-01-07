@@ -133,11 +133,14 @@ const CartList = () => {
 
             //여기에서  가격 검증해야하나
             if(totalPrice === 0 || totalPrice === null){
-                console.log("결제할 상품이 없다")
+
                 setShow(true);
                 openModal({
                     modalType:"error",
-                    content:<><p>"결제할 상품이 없습니다"</p></>
+                    content:<><p>"결제할 상품이 없습니다"</p></>,
+                    onConfirm: () => {
+                        closeModal();
+                    },
                 });
 
             }else{

@@ -35,7 +35,7 @@ const AdminBookList = () => {
   useEffect(() => {
     //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
     if(bookdata){
-      console.log("도서관리 bookData",bookdata);
+
       setBookList(bookdata);
     }
 
@@ -114,9 +114,11 @@ const AdminBookList = () => {
 
       }catch(err){
         // fetch는 네트워크에러만 감지, axios는 http오류(400,500)e도 감지
+        //에러처리-버튼테스트
         openModal({
           modalType:"error",
           content: <><p>{`상태메시지 : ${err.response?.statusText} (상태코드: ${err.response?.status}), `}</p></>
+          , onConfirm:()=>{closeModal()}
         });
 
       }

@@ -11,12 +11,11 @@ const AdminBookDetail = () => {
     const { bookId } = useParams(); // URL 파라미터에서 bookId 가져오기
     const [bookDetail, setBookDetail] = useState([]);
     const location= useLocation();
-    console.log("location --- 관리자 상세", location);
-
 
 
     // bookId가 없으면 API 요청을 보내지 않도록 처리
     if (!bookId) {
+        //에러처리
         console.error("bookId is missing. API request not sent.");
         return; // 요청을 보내지 않음
     }
@@ -39,11 +38,11 @@ const AdminBookDetail = () => {
         //응답 성공시
         const bookData = await response.json(); 
         // 제이슨 문자 데이터로 변환 ==> 담겨야할 데이터 bookId에 해당하는 정보 서버에서 반환받기
-        console.log("bookData----------상세페이지",bookData);
         setBookDetail(bookData.bookVO);
 
     }catch(err){
-        console.log("catch-Error", err); // 오류 처리
+        //에러처리
+        console.log("catch-Error", err);
     }
 }
     // 리액트 마운트 시 get요청으로 데이터 얻어오기
@@ -59,10 +58,6 @@ const AdminBookDetail = () => {
     };
 
     const recomTultip = (status) => {
-        console.log(
-            `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
-        );
-
         return (
             <span className={`tultip d-inline-flex ${recomTypeMap[status]?.recomType}`}>
         {recomTypeMap[status]?.label}

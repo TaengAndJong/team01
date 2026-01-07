@@ -58,10 +58,12 @@ function Admin() {
             setData({ message: textData }); // 비인증 응답 처리
           }
         } else {
+          //에러처리
           setIsError(true);
           console.error("HTTP Error:", response.status, response.statusText);
         }
       } catch (error) {
+        //에러처리
         setIsError(true);
         console.error("Fetch Error:", error);
       }
@@ -82,8 +84,9 @@ function Admin() {
      // console.log("getQnaData 통신", data);
       setCountData(data);
     } else {
+      //에러처리
       setIsError(true);
-    //  console.log("에러");
+
     }
     setIsLoading(false);
   };
@@ -118,8 +121,8 @@ function Admin() {
         pageView: newPageViews,
       });
     } else {
+      //에러처리
       setIsError(true);
-   //   console.log("에러");
     }
     setIsLoading(false);
   };

@@ -17,9 +17,7 @@ const BuySelectedBtn = ({type, book,cartId,isDisable}) => {
     // 전역 모달
     const {openModal, closeModal} = useModal();
 
-    console.log("구매하기 --------book",book);
-    console.log("구매하기--------type",type);
-    console.log("단건구매 장바구니아이디--------cartId",cartId);
+
     //단건구매일때에는 cartId도 같이 결제페이지로 넘겨줘야함
     // 단건구매(selected)일 경우에만 cartId 추가
     if (type === "selected" && cartId) {

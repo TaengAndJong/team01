@@ -3,7 +3,6 @@ import React from "react";
 
 //props는 input의 value에 들어갈 값이나, 핸들러함수 등을 받아오면 됨
 const PriceStock = ({bookPrice,stock,stockStatus,handleChange}) =>{
-    console.log(`bookPrice: ${bookPrice},stock: ${stock},stockStatus:${stockStatus}`)
 
     return (
         <>
