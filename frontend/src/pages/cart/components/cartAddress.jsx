@@ -91,6 +91,24 @@ const CartAddress= ({addrList}) =>{
         }
     }, [addrList]); // addrList 변경시 데이터 갱신
 
+    useEffect(() => {
+        if (!selectAddr || selectAddr.length === 0) return;
+
+        // 현재 주문 배송지
+        if (orderAddr?.addrId) {
+            setSelectedId(orderAddr.addrId);
+            return;
+        }
+
+        //기본 배송지
+        const defaultAddr = selectAddr.find(addr => addr.isDefault);
+        if (defaultAddr) {
+            setSelectedId(defaultAddr.addrId);
+        }
+    }, [selectAddr, orderAddr]);
+
+
+
     return (
         <>
             <div className="select-address mt-4 mb-5">

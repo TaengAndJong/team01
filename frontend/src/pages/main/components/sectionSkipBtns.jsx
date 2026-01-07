@@ -10,7 +10,7 @@ const SectionSkipBtns= ()=>{
                 <div className="sc-inner">
                     <div className="sc-content">
                         <ul className="skip-btn-list">
-                            {isAuthenticated && (
+                            {isAuthenticated? (
                                 <>
                                     <li>
                                         <Link to={"/board"} className="skip-btn qna text-end"
@@ -38,19 +38,23 @@ const SectionSkipBtns= ()=>{
                                     </li>
                                 </>
 
-                            )}
-
+                            ):(
+                            <>
                             <li>
                                 <Link to={"/signup"} className="skip-btn join text-end" title={"회원가입 바로가기 링크입니다."}>
                                     <div className="skip-btn-con">
-                                        <p>책을 사랑하는 당신에게</p>
-                                        <p>특별한 공간을</p>
-                                        <span className="btn circle-btn float-end">
-                                    <em>회원가입</em>
-                                </span>
+                                            <p>책을 사랑하는 당신에게</p>
+                                            <p>특별한 공간을</p>
+                                            <span className="btn circle-btn float-end">
+                                            <em>회원가입</em>
+                                        </span>
                                     </div>
                                 </Link>
                             </li>
+                            </>
+
+                            )}
+
                         </ul>
                     </div>
                 </div>
