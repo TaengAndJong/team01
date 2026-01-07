@@ -27,13 +27,14 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
         401:()=>{
             console.log("401코드");
             openModal({
-                modalType:"error",
-                content:<><p>{data?.message}</p></>,
+                modalType:"login",
+                content:<><p>{`${data?.message}???--401`}</p></>,
                 onConfirm:()=>{
-                    navigate("/login");//로그인페이지로 이동
                     //모달 닫기
                     closeModal();
-                }
+                    navigate("/login");//로그인페이지로 이동
+                },
+                onClose: closeModal,
             });
             return;//종료
         },//401
@@ -65,7 +66,7 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
             //그외 에러처리
             openModal({
                 modalType: "error",
-                content: <p>{data?.message || "잘못된 요청입니다." }</p>,
+                content: <p>{`${data?.message}??? 400` || "잘못된 요청입니다." }</p>,
                 onConfirm: () => closeModal(),
             });
             return;//종료
@@ -91,7 +92,7 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
                 modalType: "error",
                 content: <p>{ data?.message || "알 수 없는 오류가 발생했습니다." }</p>,
                 onConfirm: () => {
-                    console.log("여기 실행?")
+                    console.log("여기 실행? -- send ERROR")
                     closeModal()
                 },
             })

@@ -10,7 +10,23 @@
 </h3>
 
 <ul>
-    <li><strong>팀명</strong> : TaengJong</li>
+    <li><strong>팀명</strong> : TaengAndJong</li>
+    <li><strong>팀원</strong>
+        <ul>
+            <li>
+                <strong>Taeng</strong> 
+                <a href="https://kbo831.github.io/aboutMe25" target="_blank" title="김태은 포트폴리오">
+                  GitHub<img src="https://cdn.simpleicons.org/github/181717" width="18" height="18"/>
+                </a>
+            </li>
+            <li>
+                <strong>Jong</strong> 
+                 <a href="https://github.com/username/project" target="_blank" title="김종호 포트폴리오">GitHub
+                    <img src="https://cdn.simpleicons.org/github/181717" width="18" height="18"/>
+                </a>
+            </li>
+        </ul>
+    </li>
     <li><strong>프로젝트기간</strong> :  2025.01.01 ~ 26.01.01</li>
     <li>
         <strong>소개</strong><hr/>
@@ -79,7 +95,7 @@
             </li>
             <li><strong>관리자</strong><br/>
                 <u>**ID** : user02 </u>
-                <u>** PW **: !User1234</u>
+                <u>** PW **: !User12345</u>
             </li>
         </ul>
     </li>
@@ -91,11 +107,13 @@
   기타문서
 </h3>
 
-- ERD 
-- 테이블 명세서 
-- 사용자 요구사항 정의서
-- API 명세서 
-
+- ERD (인텔리제이로 뽑기)
+- 테이블 명세서(o)
+- 사용자 요구사항 정의서  ( 워드로 작성) 
+- API 명세서  (워드로 작성)
+- 메뉴구조도 (워드로 작성)
+- 단위업무정의서 ( 워드로 작성)
+- 화면정의서(이미지로 피디에프로 만들기)
 
 
 
