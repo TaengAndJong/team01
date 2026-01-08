@@ -103,12 +103,12 @@ const Category=({mode,setDefaultData,defaultData,categoryList})=>{
 
     return (
         <>
-            <div className="d-flex align-items-center mb-1">
-                <strong className="form-title">도서분류</strong>
+            <div className="row col-12 align-items-center  mb-1">
+                <strong className="form-title col-3">도서분류</strong>
                 {/*1차 카테고리만 데이터 */}
 
                 <label htmlFor="firstCategory" className="visually-hidden form-title">1차 카테고리</label>
-                <select id="firstCategory" className="form-select w-auto" name="firstCategory" onChange={handleCategory}
+                <select id="firstCategory" className="form-select" name="firstCategory" onChange={handleCategory}
                         value={selectedCategory?.names?.[0] || ""} >
 
                     {categoryList?.firstDepth?.map(cate => (
@@ -122,7 +122,7 @@ const Category=({mode,setDefaultData,defaultData,categoryList})=>{
                 {selectedCategory?.depth?.[0] && (
                     <>
                         <label htmlFor="secondCategory" className="visually-hidden form-title">2차 카테고리</label>
-                        <select id="secondCategory" className="form-select w-auto mx-1" name="secondCategory" onChange={handleCategory} value={selectedCategory?.names?.[1] || ""} >
+                        <select id="secondCategory" className="form-select mx-1" name="secondCategory" onChange={handleCategory} value={selectedCategory?.names?.[1] || ""} >
                             {categoryList?.secondDepth?.map(cate => (
                                 <option key={cate.cateId} value={cate.cateNames.trim()} data-cate-id={cate.cateId}>
                                     {cate.cateNames.trim()}

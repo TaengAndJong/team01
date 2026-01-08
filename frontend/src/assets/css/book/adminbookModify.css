@@ -1,2 +1,13 @@
 .adminBook.modify{}
 .adminBook.modify .right .content{max-width: 80rem; margin: 0 auto }
+
+.bookModifyForm{}
+.bookModifyForm [class^="form"]{width:auto}
+.bookModifyForm .row > *{}
+.bookModifyForm .row .form-title:nth-of-type(2n){margin:0 0rem 0 2rem;}
+.bookModifyForm .form-select{max-width:20rem;width: 100%;}
+.bookModifyForm  input[type="text"],.bookModifyForm input[type="date"]{}
+.bookModifyForm .stock-price{justify-content: space-between}
+.bookModifyForm .stock-price input[type="text"],.bookModifyForm .stock-price input[type="date"]{max-width: 12rem}
+.bookModifyForm .form-group-title, .bookModifyForm .form-title{min-width: 9rem;}
+.bookModifyForm .author-writer  input[type="text"]{max-width:12rem}

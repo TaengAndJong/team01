@@ -146,6 +146,7 @@
     overflow: hidden;
 }
 .section.books .swiper{
+    padding: 0 3rem;
     /*background: rgba(187,171,162,50%);*/
     /*height: 500px;*/
 }
@@ -163,7 +164,8 @@
     background:rgba(255,255,255,0.9);
     /*background:#FFECA4;*/
     border-radius: 1rem;overflow: hidden;height: 100%;
-    max-width: 300px;
+    /*max-width: 300px;*/
+    max-width: 251px;
     width: 100%;
     transition: all 0.3s ease;
 }
