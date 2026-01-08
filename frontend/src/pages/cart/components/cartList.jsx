@@ -284,7 +284,7 @@ const CartList = () => {
                                           </button>
                                           {/* 수량버튼 클릭 시 수량 변경 UI 출력 */}
                                           {showBookCount[item.cartId] && (
-                                              <div className="bookCount">
+                                              <div className="bookCount d-inline-block w-25">
                                                   <BookCount
                                                       bookId={item.book.bookId}
                                                       cartId={item.cartId}

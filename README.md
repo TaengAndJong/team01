@@ -95,7 +95,7 @@
             </li>
             <li><strong>관리자</strong><br/>
                 <u>**ID** : user02 </u>
-                <u>** PW **: !User12345</u>
+                <u>** PW **: !User1234</u>
             </li>
         </ul>
     </li>
