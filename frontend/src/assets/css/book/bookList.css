@@ -22,6 +22,7 @@
     width:calc((100%/2) - 1.6rem);
     margin: 0 2px;
     padding: 40px 50px 30px 50px;
+
 }
 .book-item .card-header{
     margin-right:40px;
@@ -35,7 +36,12 @@
 .book-item .card{background: transparent;}
 .book-item .card-body {
     width: calc(100% - 2rem);
-
 }
 
 .book-item .count input[name="bookCountInput"]{ max-width: 50px; text-align: center;}
+
+
+/*booklist*/
+.book-list .book-item .card-body {
+    width: calc(100% - 22rem);
+}

@@ -67,31 +67,32 @@ const IdAndPw = ({formData,setFormData,msg,setMsg,handleConfirm,errorData})=>{
     return(
        <>
            {/*id*/}
-           <div className="d-flex align-items-center mb-2 justify-content-start">
-               <FormTag label="아이디" labelClass="form-title" className="form-control w-75" name="clientId" type="text"
-                        value={formData.clientId}
-                        onChange={handleInputChange} msg={msg.errorId}/>
-               <button className="btn custom-btn01 form-control w-auto ms-1 py-2"  id="confirm" type="button" onClick={() => {
-                   handleConfirm("clientId", formData.clientId)
-               }}>중복확인</button>
-           </div>
 
-           {/*pw*/}
-           <div className="d-flex align-items-center mb-2">
-               <FormTag label="비밀번호" labelClass="form-title" className="form-control" name="password" type="password"
-                        value={formData.password}
-                        onChange={handleInputChange} msg={msg.errorpwd}/>
-           </div>
-           <div className="d-flex align-items-center mb-2">
-               <FormTag label="비밀번호확인" labelClass="form-title" className="form-control" name="passwordConfirm" type="password"
-                        value={formData.passwordConfirm}
-                        onChange={handleInputChange} msg={msg.errorpwdConfirm}/>
-           </div>
-           <div className="d-flex align-items-center mb-2">
-               <FormTag label="이름" labelClass="form-title" className="form-control" name="clientName"
-                        value={formData.clientName}
-                        onChange={handleInputChange}/>
-           </div>
+               <div className="row col-12 mb-2">
+                   <FormTag label="아이디" labelClass="form-title  col-2" id="clientId" className="form-control"  name="clientId" type="text"
+                            value={formData.clientId}
+                            onChange={handleInputChange} msg={msg.errorId}/>
+                   <button className="btn custom-btn01 form-control w-auto ms-1 py-2"  id="confirm" type="button" onClick={() => {
+                       handleConfirm("clientId", formData.clientId)
+                   }}>중복확인</button>
+               </div>
+
+               {/*pw*/}
+               <div className="row col-12  mb-2">
+                   <FormTag label="비밀번호" labelClass="form-title col-2"  id="password" className="form-control" name="password" type="password"
+                            value={formData.password}
+                            onChange={handleInputChange} msg={msg.errorpwd}/>
+               </div>
+               <div className="row col-12  mb-2">
+                   <FormTag label="비밀번호확인" labelClass="form-title col-2" className="form-control" name="passwordConfirm" type="password"
+                            value={formData.passwordConfirm}
+                            onChange={handleInputChange} msg={msg.errorpwdConfirm}/>
+               </div>
+               <div className="row col-12  mb-2">
+                   <FormTag label="이름" labelClass="form-title col-2" className="form-control" name="clientName"
+                            value={formData.clientName}
+                            onChange={handleInputChange}/>
+               </div>
 
 
            {show && (

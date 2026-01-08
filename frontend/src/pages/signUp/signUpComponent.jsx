@@ -8,6 +8,8 @@ import Birth from "@pages/signUp/components/birth.jsx";
 import Tel from "./components/tel.jsx";
 import Email from "./components/email.jsx";
 import Address from "./components/address.jsx";
+import {useModal} from "../common/modal/ModalContext.jsx";
+import {catchError} from "../../util/error.jsx";
 
 
 
@@ -19,7 +21,7 @@ const SignUpComponent = () => {
         password: "",
         passwordConfirm: "",
         clientName:"",
-        staffId:"",
+      //  staffId:"",
         roleId:`ROLE_CLIENT`,
         email: "",
         birth:"",
@@ -28,7 +30,7 @@ const SignUpComponent = () => {
         zoneCode:"",
         detailAddr:"",
         // joinDate:"",
-        picture:"",
+       // picture:"",
     });
 
     //에러 상태 초기화 관리
@@ -45,14 +47,42 @@ const SignUpComponent = () => {
     });
 
     //modal
-
     const [errorData, setErrorData] = useState("");
+    //공통모달
+    const {openModal,closeModal} = useModal();
 
+    //한글로 변경
+    const korname = {
+        clientId:"아이디",
+        password:"비밀번호",
+        clientName : "이름",
+        email: "이메일",
+        birth:"생일",
+        tel:"연락처",
+        addr:"주소",
+        zoneCode:"우편번호",
+        detailAddr:"상세주소",
+    }
 
 //signUp post로 비동기 요청보내기
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
+            //formData에 담기전에 빈값 검증필요
+            for (const [key, value] of Object.entries(formData)) {
+                if (!value) {
+                    const engtokorName = korname[key] || key; // korname[key] 를 사용해서 해당 객체의 value 값을 가져오기
+                    openModal({
+                        modalType: "error",
+                        content:<>
+                            <p>{engtokorName} 값이 비어있습니다.</p>
+                        </>,
+                        onConfirm: () => {closeModal()}
+                    })
+                    break; // 빈 값 발견 시 루프 종료
+                }
+            }
+            
             const response = await fetch("/api/signup", {
                 method: "POST",
                 headers: {
@@ -70,22 +100,34 @@ const SignUpComponent = () => {
         
             //서버에서 반환하는 json 객체에 success :  true로 설정해줘야함
             if (result.success) {
-                alert(`회원가입이 성공적으로 완료되었습니다! : ${result.message}` );
-                // 성공 시 추가 작업 (예: 로그인 페이지로 이동)
-                navigate("/");
-            } else {
-                // success : false
-                alert(`회원가입 실패: ${result.message}`);
+                openModal({
+                    modalType: "default",
+                    content:<>
+                                <p>회원가입이 성공적으로 완료되었습니다!</p>
+                            </>,
+                    onConfirm: () => {closeModal(); navigate("/");},
+                    onClose: () => {closeModal(); navigate("/");}
+                })
+
             }
         } catch (err) {
             //에러처리
-            alert("회원가입 중 오류가 발생했습니다.");
+            catchError(err,{openModal,closeModal})
+            // openModal({
+            //     modalType: "error",
+            //     content:<>
+            //         <p>회원가입 중 오류가 발생했습니다.</p>
+            //
+            //     </>,
+            //     onConfirm: () => {closeModal(); navigate("/");}
+            // })
+
         }
     };
     
     // 아이디, 회원번호 검증
     const handleConfirm = async (key, value,addData = {}) => {
-
+        
         //formData에 입력된 객체의 값을 가져와서 , URLSearchparams를 이용해 쿼리스트링으로 변경해 서버로 전송해야 함
         //URLSearchparams는 문자열을 파라미터로 받아야 함 ==> 객체에 담아서 key=value 형태로 담아야 함
         const params= new URLSearchParams({[key]:value});
@@ -114,7 +156,6 @@ const SignUpComponent = () => {
 
             //모달 띄우기  ==>  true 이면 중복인 상태, false이면 사용가능한 상태
             if(result){
-
                 //객체 형태
                 setErrorData({
                     message: result.message,
@@ -133,7 +174,7 @@ const SignUpComponent = () => {
     return (
         <>
             <div  className="text-center custom-border content-inner">
-                <form className="">
+                <form className="container">
                     <fieldset>
                         <legend className="d-block title-border mb-5">회원가입</legend>
                         <IdAndpw formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} errorData={errorData} handleConfirm={handleConfirm}/>

@@ -77,16 +77,11 @@ const RecentView = ({slideData}) =>{
                     <SwiperSlide key={`slide-${item?.book?.bookId} || nodata-${index}`} className="li">
                         {item.noData? (
                             <>
-                                {/*<div className="link" >*/}
-                                    {/*<div className="img-box">*/}
-                                    {/*    <div className="img-inner">*/}
-                                    {/*        /!*<img className="img" src={""} alt="데이터 없음"/>*!/*/}
-                                    {/*    </div>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="txt-box">*/}
-                                    {/*    <span className="tit bold d-block">최근 본 도서 없음</span>*/}
-                                    {/*</div>*/}
-                                {/*</div>*/}
+                                <div className="link" >
+                                    <div className="txt-box">
+                                        <span className="tit bold d-block">최근 본 도서 없음</span>
+                                    </div>
+                                </div>
                             </>
                         ):(
                             <Link className="link" to={item.book.detailUrl} title={`${item.book.bookName}도서 상세페이지 바로가기`}>

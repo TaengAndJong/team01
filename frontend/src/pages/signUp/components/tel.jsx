@@ -58,45 +58,51 @@ const Tel=({formData,setFormData,msg,setMsg})=>{
     return(
         <>
             {/*전화번호*/}
-            <div className="d-flex align-items-center mb-2">
-                <label className="form-title">전화번호</label>
-                <Select
-                    className="w-25"
-                    name="FirstTelNum"
-                    id="FirstTelNum"
-                    onChange={(selectedOption) => {
+            <div className="mb-2 tel-info">
+                <label className="form-title col-3">전화번호</label>
+                <div className="row w-100">
+                    <Select
+                        className="form-control col-3 px-0"
+                        id="FirstTelNum"
+                        name="FirstTelNum"
+                        onChange={(selectedOption) => {
+                            handleTelChange({target: {name: "FirstTelNum", value: selectedOption.value}});
+                        }}
+                        options={[
+                            {value: '직접선택', label: '직접선택'},
+                            {value: '010', label: '010'},
+                        ]}
+                    />
+                    <span className="d-inline-flex w-auto align-items-center">-</span>
+                    <FormTag
+                        className="form-control col-1 px-0 d-inline-flex text-center"
+                        id="secondTelNum"
+                        name="secondTelNum"
+                        value={tel.secondTelNum || ""}
+                        onChange={handleTelChange}
+                        placeholder="두 번째 전화번호 입력"
+                    />
+                    <span className="d-inline-flex w-auto  align-items-center">-</span>
+                    <FormTag
+                        className="form-control col-1 px-0 d-inline-flex text-center"
+                        id="lastTelNum"
+                        name="lastTelNum"
+                        value={tel.lastTelNum || ""}
+                        onChange={handleTelChange}
+                        placeholder="마지막 전화번호 입력"
+                    />
 
-                        handleTelChange({target: {name: "FirstTelNum", value: selectedOption.value}});
-                    }}
-                    options={[
-                        {value: '직접선택', label: '직접선택'},
-                        {value: '010', label: '010'},
-                    ]}
-                />
-                <span className="d-inline-block mx-2">-</span>
-                <FormTag
-                    className="form-control w-25"
-                    name="secondTelNum"
-                    value={tel.secondTelNum || ""}
-                    onChange={handleTelChange}
-                    placeholder="두 번째 전화번호 입력"
-                />
-                <span className="d-inline-block mx-2">-</span>
-                <FormTag
-                    className="form-control w-25"
-                    name="lastTelNum"
-                    value={tel.lastTelNum || ""}
-                    onChange={handleTelChange}
-                    placeholder="마지막 전화번호 입력"
-                />
-                {msg.errorTel && (
-                    <span>{msg.errorTel}</span>
-                )}
+                    {msg.errorTel && (
+                        <div className="msg tip text-start col-12 d-inline-flex align-items-center my-2">
+                           <i className="icon info me-2 pl-0"></i>{msg.errorTel}
+                        </div>
+                    )}
+                </div>
             </div>
-        </>
+            </>
 
-    )
+            )
 
-}
+            }
 
-export default Tel;
+            export default Tel;

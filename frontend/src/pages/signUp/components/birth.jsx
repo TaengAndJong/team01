@@ -53,13 +53,13 @@ const Birth = ({formData,setFormData,msg,setMsg}) =>{
     return(
         <>
             {/* 생년월일 */}
-            <div className="mb-2">
-                <div className="Info birth d-flex align-items-center mb-1 w-100">
-                    <label className="form-title">생년월일</label>
+            <div className="mb-2 birth">
+                <div className="row col-12 mb-2">
+                    <label className="form-title col-2">생년월일</label>
                     <Select
                         name="birthYear"
                         id="birthYear"
-                        className="me-1"
+                        className="col-3 px-0 me-2"
                         options={yearOptions}
                         onChange={(selectedOption) => handleBirthChange(selectedOption, "birthYear")}
                         placeholder="연도 선택"
@@ -68,7 +68,7 @@ const Birth = ({formData,setFormData,msg,setMsg}) =>{
                     <Select
                         name="birthMonth"
                         id="birthMonth"
-                        className="me-1"
+                        className="col-3 px-0 me-2"
                         options={monthOptions}
                         onChange={(selectedOption) => handleBirthChange(selectedOption, "birthMonth")}
                         placeholder="월 선택"
@@ -77,7 +77,7 @@ const Birth = ({formData,setFormData,msg,setMsg}) =>{
                     <Select
                         name="birthDay"
                         id="birthDay"
-                        className="me-1"
+                        className="col-3 px-0"
                         options={dayOptions}
                         onChange={(selectedOption) => handleBirthChange(selectedOption, "birthDay")}
                         placeholder="일 선택"
