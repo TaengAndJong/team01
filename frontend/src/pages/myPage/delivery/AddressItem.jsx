@@ -32,8 +32,6 @@ const AddressItem = () => {
 
             const data = await response.json();
             //성공여부에 따른 메시지 받아오기
-            console.log("get 요청 성공 data",data);
-            console.log("get 요청 성공 data",data.deleteId);
             //클로저 캡쳐(closure capture)
             onDelete(addrId);
 
@@ -50,6 +48,7 @@ const AddressItem = () => {
             });
 
         }catch(e){
+            //에러처리
             console.log(e);
         }
 

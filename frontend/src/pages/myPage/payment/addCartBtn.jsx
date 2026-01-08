@@ -12,9 +12,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
     const navigate = useNavigate();
     //장밥구니 컨트롤러로 전송할 fetch 함수
     const sendCartFetch= async(bookId,quantity)=>{
-      //  console.log("addCartBtn-------data",data);
-        console.log("bookId---------sendCartFetch",bookId);
-        console.log("quantity-----------sendCartFetch",quantity);
+
         try{
             const response = await fetch("/api/cart",{
                 method:"POST",
@@ -33,7 +31,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
             }
 
             const data = await response.json();
-            console.log("data cart List ", data);
+
 
             if(data.exist){
                 //modal 띄우기
@@ -62,8 +60,9 @@ const AddCartBtn = ({bookId,quantity}) =>{
             });
 
         }catch(err){
+            //에러처리
             console.log("장바구니에 담기 실패",err);
-            // 에러처리는 어떻게 ?
+
         }
     }
 

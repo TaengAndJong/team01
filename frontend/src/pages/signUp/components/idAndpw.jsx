@@ -6,17 +6,14 @@ import ReusableModal from "../../adminBook/components/modal.jsx";
 
 
 const IdAndPw = ({formData,setFormData,msg,setMsg,handleConfirm,errorData})=>{
-    //부모한테서 formData와 inputChangeHandlerl, Msg , Error?
-    console.log("아이디 패스워드 formData",formData)
-    console.log("아이디 패스워드 errorData",errorData);
 
     //modal
     const [show, setShow] = useState(false);
     const handleClose = () => {
-        console.log("close modal");
+
         setShow(false)}
     const handleShow = () => {
-        console.log("handleShow");
+
         setShow(true)}
 
     //  비밀번호 데이터가 변경될 때마다 갱신
@@ -44,7 +41,7 @@ const IdAndPw = ({formData,setFormData,msg,setMsg,handleConfirm,errorData})=>{
         if (!errorData) {
             handleClose();
         } else {
-            console.log("error", errorData);
+
             handleShow(); // 값이 있을 때만 모달 열기
         }
     },[errorData]);

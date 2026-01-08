@@ -23,7 +23,7 @@ const Birth = ({formData,setFormData,msg,setMsg}) =>{
                 [name]: value, // 이전 상태를 유지하면서 name에 해당하는 값만 업데이트
             }));
 
-            console.log("birth=------",birth)
+
         } else {
             // birthYear인 경우 그냥 추가
             setBirth((prevState) => ({
@@ -31,7 +31,7 @@ const Birth = ({formData,setFormData,msg,setMsg}) =>{
                 [name]: selectedOption.value,
             }));
 
-            console.log("birth=------",birth)
+
         }
 
     }

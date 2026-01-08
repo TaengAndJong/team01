@@ -42,7 +42,7 @@ const PaymentComponent = () => {
         .then((response) => {
 
           const addr = response?.data.address;
-          console.log("addr",addr);
+
           //주소에 데이터 갱신
           setAddress(addr);
 
@@ -58,7 +58,7 @@ const PaymentComponent = () => {
 
         })
         .catch((err) => {
-          console.log("error---결제정보창 에러 처리어떻게", err);
+
           catchError(err,{openModal,closeModal})
         });
   }, []);
@@ -81,19 +81,18 @@ const PaymentComponent = () => {
 
   // 결제컨트롤러로 보낼 비동기요청
   const submitPaymentHandler = async (paymentInfo) => {
-    console.log("submitPaymentHandler", paymentInfo);
+
 
     try {
       const response = await axios.post("/api/payment", paymentInfo);
-      console.log("response--------------------------", response);
+
       //paySuccess 페이지로 payId 담아서 페이지 이동시키기 ==> location 말고 URLparams 로 사용해야 새로고침해도 사라지지않음
       const payId = response.data.payId;
-      console.log("payId", payId);
+
       //서버로부터 받아오느 payId를 가지고 결제성공 페이지로 이동
       navigate(`/mypage/payHistory`);
     } catch (err) {
-      console.log(err);
-      console.log("error 결제 정보 서버로 전송후 에러 처리", err);
+
       catchError(err,{openModal,closeModal,navigate});
     }
   };
@@ -114,16 +113,15 @@ const PaymentComponent = () => {
       })),
     };
 
-     console.log("updatedPaymentInfop-----onClickPayment", updatedPaymentInfo);
 
     //paymentInfo의 payAccount 값 담아주기
     setPaymentInfo(updatedPaymentInfo);
     //여기서 한 번더 검증 필요
     const formValid = validationPay(updatedPaymentInfo);
-    console.log("페치요청 마지막 검증", formValid.valid);
+
 
     if (!formValid.valid) {
-      console.log("페치요청 마지막 검증 true", formValid.valid);
+
       //모달띄우기
       openModal({
         modalType:"confirm",
@@ -132,17 +130,15 @@ const PaymentComponent = () => {
       });
       return; // 여기서 return 안 하면 종료가 되지않아서  서버로 계속 요청 감
     }
-    console.log("paymentInfo", paymentInfo);
+
     //서버로 비동기 요청 보낼 함수 실행,  서버로 보내줄 파라미터 넘겨주기
     await submitPaymentHandler(updatedPaymentInfo); // 이 핸들러 끝날 때까지 기다려라! ==> async , await 사용안하면 onclick 이벤트가  먼저 끝나버림
     //갱신된 내용 반영
     setPaymentInfo(updatedPaymentInfo);
-    console.log("onClick 끝");
+
   };
 
 
-
-  console.log("paymentComponent books ---------------",books)
 
   return (
     <>

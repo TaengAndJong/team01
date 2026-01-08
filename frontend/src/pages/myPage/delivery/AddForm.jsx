@@ -19,8 +19,7 @@ const AddForm = ({setShowAddForm}) => {
     const handleInputChange = (e) => {
         // 이벤트 타겟 내부의 요소를 객체형으로 구조분해할당
         const { name, value } = e.target;
-        console.log("name", name);
-        console.log("value", value);
+
         //기존 데이터를 유지(...addData) == 스프레이 연산자를 이용해
         // 새로운 데이터( [name]: value )와 병합
         setAddrData({
@@ -38,8 +37,6 @@ const AddForm = ({setShowAddForm}) => {
             zoneCode:addressObject.zonecode,
         }));
     };
-
-    console.log("addrData-------",addrData);
 
     //배송지 등록 저장 시 서버로 보낼 fetch 함수
     const saveAddrFetch = async () => {
@@ -63,11 +60,13 @@ const AddForm = ({setShowAddForm}) => {
             const data = await response.json();
             //성공여부에 따른 메시지 받아오기
             console.log("저장성공 data",data);
+            //알림모달처리
 
            // (서버에서 처리된 데이터 받아와서 갱신필요)
             onCreate(data.addData);
           
         }catch(e){
+            //에러처리
             console.log(e);
         }
         

@@ -66,7 +66,7 @@ const SignUpComponent = () => {
             }
 
             const result = await response.json(); // 서버에서 반환된 JSON 데이터 처리
-            console.log("result-------backend to front",result); // 서버에서 받은 응답 확인
+
         
             //서버에서 반환하는 json 객체에 success :  true로 설정해줘야함
             if (result.success) {
@@ -78,14 +78,14 @@ const SignUpComponent = () => {
                 alert(`회원가입 실패: ${result.message}`);
             }
         } catch (err) {
-            console.error("회원가입 오류:", err);
+            //에러처리
             alert("회원가입 중 오류가 발생했습니다.");
         }
     };
     
     // 아이디, 회원번호 검증
     const handleConfirm = async (key, value,addData = {}) => {
-        console.log("아이디 중복 검사 밸류 ",key, value);
+
         //formData에 입력된 객체의 값을 가져와서 , URLSearchparams를 이용해 쿼리스트링으로 변경해 서버로 전송해야 함
         //URLSearchparams는 문자열을 파라미터로 받아야 함 ==> 객체에 담아서 key=value 형태로 담아야 함
         const params= new URLSearchParams({[key]:value});
@@ -93,13 +93,12 @@ const SignUpComponent = () => {
         // 추가 데이터가 있다면 파라미터에 append
         for (const [addKey, addValue] of Object.entries(addData)) { // 객체데이터를 배열구조로 구조분해할당하여 추가 데이터 params에 담아주기
             if (addValue !== undefined && addValue !== null && addValue !== "") {
-                console.log("addKye, addValue-----------------",addKey, addValue);
+
                 params.append(addKey, addValue);
             }
         }
 
-        console.log("params--------",params);
-        console.log("params--------",params.toString());
+
 
         try{
             // 쿼리스트링으로 서버로 검증할 파라미터 fetch로 넘겨주기
@@ -112,18 +111,18 @@ const SignUpComponent = () => {
             }
             //통신 성공시 받아오는 결과 데이터
             const result = await response.json(); // 서버에서 반환된 JSON 데이터 처리
-            console.log("result-------backend to front",result); // 서버에서 받은 응답 확인
+
             //모달 띄우기  ==>  true 이면 중복인 상태, false이면 사용가능한 상태
             if(result){
-                console.log("result.message",result.message);
+
                 //객체 형태
                 setErrorData({
                     message: result.message,
                 })
             }
-        //    console.log("errorData ",errorData);
 
         }catch(err){
+            //에러처리
             console.error(err);
         }
         //end

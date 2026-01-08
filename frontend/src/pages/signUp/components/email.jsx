@@ -24,9 +24,6 @@ const Email=({formData,setFormData,msg,setMsg})=>{
 
     // 이메일 유효성 검사 및 중복 검사
     const handleEmailChange = (e)=>{
-        console.log("e.target.name", e.target.name);
-        console.log("e.target.value", e.target.value);
-
 
         //...(스프레드 연산자)는 객체를 "펼쳐서" 새로운 객체에 병합하거나 추가하는 역할을 합니다.
         setemailData((prev) => ({

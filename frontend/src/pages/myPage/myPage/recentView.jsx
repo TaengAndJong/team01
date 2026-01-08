@@ -36,7 +36,7 @@ const RecentView = ({slideData}) =>{
     
     //데이터가 없을경우 , 조건을 분기해줄 플래그 선언
     if (slides.length === 0) {
-        console.log("slides length",slides.length);
+
         slides.push({ noData: true }); // slide 데이터에 noData 속성이 true 이면 데이터 없음 컴포넌트 출력
     }
 
@@ -44,8 +44,7 @@ const RecentView = ({slideData}) =>{
     while(slides.length < totalSlid){
         slides.push({ noData: true });
     }
-    console.log("slides-----------------",slides);
-    console.log("slides-----------------noData-",slides);
+
 
     return (
         <>

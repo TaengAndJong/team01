@@ -18,7 +18,6 @@ const Tel=({formData,setFormData,msg,setMsg})=>{
         } else {
             // FormTag 컴포넌트의 onChange
             const { name, value } = eventTarget.target;
-            console.log("Input change: ", name, value);
 
             // 전화번호 업데이팅 되기전 두 or 세번째 데이터  검증 후 업데이팅
             if(name === "secondTelNum" || name === "lastTelNum"){
@@ -66,7 +65,7 @@ const Tel=({formData,setFormData,msg,setMsg})=>{
                     name="FirstTelNum"
                     id="FirstTelNum"
                     onChange={(selectedOption) => {
-                        console.log("selectedOption", selectedOption);
+
                         handleTelChange({target: {name: "FirstTelNum", value: selectedOption.value}});
                     }}
                     options={[

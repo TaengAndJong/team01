@@ -17,7 +17,7 @@ const qnaEdit = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Updated Post:', { id, title, content });
+
         alert('Post updated (console log for testing)');
         window.location.href = `/post/${id}`;
     };

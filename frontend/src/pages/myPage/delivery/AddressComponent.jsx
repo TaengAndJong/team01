@@ -6,11 +6,6 @@ export const AddressStatusContext = React.createContext();
 export const AddressDispatchContext = React.createContext();
 
 const reducer = (state,action) => {
-    console.log("action",action);
-    console.log("state",state);
-    console.log("action type of", typeof action); //objects
-    console.log("action type of", Array.isArray(action.data)); // 객체
-
 
     switch(action.type){
         case "INIT" :
@@ -55,10 +50,10 @@ const AddressComponent = () =>{
             const data = await response.json();
             //성공여부에 따른 메시지 받아오기
             console.log("get 요청 성공 data",data);
+            //알림모달처리
             onInit(data); // 받아온 데이터로 초기값 기본데이터 상태 갱신
-
-
         }catch(e){
+            //에러처리
             console.log(e);
         }
 
@@ -106,7 +101,7 @@ const AddressComponent = () =>{
         //console.log("deliveryData onInit --- 마운트",deliveryData);
     },[]);
 
-    console.log("deliveryData-------",deliveryData);
+
 
     return (
         <>
