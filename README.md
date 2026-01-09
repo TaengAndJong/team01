@@ -106,11 +106,11 @@
   기타문서
 </h3>
 <ul>
-     <li><a href="./doc/team02db_ERD.jpg">ERD</a></li>
-      <li><a href="./doc/DB_table_정의서.pdf">테이블 명세서</a></li>
-      <li><a href="./doc/메뉴구조도.pdf">메뉴구조도</a></li>
-      <li><a href="./doc/단위업무정의서_260109.pdf">단위업무정의서</a></li>
-      <li><a href="./doc/화면정의서(기능정의).pdf">화면정의서</a></li>
+     <li><a href="./doc/team02db_ERD.jpg" download="thebook_ERD">ERD</a></li>
+      <li><a href="./doc/DB_table_정의서.pdf" download="thebook_테이블명세서">테이블 명세서</a></li>
+      <li><a href="./doc/메뉴구조도.pdf" download="thebook_메뉴구조도">메뉴구조도</a></li>
+      <li><a href="./doc/단위업무정의서_260109.pdf" download="thebook_단위업무정의서">단위업무정의서</a></li>
+      <li><a href="./doc/화면정의서(기능정의).pdf" download="thebook_화면정의서">화면정의서</a></li>
 </ul>
 
 
