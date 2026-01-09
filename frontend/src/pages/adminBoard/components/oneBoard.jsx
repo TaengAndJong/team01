@@ -271,7 +271,7 @@ const OneBoard = () => {
               {/* undefined 와 데이터의 개수 검증*/}
               {boardList && boardList?.length === 0 ? (
                 <tr className="">
-                  <td colSpan="12" className="text-center p-4">
+                  <td colSpan="6" className="text-center p-4">
                     새로 등록된 문의글이 없습니다.
                   </td>
                 </tr>

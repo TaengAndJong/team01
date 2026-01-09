@@ -89,7 +89,7 @@ const AdminBookDetail = () => {
                             <h3 className="book-title title-dotted">
                                 {recomTultip(bookDetail.recomType)}
                                 {saleStatus(bookDetail.saleStatus)}
-                                <em className="d-block">{bookDetail.bookName}</em>
+                                <em className="">{bookDetail.bookName}</em>
                             </h3>
                             <ul className="ul bullet">
                                 <li className="li"><span className="tit fw-bold">저자</span>{bookDetail.author}</li>

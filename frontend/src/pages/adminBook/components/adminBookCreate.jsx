@@ -281,7 +281,7 @@ const AdminBookCreate = () => {
                     </div>
                     {/*도서명*/}
                     <div className="row col-12 align-items-center mb-1">
-                        <FormTag id="bookName" label="도서명" labelClass="form-title"
+                        <FormTag id="bookName" label="도서명" labelClass="form-title col-3"
                                  className="form-control flex-fill"
                                  name="bookName" type="text"
                                  placeholder="도서명 입력" value={createBook.bookName} onChange={handleChange}/>
@@ -297,19 +297,19 @@ const AdminBookCreate = () => {
                     </div>
                     <div className="row col-12 align-items-center mb-1 author-writer">
                         {/*저자명 */}
-                        <FormTag id="author" label="저자" labelClass="form-title" className="form-control "
+                        <FormTag id="author" label="저자" labelClass="form-title col-2" className="form-control"
                                  name="author"
                                  type="text"
                                  placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
 
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
-                        <FormTag id="writer" label="작성자" labelClass="form-title col-3"
+                        <FormTag id="writer" label="작성자" labelClass="form-title col-2"
                                  className="form-control me-5"
                                  name="writer"
                                  type="text"
                                  placeholder="작성자" value={userData?.clientName} readOnly={true}/>
 
-                        <FormTag id="createDate" label="등록일" labelClass="form-title col-3"
+                        <FormTag id="createDate" label="등록일" labelClass="form-title col-2"
                                  className="form-control"
                                  name="createDate"
                                  type="text"
@@ -319,23 +319,18 @@ const AdminBookCreate = () => {
 
                     {/*도서설명*/}
                     <div className="d-flex align-items-center mb-1">
-                        <label htmlFor="bookDesc" className="form-title">도서설명</label>
+                        <label htmlFor="bookDesc" className="form-title col-3">도서설명</label>
                         <textarea id="bookDesc" className="form-control flex-fill" name="bookDesc" type="text"
                                   placeholder="도서설명을 입력해주세요" value={createBook.bookDesc}
                                   aria-describedby="bookDescHelp" required onChange={handleChange}/>
                     </div>
 
-                        {/*도서이미지
-                        이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요
-                    */}
-
+                     {/*도서이미지 이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요      */}
                     <div className="d-flex align-items-center flex-wrap">
 
                         <FileUpload bookImg={bookImg} setBookImg={setBookImg} defaultData={createBook}
                                     setDefaultData={setCreateBook}/>
                     </div>
-
-
                 </form>
                 <div className="d-flex align-items-center justify-content-center mt-4">
                     <Btn path={PathsData.page.adminBook} className={"login btn btn-danger mx-1"} text={"취소"}/>

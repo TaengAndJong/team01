@@ -30,7 +30,7 @@ const PublishDate = ({publishDate,handleChange}) =>{
     return (
                 <>
 
-                    <FormTag id="publishDate" label="발행일" labelClass="form-title col-2" className="form-control"
+                    <FormTag id="publishDate" label="발행일" labelClass="form-title col-3" className="form-control"
                              name="publishDate" type="date"
                              placeholder="yyyy-mm-dd"
                              value={publishDate} onChange={dateHandler}/>

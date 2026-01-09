@@ -29,7 +29,7 @@ const Board = () => {
   const location = useLocation().pathname;
   const hideSubNavi = location === "/board";
   const fetchData = async () => {
-    console.log("userData fetchData", userData);
+
     try {
       const [delivListRes, productListRes, oneListRes] = await Promise.all([
         axios.get(`/api/board/DelivBoardlist?userId=${userData.clientId}`),

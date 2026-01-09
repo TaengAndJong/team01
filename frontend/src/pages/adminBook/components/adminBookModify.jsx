@@ -248,7 +248,6 @@ const AdminBookModify = () => {
                 {/*onSubmit={handleInputChange}*/}
                 <form className="bookModifyForm" onSubmit={onSubmit}>
                     {/*카테고리*/}
-
                     <Category mode="modify" setDefaultData={setModifyBookData} defaultData={modifyBookData}
                               categoryList={categoryList}/>
 
@@ -261,7 +260,7 @@ const AdminBookModify = () => {
 
                     {/*도서명*/}
                     <div className="row col-12 align-items-center mb-1">
-                        <FormTag id="bookName" label="도서명" labelClass="form-title" className="form-control flex-fill"
+                        <FormTag id="bookName" label="도서명" labelClass="form-title col-3" className="form-control flex-fill"
                                  name="bookName" type="text"
                                  placeholder="도서명 입력" value={modifyBookData.bookName} onChange={handleChange}/>
                     </div>
@@ -276,19 +275,18 @@ const AdminBookModify = () => {
                         <PublishDate publishDate={modifyBookData.publishDate} handleChange={handleChange}/>
                     </div>
 
-                    {/*작성자*/}
                     <div className="row col-12 align-items-center mb-1 author-writer">
                         {/*저자명 */}
-                        <FormTag id="author" label="저자" labelClass="form-title" className="form-control" name="author"
+                        <FormTag id="author" label="저자" labelClass="form-title col-2" className="form-control" name="author"
                                  type="text"
                                  placeholder="저자입력" value={modifyBookData.author} onChange={handleChange}/>
 
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
-                        <FormTag id="writer" label="작성자" labelClass="form-title" className="form-control col" name="writer"
+                        <FormTag id="writer" label="작성자" labelClass="form-title col-2" className="form-control me-5" name="writer"
                                  type="text"
                                  placeholder="작성자" value={userData?.clientName} readOnly={true}/>
 
-                        <FormTag id="createDate" label="등록일" labelClass="form-title" className="form-control col"
+                        <FormTag id="createDate" label="등록일" labelClass="form-title col-2" className="form-control"
                                  name="createDate"
                                  type="text"
                                  placeholder="등록일" value={formatToDate(new Date(modifyBookData.createDate))}
@@ -297,17 +295,14 @@ const AdminBookModify = () => {
                     </div>
                     {/*도서설명*/}
                     <div className="d-flex align-items-center mb-1">
-                        <label htmlFor="bookDesc" className="form-title col">도서설명</label>
+                        <label htmlFor="bookDesc" className="form-title col-3">도서설명</label>
                         <textarea id="bookDesc" className="form-control flex-fill" name="bookDesc" type="text"
                                   placeholder="도서설명을 입력해주세요" value={modifyBookData.bookDesc}
                                   aria-describedby="bookDescHelp" required onChange={handleChange}/>
                         {/*255글자 넘어가면 에러메시지 출력 */}
                     </div>
 
-                    {/*도서이미지
-                        이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요
-                    */}
-                    <div className="align-items-center input-group flex-wrap">
+                    <div className="align-items-center flex-wrap">
                         {/*갱신값과 초기값을 전달하기 위해서 둘 다
                             부모가 상태관리를 해야 전체적인 데이터 흐름을 제어할 수 있음
                         */}

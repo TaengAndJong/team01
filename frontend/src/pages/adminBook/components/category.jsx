@@ -14,8 +14,6 @@ const Category=({mode,setDefaultData,defaultData,categoryList})=>{
 
     const {openModal,closeModal} = useModal();
 
-
-    console.log("selectedCategory--중간",selectedCategory);
     const isInitialized = useRef(false); // 카테고리값 초기화 상태관리변수
 
     //useEffect로 초기값 갱신하기

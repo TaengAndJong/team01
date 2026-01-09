@@ -89,7 +89,7 @@ const BoardCardTable = ({ items, category }) => {
         <tbody className="">
           {items.length === 0 ? (
             <tr className="text-center">
-              <td colSpan="4">문의하신 글이 없습니다.</td>
+              <td colSpan="5">문의하신 글이 없습니다.</td>
             </tr>
           ) : (
             items?.slice(0, 5)?.map((item, idx) => {

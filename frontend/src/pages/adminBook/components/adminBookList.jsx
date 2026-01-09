@@ -14,6 +14,7 @@ import SearchBar from "@pages/adminBook/components/searchBar.jsx";
 import Pagination from "@util/pagination.jsx";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 import ImgBaseUrl from "@/util/imgBaseUrl";
+import "@assets/css/book/adminbookList.css";
 import axios from "axios";
 
 const AdminBookList = () => {
@@ -149,6 +150,32 @@ const AdminBookList = () => {
         <div className="table-responsive">
           <table className="table table-custom mt-4">
             <caption className="sr-only">등록된 도서상품 테이블</caption>
+            <colgroup>
+              <col style={{width: '4%'}}/>
+              {/* 체크 */}
+              <col style={{width: '4%'}}/>
+              {/* No */}
+              <col style={{width: '8%'}}/>
+              {/* 이미지 */}
+              <col style={{width: '8%'}}/>
+              {/* 카테고리 */}
+              <col style={{width: '20%'}}/>
+              {/* 도서명 */}
+              <col style={{width: '8%'}}/>
+              {/* 저자 */}
+              <col style={{width: '8%'}}/>
+              {/* 가격 */}
+              <col style={{width: '8%'}}/>
+              {/* 발행일 */}
+              <col style={{width: '6%'}}/>
+              {/* 등록자 */}
+              <col style={{width: '8%'}}/>
+              {/* 등록일 */}
+              <col style={{width: '4%'}}/>
+              {/* 재고 */}
+              <col style={{width: '6%'}}/>
+              {/* 판매상태 */}
+            </colgroup>
             <thead>
             <tr>
               <th scope="col" className="text-center">

@@ -238,7 +238,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
                 {files.map((file, index) => (
                     <div  key={`${file.name || file}`}
                         className="file-row d-flex justify-content-start align-items-center w-100 mt-1 py-1 border-bottom">
-                        <label className="form-title" htmlFor={`file${index+ 1}`}>업로드목록.{index + 1}</label>
+                        <label className="form-title col-3" htmlFor={`file${index+ 1}`}>업로드목록.{index + 1}</label>
                         <span className="d-inline-block" id={`file${index+ 1}`}> {file.name || file}</span>
                         <button type="button" className={"btn btn-danger ms-auto"}
                                 onClick={() => handleRemoveFile(file, type)}>
