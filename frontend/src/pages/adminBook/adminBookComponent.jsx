@@ -65,7 +65,8 @@ const AdminBook = () => {
   const [search, setSearch] = useState({
     bookType: "ALL", // 전체 / 국내도서 / 국외도서
     searchType: "bookName", // bookName(도서명), author(저자)
-    stockType: "stockType",
+    recomType: "ALL",
+    stockType: "ALL",
     keyword: "", // 검색어
   });
 

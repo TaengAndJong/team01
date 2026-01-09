@@ -8,33 +8,45 @@ import React from "react";
 const SearchBar = ({search,setSearch, handleSearch}) =>{
 
     const handleSearchChange = (e) => {
+        console.log("handleSearchChange", handleSearch);
+        const name= e.target.name;
+        const value = e.target.value;
 
-        setSearch((prev) =>(
-            {
+        console.log("name ------searchbar", name);
+        console.log("value ------searchbar", value);
+        setSearch((prev) =>({
                 ...prev,
-                [e.target.name] : e.target.value //동적 설정
+                [name]:value
             }
-        )); // 부모에게 전달
+        ))
     };
 
+    console.log("search-------------search 컴포넌트", search);
 
     return(
         <>
             <div className="search-bar d-flex justify-content-end">
-                <select className="form-control form-select w-auto" name="bookType" value={search?.bookType || ""}
+                <select className="form-control form-select w-auto" name="bookType" value={search?.bookType ?? "ALL"}
                         onChange={(e) => handleSearchChange(e)}>
                     <option value="ALL">전체</option>
                     <option value="국내도서">국내도서</option>
                     <option value="국외도서">국외도서</option>
                     <option value="EBOOK">Ebook</option>
                 </select>
-                <select className="form-control form-select w-auto" name="stockType" value={search?.stockType || ""}
+                <select className="form-control form-select w-auto" name="stockType" value={search?.stockType ?? "ALL"}
                         onChange={(e) => handleSearchChange(e)}>
-                    <option value="">전체</option>
+                    <option value="ALL">전체</option>
                     <option value="in">재고있음</option>
                     <option value="out">재고없음</option>
                 </select>
-                <select className="form-control form-select w-auto" name="searchType" value={search?.searchType || ""}
+                <select className="form-control form-select w-auto" name="recomType" value={search?.recomType ?? "ALL"}
+                        onChange={(e) => handleSearchChange(e)}>
+                    <option value="ALL">전체</option>
+                    <option value="NORMAL">일반</option>
+                    <option value="RECOMMEND">추천</option>
+                    <option value="POPULAR">인기</option>
+                </select>
+                <select className="form-control form-select w-auto" name="searchType" value={search?.searchType ?? ""}
                         onChange={(e) => handleSearchChange(e)}>
                     <option value="bookName">도서명</option>
                     <option value="author">저자</option>

@@ -110,9 +110,6 @@ const AdminBookList = () => {
               }
             });
 
-
-
-
       }catch(err){
         // fetch는 네트워크에러만 감지, axios는 http오류(400,500)e도 감지
         //에러처리-버튼테스트
