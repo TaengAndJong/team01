@@ -26,7 +26,7 @@ const CartList = () => {
         const [show, setShow] = useState(false);
         const [errorData, setErrorData] = useState({});
         const handleClose = () => {
-            console.log("close modal");
+
             setShow(false)}
         // const [modalType, setModalType] = useState("confirm");
 
@@ -75,7 +75,7 @@ const CartList = () => {
         //전체선택 핸들러
         const selectAllHandler = (checkedAll)=>{
 
-            console.log(`전체선택 : ${checkedAll} , 선택된 아이템 : ${selectItem}`);
+
             // 이미 담긴 아이디는 담지 않는다 ==> 필터링
             if(checkedAll){ //전체선택 checked가 true이면
                 //모든 도서 체크박스 체크드 true 해야되는데 어떻게 접근해 ?
@@ -145,8 +145,7 @@ const CartList = () => {
 
             }else{
                 //결제페이지로 이동할 때 필요한 파라미터 navigate객체에 담아서 보내주기
-                console.log("결제페이지로 이동");
-                console.log("cartIds",cartIds);
+
                 navigate("/payment",{
                     state:{
                         cartIds,

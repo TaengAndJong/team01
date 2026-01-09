@@ -113,7 +113,6 @@ const AdminBookModify = () => {
                 if (value.length > 0) {
                     value.forEach(v => formData.append(key, v));
                 } else {
-                    console.log("빈배열 일 경우 key",key);
                     // 빈 배열일 경우도 append
                     formData.append(key, "");
                 }

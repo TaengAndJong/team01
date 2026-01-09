@@ -191,22 +191,25 @@ const CreateBoardComponent = () => {
         successMessage = "배송 문의 게시물이 등록되었습니다!";
         redirectPath = "/board";
       } else {
+        //에러처리(알림모달)
         console.log("지원하지 않는 카테고리");
         return;
       }
 
       // 응답 상태 확인
       if (!response.ok) {
+        //에러처리(알림모달)
         console.error("전송 실패", response.status);
         alert("게시물 등록에 실패했습니다. 다시 시도해주세요.");
         return;
       }
 
-      // 성공 시에만 이동 및 알림 새로고침
+      // 성공 시에만 이동 및 알림 새로고침(알림모달)
       alert(successMessage);
       refreshTrigger();
       navigate(redirectPath);
     } catch (e) {
+      //에러처리(알림모달)
       console.log(e, e.message);
       alert("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
     }

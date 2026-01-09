@@ -42,7 +42,7 @@ const BookDetail = () => {
 
         }catch(e){
             //에러처리
-            console.log("catch-Error", err);
+            console.log("catch-Error",e);
         }
 
 

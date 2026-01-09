@@ -71,7 +71,7 @@ const RecentView = ({slideData}) =>{
                     swiper.params.navigation.prevEl = prevRef.current;
                     swiper.params.navigation.nextEl = nextRef.current;
                 }}
-                onSlideChange={() => console.log('recent-slide')}
+                // onSlideChange={() => console.log('recent-slide')}
             >
                 {slides?.map((item,index) => (
                     <SwiperSlide key={`slide-${item?.book?.bookId} || nodata-${index}`} className="li">

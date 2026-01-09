@@ -91,7 +91,7 @@ const PaymentItems = ({paymentProps}) =>{
             bookIds
         };
 
-        console.log("params",params);
+
         try{
             // 전체취소 버튼 클릭 시 서버로 전체결제취소 데이터 전송
             const response =await axios.post("/api/mypage/payAllCancel",params); 

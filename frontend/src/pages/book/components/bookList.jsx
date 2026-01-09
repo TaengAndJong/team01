@@ -37,7 +37,7 @@ const BookList = () => {
       //조회된 도서아이디들 값 wishIds 변수에 저장
       setWishIds(response.data.map(Number));
     } catch (e) {
-        //에러처리필요
+        //에러처리
       console.log("비동기요청 실패", e);
     }
   };

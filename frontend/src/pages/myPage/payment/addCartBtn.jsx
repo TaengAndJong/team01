@@ -4,9 +4,6 @@ import {useNavigate} from "react-router-dom";
 
 const AddCartBtn = ({bookId,quantity}) =>{
 
-
-    console.log(`addBTn bookId: ${bookId}, quantity:${quantity}`);
-
     //모달
     const {openModal,closeModal} = useModal();
     const navigate = useNavigate();
@@ -61,7 +58,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
 
         }catch(err){
             //에러처리
-            console.log("장바구니에 담기 실패",err);
+            console.log("장바구니에 담기 실패",err.response.statusText);
 
         }
     }

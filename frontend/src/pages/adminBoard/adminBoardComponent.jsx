@@ -8,8 +8,6 @@ import { useAuth } from "@pages/common/AuthContext.jsx";
 
 // 3개 카테고리별 상태 관리를 위한 reducer
 function boardReducer(state, action) {
-  console.log("boardReducer state:", state);
-  console.log("boardReducer action:", action);
 
   switch (action.type) {
     case "INIT_ONE":
@@ -258,10 +256,10 @@ const AdminBoard = () => {
       }
     } catch (err) {
       //에러처리
-      console.log("문의 게시판 데이터 불러오기 실패", err); // 오류 처리
       console.log("에러 상세 정보:", err.message);
     }
   }; //fetch end
+
 
   // 최초 렌더 시 한 번만 실행
   useEffect(() => {

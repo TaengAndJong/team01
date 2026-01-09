@@ -13,7 +13,7 @@ import {getAllPrice, getDeliveryPrice} from "../../util/calculatePrice.js";
 const PaymentComponent = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log("location---- 단건구매, 바로구매 버튼 눌렀을 때 담겨온 데이터", location?.state);
+
   // location에 담겨온 state 객체들 구조분해할당
   const {  book, type, cartIds,cartId } = location?.state;
   //공통모달

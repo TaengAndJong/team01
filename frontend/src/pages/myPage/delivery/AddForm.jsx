@@ -59,8 +59,7 @@ const AddForm = ({setShowAddForm}) => {
 
             const data = await response.json();
             //성공여부에 따른 메시지 받아오기
-            console.log("저장성공 data",data);
-            //알림모달처리
+            //알림모달처리(에러처리)
 
            // (서버에서 처리된 데이터 받아와서 갱신필요)
             onCreate(data.addData);

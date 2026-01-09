@@ -37,9 +37,6 @@ const Board = () => {
         axios.get(`/api/board/OneBoardlist?userId=${userData.clientId}`),
       ]);
 
-      console.log("배달 문의 조회 성공:", delivListRes.data);
-      console.log("상품 문의 조회 성공:", productListRes.data);
-      console.log("1:1 문의 조회 성공:", oneListRes.data);
 
       setBoardList({
         delivery: delivListRes.data,

@@ -21,7 +21,7 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
 
         //status: 화살표 함수
         401:()=>{
-            console.log("401코드");
+
             openModal({
                 modalType:"login",
                 content:<><p>{data?.message}</p></>,
@@ -37,7 +37,7 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
 
         //400
         400:()=>{
-            console.log("400코드");
+
             //주문재고가 0일경우 , 품절
             if (data?.maxQuantity === 0) {
                 openModal({
@@ -71,7 +71,7 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
 
         //500
         500:()=>{
-            console.log("500코드");
+
             openModal({
                 modalType: "error",
                 content: <p>{  "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요." }</p>,
@@ -88,7 +88,7 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
                 modalType: "error",
                 content: <p>{ data?.message || "알 수 없는 오류가 발생했습니다." }</p>,
                 onConfirm: () => {
-                    console.log("여기 실행? -- send ERROR")
+
                     closeModal()
                 },
             })

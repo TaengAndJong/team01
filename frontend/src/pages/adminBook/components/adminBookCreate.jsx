@@ -230,8 +230,6 @@ const AdminBookCreate = () => {
                     },
                 });
 
-                console.log("도서 등록 response", response);
-
                 setSearchCondition(null); // 검색어 상태를 초기화 해줘야 등록완료후 처음으로돌아감
                 // 1. 페이지 1로 이동 ( 이미 1페이지면 state 변경이 안됨)
                 setPaginationInfo(prev => ({ ...prev, currentPage: 1 }));
@@ -242,7 +240,6 @@ const AdminBookCreate = () => {
 
 
         } catch (err) {
-            console.log(`도서 등록 서버에러 ${err.statusText}`);
             openModal({
                 modalType: "error",
                 content:<>

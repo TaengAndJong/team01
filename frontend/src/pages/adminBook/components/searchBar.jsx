@@ -19,8 +19,6 @@ const SearchBar = ({search,setSearch, handleSearch}) =>{
         ))
     };
 
-    console.log("search-------------search 컴포넌트", search);
-
     return(
         <>
             <div className="search-bar d-flex justify-content-end">

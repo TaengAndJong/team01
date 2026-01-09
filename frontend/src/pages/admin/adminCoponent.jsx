@@ -81,7 +81,7 @@ function Admin() {
 
     if (response.ok) {
       const data = await response.json();
-     // console.log("getQnaData 통신", data);
+
       setCountData(data);
     } else {
       //에러처리
@@ -103,7 +103,7 @@ function Admin() {
     });
     if (response.ok) {
       const data = await response.json();
-   //   console.log("getChartData 통신", data);
+
 
       const newDates = [];
       const newVisitors = [];

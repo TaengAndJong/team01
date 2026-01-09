@@ -88,7 +88,7 @@ const Tel=({telNum,setUserInfo,msg,setMsg})=>{
                     id="FirstTelNum"
                     value={{ value: tel.firstTelNum, label: tel.firstTelNum }}
                     onChange={(selectedOption) => {
-                        console.log("selectedOption", selectedOption);
+
                         handleTelChange({target: {name: "firstTelNum", value: selectedOption.value}});
                     }}
                     options={[

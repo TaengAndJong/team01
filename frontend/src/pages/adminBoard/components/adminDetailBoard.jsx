@@ -12,7 +12,7 @@ import { formatToDate } from "@util/dateUtils.jsx";
 
 const AdminDetailBoard = ({ userType }) => {
   const { userData } = useAuth(); // 로그인 상태와 사용자 데이터 가져오는
-  console.log("로그인한 사용자 ", userData);
+
   const { category, boardId } = useParams();
   const [searchParams] = useSearchParams();
   const [board, setBoard] = useState();

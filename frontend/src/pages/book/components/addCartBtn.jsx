@@ -52,7 +52,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
             }
 
         }catch(err){
-            console.log("err--- 사용자 도서목록 장바구니 담기 버튼 왜 장바구니로 이동안되지",err);
+
             //에러 처리 핸들러
             catchError(err, { openModal, closeModal, navigate });
         }

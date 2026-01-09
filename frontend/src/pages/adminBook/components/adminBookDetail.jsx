@@ -32,7 +32,7 @@ const AdminBookDetail = () => {
         });
 
         if(!response.ok){
-            console.log(response.status);
+
             throw new Error("서버응답에러");
         }
         //응답 성공시

@@ -136,7 +136,7 @@ const ProductBoard = () => {
     setIsError(false);
     // 2. 요청 URL 확인
     const requestUrl = `/api/admin/board/qnaProductList?keyword=${keywordParam}&searchType=${searchType}&currentPage=${page}&pageSize=${pageSize}&userId=${userData.clientId}`;
-    console.log("요청 URL:", requestUrl);
+
 
     const response = await fetch(requestUrl, {
       method: "GET",
@@ -167,7 +167,7 @@ const ProductBoard = () => {
       alert("게시물을 선택해 주세요");
       return;
     }
-    console.log("삭제 할 게시물 아이디", deleteItems);
+
     try {
       //"/detail/product/{boardId}"
       const response = await fetch(`/api/admin/board/detail/product`, {

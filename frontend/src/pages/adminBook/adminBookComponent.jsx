@@ -13,29 +13,20 @@ function reducer(state, action) {
 
   switch (action.type) {
     case "INIT": //초기데이터
-      if (action.data) {
-        console.log("INIT action", action.data, Array.isArray(action.data));
-      }
+
       // 서버에서 단일객체{} 또는 여러 개의 객체가  action.data로 넘어오면 배열에 담아줘야 함.
       return Array.isArray(action.data) ? action.data : [action.data];
     case "CREATE"://생성
-      if (action.data) {
-        console.log("create action", action.data, Array.isArray(action.data)); // 객체로 넘어옴
-      }
+
       return [action.data, ...state]; // 새 객체(action.data) + 기존 배열, action.data는 단일객체
     case "DELETE"://삭제
-
-      if (action.data) {
-        console.log("delete action", action.data);
-        console.log("delete Array", Array.isArray(action.data));
-      }
       //서버에서 재조회된 items 배열로 전체 교체
       return Array.isArray(action.data) ? [...action.data] : state;
 
     case "UPDATE":
-      if (action.data) {
-        console.log("UPDATE action", action.data, Array.isArray(action.data));
-      }
+      // if (action.data) {
+      //   console.log("UPDATE action", action.data, Array.isArray(action.data));
+      // }
       //state는 새로 들어온 데이터객체를 담고있는 배열
       // action.data의 bookId가 기존데이터인 book의 bookId와 같으면 새로들어온 action.data로 교체 아니면 기존 데이터 유지
       return state.map((book) =>
@@ -130,7 +121,6 @@ const AdminBook = () => {
       });
 
     }catch(err){
-      console.log("도서 데이터 불러오기 실패", err);
       //에러 처리 핸들러
       catchError(err, { openModal, closeModal, navigate });
     }

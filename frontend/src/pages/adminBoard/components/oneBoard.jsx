@@ -22,7 +22,6 @@ const OneBoard = () => {
   });
 
   const [search, setSearch] = useState({});
-  console.log("search 상태관리 :", search);
 
   //전체선택
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부

@@ -59,8 +59,7 @@ const Cart = () => {
             });
 
             if(!response.ok){
-                // 에러처리??
-                console.log("요청 실패");
+                // 에러처리
                 throw Error(response.statusText);
             }
 

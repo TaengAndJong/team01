@@ -23,7 +23,6 @@ const DeliveryBoard = () => {
   });
 
   const [search, setSearch] = useState({});
-  console.log("search 상태관리 :", search);
 
   //전체선택
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
@@ -166,7 +165,8 @@ const DeliveryBoard = () => {
       alert("게시물을 선택해 주세요");
       return;
     }
-    console.log("삭제 할 게시물 아이디", deleteItems);
+
+
     try {
       //"/detail/product/{boardId}"
       const response = await fetch(`/api/admin/board/detail/delivery`, {

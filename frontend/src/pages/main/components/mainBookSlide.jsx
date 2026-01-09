@@ -145,7 +145,7 @@ const MainBookSlide = ({slideData,naviId,activeTab}) =>{
                     {/*다음*/}
                     <button type="button" className={`swiper-button bordered custom-next custom-next-${naviId}`}
                             onClick={() => {
-                                console.log(`custom-next-${naviId} 다음 버튼 클릭됨`);
+
                                 if (swiperRef.current) {
                                     swiperRef.current.slideNext();
                                 }

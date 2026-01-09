@@ -46,6 +46,7 @@ export default defineConfig(({ mode })=>{
               // secure: false,                   // https 연결을 사용하는 경우 설정
               rewrite: (path) => path.replace(/^\/api/, ""),
               onError(err) {
+            //에러처리
             console.error("Proxy error:", err);
           },
         },
