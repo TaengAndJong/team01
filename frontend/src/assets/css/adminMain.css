@@ -1,6 +1,6 @@
-.admin .header-inner{max-width: 100%;}
+
 .admin .logo-link{margin-left: 1.4rem;}
-.admin .index .footer-inner{max-width:100%}
+
 
 .title-text,
 .card-text{
@@ -8,8 +8,10 @@
 }
 
 .dashboard-container {
-  min-height: 1200px;
-  padding: 60px;
+  max-width: 160rem;
+  /*min-height: 120rem;*/
+  padding: 6rem;
+  margin: 0 auto;
 }
 
 .dashboard-container .inner {
@@ -19,9 +21,9 @@
 
 /* top-section */
 .dashboard-container .section {
-  gap: 60px;
-  padding: 30px 0;
-  margin-bottom: 150px;
+  gap: 6rem;
+  padding: 3rem 0;
+  margin-bottom: 15rem;
 }
 /* 그래프 */
 .graph-container {
@@ -32,15 +34,15 @@
   display: flex;
   flex-wrap: wrap;
   /* flex: 1; */
-  gap: 20px;
+  gap: 2rem;
 }
 
 .cardwrapper {
-  width: calc(50% - 10px);
-  height: 200px;
+  width: calc(50% - 1rem);
+  height: 20rem;
   background-color: #fff8d0;
   position: relative;
-  padding: 50px 30px 30px 170px;
+  padding: 5rem 3rem 3rem 17rem;
   font-family: 'TheJamsil';
 }
 
@@ -64,8 +66,8 @@
 .cardwrapper .count{font-size: 3.5rem}
 /* 아이콘 배경 CSS */
 .icon-bg {
-  width: 60px;
-  height: 60px;
+  width: 6rem;
+  height: 6rem;
   border-radius: 50%;
   background-color: #fff;
   display: flex;
@@ -77,19 +79,19 @@
 .board-icon {
   position: absolute;
   font-size: 35px;
-  width: 120px;
-  height: 120px;
+  width: 12rem;
+  height: 12rem;
   background-size: 100% auto;
   background-position: center center;
   background-repeat: no-repeat;
-  left: 30px;
+  left: 3rem;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .board-icon.qnaone {
   background-position: center top;
-  height: 100px;
+  height: 10rem;
   background-image: url("data:image/svg+xml,%3Csvg width='150' height='105' viewBox='0 0 150 105' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M42.5127 31L42.6017 32.3038L63.0596 32.3243C64.5131 32.3269 66.1148 32.279 67.5301 32.6639C75.3223 33.4042 82.1226 42.4385 82.8183 50.4116C83.0746 53.3493 83.0478 59.5461 82.8128 62.4675L82.7333 63.5751L82.4835 63.5211C81.9245 64.0784 82.0597 65.5597 82.0591 66.2822L82.0594 69.4072C82.06 71.224 82.1795 73.1546 81.9809 74.9567C80.8089 85.5862 73.2547 91.0526 63.7681 91.093L44.002 91.1353C42.5352 91.2016 41.4741 92.7432 40.5048 93.776L35.4356 99.2743C31.9237 103.086 28.3422 106.972 22.8834 103.878C17.4621 100.805 19.2665 94.3625 15.9532 93.4003L13.1275 92.5057C11.1508 91.7797 9.27591 90.7192 7.5523 89.4727C0.621164 84.0599 -0.00751047 79.4414 6.65236e-05 70.7185L0.0190726 54.2862C0.0218447 52.9284 -0.0539883 51.4942 0.145385 50.1508C1.64819 40.0239 8.23577 33.2738 18.1626 32.3802C20.4338 32.1756 22.8366 32.3304 25.1229 32.3301L40.1149 32.3314C42.1764 32.3304 42.4758 32.9033 42.5127 31Z' fill='%23FFE377'/%3E%3Cpath d='M25.3321 61.2452C30.4727 61.0391 32.6196 67.0116 27.0613 68.6928C21.2293 69.7755 19.9351 62.3268 25.3321 61.2452Z' fill='%2300537A'/%3E%3Cpath d='M42.1149 61.2734C47.5434 60.7329 49.3902 66.9082 43.7867 68.6568C38.6702 69.8786 36.4141 62.9259 42.1149 61.2734Z' fill='%2300537A'/%3E%3Cpath d='M58.519 60.4132C63.6745 60.0487 65.2895 67.2892 59.6791 68.7739C54.0193 69.3009 52.7748 61.6543 58.519 60.4132Z' fill='%2300537A'/%3E%3Cpath d='M39.64 31.1978L39.6509 20.1717C39.6529 18.0686 39.463 15.7596 39.8551 13.6967C41.2166 6.53336 46.2523 1.49941 53.085 0.275016C54.9103 -0.0523671 56.8913 0.065642 58.7411 0.065296L127.497 0.0507637C128.673 0.0438423 129.933 -0.0717458 131.099 0.0708353C138.094 0.924938 143.663 7.08777 144.751 14.1995C145.065 16.2521 144.893 18.524 144.895 20.607L144.898 44.5063C144.897 46.9548 145.091 49.6275 144.689 52.0437C143.577 58.7243 137.98 64.4964 131.492 65.3599C129.621 65.6087 127.135 65.0259 125.833 66.7867C122.995 70.6215 126.812 78.3167 119.718 80.3028L119.531 80.3565C115.301 81.5321 112.762 78.857 110.13 75.9157L105.307 70.4263C103.979 68.8953 102.655 67.2245 101.096 65.9426C99.922 64.9781 97.4294 65.5062 96.0331 65.5062L86.3379 65.527C85.2849 65.5415 84.015 65.8014 82.9925 65.5672L83.0781 64.4106C83.3314 61.3025 83.3603 54.7099 83.0841 51.5845C82.3341 43.102 75.0044 33.4905 66.6053 32.7167C65.0798 32.2935 63.3535 32.3444 61.7868 32.3416L39.7359 32.3198L39.64 31.1978Z' fill='%23DD9CFE'/%3E%3Cpath d='M125.818 31.1023C131.227 30.6194 132.558 38.1591 127.244 39.4777C120.987 39.6293 120.575 32.3482 125.818 31.1023Z' fill='white'/%3E%3Cpath d='M112.551 38.1961C112.424 38.4475 111.853 38.759 111.61 38.8868C106.157 41.7523 102.597 33.4183 108.072 31.3245C109.277 30.8636 110.585 31.1047 111.718 31.6307C113.473 32.8836 114.573 35.8875 113.025 37.7393L112.551 38.1961Z' fill='white'/%3E%3Cpath d='M94.8547 38.1961C94.7275 38.4475 94.1567 38.759 93.9128 38.8868C88.4604 41.7523 84.9001 33.4183 90.3748 31.3245C91.5805 30.8636 92.8882 31.1047 94.0215 31.6307C95.7758 32.8836 96.8767 35.8875 95.3277 37.7393L94.8547 38.1961Z' fill='white'/%3E%3C/svg%3E%0A");
 }
 
@@ -112,8 +114,8 @@
 
 .card-text {
   position: absolute;
-  right: 30px;
-  bottom: 30px;
+  right: 3rem;
+  bottom: 3rem;
 }
 
 /* bottom-section */
@@ -122,14 +124,14 @@
 }
 
 .bottom-section {
-  gap: 20px;
+  gap: 2rem;
 }
 
 .table-container {
   width: 100%;
   border: none;
   border-radius: 6px;
-  /* padding: 30px 0; */
+  /* padding: 3rem 0; */
   background-color: #fff;
 }
 
@@ -153,7 +155,7 @@
 
 /* 탭 버튼 스타일 */
 .tab-button {
-  padding: 20px;
+  padding: 2rem;
   border: none;
   background-color: #e0d3ca;
   font-size: 2rem;
@@ -173,7 +175,7 @@
 .gobooklist {
   font-size: 32px;
   top: 12%;
-  right: 0px;
+  right: rem;
   position: absolute;
 }
 
@@ -197,7 +199,7 @@
 .table-container th,
 .table-container td {
   border-bottom: 1px solid #ddd;
-  padding: 20px 10px;
+  padding: 2rem 1rem;
   text-align: center;
 }
 
@@ -213,7 +215,7 @@ main:after{
   bottom: 205px;
   left:0;
   width:100%;
-  height:200px;
+  height:20rem;
   background-image: url("/assets/images/common/bgFram.png");
   background-size:contain;
   background-repeat: repeat-x;

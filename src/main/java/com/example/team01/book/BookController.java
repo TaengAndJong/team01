@@ -98,6 +98,7 @@ public class BookController {
     @PostMapping("/bookList")
     public ResponseEntity<?>  getSearchBookList( @RequestParam(required = false) String bookType,
                                                  @RequestParam(required = false) String searchType,
+                                                 @RequestParam(required = false) String recomType,
                                                  @RequestParam String keyword,
                                                  @RequestParam(defaultValue = "1") int currentPage,
                                                  @RequestParam(defaultValue = "6") int pageSize,
@@ -105,6 +106,7 @@ public class BookController {
         log.info("도서 목록 클라이언트 도서 searchkeyword API 호출됨");
         log.info("bookType --------------------: {}",bookType);
         log.info("searchType -------------------: {}",searchType);
+        log.info("recomType -------------------: {}",recomType);
         log.info("keyword -----------------: {}",keyword);
         //페이지 계산 클래스 불러오기
         Pagination pagination = new Pagination(currentPage, pageSize);
@@ -114,6 +116,7 @@ public class BookController {
         //검색필터 설정해주기
         pagination.addDetailCondition("bookType", bookType);
         pagination.addDetailCondition("searchType", searchType);
+        pagination.addDetailCondition("recomType", recomType);
         pagination.addDetailCondition("keyword", keyword);
 
         log.info("DetailContion-----:{}",pagination.getDetailCondition());

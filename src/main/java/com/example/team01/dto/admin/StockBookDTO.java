@@ -1,5 +1,7 @@
 package com.example.team01.dto.admin;
 
+import java.sql.Timestamp;
+
 import lombok.*;
 
 @ToString
@@ -15,5 +17,5 @@ public class StockBookDTO {
     private String author; // 저자
     private int stock; // 재고량
     private String stockStatus; // 재고 유무
-    private String publishDate; // 발행일
+    private Timestamp createDate; // 발행일
 }

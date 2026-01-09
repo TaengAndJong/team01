@@ -102,6 +102,7 @@
       -webkit-line-clamp: 2;        /* 최대 2줄까지만 표시 */
       text-overflow: ellipsis;      /* ... 표시 */
       max-height: calc(1.2em * 2);  /* 2줄 기준으로 높이 제한 */
+      overflow: hidden;
     }
 
 }

@@ -91,26 +91,32 @@ public class AdminBookController {
     @GetMapping("/bookList")
     public ResponseEntity<?>  getBookList( @RequestParam(defaultValue = "1") int currentPage,
                                            @RequestParam(defaultValue = "6") int pageSize,
-
                                            @RequestParam(required = false) String bookType,
                                            @RequestParam(required = false) String searchType,
+                                           @RequestParam(required = false) String stockType,
+                                           @RequestParam(required = false) String recomType,
                                            @RequestParam(required = false) String keyword
-                                            ,HttpServletRequest request){
+                                          ){
         log.info("도서 목록 API 호출됨 ------ getbookList");
         log.info("도서 목록 currentPage : {} ,pageSize:{},bookType:{} ,searchType:{},keyword:{}",currentPage,pageSize,bookType,searchType,keyword);
+        log.info("도서 목록 currentPage : {} ,pageSize:{},bookType:{},stockType:{},recomType:{} ,searchType:{},keyword:{}"
+                ,currentPage,pageSize,bookType,stockType,recomType,searchType,keyword);
         //페이지 계산 클래스 불러오기
         Pagination pagination = new Pagination(currentPage, pageSize); //현재페이지 && 보여줄 페이지 수
-
-        //검색조건이 있을 경우
+        //검색필터 기본값설정
+        pagination.addDetailCondition("bookType", bookType);
+        pagination.addDetailCondition("searchType", searchType);
+        pagination.addDetailCondition("stockType", stockType);
+        pagination.addDetailCondition("recomType", recomType);
+        
+        //검색조건이 키워드 있을경우, 설정
         if (keyword != null && !keyword.isBlank()) {
-            log.info("검색키워드 없음 미진입 keword : {} ",keyword);
-            pagination.addDetailCondition("bookType", bookType);
-            pagination.addDetailCondition("searchType", searchType);
             pagination.addDetailCondition("keyword", keyword);
-            log.info("pagination.addDetailCondition:{}",pagination.getDetailCondition());
         }
 
-        log.info("pagination -----------------: {} pageSize:{}",currentPage,pageSize);
+        log.info("pagination -----------------: {}",pagination);
+        log.info("pagination -----------------: {}",pageSize);
+        log.info("pagination -----------------: {} ",currentPage);
         //서비스로 데이터 넘기기
         List<AdminBookVO> bookList  = bookService.getAllBooks(pagination);
 

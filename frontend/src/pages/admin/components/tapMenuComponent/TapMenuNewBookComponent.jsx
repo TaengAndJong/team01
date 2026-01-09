@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Pagination from "@util/pagination.jsx";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const TapMenuNewBookComponent = () => {
   const [activeTab, setActiveTab] = useState("국내도서");
@@ -12,8 +12,8 @@ const TapMenuNewBookComponent = () => {
     국외도서: { items: [], pagination: {} },
     "E-book": { items: [], pagination: {} },
   });
-
-  const navigate = useNavigate();
+  console.log("bookData", bookData);
+  // const navigate = useNavigate();
 
   const getNewDomestic = async (page = 1, pageSize = 5) => {
     setIsLoading(true);
@@ -23,7 +23,7 @@ const TapMenuNewBookComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log("국내도서 통신", data);
+
       setBookData((prev) => ({
         ...prev,
         국내도서: {
@@ -38,7 +38,7 @@ const TapMenuNewBookComponent = () => {
         },
       }));
     } else {
-      console.log("실패");
+      //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -52,7 +52,7 @@ const TapMenuNewBookComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log("국외도서 통신", data);
+
       setBookData((prev) => ({
         ...prev,
         국외도서: {
@@ -67,7 +67,7 @@ const TapMenuNewBookComponent = () => {
         },
       }));
     } else {
-      console.log("실패");
+      //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -81,7 +81,7 @@ const TapMenuNewBookComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log("E-Book 통신", data);
+
       setBookData((prev) => ({
         ...prev,
         ["E-book"]: {
@@ -96,7 +96,7 @@ const TapMenuNewBookComponent = () => {
         },
       }));
     } else {
-      console.log("실패");
+      //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -104,12 +104,11 @@ const TapMenuNewBookComponent = () => {
 
   useEffect(() => {
     getNewDomestic();
+    getNewForeign();
+    getNewEBook();
   }, []);
 
   const onChangePageHandler = async ({ page, category }) => {
-    console.log("category----", category);
-    console.log("changePage----", page);
-
     if (category === "국내도서") {
       await getNewDomestic(page, bookData[category].pagination.pageSize);
     } else if (category === "국외도서") {
@@ -117,6 +116,11 @@ const TapMenuNewBookComponent = () => {
     } else {
       await getNewEBook(page, bookData[category].pagination.pageSize);
     }
+  };
+
+  const formatDate = (date) => {
+    if (!date) return "";
+    return date.split("T")[0];
   };
 
   return (
@@ -172,22 +176,10 @@ const TapMenuNewBookComponent = () => {
                     </Link>
                   </td>
                   <td>{book.author}</td>
-                  <td>{book.publishDate}</td>
+                  <td>{formatDate(book.createDate)}</td>
                 </tr>
               ))
             )}
-            {/* {Array.from({
-              length:
-                (bookData[activeTab].pagination.pageSize || 5) -
-                bookData[activeTab].items.length,
-            }).map((_, i) => (
-              <tr key={`empty-${i}`}>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-            ))} */}
           </tbody>
         </table>
       </div>

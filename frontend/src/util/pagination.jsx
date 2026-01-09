@@ -2,7 +2,7 @@ import "@assets/css/pagination.css";
 
 //totalItems == totalRecord
 const Pagination = ({ paginationInfo, onChangePageHandler}) => {
-    console.log("paginationInfo -- 첫번째 ", paginationInfo);
+   // console.log("paginationInfo -- 첫번째 ", paginationInfo);
 
     const {currentPage, totalPages,totalRecord, pageSize} = paginationInfo;
 

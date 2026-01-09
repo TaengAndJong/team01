@@ -1,0 +1,10 @@
+.bookCreateForm{}
+.bookCreateForm [class^="form"]{width:auto}
+.bookCreateForm .row > *{}
+.bookCreateForm .row .form-title:nth-of-type(2n){margin:0 0rem 0 2rem;}
+.bookCreateForm .form-select{max-width:20rem;width: 100%;}
+.bookCreateForm  input[type="text"],.bookCreateForm input[type="date"]{}
+.bookCreateForm .stock-price{justify-content: space-between}
+.bookCreateForm .stock-price input[type="text"],.bookCreateForm .stock-price input[type="date"]{max-width: 12rem}
+.bookCreateForm .form-group-title, .bookCreateForm .form-title{min-width: 9rem;}
+.bookCreateForm .author-writer  input[type="text"]{max-width:12rem}

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import "@assets/css/board/userBoard.css";
 const FileUploadComponent = ({ files = [], handleFileChange, fileRemove }) => {
-  console.log("files", files);
+
   const fileRef = useRef(null);
 
   const totalSizeMB = (

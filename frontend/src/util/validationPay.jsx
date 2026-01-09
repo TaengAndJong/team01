@@ -4,17 +4,16 @@
 //검증할 목록 : 1) cardNumber, bankAccount, payConfirm 의 true여부
 
 const ValidationPay = (paymentInfo) =>{
-    console.log("validationPay",paymentInfo);
+
 
     const paymentMethod = paymentInfo.payMethod;
-    console.log("paymentMethod---------------- 검증 스위치문",paymentMethod);
+
     switch (paymentMethod) {
         case "card":
             const cardNumberStr = 
                 String(paymentInfo.cardNumber ?? "").trim()//공백제거
                    // .replace(/\s+/g, ""); // 모든 공백 제거;
             const cardName = String(paymentInfo.cardName ?? "").trim();
-            console.log("cardNumberStr",cardNumberStr);
 
             if (!cardNumberStr) {
                 return { valid: false, message: "카드번호를 입력해주세요." };
@@ -25,7 +24,7 @@ const ValidationPay = (paymentInfo) =>{
             }
 
             if (cardNumberStr.length !== 16) {
-                console.log("cardNumberStr length",cardNumberStr.length);
+
                 return { valid: false, message: "카드번호는 16자리를 입력해주세요." };
             }
             if(!cardName){
@@ -37,8 +36,6 @@ const ValidationPay = (paymentInfo) =>{
                 String(paymentInfo.bankAccount ?? "").trim()//공백제거
             // .replace(/\s+/g, ""); // 모든 공백 제거;
             const bankName = String(paymentInfo.bankName ?? "").trim();
-
-            console.log("bankNumberStr",bankNumberStr);
 
             if(!bankNumberStr){
                 return { valid : false, message : "계좌번호를 입력해주세요."}

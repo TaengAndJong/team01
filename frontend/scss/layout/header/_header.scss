@@ -1,9 +1,9 @@
 @use "../../utils/variables" as *; // 변수
 @use "../../utils/mixins" as *; // 함수
 
-
 @keyframes dobleleaf {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) scaleY(1);
   }
   20% {
@@ -23,190 +23,277 @@
   }
 }
 
-header{height:auto;z-index: 999;}
-header,.header-inner,.gnb{position:relative}
+header {
+  height: auto;
+  z-index: 999;
+}
+header,
+.header-inner,
+.gnb {
+  position: relative;
+}
 //header
-.header{background-color:$AdminHeaderColor;}
-.header-inner{
-    position: relative;
-    max-width:$layoutMaxwWidth;
-    margin:0 auto;
-    .gnbWrap{padding:$layoutPadding;min-height: $gnb-height; justify-content: flex-end}
-  &.menu{  }
+.header {
+  background-color: $AdminHeaderColor;
+}
+.header-inner {
+  position: relative;
+  max-width: $layoutMaxwWidth;
+  margin: 0 auto;
+  .gnbWrap {
+    padding: $layoutPadding;
+    min-height: $gnb-height;
+    justify-content: flex-end;
+  }
+  &.menu {
+  }
 }
 
 //gnb
-.gnb{
-  .first-depth{
+.gnb {
+  .first-depth {
     text-align: center;
-    >li{
-        min-width: 124px;
-        position: relative;
-         >a{ min-height:80px;  display: inline-flex;
-             align-items: center;
-             justify-content: center;
-              padding: 0 20px;
-             >span{
-               color:$gnb-font-color;
-               font-family: $gnb-font;
-               font-size:23px;
-               font-weight: bold;
-               display:flex;
-               flex-direction: column-reverse;
-               position:relative;
-             }
-             .hoverLeaf{
-               position: absolute; opacity: 1;visibility: hidden;
-               width:40px; height:13px;
-              position:absolute;
-               top:-14px;
-               left:0;
-               animation-name: dobleleaf;
-               animation-duration: 2s;
-               animation-iteration-count: infinite;
-               animation-timing-function: cubic-bezier(0.28, 0.84, 0.42, 1); // 튀는 가속감
-             }
-             &:hover,&:focus{
-               span{color:$color07;
-                 @extend %hover; text-shadow: #595959 0px 1px 1px; }
-               .hoverLeaf{
-                 opacity: 1;
-                 visibility: visible;
-                 transition:0.3s;
-               }
-           }
-         }
-          .second-depth{
-            height: 0;
-            border:2px solid $color06;
-            border-radius: 20px;
-            padding: 15px 10px;
-            background-color: $AdminSecondDepthBg;
-            width:100%;height: 0; text-align: center;
-            opacity: 0;visibility: hidden;position: absolute; top:110%;left:0;
-            > li{
-               >a { padding:10px 0;}
-              &:hover >a,
-              &:focus-within >a {font-weight: bold;}
-            }
+    > li {
+      min-width: 124px;
+      position: relative;
+      > a {
+        min-height: 80px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 20px;
+        &::after {
+          // 가상 태그 만들어서 호버 브릿지 생성
+          content: "";
+          height: 90px;
+          position: absolute;
+          inset: 0;
+        }
+        > span {
+          color: $gnb-font-color;
+          font-family: $gnb-font;
+          font-size: 23px;
+          font-weight: bold;
+          display: flex;
+          flex-direction: column-reverse;
+          position: relative;
+        }
+        .hoverLeaf {
+          position: absolute;
+          opacity: 1;
+          visibility: hidden;
+          width: 40px;
+          height: 13px;
+          position: absolute;
+          top: -14px;
+          left: 0;
+          animation-name: dobleleaf;
+          animation-duration: 2s;
+          animation-iteration-count: infinite;
+          animation-timing-function: cubic-bezier(
+            0.28,
+            0.84,
+            0.42,
+            1
+          ); // 튀는 가속감
+        }
+        &:hover,
+        &:focus {
+          span {
+            color: $color07;
+            @extend %hover;
+            text-shadow: #595959 0px 1px 1px;
           }
+          .hoverLeaf {
+            opacity: 1;
+            visibility: visible;
+            transition: 0.3s;
+          }
+        }
+      }
+      .second-depth {
+        height: 0;
+        border: 2px solid $color06;
+        border-radius: 20px;
+        padding: 15px 10px;
+        background-color: $AdminSecondDepthBg;
+        width: 100%;
+        height: 0;
+        text-align: center;
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        top: 110%;
+        left: 0;
+        > li {
+          > a {
+            padding: 10px 0;
+          }
+          &:hover > a,
+          &:focus-within > a {
+            font-weight: bold;
+          }
+        }
+      }
       &:hover .second-depth,
-      &:focus-within  .second-depth{opacity: 1; visibility: visible; height:auto}
+      &:focus-within .second-depth {
+        opacity: 1;
+        visibility: visible;
+        height: auto;
+      }
     }
   }
 
-  .third-depth{}
-
-
+  .third-depth {
+  }
 }
 
 //logo 나뭇잎
-.leaves{
+.leaves {
   z-index: 5;
-  &:before, &:after{
+  &:before,
+  &:after {
     @extend %pseudoEL;
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
     transform-origin: right bottom;
     position: absolute;
-    bottom:0;
-    left:0;
+    bottom: 0;
+    left: 0;
   }
-  &:after{
-    width:40px;
-    height:30px;
+  &:after {
+    width: 40px;
+    height: 30px;
     background-image: url("data:image/svg+xml,%3Csvg width='57' height='54' viewBox='0 0 57 54' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.6349 53.84C54.6349 53.84 33.7162 51.7733 22.0693 40.2959C10.4224 28.8184 0 0 0 0C0 0 29.7846 5.68591 46.2151 21.8774C62.6451 38.0687 54.6349 53.84 54.6349 53.84Z' fill='%23018D36'/%3E%3C/svg%3E%0A");
-   //animation: beforeLeaf 2.5s linear infinite;
+    //animation: beforeLeaf 2.5s linear infinite;
   }
-  &:before{
+  &:before {
     background-image: url("data:image/svg+xml,%3Csvg width='58' height='55' viewBox='0 0 58 55' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M55.4064 54.4864C55.4064 54.4864 34.4877 52.4198 22.8408 40.9424C11.1939 29.4649 0.771484 0.646484 0.771484 0.646484C0.771484 0.646484 30.5561 6.3324 46.9865 22.5239C63.4166 38.7152 55.4064 54.4864 55.4064 54.4864Z' fill='%23889F69'/%3E%3C/svg%3E%0A");
-    width:40px;
-    height:30px;
+    width: 40px;
+    height: 30px;
     background-size: auto 100%;
 
-   // animation: afterLeaf 2.5s linear infinite;
+    // animation: afterLeaf 2.5s linear infinite;
   }
 }
 
 @keyframes beforeLeaf {
-  0%{  transform: rotate(-10deg);}
-  50% { transform: rotate(20deg); }
-  100% { transform: rotate(-10deg); }
+  0% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+  100% {
+    transform: rotate(-10deg);
+  }
 }
 
 @keyframes afterLeaf {
-  0%{  transform: rotate(10deg); }
-  50% { transform: rotate(-20deg); }
-  100% {  transform: rotate(10deg); }
+  0% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-20deg);
+  }
+  100% {
+    transform: rotate(10deg);
+  }
 }
 
-.logo{
-  @include logo(140px,66px,inline-block);
-  >a,em,span,strong{width: 100%;height: 100%; display: block;}
+.logo {
+  @include logo(140px, 66px, inline-block);
+  > a,
+  em,
+  span,
+  strong {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
 
- }
+.logo-link {
+  margin-left: 4rem;
 
-.logo-link{margin-left: 4rem;
-
-  .logo-inner{
+  .logo-inner {
     position: relative;
-    .leaves{
+    .leaves {
       position: absolute;
-      top:0;
-      left:-13px;
-      width:40px;height: 30px;
-      &:before{transform: rotate(10deg);}
-      &:after{ transform: rotate(-10deg);}
+      top: 0;
+      left: -13px;
+      width: 40px;
+      height: 30px;
+      &:before {
+        transform: rotate(10deg);
+      }
+      &:after {
+        transform: rotate(-10deg);
+      }
     }
-    .img{
+    .img {
       position: relative;
       background-image: url("/assets/images/common/logo_b.png");
       z-index: 6;
       background-size: 100% auto;
-      background-repeat: no-repeat; background-position:center center}
-  }
-
-  &:hover .logo-inner .leaves,&:focus .logo-inner .leaves{
-    &:before{ animation: afterLeaf 2.5s linear infinite;}
-    &:after{  animation: beforeLeaf 2.5s linear infinite;}
-  }
-
-}
-
-
-
-
-//main
-.header{
-  .logo{
-    position:absolute; left:6rem; top:50%;transform: translateY(-50%);
-    z-index: 99; padding: 12px 10px 8px 0px;
-  }
-
-}
-
-.user-info{
-  margin-left: 20px;
-  span,button,a{
-    font-size:15px; font-weight:bold;
-  }
-  > ul{
-    >li{
-      margin-right: 15px;
-      &:last-child {margin:0}
+      background-repeat: no-repeat;
+      background-position: center center;
     }
   }
 
+  &:hover .logo-inner .leaves,
+  &:focus .logo-inner .leaves {
+    &:before {
+      animation: afterLeaf 2.5s linear infinite;
+    }
+    &:after {
+      animation: beforeLeaf 2.5s linear infinite;
+    }
+  }
+}
+
+//main
+.header {
+  .logo {
+    position: absolute;
+    left: 6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 99;
+    padding: 12px 10px 8px 0px;
+  }
+}
+
+.user-info {
+  margin-left: 20px;
+  span,
+  button,
+  a {
+    font-size: 15px;
+    font-weight: bold;
+  }
+  > ul {
+    > li {
+      margin-right: 15px;
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
 }
 
 //관리자
-.admin{
-  .user-info{
+.admin {
+  .user-info {
     //관리자 기본 스타일
-    .default-btn{
+    .default-btn {
       border-radius: 40px;
-      &:hover,&:focus{background-color: $color01;color:#fff;}
+      &:hover,
+      &:focus {
+        background-color: $color01;
+        color: #fff;
+      }
     }
   }
 }
@@ -216,28 +303,32 @@ header,.header-inner,.gnb{position:relative}
   .menu {
     background-color: transparent;
   }
-//gnb
-  .gnb{
-    .first-depth{
-      >li{
+  //gnb
+  .gnb {
+    .first-depth {
+      > li {
         min-width: auto;
-        .second-depth{display: none}
+        .second-depth {
+          display: none;
+        }
       }
     }
   }
 
-
-//user-info
-  .user-info{
-    span,button,a{ //color: $fontGnbColor;
-      font-weight: bold;}
-    .btn{border-radius: 20px}
+  //user-info
+  .user-info {
+    span,
+    button,
+    a {
+      //color: $fontGnbColor;
+      font-weight: bold;
+    }
+    .btn {
+      border-radius: 20px;
+    }
   }
-
 }
 
-
-
-
 //sub
-.sub-header{}
+.sub-header {
+}

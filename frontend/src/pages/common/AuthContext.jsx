@@ -37,12 +37,12 @@ export const AuthProvider = ({ children }) => {
 
     //로그인했을 경우 사용자 데이터 확인 및 설정
     const login = (userData) => {
-        console.log("auth context UserData Login 있음", userData);
+
         setIsAuthenticated(true);
         setUserData(userData); // 로그인 시 사용자 데이터 설정
         // 로컬 스토리지에 사용자 정보 저장
         localStorage.setItem('userData', JSON.stringify(userData));
-        console.log("로그인 유저데이터:", userData);
+
 
     };
     //로그아웃했을경우
@@ -51,7 +51,6 @@ export const AuthProvider = ({ children }) => {
         setUserData(null); // 로그아웃 시 사용자 데이터 초기화
         // 로컬 스토리지에서 사용자 정보 삭제
         localStorage.removeItem('userData');
-        console.log("로그아웃 완료: 인증 정보 초기화 완료");
 
     };
     //로그인실패했을경우
@@ -60,7 +59,7 @@ export const AuthProvider = ({ children }) => {
         setUserData(null); // 사용자 데이터 초기화
         // 로그인 실패 시에도 로컬 스토리지 초기화
         localStorage.removeItem('userData');
-        console.log("로그인 실패: 인증 정보 초기화 완료");
+
     };
 
 

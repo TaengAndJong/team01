@@ -6,16 +6,15 @@ import {validID} from "../../../util/validation.jsx";
 const StaffConfirm =({formData,setFormData,msg,setMsg,handleConfirm}) =>{
     // 사원여부
     const [isStaff, setIsStaff] = useState("no"); // 기본값을 "no"(아니오)로 설정
-    console.log("isStaff : ",isStaff);
 
     // 라디오 버튼 변경 핸들러
     const handleStaffChange = (e) => {
-        console.log("handleStaffChange e.target.value :", e.target.value);
+
         setIsStaff(e.target.value);
 
     };
 
-    console.log("handleStaffChange isStaff:",isStaff);
+
     //input onChange 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target; // 입력 필드의 name과 value 가져오기

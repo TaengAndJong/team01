@@ -19,13 +19,13 @@ const inputRegexs = {
 
 // 공통 유효성 검사 함수작성
 export const validateInput = (regex, value,name,type) => {
-    console.log("regex",regex, value,name,type)
+
     if (!value || value.trim() === "") { // value가 비어있거나 공백만 있을 경우
         return { valid: false,message: `${type}을(를) 입력해 주세요.`  };
     }
 
     if(!regex.test(value)){
-        console.log("!regex.test(value)",!regex.test(value))
+
         //아이디일 경우 (대소문자 구부없이 )
         if( name.toLowerCase().includes("id")) return {valid:false, message: "영문 또는 숫자 혼합사용가능(최대15글자)"}
         //비밀번호 경우
@@ -65,7 +65,7 @@ export const validateInput = (regex, value,name,type) => {
     if (name.toLowerCase().includes("bookprice")) { // bookPrice ==> bookprice로 바뀌기때문에 주의!
 
         const priceValue = Number(value);
-        console.log("priceValue---valie", priceValue);
+
         if (isNaN(priceValue)) { //숫자가 아닌 값에 대한 값이 들어왔을 경우
             return { valid: false, message: "가격은 숫자로만 입력해 주세요." };
         }

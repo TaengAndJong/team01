@@ -10,14 +10,11 @@ import axios from "axios";
 // 2. 비밀번호 변경 UI를 띄운다.
 // 3. 변경할 비밀번호를 입력한다
 // 4. 두 번입력 동일 검증 확인
-// 5. 서버로 put fetch 요청 전송해서 갱신
-
+// 5. 서버로 put fetch 요청 전송해서 갱신 ==> 비밀번호만 갱신되어도 수정완료 버튼 작동되게 하려면 ?
 
 // 6. 비밀번호를 제외한 나머지 데이터 갱신
 
-const IdAndPw = ({defaultInfo,errorData})=>{
-    console.log("defaultInfo",defaultInfo);
-    console.log("errorData",errorData);
+const IdAndPw = ({defaultInfo,errorData,onPasswordChanged})=>{
 
     //비밀번호 변경 상태관리 변수
     const [newPassword, setNewPassword] = useState({
@@ -37,7 +34,7 @@ const IdAndPw = ({defaultInfo,errorData})=>{
     //input onChange 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log("name,value",name, value);
+
         setNewPassword(prev => ({
             ...prev,        // 기존 객체 복사
             [name]: value   // 바꿀 값만 업데이트
@@ -50,15 +47,14 @@ const IdAndPw = ({defaultInfo,errorData})=>{
     //비밀번호 변경 UI열기
     const openPwTag = async() => {
         // 현재비밀번호 검증
-        console.log("현재비밀번호 검증 : ",newPassword.currentPw);
+        // console.log("현재비밀번호 검증 : ",newPassword.currentPw);
         try{
             //서버로 검증요청 보내기?
             const response = await axios.post("/api/mypage/checkPassword", {
                 currentPw: newPassword.currentPw, // 입력받은 현재 비밀번호
             });
 
-            //
-            console.log(" 현재비밀번호 확인 비동기요청",response.data);
+
             setMsg(prev => ({
                 ...prev,
                 msg: response.data.msg
@@ -66,7 +62,7 @@ const IdAndPw = ({defaultInfo,errorData})=>{
             //이전상태값이 false면 true, true면 false
             setPwdTag((prev)=>!prev);
         }catch(err){
-            console.error("비밀번호 확인 실패:", err);
+
             setMsg((prev) => ({
                 ...prev,
                 msg: "비밀번호 확인에 실패했습니다.",
@@ -83,8 +79,7 @@ const IdAndPw = ({defaultInfo,errorData})=>{
             const response = await axios.put("/api/mypage/changePassword",{
                 newPassword:newPassword.newPassword,
             })
-            console.log("response------------- 비밀번호 갱신 비동기요청",response.data);
-
+       
             setMsg(prev => ({
                 ...prev,
                 msg: response.data.msg
@@ -94,8 +89,11 @@ const IdAndPw = ({defaultInfo,errorData})=>{
             setPwdTag((prev)=>!prev);
             // 변경완료되면 input, button disable 속성 true로 변경
             setIsDisabled((prev)=>!prev);
+            //개인정보가 변경됬는데 부모컴포너트인 EditInfo 한테 상태갱신을 알려줘야함!!
+            onPasswordChanged();
 
         }catch(error){
+            //에러처리
             console.error("비밀번호 변경 실패:", error);
         }
 
@@ -105,14 +103,13 @@ const IdAndPw = ({defaultInfo,errorData})=>{
 
         // 비밀번호 유효성 검사
         const pwValidation = validPW(newPassword.newPassword);
-        console.log("pwValidation-----------개인정보 비밀번호변경",pwValidation);
 
         // newPassword의 newPassword와 newPasswordConfirm의 동일여부 판단
         const pwdConfirm =
             newPassword.newPasswordConfirm.trim() !== ""
                 ? validatePasswordMatch(newPassword.newPassword, newPassword.newPasswordConfirm)
                 : { valid: true, message: "" }; // 아직 확인칸이 비어있으면 비교 안함
-        console.log("pwdConfirm-----------개인정보 비밀번호변경",pwdConfirm);
+
         //메시지 데이터 갱신
         setMsg((prev) => ({
             ...prev,
@@ -122,9 +119,6 @@ const IdAndPw = ({defaultInfo,errorData})=>{
 
     },[newPassword])
 
-    useEffect(() => {
-        console.log("msg 변경됨:", msg);
-    }, [msg]);
 
 
 
@@ -190,7 +184,7 @@ const IdAndPw = ({defaultInfo,errorData})=>{
             <div className="d-flex align-items-center mb-2">
                 <FormTag label="이름" labelClass="form-title" className="form-control w-auto" name="clientName"
                          value={defaultInfo.clientName}
-                         readOnly
+                         readOnly={true}
                          aria-readonly="true"
                 />
             </div>

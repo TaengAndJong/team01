@@ -65,7 +65,6 @@ public class UserInfoServiceImple implements UserInfoService {
                 .addr(vo.getAddr())
                 .detailAddr(vo.getDetailAddr())
                 .zoneCode(vo.getZoneCode())
-                .selecedAddrId(vo.getSelectedaddrId())
                 .email(vo.getEmail())
                 .joinDate(vo.getJoinDate())
                 .status(vo.getStatus())

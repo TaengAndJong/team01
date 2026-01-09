@@ -7,13 +7,13 @@ import BookSlide from "../../common/bookSlide.jsx";
 import BuySelectedBtn from "./BuySelectedBtn.jsx";
 import AddCartBtn from "./addCartBtn.jsx";
 import BookCount from "./bookCount.jsx";
-
+import "@assets/css/book/bookDetail.css";
 
 
 const BookDetail = () => {
     //useParams()로 url의 파라미터로 넘어온 bookId 가져오기
     const {bookId} = useParams();
-    console.log("클라이언드 도서 상세----bookId",bookId);
+
     //detail 상태관리변수  ==> 초기값은 [](배열)로 해야 map함수를 바로 사용할 수 있음!
     const [bookDetail, setBookDetail] = useState([]);
     //구매할 도서 수량 상태관리 객체 ==> 아이디별로 도서수량 저장하기 위해 {} 빈 객체로 초기값 설정
@@ -38,11 +38,11 @@ const BookDetail = () => {
             }
 
             const data = await response.json();
-            console.log("bookDetail-----data", data);
             setBookDetail(data.bookVO);
 
         }catch(e){
-            console.log("catch-Error", err);
+            //에러처리
+            console.log("catch-Error",e);
         }
 
 
@@ -56,10 +56,6 @@ const BookDetail = () => {
     };
 
     const recomTultip = (status) => {
-        console.log(
-            `status : ${status} , recomtype : ${recomTypeMap[status]?.recomType},label: ${recomTypeMap[status]?.label}`
-        );
-
         return (
             <span className={`tultip d-inline-flex ${recomTypeMap[status]?.recomType}`}>
         {recomTypeMap[status]?.label}
@@ -79,30 +75,29 @@ const BookDetail = () => {
 
     useEffect(() => {
         fetchBookDetails();
-        console.log("상세페이지 렌더링")
     },[]) // 렌더링(마운트) 시 한번 실행
-
-    console.log("bookDetail--------", bookDetail);
 
 
 
     return (
         <>
             <div className="book-detail">
-
                 <div className="box slide">
                     <div className="card horizontal">
                         <div className="card-header">
                             <BookSlide slideData={bookDetail}/>
                         </div>
                         <div className="bookInfo card-body">
-                            <div className="title-dotted d-flex">
-                                <i className="icon book me-3"></i>
-                                <h3 className="book-title p-0 me-3 d-flex align-items-center">
-                                    <span>{bookDetail.bookName}</span>
-                                </h3>
-                                {recomTultip(bookDetail.recomType)}
-                                {saleStatus(bookDetail.saleStatus)}
+                            <div className="title-dotted">
+                               <div className="cate-group">{recomTultip(bookDetail.recomType)}
+                                   {saleStatus(bookDetail.saleStatus)}
+                               </div>
+                                <div className="title-group d-flex align-items-center mt-3">
+                                    <i className="icon book me-3"></i>
+                                    <h3 className="book-title p-0 me-3 d-flex align-items-center">
+                                        <span>{bookDetail.bookName}</span>
+                                    </h3>
+                                </div>
                             </div>
 
                             <ul className="ul bullet">

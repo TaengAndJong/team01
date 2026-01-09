@@ -3,8 +3,6 @@ import ImgBaseUrl from "../../../util/imgBaseUrl.js";
 
 const PayItem = ({books}) => {
 
-    console.log("books",books);
-
     return (
         <>
             <ul className="cart-list">

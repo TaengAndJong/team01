@@ -23,7 +23,7 @@ const mainComponent = () => {
           bookSlide: true,
         },
       });
-      console.log("response data-----main booksFecth", response.data);
+     
       const {bookSlide,popularSlide,recomSlide} = response.data;
 
 
@@ -36,7 +36,7 @@ const mainComponent = () => {
 
       //setBooks(response.data);
     } catch (e) {
-      console.log("booksFetch 에러");
+      //에러처리 필요
       console.error(e);
       // 에러 시에도 안전하게 기본값 세팅
       setBooks( []);
@@ -45,26 +45,11 @@ const mainComponent = () => {
     }
   };
 
-  // const curationFecth = async () => {
-  //   //axios 요청 보내기
-  //   try {
-  //     const response = await axios.get("/api", {
-  //       params: { curation: true },
-  //     });
-  //     console.log("response data------main curationFecth", response.data);
-  //   } catch (e) {
-  //     console.log("curationFecth 에러");
-  //     console.error(e);
-  //   }
-  // };
-
 
   //마운트 시 1번 실행
   useEffect(() => {
-    console.log("main 컴포넌트 마운트시작");
     booksFecth();
 
-    console.log("main 컴포넌트 마운트끝");
   }, []);
 
   return (

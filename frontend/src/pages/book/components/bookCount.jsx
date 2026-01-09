@@ -22,7 +22,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
         switch(btnName){
             case "minus":
                 if (bookIdCount > 1) {
-                    console.log("minus");
+
                     setBookCount(prev => ({
                         ...prev,
                         [bookId]:parseInt(bookIdCount,10) - 1 // 아이디별 도서 수량 반영
@@ -34,7 +34,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
             case "plus":
                 //input 숫자 증가 >> 제한 수량 100까지 >> 100 넘으면 알림 모달 필요
                 if (bookIdCount < 100) {
-                    console.log("plus");
+
                     setBookCount(prev => ({
                         ...prev,
                         [bookId]:parseInt(bookIdCount,10) + 1
@@ -44,7 +44,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
                 }
                 break;
             default:
-                //예외처리
+                //에러처리 예외처리
                 console.warn("정의되지 않은 버튼 name입니다:", btnName);break;
 
         }
@@ -56,8 +56,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
     const bookCountInputHandler=(bookId,e)=>{
         //input[type=text]로 들어오는 value는 String 타입으로 들어오기 때문에 숫자로 검증필요
         const val = e.target.value;
-        console.log("bookCountInput bookId",bookId);
-        console.log("bookCountInput value",val);
+
         //숫자인지 검증필요 숫자(0~9)로 이루어진 문자열(빈 문자열도 포함)을 허용 ==> 문자가 섞이거나 음수(-1) 같은 값은 차단
         if (!/^\d*$/.test(val)){
             // 숫자만 입력 알림 필요
@@ -89,8 +88,6 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
             [bookId]:inputNum,// 10진수로 파싱된 도서수량
         }));
 
-
-        console.log("bookCountInputHandler 의 bookCount ----222",bookCount);
     }
 
 

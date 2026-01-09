@@ -98,7 +98,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         const invalidFiles = selectedFiles.filter(file => !fileMimeType.includes(file.type));
 
         if (invalidFiles.length > 0) {
-            console.log("invalidFiles",invalidFiles);
+
             openModal({
                 modalType:"error",
                 content: <>
@@ -121,7 +121,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
 
         const duplicateFiles = selectedFiles.filter(f => existingFileNames.includes(f.name));
         if (duplicateFiles.length > 0) {
-            console.log("duplicateFiles",duplicateFiles);
+
             openModal({
                 modalType:"error",
                 content: <>
@@ -137,7 +137,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         //파일 용량 크기 제한
         const oversizedFiles = selectedFiles.filter(f => f.size > maxFileSize);
         if (oversizedFiles.length > 0) {
-            console.log("oversizedFiles",oversizedFiles);
+
             openModal({
                 modalType:"error",
                 content: <>
@@ -153,7 +153,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         const totalSize =
             [...(bookImg.new || []), ...selectedFiles].reduce((sum, f) => sum + (f.size || 0), 0);
         if (totalSize > maxTotalSize) {
-            console.log("파일 용량초과" ,totalSize,maxTotalSize)
+
             openModal({
                 modalType:"error",
                 content:
@@ -177,7 +177,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
 
     //삭제 핸들러
     const handleRemoveFile = (file, type) => {
-        console.log("파일 삭제중 ", file, type);
+
 
         setBookImg(prev => {
             //등록했을 경우, 이미지가 새로 생겼을 때
@@ -193,9 +193,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
                 ? [...prev.removed, file]
                 : prev.removed;
 
-            console.log("updatedExisting", updatedExisting);
-            console.log("updatedRemoved", updatedRemoved);
-            console.log("updatedNew", updatedNew);
+
 
             //갱신된 이미지 배열이 빈 배열이면  ref로 참조한 돔 객체 값 초기화
             if (updatedExisting.length === 0 && fileInitRef.current) {
@@ -240,7 +238,7 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
                 {files.map((file, index) => (
                     <div  key={`${file.name || file}`}
                         className="file-row d-flex justify-content-start align-items-center w-100 mt-1 py-1 border-bottom">
-                        <label className="form-title" htmlFor={`file${index+ 1}`}>업로드목록.{index + 1}</label>
+                        <label className="form-title col-3" htmlFor={`file${index+ 1}`}>업로드목록.{index + 1}</label>
                         <span className="d-inline-block" id={`file${index+ 1}`}> {file.name || file}</span>
                         <button type="button" className={"btn btn-danger ms-auto"}
                                 onClick={() => handleRemoveFile(file, type)}>

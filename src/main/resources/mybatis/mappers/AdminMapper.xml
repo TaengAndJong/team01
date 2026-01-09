@@ -31,8 +31,8 @@
             <select id="countNewDomesticBooks" resultType="int">
                 SELECT COUNT(*)
                 FROM book
-           <![CDATA[       WHERE bookcatenm LIKE '%국내도서%'
-                  AND TO_DATE(publishdate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+           <![CDATA[       WHERE bookCateNm LIKE '%국내도서%'
+                 AND createDate >= CURRENT_DATE - INTERVAL '8 days'
                   AND delstatus = 'N']]>
             </select>
 
@@ -40,7 +40,7 @@
                 SELECT *
                 FROM book
              <![CDATA[     WHERE bookCateNm LIKE '%국내도서%'
-                  AND TO_DATE(publishDate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND createDate >= CURRENT_DATE - INTERVAL '8 days'
                   AND delStatus = 'N'
                 ORDER BY bookId ASC
                     LIMIT #{pagination.pageSize}
@@ -52,7 +52,7 @@
                 SELECT COUNT(*)
                 FROM book
              <![CDATA[     WHERE bookCateNm LIKE '%국외도서%'
-                  AND TO_DATE(publishDate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND createDate >= CURRENT_DATE - INTERVAL '8 days'
                   AND delStatus = 'N']]>
             </select>
             
@@ -60,7 +60,7 @@
                 SELECT *
                 FROM book
              <![CDATA[     WHERE bookCateNm LIKE '%국외도서%'
-                  AND TO_DATE(publishDate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND createDate >= CURRENT_DATE - INTERVAL '8 days'
                   AND delStatus = 'N'
                 ORDER BY bookId ASC
                     LIMIT #{pagination.pageSize}
@@ -72,7 +72,7 @@
                 SELECT COUNT(*)
                 FROM book
                <![CDATA[   WHERE bookCateNm LIKE '%EBOOK%'
-                  AND TO_DATE(publishDate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND createDate >= CURRENT_DATE - INTERVAL '8 days'
                   AND delStatus = 'N']]>
             </select>
 
@@ -80,7 +80,7 @@
                 SELECT *
                 FROM book
              <![CDATA[    WHERE bookCateNm LIKE '%EBOOK%'
-                  AND TO_DATE(publishDate, 'YYYY.MM.DD') >= CURRENT_DATE - INTERVAL '8 days'
+                  AND createDate >= CURRENT_DATE - INTERVAL '8 days'
                   AND delStatus = 'N'
                 ORDER BY bookId ASC
                     LIMIT #{pagination.pageSize}

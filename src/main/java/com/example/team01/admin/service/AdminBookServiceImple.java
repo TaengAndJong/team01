@@ -110,11 +110,11 @@ public class AdminBookServiceImple implements AdminBookService {
             //파일 유틸 클래스에서 이미지객체 존재 여부에 대해 검증하고 예외처리하기때문에 try - catch 구문 사용, 예외처리 없다면 사용하지 않아도 됨
             if (book.getBookImg() != null && !book.getBookImg().isEmpty()) {
                 bookImgPath = fileUtils.saveFile(book.getBookImg(), "book");
-
+              
                 //반환된 bookImgPath 데이터베이스에 전달할 객체설정
                 book.setBookImgPath(bookImgPath);
             } else {
-                // 등록된 이미지가 없을 경우 noImg로 경로 설정
+                // 등록된 이미지가 없을 경우 noImg로 경로 설정 ==> 경로만 설정하고 noimg.png나 jp
                 book.setBookImgPath(fileUtils.getDefaultImgPath());
             }
 
@@ -126,7 +126,7 @@ public class AdminBookServiceImple implements AdminBookService {
                 //정제된 카테고리 데이터 값 재설정
                 book.setBookCateNm(trimBookCateNm);
             }
-
+            log.info("book-------------------------------- 도서 등록된 경로  : {}",book);
             // 3. DB 등록 및 예외 처리
             cnt = dao.createBook(book);
             log.info("도서 등록 성공 여부(cnt): {}", cnt);

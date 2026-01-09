@@ -4,11 +4,7 @@ import { formatToDate } from "@util/dateUtils.jsx";
 import {Link} from "react-router-dom";
 // import NoDataTable from "@common/Nodata.jsx";
 const BoardCardTable = ({ items, category }) => {
-  console.log("items:", items);
-  console.log("category", category);
-  // if (!items || items.length === 0) {
-  //   return <NoDataTable />;
-  // }
+
 
   // 카테고리별 ID 선택 함수
   const categoryId = (item, category) => {
@@ -93,7 +89,7 @@ const BoardCardTable = ({ items, category }) => {
         <tbody className="">
           {items.length === 0 ? (
             <tr className="text-center">
-              <td colSpan="4">새로 등록된 문의글이 없습니다.</td>
+              <td colSpan="5">문의하신 글이 없습니다.</td>
             </tr>
           ) : (
             items?.slice(0, 5)?.map((item, idx) => {

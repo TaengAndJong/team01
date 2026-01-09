@@ -23,17 +23,7 @@ const Layout = () => {
 
   // body에 /admin 과 /은 main이고 그 외 전부 sub 클래스 출력
   const bodyName = (currentPath) => {
-    // console.log("currentPath", currentPath);
-    // switch (currentPath) {
-    //     case "/":return "main"
-    //         break;
-    //     case "/admin": return "admin"
-    //         break;
-    //     case "/signup": return "signup"
-    //         break;
-    //     default: return "sub"
-    //         break;
-    // }
+
     if (currentPath === "/admin" || currentPath === "/") {
       return "index";
     } else {

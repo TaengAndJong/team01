@@ -4,14 +4,9 @@ const qnaComponent = () => {
   // const [isLogin, setIsLogin] = useState(""); // 로그인 데이터 확인
 
   const [data, setData] = useState(null);
-  // if(!isLogin){
-  //     alert("로그인 후 이용해주세요");
-  //     return;
-  // }else{
-  //
-  // }
+
   useEffect(() => {
-    console.log("마운트 됨");
+    
     const userId = localStorage.getItem("userData").clientId;
     const fetchData = async () => {
       try {
@@ -20,8 +15,9 @@ const qnaComponent = () => {
         });
         const result = await response.json();
         setData(result);
-        console.log("QnaData : ", result);
+      
       } catch (err) {
+        //에러처리
         console.error("err", err);
       }
     };

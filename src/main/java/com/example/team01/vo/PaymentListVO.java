@@ -35,7 +35,7 @@ public class PaymentListVO implements Serializable {
     private String payDate;
     private String payMethod;
     private String payUpdateDate;
-    private String addrId;
+    private Long addrId;
     private String clientId;
 
 

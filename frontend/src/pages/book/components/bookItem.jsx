@@ -152,11 +152,11 @@ const BookItem = ({ bookList, wishIds, setWishIds }) => {
                   />
                 )}
                 {book.stock === 0 ? (
-                  <p>품절</p>
+                    <span className="tultip complete text-white">품절</span>
                 ) : (
-                  <>
-                    {/*수량*/}
-                    <BookCount
+                    <>
+                      {/*수량*/}
+                      <BookCount
                       bookId={book.bookId}
                       bookCount={bookCount}
                       setBookCount={setBookCount}

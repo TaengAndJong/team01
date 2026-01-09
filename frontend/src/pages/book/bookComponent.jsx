@@ -24,9 +24,6 @@ export const PaginationContext = React.createContext();
 const reducer = (state, action) => {
   switch (action.type) {
     case "INIT":
-      if (action.data) {
-        console.log("INIT action", action.data, Array.isArray(action.data));
-      }
       // 서버에서 단일객체{} 또는 여러 개의 객체가  action.data로 넘어오면 배열에 담아줘야 함.
       return Array.isArray(action.data) ? action.data : [action.data];
     default:
@@ -48,14 +45,16 @@ const Book = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [search,setSearch] = useState({
     bookType: 'ALL',         // 전체 / 국내도서 / 국외도서
+    recomType: "ALL",
     searchType: 'bookName',  // bookName(도서명), author(저자)
     keyword: ''              // 검색어
   });
+
   //modal
   const {openModal,closeModal} = useModal();
   //초기값 dispatch 함수
   const onInit = (bookData) => {
-    console.log("도서목록 onInit  bookData", bookData);
+
     dispatch({
       type: "INIT",
       data: bookData,
@@ -73,7 +72,6 @@ const Book = () => {
         ...search,//검색조건을 포함하도록 수정? 왜 ?
       });
 
-      console.log("params.toString()", params.toString());
 
       // 서버로 응답 요청
       const response = await fetch(`/api/book?${params.toString()}`, {
@@ -81,21 +79,18 @@ const Book = () => {
       });
       // 돌아온 응답 상태
       if (!response.ok) {
+        //에러처리필요
         // 응답 상태가 200아니면
-        console.log(response.status);
         throw new Error("서버 응답 에러");
       }
       // 응답 성공시
       const bookVO = await response.json(); // 프라미스객체 (resolve) JSON형태로 파싱
-      console.log("bookdata목록 get 요청 데이터 받아오기-----", bookVO); // 있음
 
       //부모로부터 받아온 데이터 초기값 도서목록에 갱신하기
       const { currentPage, items, pageSize, totalPages, totalRecord } = bookVO;
-      console.log(
-        `--------${(currentPage, items, pageSize, totalPages, totalRecord)}`
-      );
+
       onInit(items); // 처음 렌더링 되었을 때 값을 가져옴
-      console.log("초기 데이터 갱신완료", bookVO);
+
       //페이지네이션 객체에 넘겨줄 파라미터 상태관리 갱신하기
       setPaginationInfo({
         currentPage: currentPage,
@@ -104,10 +99,13 @@ const Book = () => {
         totalRecord: totalRecord,
       });
     } catch (err) {
-      console.log("도서 데이터 불러오기 실패", err); // 오류 처리
+      //에러처리
       openModal({
         modalType:"error",
-        content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>
+        content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>,
+        onConfirm: () => {
+          closeModal();
+        },
       });
     }
   }; //fetch end
@@ -125,7 +123,7 @@ const Book = () => {
 
     //URLSearchParam {size: 3}
     const paramString = param.toString();
-    console.log("search--paramString",paramString);
+  
     //type=DOMESTIC&keyword=%ED%8C%A8%ED%8B%B0&field=category
 
     //검색버튼 누르면 서버로 검색 필터 전송
@@ -139,15 +137,11 @@ const Book = () => {
 
       // 요청 성공실패
       if(!response.ok){
-        console.log("검색실패",response.status);
+      //에러처리
         throw Error(response.statusText);
       }
       //요청 성공
       const data = await response.json();
-      console.log("검색후 받아온 데이터 ---------------",data);
-      // data.items가 0 개이면 결과
-
-
       //setbookData에 데이터 갱신 처리 해주어함?
       onInit(data.items);
       //페이지네이션 상태값갱신필요
@@ -160,13 +154,13 @@ const Book = () => {
       }))
 
     }catch (e){
+      //에러처리
       console.log("검색 요청 실패",e);
     }
   }
 
   //페이지버튼 클릭시 실행되는 핸들러
   const onChangePageHandler = (page) => {
-    console.log("changePage----", page);
     //pagination의 currentPage 값 갱신
     setPaginationInfo((prev) => ({
       ...prev,

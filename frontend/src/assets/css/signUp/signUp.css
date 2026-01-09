@@ -1,2 +1,26 @@
 .signup{}
+.signup .container .row {padding-left: 17%; position: relative  }
 .signup .content-inner{max-width: 800px; margin:0 auto}
+.signup [class*=form-], [class*=-text]{
+    width: auto; }
+/*.signup input[type="text"],.signup input[type="password"]{ max-width: 300px;*/
+/*    width: 100%}*/
+.signup .form-title{display: inline-flex; align-items: center; position: absolute;left: 0;top: 1rem }
+.signup .addr-info{ display:block; width: 100%;}
+.signup .addr-info [type="text"] {max-width:80%; width: 100%;}
+.signup .addr-info [name="zoneCode"]{max-width:68%;}
+.signup .tel-info{position: relative;}
+.signup .tel-info .form-control { max-width:22.8%; width: 100%; }
+.signup .tel-info .row{ padding-left: 0;
+    /*flex-wrap: nowrap;*/
+}
+.signup .tel-info .row{padding-left:11.5rem}
+.signup .tel-info .row label{ max-width:none;
+    padding: 0;
+    width: auto;}
+#FirstTelNum {padding: 0;border:none }
+
+.email-info{}
+.signup .email-info input[type="text"]{ width: 100%;}
+.signup .email-info input[type="text"]:first-of-type{max-width: 20%;}
+.signup .email-info input[type="text"]:not(:first-of-type){max-width: 28.5%;}

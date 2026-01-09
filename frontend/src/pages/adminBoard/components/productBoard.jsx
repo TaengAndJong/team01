@@ -23,7 +23,7 @@ const ProductBoard = () => {
   });
 
   const [search, setSearch] = useState({});
-  console.log("search 상태관리 :", search);
+
 
   //전체선택
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
@@ -43,7 +43,7 @@ const ProductBoard = () => {
 
     if (response.ok) {
       setIsSearchRequest(false);
-      console.log("성공");
+
       const data = await response.json();
       setBoardList(data.items);
       setPagination({
@@ -53,7 +53,7 @@ const ProductBoard = () => {
         pageSize: data.pageSize,
       });
     } else {
-      console.log("실패");
+      //에러처리
       setIsError(true);
     }
 
@@ -62,11 +62,10 @@ const ProductBoard = () => {
 
   useEffect(() => {
     if (userData && userData.clientId) {
-      console.log("✅ userData 로드 완료:", userData.clientId);
-      console.log("getProductBoard 실행됨 ---------------------");
       getProductBoard();
     } else {
-      console.log("⚠️ userData 아직 없음:", userData);
+      //에러처리
+
     }
 
     // console.log("콘텍스트에서 가져온 product", product);
@@ -83,7 +82,7 @@ const ProductBoard = () => {
 
   //페이지버튼 클릭시 실행되는 핸들러
   const onChangeProPageHandler = async (page) => {
-    console.log("changePage----", page);
+
     if (isSearchRequest) {
       // 이전 검색 상태가 유지되어 있을 때 → 마지막 검색어 기준으로 요청
       await handleSearch(page, pagination.pageSize, lastSearchKeyword);
@@ -96,10 +95,10 @@ const ProductBoard = () => {
   const handleSelectAll = (isChecked) => {
     setSelectAll(isChecked);
     if (isChecked) {
-      console.log("selectAll", isChecked);
+
       // 모든 bookId를 배열에 추가
       const allIds = boardList.map((item) => item.qnaProId);
-      console.log("allIds-Del", allIds);
+
       setCheckedInput(allIds);
     } else {
       // 전부 해제
@@ -111,11 +110,11 @@ const ProductBoard = () => {
     if (isChecked) {
       const newArray = [...checkedInput, proId];
       setCheckedInput(newArray);
-      console.log("선택된 게시물 :", newArray);
+
     } else {
       const newArray = checkedInput.filter((id) => id !== proId);
       setCheckedInput(newArray);
-      console.log("해제된 게시물 :", newArray);
+
     }
   };
 
@@ -137,7 +136,7 @@ const ProductBoard = () => {
     setIsError(false);
     // 2. 요청 URL 확인
     const requestUrl = `/api/admin/board/qnaProductList?keyword=${keywordParam}&searchType=${searchType}&currentPage=${page}&pageSize=${pageSize}&userId=${userData.clientId}`;
-    console.log("요청 URL:", requestUrl);
+
 
     const response = await fetch(requestUrl, {
       method: "GET",
@@ -168,7 +167,7 @@ const ProductBoard = () => {
       alert("게시물을 선택해 주세요");
       return;
     }
-    console.log("삭제 할 게시물 아이디", deleteItems);
+
     try {
       //"/detail/product/{boardId}"
       const response = await fetch(`/api/admin/board/detail/product`, {
@@ -269,7 +268,7 @@ const ProductBoard = () => {
               {/* undefined 와 데이터의 개수 검증*/}
               {boardList && boardList?.length === 0 ? (
                 <tr className="">
-                  <td colSpan="12" className="text-center p-4">
+                  <td colSpan="6" className="text-center p-4">
                     새로 등록된 문의글이 없습니다.
                   </td>
                 </tr>

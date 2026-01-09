@@ -26,7 +26,7 @@ const CartList = () => {
         const [show, setShow] = useState(false);
         const [errorData, setErrorData] = useState({});
         const handleClose = () => {
-            console.log("close modal");
+
             setShow(false)}
         // const [modalType, setModalType] = useState("confirm");
 
@@ -75,7 +75,7 @@ const CartList = () => {
         //전체선택 핸들러
         const selectAllHandler = (checkedAll)=>{
 
-            console.log(`전체선택 : ${checkedAll} , 선택된 아이템 : ${selectItem}`);
+
             // 이미 담긴 아이디는 담지 않는다 ==> 필터링
             if(checkedAll){ //전체선택 checked가 true이면
                 //모든 도서 체크박스 체크드 true 해야되는데 어떻게 접근해 ?
@@ -133,17 +133,19 @@ const CartList = () => {
 
             //여기에서  가격 검증해야하나
             if(totalPrice === 0 || totalPrice === null){
-                console.log("결제할 상품이 없다")
+
                 setShow(true);
                 openModal({
                     modalType:"error",
-                    content:<><p>"결제할 상품이 없습니다"</p></>
+                    content:<><p>"결제할 상품이 없습니다"</p></>,
+                    onConfirm: () => {
+                        closeModal();
+                    },
                 });
 
             }else{
                 //결제페이지로 이동할 때 필요한 파라미터 navigate객체에 담아서 보내주기
-                console.log("결제페이지로 이동");
-                console.log("cartIds",cartIds);
+
                 navigate("/payment",{
                     state:{
                         cartIds,
@@ -281,7 +283,7 @@ const CartList = () => {
                                           </button>
                                           {/* 수량버튼 클릭 시 수량 변경 UI 출력 */}
                                           {showBookCount[item.cartId] && (
-                                              <div className="bookCount">
+                                              <div className="bookCount d-inline-block w-25">
                                                   <BookCount
                                                       bookId={item.book.bookId}
                                                       cartId={item.cartId}

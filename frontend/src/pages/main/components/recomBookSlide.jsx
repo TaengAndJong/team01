@@ -12,28 +12,25 @@ import ImgBaseUrl from "@/util/imgBaseUrl";
 
 const  RecomBookSlide= ({slideData}) =>{
 
-    console.log("slideData --------RecomBookSlide",slideData);
-
     //서드파트 인스턴스 직접 제어
     const swiperRef = useRef(null);
     const ctrlViewCount = swiperRef?.current?.params.slidesPerView; // 보여주는 슬라이드 개수
-    console.log("swiperRef?.current",swiperRef?.current);
-    console.log("swiperRef?.current",);
+
 
     //재생,정지 상태관리 변수
     const [play,setPlay] = useState(true);// 기본값은 재생(true)
 
     //정지,재생 컨트롤 메서드
     const playAndPause=()=>{
-        console.log("pause----- 슬라이드 정지");
+
         if (!swiperRef.current) return; // 현재 슬라이드가 아니면 코드 종료
 
-        console.log("swiperRef.current.length ? " ,swiperRef.current.length)
+
         if(swiperRef.current.autoplay.running){ // 자동재생중이면 == true
-            console.log("swiperRef.current---- pause",play);
+
             swiperRef.current.autoplay.stop();// 정지
         }else { // false
-            console.log("swiperRef.current---- play",play);
+
             swiperRef.current.autoplay.start();//재생
         }
         //상태값을 재생상태관리 변수에 반영;
@@ -87,7 +84,7 @@ const  RecomBookSlide= ({slideData}) =>{
                         <SwiperSlide key={`slide-${idx}`}>
                             <Link className="slide-link" to={item.detailUrl} title={`${item.bookName}도서 상세페이지 바로가기`}>
                                 <span className="cateName">{item.bookCateNm}</span>
-                                <strong className="tit">{item.bookName}</strong>
+                                <strong className="tit"><em>{item.bookName}</em></strong>
                                 <span className="author">{item.author}</span>
                                 <p className="desc">{item.bookDesc}</p>
                                 <div className="img-box">

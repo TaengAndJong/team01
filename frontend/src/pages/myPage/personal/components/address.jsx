@@ -5,7 +5,7 @@ import FormTag from "@util/formTag.jsx";
 import DaumPostcode from "@util/daumPostcode.jsx";
 
 const Address=({userInfo,setUserInfo,msg,setMsg})=>{
-    console.log("userInfo--------------",userInfo);
+
 
     //input onChange 핸들러
     const handleInputChange = (e) => {
