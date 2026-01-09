@@ -49,7 +49,7 @@ public class AdminServiceImple implements AdminService {
         pagination.setLimitRows();
 
         List<BookVO> bookVOList = dao.getNewDomesticBooks(pagination);
-        
+        log.info("NewDomesticBooks:{}",bookVOList);
         List<NewBookDTO> newBookList = bookVOList.stream()
                 .map(this::convertToNewDTO)
                 .toList();
@@ -160,7 +160,7 @@ public class AdminServiceImple implements AdminService {
                 .author(vo.getAuthor())
                 .stock(vo.getStock())
                 .stockStatus(vo.getStock() > 0 ? "재고 있음" : "품절")
-                .publishDate(vo.getPublishDate())
+                .createDate(vo.getCreateDate())
                 .build();
         }
 
@@ -172,7 +172,7 @@ public class AdminServiceImple implements AdminService {
                 .bookName(vo.getBookName())
                 .bookCateNm(vo.getBookCateNm())
                 .author(vo.getAuthor())
-                .publishDate(vo.getPublishDate())
+                .createDate(vo.getCreateDate())
                 .stockStatus(vo.getStock() > 0 ? "재고 있음" : "품절")
                 .build();
         }
