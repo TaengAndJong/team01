@@ -21,7 +21,7 @@ const TapMenuStockComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log("국내도서 통신", data);
+
       setBookData((prev) => ({
         ...prev,
         국내도서: {
@@ -36,7 +36,7 @@ const TapMenuStockComponent = () => {
         },
       }));
     } else {
-      console.log("실패");
+    //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -50,7 +50,7 @@ const TapMenuStockComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log("국외도서 통신", data);
+
       setBookData((prev) => ({
         ...prev,
         국외도서: {
@@ -65,7 +65,7 @@ const TapMenuStockComponent = () => {
         },
       }));
     } else {
-      console.log("실패");
+      //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -79,7 +79,7 @@ const TapMenuStockComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log("E-Book 통신", data);
+
       setBookData((prev) => ({
         ...prev,
         ["E-book"]: {
@@ -94,7 +94,7 @@ const TapMenuStockComponent = () => {
         },
       }));
     } else {
-      console.log("실패");
+      //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -107,8 +107,7 @@ const TapMenuStockComponent = () => {
   }, []);
 
   const onChangePageHandler = async ({ page, category }) => {
-    console.log("category----", category);
-    console.log("changePage----", page);
+
 
     if (category === "국내도서") {
       await getStockDomesticBooks(page, bookData[category].pagination.pageSize);
@@ -119,7 +118,7 @@ const TapMenuStockComponent = () => {
     }
   };
 
-  console.log("bookData", bookData);
+
   return (
     <>
       <h3 className="title">재고 부족 도서</h3>

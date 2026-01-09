@@ -11,18 +11,6 @@ import {useNavigate} from "react-router-dom";
 
 const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
 
-    console.log("개인정보수정 :============  userInfo",userInfo);
-    /*
-    * 아이디, 생년월일 변경불가
-    * 비밀번호 변경 따로 ? ,
-    * 우편번호 변경버튼
-    * 주소, 전화번호, 이메일 변경 가능
-    * 
-    * 필요 함수 => 텍스트 입력시 바로 변경할 수 있는 이벤트 함수 onChange
-    * 변경 시 바로 userInfo에 담아서 변경데이터 반영해줘야 함
-    * */
-    
-
     //모달 안내창
     const {openModal,closeModal} = useModal();
 
@@ -33,7 +21,7 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
 
     //signUp post로 비동기 요청보내기
     const handleSubmit = async (e) => {
-        console.log("userInfo------------ 변경된 정보 전송하자",userInfo);
+
         e.preventDefault();
 
         // 변경된 데이터가 있는지 검증==> 기존 데이터를 조회해와야함
@@ -61,13 +49,13 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
         
         // password 제거한 데이터들만 전송 ( pw는 이미 변경할때 단독으로 처리해서 이미 갱신된 상태)
         const { password, ...payload } = userInfo;
-        console.log("전송 payload:", payload);
+
         //데이터가 변경되었다면 실행
         try {
             const response = await axios.put("/api/mypage/updateAllInfo",
                 payload); // 이미 userInfo 는 객체라서 {} 넣으면 안됨
             
-            console.log("비밀번호 변경 데이터 전송응답 받음 ",response.data);
+
             //{  "msg": "개인정보 수정완료", "success": true }
 
             if (response.data.success) { //
@@ -124,10 +112,6 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
         }
     }, []);
 
-    // userInfo가 갱신될때마다 변경된 데이터 확인
-    useEffect(() => {
-        console.log("변경된 사용자정보---------------",userInfo);
-    }, [userInfo]);
 
 
     return(
@@ -141,7 +125,7 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
                 <Address userInfo={userInfo} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
             </fieldset>
             <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-5  border-top pt-5">
-                <button type="submit"  id="completeBtn" className="btn btn-dark me-2">수정완료</button>
+                <button type="submit"  id="completeBtn" className="btn btn-dark me-2">수정</button>
                 <button  type="button" id="cancelBtn" className="btn custom-btn00 me-md-2"
                         onClick={() => onEdit()}>취소
                 </button>

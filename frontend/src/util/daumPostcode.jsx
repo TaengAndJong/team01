@@ -5,7 +5,7 @@ const DaumPostcode  = ({ onAddressSelect }) => {
     const open = useDaumPostcodePopup(scriptUrl);
 
     const handleComplete = (data) => {
-        console.log("data------",data);
+
         let addressObject ={}
         //let zonecode = data.zonecode;
         //let fullAddress = data.address;
@@ -14,7 +14,7 @@ const DaumPostcode  = ({ onAddressSelect }) => {
         // addressObject 에 address, zoncode 담기
         addressObject.fullAddress = data.address;
         addressObject.zonecode = data.zonecode;
-        console.log("Address---",addressObject);
+
 
         //bname = xx동 
         //buildingName = 아파트명
@@ -29,7 +29,6 @@ const DaumPostcode  = ({ onAddressSelect }) => {
             addressObject.fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
         }
 
-        console.log("addressObject---------",addressObject); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
         onAddressSelect(addressObject); // 부모 컴포넌트로 데이터 전달
 
     };

@@ -15,8 +15,6 @@ import axios from "axios";
 // 6. 비밀번호를 제외한 나머지 데이터 갱신
 
 const IdAndPw = ({defaultInfo,errorData,onPasswordChanged})=>{
-    console.log("defaultInfo",defaultInfo);
-    console.log("errorData",errorData);
 
     //비밀번호 변경 상태관리 변수
     const [newPassword, setNewPassword] = useState({
@@ -36,7 +34,7 @@ const IdAndPw = ({defaultInfo,errorData,onPasswordChanged})=>{
     //input onChange 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log("name,value",name, value);
+
         setNewPassword(prev => ({
             ...prev,        // 기존 객체 복사
             [name]: value   // 바꿀 값만 업데이트
@@ -56,8 +54,7 @@ const IdAndPw = ({defaultInfo,errorData,onPasswordChanged})=>{
                 currentPw: newPassword.currentPw, // 입력받은 현재 비밀번호
             });
 
-            //
-            console.log(" 현재비밀번호 확인 비동기요청",response.data);
+
             setMsg(prev => ({
                 ...prev,
                 msg: response.data.msg
@@ -65,7 +62,7 @@ const IdAndPw = ({defaultInfo,errorData,onPasswordChanged})=>{
             //이전상태값이 false면 true, true면 false
             setPwdTag((prev)=>!prev);
         }catch(err){
-            console.error("비밀번호 확인 실패:", err);
+
             setMsg((prev) => ({
                 ...prev,
                 msg: "비밀번호 확인에 실패했습니다.",
@@ -82,8 +79,7 @@ const IdAndPw = ({defaultInfo,errorData,onPasswordChanged})=>{
             const response = await axios.put("/api/mypage/changePassword",{
                 newPassword:newPassword.newPassword,
             })
-            console.log("response------------- 비밀번호 갱신 비동기요청",response.data);
-
+       
             setMsg(prev => ({
                 ...prev,
                 msg: response.data.msg
@@ -97,6 +93,7 @@ const IdAndPw = ({defaultInfo,errorData,onPasswordChanged})=>{
             onPasswordChanged();
 
         }catch(error){
+            //에러처리
             console.error("비밀번호 변경 실패:", error);
         }
 
@@ -122,9 +119,6 @@ const IdAndPw = ({defaultInfo,errorData,onPasswordChanged})=>{
 
     },[newPassword])
 
-    useEffect(() => {
-        console.log("msg 변경됨:", msg);
-    }, [msg]);
 
 
 

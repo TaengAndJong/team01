@@ -16,7 +16,7 @@ import RecomType from "./RecomType.jsx";
 import SalesStatus from "./salesStatus.jsx";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 import axios from "axios";
-
+import "@assets/css/book/adminbookCreate.css";
 
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰--
 
@@ -168,6 +168,18 @@ const AdminBookCreate = () => {
         return formData;
     };
 
+
+    //한글로 변경
+    const korname = {
+        bookName: "도서명",
+        bookCateNm:"카테고리",
+        bookDesc: "도서설명",
+        author:"저자",
+        publishDate:"발행일", //발행일
+        recomType:"도서분류",
+        saleStatus:'판매중'
+    }
+
     // formData에 검증
     const validateFormData = (formData) => {
         const entries = Array.from(formData.entries());
@@ -178,15 +190,18 @@ const AdminBookCreate = () => {
             if (key === "bookImgPath") continue;
 
             if (typeof value === "string" && value.trim() === "") {
-                return key; // 비어있는 문자열 키 반환
+                return  korname[key] || key ; // 비어있는 문자열 키 반환
             }
             if (!value) {
-                return key; // null, undefined 등 비어있는 값
+                return korname[key] || key; // null, undefined 등 비어있는 값
             }
         }
 
         return null; // 문제 없음
     };
+
+
+
 
     // 서버로 전송
     const handleSubmit = async () => {
@@ -195,7 +210,6 @@ const AdminBookCreate = () => {
 
         const emptyKey = validateFormData(formData);
         if (emptyKey) {
-
             openModal({
                 modalType: "error",
                 content:<>
@@ -216,8 +230,6 @@ const AdminBookCreate = () => {
                     },
                 });
 
-                console.log("도서 등록 response", response);
-
                 setSearchCondition(null); // 검색어 상태를 초기화 해줘야 등록완료후 처음으로돌아감
                 // 1. 페이지 1로 이동 ( 이미 1페이지면 state 변경이 안됨)
                 setPaginationInfo(prev => ({ ...prev, currentPage: 1 }));
@@ -228,7 +240,6 @@ const AdminBookCreate = () => {
 
 
         } catch (err) {
-            console.log(`도서 등록 서버에러 ${err.statusText}`);
             openModal({
                 modalType: "error",
                 content:<>
@@ -254,49 +265,49 @@ const AdminBookCreate = () => {
                 {/*onSubmit={handleInputChange}*/}
 
                 <form className="bookCreateForm" onSubmit={onSubmit}>
-                    <div className="d-flex align-items-center mb-1">
-                        {/*카테고리*/}
-                        <Category mode="create" setDefaultData={setCreateBook} defaultData={createBook} categoryList={categoryList}/>
-                    </div>
-                    <div className="d-flex align-items-center mb-1">
+
+                    {/*카테고리*/}
+                    <Category mode="create" setDefaultData={setCreateBook} defaultData={createBook}
+                              categoryList={categoryList}/>
+
+                    <div className="row col-12 align-items-center mb-1 ">
                         {/*등록타입*/}
                         <RecomType setDefaultData={setCreateBook} defaultData={createBook}/>
                         {/* 판매상태관리 */}
                         <SalesStatus setDefaultData={setCreateBook} defaultData={createBook}/>
                     </div>
                     {/*도서명*/}
-                    <div className="d-flex align-items-center mb-1">
-                        <FormTag id="bookName" label="도서명" labelClass="form-title"
-                                 className="form-control flex-fill me-3"
+                    <div className="row col-12 align-items-center mb-1">
+                        <FormTag id="bookName" label="도서명" labelClass="form-title col-3"
+                                 className="form-control flex-fill"
                                  name="bookName" type="text"
                                  placeholder="도서명 입력" value={createBook.bookName} onChange={handleChange}/>
 
                     </div>
-                    <div className="d-flex align-items-center mb-1">
-                        {/*저자명 */}
-                        <FormTag id="author" label="저자" labelClass="form-title" className="form-control w-auto"
-                                 name="author"
-                                 type="text"
-                                 placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
-                        {/*발행일*/}
-                        <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>
-                    </div>
 
-                    <div className="d-flex align-items-center mb-1 ">
+                    <div className="row col-12 align-items-center mb-1 stock-price">
                         {/*재고 & 가격*/}
                         <PriceStock bookPrice={createBook.bookPrice} stock={createBook.stock}
                                     stockStatus={createBook.stockStatus} handleChange={handleChange}/>
+                        {/*발행일*/}
+                        <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>
                     </div>
-                    <div className="d-flex align-items-center mb-1">
+                    <div className="row col-12 align-items-center mb-1 author-writer">
+                        {/*저자명 */}
+                        <FormTag id="author" label="저자" labelClass="form-title col-2" className="form-control"
+                                 name="author"
+                                 type="text"
+                                 placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
+
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
-                        <FormTag id="writer" label="작성자" labelClass="form-title"
-                                 className="form-control flex-fill me-5"
+                        <FormTag id="writer" label="작성자" labelClass="form-title col-2"
+                                 className="form-control me-5"
                                  name="writer"
                                  type="text"
                                  placeholder="작성자" value={userData?.clientName} readOnly={true}/>
 
-                        <FormTag id="createDate" label="등록일" labelClass="form-title"
-                                 className="form-control flex-fill "
+                        <FormTag id="createDate" label="등록일" labelClass="form-title col-2"
+                                 className="form-control"
                                  name="createDate"
                                  type="text"
                                  placeholder="등록일" value={createBook.createDate} readOnly={true}/>
@@ -305,27 +316,22 @@ const AdminBookCreate = () => {
 
                     {/*도서설명*/}
                     <div className="d-flex align-items-center mb-1">
-                        <label htmlFor="bookDesc" className="form-title">도서설명</label>
-                        <textarea id="bookDesc" className="form-control" name="bookDesc" type="text"
+                        <label htmlFor="bookDesc" className="form-title col-3">도서설명</label>
+                        <textarea id="bookDesc" className="form-control flex-fill" name="bookDesc" type="text"
                                   placeholder="도서설명을 입력해주세요" value={createBook.bookDesc}
                                   aria-describedby="bookDescHelp" required onChange={handleChange}/>
                     </div>
 
-                    {/*도서이미지
-                        이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요
-                    */}
-
+                     {/*도서이미지 이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요      */}
                     <div className="d-flex align-items-center flex-wrap">
 
                         <FileUpload bookImg={bookImg} setBookImg={setBookImg} defaultData={createBook}
                                     setDefaultData={setCreateBook}/>
                     </div>
-
-
                 </form>
                 <div className="d-flex align-items-center justify-content-center mt-4">
                     <Btn path={PathsData.page.adminBook} className={"login btn btn-danger mx-1"} text={"취소"}/>
-                    <Btn className={"signup btn custom-btn02 mx-1"} text={"완료"} type="submit" onClick={onSubmit}/>
+                    <Btn className={"signup btn custom-btn02 mx-1"} text={"등록"} type="submit" onClick={onSubmit}/>
                 </div>
             </div>
 

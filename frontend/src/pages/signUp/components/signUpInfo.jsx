@@ -23,19 +23,8 @@ const SignUpInfo = ({formData,setFormData}) => {
 
 
 
-
-
-
-
-
-
-
-
 //사원여부 --> 이름, 생년월일, 전화번호, 사원번호로 조회하여 확인하기
 
-
-
-    console.log("formData", formData);
     //
     return(
         <>

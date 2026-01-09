@@ -86,7 +86,7 @@ const Email=({email,setUserInfo})=>{
                     name="emailAddrSelect"
                     value={{value: emailData.emailAddrSelect, label: emailData.emailAddrSelect}}
                     onChange={(selectedOption) => {
-                        console.log("selectedOption", selectedOption);
+
                         handleEmailChange({target: {name: 'emailAddrSelect', value: selectedOption.value}});
                     }}
                     options={[

@@ -30,19 +30,17 @@ export  const leftFirstMenuToggle=(e,setCurrent)=>{
 
 //기존에 추가되어 있는 current 클래스와 title 초기화
     Array.from(parent.children).forEach(firstList=>{
-        console.log("----------------------------------------")
-        console.log("li",firstList);
+
         const lst = firstList.children;
         for( let item of lst){
 
-            console.log(".item" , item);
             if(item.classList.contains("current")){
                 item.classList.remove("current");
                 item.setAttribute("title","1차메뉴 닫힘");
-                console.log("current 삭제함");
+
             }
         }
-        console.log("---------------------------------------- ")
+
        //end
     })
 
@@ -50,15 +48,11 @@ export  const leftFirstMenuToggle=(e,setCurrent)=>{
     firstMenu.classList.add("current");
     firstMenu.setAttribute("title","1차메뉴 열림");
 
-
-    console.log("secondDepth" ,secondDepth);
-    console.log("parents" ,parent);
 }
 
 //focus
 export const leftMenuFocus = (e) =>{
     firstMenu=e.target;//정의
-    console.log("leftMenuFocus",e.target);
     firstMenu.classList.add("current");
 
 }

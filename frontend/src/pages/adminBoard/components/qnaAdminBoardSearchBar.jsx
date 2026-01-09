@@ -3,9 +3,6 @@ const qnaOneBoardSearchBar = ({ search, setSearch, handleSearch }) => {
     const value = e.target.value;
     const name = e.target.name;
 
-    console.log("검색 옵션 :", name);
-    console.log("검색 키워드 :", value);
-
     setSearch((prev) => ({
       ...prev,
       [name]: value, //동적 설정

@@ -9,7 +9,7 @@ const AddressList = () => {
     const [showAddForm, setShowAddForm] = useState(false);
 
     useEffect(() => {
-        console.log("address Layout",deliveryData);
+
         if (deliveryData?.length > 3) return; // 3개 초과면 추가 폼 열지 않음
         setShowAddForm(false); // 재 렌더링 되었을때는 폼 닫기
     },[deliveryData]);

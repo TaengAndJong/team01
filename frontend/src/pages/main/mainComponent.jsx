@@ -36,8 +36,7 @@ const mainComponent = () => {
 
       //setBooks(response.data);
     } catch (e) {
-      //슬라이드 에러처리 필요
-      console.log("booksFetch 에러");
+      //에러처리 필요
       console.error(e);
       // 에러 시에도 안전하게 기본값 세팅
       setBooks( []);

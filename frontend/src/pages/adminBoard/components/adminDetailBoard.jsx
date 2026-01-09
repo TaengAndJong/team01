@@ -12,7 +12,7 @@ import { formatToDate } from "@util/dateUtils.jsx";
 
 const AdminDetailBoard = ({ userType }) => {
   const { userData } = useAuth(); // 로그인 상태와 사용자 데이터 가져오는
-  console.log("로그인한 사용자 ", userData);
+
   const { category, boardId } = useParams();
   const [searchParams] = useSearchParams();
   const [board, setBoard] = useState();
@@ -42,20 +42,19 @@ const AdminDetailBoard = ({ userType }) => {
   };
 
   useEffect(() => {
-    console.log("🔥 AdminDetailBoard 렌더링됨!");
-    console.log({ category, boardId, userId, userType });
-    console.log("상세조회 api 호출 시작");
+
     const url = `/api/admin/board/detail/${category}/${boardId}`;
-    console.log("url", url);
+
     const fetchData = async (userId) => {
       try {
         const response = await axios.get(url, {
           params: { userId: userId },
         });
-        console.log("요청한 상세 데이터:", response.data);
+
         setBoard(response.data);
         return response.data;
       } catch (err) {
+        //에러처리
         console.log(err);
       }
     };
@@ -99,21 +98,21 @@ const AdminDetailBoard = ({ userType }) => {
   const handleAnswerChange = (e) => {
     const value = e.target.value;
     setAnswer(value);
-    console.log("답변", value);
+
   };
 
   const handleCommentDelete = async () => {
     await axios.delete(
       `/api/admin/board/detail/comment/${category}/${board.comment.commentId}`
     );
-    console.log("답글 삭제 결과");
+
     setBoard((prev) => ({ ...prev, comment: null }));
     setAnswer("");
   };
 
   return (
     <div className="admin-board-detail">
-      <div className="boardInfo card-body border-bottom">
+      <div className="boardInfo border-bottom">
         <div className="info-header clearfix">
           <h3 className="board-title title-dotted d-flex align-items-center">
             <i className="icon qna me-3"></i>

@@ -124,10 +124,7 @@ const WishBtn = ({ wishIds, setWishIds, bookId }) => {
         }
       }
     } catch (err) {
-      // console.error("찜 토글 실패", err);
-      // console.error("서버 상태 코드:", err.response.status);
-      // console.error("서버 메시지---데이터:", err.response.data);
-      // console.error("서버 메시지--- 메시지:", err.response.data.message);
+
       //에러 처리 핸들러
       catchError(err, { openModal, closeModal, navigate });
     } finally {

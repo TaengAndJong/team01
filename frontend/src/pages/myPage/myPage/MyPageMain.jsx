@@ -10,7 +10,7 @@ import {useMenu} from "../../common/MenuContext.jsx";
 const MyPageMain = () => {
   //slide Data , 최근 10일정도의 찜목록 , 문의내역, 결제내역 건수
   const { menu,currentPath } = useMenu();
-  console.log("currentPath",currentPath);
+
 
   let clientHome = menu?.clientList?.find(
       (item) => item.menuId === "main"
@@ -32,6 +32,7 @@ const MyPageMain = () => {
       setWishCnt(wishCnt);
 
     } catch (error) {
+      //에러처리
       console.error("대시보드 데이터 불러오기 실패:", error);
     }
   };
@@ -39,12 +40,6 @@ const MyPageMain = () => {
   useEffect(() => {
     dashFetch();
   }, []); //빈 배열 , 마운트 시에만 한 번 렌더
-
-
-  console.log("payCnt",payCnt);
-  console.log("qnaCntList", qnaCntList, );
-  console.log(" userViewBooks",userViewBooks); //  배송,1:1, 상품문의 각각 데이터 있음
-  console.log(" wishCnt",wishCnt);
 
 
   return (

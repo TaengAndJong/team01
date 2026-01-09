@@ -9,9 +9,6 @@ const WishItem = ({wishList}) => {
     const onInit = useContext(WishDispatchContext);
     const {paginationInfo,setPaginationInfo} = useContext(PaginationContext);
 
-    console.log("wishItems=-----111",wishList);
-    console.log("paginationInfo currentPage",paginationInfo.currentPage);
-
 
     //찜해제 비동기요청
     const toggleWishFetch = async (bookId) => {
@@ -19,8 +16,6 @@ const WishItem = ({wishList}) => {
         const UrlSearchParams = new URLSearchParams();
         UrlSearchParams.append("bookId", bookId);
         UrlSearchParams.append("currentPage", paginationInfo.currentPage);
-
-        console.log("toggleWishFetch---bookId",bookId);
 
         const response = await fetch(`/api/mypage/wishlist/save?${UrlSearchParams.toString()}`, {
             method: "POST",
@@ -31,7 +26,7 @@ const WishItem = ({wishList}) => {
         }
 
         const data = await response.json();
-        console.log("wishList-------찜상태 변경", data);
+
         //변경된 bookId 넘겨야함
         const {currentPage,userWishList,pageSize,totalPages,totalRecord} = data;
 
@@ -44,7 +39,6 @@ const WishItem = ({wishList}) => {
         });
 
     };
-    console.log("wishList-------찜상태 변경2", wishList);
 
 
     //찜해제 핸들러
@@ -54,11 +48,7 @@ const WishItem = ({wishList}) => {
         toggleWishFetch(bookId);
     }
 
-    useEffect(() => {
 
-        console.log("업데이트된 찜목록:-- wishItem3", wishList);
-
-    },[wishList]);
 
     return (
         <>

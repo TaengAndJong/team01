@@ -36,7 +36,7 @@ const RecentView = ({slideData}) =>{
     
     //데이터가 없을경우 , 조건을 분기해줄 플래그 선언
     if (slides.length === 0) {
-        console.log("slides length",slides.length);
+
         slides.push({ noData: true }); // slide 데이터에 noData 속성이 true 이면 데이터 없음 컴포넌트 출력
     }
 
@@ -44,8 +44,7 @@ const RecentView = ({slideData}) =>{
     while(slides.length < totalSlid){
         slides.push({ noData: true });
     }
-    console.log("slides-----------------",slides);
-    console.log("slides-----------------noData-",slides);
+
 
     return (
         <>
@@ -72,21 +71,18 @@ const RecentView = ({slideData}) =>{
                     swiper.params.navigation.prevEl = prevRef.current;
                     swiper.params.navigation.nextEl = nextRef.current;
                 }}
-                onSlideChange={() => console.log('recent-slide')}
+                // onSlideChange={() => console.log('recent-slide')}
             >
                 {slides?.map((item,index) => (
                     <SwiperSlide key={`slide-${item?.book?.bookId} || nodata-${index}`} className="li">
                         {item.noData? (
-                            <div className="link" >
-                                <div className="img-box">
-                                    <div className="img-inner">
-                                        {/*<img className="img" src={""} alt="데이터 없음"/>*/}
+                            <>
+                                <div className="link" >
+                                    <div className="txt-box">
+                                        <span className="tit bold d-block">최근 본 도서 없음</span>
                                     </div>
                                 </div>
-                                <div className="txt-box">
-                                    <span className="tit bold d-block">데이터 없음</span>
-                                </div>
-                            </div>
+                            </>
                         ):(
                             <Link className="link" to={item.book.detailUrl} title={`${item.book.bookName}도서 상세페이지 바로가기`}>
                                 <div className="img-box">

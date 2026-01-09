@@ -17,7 +17,7 @@ const PersonalInfo = () => {
     const userInfoFetch = async () => {
         const response = await fetch("/api/mypage/userInfo",);
         const userData = await response.json();
-        console.log("개인정보조회 , ",userData);
+
         //userinfo에 유저 데이터 설정해주기
         setUserInfo(userData);
     }
@@ -31,7 +31,6 @@ const PersonalInfo = () => {
         setIsEditMode((prevState) => (!prevState));// 이전 상태값이 true이면 false, false이면 true 변경
     }
 
-    console.log("userInfo--------- 최상위 컴포넌트",userInfo)
     return (
         <>
             {isEditMode ? (

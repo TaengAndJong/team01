@@ -45,9 +45,11 @@ const Book = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [search,setSearch] = useState({
     bookType: 'ALL',         // 전체 / 국내도서 / 국외도서
+    recomType: "ALL",
     searchType: 'bookName',  // bookName(도서명), author(저자)
     keyword: ''              // 검색어
   });
+
   //modal
   const {openModal,closeModal} = useModal();
   //초기값 dispatch 함수
@@ -98,10 +100,12 @@ const Book = () => {
       });
     } catch (err) {
       //에러처리
-      console.log("도서 데이터 불러오기 실패", err); // 오류 처리
       openModal({
         modalType:"error",
-        content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>
+        content: <><p>{`상태메시지 : ${err.statusText} (상태코드: ${err.status}), `}</p></>,
+        onConfirm: () => {
+          closeModal();
+        },
       });
     }
   }; //fetch end
@@ -150,7 +154,7 @@ const Book = () => {
       }))
 
     }catch (e){
-      //에러처리필요
+      //에러처리
       console.log("검색 요청 실패",e);
     }
   }

@@ -24,9 +24,6 @@ const Email=({formData,setFormData,msg,setMsg})=>{
 
     // 이메일 유효성 검사 및 중복 검사
     const handleEmailChange = (e)=>{
-        console.log("e.target.name", e.target.name);
-        console.log("e.target.value", e.target.value);
-
 
         //...(스프레드 연산자)는 객체를 "펼쳐서" 새로운 객체에 병합하거나 추가하는 역할을 합니다.
         setemailData((prev) => ({
@@ -43,33 +40,34 @@ const Email=({formData,setFormData,msg,setMsg})=>{
     return(
         <>
             {/*이메일*/}
-            <div className="d-flex align-items-center justify-content-center mb-2">
+            <div className="row col-12 mb-2 email-info">
                 <strong className="form-title">이메일</strong>
                 <FormTag
                     label="이메일아이디"
-                    labelClass="sr-only" className="form-control w-25"
+                    labelClass="sr-only" className="form-control col-3"
                     name="emailId"
+                    id="emailId"
                     value={emailData.emailId}
                     onChange={handleEmailChange}
                     placeholder="ex) 이메일아이디"
                 />
-
-                <span id="at" className="mx-1">@</span>
-
+                <span className="d-inline-flex w-auto align-items-center mx-1" id="at">@</span>
                 <FormTag
                     label="이메일주소"
-                    labelClass="sr-only" className="form-control w-auto"
+                    labelClass="sr-only" className="form-control col-3"
+                    id="emailAddrInput"
                     name="emailAddrInput"
                     value={emailData.emailAddrInput}
                     onChange={handleEmailChange}
                     placeholder="ex) 이메일주소"
                 />
                 <Select
-                    className="ms-1 w-25"
+                    className="ms-1 col-3"
+                    id="emailAddrSelect"
                     name="emailAddrSelect"
                     value={{value: emailData.emailAddrSelect, label: emailData.emailAddrSelect}}
                     onChange={(selectedOption) => {
-                        console.log("selectedOption", selectedOption);
+
                         handleEmailChange({target: {name: 'emailAddrSelect', value: selectedOption.value}});
                     }}
                     options={[

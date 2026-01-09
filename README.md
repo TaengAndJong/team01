@@ -10,7 +10,23 @@
 </h3>
 
 <ul>
-    <li><strong>팀명</strong> : TaengJong</li>
+    <li><strong>팀명</strong> : TaengAndJong</li>
+    <li><strong>팀원</strong>
+        <ul>
+            <li>
+                <strong>Taeng</strong> 
+                <a href="https://kbo831.github.io/aboutMe25" target="_blank" title="김태은 포트폴리오">
+                  GitHub<img src="https://cdn.simpleicons.org/github/181717" width="18" height="18"/>
+                </a>
+            </li>
+            <li>
+                <strong>Jong</strong> 
+                 <a href="https://jonghoske.github.io/JH_portfolio.io/" target="_blank" title="김종호 포트폴리오">GitHub
+                    <img src="https://cdn.simpleicons.org/github/181717" width="18" height="18"/>
+                </a>
+            </li>
+        </ul>
+    </li>
     <li><strong>프로젝트기간</strong> :  2025.01.01 ~ 26.01.01</li>
     <li>
         <strong>소개</strong><hr/>
@@ -44,7 +60,6 @@
         <strong>툴</strong><hr/>
         <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" style="border-radius:10px">
         <img src="https://img.shields.io/badge/intellijidea-black?style=for-the-badge&logo=intellijidea&logoColor=white" style="border-radius:10px">
-        <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" style="border-radius:10px">
         <img src="https://img.shields.io/badge/vscode-196AFF?style=for-the-badge&logo" style="border-radius:10px">
         <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" style="border-radius:10px">
         <img src="https://img.shields.io/badge/ps-196AFF?style=for-the-badge&logo" style="border-radius:10px">
@@ -68,18 +83,18 @@
 </h3>
  <ul>
     <li><strong>사용자화면</strong><hr/>
-        <strong>TheBook</strong> [** https://www.tjbook.store **] </li><br/>
+        <strong>TheBook</strong> [https://www.tjbook.store] </li><br/>
     <li><strong>관리자화면</strong><hr/>
-        <strong>TheBookAdmin</strong> [** https://www.tjbook.store/admin **]</li><br/>
+        <strong>TheBookAdmin</strong> [https://www.tjbook.store/admin]</li><br/>
     <li><strong>로그인정보</strong>
         <ul>
             <li><strong>일반회원</strong><br/>
-                <u>**ID** : user01 </u>
-                <u> ** PW **: !User1234</u>
+                <u>ID : user01 </u>
+                <u>PW : !User1234</u>
             </li>
             <li><strong>관리자</strong><br/>
-                <u>**ID** : user02 </u>
-                <u>** PW **: !User1234</u>
+                <u>ID : user02 </u>
+                <u>PW : !User1234</u>
             </li>
         </ul>
     </li>
@@ -91,10 +106,15 @@
   기타문서
 </h3>
 
-- ERD 
-- 테이블 명세서 
-- 사용자 요구사항 정의서
-- API 명세서 
+- ERD (o)
+- 테이블 명세서(o)
+- 화면정의서(o)
+- 메뉴구조도 (o)
+- 단위업무정의서 (o)
+- 사용자 요구사항 정의서(작성중) 
+- API 명세서 (작성중)
+
+
 
 
 

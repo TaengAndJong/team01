@@ -6,7 +6,6 @@ const qnaCreate = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('New Post:', { title, content });
         alert('Post created (console log for testing)');
         window.location.href = '/';
     };

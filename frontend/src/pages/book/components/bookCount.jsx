@@ -22,7 +22,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
         switch(btnName){
             case "minus":
                 if (bookIdCount > 1) {
-                    console.log("minus");
+
                     setBookCount(prev => ({
                         ...prev,
                         [bookId]:parseInt(bookIdCount,10) - 1 // 아이디별 도서 수량 반영
@@ -44,7 +44,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
                 }
                 break;
             default:
-                //예외처리
+                //에러처리 예외처리
                 console.warn("정의되지 않은 버튼 name입니다:", btnName);break;
 
         }

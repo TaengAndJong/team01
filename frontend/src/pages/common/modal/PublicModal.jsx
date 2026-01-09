@@ -8,13 +8,8 @@ import Modal from 'react-bootstrap/Modal';
 //함수형 구성객체 : 함수를 담은 객체를 의미 , 모달 속성 설정 객체
 const modalConfig = {
     //로그인
-    login: ({ data, onClose ,onConfirm}) => ({
-        body: (
-            <>
-                <p>{data?.message}</p>
-                <p>{data?.error}</p>
-            </>
-        ),
+    login: ({  content, onClose ,onConfirm}) => ({
+        body:  content,
         footer: (
             <>
                 <Button variant="primary" onClick={onConfirm}>확인</Button>
@@ -23,7 +18,7 @@ const modalConfig = {
         ),
     }),
     //오류
-    error: ({ content,onClose }) => ({ // 401, 400, 500 등
+    error: ({ content,onClose,onComfirm}) => ({ // 401, 400, 500 등
         body: content,
         footer: <Button variant="primary" onClick={onClose}>확인</Button>,
     }),

@@ -23,7 +23,7 @@ const TapMenuNewBookComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log("국내도서 통신", data);
+
       setBookData((prev) => ({
         ...prev,
         국내도서: {
@@ -38,7 +38,7 @@ const TapMenuNewBookComponent = () => {
         },
       }));
     } else {
-      console.log("실패");
+      //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -52,7 +52,7 @@ const TapMenuNewBookComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log("국외도서 통신", data);
+    
       setBookData((prev) => ({
         ...prev,
         국외도서: {
@@ -67,7 +67,7 @@ const TapMenuNewBookComponent = () => {
         },
       }));
     } else {
-      console.log("실패");
+     //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -81,7 +81,7 @@ const TapMenuNewBookComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log("E-Book 통신", data);
+    
       setBookData((prev) => ({
         ...prev,
         ["E-book"]: {
@@ -96,7 +96,7 @@ const TapMenuNewBookComponent = () => {
         },
       }));
     } else {
-      console.log("실패");
+     //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -107,8 +107,6 @@ const TapMenuNewBookComponent = () => {
   }, []);
 
   const onChangePageHandler = async ({ page, category }) => {
-    console.log("category----", category);
-    console.log("changePage----", page);
 
     if (category === "국내도서") {
       await getNewDomestic(page, bookData[category].pagination.pageSize);
@@ -176,18 +174,7 @@ const TapMenuNewBookComponent = () => {
                 </tr>
               ))
             )}
-            {/* {Array.from({
-              length:
-                (bookData[activeTab].pagination.pageSize || 5) -
-                bookData[activeTab].items.length,
-            }).map((_, i) => (
-              <tr key={`empty-${i}`}>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-            ))} */}
+           
           </tbody>
         </table>
       </div>
