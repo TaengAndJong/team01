@@ -4,7 +4,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 console.log("BASE_URL",BASE_URL)
 
 const ImgBaseUrl=((fileName)=>{
-    console.log("fileName----------",fileName);
+
     // 파일명이 없으면 기본 이미지
     if (!fileName) {
         return `${BASE_URL}images/noImg.png`;

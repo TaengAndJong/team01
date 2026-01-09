@@ -5,8 +5,6 @@ import RecomBookSlide from "./recomBookSlide.jsx";
 
 const SectionCuration = ({popularData,recomData}) => {
 
-    console.log("popularData",popularData)
-    console.log("recomData",recomData)
     return (
         <>
             <section className="section curation">
