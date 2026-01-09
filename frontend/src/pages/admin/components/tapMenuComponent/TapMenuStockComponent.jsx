@@ -36,7 +36,7 @@ const TapMenuStockComponent = () => {
         },
       }));
     } else {
-    //에러처리
+      //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -107,8 +107,6 @@ const TapMenuStockComponent = () => {
   }, []);
 
   const onChangePageHandler = async ({ page, category }) => {
-
-
     if (category === "국내도서") {
       await getStockDomesticBooks(page, bookData[category].pagination.pageSize);
     } else if (category === "국외도서") {
@@ -118,6 +116,10 @@ const TapMenuStockComponent = () => {
     }
   };
 
+  const formatDate = (date) => {
+    if (!date) return "";
+    return date.split("T")[0];
+  };
 
   return (
     <>
@@ -172,7 +174,7 @@ const TapMenuStockComponent = () => {
                   </td>
                   <td>{book.author}</td>
                   <td>{book.stock}</td>
-                  <td>{book.publishDate}</td>
+                  <td>{formatDate(book.createDate)}</td>
                 </tr>
               ))
             )}
@@ -180,10 +182,10 @@ const TapMenuStockComponent = () => {
         </table>
       </div>
       <Link
-          to="/admin/book/bookList"
-          className="btn more"
-          type={"button"}
-          title={"재고부족도서 더보기 버튼"}
+        to="/admin/book/bookList"
+        className="btn more"
+        type={"button"}
+        title={"재고부족도서 더보기 버튼"}
       >
         <span className="icon more"></span>
       </Link>
