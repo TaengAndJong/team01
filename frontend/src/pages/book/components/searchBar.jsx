@@ -13,7 +13,6 @@ const SearchBar = ({search,setSearch,handleSearch}) =>{
         const name =e.target.name;
         const value=e.target.value;
 
-
         setSearch((prev) =>(
             {
                 ...prev,
@@ -26,14 +25,21 @@ const SearchBar = ({search,setSearch,handleSearch}) =>{
     return(
         <>
             <div className="search-bar d-flex justify-content-end">
-                <select className="form-control form-select w-auto" name="bookType" value={search?.bookType || ""}
+                <select className="form-control form-select w-auto" name="bookType" value={search?.bookType ?? "ALL"}
                         onChange={(e) => handleSearchChange(e)}>
                     <option value="ALL">전체</option>
                     <option value="국내도서">국내도서</option>
                     <option value="국외도서">국외도서</option>
                     <option value="EBOOK">Ebook</option>
                 </select>
-                <select className="form-control form-select w-auto" name="searchType" value={search?.searchType || ""}
+                <select className="form-control form-select w-auto" name="recomType" value={search?.recomType ?? "ALL"}
+                        onChange={(e) => handleSearchChange(e)}>
+                    <option value="ALL">전체</option>
+                    <option value="NORMAL">일반</option>
+                    <option value="RECOMMEND">추천</option>
+                    <option value="POPULAR">인기</option>
+                </select>
+                <select className="form-control form-select w-auto" name="searchType" value={search?.searchType ?? ""}
                         onChange={(e) => handleSearchChange(e)}>
                     <option value="title">도서명</option>
                     <option value="author">저자</option>
@@ -46,7 +52,7 @@ const SearchBar = ({search,setSearch,handleSearch}) =>{
                        placeholder="검색어 입력"
                 />
 
-                <button className={"search btn btn btn-dark"}  type={"button"} onClick={() => handleSearch()}>검색</button>
+                <button className={"search btn btn btn-dark"} type={"button"} onClick={() => handleSearch()}>검색</button>
             </div>
         </>
     )

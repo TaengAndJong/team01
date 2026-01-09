@@ -45,9 +45,11 @@ const Book = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [search,setSearch] = useState({
     bookType: 'ALL',         // 전체 / 국내도서 / 국외도서
+    recomType: "ALL",
     searchType: 'bookName',  // bookName(도서명), author(저자)
     keyword: ''              // 검색어
   });
+
   //modal
   const {openModal,closeModal} = useModal();
   //초기값 dispatch 함수

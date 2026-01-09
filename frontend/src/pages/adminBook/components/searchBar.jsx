@@ -8,12 +8,10 @@ import React from "react";
 const SearchBar = ({search,setSearch, handleSearch}) =>{
 
     const handleSearchChange = (e) => {
-        console.log("handleSearchChange", handleSearch);
+
         const name= e.target.name;
         const value = e.target.value;
 
-        console.log("name ------searchbar", name);
-        console.log("value ------searchbar", value);
         setSearch((prev) =>({
                 ...prev,
                 [name]:value
