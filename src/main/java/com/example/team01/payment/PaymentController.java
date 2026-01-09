@@ -1,25 +1,24 @@
 package com.example.team01.payment;
 
 
-import com.example.team01.book.service.BookService;
+
 import com.example.team01.cart.service.CartService;
-import com.example.team01.common.exception.CustomCartException;
-import com.example.team01.delivery.service.AddressService;
+import com.example.team01.common.exception.BusinessException;
+
+import com.example.team01.address.service.AddressService;
 import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.dto.book.BookDTO;
 import com.example.team01.dto.cart.CartDTO;
 import com.example.team01.payment.service.PaymentService;
 import com.example.team01.security.PrincipalDetails;
-import com.example.team01.utils.FileUtils;
+
 import com.example.team01.vo.CartVO;
 import com.example.team01.vo.PaymentVO;
-import jakarta.servlet.http.HttpServletRequest;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -60,7 +59,6 @@ public class PaymentController {
                    }
                    // admingbookVO bookImgList에 담아주기
                     bookDTO.setBookImgList(imgArray);
-
                     //최종 반환값은 CartDto 이기 때문에 CartDTO의 bookDTO 재설정
                     cartDTO.setBook(bookDTO);
                     log.info("fileUtis cartDTO : {}",cartDTO);
@@ -68,20 +66,24 @@ public class PaymentController {
                 }).collect(Collectors.toList());
 
         log.info("bookList getPayment:{}---",bookList);
-        // 1)  클라이언트가 선택한 주소 데이터
-        AddressDTO address = addressService.selectOneAddress(clientId);
-        log.info("getPayment--------- list:{}",bookList);
-        log.info("getPayment--------- address:{}",address);
 
         //장바구니에 담긴 상태값을 컬럼으로 판단하지 않기 때문에 결제 완료후 기록삭제,
         //clientId로만 장바구니 조건 조회하여 장바구니 목록 데이터 조회
-
         Map<String,Object> result = new HashMap<>();
-        result.put("address",address); // address 내부 데이터 직접적으로 가져오기
-        result.put("bookList",bookList);
-        log.info("getPayment--------- result:{}",result);
+        try{
+            // 1)  클라이언트가 선택한 주소 데이터
+            AddressDTO address = addressService.selectOneAddress(clientId);
+            // address 내부 데이터 직접적으로 가져오기
+            result.put("address",address);
+            result.put("bookList",bookList);
+            log.info("단건구매 주소등록 되어있을경우--------- result:{}",result);
+            return  ResponseEntity.ok(result);
+        }catch (BusinessException e){
+            result.put("message",e.getMessage());
+            log.info("단건구매 주소미등록 되어있을경우--------- result:{}",result);
+            return ResponseEntity.badRequest().body(result);
+        }
 
-        return  ResponseEntity.ok(result);
     }
 
     @PostMapping()

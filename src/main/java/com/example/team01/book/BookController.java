@@ -64,7 +64,7 @@ public class BookController {
     // get요청에 바인딩되는 bookId는 메소드의 PathVariable로 받아와야 함
     //로그인 없이 전체경로 들어오게 하려면 시큐리티 경로 처리 필수
     @GetMapping("/bookDetail/{bookId}")
-    public ResponseEntity<?> getBookDetail(@PathVariable Long bookId,HttpServletRequest request){
+    public ResponseEntity<?> getBookDetail(@PathVariable Long bookId){
         log.info("bookId :{}", bookId);
         log.info(" 클라이언트 도서 상세페이지 API 호출됨");
 

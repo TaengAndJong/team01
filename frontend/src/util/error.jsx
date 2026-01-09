@@ -1,14 +1,15 @@
 
 //함수는 {} 객체로 묶어서 파라미터로 가져옴
-export const catchError =(err,{openModal,closeModal,navigate})=>{
-
+export const catchError =(err,{openModal,closeModal,navigate,redirectPath})=>{
+    console.log("error",err);
     //1) 서버 응답 없을 경우
     if(!err.response){
         console.error("서버 응답 없음:", err.request || err.response.data.message);
         openModal({
             modalType: "error",
             content: { message: "서버에 연결할 수 없습니다. 네트워크를 확인해주세요." },
-            onConfirm: () => closeModal(),
+            onConfirm: () => {closeModal();   console.log("여기고기") }
+
         });
         return;//종료
     }
@@ -37,7 +38,7 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
 
         //400
         400:()=>{
-
+            console.log("400")
             //주문재고가 0일경우 , 품절
             if (data?.maxQuantity === 0) {
                 openModal({
@@ -63,7 +64,12 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
             openModal({
                 modalType: "error",
                 content: <p>{`${data?.message}` || "잘못된 요청입니다." }</p>,
-                onConfirm: () => closeModal(),
+                onConfirm: () => { closeModal();
+                    console.log("여기")
+                    if(redirectPath && typeof navigate === "function"){ // navigate 함수여부조건 추가 ==> undefined 발생 방지
+                        navigate(redirectPath);
+                    }
+                }
             });
             return;//종료
         },//400
@@ -71,11 +77,10 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
 
         //500
         500:()=>{
-
             openModal({
                 modalType: "error",
                 content: <p>{  "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요." }</p>,
-                onConfirm: () => closeModal(),
+                onConfirm: () => {closeModal()},
             })
         },//500
     }
@@ -88,8 +93,8 @@ export const catchError =(err,{openModal,closeModal,navigate})=>{
                 modalType: "error",
                 content: <p>{ data?.message || "알 수 없는 오류가 발생했습니다." }</p>,
                 onConfirm: () => {
+                    closeModal();
 
-                    closeModal()
                 },
             })
         }

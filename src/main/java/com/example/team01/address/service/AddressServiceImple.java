@@ -1,7 +1,7 @@
-package com.example.team01.delivery.service;
+package com.example.team01.address.service;
 
+import com.example.team01.address.dao.AddressDao;
 import com.example.team01.common.exception.BusinessException;
-import com.example.team01.delivery.dao.AddressDao;
 import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.vo.AddressVO;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class AddressServiceImple implements AddressService{
+public class AddressServiceImple implements AddressService {
 
     private final AddressDao dao;
 
@@ -37,23 +37,27 @@ public class AddressServiceImple implements AddressService{
     @Override
     public AddressDTO selectOneAddress(String clientId) {
         log.info("payment-------selectOneAddress:{}",clientId);
-        AddressVO vo = dao.selectOneAddress(clientId);
-        //AddressVO 사용하기
-        log.info("payment-------addressVO 조회:{}",vo.getAddrId());
-        log.info("payment-------addrId:{}",vo.getAddrId());
 
-        AddressDTO addrDto = AddressDTO.builder()
-                .addrId(vo.getAddrId())
-                .addr(vo.getAddr())
-                .addrType(vo.getAddrType())
-                .detailAddr(vo.getDetailAddr())
-                .zoneCode(vo.getZoneCode())
-                .clientId(vo.getClient().getClientId())
-                .build();
+            AddressVO vo = dao.selectOneAddress(clientId);
+            log.info("바로구매 주소등록--- 서비스 ----vo:{}",vo);
+            if (vo == null) {
+                throw new BusinessException("등록된 주소가 없습니다. 배송지 등록페이지로 이동합니다.");
+            }
 
-        log.info("paymentVO-------addrDto:{}",addrDto);
+            //AddressVO 사용하기
+            AddressDTO addrDto = AddressDTO.builder()
+                    .addrId(vo.getAddrId())
+                    .addr(vo.getAddr())
+                    .addrType(vo.getAddrType())
+                    .detailAddr(vo.getDetailAddr())
+                    .zoneCode(vo.getZoneCode())
+                    .clientId(vo.getClient().getClientId())
+                    .build();
 
-        return addrDto;
+            log.info("paymentVO-------addrDto:{}",addrDto);
+
+            return addrDto;
+
     }
 
     @Override

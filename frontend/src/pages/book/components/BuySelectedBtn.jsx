@@ -41,27 +41,38 @@ const BuySelectedBtn = ({type, book,cartId,isDisable}) => {
                 });
 
                 return;
-            }else{
+            }
+
+            
+            //  로그인 세션이 있으면 결제페이지로 이동 
                 const response = await axios.get("/api/auth",)
                 if(response.status === 200) {
                     //세션유지,로그인 확인 시
-                    // 결제페이지로 파라미터를 담아서 이동하기
-                    navigate("/payment",{
-                        state:{
-                            book,
-                            type :type,
-                            cartId: type === "selected" ? cartId : null // 결제페이지에서 null 체크 필요
-                        }
-                    });
+                    console.log("response------ 결제서비스",response);
+                    // 배송지 등록여부 확인 서버로부터 조회해오기
+                    const addressCheck = await axios.get("/api/address/check");
+                    console.log("addressCheck" ,addressCheck)
+                    if(addressCheck.status === 200){
+                        // 배송지등록이 되어있으면 결제페이지로 파라미터를 담아서 이동하기
+                        navigate("/payment",{
+                            state:{
+                                book,
+                                type :type,
+                                cartId: type === "selected" ? cartId : null // 결제페이지에서 null 체크 필요
+                            }
+                        });
+                    }
                 }
-            }
 
         }catch(err){
 
             if (err.response && err.response.status === 401) {
                 catchError(err, { openModal, closeModal, navigate });
+            }else if(err.response && err.response.status === 400) {
+                console.log("err.response, 여기");
+                catchError(err, { openModal, closeModal,navigate,redirectPath:"/mypage/address" });
 
-            } else {
+            } else{
                 console.error("로그인 체크 오류:", err);
             }
         }

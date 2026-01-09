@@ -106,13 +106,11 @@
   기타문서
 </h3>
 <ul>
-    <li>[ERD](./doc/team02db_ERD.jpg)</li>
-    <li>[테이블 명세서](./doc/DB_table_정의서.pdf)</li>
-    <li>[메뉴구조도](./doc/메뉴구조도.pdf)</li>
-    <li>[단위업무정의서](./doc/단위업무정의서_260109.pdf)</li>
-    <li>[화면정의서](./doc/화면정의서(기능정의).pdf)</li>
-[//]: # (    <li>[API명세서]&#40;&#41;</li>)
-[//]: # (    <li>[사용자요구사항정의서]&#40;&#41;</li>)
+     <li><a href="./doc/team02db_ERD.jpg">ERD</a></li>
+      <li><a href="./doc/DB_table_정의서.pdf">테이블 명세서</a></li>
+      <li><a href="./doc/메뉴구조도.pdf">메뉴구조도</a></li>
+      <li><a href="./doc/단위업무정의서_260109.pdf">단위업무정의서</a></li>
+      <li><a href="./doc/화면정의서(기능정의).pdf">화면정의서</a></li>
 </ul>
 
 

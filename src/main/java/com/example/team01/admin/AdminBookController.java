@@ -153,7 +153,7 @@ public class AdminBookController {
 // 인덱스와 primary key 역할을 겸한다면 long type으로 설정해야 데이터베이스 성능이 좋아짐
 
     @GetMapping("/bookDetail/{bookId}")
-    public ResponseEntity<?> getBookDetail(@PathVariable Long bookId,HttpServletRequest request){
+    public ResponseEntity<?> getBookDetail(@PathVariable Long bookId){
 
         // 아이디를 파라미터로 데이터베이스에 넘겨서 데이터 받아오기
         AdminBookVO adminBookVO = bookService.deTailBook(bookId);
@@ -179,7 +179,7 @@ public class AdminBookController {
     }
 
     @GetMapping("/bookModify/{bookId}")
-    public ResponseEntity<?>  getBookModify(@PathVariable Long bookId,HttpServletRequest request){
+    public ResponseEntity<?>  getBookModify(@PathVariable Long bookId){
         log.info("도서 수정 API 호출됨");
 
         //카테고리 목록 가져오기
@@ -267,9 +267,7 @@ public class AdminBookController {
     @PostMapping("/bookDelete")
     public ResponseEntity<?> deleteBook(@RequestBody List<Long> bookIds,
                                         @RequestParam(defaultValue = "1", name = "currentPage") int page, // 넘어오는 파라미터 명이 다르면 name 설정해주기
-                                        @RequestParam(defaultValue = "6") int pageSize,
-                                        HttpServletRequest request
-                                        ) {
+                                        @RequestParam(defaultValue = "6") int pageSize) {
         //1) 유효성검사  ==> 삭제할 도서 아이디가  데이터베이스에 존재하는지에 대한 여부
         //2) 예외 처리: 도서가 존재하지 않거나 삭제가 불가능한 상태일 경우 예외 던지기
         log.info("삭제할 ID들: :{}",bookIds ); // [1, 2, 3]
