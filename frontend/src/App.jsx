@@ -131,7 +131,7 @@ function App() {
             <Route path="/admin" element={<Admin />} />
             <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
               {/*첫페이지 설정*/}
-              <Route index element={<Navigate to="oneBoard" />} />
+              <Route index element={<Navigate to="productBoard" />} />
               <Route
                 path="deliveryBoard"
                 element={<AdminDeliveryBoard category="delivery" />}

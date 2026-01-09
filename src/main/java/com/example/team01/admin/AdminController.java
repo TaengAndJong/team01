@@ -63,7 +63,7 @@ public class AdminController {
         resultMap.put("qnaCount", result1);
         resultMap.put("productCount", result2);
         resultMap.put("deliveryCount", result3);
-        log.info("resultMap 나오나요",resultMap);
+        log.info("resultNewCount---get:{}", resultMap);
         return  ResponseEntity.ok(resultMap);
     }
     // // 금일 기준(00시) 신규 가입자 반환
@@ -89,7 +89,7 @@ public class AdminController {
         result.put("pageSize", pagination.getPageSize());
         result.put("totalPages", pagination.getTotalPages());
         result.put("totalRecord", pagination.getTotalRecord());
-        log.info("result---get:{}", result);
+        log.info("resultDomestic---get:{}", result);
 
         return ResponseEntity.ok(result);
     }
@@ -112,7 +112,7 @@ public class AdminController {
         result.put("pageSize", pagination.getPageSize());
         result.put("totalPages", pagination.getTotalPages());
         result.put("totalRecord", pagination.getTotalRecord());
-        log.info("result---get:{}", result);
+        log.info("resultForeign---get:{}", result);
 
         return ResponseEntity.ok(result);
     }
@@ -135,7 +135,7 @@ public class AdminController {
         result.put("pageSize", pagination.getPageSize());
         result.put("totalPages", pagination.getTotalPages());
         result.put("totalRecord", pagination.getTotalRecord());
-        log.info("result---get:{}", result);
+        log.info("resultEbook---get:{}", result);
 
         return ResponseEntity.ok(result);
     }
@@ -163,7 +163,7 @@ public class AdminController {
         result.put("pageSize", pagination.getPageSize());
         result.put("totalPages", pagination.getTotalPages());
         result.put("totalRecord", pagination.getTotalRecord());
-        log.info("result---get:{}", result);
+        log.info("resultDomesticStock---get:{}", result);
 
         return ResponseEntity.ok(result);
     }
@@ -188,7 +188,7 @@ public class AdminController {
         result.put("pageSize", pagination.getPageSize());
         result.put("totalPages", pagination.getTotalPages());
         result.put("totalRecord", pagination.getTotalRecord());
-        log.info("result---get:{}", result);
+        log.info("resultForeignStock---get:{}", result);
 
         return ResponseEntity.ok(result);
     }
@@ -214,7 +214,7 @@ public class AdminController {
         result.put("pageSize", pagination.getPageSize());
         result.put("totalPages", pagination.getTotalPages());
         result.put("totalRecord", pagination.getTotalRecord());
-        log.info("result---get:{}", result);
+        log.info("resultEbooksStock---get:{}", result);
 
         return ResponseEntity.ok(result);
     }
