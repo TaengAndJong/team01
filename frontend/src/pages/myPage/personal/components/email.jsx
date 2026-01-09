@@ -4,10 +4,9 @@ import React, {useEffect, useState} from "react";
 
 
 const Email=({email,setUserInfo})=>{
-    console.log("email-----------",email);
+
     // 초기값 value를 이메일 아이디랑 주소로 설정
-    
-    
+
     //이메일
     const [emailData, setemailData] = useState({
         emailId: "",
@@ -21,8 +20,7 @@ const Email=({email,setUserInfo})=>{
         if(email){
             // email 주소 "@"을 기준으로 구조분해 할당
             const [emailId, emailAddr] =email.split("@");
-            console.log("emailId-----------",emailId);
-            console.log("emailAddr-----------",emailAddr);
+
             // EmailData의 값에 설정해주기
             setemailData({
                 emailId:emailId || "",
@@ -88,7 +86,7 @@ const Email=({email,setUserInfo})=>{
                     name="emailAddrSelect"
                     value={{value: emailData.emailAddrSelect, label: emailData.emailAddrSelect}}
                     onChange={(selectedOption) => {
-                        console.log("selectedOption", selectedOption);
+
                         handleEmailChange({target: {name: 'emailAddrSelect', value: selectedOption.value}});
                     }}
                     options={[

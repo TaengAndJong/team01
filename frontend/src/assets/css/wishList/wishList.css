@@ -14,7 +14,7 @@
     width: calc((100%/4)  - 8px);
     height: 100%;
     margin-bottom: 0;
-    padding: 40px
+    padding: 20px
 }
 .wishList .book-item .img-box{aspect-ratio: 3/4}
 .wishList .book-title{font-size:2rem; min-height: 63px}

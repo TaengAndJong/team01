@@ -38,13 +38,9 @@ const SelectPayment = ({paymentInfo,setPaymentInfo,modalState}) =>{
 
 
     const payConfirmHandler = (paymentInfo) =>{
-        console.log("payConfirmHandler",paymentInfo);
-        //
-        const payValid = validationPay(paymentInfo);
-        console.log("payValid==========확인버튼 누르면 ", payValid);
 
-        //카드 검증 true이면 띄우기
-        console.log("payValid.valid",payValid.valid);
+        const payValid = validationPay(paymentInfo);
+
         if(!payValid.valid) {
 
             openModal({

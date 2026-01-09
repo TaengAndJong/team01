@@ -6,10 +6,7 @@ import PaymentItems from "./PaymentItems.jsx";
 const PaymentHistory=()=>{
 
     const [paymentInfo, setPaymetInfo] = useState({});
-    //결제항목선택 상태관리 변수
-   // const [selected,setSelected]=useState({});
 
-    console.log("paymentInfo PayHistory",paymentInfo);
     
     //getfetch
     const getfetch = async()=>{
@@ -17,13 +14,11 @@ const PaymentHistory=()=>{
         try{
             const response = await axios.get("/api/mypage/payHistory")
             const data= response.data;
-            console.log("마이페이지 결제 내역 ",data);
             //각 객체에 상태갱신해주기
             setPaymetInfo(data);
         }catch(e){
+            //에러처리
             console.error(e);
-            //에러 부분 사용자에게 꼭 알려주는 UI 구현하기
-
         }
     }
 
@@ -31,20 +26,17 @@ const PaymentHistory=()=>{
 
     //useEffect로 get요청 결제완료 목록 가져오기
     useEffect(()=>{
-        console.log("paymentHistory useEffect");
+
         getfetch();
 
     },[])
 
 
-    console.log("paymentInfo start",paymentInfo);
     // prop들 하나의 객체로 묶기
     const paymentProps = {
         paymentInfo,
         setPaymetInfo,
     };
-
-    console.log("paymentInfo end",paymentInfo);
 
 
     return(

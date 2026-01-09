@@ -129,7 +129,6 @@ function App() {
 
             {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
             <Route path="/admin" element={<Admin />} />
-            {/* <Route index path="dashboard" element={<AdminDashboard />} /> */}
             <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
               {/*첫페이지 설정*/}
               <Route index element={<Navigate to="oneBoard" />} />

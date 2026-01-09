@@ -14,18 +14,18 @@ function Page({data,setUrl}){
 
 
     const handlepageIdChange = (e) =>{
-        console.log("pageId ", e.target.value)
+
         setpageId(e.target.value);
     }
 
     const handlepagePathChange = (e) =>{
-        console.log("pagePath ", e.target.value)
+
         setpagePath(e.target.value);
 
     }
 
     const handlepageNamedChange = (e) =>{
-        console.log("setpageName ", e.target.value)
+
         setpageName(e.target.value);
 
     }
@@ -48,22 +48,19 @@ function Page({data,setUrl}){
             },
             body: JSON.stringify(userCredentials), // JSON 데이터
         });
-        console.log("userCredentials",userCredentials);
-        console.log("response",response);
+
 
         const contentType = response.headers.get("Content-Type");
         let data='';
         //백엔드 서버로부터 응답 받기
         if(response.ok){
-            console.log("content_Type",contentType);
-            console.log("응답 성공",data.message);
+
             //1) contentType이 null 또는 undefined 인지 확인 
             //2) "application/json" 을 포함하고 있는지
             if (contentType && contentType.includes("application/json")) {
                 // JSON 응답일 경우
                 try {
                     data = await response.json(); // JSON 파싱
-                    console.log("응답 받은 JSON:", data);
                     // data.message를 사용하려면 응답 데이터에 해당 속성이 있어야 함
                     if (data && data.message) {
                         console.log("응답 메시지:", data.message);
@@ -91,7 +88,7 @@ function Page({data,setUrl}){
 
     //배역일 때와 배열 아닐때 설정해줘야 에러안남
     const Listdata = Array.isArray(data) ? data : [];
-    console.log("  {data}" , Listdata);
+
     return(
         <div>
             <p>페이지</p>

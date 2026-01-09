@@ -22,8 +22,6 @@ const EditForm = ({editItem,setEditItem,setShowEditForm}) => {
 
         const data = await response.json();
         //성공여부에 따른 메시지 받아오기
-        console.log("get 요청 성공 data",data);
-
         // 폼 닫기
         setShowEditForm(false);
 

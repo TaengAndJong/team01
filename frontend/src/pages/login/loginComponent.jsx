@@ -14,12 +14,12 @@ function Login({data}) {
 
 
     const handleIdChange = (e) => {
-        console.log("id", e.target.value)
+     
         setclientId(e.target.value);
     };
 
     const handlePasswordChange = (e) => {
-        console.log("pwd", e.target.value)
+      
         setPassword(e.target.value);
     };
 
@@ -30,6 +30,7 @@ function Login({data}) {
         if (data.redirect) {
             navigate(data.redirect); // 리디렉션
         } else {
+            //에러처리
             console.error("리디렉션 URL이 없습니다.");
         }
     };
@@ -70,7 +71,7 @@ function Login({data}) {
                 data = await response.json();
 
                 //로그인 성공여부에 따른 리다이렉션 로직
-                console.log("data", data);
+
                 if (data.status === "success") {
                     handleLoginSuccess(data); // 로그인 성공 처리
                 } else if (data.status === "error") {

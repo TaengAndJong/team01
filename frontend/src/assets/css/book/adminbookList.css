@@ -1,0 +1,9 @@
+.adminBook .table-responsive{max-width:110rem}
+.adminBook .table{width: 110rem; /* 고정넓이 해줘야 테이블 내용 보존*/}
+
+.adminBook .table td a{display:block; }
+.adminBook .table .book-title span{
+    white-space: nowrap;
+    -webkit-line-clamp: 1;
+    max-height: 2rem;;
+}

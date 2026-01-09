@@ -11,12 +11,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class AddressVO implements Serializable {
 
-    private String addrId; //
+    private Long addrId; //
     private String clientId; // 배송지 주소를 조회 할때 사용하는 필드로 (컨트롤러에서 가져오는 파라미터를 매핑)  mybatis가 참조하는 필드
     private String addrType;
     private String addr;
     private String zoneCode;
     private String detailAddr;
+    private String isdefault;
 
     // clientId를 client 테이블에서 조인해와야 하기때문에, clientVO객체 필드 작성
     // association을 선언된 필드들은 where 조건절에 값을 담을 수 없어서 ,AddressVO 객체 내부에 clientId 필드를 따로 작성해야함

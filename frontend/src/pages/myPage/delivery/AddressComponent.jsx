@@ -6,11 +6,6 @@ export const AddressStatusContext = React.createContext();
 export const AddressDispatchContext = React.createContext();
 
 const reducer = (state,action) => {
-    console.log("action",action);
-    console.log("state",state);
-    console.log("action type of", typeof action); //objects
-    console.log("action type of", Array.isArray(action.data)); // 객체
-
 
     switch(action.type){
         case "INIT" :
@@ -22,9 +17,7 @@ const reducer = (state,action) => {
                 item.addrId === action.data.addrId ? action.data : item
         );
         case "DELETE": //filter로 삭제한 Id 를 제외한 요소들 반환
-            if(action.data) {
-                console.log("delete" ,action.data);
-            }
+
             return state.filter(item => item.addrId !== action.data.addrId);
 
         default:
@@ -54,11 +47,10 @@ const AddressComponent = () =>{
 
             const data = await response.json();
             //성공여부에 따른 메시지 받아오기
-            console.log("get 요청 성공 data",data);
+            //알림모달처리(에러처리)
             onInit(data); // 받아온 데이터로 초기값 기본데이터 상태 갱신
-
-
         }catch(e){
+            //에러처리
             console.log(e);
         }
 
@@ -66,7 +58,7 @@ const AddressComponent = () =>{
 
     //onInit
     const onInit = (deliveryData)=>{
-        console.log("deliveryData onInit",deliveryData);
+
         dispatch({
             type:"INIT",
             data:deliveryData,
@@ -75,7 +67,7 @@ const AddressComponent = () =>{
 
     //onCreate
     const onCreate = (createList) =>{
-        console.log("deliveryData Oncreate",createList);
+
         dispatch({
             type:"CREATE",
             data:createList,
@@ -83,7 +75,7 @@ const AddressComponent = () =>{
     }
 
     const onUpdate = (updateList) =>{
-        console.log("deliveryData onUpdate");
+
         dispatch({
             type:"UPDATE",
             data:updateList,
@@ -91,7 +83,7 @@ const AddressComponent = () =>{
     }
 
     const onDelete = (addrId) =>{
-        console.log("deliveryData onDelete",addrId);
+
         dispatch({
             type:"DELETE",
             data: { addrId }, // reducer 함수를 실행하려면 객체형태로 만들어야함. ==> data: { addrId: addrId }로 인식
@@ -103,10 +95,10 @@ const AddressComponent = () =>{
 
     useEffect(() => {
         addrFetch();
-        //console.log("deliveryData onInit --- 마운트",deliveryData);
+
     },[]);
 
-    console.log("deliveryData-------",deliveryData);
+
 
     return (
         <>

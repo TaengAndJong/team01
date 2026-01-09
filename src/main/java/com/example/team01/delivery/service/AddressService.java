@@ -20,15 +20,13 @@ public interface AddressService {
     public int updateAddress(AddressVO addressVO);
 
     //유저에 따른 배송지 삭제
-    public int deleteAddress(String clientId,String addrId);
+    public int deleteAddress(String clientId,Long addrId);
 
     //장바구니에서 보여줄 주소 (처음 등록된 주소)
     public AddressDTO selectCartAddress(String clientId);
 
     //장바구니 배송지주소 선택변경
-    public int updateCartAddress(String clientId, String addrId);
+    public int updateCartAddress(String clientId, Long addrId);
 
-    //장바구니에서 보여줄 주소 (선택으로 변경된 주소)
-    public AddressVO selectChangeAddress(String clientId,String addrId);
 
 }

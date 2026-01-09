@@ -32,8 +32,6 @@ const AddressItem = () => {
 
             const data = await response.json();
             //성공여부에 따른 메시지 받아오기
-            console.log("get 요청 성공 data",data);
-            console.log("get 요청 성공 data",data.deleteId);
             //클로저 캡쳐(closure capture)
             onDelete(addrId);
 
@@ -50,14 +48,14 @@ const AddressItem = () => {
             });
 
         }catch(e){
+            //에러처리
             console.log(e);
         }
 
     }
     //delete 핸들러
     const deleteHandler  = (addrId)=>{
-        // console.log("addrId", addrId);
-        //deleteFetch(addrId);
+
         openModal({
             modalType: "confirm",
             content: <> <p>해당배송지를 삭제하겠습니까?</p></>,
@@ -73,24 +71,17 @@ const AddressItem = () => {
     }
 
     const openEditForm = (addrId)=>{
-        console.log("addrId", addrId);
-        console.log("deliveryData",deliveryData);
+
         setShowEditForm(true);
         //deliveryData는 객체를 담은 배열
         const targetItem = deliveryData?.find(targetAddrId => targetAddrId.addrId == addrId); // find를 통해 조건에 맞는 배열내부의 하나의 객체를 반환
-        console.log("targetItem", targetItem.addrId); // 객체의 Id 값을 구체적으로 지칭해야 함
+
         if(targetItem.addrId === addrId) {
             setEditItem(targetItem); // 해당 아이디의 데이터를 EditForm 에 전달
         }
 
     }
 
-    useEffect(() => {
-        console.log("deliveryData--- AddressItem", deliveryData);
-        console.log("editItem--- AddressItem", editItem);
-
-
-    },[deliveryData,editItem]);
 
 
     return (

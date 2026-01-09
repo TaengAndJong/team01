@@ -1,16 +1,16 @@
+.bodyWrapper.index{max-width: none;}
 
 .client .header{width:100%;position:absolute;top:0;left:0;background-color: transparent}
 .client .logo-link{margin-left: 1.4rem;}
 
 /*main태그의 class명이 main*/
-.client .header-inner{max-width: 100%;}
 .client main.main{min-height:auto;width:100%;padding:100px 0 200px}
 .client .bodyWrapper{width:100%}
-.client .index .footer-inner{max-width:100%}
+
 
 /*.section{max-width: 1920px;margin: 0 auto;}*/
-.section,.sc-inner{width:100%}
-/*.sc-inner{min-height:1080px;}*/
+.section,.sc-inner{width:100%;position: relative;}
+
 
 /*title ==> main에만 적용되게 클래스 추가하기 ==> 메인에만 스타일반영되게 변경 가능한지 찾아보기  */
 .index [class*="title"], .index [class*="title"] > span{line-height: 1;font-weight:bold;}
@@ -45,20 +45,31 @@
 
 /*button*/
 
+.section .sc-content{max-width:160rem;margin: 0 auto;}
 
 /*main*/
 .section.main{}
-.section.main .sc-inner{
+.section.main{
     background: url("/assets/images/main/main_cl.jpg") no-repeat center bottom;
     background-size: cover;
+}
+.section.main .sc-inner{
+
     padding-top: 100px;
     min-height: 1080px;
 }
-
-.section.main .text-box{
-    padding:7rem 4rem;
+.section.main .sc-inner:before{
+    content: "";
+    display: block;
+    width: 100vw;
+    height: 400px;
     background-color: #fff;
+    position: absolute;
+    top: 100px;
+    left: 0;
 }
+.section.main .sc-content{padding: 7rem 6rem;}
+
 .section.main [class*="-tit"]{
     margin-bottom: 20px;
 }
@@ -67,7 +78,7 @@
 
 .section.main .s-tit{font-size: 5rem;}
 .section.main .b-tit{}
-.section.main .circle-btn{margin: 4rem; padding: 0.5em}
+.section.main .circle-btn{margin: 9rem 0; padding: 0.5em}
 .section.main .circle-btn span{font-size: 23px;}
 
 /*slide common*/
@@ -80,12 +91,28 @@
     height: 100%;
     background-size: 60% 40%;
     background-position: center center;}
+/*secion tit common*/
+.section .tit{display: block; font-size:1.8rem;margin: 1rem 0;}
+.section .tit > span,.section .tit > em{
+    line-height: 1.2;
+    font-weight:bold; word-break: keep-all; word-wrap: break-word;
+    display: -webkit-box;        /* flexbox처럼 동작하도록 설정 */
+    -webkit-box-orient: vertical; /* 세로 방향으로 정렬 */
+    -webkit-line-clamp: 2;        /* 최대 2줄까지만 표시 */
+    text-overflow: ellipsis;      /* ... 표시 */
+    max-height: calc(1.2em * 2);  /* 2줄 기준으로 높이 제한 */
+    overflow: hidden;
+}
+
+
+
 /*books tab*/
 
 .nav .custom-outline-btn{font-size: 2rem; padding: 0.8em;
     margin:0 0.8rem; border-radius: 3rem;}
 .tab-content{
     position: relative;
+    height: 515px;
     /*background-color: #FFECA4;  // 원본 노랑 */
     background: rgba(187,171,162,50%);
     margin-top: 4.5rem; padding: 7rem 4.4rem}
@@ -93,9 +120,21 @@
 /*books*/
 .section.books{}
 .section.books .sc-inner{padding: 20rem 0 10rem;text-align:center;}
+.section.books .tab-content:before{
+    content: "";
+    display: block;
+    width: 1300vw;
+    background: rgba(187,171,162,50%);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: -1000vw;
+}
 .section.books .sc-tit{}
 .section.books .sc-content{margin-top: 9rem;}
 .section.books .nav{padding: 0 6rem;margin-bottom: 4rem;}
+.section.books .nav button:first-child{
+    margin-left: 0;}
 
 
 /*books slide*/
@@ -107,12 +146,13 @@
     overflow: hidden;
 }
 .section.books .swiper{
-    background: rgba(187,171,162,50%);
-    height: 500px;
+    padding: 0 3rem;
+    /*background: rgba(187,171,162,50%);*/
+    /*height: 500px;*/
 }
 .section.books .swiper-wrapper{} /*여기에 패딩주면 안쪽 아이템이 최대 높이를 벗어남*/
 .section.books .swiper-slide{
-    padding: 4rem 0;
+    padding: 2.5rem 0;
 
 }/*슬라이드 아이템에 패딩주기*/
 .section.books .swiper-pagination{
@@ -121,18 +161,27 @@
 .section.books .swiper-pagination .swiper-pagination-bullet-active{background:#56453EFF }
 
 .section.books .book-link{
-    background:rgba(255,255,255,0.5);
-    background:#FFECA4;
+    background:rgba(255,255,255,0.9);
+    /*background:#FFECA4;*/
     border-radius: 1rem;overflow: hidden;height: 100%;
-    max-width: 300px;
+    /*max-width: 300px;*/
+    max-width: 251px;
     width: 100%;
-
+    transition: all 0.3s ease;
 }
+.section.books .book-link:after{content:''; display:inline-block; background-position: center center; background-repeat: no-repeat;
+background-size: cover;
+}
+
 .section.books .img-box{
     z-index: 3; position: relative;max-height: 30rem}
-.section.books .txt-box{padding:2rem 1rem;}
-.section.books .txt-box > .tit{padding:0.5rem 0;text-align: center; word-break: keep-all; font-weight: bold;}
+.section.books .txt-box{padding:2rem 3rem;}
+.section.books .txt-box > .tit{text-align: center; word-break: keep-all; font-weight: bold; min-height: 43px;}
 .section.books .button-group{top: -8.4rem; right: 6rem;}
+
+
+.section.books .book-link:hover,
+.section.books .book-link:focus{   background:#FFECA4; box-shadow: 6px 10px 15px rgba(0,0,0,0.3);}
 
 
 /*section curation*/
@@ -140,11 +189,20 @@
 .section.curation .sc-inner{overflow: hidden;}
 .section.curation .sc-tit{}
 .section.curation .sc-tit.m-tit{font-size: 3.4rem;margin-bottom: 3rem;}
-.section.curation .sc-content{display:flex;justify-content: flex-start; align-items: center;padding: 5rem 6rem;width: calc(100% + 20px);
-    margin: 0 -10px;}
+.section.curation .sc-content{
+    display:flex;
+    justify-content: flex-start;
+    align-items: center; gap:2rem;
+    padding: 5rem 6rem;
+    width: 100%;
+    justify-self: center;}
+
+
 /*book*/
 .section .book{
-    width: calc(50% - 20px); margin: 0 10px; padding:4rem; height:48rem;overflow: hidden;
+    /*width: calc(50% - 20px);*/
+    width: 100%;
+   padding:4rem; height:48rem;overflow: hidden;
     border-radius: 20px;
     /*border:3px solid #F7F7F7;*/
     border:3px solid rgba(187,171,162,50%);
@@ -153,18 +211,7 @@
 .section .book .img-box{border-radius: 10px}
 .section .book .img-inner{background:#ffffff;}
 .section .book .img-inner,.section .book .img{width: 100%; height: 100%;}
-.section .book .tit{display: block; font-size:1.8rem;margin: 1rem 0;}
-.section .book .tit
-> span,.section .book .tit > em{
-    line-height: 1.2;
-    font-weight:bold; word-break: keep-all; word-wrap: break-word;
-    display: -webkit-box;        /* flexbox처럼 동작하도록 설정 */
-    -webkit-box-orient: vertical; /* 세로 방향으로 정렬 */
-    -webkit-line-clamp: 2;        /* 최대 2줄까지만 표시 */
-    text-overflow: ellipsis;      /* ... 표시 */
-    max-height: calc(1.2em * 2);  /* 2줄 기준으로 높이 제한 */
-    overflow: hidden;
-}
+
 .section .book .author{font-size:1.5rem; margin-bottom: 1rem;}
 .section .book .slide-list{overflow: hidden; display: block;}
 .section .book .slide-link{border-radius: 15px; position: relative; float:left;width: 100%;}
@@ -174,9 +221,8 @@
 .book.popular .slide-list{height: calc(100% - 60px); }
 .book.popular .slide-link{
     position: relative; height:153px;
-    /*padding:20px 130px 20px 30px;*/
     padding:2.3rem 13rem 2.3rem 2.3rem;
-    margin-bottom: 30px;}
+    margin-bottom: 30px; border: 2px solid transparent; transition: all 0.3s ease;}
 .book.popular .swiper-slide:nth-child(2n) .slide-link{ background:#FFEAEC;}
 .book.popular .swiper-slide:nth-child(2n-1) .slide-link{background: #FFECA4;}
 .book.popular .tit{}
@@ -186,12 +232,15 @@
 .book.popular .img-inner{}
 .book.popular .img{}
 
+
+
+
 /*book.recommend*/
 .book.recommend .swiper-slide{width:100% !important;
     margin: 0;}
 .book.recommend .slide-list{height: 330px;}
 .book.recommend .slide-link{background:#E8F1FF; padding: 3rem 25rem 4rem 4rem;
-    width: 100%; height: 100%;}
+    width: 100%; height: 100%;border: 2px solid transparent; transition: all 0.3s ease;}
 .book.recommend .img-box{width: 180px;
     height: 235px;position: absolute; right:4rem; top: 5rem; }
 .book.recommend .desc{
@@ -204,7 +253,10 @@
     text-overflow: ellipsis;
 }
 
-
+.book.popular .slide-link:hover ,
+.book.popular .slide-link:focus,
+.book.recommend .slide-link:hover,
+.book.recommend .slide-link:focus{border: 2px solid #56453E}
 
     /*section skipBtn*/
 
@@ -250,6 +302,6 @@
 .skip-btn:focus .circle-btn i{color:#fff}
 
 /*공통 여백 */
-.section.main .text-box,.tab-content,
+.tab-content,
 .section.curation .sc-content,
-.section.skipbtns .sc-inner{padding-left:6rem;padding-right: 6rem;}
+.section.skipbtns .sc-content{padding-left:6rem;padding-right: 6rem;}

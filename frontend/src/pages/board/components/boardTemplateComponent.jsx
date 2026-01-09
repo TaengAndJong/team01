@@ -8,17 +8,16 @@ import { useNavigate } from "react-router-dom";
 import Btn from "@util/reuseBtn.jsx";
 
 const BoardTemplateComponent = ({ category }) => {
-  // console.log("카테고리 뭐임?", category);
-  // console.log("카테고리 속성 뭐임?", typeof category);
+
   const boardList = useContext(BoardListContext);
   const list = boardList?.[category] || [];
   const navigate = useNavigate();
-  //console.log(`[${category}] 카테고리에 해당하는 게시물 목록`, list);
+
 
   // 컴포넌트 마운트/언마운트 추적
   useEffect(() => {
     setCheckedInput([]);
-    //console.log(`[${category}] BoardTemplateComponent 마운트됨`);
+
     return () => {
       //  console.log(`[${category}] BoardTemplateComponent 언마운트됨`);
     };
@@ -43,14 +42,14 @@ const BoardTemplateComponent = ({ category }) => {
 
   const handleSelectAll = (isChecked) => {
     if (isChecked) {
-      console.log(`[${category}] selectAll`, isChecked);
+
       // 모든 boardId를 배열에 추가
       const allIds = list.map((item) => getBoardId(item));
-      console.log(`[${category}] allIds-category`, allIds);
+
       setCheckedInput(allIds);
     } else {
       // 전부 해제
-      console.log(`[${category}] 모든 선택 해제`);
+
       setCheckedInput([]);
     }
   };
@@ -59,13 +58,13 @@ const BoardTemplateComponent = ({ category }) => {
     if (isChecked) {
       setCheckedInput((prev) => {
         const newArray = [...prev, qnaId];
-        console.log(`[${category}] checkedInput 배열에 들어간다`, newArray);
+
         return newArray;
       });
     } else {
       setCheckedInput((prev) => {
         const newArray = prev.filter((id) => id !== qnaId);
-        console.log(`[${category}] checkedInput 배열에서 나간다`, newArray);
+
         return newArray;
       });
     }
@@ -83,14 +82,7 @@ const BoardTemplateComponent = ({ category }) => {
         <caption className="sr-only">등록된 게시물 테이블</caption>
         <thead>
           <tr>
-            {/* <th scope="col" className="text-center">
-              <input
-                type="checkbox"
-                id="selectAll"
-                checked={checkedInput.length === list.length && list.length > 0}
-                onChange={(e) => handleSelectAll(e.target.checked)}
-              />
-            </th> */}
+
             <th scope="col" className="text-center">
               No.
             </th>
@@ -112,8 +104,8 @@ const BoardTemplateComponent = ({ category }) => {
         <tbody className="">
           {list && list.length === 0 ? (
             <tr className="">
-              <td colSpan="12" className="text-center p-4">
-                데이터가 없습니다.
+              <td colSpan="5" className="text-center p-4">
+                문의하신 글이 없습니다.
               </td>
             </tr>
           ) : (

@@ -12,6 +12,11 @@
                 STRPOS(bookCateNm, #{pagination.detailCondition.bookType}) > 0 AND
             </if>
 
+            <!-- 등록분류 -->
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.recomType) and pagination.detailCondition.recomType != 'ALL'">
+                recomType = #{pagination.detailCondition.recomType} AND
+            </if>
+
             <!-- keyword가 비어있지 않을 때만 검색조건 적용 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
                 <choose>

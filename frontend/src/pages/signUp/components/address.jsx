@@ -35,40 +35,40 @@ const Address=({formData,setFormData,msg,setMsg})=>{
     return(
         <>
             {/*주소*/}
-            <div className="d-flex flex-column mb-3">
-                <div className="d-flex align-items-center w-100 mb-2">
-                    <FormTag
-                        label="주소"
-                        labelClass="form-title" className="form-control"
-                        name="addr"
-                        value={formData.addr}
-                        placeholder="주소"
-                        onChange={handleInputChange}
-                    />
-                </div>
+                <div className="addr-info">
+                    <div className="row col-12  mb-2">
+                        <FormTag
+                            label="주소"
+                            labelClass="form-title col-2" id="addr" className="form-control"
+                            name="addr"
+                            value={formData.addr}
+                            placeholder="주소"
+                            onChange={handleInputChange}
+                        />
+                    </div>
 
-                <div className="d-flex align-items-center w-100 mb-2">
-                    <FormTag
-                        label="우편번호"
-                        labelClass="form-title" className="form-control w-75"
-                        name="zoneCode"
-                        value={formData.zoneCode}
-                        placeholder="우편번호"
-                        onChange={handleInputChange}
-                    />
-                    <DaumPostcode onAddressSelect={handleAddressSelect}/>
+                    <div className="row col-12 mb-2">
+                        <FormTag
+                            label="우편번호"
+                            labelClass="form-title col-2" id="zoneCode" className="form-control"
+                            name="zoneCode"
+                            value={formData.zoneCode}
+                            placeholder="우편번호"
+                            onChange={handleInputChange}
+                        />
+                        <DaumPostcode onAddressSelect={handleAddressSelect}/>
+                    </div>
+                    <div className="row col-12 mb-2">
+                        <FormTag
+                            label="상세주소"
+                            labelClass="form-title col-2" id="detailAddr" className="form-control"
+                            name="detailAddr"
+                            value={formData.detailAddr}
+                            onChange={handleInputChange}
+                            placeholder="상세주소 입력"
+                        />
+                    </div>
                 </div>
-                <div className="d-flex align-items-center w-100">
-                    <FormTag
-                        label="상세주소"
-                        labelClass="form-title" className="form-control"
-                        name="detailAddr"
-                        value={formData.detailAddr}
-                        onChange={handleInputChange}
-                        placeholder="상세주소 입력"
-                    />
-                </div>
-            </div>
             </>
             )
             }

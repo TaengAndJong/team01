@@ -57,9 +57,9 @@ const options = {
 // };
 
 const ChartComponent = ({ data }) => {
-  console.log("차트 컴포넌트 랜더링");
+
   const canvasRef = useRef(null);
-  console.log("canvasRef.current:", canvasRef.current);
+
 
   // x축 라벨
   const labels = data.date;

@@ -8,8 +8,6 @@ import { useAuth } from "@pages/common/AuthContext.jsx";
 
 // 3개 카테고리별 상태 관리를 위한 reducer
 function boardReducer(state, action) {
-  console.log("boardReducer state:", state);
-  console.log("boardReducer action:", action);
 
   switch (action.type) {
     case "INIT_ONE":
@@ -42,13 +40,7 @@ function boardReducer(state, action) {
         ...state,
         delivery: [...state.delivery, action.data],
       };
-    // case "DELETE_ONE":
-    //   return {
-    //     ...state,
-    //     one: state.one.filter(
-    //       (item) => !action.data.includes(String(item.qnaOneId))
-    //     ),
-    //   };
+
     case "DELETE_ONE":
       return {
         ...state,
@@ -80,13 +72,7 @@ function boardReducer(state, action) {
             : [],
         })),
       };
-    // case "DELETE_DELIVERY":
-    //   return {
-    //     ...state,
-    //     delivery: state.delivery.filter(
-    //       (item) => !action.data.includes(String(item.deliveryId))
-    //     ),
-    //   };
+
     case "DELETE_DELIVERY":
       return {
         ...state,
@@ -229,7 +215,6 @@ const AdminBoard = () => {
         deliveryListRes.json(),
       ]);
 
-      console.log("API 응답 데이터:", { oneData, productData, deliveryData });
 
       // 각 카테고리별로 상태 초기화
       dispatch({ type: "INIT_ONE", data: oneData });
@@ -270,10 +255,11 @@ const AdminBoard = () => {
         });
       }
     } catch (err) {
-      console.log("문의 게시판 데이터 불러오기 실패", err); // 오류 처리
+      //에러처리
       console.log("에러 상세 정보:", err.message);
     }
   }; //fetch end
+
 
   // 최초 렌더 시 한 번만 실행
   useEffect(() => {
@@ -287,7 +273,7 @@ const AdminBoard = () => {
 
   // 각 카테고리별 초기화 함수
   const onInitOne = (data) => {
-    console.log("onInitOne", data);
+
     dispatch({
       type: "INIT_ONE",
       data: data,
@@ -295,7 +281,7 @@ const AdminBoard = () => {
   };
 
   const onInitProduct = (data) => {
-    console.log("onInitProduct", data);
+
     dispatch({
       type: "INIT_PRODUCT",
       data: data,
@@ -303,7 +289,7 @@ const AdminBoard = () => {
   };
 
   const onInitDelivery = (data) => {
-    console.log("onInitDelivery", data);
+
     dispatch({
       type: "INIT_DELIVERY",
       data: data,
@@ -312,7 +298,7 @@ const AdminBoard = () => {
 
   // 각 카테고리별 생성 함수
   const onCreateOne = (createData) => {
-    console.log("createOne", createData);
+
     dispatch({
       type: "CREATE_ONE",
       data: createData,
@@ -320,7 +306,7 @@ const AdminBoard = () => {
   };
 
   const onCreateProduct = (createData) => {
-    console.log("createProduct", createData);
+
     dispatch({
       type: "CREATE_PRODUCT",
       data: createData,
@@ -328,7 +314,7 @@ const AdminBoard = () => {
   };
 
   const onCreateDelivery = (createData) => {
-    console.log("createDelivery", createData);
+
     dispatch({
       type: "CREATE_DELIVERY",
       data: createData,
@@ -337,7 +323,7 @@ const AdminBoard = () => {
 
   // 각 카테고리별 삭제 함수
   const onDeleteOne = (deleteIds) => {
-    console.log("deleteOne", deleteIds);
+
     dispatch({
       type: "DELETE_ONE",
       data: deleteIds,
@@ -345,7 +331,7 @@ const AdminBoard = () => {
   };
 
   const onDeleteProduct = (deleteIds) => {
-    console.log("deleteProduct", deleteIds);
+
     dispatch({
       type: "DELETE_PRODUCT",
       data: deleteIds,
@@ -353,7 +339,7 @@ const AdminBoard = () => {
   };
 
   const onDeleteDelivery = (deleteIds) => {
-    console.log("deleteDelivery", deleteIds);
+
     dispatch({
       type: "DELETE_DELIVERY",
       data: deleteIds,
@@ -362,7 +348,7 @@ const AdminBoard = () => {
 
   // 각 카테고리별 수정 함수
   const onUpdateOne = (updateData) => {
-    console.log("updateOne", updateData);
+
     dispatch({
       type: "UPDATE_ONE",
       data: updateData,
@@ -370,7 +356,7 @@ const AdminBoard = () => {
   };
 
   const onUpdateProduct = (updateData) => {
-    console.log("updateProduct", updateData);
+
     dispatch({
       type: "UPDATE_PRODUCT",
       data: updateData,
@@ -378,7 +364,7 @@ const AdminBoard = () => {
   };
 
   const onUpdateDelivery = (updateData) => {
-    console.log("updateDelivery", updateData);
+
     dispatch({
       type: "UPDATE_DELIVERY",
       data: updateData,

@@ -1,29 +1,25 @@
 package com.example.team01.cart;
 
 
-import com.example.team01.book.service.BookService;
+
 import com.example.team01.cart.service.CartService;
-import com.example.team01.common.exception.CustomCartException;
+
+import com.example.team01.common.exception.BusinessException;
 import com.example.team01.delivery.service.AddressService;
+import com.example.team01.delivery.service.AddressServiceImple;
 import com.example.team01.dto.address.AddressDTO;
 import com.example.team01.dto.book.BookDTO;
 import com.example.team01.dto.cart.CartDTO;
 import com.example.team01.security.PrincipalDetails;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.vo.AddressVO;
-import com.example.team01.vo.BookVO;
+
 import com.example.team01.vo.CartVO;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -60,7 +56,7 @@ public class CartController {
 
         //기본 배송지 조회하기
         AddressDTO selectAddr = addressService.selectCartAddress(clientId);
-
+        log.info("장바구니 조회---------:{}",selectAddr);
         //없을 경우
         List<CartDTO> cartList = cartService.selectUserBookList(clientId);
         log.info("bookList:---------------------------{}",cartList);  //cartId 확인하기
@@ -186,32 +182,37 @@ public class CartController {
     // 새로운 리소스를 생성할때
     // 장바구니 주소 선택
     @PostMapping("/addr")
-    public ResponseEntity<?> updateCartAddress(@RequestBody Map<String,String> selectedAddrId,
+    public ResponseEntity<?> updateCartAddress(@RequestBody Map<String,Long> selectedAddrId,
                                                @AuthenticationPrincipal PrincipalDetails userDetails){
 
-        log.info("selectedAddrid API");
-        // update ==> selectedAddrId
+        log.info("장바구니 주소 변경 API");
+        // 해당 클라이언트의
         String clientId = userDetails.getUsername();
-        // 선택된 주소가 없으면 (null)이면 등록된 기본 주소의 첫 번째 주소가 보임
+        // 선택된 주소가 없으면 주소등록페이지로 이동
+        // 주소가 등록된 후에 변경하려면, 변경하려고 선택한 주소의 Id 값
         log.info("selectedAddrid ---------- : {}",selectedAddrId);
-        String addrId = selectedAddrId.get("selectedAddrId");
-        //client의 selectedId를 업데이트해주기
-        int updateSelectAddress = addressService.updateCartAddress(clientId,addrId);
-        log.info("selectedAddrId ------ result ---------- : {}",updateSelectAddress);
-
+        Long addrId = selectedAddrId.get("selectedAddrId");
 
         //클라이언트로 반환할 결과
         Map<String,Object> result = new HashMap<>();
 
-        if(updateSelectAddress < 0 ){
-            return ResponseEntity.ok("주소 업데이트 실패");
+        try{
+            //client의 selectedId를 업데이트해주기
+            int updateSelectAddress = addressService.updateCartAddress(clientId,addrId);
+            log.info("selectedAddrId ------ result ---------- : {}",updateSelectAddress);
+
+            if(updateSelectAddress>0){
+                // 다시 해당클라이언트의 기본주소 조회하기
+                AddressDTO changedAddr = addressService.selectOneAddress(clientId);
+                log.info("주소 변경된 후 조회해오는 주소값 : {}",changedAddr);
+                result.put("updateAddr",changedAddr);
+            }
+
+        }catch(BusinessException e){
+            log.info("서비스로직 예외처리 메시지 담아주기:{}",e.getMessage());
+            throw new BusinessException(e.getMessage());
         }
-
-        // 클라이언트가 선택한 주소를 기본 주소로 받아오기
-        AddressVO data= addressService.selectChangeAddress(clientId,addrId);
-        result.put("updateAddr",data);
-        log.info("updateAddr ----------:{}",result);
-
+        //프론트로 응답 전송
         return ResponseEntity.ok(result);
     }
 

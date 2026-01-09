@@ -35,7 +35,7 @@ loop value true로 하면 pagenation 에러 및 loop length not enough 에러 �
                 slidesPerView={1}
                 slidesPerGroup={1}
                 spaceBetween={20}
-                onSlideChange={() => console.log('slide change')}
+                // onSlideChange={() => console.log('slide change')}
                 pagination={{
                     type: 'fraction',//숫자
                 }}

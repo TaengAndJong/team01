@@ -52,6 +52,7 @@ public class deliveryController {
         clientVO.setClientId(clientId);
         //addressVO로 clientVO 넘겨주기
         addressVO.setClient(clientVO);
+
         //서비스로 파라미터 넘겨주기
         int insertData = addressService.insertAddress(addressVO);
         log.info("saveAddress--result:{}",insertData);
@@ -93,7 +94,7 @@ public class deliveryController {
 
     //배송지 삭제
     @PostMapping("/delete/{addrId}")
-    public ResponseEntity<?> deleteAddress(@PathVariable String addrId,
+    public ResponseEntity<?> deleteAddress(@PathVariable Long addrId,
                                            @AuthenticationPrincipal PrincipalDetails userDetails) {
 
         log.info("deleteAddress----------------------:{}",addrId);
@@ -102,7 +103,7 @@ public class deliveryController {
         clientVO.setClientId(clientId);
 
         //삭제 쿼리에 사용할 파라미터 넘겨주기
-        int deleteData =  addressService.deleteAddress(clientId,addrId);
+        int deleteData =  addressService.deleteAddress(clientId, addrId);
         log.info("deleteAddress----------------------:{}",deleteData);
         //응답 시 클라이언트에 전달할 데이터 맵
         Map<String,Object> result = new HashMap<>();

@@ -30,4 +30,4 @@ src/main/resources/application-dev.properties
 
 
 #도커 정보파일 ==> 서버로 직접 전송하기
-docker-compose.yml
+#docker-compose.yml

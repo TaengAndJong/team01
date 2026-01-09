@@ -36,9 +36,8 @@ export const useSessionCheck = () =>{
            response => response,
            error => {
 
-               console.log("error.response interceptor",error.response)
                if (error.response && error.response.status === 401) {
-                   console.log("권한 없음 접근 불가 메뉴 인터셉트 ")
+                   // console.log("권한 없음 접근 불가 메뉴 인터셉트 ")
                    catchError(error, { openModal, closeModal, navigate });
                }
                return Promise.reject(error);

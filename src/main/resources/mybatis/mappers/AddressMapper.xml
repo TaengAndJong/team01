@@ -9,12 +9,13 @@
         <result property="addr" column="addr"/>
         <result property="zoneCode" column="zoneCode"/>
         <result property="detailAddr" column="detailAddr"/>
+        <result property="isdefault" column="isdefault"/>
         <association property="client" javaType="ClientVO">
             <id property="clientId" column="clientId"/>
         </association>
     </resultMap>
-    
-    <select id="selectAddress" parameterType="String" resultMap="addressMap">
+    <!--  배송지의 등록된 전체주소조회   -->
+    <select id="selectAddress" resultMap="addressMap">
         select
             a.addrId
             , c.clientId
@@ -22,12 +23,27 @@
             , a.addr
             , a.zoneCode
             , a.detailAddr
-        from Address a join CLIENT c on  a.clientId = c.clientId
+            , a.isdefault
+        from address a join client c on  a.clientId = c.clientId
         where c.clientId =  #{clientId}
     </select>
 
+    <!-- 기본주소로 선택된 주소레코드만 조회 -->
+    <select id="selectOneAddress"  parameterType="String" resultMap="addressMap">
+        select
+            a.addrId
+             , c.clientId
+             , a.addrType
+             , a.addr
+             , a.zoneCode
+             , a.detailAddr
+             , a.isdefault
+        from address a join client c on  a.clientId = c.clientId
+        where c.clientId =  #{clientId} and isdefault='Y'
+    </select>
+
     <insert id="insertAddress" parameterType="AddressVO">
-        <selectKey keyProperty="addrId" resultType="String" order="BEFORE">
+        <selectKey keyProperty="addrId" resultType="Long" order="BEFORE">
             SELECT nextval('ADDRID_SQE')
         </selectKey>
 
@@ -39,6 +55,7 @@
                     ,addr
                     ,zoneCode
                     ,detailAddr
+                    ,isdefault
         )
         values (
                     #{addrId}
@@ -47,11 +64,12 @@
                     ,#{addr}
                     ,#{zoneCode}
                     ,#{detailAddr}
+                    ,#{isdefault}
                )
     </insert>
     
     <update id="updateAddress" parameterType="AddressVO">
-        UPDATE Address
+        UPDATE address
         <set>
             <if test="addrType != null and addrType != ''">
                 addrType = #{addrType},
@@ -70,66 +88,49 @@
     </update>
 
     <delete id="deleteAddress">
-      delete from Address
+      delete from address
       where addrId=#{addrId}
         and clientId=#{clientId}
     </delete>
 
-    <select id="selectCartAddress" parameterType="String" resultMap="addressMap">
-        select a.addrId
-             ,a.addr
-             ,a.addrType
-             ,a.detailAddr
-             ,a.zoneCode
-             ,c.clientId
-             ,c.clientName
-             ,c.email
-             ,c.tel
-        from address a join client c
-                            on ( a.clientId = c.clientId)
-        where a.clientId = #{clientId}
+    <select id="selectCartAddress"  resultMap="addressMap">
+        select
+            a.addrId
+            ,a.addr
+            ,a.addrType
+            ,a.detailAddr
+            ,a.zoneCode
+            ,a.isdefault
+            ,c.clientId
+            ,c.clientName
+            ,c.email
+            ,c.email
+            ,c.tel
+        from address a join client c on ( a.clientId = c.clientId)
+        where a.clientId = #{clientId}  and  a.isdefault='Y'
         order by a.addrId
     </select>
-
-    <update id="updateCartAddress" parameterType="String">
-        UPDATE client
-        SET selectedaddrId = #{addrId}
+    <!-- 주소테이블 기본 주소 변경 전 기본주소 해제쿼리   -->
+    <update id="clearDefaultStatus" parameterType="String">
+        UPDATE address
+        SET isdefault = 'N'
         WHERE clientId = #{clientId}
     </update>
+    <!-- 주소테이블 기본 주소 변경 업데이트 쿼리   -->
+    <update id="updateChangeCartAddress">
+        UPDATE address
+        SET isdefault = 'Y'
+        WHERE clientId = #{clientId} and addrId = #{addrId}
+    </update>
 
-    <select id="selectChangeAddress" parameterType="String" resultMap="addressMap">
-        with cl as (select
-                        clientId
-                         ,clientName
-                         ,selectedaddrId
-                    from client
-                    where clientId = #{clientId})
 
-        select
-            cl.*,
-            a.*
-        from cl join address a on ( cl.selectedaddrId = a.addrId)
-        where cl.selectedaddrId = #{addrId}
+
+
+    <!-- 기본주소 존재유무 조회 -->
+    <select id="isDefaultStatus" resultType="int">
+        SELECT COUNT(*)
+        FROM address
+        WHERE clientid = #{clientId}
+          AND  isdefault = 'Y';
     </select>
-
-    <!--  client 테이블과 address 테이블 조인해서 selectedId 조회해오기 -->
-    <select id="selectOneAddress"  parameterType="String" resultMap="addressMap">
-        select
-            c.clientName,
-            c.roleId,
-            c.staffId,
-            c.clientId,
-            a.addrId,
-            a.addrType,
-            a.addr,
-            a.detailAddr,
-            a.zoneCode
-        from
-            (select
-                 *
-             from client
-             where clientId=#{clientId}) c
-                join address a on (c.selectedaddrId = a.addrId)
-    </select>
-
 </mapper>

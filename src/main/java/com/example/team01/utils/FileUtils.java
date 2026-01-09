@@ -50,22 +50,22 @@ public class FileUtils {
     // 여러 파일 저장 메서드
 //날데이터 받아서 문자열로 경로반환 저장메서드
     public String saveFile(List<MultipartFile> files,String middlePath) {
-      //  log.info("saveFile 파일 저장 시작 파일 객체:{}", files);
+       log.info("saveFile 파일 저장 시작 파일 객체:{}", files);
         String bookImgPath=""; //반환할 데이터베이스 텍스트경로
 
         if(!files.isEmpty()) {
-          //  log.info("들어오는 파일 객체:{}",bookImgPath);
+           log.info("들어오는 파일 객체:{}",bookImgPath);
             for (MultipartFile file : files) {
                 String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename(); //랜덤 파일 명칭(중복방지)
-              //  log.info("새로 생성된 파일이름:{}", fileName);
+               log.info("새로 생성된 파일이름:{}", fileName);
 
                 //2. 데이터베이스에 2개 이상의 파일경로 문자열로 변환과정
                 if(!bookImgPath.equals("")) { // 북이미지 텍스트 배열로 받고 구분하기 위한 조건 ( 텍스트 파일 경로가 존재하면, 기존 경로 + 파일명)
                     bookImgPath= bookImgPath +","+fileName;//랜덤 파일명칭 텍스트로 생성
-                  //  log.info("2개 이상일 경우 :{}", bookImgPath);
+                   log.info("2개 이상일 경우 :{}", bookImgPath);
                 }else{
                     bookImgPath = fileName;
-                  //  log.info("1개일 경우 :{}", bookImgPath);
+                  log.info("1개일 경우 :{}", bookImgPath);
                 }
 
                 //실제파일을 프로젝트 내부에(서버) 저장
@@ -82,8 +82,6 @@ public class FileUtils {
                     log.error("파일 저장 실패: {}", e.getMessage());
                 }
 
-
-
             }
             // List<String> bookImgPath를 하나의 문자열로 변환
             // 객체를 또 순회해서 문자열로 만들어야함 ?????
@@ -91,7 +89,7 @@ public class FileUtils {
           //  log.info("파일 객체가 널인데 ");
             //저장은 필요 없고, 서버의 resource 하위 경로에 저장되어있는 이미지파일리소스만 가져와서 bookImgPath에 넣어주기
             bookImgPath = this.getDefaultImgPath();
-          //  log.info("noImg booImgPath================:{}",bookImgPath);
+           log.info("bookImgPath가 빈 값일 경우 생성 booImgPath================:{}",bookImgPath);
         }
 
         return bookImgPath; // 여기에서 bookImaPath 반환하여 초기값 갱신
@@ -108,19 +106,20 @@ public class FileUtils {
         File folder = new File(imagesDir); // 팡,
         log.info("folder -- 노이미지 프론트 빌드 경로:{} ",folder);
         File[] Files = folder.listFiles();
-      //  log.info("foler------------:{} , fileList--------- :{}", folder, Files);
+             log.info("기본이미지 경로 메서드 foler------------:{} , fileList--------- :{}", folder, Files);
 
         if(Files != null) {
-//log.info("파일 객체 존재할 경우---");
+            log.info(" 기본이미지 경로 메서드 파일 객체 존재할 경우---");
             for (File file : Files) {
                 String name = file.getName().toLowerCase();
-            //    log.info("파일 이름과 확장자 전부 소무자로 대체:{} ",name);
+                  log.info("파일 이름과 확장자 전부 소무자로 대체 --- 여기에서 매칭이 안되나:{} ",name);
                 if(name.equals("noimg.png") || name.equals("noimg.jpg")) {
                    // 서버에서 클라이언트로 이미지를 리소스를 보낼때 상대경로를 사용해야 함
                     //절대경로는 파일 시스템경로를 반환하기때문에 클라이언에서 사용불가
+                    log.info("노이미지 이름 :{} ",name);
                    // noImgPath ="images/" + name;
                     noImgPath = name;
-                //    log.info("noImgPath--------------:{} ",noImgPath);
+                    log.info("기본이미지 경로 메서드 파일 객체 존재할 경우 noImgPath--------------:{} ",noImgPath);
                     return noImgPath; // 경로 리턴
                 }
 

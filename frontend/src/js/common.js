@@ -2,7 +2,7 @@
 // 스크롤
 export const scrollTop = (duration) => {
   // 기본값 600  onClick(()=>scrollTop(800)) 이벤트 숫자를 늘리면 더 느리게, 줄이면 더 빠르게 스크롤 가능
-  console.log("스크롤 버튼 실행");
+
   const durationTime = duration ?? 300 // duration 미 설정시 (undefined)일 경우, 300초
 
   const start = window.scrollY; // 현재 스크롤 위치

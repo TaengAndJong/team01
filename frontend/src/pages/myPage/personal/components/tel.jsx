@@ -6,7 +6,7 @@ import {validEachTel} from "@util/validation.jsx";
 
 const Tel=({telNum,setUserInfo,msg,setMsg})=>{
 
-    console.log("telNum-----------",telNum);
+
     // telNum을 "-"을 기준으로 slice 해서 배열로 반환 
 
     //tel 에 FirstTelNum ,secondTelNum. lastTelNum으로 구분하기
@@ -16,7 +16,7 @@ const Tel=({telNum,setUserInfo,msg,setMsg})=>{
     useEffect(()=>{
        if(telNum){ //telNum 이 undefined 가 아닌경우
            const [first, second, last] = telNum.split("-"); // 배열로 구조분해
-           console.log("first, second, last------",first, second, last);
+
            //전화번호 초기값 분리 설정
            setTel({
                firstTelNum:first ||"",
@@ -37,7 +37,7 @@ const Tel=({telNum,setUserInfo,msg,setMsg})=>{
         } else {
             // FormTag 컴포넌트의 onChange
             const { name, value } = eventTarget.target;
-            console.log("Input change: ", name, value);
+
 
             // 전화번호 업데이팅 되기전 두 or 세번째 데이터  검증 후 업데이팅
             if(name === "secondTelNum" || name === "lastTelNum"){
@@ -88,7 +88,7 @@ const Tel=({telNum,setUserInfo,msg,setMsg})=>{
                     id="FirstTelNum"
                     value={{ value: tel.firstTelNum, label: tel.firstTelNum }}
                     onChange={(selectedOption) => {
-                        console.log("selectedOption", selectedOption);
+
                         handleTelChange({target: {name: "firstTelNum", value: selectedOption.value}});
                     }}
                     options={[

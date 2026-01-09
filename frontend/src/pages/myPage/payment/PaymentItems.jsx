@@ -63,11 +63,11 @@ const PaymentItems = ({paymentProps}) =>{
                     [payId]:bookIds//해당하는 항목의 새로운 값을 기본의 값에 새롭게 덮어씌움
                 }))
             }else{
-                console.log("selected: 하나의 결제건만 가능",selected);
                 //모달 띄우기
                 openModal({
-                    modalType: error,
-                    content:<><p>하나의 결제건만 취소가능</p></>
+                    modalType: "confirm",
+                    content:<><p>하나의 결제건만 취소가능</p></>,
+                    onConfirm:()=>{ closeModal() }
                 })
             }
 
@@ -91,7 +91,7 @@ const PaymentItems = ({paymentProps}) =>{
             bookIds
         };
 
-        console.log("params",params);
+
         try{
             // 전체취소 버튼 클릭 시 서버로 전체결제취소 데이터 전송
             const response =await axios.post("/api/mypage/payAllCancel",params); 
@@ -100,6 +100,7 @@ const PaymentItems = ({paymentProps}) =>{
 
             setPaymetInfo(recievedData);
         }catch(e){
+            //에러처리
             console.log("response---전체선택 결제취소 e",e);
         }
 

@@ -14,26 +14,25 @@ const BoardDetail = ({ userType }) => {
   const [board, setBoard] = useState();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("🔥 DetailBoard 렌더링됨!");
-    console.log(category, boardId, userId, userType);
-    console.log("상세조회 api 호출 시작");
+
     const url = `/api/board/${category}/detail/${boardId}`;
-    console.log("url", url);
+
     const fetchData = async (userId) => {
       try {
         const response = await axios.get(url, {
           params: { userId: userId },
         });
-        console.log("상세 데이터:", response.data);
+      
         setBoard(response.data);
         return response.data;
       } catch (err) {
+        //에러처리
         console.log(err);
       }
     };
     fetchData(userId);
   }, [category, boardId, userId, userType]);
-  console.log(board);
+
 
   //카테고리 별 문의 이름 바꾸기
   return (

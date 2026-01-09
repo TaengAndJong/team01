@@ -2,7 +2,7 @@ import "@assets/css/board/adminBoard.css";
 import { Link } from "react-router-dom";
 import { formatToDate } from "@util/dateUtils.jsx";
 const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
-  console.log("adminBoardItem data", data);
+
 
   const getCategory = (data) => {
     if (data.qnaOneId) return "one";
@@ -17,10 +17,7 @@ const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
     return "N/A";
   };
 
-  // const getQnaDel = (data) => {
-  //   if (data.qnaDel === "Y") return "삭제";
-  //   return "미삭제";
-  // };
+
 
   const qnStatus = (qnaStatus) => {
     switch (qnaStatus) {

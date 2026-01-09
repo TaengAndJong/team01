@@ -14,16 +14,11 @@ function reducer(state, action){
 
     switch(action.type){
         case "INIT" :
-            if(action.data){
-                console.log("INIT action",action.data, Array.isArray(action.data));
-            }
+
             // 서버에서 단일객체{} 또는 여러 개의 객체가  action.data로 넘어오면 배열에 담아줘야 함.
             return Array.isArray(action.data) ? action.data : [action.data];
         case "DELETE":
-            if(action.data){
-                console.log("delete action",action.data);
-                console.log("delete Array", Array.isArray(action.data));
-            }
+
             // action.data가 배열이고(객체일경우, key가 없는 데이터일경우, 키로 접근할수 없음!)
             return state.filter((item) => { return !action.data.includes(String(item.bookId))})
 
@@ -46,7 +41,7 @@ const Cart = () => {
 
     //초기값 갱신 함수
     const onInit = (cartData) =>{
-        console.log("cartList Init ",cartData);
+
         dispatch({
             type: "INIT",
             data: cartData,
@@ -64,12 +59,12 @@ const Cart = () => {
             });
 
             if(!response.ok){
-                console.log("요청 실패");
+                // 에러처리
                 throw Error(response.statusText);
             }
 
             const data = await response.json();
-            console.log("cartList ---- fetch 요청",data.bookList);
+
             onInit(data);
 
         }catch(error){

@@ -14,9 +14,7 @@ const reducer =(state, action) => {
 
     switch(action.type){
         case "INIT":
-            if(action.data){
-                console.log("INIT action",action.data, Array.isArray(action.data));
-            }
+            
             return  Array.isArray(action.data) ? action.data : [action.data];
         default:
             return state;
@@ -37,7 +35,7 @@ const WishComponent=()=>{
         pageSize: 4
     });
 
-    console.log("paginationInfo",paginationInfo)
+
 
     //찜목록데이터 비동기 get fetch요청
     const wishFetch = async () => {
@@ -59,7 +57,7 @@ const WishComponent=()=>{
             }
 
             const data = await response.json();
-            console.log("wishList-------getFetch----component", data);
+          
             onInit(data.userWishList);
 
             setPaginationInfo({
@@ -70,6 +68,7 @@ const WishComponent=()=>{
             })
 
         }catch (err) {
+            //에러처리
             console.log("찜목록 데이터 불러오기 실패", err); // 오류 처리
         }
     };
@@ -77,8 +76,7 @@ const WishComponent=()=>{
 
 //dispatch 함수
     const onInit =(wishList) => {
-        console.log("onInit----------------", wishList);
-        console.log("onInit----------------Array.isArray", Array.isArray(wishList));
+
         dispatch({
             type:"INIT",
             data: wishList
@@ -88,7 +86,7 @@ const WishComponent=()=>{
 
     //페이지버튼 클릭시 실행되는 핸들러
     const onChangePageHandler = (page) => {
-        console.log("changePage----",page);
+
         //pagination의 currentPage 값 갱신
         setPaginationInfo((prev) =>({
             ...prev,
@@ -100,13 +98,11 @@ const WishComponent=()=>{
     useEffect(()=>{
         // 마운트 시 서버 또는 db에서 데이터를 받아온 후 onInit을 실행해야 함
         wishFetch();
-        console.log("wishData---wishComponent",wishdata)
+
         //페이지네이션값 갱신? 해줘야함?
 
     },[paginationInfo.currentPage]) // 마운트 시에 한 번실행 됨
 
-    console.log("wishdata ----------init ",wishdata)
-    console.log("paginationInfo ----------init ",paginationInfo)
 
     return(
         <>

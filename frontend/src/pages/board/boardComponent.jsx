@@ -29,7 +29,7 @@ const Board = () => {
   const location = useLocation().pathname;
   const hideSubNavi = location === "/board";
   const fetchData = async () => {
-    console.log("userData fetchData", userData);
+
     try {
       const [delivListRes, productListRes, oneListRes] = await Promise.all([
         axios.get(`/api/board/DelivBoardlist?userId=${userData.clientId}`),
@@ -37,9 +37,6 @@ const Board = () => {
         axios.get(`/api/board/OneBoardlist?userId=${userData.clientId}`),
       ]);
 
-      console.log("배달 문의 조회 성공:", delivListRes.data);
-      console.log("상품 문의 조회 성공:", productListRes.data);
-      console.log("1:1 문의 조회 성공:", oneListRes.data);
 
       setBoardList({
         delivery: delivListRes.data,
@@ -47,12 +44,13 @@ const Board = () => {
         one: oneListRes.data,
       });
     } catch (error) {
+      //에러처리
       console.error("에러 발생:", error);
     }
   };
 
   useEffect(() => {
-    console.log("userData useEFFECT", userData);
+
     fetchData();
   }, [userData]);
 
@@ -63,7 +61,7 @@ const Board = () => {
 
   // 새로고침 트리거 작동
   useEffect(() => {
-    console.log("새로고침 트리거 작동");
+
     if (refreshTrigger > 0) {
       fetchData();
     }

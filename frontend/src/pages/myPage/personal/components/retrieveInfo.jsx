@@ -6,7 +6,7 @@ import Select from "react-select";
 
 const RetrieveInfo=({userInfo,onEdit})=>{
 
-    console.log("개인정보조회 :============",userInfo);
+
     return(
         <>
             {/*id*/}
@@ -15,14 +15,14 @@ const RetrieveInfo=({userInfo,onEdit})=>{
                     <FormTag label="아이디" labelClass="form-title" id="clientId" className="form-control w-auto" name="clientId"
                              type="text"
                              value={userInfo?.clientId}
-                             readOnly
+                             readOnly={true}
                              aria-readonly="true"/>
                 </div>
                 <div className="d-flex align-items-center mb-2 justify-content-start">
                     <FormTag label="비밀번호" labelClass="form-title" id="password" className="form-control w-auto" name="password"
                              type="password"
                              value={"********"} // 실제 비밀번호를 내려주지 않음
-                             readOnly    // 수정 방지 ==> 사용자가 입력할 수 없지만 포커스는 가능
+                             readOnly={true}    // 수정 방지 ==> 사용자가 입력할 수 없지만 포커스는 가능
                              // disabled={true}  // 클릭/입력 방지 ==> 아예 상호작용 불가, 스타일도 비활성화됨
                              aria-readonly="true"  // 스크린리더용
                              onFocus={(e)=> e.target.blur()}// 포커스 못가게 추가
@@ -36,7 +36,7 @@ const RetrieveInfo=({userInfo,onEdit})=>{
                              type="text"
                              value={userInfo?.birth}
                              placeholder="생년월일"
-                             readOnly
+                             readOnly={true}
                              aria-readonly="true"/>
                 </div>
 
@@ -48,7 +48,7 @@ const RetrieveInfo=({userInfo,onEdit})=>{
                              type="text"
                              value={userInfo?.tel}
                              placeholder="전화번호"
-                             readOnly
+                             readOnly={true}
                              aria-readonly="true"/>
                 </div>
                 {/*이메일*/}
@@ -59,7 +59,7 @@ const RetrieveInfo=({userInfo,onEdit})=>{
                              type="text"
                              value={userInfo?.email}
                              placeholder="이메일"
-                             readOnly
+                             readOnly={true}
                              aria-readonly="true"/>
                 </div>
                 {/* 주소 */}

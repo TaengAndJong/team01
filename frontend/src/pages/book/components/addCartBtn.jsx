@@ -52,6 +52,7 @@ const AddCartBtn = ({bookId,quantity}) =>{
             }
 
         }catch(err){
+
             //에러 처리 핸들러
             catchError(err, { openModal, closeModal, navigate });
         }

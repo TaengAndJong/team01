@@ -11,8 +11,6 @@ const RecomType=({defaultData,setDefaultData})=>{
 
     const recomTypeHandler=(e)=>{
 
-        console.log("recomTypeHandler",e.target.value);
-        console.log("recomTypeHandler",e.target.name);
         setDefaultData((prev)=>({
                 ...prev,
                 [e.target.name]: e.target.value
@@ -24,9 +22,9 @@ const RecomType=({defaultData,setDefaultData})=>{
     return (
         <>
                 <strong className="form-title">등록분류</strong>
-                <label htmlFor="recomType" className="visually-hidden form-title">등록분류</label>
+                <label htmlFor="recomType" className="visually-hidden form-title col-3">등록분류</label>
                 <select id="recomType"
-                        className="form-select flex-fill w-50"
+                        className="form-select"
                         name="recomType"
                         value={defaultData?.recomType || options[0]?.code}
                         onChange={(e)=> recomTypeHandler(e)} >
