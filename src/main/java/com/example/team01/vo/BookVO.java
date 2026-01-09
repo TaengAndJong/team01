@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
+import java.sql.Timestamp;
 import java.util.List;
 
 @Setter
@@ -26,6 +26,7 @@ public class BookVO implements BookImgChange {
     private String cateId;//카테고리 아이디
     private int bookPrice;//도서가격
     private int stock;//재고 ==> 등록된 도서가 0 일때 품절 표시, 0초과일 때 재고수량 표시
+    private Timestamp createDate;// 등록일
     private String stockStatus;//재고상태
     private String saleStatus;// 판매 상태관리
 

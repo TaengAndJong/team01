@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Pagination from "@util/pagination.jsx";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const TapMenuNewBookComponent = () => {
   const [activeTab, setActiveTab] = useState("국내도서");
@@ -12,8 +12,8 @@ const TapMenuNewBookComponent = () => {
     국외도서: { items: [], pagination: {} },
     "E-book": { items: [], pagination: {} },
   });
-
-  const navigate = useNavigate();
+  console.log("bookData", bookData);
+  // const navigate = useNavigate();
 
   const getNewDomestic = async (page = 1, pageSize = 5) => {
     setIsLoading(true);
@@ -52,7 +52,7 @@ const TapMenuNewBookComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-    
+
       setBookData((prev) => ({
         ...prev,
         국외도서: {
@@ -67,7 +67,7 @@ const TapMenuNewBookComponent = () => {
         },
       }));
     } else {
-     //에러처리
+      //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -81,7 +81,7 @@ const TapMenuNewBookComponent = () => {
     );
     if (response.ok) {
       const data = await response.json();
-    
+
       setBookData((prev) => ({
         ...prev,
         ["E-book"]: {
@@ -96,7 +96,7 @@ const TapMenuNewBookComponent = () => {
         },
       }));
     } else {
-     //에러처리
+      //에러처리
       setIsError(true);
     }
     setIsLoading(false);
@@ -104,10 +104,11 @@ const TapMenuNewBookComponent = () => {
 
   useEffect(() => {
     getNewDomestic();
+    getNewForeign();
+    getNewEBook();
   }, []);
 
   const onChangePageHandler = async ({ page, category }) => {
-
     if (category === "국내도서") {
       await getNewDomestic(page, bookData[category].pagination.pageSize);
     } else if (category === "국외도서") {
@@ -115,6 +116,11 @@ const TapMenuNewBookComponent = () => {
     } else {
       await getNewEBook(page, bookData[category].pagination.pageSize);
     }
+  };
+
+  const formatDate = (date) => {
+    if (!date) return "";
+    return date.split("T")[0];
   };
 
   return (
@@ -170,11 +176,10 @@ const TapMenuNewBookComponent = () => {
                     </Link>
                   </td>
                   <td>{book.author}</td>
-                  <td>{book.publishDate}</td>
+                  <td>{formatDate(book.createDate)}</td>
                 </tr>
               ))
             )}
-           
           </tbody>
         </table>
       </div>
