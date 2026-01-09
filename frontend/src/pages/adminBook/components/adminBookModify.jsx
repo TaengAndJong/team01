@@ -320,7 +320,7 @@ const AdminBookModify = () => {
                          path={`${pathsData.page.adminBookDetail}/${bookId}`}
                          text="뒤로"/>
                     <Btn className={"modify btn btn-dark"} type="submit" onClick={onSubmit}
-                         text="확인"/>
+                         text="수정"/>
                 </div>
             </div>
             {/* 알림 모달 추가하기 */}

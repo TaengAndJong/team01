@@ -331,7 +331,7 @@ const AdminBookCreate = () => {
                 </form>
                 <div className="d-flex align-items-center justify-content-center mt-4">
                     <Btn path={PathsData.page.adminBook} className={"login btn btn-danger mx-1"} text={"취소"}/>
-                    <Btn className={"signup btn custom-btn02 mx-1"} text={"완료"} type="submit" onClick={onSubmit}/>
+                    <Btn className={"signup btn custom-btn02 mx-1"} text={"등록"} type="submit" onClick={onSubmit}/>
                 </div>
             </div>
 

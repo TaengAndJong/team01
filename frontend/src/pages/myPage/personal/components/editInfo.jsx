@@ -125,7 +125,7 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
                 <Address userInfo={userInfo} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
             </fieldset>
             <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-5  border-top pt-5">
-                <button type="submit"  id="completeBtn" className="btn btn-dark me-2">수정완료</button>
+                <button type="submit"  id="completeBtn" className="btn btn-dark me-2">수정</button>
                 <button  type="button" id="cancelBtn" className="btn custom-btn00 me-md-2"
                         onClick={() => onEdit()}>취소
                 </button>
