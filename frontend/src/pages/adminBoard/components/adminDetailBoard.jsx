@@ -112,7 +112,7 @@ const AdminDetailBoard = ({ userType }) => {
 
   return (
     <div className="admin-board-detail">
-      <div className="boardInfo card-body border-bottom">
+      <div className="boardInfo border-bottom">
         <div className="info-header clearfix">
           <h3 className="board-title title-dotted d-flex align-items-center">
             <i className="icon qna me-3"></i>

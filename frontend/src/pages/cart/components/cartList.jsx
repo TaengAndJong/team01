@@ -237,7 +237,7 @@ const CartList = () => {
                              onChange={(e)=>{selectAllHandler(e.target.checked)}}/>
                       전체선택
                   </label>
-                  <button aria-label="삭제하기" className="cart btn custom-btn03" onClick={deleteItemHandler}>삭제하기</button>
+                  <button aria-label="삭제" className="cart btn custom-btn03" onClick={deleteItemHandler}>삭제</button>
               </div>
 
               <ul className="cart-list">
