@@ -7,7 +7,7 @@ import BookSlide from "../../common/bookSlide.jsx";
 import BuySelectedBtn from "./BuySelectedBtn.jsx";
 import AddCartBtn from "./addCartBtn.jsx";
 import BookCount from "./bookCount.jsx";
-
+import "@assets/css/book/bookDetail.css";
 
 
 const BookDetail = () => {
@@ -82,20 +82,22 @@ const BookDetail = () => {
     return (
         <>
             <div className="book-detail">
-
                 <div className="box slide">
                     <div className="card horizontal">
                         <div className="card-header">
                             <BookSlide slideData={bookDetail}/>
                         </div>
                         <div className="bookInfo card-body">
-                            <div className="title-dotted d-flex">
-                                <i className="icon book me-3"></i>
-                                <h3 className="book-title p-0 me-3 d-flex align-items-center">
-                                    <span>{bookDetail.bookName}</span>
-                                </h3>
-                                {recomTultip(bookDetail.recomType)}
-                                {saleStatus(bookDetail.saleStatus)}
+                            <div className="title-dotted">
+                               <div className="cate-group">{recomTultip(bookDetail.recomType)}
+                                   {saleStatus(bookDetail.saleStatus)}
+                               </div>
+                                <div className="title-group d-flex align-items-center mt-3">
+                                    <i className="icon book me-3"></i>
+                                    <h3 className="book-title p-0 me-3 d-flex align-items-center">
+                                        <span>{bookDetail.bookName}</span>
+                                    </h3>
+                                </div>
                             </div>
 
                             <ul className="ul bullet">

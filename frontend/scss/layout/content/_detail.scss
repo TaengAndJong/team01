@@ -11,6 +11,8 @@
     }
   }
 
+.card-body{max-width:calc(100% - 28rem); }
+
   .swiper .img-box {background: #F2F2F2;}
   .count {
     input[name="bookCountInput"]{max-width: 50px;}
