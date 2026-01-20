@@ -145,7 +145,7 @@
         and partPayStatus != 'CANCEL'
     </select>
     <!-- payment 결제취소 상태 갱신 , 파라미터 payId, clientId-->
-    <update id="UpdateCancelPaymentAccount" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
+    <update id="UpdateCancelPaymentAccount" parameterType="com.example.team01.payment.dto.PaymentCancelDTO">
         update payment
         set payAccount = #{payAccount}
           ,payUpdateDate = CURRENT_TIMESTAMP
@@ -155,7 +155,7 @@
 
 
     <!-- paymentList 결제취소 상태 갱신 , 파라미터 payId, clientId-->
-    <update id="UpdatePaymentListCancelStatus" parameterType="com.example.team01.dto.payment.PaymentCancelDTO">
+    <update id="UpdatePaymentListCancelStatus" parameterType="com.example.team01.payment.dto.PaymentCancelDTO">
         update paymentList
         set partPayStatus = #{partPayStatus}
           ,cancelDate = CURRENT_TIMESTAMP

@@ -4,9 +4,8 @@ import com.example.team01.vo.SignUpVO;
 
 public interface SignUpService {
 
-    int insertUserData(SignUpVO signUpVO);
-    int selectDuplicateId(String clientId);
-    //int selectDuplicateStaffId(String staffId,String staffName,String tel);
+    void insertUserData(SignUpVO signUpVO);
+    void  selectDuplicateId(String clientId);
     SignUpVO selectStaffInfo(String staffId);
-    int selectDuplicateEmail(String email);
+
 }

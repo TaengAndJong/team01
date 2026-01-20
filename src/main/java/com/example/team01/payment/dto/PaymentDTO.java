@@ -1,11 +1,6 @@
-package com.example.team01.dto.payment;
+package com.example.team01.payment.dto;
 
-import com.example.team01.dto.address.AddressDTO;
-import com.example.team01.dto.cart.CartDTO;
 import lombok.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 /*
 *

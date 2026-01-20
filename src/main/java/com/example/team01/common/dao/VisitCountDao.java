@@ -1,7 +1,7 @@
 package com.example.team01.common.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import com.example.team01.dto.common.VisitRequestDTO;
+import com.example.team01.common.dto.VisitRequestDTO;
 
 @Mapper
 public interface VisitCountDao {

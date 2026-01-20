@@ -31,7 +31,7 @@ const modalConfig = {
         footer: (
             <>
                 <Button variant="primary" onClick={onConfirm}>확인</Button>
-                <Button variant="danger" onClick={onClose}>취소</Button>
+                {/*<Button variant="danger" onClick={onClose}>취소</Button>*/}
             </>
         ),
     }),

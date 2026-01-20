@@ -1,6 +1,5 @@
-package com.example.team01.common.exception;
+package com.example.team01.common.exception.cart;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**

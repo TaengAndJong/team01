@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.example.team01.common.dao.VisitCountDao;
-import com.example.team01.dto.common.VisitRequestDTO;
+import com.example.team01.common.dto.VisitRequestDTO;
 
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;

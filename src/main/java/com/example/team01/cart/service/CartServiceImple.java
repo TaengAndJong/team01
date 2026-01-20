@@ -1,11 +1,9 @@
 package com.example.team01.cart.service;
 
-import com.example.team01.book.dao.BookDao;
 import com.example.team01.cart.dao.CartDao;
-import com.example.team01.common.exception.CustomCartException;
-import com.example.team01.dto.book.BookDTO;
-import com.example.team01.dto.cart.CartDTO;
-import com.example.team01.utils.FileUtils;
+import com.example.team01.common.exception.cart.CustomCartException;
+import com.example.team01.book.dto.BookDTO;
+import com.example.team01.cart.dto.CartDTO;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

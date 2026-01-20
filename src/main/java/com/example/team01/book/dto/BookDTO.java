@@ -1,4 +1,4 @@
-package com.example.team01.dto.book;
+package com.example.team01.book.dto;
 
 
 import com.example.team01.common.support.BookImgChange;

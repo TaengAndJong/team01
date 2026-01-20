@@ -149,7 +149,7 @@
 
 
             <!-- 방문자, 페이지뷰 카운트 가져오기 날짜 기준 ?일전 데이터 까지 가져오기-->
-            <select id="selectVisitPageViewCount" resultType="com.example.team01.dto.admin.ChartDataDTO">
+            <select id="selectVisitPageViewCount" resultType="com.example.team01.admin.dto.ChartDataDTO">
                 SELECT
                     TO_CHAR(DATE_TRUNC('day', visitTime), 'YYYY-MM-DD') AS visitTime,
                     COUNT(DISTINCT (sessionId || '-' || ipAddress)) AS visitCount,

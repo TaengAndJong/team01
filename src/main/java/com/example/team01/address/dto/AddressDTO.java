@@ -1,4 +1,4 @@
-package com.example.team01.dto.address;
+package com.example.team01.address.dto;
 
 
 import lombok.*;

@@ -3,13 +3,11 @@ package com.example.team01.admin;
 
 import com.example.team01.admin.service.AdminBookService;
 import com.example.team01.category.service.CategoryService;
-import com.example.team01.common.exception.BookNotFoundException;
+import com.example.team01.common.exception.book.BookNotFoundException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
-import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CategoryVO;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 
 //컨트롤러는 응답과 결과만 반환함

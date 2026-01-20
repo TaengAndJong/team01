@@ -1,12 +1,10 @@
 package com.example.team01.userViewBook.dto;
 
 
-import com.example.team01.common.support.BookImgChange;
-import com.example.team01.dto.book.BookDTO;
+import com.example.team01.book.dto.BookDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @ToString
 @Getter

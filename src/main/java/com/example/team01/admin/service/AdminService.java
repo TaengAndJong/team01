@@ -2,9 +2,9 @@ package com.example.team01.admin.service;
 
 import java.util.List;
 
-import com.example.team01.dto.admin.StockBookDTO;
-import com.example.team01.dto.admin.ChartDataDTO;
-import com.example.team01.dto.admin.NewBookDTO;
+import com.example.team01.admin.dto.StockBookDTO;
+import com.example.team01.admin.dto.ChartDataDTO;
+import com.example.team01.admin.dto.NewBookDTO;
 import com.example.team01.utils.Pagination;
 
 public interface AdminService {

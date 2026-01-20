@@ -1,6 +1,6 @@
 package com.example.team01.userViewBook.service;
 
-import com.example.team01.dto.book.BookDTO;
+import com.example.team01.book.dto.BookDTO;
 import com.example.team01.userViewBook.dao.UserViewBookDao;
 import com.example.team01.userViewBook.dto.UserBookResponseDTO;
 import com.example.team01.vo.UserViewBookVO;

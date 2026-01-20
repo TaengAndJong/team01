@@ -19,14 +19,19 @@
         WHERE clientId = #{clientId}
     </select>
 
-<!--    &lt;!&ndash; staff 아이디 중복 확인 &ndash;&gt;-->
-<!--    <select id="selectDuplicateStaffId" parameterType="SignUpVO" resultType="int">-->
-<!--        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate-->
-<!--        FROM EMP-->
-<!--        WHERE "staffId" = #{staffId}-->
-<!--          AND "staffName" = #{staffName}-->
-<!--          AND "tel" = #{tel}-->
-<!--    </select>-->
+    <!-- 전화번호 중복 -->
+    <select id="selectDuplicatePhoneNumber" parameterType="String" resultType="int">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
+        FROM client
+        WHERE  tel = #{tel}
+    </select>
+
+    <!-- 이메일 중복 확인 -->
+    <select id="selectDuplicateEmail" parameterType="String" resultType="int">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
+        FROM client
+        WHERE  email = #{email}
+    </select>
 
     <!-- staff 사원 정보 -->
     <select id="selectStaffInfo" parameterType="String" resultType="SignUpVO">
@@ -49,12 +54,7 @@
     </select>
 
 
-    <!-- 중복 확인 -->
-    <select id="selectDuplicateEmail" parameterType="String" resultType="int">
-        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isDuplicate
-        FROM client
-        WHERE  email = #{email}
-    </select>
+
 
 
 </mapper>

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team01.common.service.VisitCountService;
-import com.example.team01.dto.common.VisitRequestDTO;
+import com.example.team01.common.dto.VisitRequestDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

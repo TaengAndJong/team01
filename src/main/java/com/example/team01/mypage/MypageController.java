@@ -4,7 +4,7 @@ package com.example.team01.mypage;
 import com.example.team01.mypage.dashboard.dto.ResponseQnaCntDTO;
 import com.example.team01.mypage.dashboard.service.DashService;
 
-import com.example.team01.dto.book.BookDTO;
+import com.example.team01.book.dto.BookDTO;
 import com.example.team01.payment.service.PaymentService;
 import com.example.team01.security.PrincipalDetails;
 import com.example.team01.userViewBook.dto.UserBookResponseDTO;

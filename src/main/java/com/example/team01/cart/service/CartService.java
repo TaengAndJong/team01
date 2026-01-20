@@ -1,9 +1,7 @@
 package com.example.team01.cart.service;
 
-import com.example.team01.dto.cart.CartDTO;
-import com.example.team01.vo.BookVO;
+import com.example.team01.cart.dto.CartDTO;
 import com.example.team01.vo.CartVO;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

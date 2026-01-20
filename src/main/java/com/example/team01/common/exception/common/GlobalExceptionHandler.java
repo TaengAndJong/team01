@@ -1,7 +1,7 @@
-package com.example.team01.common.exception;
+package com.example.team01.common.exception.common;
 
 
-import com.example.team01.common.exception.BusinessException;
+import com.example.team01.common.exception.cart.CustomCartException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +16,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
     //특정예외처리 메서드
     @ExceptionHandler(CustomCartException.class)
     public ResponseEntity<Map<String, Object>> handleCartException(CustomCartException e) {
@@ -26,24 +27,20 @@ public class GlobalExceptionHandler {
         result.put("message", e.getMessage());
         result.put("maxQuantity", e.getStock());
 
-        return ResponseEntity
-                .badRequest() // 400
-                .body(result);
+        return ResponseEntity.badRequest().body(result); //400
     }
     
-    // 특정예외처리시 메서드 추가
+
     // 파일 없음 예외 처리
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<Map<String, Object>> handleNoResourceFound(NoResourceFoundException e) {
-        log.warn("파일 없음 발생: {}", e.getMessage());
+        log.warn("파일 없음 예외 처리: {}", e.getMessage());
 
         Map<String, Object> result = new HashMap<>();
         result.put("message", "요청한 파일을 서버에서 찾을 수 없습니다.");
         result.put("defaultImage", "/images/noImg.png"); // 클라이언트에서 사용할 기본 이미지 경로
 
-        return ResponseEntity
-                .status(404)
-                .body(result);
+        return ResponseEntity.status(404).body(result); // 데이터 없음
     }
 
     //비즈니스 로직 예외만 처리 ( 400 Bad Request )
@@ -54,9 +51,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> result = new HashMap<>();
         result.put("message", e.getMessage());
 
-        return ResponseEntity
-                .badRequest()  // 400 상태 코드
-                .body(result);
+        return ResponseEntity.badRequest().body(result);  // 400 상태 코드
     }
 
     // 그 외 일반 예외 처리 ( 500 )
@@ -67,9 +62,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> result = new HashMap<>();
         result.put("message", "서버에서 처리 중 오류가 발생했습니다.");
 
-        return ResponseEntity
-                .status(500)
-                .body(result);
+        return ResponseEntity.status(500).body(result);
     }
 
 }

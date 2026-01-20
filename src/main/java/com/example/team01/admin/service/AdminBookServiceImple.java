@@ -1,8 +1,8 @@
 package com.example.team01.admin.service;
 
 import com.example.team01.admin.dao.AdminBookDao;
-import com.example.team01.common.exception.BookNotFoundException;
-import com.example.team01.common.exception.BusinessException;
+import com.example.team01.common.exception.book.BookNotFoundException;
+import com.example.team01.common.exception.common.BusinessException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;

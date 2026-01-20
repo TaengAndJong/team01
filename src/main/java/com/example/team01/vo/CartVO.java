@@ -1,7 +1,6 @@
 package com.example.team01.vo;
 
 
-import com.example.team01.dto.book.BookDTO;
 import lombok.*;
 
 import java.io.Serializable;

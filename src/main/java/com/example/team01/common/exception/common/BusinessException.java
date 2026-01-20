@@ -1,4 +1,4 @@
-package com.example.team01.common.exception;
+package com.example.team01.common.exception.common;
 
 public class BusinessException extends RuntimeException {
 

@@ -1,11 +1,9 @@
-package com.example.team01.dto.cart;
+package com.example.team01.cart.dto;
 
-import com.example.team01.dto.book.BookDTO;
-import com.example.team01.vo.BookVO;
+import com.example.team01.book.dto.BookDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @ToString
 @Getter

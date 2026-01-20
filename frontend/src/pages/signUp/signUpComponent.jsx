@@ -10,6 +10,7 @@ import Email from "./components/email.jsx";
 import Address from "./components/address.jsx";
 import {useModal} from "../common/modal/ModalContext.jsx";
 import {catchError} from "../../util/error.jsx";
+import axios from "axios";
 
 
 
@@ -82,89 +83,62 @@ const SignUpComponent = () => {
                     break; // 빈 값 발견 시 루프 종료
                 }
             }
-            
-            const response = await fetch("/api/signup", {
-                method: "POST",
+
+            // axios에서 formData를 Json으로 변경해 줌
+            const response = await axios.post("/api/signup", formData,{
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData), // formInfoData를 JSON으로 변환하여 전송
             });
+            //서버에서 받아온 응답
+            const result =  response.data; 
 
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
-            }
-
-            const result = await response.json(); // 서버에서 반환된 JSON 데이터 처리
-
-        
             //서버에서 반환하는 json 객체에 success :  true로 설정해줘야함
             if (result.success) {
                 openModal({
-                    modalType: "default",
+                    modalType: "confirm",
                     content:<>
                                 <p>회원가입이 성공적으로 완료되었습니다!</p>
                             </>,
                     onConfirm: () => {closeModal(); navigate("/");},
-                    onClose: () => {closeModal(); navigate("/");}
                 })
 
             }
         } catch (err) {
             //에러처리
             catchError(err,{openModal,closeModal})
-            // openModal({
-            //     modalType: "error",
-            //     content:<>
-            //         <p>회원가입 중 오류가 발생했습니다.</p>
-            //
-            //     </>,
-            //     onConfirm: () => {closeModal(); navigate("/");}
-            // })
 
         }
     };
     
     // 아이디, 회원번호 검증
     const handleConfirm = async (key, value,addData = {}) => {
-        
-        //formData에 입력된 객체의 값을 가져와서 , URLSearchparams를 이용해 쿼리스트링으로 변경해 서버로 전송해야 함
-        //URLSearchparams는 문자열을 파라미터로 받아야 함 ==> 객체에 담아서 key=value 형태로 담아야 함
-        const params= new URLSearchParams({[key]:value});
-
-        // 추가 데이터가 있다면 파라미터에 append
-        for (const [addKey, addValue] of Object.entries(addData)) { // 객체데이터를 배열구조로 구조분해할당하여 추가 데이터 params에 담아주기
-            if (addValue !== undefined && addValue !== null && addValue !== "") {
-
-                params.append(addKey, addValue);
-            }
-        }
-
-
 
         try{
-            // 쿼리스트링으로 서버로 검증할 파라미터 fetch로 넘겨주기
-            const response = await fetch(`/api/signup/validate?${params.toString()}`, {
-                method: "get",
+            //axios 를 사용하는 이유 : params를 사용해 값들을 쿼리스트링으로 자동 변환하여 URLSearchParams 사요할 필요 없음
+            const response = await axios.get("/api/signup/validate",{
+                params:{
+                    [key]:value, // 동적 키 처리 가능 ==> 하나의 API로 여러 객체 검증 가능
+                    ...addData,
+                }
             })
-            //통신 실패
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
-            }
-            //통신 성공시 받아오는 결과 데이터
-            const result = await response.json(); // 서버에서 반환된 JSON 데이터 처리
+            console.log("검증요청 응답 ",response)
+            // 성공했을 경우 모달
+            const type = response.data.type;
 
-            //모달 띄우기  ==>  true 이면 중복인 상태, false이면 사용가능한 상태
-            if(result){
-                //객체 형태
-                setErrorData({
-                    message: result.message,
-                })
+            //
+            switch(type) {
+                case "CLIENTID": openModal({
+                    modalType: "confirm",
+                    content:<p>사용 가능한 아이디입니다.</p>,
+                    onConfirm: () => {closeModal()},
+                });
+                break;
             }
 
         }catch(err){
             //에러처리
-            console.error(err);
+            catchError(err, { openModal, closeModal});
         }
         //end
     }

@@ -1,4 +1,4 @@
-package com.example.team01.dto.admin;
+package com.example.team01.admin.dto;
 
 import lombok.*;
 

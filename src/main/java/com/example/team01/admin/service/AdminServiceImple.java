@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import com.example.team01.admin.dao.AdminDao;
-import com.example.team01.dto.admin.ChartDataDTO;
-import com.example.team01.dto.admin.NewBookDTO;
-import com.example.team01.dto.admin.StockBookDTO;
+import com.example.team01.admin.dto.ChartDataDTO;
+import com.example.team01.admin.dto.NewBookDTO;
+import com.example.team01.admin.dto.StockBookDTO;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.BookVO;
 import org.springframework.transaction.annotation.Transactional;

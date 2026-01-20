@@ -1,4 +1,4 @@
-package com.example.team01.dto.payment;
+package com.example.team01.payment.dto;
 
 
 import lombok.*;

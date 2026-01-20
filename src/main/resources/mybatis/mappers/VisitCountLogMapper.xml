@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.team01.common.dao.VisitCountDao">
-    <insert id="insertVisitLog" parameterType="com.example.team01.dto.common.VisitRequestDTO">
+    <insert id="insertVisitLog" parameterType="com.example.team01.common.dto.VisitRequestDTO">
         INSERT INTO visitLogs (
             pageUrl,
             userAgent,
@@ -20,7 +20,7 @@
                  )
     </insert>
 
-    <insert id="insertDailyPageView" parameterType="com.example.team01.dto.common.VisitRequestDTO">
+    <insert id="insertDailyPageView" parameterType="com.example.team01.common.dto.VisitRequestDTO">
         MERGE INTO dailyStats AS t
             USING (
                 SELECT

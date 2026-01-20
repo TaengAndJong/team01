@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.example.team01.dto.admin.ChartDataDTO;
+import com.example.team01.admin.dto.ChartDataDTO;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.BookVO;
 

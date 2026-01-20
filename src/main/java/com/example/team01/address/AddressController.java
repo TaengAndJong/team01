@@ -1,17 +1,15 @@
 package com.example.team01.address;
 
 import com.example.team01.address.service.AddressService;
-import com.example.team01.common.exception.BusinessException;
-import com.example.team01.dto.address.AddressDTO;
+import com.example.team01.common.exception.common.BusinessException;
+import com.example.team01.address.dto.AddressDTO;
 import com.example.team01.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;

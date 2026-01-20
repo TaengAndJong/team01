@@ -1,6 +1,6 @@
 package com.example.team01.address.service;
 
-import com.example.team01.dto.address.AddressDTO;
+import com.example.team01.address.dto.AddressDTO;
 import com.example.team01.vo.AddressVO;
 import java.util.List;
 

@@ -2,9 +2,9 @@ package com.example.team01.mypage.payment;
 
 
 import com.example.team01.common.Enum.PayStatus;
-import com.example.team01.dto.book.BookDTO;
-import com.example.team01.dto.payment.PaymentCancelDTO;
-import com.example.team01.dto.payment.PaymentListDTO;
+import com.example.team01.book.dto.BookDTO;
+import com.example.team01.payment.dto.PaymentCancelDTO;
+import com.example.team01.payment.dto.PaymentListDTO;
 import com.example.team01.payment.service.PaymentService;
 import com.example.team01.security.PrincipalDetails;
 import com.example.team01.utils.FileUtils;
