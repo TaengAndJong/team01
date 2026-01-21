@@ -19,15 +19,15 @@ public class VisitCountServiceImple implements VisitCountService {
 
     @Override
     public int insertVisitLog(VisitRequestDTO dto){
-        log.info("dto_info : {}", dto);
+//        log.info("dto_info : {}", dto);
         if (dto.getPageUrl() == null) {
-            log.info("page url is null 빈 문자열로 대체 not null 방지");
+//            log.info("page url is null 빈 문자열로 대체 not null 방지");
             dto.setPageUrl("");
         }
         int result = visitCountDao.insertVisitLog(dto);
         
         int result2 = visitCountDao.insertDailyPageView(dto);
-        log.info("차트result2:{}",result2);
+//        log.info("차트result2:{}",result2);
         return result;
     }
 }

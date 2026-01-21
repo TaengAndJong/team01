@@ -32,15 +32,16 @@ public class PrincipalDetails implements UserDetails {
 
    //인증 객체
    public PrincipalDetails(LoginVO userData) {
+       log.info("PrincipalDetailsService에서 받아온 userData 생성자 주입");
        //로그인 시 userData 파라미터로 받아오기 
        this.userData = userData;
-       log.info(" this.userData----------------------------:{}", this.userData);
+       log.info("PrincipalDetails이 받아온 유저데이터:{}", this.userData);
    }
 
    //권한 관련 작업 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        log.info("authorities----------------------------:{}",userData.getRoleId());
+        log.info("권한 가져오기 getAuthorities:{}",userData.getRoleId());
 
         //userName(ID) , password , role
         Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -51,7 +52,7 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        log.info("getUsername----------------------------:{}",userData.getClientId());
+        log.info("사용자 아이디:{}",userData.getClientId());
        //로그인 시 사용한 아이디 반환
         return userData.getClientId();
     }
@@ -59,7 +60,7 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public String getPassword() {
        //비밀번호 불일치 시 로직 추가 ?
-       log.info("getPassword----------------------------:{}",userData.getPassword());
+       log.info("사용자 비밀번호:{}",userData.getPassword());
         return userData.getPassword();
     }
 

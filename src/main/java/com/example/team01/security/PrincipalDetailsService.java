@@ -3,6 +3,7 @@ package com.example.team01.security;
 import com.example.team01.login.dao.LoginDao;
 import com.example.team01.vo.LoginVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,15 +26,22 @@ public class PrincipalDetailsService implements UserDetailsService  {
     //userDetailsImple을 사용해야 할 것같은데
     @Override
     public  UserDetails loadUserByUsername(String clientId) throws UsernameNotFoundException {
+        log.info("loadUserByUsername에 진입 clientId:{}",clientId);
 
-        //log.info("loadUserByUsername-----------444:{}",clientId);
+        //아이디 미입력 검증 --> 빈 값을 넘어올 경우 성공인증 방지코드
+        if (clientId == null || clientId.trim().isEmpty()) {
+            log.info("아이디 미입력 예외 검증 진입");
+            //아이디/비밀번호 미입력 예외
+            throw new AuthenticationServiceException("아이디 미입력");
+        }
 
-        //3. 해당아이디에 대한 정보 조회
+        //입력된 아이디 값이 있다면, 해당아이디에 대한 정보를 디비에서 조회
         LoginVO loginUser = loginDao.selectClientId(clientId);
-        log.info("loginUser------------555:{}",loginUser);
-        //4.null 값 확인
+        log.info("디비에 해당 아이디 조회:{}",loginUser);
+       //4. 디비에서 조회한 후 해당 아이디가 없을 때
         if (loginUser == null) {
-        //    log.info("정보없음-----------6666:{}",loginUser);
+            log.info("디비에 조회목록에 없다면 :{}",loginUser);
+            //존재하지않는 사용자 예외
             throw new UsernameNotFoundException("clientId를 찾을 수 없습니다.: " + clientId);
         }
     
@@ -45,7 +53,7 @@ public class PrincipalDetailsService implements UserDetailsService  {
         userData.setIdentiNum(loginUser.getIdentiNum());
         userData.setRoleId(loginUser.getRoleId());
 
-       log.info("userData-----------777:{}",userData);
+       log.info("user 데이터로 userDetails객체 생성----로그인 정보 설정완료 :{}",userData);
         
         //인증객체에 userData 담아서 반환
         return new PrincipalDetails(userData);

@@ -26,7 +26,13 @@ export const AuthProvider = ({ children }) => {
             if(res.data?.userData){ 
                 //로그인 상태처리
                 setIsAuthenticated(true);//세션이 유효
-                setUserData(res.data.user);//userData 객체 설정
+                setUserData(res.data.userData);//userData 객체 설정
+                localStorage.setItem(//localStorage는 서버 인증 성공 후에만 사용
+                    "userData",
+                    JSON.stringify(res.data.userData)
+                );
+            }else {
+                handleLogoutState();
             }
         }
         catch(err){
@@ -36,13 +42,12 @@ export const AuthProvider = ({ children }) => {
     };
 
     //로그인했을 경우 사용자 데이터 확인 및 설정
-    const login = (userData) => {
-
+    const loginSuccess = (userData) => {
+        console.log("userData", userData);
         setIsAuthenticated(true);
         setUserData(userData); // 로그인 시 사용자 데이터 설정
         // 로컬 스토리지에 사용자 정보 저장
         localStorage.setItem('userData', JSON.stringify(userData));
-
 
     };
     //로그아웃했을경우
@@ -55,6 +60,7 @@ export const AuthProvider = ({ children }) => {
     };
     //로그인실패했을경우
     const loginFailure = () => {
+        console.log('로그인 실패 처리 함수 ')
         setIsAuthenticated(false); //세션무효화
         setUserData(null); // 사용자 데이터 초기화
         // 로그인 실패 시에도 로컬 스토리지 초기화
@@ -65,23 +71,12 @@ export const AuthProvider = ({ children }) => {
 
     // 새로고침 시 로컬 스토리지에서 사용자 데이터 확인
     useEffect(() => {
-            // 로컬스토리지 위주로 새로고침 시에도 로그인상태 유지( UI 중심)
-            const storedUserData = localStorage.getItem('userData');
-            if (storedUserData) {
-
-                setIsAuthenticated(true);
-                setUserData(JSON.parse(storedUserData)); // 로컬 스토리지에서 가져온 데이터로 로그인 상태 유지
-                checkLogin();// 로그인 되었을때만 세션 유지 확인
-
-            }else {
-                handleLogoutState();
-            }
-
+        checkLogin(); // 서버부터 확인 해야함
         }, []);
 
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated,setIsAuthenticated, userData,setUserData, login, logout, loginFailure}}>
+        <AuthContext.Provider value={{ isAuthenticated,setIsAuthenticated, userData,setUserData, loginSuccess, logout, loginFailure}}>
             {children}
         </AuthContext.Provider>
     );

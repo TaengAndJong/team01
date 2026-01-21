@@ -29,7 +29,7 @@ public class VisitCountController {
         HttpSession session,
         HttpServletRequest request
     ) {
-        log.info("방문 기록: {}", dto);
+//        log.info("방문 기록: {}", dto);
         // 세션 아이디 가져온 후 dto에 저장
         String sessionId = session != null ? session.getId() : null;
         dto.setSessionId(sessionId);
@@ -38,13 +38,13 @@ public class VisitCountController {
         String ipAddress = request.getHeader("X-Forwarded-For");
         if(ipAddress == null || ipAddress.isEmpty()){
             ipAddress = request.getRemoteAddr();
-            log.info("ipAddress: {}", ipAddress);
+//            log.info("ipAddress: {}", ipAddress);
         }
         dto.setIpAddress(ipAddress);
 
         int result = visitCountService.insertVisitLog(dto);
 
-        log.info("차트통계데이터 :{}",result);
+//        log.info("차트통계데이터 :{}",result);
         return ResponseEntity.ok(result);
     }
 }

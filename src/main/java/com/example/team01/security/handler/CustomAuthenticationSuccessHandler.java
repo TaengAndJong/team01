@@ -38,7 +38,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
 
     log.info("onAuthenticationSuccess-------로그인성공 시큐리티 클래스 실행");
-
+     log.info("authentication.getName(): {}", authentication.getName());
     //시큐리티나, 클라이언트가 content-type을 text/html로 보낼 수 있기때문에 명시적으로 설정
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

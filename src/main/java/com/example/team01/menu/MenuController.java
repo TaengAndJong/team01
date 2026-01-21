@@ -21,7 +21,7 @@ public class MenuController {
     //1. 서버로부터 get 요청을 받음
     @GetMapping("/menu")
     public Map<String, List<MenuVO>> getMapping(){
-        log.info("menu-----------------------");
+
         //2.service로 전체 메뉴 가져오기
         Map<String, List<MenuVO>> allMenu = menuService.getSelectAllMenu();
 

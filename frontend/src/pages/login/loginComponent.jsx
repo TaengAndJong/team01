@@ -1,99 +1,87 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuth} from "../common/AuthContext.jsx";
+import axios from "axios";
 
 
-function Login({data}) {
 
-    // 상태 관리
-    const [clientId, setclientId] = useState(''); // id 상태 추가
-    const [password, setPassword] = useState('');
-    const [loginError, setLoginError] = useState(""); // 실패 메시지 상태
-    const {login, loginFailure} = useAuth(); // 로그인 상태 업데이트 함수
+
+const Login = (data) =>{
+
+    console.log("data ----- LOGIN",data);
+    //입력 태그 상태관리 - 아이디
+    const [clientId, setClientId] = useState("");
+    //입력 태그 상태관리 - 비밀번호
+    const [password, setPassword] = useState("");
+    //에러 관리
+    const [loginError, setLoginError] = useState([]);
+    //프론트 인증 성공,실패 컨텍스트 관리
+    const {loginFailure,loginSuccess} = useAuth();
     const navigate = useNavigate();
 
+    // 아이디 변경 값 onChangeHandler
+    const idChangehandler = (id)=>{
+        console.log("id 온체인지 핸들러",id);
+        // 여기에서 상태값 갱신
+        setClientId(id);
+    }
+    // 비밀번호 변경 값 onChangeHandler
 
-    const handleIdChange = (e) => {
-     
-        setclientId(e.target.value);
-    };
+    const passwordChangehandler = (pw)=>{
+        console.log("pw 온체인지 핸들러",pw);
+        setPassword(pw);
+    }
 
-    const handlePasswordChange = (e) => {
-      
-        setPassword(e.target.value);
-    };
-
-    //로그인 성공
-    const handleLoginSuccess = (data) => {
-        login(data); // 로그인 성공 처리
-
-        if (data.redirect) {
-            navigate(data.redirect); // 리디렉션
-        } else {
-            //에러처리
-            console.error("리디렉션 URL이 없습니다.");
-        }
-    };
-    //로그인 실패
-    const handleLoginFailure = (data) => {
-        loginFailure(); // 로그인 실패 처리
-    };
-
-
-    // submit 버튼 클릭 시 fetch 통해 로그인 컨트롤러에 데이터 요청
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();// 이벤트 버블링 방지
-
-        //application/x-www-form-urlencoded 형식으로 보내기 위해 사용
-        const formData = new URLSearchParams();
-        formData.append("clientId", clientId);
-        formData.append("password", password);
-
-        // 로그인 요청 백엔드 서버로 보내기
-        const response = await fetch("/api/login", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: formData.toString(), // .toString()변환; application/x-www-form-urlencoded 형식으로 데이터를 변환하기 위해서
-            mode: 'cors',  // CORS 모드 명시
-            credentials: 'include',  // 쿠키를 포함시키기 위해 'include' 설정
-        });
-
-
-        const contentType = response.headers.get("Content-Type");
-        let data;
-        //백엔드 서버로부터 응답 받기
-        if (response.ok) {
-            //Json과 text 데이터 요청 받는데 성공하면 실행되는 로직
-
-            if (contentType && contentType.includes("application/json")) {
-                data = await response.json();
-
-                //로그인 성공여부에 따른 리다이렉션 로직
-
-                if (data.status === "success") {
-                    handleLoginSuccess(data); // 로그인 성공 처리
-                } else if (data.status === "error") {
-                    handleLoginFailure(); // 로그인 실패 처리
-                    setLoginError("로그인 불가",data.status);//에러 메시지 갱신
-                } else {
-                    console.error("알 수 없는 상태:", data.status);
-                    handleLoginFailure(); // 로그인 실패 처리
-                }
-
-            } else {
-
-                data = await response.text();// 텍스트 응답일 경우
-                return data;
-            }
-
-        } else {
-            console.error("서버와 통신 중 에러 발생:", error);
-            // navigate("/login");  // React Router를 통해 리다이렉트
+    const handleFormSubmit= async (e)=>{
+        e.preventDefault(); // 기본 제출 막기
+        //1차 빈 값 (빈 문자열 포함) 검증
+        if (!clientId.trim() || !password.trim()) {
+            setLoginError("아이디와 비밀번호를 입력해주세요.");
+            return;
         }
 
-    };
+
+        //시큐리티 기본 처리방식 : application/x-www-form-urlencoded 형태의 데이터 (key = value)
+        // JS 내장객체 URLSearchParams로 key=value 형태의 쿼리스트링으로 변환
+        console.log("clientId",clientId);
+        console.log("password",password);
+        console.log("password",password, password.length);
+        const params  = new URLSearchParams();
+        params.append("clientId", clientId.trim()); // 공백 들어갔을 수도 있으니 미리 방지
+        params.append("password", password.trim());
+
+       try{
+           //서버로 post 요청 보내기
+           const response = await axios.post("/api/login", params, {
+               headers: { "Content-Type": "application/x-www-form-urlencoded" }, // 시큐리티가 기대하는 형식
+               withCredentials: true, // 쿠키 전송 허용
+           });
+           console.log("로그인 성공,실패 응답 ",response); // 시큐리티에서 성공,실패 핸들러 설정했기 때문에 200으로 받아옴
+           const data = response.data;
+           // 인증 실패, 성공 두 응답 모두  200코드로 응답, 응답에 대한 status로 조건 분기
+           if(response.data.status == "error"){
+               console.log("로그인 실패", data.message);
+               console.log("리다이렉트 ", data.redirect);
+                //에러 관리 갱신해주기
+               loginFailure(); // 로그인 실패 처리 -> 세션 무효화, 사용자 데이터 초기화,로컬 스토리지 초기화
+               setLoginError(data.message);
+               return; // 종료
+           }
+
+           // 로그인 성공
+           console.log(" 로그인 성공", response.data);
+           loginSuccess(data);// 로그인 성공 시,
+           navigate(data.redirect);
+           
+       }catch(err){
+           //서버 처리에 대한 에러 예) cors에러, 500코드, 네트워크오류, 서버다운,
+           // 401, 403 등등으로 axios가 무응답 또는 예외를 던질 때
+           // 사용자에게 보여줄 공통 메시지
+           setLoginError("서버와 통신 중 문제가 발생했습니다.");
+       }
+
+    }
+
 
 
     return (
@@ -102,7 +90,7 @@ function Login({data}) {
             <div className="page login-inner">
                 <div className="d-flex align-items-center flex-column justify-content-center custom-border p-3">
                     <h4 className="h4 title mb-3">로그인</h4>
-                    <form onSubmit={handleFormSubmit} className="login-form">
+                    <form  className="login-form" onSubmit={handleFormSubmit}>
                         <div className="d-flex login-row my-3">
                             <label htmlFor="clientId" className="col-sm-1 col-form-label icon login-user me-3">
                                 <span className="sr-only">아이디</span>
@@ -115,7 +103,7 @@ function Login({data}) {
                                     id="clientId"
                                     placeholder="아이디"
                                     value={clientId}
-                                    onChange={handleIdChange} // id 상태 업데이트
+                                    onChange={(e)=>idChangehandler(e.target.value)} // id 상태 업데이트
                                 />
                             </div>
                         </div>
@@ -131,7 +119,7 @@ function Login({data}) {
                                     id="password"
                                     placeholder="비밀번호"
                                     value={password}
-                                    onChange={handlePasswordChange} // password 상태 업데이트
+                                    onChange={(e)=>passwordChangehandler(e.target.value)} // password 상태 업데이트
                                 />
                             </div>
                         </div>
@@ -140,13 +128,14 @@ function Login({data}) {
                             <button type="submit" className="btn custom-btn00 w-50 ms-1">로그인 </button>
                         </div>
                     </form>
-                    {loginError && <div className="msg error">
+                    {loginError?.length > 0 && <div className="msg error">
                         <p className="d-flex align-items-center"><span className="icon info me-2"></span> {loginError}</p>
 
                     </div>} {/* 실패 메시지 표시 */}
                 </div>
             </div>
         </>
+
     );
 }
 

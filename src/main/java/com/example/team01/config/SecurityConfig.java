@@ -50,21 +50,22 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-
                 .formLogin(form ->
-                        form.loginPage("/login")// 프론트에서 접근하는 페이지(로그인 UI페이지)
-                                .usernameParameter("clientId")//프론트에서 넘어오는 ID(보낸 파라미터 이름에 맞춤)
+                        form.loginPage("/login")// 로그인 할 페이지 경로 (URL)로 로그인이 필요할 경우 이 페이지 사용하라고 시큐리티를 설정
+                                .usernameParameter("clientId")//로그인 할 아이디와 비밀번호로 파라미터명이 요청으로 들어온 데이터의 키 값과 동일해야 함
                                 .passwordParameter("password")
-                                .loginProcessingUrl("/login") // 실제 인증처리되는 브라우저 주소 (엔드포인트)
-                                .successHandler(customAuthenticationSuccessHandler) // 로그인 성공 핸들러
-                                .failureHandler(customAuthenticationFailureHandler) // 로그인 실패 핸들러
-                                .permitAll()
+                                .loginProcessingUrl("/login") // 실제 로그인 인증을 처리하는 URL (엔드포인트)
+                                                            // 이 요청을 usernamePassword인증필터가 가로 챈후, 인증 데이터 추출 후 인증 토큰 생성, AuthenticationManager로 토큰 위임 ,AuthenticationProvider  인증 수행
+                                .successHandler(customAuthenticationSuccessHandler) // usernamePassword인증 성공 시 실행 , securityContext에 저장
+                                .failureHandler(customAuthenticationFailureHandler) // usernamePassword인증 실패 시 실행
+                                .permitAll() // 인증 없이 접근 가능 허용
                 )
 
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // 백엔드 주소 (로그아웃 요청을 실행할 백엔드 주소?)
-                        .logoutSuccessUrl("/")
-                        .addLogoutHandler(addLogoutHandler)//로그아웃 시 기타 처리 핸들러
+                        .logoutUrl("/logout")  // 로그아웃 요청 URL
+                        .logoutSuccessUrl("/") // 로그아웃 요청 URL
+                        .invalidateHttpSession(true) // 로그아웃 요청 URL
+                        .deleteCookies("JSESSIONID")// 세션 쿠키 삭제
                         .permitAll()
                 )
 
@@ -104,7 +105,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
-        log.info("authenticateManager 인증관리자------------:{}");
+        log.info("AuthenticationManager 인증관리자------------");
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailCustomServiceImple)

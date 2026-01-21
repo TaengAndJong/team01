@@ -20,7 +20,7 @@ public class MenuServiceImple implements MenuService {
 
     @Override
     public  Map<String, List<MenuVO>> getSelectAllMenu() {
-        log.info("getSelectAllMenu--------------",dao.selectAllMenu());
+//        log.info("getSelectAllMenu--------------",dao.selectAllMenu());
 
         List<MenuVO> menuList = dao.selectAllMenu(); // 메뉴 전체조회 해오는 메소드
         List<MenuVO> clientList=new ArrayList<>(); // 사용자메뉴

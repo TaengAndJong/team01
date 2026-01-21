@@ -1,23 +1,16 @@
 package com.example.team01.signup;
 
 
-import com.example.team01.common.service.ClientService;
 import com.example.team01.signup.dto.UserInfoValidateRequesetDTO;
 import com.example.team01.signup.service.SignUpService;
-import com.example.team01.vo.ClientVO;
 import com.example.team01.vo.SignUpVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -34,9 +27,10 @@ public class SignUpController {
 
     //SignupService 주입
     private final SignUpService signUpService;
+    //시큐리티 컨피그에 이미 비크립트 패스워드 인코더 객체가 빈으로 등록되어있기때문에 새로 생성 금지
+    //새로 생성하면 로그인 시 DaoAuthenticationProvider의 passwordEncoder와 불일치로 인증 실패 발생
+    private final BCryptPasswordEncoder passwordEncoder;
 
-
-    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping()
     public ResponseEntity<?> getInsert(@RequestBody SignUpVO joinUser) {
@@ -50,7 +44,7 @@ public class SignUpController {
         signUpService.selectDuplicateId(joinUser.getClientId());
         
         //문제 없으면 비밀번호 암호화
-        String password = bCryptPasswordEncoder.encode(joinUser.getPassword());
+        String password = passwordEncoder.encode(joinUser.getPassword());
         joinUser.setPassword(password);
 
         //기본값 설정해주기
