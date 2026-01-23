@@ -27,7 +27,7 @@ public class BookServiceImple implements BookService{
     public List<BookVO> selectAllBooks(Pagination pagination) {
         //전체 데이터 레코드 조회해오기
         int total = dao.totalRecord(pagination);
-        log.info("서비스 total record-----------:{}", total);
+
         // 전체 데이터 페이지네이션 멤버변수 값 설정
         pagination.setTotalRecord(total);
         log.info("서비스 pagination 총 레코드 수 -----------:{}", pagination.getTotalRecord());
@@ -45,7 +45,7 @@ public class BookServiceImple implements BookService{
         //1.데이터베이스에서 도서 객체 조회
         for(BookVO bookVO : bookVOList){
             //한 행의 레코드 하나씩 조회
-            log.info("bookVO-----------------------:{}", bookVO);
+
             //2. bookImgPath "," 기준으로 자르고 배열반환
             String[] getBookImg= bookVO.getBookImgPath().split(",");
 

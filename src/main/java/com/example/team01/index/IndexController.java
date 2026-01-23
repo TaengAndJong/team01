@@ -39,7 +39,7 @@ public class IndexController {
     @GetMapping()
     public ResponseEntity<?> index() {
         //기본파라미터 매칭 안될때 
-        log.info("index 기본메서드");
+     //   log.info("index 기본메서드");
         return ResponseEntity.ok(" 기본 인덱스");
     }
 
@@ -48,12 +48,12 @@ public class IndexController {
     public ResponseEntity<?> getBooksMapping(@RequestParam(required = false) String bookSlide
     , HttpServletRequest request) {
 
-        log.info("mainController---books:{}", bookSlide);
+       // log.info("mainController---books:{}", bookSlide);
         //슬라이드에 들어갈 데이터 가져오기
         Map<String,Object> data = mainService.getPartOfBooks(); //서비스에서 데이터 가져오기
-        log.info("mainController---bookSlide:{}", data.get("bookSlide"));
-        log.info("mainController---recmSlide:{}", data.get("recomSlide"));
-        log.info("mainController---popularSlide:{}", data.get("popularSlide"));
+//        log.info("mainController---bookSlide:{}", data.get("bookSlide"));
+//        log.info("mainController---recmSlide:{}", data.get("recomSlide"));
+//        log.info("mainController---popularSlide:{}", data.get("popularSlide"));
 
         //bookImgPath 변경해주기
         //bookSlide 형태는 배열을 객체 ( {ebook: [..] , ... , national:[..]} ==> entrySet으로 순회
@@ -66,7 +66,7 @@ public class IndexController {
             List<BookVO> bookList = entry.getValue();
             // 각 BookVO의 bookImgPath 변경해서 bookImgList에 담아주기
             for (BookVO bookvo : bookList) {
-            log.info("bookVO --- :{}",bookvo);
+        //    log.info("bookVO --- :{}",bookvo);
                 // BookVO 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
                 List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
                 if(bookvo.getBookImgPath() != null && !bookvo.getBookImgPath().isEmpty()){
@@ -81,20 +81,20 @@ public class IndexController {
                 // admingbookVO bookImgList에 담아주기
                 bookvo.setBookImgList(imgArray);
             }
-            log.info("bookList------------ 인데스 컨트롤러 '{}' 이미지 경로 변경 완료", bookList);
+         //   log.info("bookList------------ 인데스 컨트롤러 '{}' 이미지 경로 변경 완료", bookList);
 
             // 변경된 리스트 다시 세팅 (사실 entry.getValue()는 이미 참조이므로 생략 가능)
             entry.setValue(bookList);
 
-            log.info("카테고리 '{}' 이미지 경로 변경 완료", category);
+//            log.info("카테고리 '{}' 이미지 경로 변경 완료", category);
         }
 
 
-        log.info("mainController-- 북슬라이드- 객체순환완료 ");
+       // log.info("mainController-- 북슬라이드- 객체순환완료 ");
         //형변환 해주기
         List<BookVO> recomList = (List<BookVO>) data.get("recomSlide");
         List<BookVO> popularList = (List<BookVO>) data.get("popularSlide");
-        log.info("mainController-- 추천,인기 슬라이드- 객체순환시작");
+      //  log.info("mainController-- 추천,인기 슬라이드- 객체순환시작");
         //recomSlide 는 배열 ==> map으로 순회
         recomList.stream().map(bookVO->{//map함수를 통해 객체를 순회하면서 이미지의 경로를 변경
             List<String> imgArray = new ArrayList<>();
@@ -109,7 +109,7 @@ public class IndexController {
             //for문 종료
             // admingbookVO bookImgList에 담아주기
             bookVO.setBookImgList(imgArray);
-            log.info("mainController---recomList변경된 데이터:{}", bookVO);
+
             return bookVO;
         }).collect(Collectors.toList());
 
@@ -132,8 +132,8 @@ public class IndexController {
             return bookVO;
         }).collect(Collectors.toList());
 
-
-        log.info("mainController---변경된 데이터:{}", data);
+//
+//        log.info("mainController---변경된 데이터:{}", data);
 
 
         return ResponseEntity.ok(data); // 클라이언트로 응답을 보내기

@@ -42,10 +42,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, AddLogoutHandler addLogoutHandler) throws Exception {
+        //로그인 여부(인증여부)와 상관없이 접근 가능한 경로들
         String[] allowedPaths = {
-                "/", "/login/**","/auth/**","/signup/**", "/page", "/test/**",
-                "/book/**", "/menu","/uploads/**","/images/**","/check/**"
+                "/", "/login/**", "/signup/**", "/uploads/**", "/images/**","/auth",
+               "/page", "/book/**", "/menu","/uploads/**","/images/**","/check/**"
         };
+
 
         http
                 .cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()))
@@ -93,12 +95,11 @@ public class SecurityConfig {
                         })
                 )
 
-                .authorizeHttpRequests(authorizeReq ->
-                        authorizeReq.requestMatchers(allowedPaths).permitAll() // 로그인 없이 접근 가능한 URL
-                                .requestMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getKey(), Role.MEMBER.getKey())
-                                .requestMatchers( "/mypage/**","/cart/**","/board/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
-                                .anyRequest().authenticated());// 나머지 요청 인증 필요);
- //.requestMatchers("/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey())
+                .authorizeHttpRequests(authorizeRequest ->
+                        authorizeRequest.requestMatchers(allowedPaths).permitAll() // 로그인 없이 접근 가능한 URL
+                                .requestMatchers( "/mypage/**","/cart/**","/board/**").hasAnyAuthority(Role.USER.getKey(), Role.ADMIN.getKey(), Role.MEMBER.getKey()) //역할별 접근
+                                .requestMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getKey(), Role.MEMBER.getKey()) // 관리자만
+                                .anyRequest().authenticated());// 그외 나머지 요청은 나머지 요청 인증 필요
         return http.build();
     }
 

@@ -36,7 +36,7 @@ public class MenuServiceImple implements MenuService {
             }else if(vo.getMenuType().equals("관리자")){
                 adminList.add(vo);
             }else{
-            log.info("vo:{}", vo.getMenuType().equals("공통"));
+//            log.info("vo:{}", vo.getMenuType().equals("공통"));
 
                 commonList.add(vo);
             }

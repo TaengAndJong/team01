@@ -9,6 +9,8 @@ import {useAuth} from "../pages/common/AuthContext.jsx";
 //커스텀 훅 사용법
 export const useSessionCheck = () =>{
 
+    // 세션이 살아있는지 확인만 하는 용도
+
     const { isAuthenticated } = useAuth();
     const {openModal,closeModal}= useModal();
     const navigate = useNavigate();
@@ -36,7 +38,7 @@ export const useSessionCheck = () =>{
            response => response,
            error => {
 
-               if (error.response && error.response.status === 401) {
+               if (error.response?.status === 401) {
                    // console.log("권한 없음 접근 불가 메뉴 인터셉트 ")
                    catchError(error, { openModal, closeModal, navigate });
                }

@@ -4,11 +4,8 @@ import {useAuth} from "../common/AuthContext.jsx";
 import axios from "axios";
 
 
-
-
 const Login = (data) =>{
 
-    console.log("data ----- LOGIN",data);
     //입력 태그 상태관리 - 아이디
     const [clientId, setClientId] = useState("");
     //입력 태그 상태관리 - 비밀번호
@@ -16,7 +13,7 @@ const Login = (data) =>{
     //에러 관리
     const [loginError, setLoginError] = useState([]);
     //프론트 인증 성공,실패 컨텍스트 관리
-    const {loginFailure,loginSuccess} = useAuth();
+    const {logoutReset,loginSuccess} = useAuth();
     const navigate = useNavigate();
 
     // 아이디 변경 값 onChangeHandler
@@ -43,12 +40,9 @@ const Login = (data) =>{
 
         //시큐리티 기본 처리방식 : application/x-www-form-urlencoded 형태의 데이터 (key = value)
         // JS 내장객체 URLSearchParams로 key=value 형태의 쿼리스트링으로 변환
-        console.log("clientId",clientId);
-        console.log("password",password);
-        console.log("password",password, password.length);
         const params  = new URLSearchParams();
-        params.append("clientId", clientId.trim()); // 공백 들어갔을 수도 있으니 미리 방지
-        params.append("password", password.trim());
+        params.append("clientId", clientId);
+        params.append("password", password);
 
        try{
            //서버로 post 요청 보내기
@@ -60,16 +54,13 @@ const Login = (data) =>{
            const data = response.data;
            // 인증 실패, 성공 두 응답 모두  200코드로 응답, 응답에 대한 status로 조건 분기
            if(response.data.status == "error"){
-               console.log("로그인 실패", data.message);
-               console.log("리다이렉트 ", data.redirect);
                 //에러 관리 갱신해주기
-               loginFailure(); // 로그인 실패 처리 -> 세션 무효화, 사용자 데이터 초기화,로컬 스토리지 초기화
+               logoutReset(); // 로그인 실패 처리 -> 세션 무효화, 사용자 데이터 초기화,로컬 스토리지 초기화
                setLoginError(data.message);
                return; // 종료
            }
 
            // 로그인 성공
-           console.log(" 로그인 성공", response.data);
            loginSuccess(data);// 로그인 성공 시,
            navigate(data.redirect);
            

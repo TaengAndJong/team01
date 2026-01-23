@@ -31,11 +31,10 @@ public class BookController {
                                         ,HttpServletRequest request){
         //페이지 계산 클래스 불러오기
         Pagination pagination = new Pagination(currentPage, pageSize); //현재페이지 && 보여줄 페이지 수
-        log.info("pagination -----------------: {} pageSize:{}",currentPage,pageSize);
 
         List<BookVO> allBooksService =  bookService.selectAllBooks(pagination);
 
-        log.info("클라이언트 북 :{}", allBooksService);
+
 
         List<String> bookImgList;
 
@@ -43,12 +42,12 @@ public class BookController {
             bookImgList =  Arrays.stream(Optional.ofNullable(bookVO.getBookImgPath()).orElse("").split(","))
                     .map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
 
-            log.info("bookImgList bookController :{}", bookImgList );
+
             bookVO.setBookImgList(bookImgList);
 
         }
 
-        log.info("bookImgList allBooksService :{}", allBooksService );
+
 
         Map<String, Object> result = new HashMap<>();
         result.put("items", allBooksService);
@@ -56,7 +55,7 @@ public class BookController {
         result.put("pageSize", pagination.getPageSize());
         result.put("totalPages", pagination.getTotalPages());
         result.put("totalRecord", pagination.getTotalRecord());
-        log.info("result---get:{}",result);
+
 
         return ResponseEntity.ok(result);
     }

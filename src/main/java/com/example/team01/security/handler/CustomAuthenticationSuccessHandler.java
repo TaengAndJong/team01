@@ -37,7 +37,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
 
-    log.info("onAuthenticationSuccess-------로그인성공 시큐리티 클래스 실행");
+    log.info("로그인성공 시큐리티 클래스 실행 onAuthenticationSuccess");
      log.info("authentication.getName(): {}", authentication.getName());
     //시큐리티나, 클라이언트가 content-type을 text/html로 보낼 수 있기때문에 명시적으로 설정
         response.setContentType("application/json");
@@ -68,7 +68,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         //session.setAttribute("loginClientInfo", clientInfo);  // 필요시 저장
         session.setAttribute("loginTime", LocalDateTime.now()); // 커스텀 만료용
         
-        // 2. 클라이언트로 보내줄 JSON 응답 생성
+        // 2.로그인 성공 시  클라이언트로 보내줄 JSON 응답 생성
         Map<String, Object> responseData = new HashMap<>();
         //클라이언트의 로컬스토리지에서 아래 데이터 확인가능
         responseData.put("status","success");

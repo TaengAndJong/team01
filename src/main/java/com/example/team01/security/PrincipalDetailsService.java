@@ -48,10 +48,15 @@ public class PrincipalDetailsService implements UserDetailsService  {
         
         //디비에서 조회해온 user 데이터로 userDetails객체 생성
         LoginVO userData = new LoginVO();
-        userData.setClientId(loginUser.getClientId());
-        userData.setPassword(loginUser.getPassword());
-        userData.setIdentiNum(loginUser.getIdentiNum());
-        userData.setRoleId(loginUser.getRoleId());
+        log.info("userData --- principalDtailService",userData);
+
+        userData.setClientId(loginUser.getClientId()); //아이디
+        userData.setPassword(loginUser.getPassword());//비밀번호
+        userData.setClientName(loginUser.getClientName());// 사용자명
+        userData.setRoleId(loginUser.getRoleId()); // 역할 아이디
+        userData.setRoleName(loginUser.getRoleName());// 역할 명
+      //  userData.setIdentiNum(loginUser.getIdentiNum());  회원번호 보류
+
 
        log.info("user 데이터로 userDetails객체 생성----로그인 정보 설정완료 :{}",userData);
         

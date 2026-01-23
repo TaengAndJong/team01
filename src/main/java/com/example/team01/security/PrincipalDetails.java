@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /*
-* 사용자 정보를 담는 인터페이스 UserDetails
-* Spring security가 로그인 성공 시, UserDetails객체를 SecurityContext에 저장
+* UserDetails은 사용자 정보를 담는 인터페이스로, 시큐리티에게 [username, password, Authorities]의 인증 정보를 제공
+* UserDetails객체를 SecurityContext에 저장
 * UserDetails 객체에서 User관련 데이터를 받아서 사용가능
 * */
 
@@ -30,13 +30,17 @@ public class PrincipalDetails implements UserDetails {
    private LoginVO userData;
 
 
-   //인증 객체
+   //
    public PrincipalDetails(LoginVO userData) {
        log.info("PrincipalDetailsService에서 받아온 userData 생성자 주입");
        //로그인 시 userData 파라미터로 받아오기 
        this.userData = userData;
        log.info("PrincipalDetails이 받아온 유저데이터:{}", this.userData);
    }
+    // 사용자에 대한 데이터 사용하기 위한 getter
+    public LoginVO getUserData() {
+        return userData;
+    }
 
    //권한 관련 작업 
     @Override

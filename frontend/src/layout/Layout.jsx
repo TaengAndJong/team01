@@ -1,25 +1,24 @@
 import React, {useEffect, useRef, useState} from "react";
-import { AuthProvider } from "@common/AuthContext.jsx";
-import { ModalProvider } from "@common/modal/ModalContext.jsx";
+
 import { useMenu } from "@pages/common/MenuContext.jsx";
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import { Outlet, useLocation } from "react-router-dom";
 import { scrollTop } from "@js/common.js";
-import {useSessionCheck} from "../js/sessionCheck.js";
+
+
+
 
 
 
 
 
 const Layout = () => {
-
-
+  console.log("레이아웃 진입");
   const [data, setData] = useState("");
   const [url, setUrl] = useState("/api"); // 기본 URL 설정
   const { menu, currentPath, standardPoint } = useMenu();
   let location = useLocation();
-
 
   // body에 /admin 과 /은 main이고 그 외 전부 sub 클래스 출력
   const bodyName = (currentPath) => {
@@ -114,10 +113,9 @@ const Layout = () => {
 
   return (
     <>
-      {/*정규식으로 sub 구분하기????*/}
+
       <div className={`bodyWrapper ${bodyName(currentPath)}`}>
-        <AuthProvider>
-          <ModalProvider>
+
             {/*여기에 현재경로 Context 설정하기*/}
             <Header/>
             {/*메인페이지일 경우 main, 서브페이지일 경우 sub , 삼항 연산자 사용하기
@@ -157,8 +155,7 @@ const Layout = () => {
             </div>
 
             <Footer/>
-          </ModalProvider>
-        </AuthProvider>
+
       </div>
     </>
   );

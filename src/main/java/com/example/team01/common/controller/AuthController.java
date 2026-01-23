@@ -1,5 +1,6 @@
 package com.example.team01.common.controller;
 
+import com.example.team01.security.PrincipalDetails;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,16 +23,25 @@ import java.util.Map;
 @RestController
 public class AuthController {
 
+    //인증상태확인 API = 사용자가 현재 로그인(인증된 ) 상태인지를 확인하는 인증 API
     @GetMapping()
     public ResponseEntity<?> authStatus(HttpSession session, Authentication authentication) {
         log.info("인증상태 관리 authController");
         log.info("생성된 sessionID---------------:{}",session.getId());//
         log.info("auth 시큐리티 인증 ---------------:{}",authentication); // null
-        if (authentication == null) { //로그인이 안되었을경우
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "로그인이 필요합니다.  로그인페이지로 이동하시겠습니까?"));
+        if (authentication == null) {
+            return ResponseEntity.status(401).build(); 
+            // 인증이 없으면 401 상태 전달하고 로그인 유도메시지는 프론트로 위임
+            //서버는 상태 코드만 내려주면 됨, 상태에 대한 안내는 프론트가 하면 됨
         }
-        return ResponseEntity.ok(Map.of("message", "세션 유지 중"));
+        //새로고침시 프론트가 인증요청을 보냈을 경우 담아줄 인증객체 ( 로그인 상태 유지하기위함)
+        PrincipalDetails principal =
+                (PrincipalDetails) authentication.getPrincipal();
+
+        return ResponseEntity.ok(Map.of(
+                "authenticated", true,
+                "userData", principal.getUserData()//사용자 인증 정보를 담아줘야 프론트에서 인증(로그인)상태 유지
+        )); 
 
     }
 
