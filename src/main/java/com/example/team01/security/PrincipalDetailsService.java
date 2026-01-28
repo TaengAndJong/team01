@@ -2,6 +2,7 @@ package com.example.team01.security;
 
 import com.example.team01.login.dao.LoginDao;
 import com.example.team01.vo.LoginVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,26 +10,27 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
+/*
+* 사용자정보를 DB에서 조회해오는 인터페이스로 loadUserByUsername(username)의 단일 메서드를 가지고 있음
+* */
 
 @Slf4j
+@RequiredArgsConstructor //해당 롬복어노테이션을 사용하면 생성자를 직접 작성할 필요 없음
 @Service
 public class PrincipalDetailsService implements UserDetailsService  {
-
-    private  LoginDao loginDao;
-
-    public PrincipalDetailsService(LoginDao loginDao) {
-        this.loginDao = loginDao;
-    }
-
-
-    // 프론트에서 로그인을 통해 clientid가 넘어옴 --> 컨트롤러에서 어떻게 해야 사용해지는가?
-    //userDetailsImple을 사용해야 할 것같은데
+    //조회해오기 위한 Dao 불러오기
+    private final LoginDao loginDao;
+    
+    // public PrincipalDetailsService(LoginDao loginDao) {
+    //     this.loginDao = loginDao;
+    // }
+    
+    // 프론트의 로그인 요청을 통해 사용자정보인 clientid가 넘어오고,
     @Override
     public  UserDetails loadUserByUsername(String clientId) throws UsernameNotFoundException {
         log.info("loadUserByUsername에 진입 clientId:{}",clientId);
 
-        //아이디 미입력 검증 --> 빈 값을 넘어올 경우 성공인증 방지코드
+        //아이디 미입력 검증 --> 빈 값을 넘어올 경우 성공 인증 방지코드
         if (clientId == null || clientId.trim().isEmpty()) {
             log.info("아이디 미입력 예외 검증 진입");
             //아이디/비밀번호 미입력 예외

@@ -1,42 +1,41 @@
 package com.example.team01.security;
 
-
-import com.example.team01.login.dao.LoginDao;
 import com.example.team01.vo.LoginVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
-
 import java.util.ArrayList;
 import java.util.Collection;
 
 /*
-* UserDetails은 사용자 정보를 담는 인터페이스로, 시큐리티에게 [username, password, Authorities]의 인증 정보를 제공
-* UserDetails객체를 SecurityContext에 저장
-* UserDetails 객체에서 User관련 데이터를 받아서 사용가능
+* UserDetails은 인증과 권한 검사를 위해 필요한 사용자정보를 정의한 인터페이스로,
+* 인증된 사용자 정보를 보관하며 사용자 데이터를 제공
+* 아이디, 비밀번호, 계정 상태(활성화/비활성화), 권한 목록 등
+* 시큐리티 내부에서 UserDetails 타입으로 사용자 정보를 다루기 때문에, 필수로 구현해야 하는 인터페이스
+*
+* principalDetails는 스프링 빈이 아니라서 @Service 선언하면 안됨
+* 이유는 스프링 컨테이너가 싱글톤을 생성하여 모든 사용자 로그인 시 같은 객체를 공유하기 때문에
+* 로그인 사용자 정보가 덮여지고, 보안 문제가 발생(사용자 정보는 각기 다르기때문에)
+* RequiredArgsConstructor 는 생성자를 필수로 생성해주는 롬복 어노테이션으로 생성자 작성할 필요 없음
 * */
 
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
 public class PrincipalDetails implements UserDetails {
-    //dao에서 사용할 데이터 가져오기
 
-   private LoginVO userData;
+    //DB에서 사용자 정보를 조회하기 위해 필요한 VO
+   private final LoginVO userData;
 
-
-   //
-   public PrincipalDetails(LoginVO userData) {
-       log.info("PrincipalDetailsService에서 받아온 userData 생성자 주입");
-       //로그인 시 userData 파라미터로 받아오기 
-       this.userData = userData;
-       log.info("PrincipalDetails이 받아온 유저데이터:{}", this.userData);
-   }
+//   생성자
+//   public PrincipalDetails(LoginVO userData) {
+//       log.info("PrincipalDetailsService에서 받아온 userData 생성자 주입");
+//       //로그인 시 userData 파라미터로 받아오기
+//       this.userData = userData;
+//       log.info("PrincipalDetails이 받아온 유저데이터:{}", this.userData);
+//   }
     // 사용자에 대한 데이터 사용하기 위한 getter
     public LoginVO getUserData() {
         return userData;
