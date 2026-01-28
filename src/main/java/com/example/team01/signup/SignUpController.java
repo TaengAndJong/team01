@@ -7,7 +7,7 @@ import com.example.team01.vo.SignUpVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ public class SignUpController {
     private final SignUpService signUpService;
     //시큐리티 컨피그에 이미 비크립트 패스워드 인코더 객체가 빈으로 등록되어있기때문에 새로 생성 금지
     //새로 생성하면 로그인 시 DaoAuthenticationProvider의 passwordEncoder와 불일치로 인증 실패 발생
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     @PostMapping()
@@ -43,7 +43,7 @@ public class SignUpController {
         //중복과 필수값 검증(예외 발생 시 여기서 예외 던짐)
         signUpService.selectDuplicateId(joinUser.getClientId());
         
-        //문제 없으면 비밀번호 암호화
+        //문제 없으면 비밀번호 암호화 (시큐리티 컨피그에 처리 정책 스프링빈으로 등록 됨)
         String password = passwordEncoder.encode(joinUser.getPassword());
         joinUser.setPassword(password);
 

@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -25,7 +25,8 @@ import java.util.Map;
 public class UserInfoController {
 
     private final UserInfoService userInfoService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    // 회원가입 시, PasswordEncoder를 구현한 Bcrypt 알고리즘으로 암호화 (인터페이스와 구현체 분리)
 
 
     @GetMapping("/userInfo")
@@ -52,7 +53,8 @@ public class UserInfoController {
         //결과를 담아줄 맵 객체
         Map<String,Object> result = new HashMap<>();
 
-        if (bCryptPasswordEncoder.matches(dto.getCurrentPw(), currentPassword)) {
+        //passwordEncoder의 matches 메소드를 통한 요청받아온 날데이터와 암호화되어 저장된 비밀번호 비교
+        if (passwordEncoder.matches(dto.getCurrentPw(), currentPassword)) {
             log.info("비밀번호 일치 -----------------");
             result.put("success",true);
             result.put("msg","현재 비밀번호 확인완료");

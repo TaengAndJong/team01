@@ -20,12 +20,9 @@ import org.springframework.stereotype.Service;
 public class PrincipalDetailsService implements UserDetailsService  {
     //조회해오기 위한 Dao 불러오기
     private final LoginDao loginDao;
-    
-    // public PrincipalDetailsService(LoginDao loginDao) {
-    //     this.loginDao = loginDao;
-    // }
-    
-    // 프론트의 로그인 요청을 통해 사용자정보인 clientid가 넘어오고,
+
+    // 프론트의 로그인 요청을 통해 사용자정보인 clientid가 넘어오고, loadUserByUsername 메서드를 통해 
+    // 데이터베이스에서  사용자 정보를 조회 후 UserDetails 객체를 설정하여 생성 후 반환
     @Override
     public  UserDetails loadUserByUsername(String clientId) throws UsernameNotFoundException {
         log.info("loadUserByUsername에 진입 clientId:{}",clientId);

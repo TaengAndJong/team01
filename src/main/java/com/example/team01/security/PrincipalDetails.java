@@ -16,8 +16,9 @@ import java.util.Collection;
 * 시큐리티 내부에서 UserDetails 타입으로 사용자 정보를 다루기 때문에, 필수로 구현해야 하는 인터페이스
 *
 * principalDetails는 스프링 빈이 아니라서 @Service 선언하면 안됨
-* 이유는 스프링 컨테이너가 싱글톤을 생성하여 모든 사용자 로그인 시 같은 객체를 공유하기 때문에
-* 로그인 사용자 정보가 덮여지고, 보안 문제가 발생(사용자 정보는 각기 다르기때문에)
+* 이유는 스프링 컨테이너가 싱글톤을 생성하여 모든 사용자 로그인 시 같은 객체를 공유하기 때문에 싱글톤이 되면 안됨
+* 싱글톤이 되면 하나의 객체를 모두 공유해서 사용하기 때문에
+* 기존 로그인 사용자 정보가 덮여져서 보안 문제가 발생(사용자 정보는 각기 다르기 때문에 공유하면 안됨) = 데이터 정합성
 * RequiredArgsConstructor 는 생성자를 필수로 생성해주는 롬복 어노테이션으로 생성자 작성할 필요 없음
 * */
 
@@ -29,13 +30,6 @@ public class PrincipalDetails implements UserDetails {
     //DB에서 사용자 정보를 조회하기 위해 필요한 VO
    private final LoginVO userData;
 
-//   생성자
-//   public PrincipalDetails(LoginVO userData) {
-//       log.info("PrincipalDetailsService에서 받아온 userData 생성자 주입");
-//       //로그인 시 userData 파라미터로 받아오기
-//       this.userData = userData;
-//       log.info("PrincipalDetails이 받아온 유저데이터:{}", this.userData);
-//   }
     // 사용자에 대한 데이터 사용하기 위한 getter
     public LoginVO getUserData() {
         return userData;
@@ -49,7 +43,7 @@ public class PrincipalDetails implements UserDetails {
         //userName(ID) , password , role
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(userData.getRoleId())); // 권한 추가
-        log.info("authorities-------------------:{}",authorities);
+        log.info("권한들:{}",authorities);
         return authorities;
     }
 
@@ -62,7 +56,6 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-       //비밀번호 불일치 시 로직 추가 ?
        log.info("사용자 비밀번호:{}",userData.getPassword());
         return userData.getPassword();
     }

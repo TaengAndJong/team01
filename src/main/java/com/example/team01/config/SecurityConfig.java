@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -37,7 +38,7 @@ public class SecurityConfig {
     //cors 설정 webconfig
     private final WebConfig webConfig;
     // UserDetailsService 구현체 주입
-    private final PrincipalDetailsService userDetailCustomServiceImple;
+    private final PrincipalDetailsService principalDetailsService;
 
 
     @Bean
@@ -104,20 +105,29 @@ public class SecurityConfig {
     }
 
 
+    //인증 규칙을 등록하는 설정 코드
     @Bean
     public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
-        log.info("AuthenticationManager 인증관리자------------");
+        log.info("AuthenticationManager 인증관리자");
+        //
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailCustomServiceImple)
-                .passwordEncoder(bCryptPasswordEncoder());
+        //DaoAuthenticationProvider로
+        authenticationManagerBuilder
+                .userDetailsService(principalDetailsService) //UserDetailsService 호출하여 DB로 사용자정보를 조회(loadUserByUsername 메서드 사용) 후 사용자 정보가 저장된 UserDetails 객체 반환
+                .passwordEncoder(passwordEncoder()); //
+
         return authenticationManagerBuilder.build();
     }
 
-    // BCryptPasswordEncoder 빈 등록
+    // 시큐리티가 기본적으로 제공하는 인터페이스로
+    // 로그인, 회원가입 시 비밀번호에 대한 정책을 규정하는 정책 인터페이스이며
+    // 스프링 빈으로 등록하여 싱글톤으로 생성.
+    // 빈으로 등록하여 싱글톤으로 관리하는 이유는 공유해서 사용해야 서버에 무리가 안감
+    //
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // 구현체 --> 구현체와 인터페이스가 분리되면 구현체를 다양하게 교체하여 구현가능
     }
 
 }
