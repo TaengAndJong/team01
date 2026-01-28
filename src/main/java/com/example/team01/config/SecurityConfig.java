@@ -124,7 +124,7 @@ public class SecurityConfig {
     // 로그인, 회원가입 시 비밀번호에 대한 정책을 규정하는 정책 인터페이스이며
     // 스프링 빈으로 등록하여 싱글톤으로 생성.
     // 빈으로 등록하여 싱글톤으로 관리하는 이유는 공유해서 사용해야 서버에 무리가 안감
-    //
+    // 메서드 형식을 사용하여 생성자가 복잡할 경우(의존성 조합 , 조건분기 등) 생성자를 반환하여 빈을 등록하는 DI 방식
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // 구현체 --> 구현체와 인터페이스가 분리되면 구현체를 다양하게 교체하여 구현가능
