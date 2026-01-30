@@ -1,7 +1,7 @@
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
 
 import React, { useContext, useEffect, useState } from "react";
-import Btn from "@util/reuseBtn.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
 import pathsData from "@assets/pathsData.jsx";
 import {
   BookStateContext,
@@ -9,7 +9,7 @@ import {
 } from "../adminBookComponent.jsx";
 import { Link } from "react-router-dom";
 
-import { formatToDate } from "@util/dateUtils.jsx";
+import { formatToDate } from "@util/date/dateUtils.jsx";
 import SearchBar from "@pages/adminBook/components/searchBar.jsx";
 import Pagination from "@util/pagination.jsx";
 import {useModal} from "../../common/modal/ModalContext.jsx";

@@ -1,4 +1,4 @@
-import FormTag from "../../../util/formTag.jsx";
+import FormTag from "../../../util/form/formTag.jsx";
 import React from "react";
 
 //props는 input의 value에 들어갈 값이나, 핸들러함수 등을 받아오면 됨

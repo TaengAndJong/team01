@@ -4,7 +4,7 @@ import AdminBoardItem from "@pages/adminBoard/components/adminBoardItem.jsx";
 import SearchBar from "@pages/adminBoard/components/qnaAdminBoardSearchBar.jsx";
 import { BookBoardStateContext } from "@pages/adminBoard/adminBoardComponent.jsx";
 import Pagination from "@util/pagination.jsx";
-import Btn from "@util/reuseBtn.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
 import { useModal } from "@pages/common/modal/ModalContext.jsx";
 import { useAuth } from "@pages/common/AuthContext.jsx";
 const OneBoard = () => {

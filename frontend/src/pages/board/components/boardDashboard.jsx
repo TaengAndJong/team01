@@ -1,5 +1,5 @@
 import "@css/board/userDashBoard.css";
-import "@util/reuseBtn.jsx";
+import "@util/form/reuseBtn.jsx";
 
 import { BoardListContext } from "../boardComponent";
 import { useContext } from "react";

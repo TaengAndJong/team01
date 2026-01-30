@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import "@assets/css/board/userBoard.css";
 import { Link } from "react-router-dom";
-import { formatToDate } from "@util/dateUtils.jsx";
+import { formatToDate } from "@util/date/dateUtils.jsx";
 const BoardListComponent = ({
   categoryListData,
   category,

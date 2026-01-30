@@ -1,5 +1,5 @@
-import FormTag from "../../../util/formTag.jsx";
-import DaumPostcode from "../../../util/daumPostcode.jsx";
+import FormTag from "../../../util/form/formTag.jsx";
+import DaumPostcode from "../../../util/address/daumPostcode.jsx";
 import React from "react";
 
 const Address=({formData,setFormData,msg,setMsg})=>{

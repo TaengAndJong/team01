@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { menuNavi } from "../util/menuNavi.jsx";
-import Btn from "../util/reuseBtn.jsx";
+import Btn from "../util/form/reuseBtn.jsx";
 import pathsData from "../assets/pathsData.jsx";
 import {useAuth} from "../pages/common/AuthContext.jsx";
 import {useModal} from "../pages/common/modal/ModalContext.jsx";
-import {catchError} from "../util/error.jsx";
+import {catchError} from "../util/error/error.jsx";
 
 const Gnb = ({ menu, commonMenuItems }) => {
   console.log("gnb 진입");

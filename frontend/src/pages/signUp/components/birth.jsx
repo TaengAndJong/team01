@@ -1,6 +1,6 @@
 import Select from "react-select";
 import React, {useEffect, useState} from "react";
-import {generateOptions} from "@util/selectDate.jsx";
+import {generateOptions} from "@util/form/selectDate.jsx";
 
 const Birth = ({formData,setFormData,msg,setMsg}) =>{
 

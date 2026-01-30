@@ -1,7 +1,7 @@
 
-import React, { useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import Btn from "@util/reuseBtn.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
 import IdAndpw from "@pages/signUp/components/idAndpw.jsx";
 import "@assets/css/signUp/signUp.css"
 import Birth from "@pages/signUp/components/birth.jsx";
@@ -9,7 +9,7 @@ import Tel from "./components/tel.jsx";
 import Email from "./components/email.jsx";
 import Address from "./components/address.jsx";
 import {useModal} from "../common/modal/ModalContext.jsx";
-import {catchError} from "../../util/error.jsx";
+import {catchError} from "../../util/error/error.jsx";
 import axios from "axios";
 
 
@@ -17,40 +17,16 @@ import axios from "axios";
 const SignUpComponent = () => {
     const navigate = useNavigate();
     // formInfoData를 부모 컴포넌트로부터 props로 받아온다고 가정
-    const [formData,setFormData] = useState({
-        clientId: "",
-        password: "",
-        passwordConfirm: "",
-        clientName:"",
-      //  staffId:"",
+    const [signInfo,setSignInfo] = useState({
         roleId:`ROLE_CLIENT`,
-        email: "",
-        birth:"",
-        tel:"",
-        addr:"",
-        zoneCode:"",
-        detailAddr:"",
-        // joinDate:"",
-       // picture:"",
     });
 
-    //에러 상태 초기화 관리
-    const [msg, setMsg] = useState({
-        errorId:"",
-        errorpwd:"",
-        errorpwdConfirm:"",
-        errorEmail:"",
-        errorAddr:"",
-        errorTel:"",
-        errorMemNum:"",
-        errorBirth:"",
-        memberMsg:""
-    });
-
-    //modal
-    const [errorData, setErrorData] = useState("");
     //공통모달
     const {openModal,closeModal} = useModal();
+
+    useEffect(() => {
+        console.log("signInfo",signInfo);
+    },[signInfo])
 
     //한글로 변경
     const korname = {
@@ -69,8 +45,8 @@ const SignUpComponent = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            //formData에 담기전에 빈값 검증필요
-            for (const [key, value] of Object.entries(formData)) {
+            //signInfo에 담기전에 빈값 검증필요
+            for (const [key, value] of Object.entries(signInfo)) {
                 if (!value) {
                     const engtokorName = korname[key] || key; // korname[key] 를 사용해서 해당 객체의 value 값을 가져오기
                     openModal({
@@ -84,8 +60,8 @@ const SignUpComponent = () => {
                 }
             }
 
-            // axios에서 formData를 Json으로 변경해 줌
-            const response = await axios.post("/api/signup", formData,{
+            // axios에서 signInfo를 Json으로 변경해 줌
+            const response = await axios.post("/api/signup", signInfo,{
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -105,6 +81,7 @@ const SignUpComponent = () => {
 
             }
         } catch (err) {
+            console.log("회원가입 에러",err);
             //에러처리
             catchError(err,{openModal,closeModal})
 
@@ -114,6 +91,15 @@ const SignUpComponent = () => {
     // 아이디, 회원번호 검증
     const handleConfirm = async (key, value,addData = {}) => {
 
+        // onSubmit 이벤트 전, 검증코드 분리 메서드를 통한 1차 사전 검증 진행
+        
+        
+
+
+
+
+
+        // 후 서버로 회원가입 할 사용자의 정보 전송
         try{
             //axios 를 사용하는 이유 : params를 사용해 값들을 쿼리스트링으로 자동 변환하여 URLSearchParams 사요할 필요 없음
             const response = await axios.get("/api/signup/validate",{
@@ -137,6 +123,7 @@ const SignUpComponent = () => {
             }
 
         }catch(err){
+            console.log("회원가입 에러",err);
             //에러처리
             catchError(err, { openModal, closeModal});
         }
@@ -151,12 +138,12 @@ const SignUpComponent = () => {
                 <form className="container">
                     <fieldset>
                         <legend className="d-block title-border mb-5">회원가입</legend>
-                        <IdAndpw formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} errorData={errorData} handleConfirm={handleConfirm}/>
-                        <Birth formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                        <Tel formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                        <Email formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                        <Address formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg}/>
-                        {/*<StaffConfirm formData={formData} setFormData={setFormData} msg={msg} setMsg={setMsg} handleConfirm={handleConfirm}/>*/}
+                        <IdAndpw signInfo={signInfo} setSignInfo={setSignInfo} handleConfirm={handleConfirm}/>
+                        {/*<Birth signInfo={signInfo} setSignInfo={setSignInfo} />*/}
+                        {/*<Tel signInfo={signInfo} setSignInfo={setSignInfo} />*/}
+                        {/*<Email signInfo={signInfo} setSignInfo={setSignInfo} />*/}
+                        {/*<Address signInfo={signInfo} setSignInfo={setSignInfo} />*/}
+                        {/*<StaffConfirm signInfo={signInfo} setSignInfo={setSignInfo}  handleConfirm={handleConfirm}/>*/}
                         <div className="d-flex justify-content-center w-100 mt-4">
                             <Btn type="submit" text="회원가입" className="btn btn-dark me-2" id="signup"
                                  onClick={handleSignUp}/>

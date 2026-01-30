@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import "@assets/css/board/userBoard.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Btn from "@util/reuseBtn.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
 
 const BoardTemplateComponent = ({ category }) => {
 

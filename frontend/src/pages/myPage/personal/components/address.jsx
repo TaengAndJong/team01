@@ -1,8 +1,8 @@
 
 
 import React from "react";
-import FormTag from "@util/formTag.jsx";
-import DaumPostcode from "@util/daumPostcode.jsx";
+import FormTag from "@util/form/formTag.jsx";
+import DaumPostcode from "@util/address/daumPostcode.jsx";
 
 const Address=({userInfo,setUserInfo,msg,setMsg})=>{
 

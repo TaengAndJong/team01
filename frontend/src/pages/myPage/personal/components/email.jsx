@@ -1,4 +1,4 @@
-import FormTag from "@util/formTag.jsx";
+import FormTag from "@util/form/formTag.jsx";
 import Select from "react-select";
 import React, {useEffect, useState} from "react";
 

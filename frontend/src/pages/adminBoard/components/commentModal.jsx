@@ -1,4 +1,4 @@
-import Btn from "@util/reuseBtn.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
 import PropTypes from "prop-types";
 import "@assets/css/board/adminBoard.css";
 const CommentModal = ({

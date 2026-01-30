@@ -1,8 +1,6 @@
-import Select from "react-select";
+
 import React, {useEffect, useState} from "react";
-import {generateOptions} from "@util/selectDate.jsx";
-import PriceStock from "../../../adminBook/components/priceStock.jsx";
-import FormTag from "../../../../util/formTag.jsx";
+import FormTag from "@util/form/formTag.jsx";
 
 const Birth = ({birth}) =>{
 

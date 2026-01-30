@@ -1,6 +1,6 @@
 import "@assets/css/board/adminBoard.css";
 import { Link } from "react-router-dom";
-import { formatToDate } from "@util/dateUtils.jsx";
+import { formatToDate } from "@util/date/dateUtils.jsx";
 const adminBoardItem = ({ data, number, checkedInput, onChangeCheck }) => {
 
 

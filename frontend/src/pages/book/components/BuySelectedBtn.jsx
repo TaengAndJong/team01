@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import cartList from "../../cart/components/cartList.jsx";
 import axios from "axios";
 import {useModal} from "../../common/modal/ModalContext.jsx";
-import {catchError} from "../../../util/error.jsx";
+import {catchError} from "../../../util/error/error.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 
 // 선택도서구매와 바로구매 동일 버튼 사용하게 구현하기

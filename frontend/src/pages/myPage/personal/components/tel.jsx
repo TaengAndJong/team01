@@ -1,7 +1,7 @@
 import Select from "react-select";
-import FormTag from "@util/formTag.jsx";
+import FormTag from "@util/form/formTag.jsx";
 import React, {useEffect, useState} from "react";
-import {validEachTel} from "@util/validation.jsx";
+import {eachTelValidation} from "@util/validation/validationCommon.js";
 
 
 const Tel=({telNum,setUserInfo,msg,setMsg})=>{
@@ -43,7 +43,7 @@ const Tel=({telNum,setUserInfo,msg,setMsg})=>{
             if(name === "secondTelNum" || name === "lastTelNum"){
 
                 //true ,false 반환
-                const eachTelNumVailid = validEachTel(name,value);
+                const eachTelNumVailid = eachTelValidation(name,value);
                 //한번만 갱신하면됨
                 setMsg((prev) => ({
                     ...prev,

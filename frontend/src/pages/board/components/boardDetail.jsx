@@ -1,11 +1,11 @@
 // import Btn from "@util/reuseBtn.jsx";
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
-import Btn from "@util/reuseBtn.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
 import axios from "axios";
 import "@css/board/userBoardDetail.css";
-import { handleFileDownload } from "@util/fileDownload.jsx";
-import { formatToDate } from "@util/dateUtils.jsx";
+import { handleFileDownload } from "@util/form/fileDownload.jsx";
+import { formatToDate } from "@util/date/dateUtils.jsx";
 
 const BoardDetail = ({ userType }) => {
   const { category, boardId } = useParams();

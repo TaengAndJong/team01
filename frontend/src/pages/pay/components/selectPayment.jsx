@@ -1,5 +1,5 @@
 import React from "react";
-import validationPay from "../../../util/validationPay.jsx";
+import validationPay from "../../../util/validation/validationPay.js";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 
 

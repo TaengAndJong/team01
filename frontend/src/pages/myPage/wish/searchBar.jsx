@@ -2,7 +2,7 @@
 
 
 //search 컴포넌트
-import Btn from "@util/reuseBtn.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
 import React from "react";
 
 const SearchBar = ({search,setSearch, handleSearch}) =>{

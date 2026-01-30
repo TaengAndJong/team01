@@ -1,7 +1,7 @@
-import FormTag from "../../../util/formTag.jsx";
-import DaumPostcode from "../../../util/daumPostcode.jsx";
+import FormTag from "../../../util/form/formTag.jsx";
+import DaumPostcode from "../../../util/address/daumPostcode.jsx";
 import React, {useContext, useEffect} from "react";
-import ReuseBtn from "../../../util/reuseBtn.jsx";
+import ReuseBtn from "../../../util/form/reuseBtn.jsx";
 import {AddressDispatchContext, AddressStatusContext} from "./AddressComponent.jsx";
 
 const AddForm = ({setShowAddForm}) => {

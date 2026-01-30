@@ -5,9 +5,9 @@ import "@assets/css/payment.css";
 import PayItem from "./components/payItem.jsx";
 import SelectPayment from "./components/selectPayment.jsx";
 import PayAllPrice from "./components/payAllPrice.jsx";
-import validationPay from "../../util/validationPay.jsx";
+import validationPay from "../../util/validation/validationPay.js";
 import {useModal} from "../common/modal/ModalContext.jsx";
-import {catchError} from "../../util/error.jsx";
+import {catchError} from "../../util/error/error.jsx";
 import {getAllPrice, getDeliveryPrice} from "../../util/calculatePrice.js";
 
 const PaymentComponent = () => {

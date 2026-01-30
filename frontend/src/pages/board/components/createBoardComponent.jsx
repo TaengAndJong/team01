@@ -1,6 +1,6 @@
 import "@assets/css/board/userBoard.css";
-import Btn from "@util/reuseBtn.jsx";
-import { maskUserId } from "@util/maskingID.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
+import { maskUserId } from "@util/visit/maskingID.jsx";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@pages/common/AuthContext.jsx";

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import FormTag from "../../../util/formTag.jsx";
-import Btn from "../../../util/reuseBtn.jsx";
-import {validID} from "../../../util/validation.jsx";
+import FormTag from "../../../util/form/formTag.jsx";
+import Btn from "../../../util/form/reuseBtn.jsx";
+import {validID} from "../../../util/validation/regex.js";
 
 const StaffConfirm =({formData,setFormData,msg,setMsg,handleConfirm}) =>{
     // 사원여부

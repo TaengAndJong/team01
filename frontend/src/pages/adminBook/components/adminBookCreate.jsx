@@ -1,16 +1,16 @@
 
 import React, {useContext, useEffect, useState} from "react";
-import FormTag from "../../../util/formTag.jsx";
-import Btn from "../../../util/reuseBtn.jsx";
+import FormTag from "@util/form/formTag.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
 import PathsData from "../../../assets/pathsData.jsx";
 import {PaginationContext} from "../adminBookComponent.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 import FileUpload from "./fileUpload.jsx";
 import Category from "./category.jsx";
 import {useNavigate} from "react-router-dom";
-import {formatToDate, getToday} from "../../../util/dateUtils.jsx";
+import {formatToDate, getToday} from "@util/date/dateUtils.jsx";
 import PriceStock from "./priceStock.jsx";
-import {validNumber} from "../../../util/validation.jsx";
+import {numberValidation} from "@util/validation/validationCommon.js";
 import PublishDate from "./publishDate.jsx";
 import RecomType from "./RecomType.jsx";
 import SalesStatus from "./salesStatus.jsx";
@@ -110,7 +110,7 @@ const AdminBookCreate = () => {
         let { name, value } = e.target;
         //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
         if ((name === "stock" || name === "bookPrice") && value.trim() !== "") {
-            const result = name === "bookPrice" ? validNumber(value,name,"도서가격") : validNumber(value,name,"재고");
+            const result = name === "bookPrice" ? numberValidation(value,name,"도서가격") : numberValidation(value,name,"재고");
             if(!result.valid){
                 // 숫자 검증 false 일 경우, 모달 알림 뜸
                 openModal({

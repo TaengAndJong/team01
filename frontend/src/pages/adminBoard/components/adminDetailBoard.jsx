@@ -1,6 +1,6 @@
-import Btn from "@util/reuseBtn.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
 import axios from "axios";
-import { handleFileDownload } from "@util/fileDownload.jsx";
+import { handleFileDownload } from "@util/form/fileDownload.jsx";
 import "@assets/css/board/adminBoard.css";
 import CommentModal from "./commentModal";
 // import PropTypes from "prop-types";
@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@pages/common/AuthContext.jsx";
 import { useModal } from "@pages/common/modal/ModalContext.jsx";
-import { formatToDate } from "@util/dateUtils.jsx";
+import { formatToDate } from "@util/date/dateUtils.jsx";
 
 const AdminDetailBoard = ({ userType }) => {
   const { userData } = useAuth(); // 로그인 상태와 사용자 데이터 가져오는

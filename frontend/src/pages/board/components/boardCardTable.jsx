@@ -1,6 +1,5 @@
 import "@assets/css/board/userDashBoard.css";
-import Btn from "@util/reuseBtn.jsx";
-import { formatToDate } from "@util/dateUtils.jsx";
+import { formatToDate } from "@util/date/dateUtils.jsx";
 import {Link} from "react-router-dom";
 // import NoDataTable from "@common/Nodata.jsx";
 const BoardCardTable = ({ items, category }) => {

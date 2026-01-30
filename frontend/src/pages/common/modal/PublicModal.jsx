@@ -21,17 +21,17 @@ const modalConfig = {
     error: ({ content,onClose,onConfirm}) => ({ // 401, 400, 500 등
         body: content,
         footer: <Button variant="primary" onClick={()=>{
-            onConfirm();//확인로직처리 
+            onConfirm?.();//확인로직처리 ==> 함수를 2개 작성한 경우 하나만 사용할 때, 하나의 값은 null 처리 되게 옵셔널 체이닝
             onClose(); // 후 닫기
         }}>확인</Button>,
     }),
-    // 수정, 생성, 삭제 , 등록
+    // 수정, 생성, 삭제 , 등록 ==> 취소 선택 시, 이동하지 않게 코드 수정하기
     confirm: ({ content,onClose, onConfirm }) => ({
         body: content,
         footer: (
             <>
                 <Button variant="primary" onClick={onConfirm}>확인</Button>
-                {/*<Button variant="danger" onClick={onClose}>취소</Button>*/}
+                <Button variant="danger" onClick={onClose}>취소</Button>
             </>
         ),
     }),

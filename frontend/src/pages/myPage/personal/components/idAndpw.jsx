@@ -1,7 +1,5 @@
-import FormTag from "@util/formTag.jsx";
-import {validID, validPW,checkDuplicate, validatePasswordMatch} from "@util/validation.jsx";
+import FormTag from "@util/form/formTag.jsx";
 import React, {useEffect, useState} from "react";
-import {useModal} from "../../../common/modal/ModalContext.jsx";
 import axios from "axios";
 
 

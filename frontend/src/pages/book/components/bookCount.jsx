@@ -72,16 +72,7 @@ const BookCount = ({ bookId, cartId, bookCount, setBookCount,modifyQuantity}) =>
         }
 
         const inputNum = parseInt(val, 10); // 10진수로 파싱
-        //입력값의 기본값은 1이고 1미만 100초과는 안됨
-        if(inputNum < 1){
-            alert("최소 수량은 1개입니다.");
-            return; //종료
-        }
 
-        if(inputNum>100){
-            alert("최대 수량은 100개입니다.");
-            return; //종료
-        }
         // 1 초과 ~ 100 이하 (정상 범위) 값 갱신
         setBookCount(prev=>({
             ...prev,

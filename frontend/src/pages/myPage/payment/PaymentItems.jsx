@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from "react";
-import {formatToDate} from "../../../util/dateUtils.jsx";
+import {formatToDate} from "../../../util/date/dateUtils.jsx";
 import CancelPaymentBtn from "./CancelPaymentBtn.jsx";
 import AddCartBtn from "./addCartBtn.jsx";
 import axios from "axios";

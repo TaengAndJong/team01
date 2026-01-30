@@ -1,6 +1,6 @@
-import FormTag from "../../../util/formTag.jsx";
-import DaumPostcode from "../../../util/daumPostcode.jsx";
-import ReuseBtn from "../../../util/reuseBtn.jsx";
+import FormTag from "../../../util/form/formTag.jsx";
+import DaumPostcode from "../../../util/address/daumPostcode.jsx";
+import ReuseBtn from "../../../util/form/reuseBtn.jsx";
 import React, {useContext, useEffect, useState} from "react";
 import {AddressDispatchContext, AddressStatusContext} from "./AddressComponent.jsx";
 

@@ -1,4 +1,4 @@
-import FormTag from "../../../util/formTag.jsx";
+import FormTag from "../../../util/form/formTag.jsx";
 import React, {useEffect, useRef, useState} from "react";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 

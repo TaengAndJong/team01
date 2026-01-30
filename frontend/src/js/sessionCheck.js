@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import {catchError} from "../util/error.jsx";
+import {catchError} from "../util/error/error.jsx";
 import {useModal} from "../pages/common/modal/ModalContext.jsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useRef} from "react";

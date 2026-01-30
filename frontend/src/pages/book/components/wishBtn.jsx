@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../common/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../common/modal/ModalContext.jsx";
-import { catchError } from "../../../util/error.jsx";
+import { catchError } from "../../../util/error/error.jsx";
 import axios from "axios";
 
 const WishBtn = ({ wishIds, setWishIds, bookId }) => {

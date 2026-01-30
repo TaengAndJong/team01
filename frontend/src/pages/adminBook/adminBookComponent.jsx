@@ -5,7 +5,7 @@ import { useMenu } from "../common/MenuContext.jsx";
 import { menuNavi } from "../../util/menuNavi.jsx";
 import {useModal} from "../common/modal/ModalContext.jsx";
 import axios from "axios";
-import {catchError} from "../../util/error.jsx";
+import {catchError} from "../../util/error/error.jsx";
 
 // 주소에 해당하는 제목 데이터 가져와서 레프트 메뉴 이름과 제목열에 데이터 나열하기
 

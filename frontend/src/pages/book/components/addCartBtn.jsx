@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 import {useNavigate} from "react-router-dom";
-import {catchError} from "../../../util/error.jsx";
+import {catchError} from "../../../util/error/error.jsx";
 
 const AddCartBtn = ({bookId,quantity}) =>{
 

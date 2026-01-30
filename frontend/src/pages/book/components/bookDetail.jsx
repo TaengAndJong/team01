@@ -1,7 +1,7 @@
 import {useLocation, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 
-import Btn from "../../../util/reuseBtn.jsx";
+import Btn from "../../../util/form/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
 import BookSlide from "../../common/bookSlide.jsx";
 import BuySelectedBtn from "./BuySelectedBtn.jsx";

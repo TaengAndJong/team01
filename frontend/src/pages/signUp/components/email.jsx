@@ -1,9 +1,9 @@
-import FormTag from "../../../util/formTag.jsx";
+import FormTag from "../../../util/form/formTag.jsx";
 import Select from "react-select";
 import React, {useEffect, useState} from "react";
 
 
-const Email=({formData,setFormData,msg,setMsg})=>{
+const Email=({formData,setFormData})=>{
 
     //이메일
     const [emailData, setemailData] = useState({

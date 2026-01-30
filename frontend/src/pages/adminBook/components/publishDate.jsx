@@ -1,6 +1,6 @@
 import 'react-datepicker/dist/react-datepicker.css';
-import FormTag from "../../../util/formTag.jsx";
-import {formatToDate} from "../../../util/dateUtils.jsx";
+import FormTag from "../../../util/form/formTag.jsx";
+import {formatToDate} from "../../../util/date/dateUtils.jsx";
 import React, {useEffect} from "react";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 

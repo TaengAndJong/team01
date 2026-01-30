@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { recordVisit } from "@util/visitCount";
+import { recordVisit } from "@util/visit/visitCount";
 
 const VisitRecorder = () => {
   const location = useLocation();
