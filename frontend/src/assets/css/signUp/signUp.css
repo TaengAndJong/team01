@@ -24,3 +24,6 @@
 .signup .email-info input[type="text"]{ width: 100%;}
 .signup .email-info input[type="text"]:first-of-type{max-width: 20%;}
 .signup .email-info input[type="text"]:not(:first-of-type){max-width: 28.5%;}
+
+.signup .birth-info .col-2:not(:first-child){ width: calc(100% / 3 - 4px)}
+.signup .birth-info .col-2 input[type="text"]{width:100%;}

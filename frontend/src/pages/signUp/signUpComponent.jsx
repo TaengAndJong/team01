@@ -134,7 +134,7 @@ const SignUpComponent = () => {
                     <fieldset>
                         <legend className="d-block title-border mb-5">회원가입</legend>
                         <IdAndpw signInfo={signInfo} setSignInfo={setSignInfo} handleConfirm={handleConfirm}/>
-                        {/*<Birth signInfo={signInfo} setSignInfo={setSignInfo} />*/}
+                        <Birth signInfo={signInfo} setSignInfo={setSignInfo} />
                         {/*<Tel signInfo={signInfo} setSignInfo={setSignInfo} />*/}
                         {/*<Email signInfo={signInfo} setSignInfo={setSignInfo} />*/}
                         {/*<Address signInfo={signInfo} setSignInfo={setSignInfo} />*/}

@@ -1,11 +1,11 @@
 import FormTag from "@util/form/formTag.jsx";
 import {idvalidation, pwConfirmValidation, pwvalidation} from "../../../util/validation/validationCommon.js";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 
 const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
 
-
+    //메시지 상태관리
     const [msg, setMsg] = useState({});
     // 아이디와 비밀번호 값을 갱신 해줄 input onChange 핸들러
     const handleInputChange = (e) => {
@@ -65,7 +65,7 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
                </div>
                {/* 검증 메시지가 있을 때만 출력*/}
                {msg.message && msg.type === "clientId" && (
-                   <div className="d-flex align-items-center my-2">
+                   <div className="d-flex align-items-center my-2" role="alert">
                        <span className="col-2"></span>
                        <i className="icon info me-2"></i>{msg.message}</div>
                )}
@@ -85,7 +85,7 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
                             value={signInfo.passwordConfirm}
                             onChange={handleInputChange}/>
                    {msg.message && msg.type === "passwordConfirm" && (
-                       <div className="d-flex align-items-center my-2">
+                       <div className="d-flex align-items-center my-2"  role="alert">
                            <i className="icon info me-2"></i>{msg.message}
                        </div>
                    )}
@@ -98,7 +98,6 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
 
        </>
     )
-
 }
 
 export default IdAndPw;

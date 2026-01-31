@@ -1,39 +1,37 @@
 import Select from "react-select";
 import React, {useEffect, useState} from "react";
 import {generateOptions} from "@util/form/selectDate.jsx";
+import {birthValidation, numberValidation} from "../../../util/validation/validationCommon.js";
 
-const Birth = ({formData,setFormData,msg,setMsg}) =>{
-
-    //birth handler
-    //react-select Api에서 생년월일 가져오기
-    const yearOptions = generateOptions(1920, 2030, "년"); // 1990년부터 2024년까지
-    const monthOptions = generateOptions(1, 12, "월", true); // 1월부터 12월까지 (0 패딩)
-    const dayOptions = generateOptions(1, 31, "일", true); // 1일부터 31일까지 (0 패딩)
-
-    const [birth, setBirth] = useState({})
-    const handleBirthChange= (selectedOption,name) => {
-
-        // 2. 기존 값을 불러와서 키-값 형태로 설정 (객체에 key : value  추가) , name에 따른 vale에 2자리 중 빈자리 0 추가
-        if (name === 'birthMonth' || name === 'birthDay') {
-            //  name에 따른 value에 2자리 중 빈자리 0 추가
-            const value = String(selectedOption.value).padStart(2, "0");
-
-            setBirth((prevState) => ({
-                ...prevState,
-                [name]: value, // 이전 상태를 유지하면서 name에 해당하는 값만 업데이트
-            }));
+const Birth = ({formData,setFormData}) =>{
 
 
-        } else {
-            // birthYear인 경우 그냥 추가
-            setBirth((prevState) => ({
-                ...prevState,
-                [name]: selectedOption.value,
-            }));
+    //개별 생년월일 상태관리 변수
+    const [birth, setBirth] = useState({
+        year: "",
+        month: "",
+        day: "",
+    });
 
+    const [msg,setMsg] = useState({});
+    
+    const handleBirthChangeHandler= (e) => {
 
-        }
+        const name = e.target.name;
+        const value = e.target.value;
 
+        //생년월일 검증
+        console.log("birth",birth);
+        console.log("birthValidation",birthValidation(birth));
+        const birthvalid = birthValidation(birth,name)
+        //msg 갱신
+        setMsg({
+            type:birthvalid.type,
+            valid:birthvalid.valid,
+            message:birthvalid.message,
+        })
+        // 생년월일 상태값 갱신
+        setBirth((prev)=>({...prev, [name]:value}));
     }
 
     //birth 상태 변경 될 때마다 갱신
@@ -54,40 +52,73 @@ const Birth = ({formData,setFormData,msg,setMsg}) =>{
         <>
             {/* 생년월일 */}
             <div className="mb-2 birth">
-                <div className="row col-12 mb-2">
+                <div className="row col-12 mb-2 flex-nowrap birth-info">
                     <label className="form-title col-2">생년월일</label>
-                    <Select
-                        name="birthYear"
-                        id="birthYear"
-                        className="col-3 px-0 me-2"
-                        options={yearOptions}
-                        onChange={(selectedOption) => handleBirthChange(selectedOption, "birthYear")}
-                        placeholder="연도 선택"
-                    />
-
-                    <Select
-                        name="birthMonth"
-                        id="birthMonth"
-                        className="col-3 px-0 me-2"
-                        options={monthOptions}
-                        onChange={(selectedOption) => handleBirthChange(selectedOption, "birthMonth")}
-                        placeholder="월 선택"
-                    />
-
-                    <Select
-                        name="birthDay"
-                        id="birthDay"
-                        className="col-3 px-0"
-                        options={dayOptions}
-                        onChange={(selectedOption) => handleBirthChange(selectedOption, "birthDay")}
-                        placeholder="일 선택"
-                    />
-
+                    {/* 년 */}
+                    <div className="col-2 px-0 d-inline-flex align-items-center">
+                        <label htmlFor="birthYear" className="sr-only">
+                            년
+                        </label>
+                        <input
+                            type="text"
+                            id="birthYear"
+                            name="year"
+                            className="form-control"
+                            placeholder="YYYY"
+                            maxLength={4}
+                            value={birth.year}
+                            onChange={handleBirthChangeHandler}
+                        />
+                        <span className="mx-2">년</span>
+                    </div>
+                    {/* 월 */}
+                    <div className="col-2 px-0 d-inline-flex align-items-center">
+                        <label htmlFor="birthMonth" className="sr-only">
+                            월
+                        </label>
+                        <input
+                            type="text"
+                            id="birthMonth"
+                            name="month"
+                            className="form-control"
+                            placeholder="MM"
+                            maxLength={2}
+                            value={birth.month}
+                            onChange={handleBirthChangeHandler}
+                        />
+                        <span className="mx-2">월</span>
+                    </div>
+                    {/* 일 */}
+                    <div className="col-2 px-0 d-inline-flex align-items-center">
+                        <label htmlFor="birthDay" className="sr-only">
+                            일
+                        </label>
+                        <input
+                            type="text"
+                            id="birthDay"
+                            name="day"
+                            className="form-control"
+                            placeholder="DD"
+                            maxLength={2}
+                            value={birth.day}
+                            onChange={handleBirthChangeHandler}
+                        />
+                        <span className="mx-2">일</span>
+                    </div>
                 </div>
+                {msg.message && !msg.allowEmpty && (
+                    <div className="d-flex align-items-center my-2" role="alert">
+                        <span className="col-2"></span>
+                        {msg.type === "common" && (<><i className="icon info me-2"></i>{msg.message}</>)}
+                        {msg.type === "year" && (<><i className="icon info me-2"></i>{msg.message}</>)}
+                        {msg.type === "month" && (<><i className="icon info me-2"></i>{msg.message}</>)}
+                        {msg.type === "day" && (<><i className="icon info me-2"></i>{msg.message}</>)}
+                    </div>
+                    )}
             </div>
 
-        </>
-    )
-}
+                    </>
+                    )
+                }
 
 export default Birth;

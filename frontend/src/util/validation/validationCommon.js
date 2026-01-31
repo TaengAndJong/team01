@@ -136,15 +136,8 @@ export const emailvalidation = (value) =>{
 }
 
 //숫자검증
-export const numberValidation = (name,value,type) =>{
-    console.log("numbervalidation",name,value,type);
-    //빈 값 검증
-    if(!value){
-        return {
-            valid: false,
-            message:`${type} 값을 입력 필요`
-        }
-    }
+export const numberValidation = (value) =>{
+    console.log("numbervalidation",value);
     //숫자 검증
     if(!inputRegexs.numberRegex.test(value)){
         return {
@@ -213,4 +206,109 @@ export const bookStockValidation = (value) =>{
 
 }
 
+//생년월일 검증
+export const birthValidation = (birth,birthType) =>{
+    //birth 객체 구조분해 할당
+    const {year, month, day} = birth;
+    const val = birth[birthType];//birth 객체의 요소 값에 접근
+    // 입력 후 지울 때 에러 안뜨게 처리
+    if(!val){
+        return {
+            allowEmpty: true,
+            type: birthType,
+            valid: false,
+            message: "",
+        }
+    }
 
+    //공통 숫자 검증이 1번
+    if( !inputRegexs.numberRegex.test(val)){
+        return {
+            allowEmpty: false,
+            type:birthType,
+            valid: false,
+            message: "숫자로 입력"}
+    }
+    
+    //년 : 4자리의 숫자
+    if(birthType === "year"){
+        console.log("year",val);
+        //입력전 에러 방지
+        if (val.length < 4) {
+            return {
+                allowEmpty: true, //빈값 허용
+                type: "year",
+                valid: false,
+                message: "",
+            };
+        }
+
+        if (val.length !== 4) { // 문자열의 길이도 length로 판단
+            return {
+                allowEmpty: false,
+                type:"year",
+                valid: false,
+                message: "4자리로 입력" };
+        }
+    }
+    //월 : 2자리의 숫자
+
+    if(birthType === "month"){
+        console.log("month",val.length);
+
+        //입력전 에러 방지
+        if (val.length < 2) {
+            return {
+                allowEmpty: true, //빈값 허용
+                type: "month",
+                valid: false,
+                message: "",
+            };
+        }
+
+        //val.length >= 2 를 명시적으로 조건으로 주지 않는 이유는 (val.length < 2) 이 조건을 통과하면 
+        // 위와 반대되는 조건이 허용된다는 전제가 성립되기때문에,중복할 필요 없음
+        if (Number(val) < 1 || Number(val) > 12) {  //1월~12월 값이 아니면
+            return {  allowEmpty: false,
+                type:"month",
+                valid: false,
+                message: "월은 2자리 1~12사이 입력" };
+        }
+    }
+
+    //일 : 2자리의 숫자
+    if(birthType === "day"&& year && month){
+
+        // 해당 월의 마지막 날 ,
+        const lastDay = new Date(Number(year), Number(month),0).getDate();
+       // new (해당년도, 월의 인덱스 (0부터), 0(해당월의 0번째날)) , 0번날은 없으니까 그 전달의 마지막날
+
+        console.log("day",val.length);
+        if (val.length < 2) { // 입력중 , 2자리 미만 일경우, 에러 메시지 반환 안함
+            return {
+                allowEmpty: true, //빈값 허용
+                type: "day",
+                valid: false,
+                message: "",
+            };
+        }
+
+        // val.length가 2이상 포함
+        if (Number(val) < 1 || Number(val) > lastDay) { //1일에서 마지막날이 아니면
+            // 틀림 → 알려줌
+            return {
+                allowEmpty: false,
+                type:"day",
+                valid: false,
+                message: `일은 2자리 01~${lastDay}사이 입력` };
+        }
+
+    }
+
+    return {
+        allowEmpty: false, //빈값 허용 불허
+        type: birthType,
+        valid: true,
+        message: "",
+    };
+}
