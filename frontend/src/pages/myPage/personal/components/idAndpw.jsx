@@ -1,6 +1,7 @@
 import FormTag from "@util/form/formTag.jsx";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {pwConfirmValidation, pwvalidation} from "../../../../util/validation/validationCommon.js";
 
 
 
@@ -12,7 +13,7 @@ import axios from "axios";
 
 // 6. 비밀번호를 제외한 나머지 데이터 갱신
 
-const IdAndPw = ({defaultInfo,errorData,onPasswordChanged})=>{
+const IdAndPw = ({defaultInfo,onPasswordChanged})=>{
 
     //비밀번호 변경 상태관리 변수
     const [newPassword, setNewPassword] = useState({
@@ -100,15 +101,15 @@ const IdAndPw = ({defaultInfo,errorData,onPasswordChanged})=>{
     useEffect(()=>{
 
         // 비밀번호 유효성 검사
-        const pwValidation = validPW(newPassword.newPassword);
+        const pwValidation = pwvalidation(newPassword.newPassword);
+        console.log("pwValidation",pwValidation);
 
         // newPassword의 newPassword와 newPasswordConfirm의 동일여부 판단
-        const pwdConfirm =
-            newPassword.newPasswordConfirm.trim() !== ""
-                ? validatePasswordMatch(newPassword.newPassword, newPassword.newPasswordConfirm)
-                : { valid: true, message: "" }; // 아직 확인칸이 비어있으면 비교 안함
+        const pwdConfirm = pwConfirmValidation(newPassword.newPassword, newPassword.newPasswordConfirm)
+        console.log("pwdConfirm",pwdConfirm);
 
-        //메시지 데이터 갱신
+
+        // 메시지 데이터 갱신
         setMsg((prev) => ({
             ...prev,
             errorpwdConfirm: pwdConfirm.valid ? "" : pwdConfirm.message,// 동일하지않으면 에러메시지 표시.

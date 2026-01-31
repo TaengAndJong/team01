@@ -37,7 +37,6 @@ export const idvalidation = (value) =>{
     // 조건 통과하면 반환
     return {
         valid: true,
-        message: "사용 가능한 아이디"
     }
 }
 

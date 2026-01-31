@@ -92,11 +92,6 @@ const SignUpComponent = () => {
     const handleConfirm = async (key, value,addData = {}) => {
 
         // onSubmit 이벤트 전, 검증코드 분리 메서드를 통한 1차 사전 검증 진행
-        
-        
-
-
-
 
 
         // 후 서버로 회원가입 할 사용자의 정보 전송
@@ -115,7 +110,7 @@ const SignUpComponent = () => {
             //
             switch(type) {
                 case "CLIENTID": openModal({
-                    modalType: "confirm",
+                    modalType: "default",
                     content:<p>사용 가능한 아이디입니다.</p>,
                     onConfirm: () => {closeModal()},
                 });
