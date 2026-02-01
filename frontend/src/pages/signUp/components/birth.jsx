@@ -16,22 +16,47 @@ const Birth = ({formData,setFormData}) =>{
     const [msg,setMsg] = useState({});
     
     const handleBirthChangeHandler= (e) => {
-
+        //입력되고 있는 이벤트 객체의 이름과, 값
         const name = e.target.name;
         const value = e.target.value;
 
+        //핸들러에서 숫자만 입력할 수 있게 제어, 검증 x
+        // 숫자만 허용 ==> 공통
+        if (!/^\d*$/.test(value)) return { };
+        // 년 입력값 필터
+        if(name === "year"){
+            // 4자리까지만 허용
+            if (value.length > 4) return;
+        }
+
+        //월,일 입력 값  필터
+        if(name === "month" || name === "day"){
+            // 2자리까지만 허용
+            if (value.length > 2) return;
+        }
+
+
+        // birthValidation(birth,name)의 문제점 해결방안
+        //미리보기 객체 생성 --> birthvalid 의 birth는 아직 미갱신 상태라서 미리보기 객체에 담아서 검증에 반영해야 함
+        const nextBirth = {
+            ...birth, // 기존 year,month,day 유지
+            [name]: value,// 현재 입력된 필드만 갱신
+        }
+
         //생년월일 검증
-        console.log("birth",birth);
-        console.log("birthValidation",birthValidation(birth));
-        const birthvalid = birthValidation(birth,name)
+       // 기존코드 const birthvalid = birthValidation(birth,name) --> birth 파라미터는 검증 후에 갱신되기때문에 검증 타이밍에 문제가 생김
+        const birthvalid = birthValidation(nextBirth,name)
+        console.log("birthValidation",birthvalid);
         //msg 갱신
         setMsg({
             type:birthvalid.type,
             valid:birthvalid.valid,
             message:birthvalid.message,
         })
+
+
         // 생년월일 상태값 갱신
-        setBirth((prev)=>({...prev, [name]:value}));
+        setBirth(nextBirth);
     }
 
     //birth 상태 변경 될 때마다 갱신
@@ -106,10 +131,9 @@ const Birth = ({formData,setFormData}) =>{
                         <span className="mx-2">일</span>
                     </div>
                 </div>
-                {msg.message && !msg.allowEmpty && (
+                {msg.message  && (
                     <div className="d-flex align-items-center my-2" role="alert">
                         <span className="col-2"></span>
-                        {msg.type === "common" && (<><i className="icon info me-2"></i>{msg.message}</>)}
                         {msg.type === "year" && (<><i className="icon info me-2"></i>{msg.message}</>)}
                         {msg.type === "month" && (<><i className="icon info me-2"></i>{msg.message}</>)}
                         {msg.type === "day" && (<><i className="icon info me-2"></i>{msg.message}</>)}
