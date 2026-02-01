@@ -83,37 +83,6 @@ export const pwConfirmValidation = (password,passwordConfirm) =>{
     return {valid: true};
 }
 
-//단일 전화번호형식 검증
-export const eachTelValidation=(name,value)=>{
-    console.log("eachTelValidation",name,value);
-    if (name?.trim().toLowerCase().includes("secondtelnum") || name?.trim().toLowerCase().includes("lasttelnum") ){
-        if(!inputRegexs.telEachRegex.test(value)) {
-            return { valid: false, message: "숫자 4자리까지 입력가능" };
-        }
-    }
-}
-
-//전체 전화번호형식  검증
-export const telvalidation = (value) =>{
-    console.log("telvalidation",value);
-    //빈 값 검증
-    if(!value || value.trim() === ""){
-        return {
-            valid: false,
-            message: "사용할 전화번호 입력"
-        }
-    }
-
-    //전화번호 형식 검증
-    if(!inputRegexs.telRegex.test(value)){
-        return {
-            valid: false,
-            message: "전화번호 형식 다름"
-        }
-    }
-    // 조건 통과하면 반환
-    return {valid: true};
-}
 
 //이메일형식  검증
 export const emailvalidation = (value) =>{
@@ -206,7 +175,7 @@ export const bookStockValidation = (value) =>{
 
 }
 
-
+//생년월일 검증
 export const birthValidation = (birth, birthType) => {
     const { year, month } = birth;
     const val = birth[birthType];
@@ -283,118 +252,88 @@ export const birthValidation = (birth, birthType) => {
     };
 };
 
+//단일 전화번호 검증 ( 입력 중인 상태의 전화번호 )
+export const eachTelValidation=(tel,telType)=>{
 
-//생년월일 검증
-// export const birthValidation = (birth,birthType) =>{
-//     console.log("birthValidation",birth,birthType);
-//     //birth 객체 구조분해 할당
-//     const {year, month, day} = birth;
-//     const val = birth[birthType];//birth 객체의 요소 값에 접근
-//
-//     //공통 반환 객체
-//     const commonResult = {
-//         allowEmpty: false, // false 면 에러메시지 반환
-//         type: birthType,
-//         valid: false,
-//         message: "",
-//     }
-//
-//
-//     // 입력 후 지울 때 에러 안뜨게 처리
-//     if(!val){
-//         return {
-//             ...commonResult,
-//             allowEmpty:true,
-//         }
-//     }
-//
-//     //공통 숫자 검증이 1번
-//     if( !inputRegexs.numberRegex.test(val)){
-//         return {
-//             ...commonResult,
-//             message: "숫자로 입력"}
-//     }
-//
-//
-//     //년 : 4자리의 숫자
-//     if(birthType === "year"){
-//         console.log("year",val);
-//         //입력 전 에러 방지 ( 입력중 )
-//         if (val.length < 4) {
-//             return {
-//                 ...commonResult,
-//                 allowEmpty: true, //빈값 허용
-//             };
-//         }
-//
-//         if (val.length !== 4) { // 문자열의 길이도 length로 판단
-//             return {
-//                 ...commonResult,
-//                 message: "4자리로 입력" };
-//         }
-//     }
-//     //월 : 2자리의 숫자
-//
-//     if(birthType === "month"){
-//         console.log("month",val.length);
-//
-//         //입력전 에러 방지
-//         if (val.length < 2) {
-//             return {
-//                 ...commonResult,
-//                 allowEmpty: true, //빈값 허용
-//             };
-//         }
-//
-//         //val.length >= 2 를 명시적으로 조건으로 주지 않는 이유는 (val.length < 2) 이 조건을 통과하면
-//         // 위와 반대되는 조건이 허용된다는 전제가 성립되기때문에,중복할 필요 없음
-//         if (val.length !== 2|| Number(val) < 1 || Number(val) > 12) {  //1월~12월 값이 아니면
-//             return {
-//                 ...commonResult,
-//                 message: "월은 2자리 1~12사이 입력" };
-//         }
-//     }
-//
-//     //일 : 2자리의 숫자
-//     if (birthType === "day") {
-//         // year, month 없으면 검증 x, 입력만 허용 상태
-//         if (!year || !month) {
-//             return {
-//                 ...commonResult,
-//                 allowEmpty: true,
-//             };
-//         }
-//         // 해당 월의 마지막 날 ,
-//         const lastDay = new Date(Number(year), Number(month),0).getDate();
-//         // new (해당년도, 월의 인덱스 (0부터), 0(해당월의 0번째날)) , 0번날은 없으니까 그 전달의 마지막날
-//
-//         console.log("lastDay",lastDay);
-//         console.log("day",val.length);
-//
-//         if (val.length < 2) { // 입력중 , 2자리 미만 일경우, 에러 메시지 반환 안함
-//             return {
-//                 ...commonResult,
-//                 allowEmpty: true, //빈값 허용
-//             };
-//         }
-//
-//         // val.length가 2이상 포함
-//         if (val.length !== 2 || Number(val) < 1 || Number(val) > lastDay) { //1일에서 마지막날이 아니면
-//             // 틀림 → 알려줌
-//             return {
-//                 ...commonResult,
-//                 message: `일은 2자리 01~${lastDay}사이 입력` };
-//         }//day end
-//     }
-//
-//
-//     //최종 반환
-//     return {
-//         allowEmpty: false, //빈값 허용 불허
-//         type: birthType,
-//         valid: true,
-//         message: "",
-//     };
-// }
+    //소문자로 치환
+    const type = telType.toLowerCase();
+    // 변경된 타입명으로 객체의 값 접근, val에 저장
+    const val = tel[telType]; // 해당 타입에 대한 값
+    console.log("val",val);
+    // 공통 반환 결과 객체
+    const result = {
+        type: telType,
+        valid: false,
+        message: "",
+    };
+
+    // 입력 중 또는 비어있음 ---> 에러메시지 반환 x
+    if (!val) return result;
+
+    //공통 : 한글x -> 숫자만 허용
+    if(!inputRegexs.numberRegex.test(val)){
+        return {
+            ...result,
+            message:"숫자만 입력"
+        }
+    }
+
+    //첫번째 번호 3자리까지만
+    if(type === "firsttelnum" &&  val.length > 3 ){
+        console.log("first", telType);
+        return  {
+            ...result,
+            message: "3자리까지 입력가능",
+        }
+    }
+
+    //두번째 번호 3,4자리까지만
+    if(type=== "secondtelnum" &&  val.length > 4 ){
+        console.log("secondtelnum", telType);
+        return  {
+            ...result,
+            message: "4자리까지 입력가능",
+        }
+    }
+
+    //세번째 번호 4자리이여야하고 4자리까지만허용
+    if(type === "thirdtelnum" && val.length > 4 ){
+        console.log("thirdtelnum", telType);
+        return  {
+            ...result,
+            message: "4자리까지 입력가능",
+        }
+    }
+
+    // 공통 최종 반환
+    return{
+        ...result,
+        valid: true,
+    };
+
+}//단일 전화번호형식 검증
+
+
+//전체 전화번호형식  검증
+export const telvalidation = (value) =>{
+    console.log("telvalidation",value);
+    //빈 값 검증
+    if(!value || value.trim() === ""){
+        return {
+            valid: false,
+            message: "사용할 전화번호 입력"
+        }
+    }
+
+    //전화번호 형식 검증
+    if(!inputRegexs.telRegex.test(value)){
+        return {
+            valid: false,
+            message: "전화번호 형식 다름"
+        }
+    }
+    // 조건 통과하면 반환
+    return {valid: true};
+}
 
 

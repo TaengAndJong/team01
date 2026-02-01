@@ -55,7 +55,7 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
            {/*id*/}
 
                <div className="row col-12 mb-2">
-                   <FormTag label="아이디" labelClass="form-title  col-2" id="clientId" className="form-control"  name="clientId" type="text"
+                   <FormTag label="아이디" labelClass="form-title col-2" id="clientId" className="form-control"  name="clientId" type="text"
                             value={signInfo.clientId}
                             onChange={handleInputChange}/>
                    <button className="btn custom-btn01 form-control w-auto ms-1 py-2"  id="confirm" type="button" onClick={() => {
@@ -91,7 +91,7 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
                    )}
                </div>
                <div className="row col-12  mb-2">
-                   <FormTag label="이름" labelClass="form-title col-2" className="form-control" name="clientName"
+                   <FormTag label="이름" labelClass="form-title col-2" className="form-control" id="clientName" name="clientName"
                             value={signInfo.clientName}
                             onChange={handleInputChange}/>
                </div>

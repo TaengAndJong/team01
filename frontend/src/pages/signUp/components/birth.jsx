@@ -76,9 +76,9 @@ const Birth = ({formData,setFormData}) =>{
     return(
         <>
             {/* 생년월일 */}
-            <div className="mb-2 birth">
-                <div className="row col-12 mb-2 flex-nowrap birth-info">
-                    <label className="form-title col-2">생년월일</label>
+            <fieldset className="row mb-2">
+                <legend className="form-title col-2">생년월일</legend>
+                <div className="birth-info px-0 col-12 d-flex">
                     {/* 년 */}
                     <div className="col-2 px-0 d-inline-flex align-items-center">
                         <label htmlFor="birthYear" className="sr-only">
@@ -131,18 +131,15 @@ const Birth = ({formData,setFormData}) =>{
                         <span className="mx-2">일</span>
                     </div>
                 </div>
-                {msg.message  && (
+                {msg.message && (
                     <div className="d-flex align-items-center my-2" role="alert">
-                        <span className="col-2"></span>
-                        {msg.type === "year" && (<><i className="icon info me-2"></i>{msg.message}</>)}
-                        {msg.type === "month" && (<><i className="icon info me-2"></i>{msg.message}</>)}
-                        {msg.type === "day" && (<><i className="icon info me-2"></i>{msg.message}</>)}
+                        <i className="icon info me-2"></i>{msg.message}
                     </div>
-                    )}
-            </div>
+                )}
+            </fieldset>
 
-                    </>
-                    )
-                }
+        </>
+    )
+}
 
 export default Birth;
