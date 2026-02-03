@@ -15,47 +15,50 @@ const Email=({formData,setFormData})=>{
 
     const [msg, setMsg] = useState({});
 
-    //email
+    //useEffect의 역할 : 상태변화의 결과에 반응, 서버호출, 외부 Effect 처리 용도로 onChange 이벤트를 대신해서 사용하면 안 됨
     useEffect(() => {
 
-        console.log("1 ",email.emailAddrInput);
-        const nextData = {
-            emailId: email.emailId,
-            emailAddrInput: email.emailAddrInput,
+
+    },  [email]); // email가 변경될 때 실행
+
+    // onChaneg 의 역할 : 입력 제어와 상태변경
+    // 이메일 유효성 검사 및 중복 검사 ( input[type=text] 에 대한 이벤트 핸들러)
+    const inputChangeHandler = (e)=>{
+
+        console.log("이메일 입력",e.target.name,e.target.value);
+        // 이벤트 타겟 객체 구조분해 할당
+        const {name, value} = e.target;
+        // 입력에 대한 필터 결과를 저장할 변수 :  검증이 아닌 불필요한 입력값을 사전 필터링하는 용도
+        let inputFilterVal;
+        //이메일 아이디
+        if(name === "emailId"){
+            //입력된 이메일 아이디값에 대한 불필요한 텍스트 제거
+            inputFilterVal= value.replace(/[^a-zA-Z0-9._-]/g, "");
         }
-        console.log("nextData",nextData);
-
-        //이메일 아이디일경우
-        if(nextData?.emailId){
-            console.log("2",email.emailId);
-          const emailIdValid = emailIdValidation(nextData.emailId);
-            console.log("3",emailIdValid);
+        //이메일 주소
+        if(name === "emailAddrInput"){
+            //입력된 주소값에 대한 불필요한 텍스트 제거
+            inputFilterVal=value.replace(/[^a-zA-Z0-9._-]/g, "");
         }
-        //이메일 주소를 직접 입력할경우
-        if(email?.emailAddrInput){
-            console.log("2",email.emailId);
-            const emailAddrValid = emailAddrValidation(nextData.emailAddrInput);
-            console.log("3",emailAddrValid);
-        }
-        //이메일 셀렉터를 통해 입력할경우
 
-        //검증메시지 반영
-
-
-
-    },  [email.emailId, email.emailAddrInput]); // email가 변경될 때 실행
-
-    // 이메일 유효성 검사 및 중복 검사
-    const handleEmailChange = (e)=>{
-
-        //...(스프레드 연산자)는 객체를 "펼쳐서" 새로운 객체에 병합하거나 추가하는 역할을 합니다.
+        //이메일 객체에 반영
         setEmail((prev) => ({
             ...prev,
-            [e.target.name]: e.target.value,
-            ...(e.target.name === "emailAddrSelect" && { emailAddrInput: e.target.value }), // emailAddrSelect 처리
+            [e.target.name]: inputFilterVal, //불필요한 문자 필터(제거)한 값 반영
+        }));
+        //end
+    }
+
+    //react-select 컴포넌트 전용 핸들러: 리액트 셀렉트 컴포넌트는 selectedOption = { value: 'naver.com',label: 'naver.com'} 의 객체형태로 값 전달
+    const selectChangeHandler = (selectOption)=>{
+        console.log("selectOption",selectOption);
+        //select로 이메일주소를 선택한경우, input과 select 값을 동일하게 갱신
+        setEmail((prev)=>({
+            ...prev,
+            emailAddrInput: selectOption.value, 
+            emailAddrSelect:selectOption.value
         }));
 
-        //end
     }
 
     /*
@@ -75,8 +78,8 @@ const Email=({formData,setFormData})=>{
                     labelClass="sr-only" className="form-control col-3"
                     name="emailId"
                     id="emailId"
-                    value={email.emailId}
-                    onChange={handleEmailChange}
+                    value={email?.emailId}
+                    onChange={inputChangeHandler}
                     placeholder="이메일아이디"
                 />
                 <span className="d-inline-flex w-auto align-items-center mx-1" id="at" aria-hidden="true">@</span>
@@ -85,8 +88,8 @@ const Email=({formData,setFormData})=>{
                     labelClass="sr-only" className="form-control col-3"
                     id="emailAddrInput"
                     name="emailAddrInput"
-                    value={email.emailAddrInput}
-                    onChange={handleEmailChange}
+                    value={email?.emailAddrInput}
+                    onChange={inputChangeHandler}
                     placeholder="이메일주소"
                 />
                 {/*select도 라벨 필수*/}
@@ -97,11 +100,8 @@ const Email=({formData,setFormData})=>{
                     className="ms-1 col-3"
                     id="emailAddrSelect"
                     name="emailAddrSelect"
-                    value={{value: email.emailAddrSelect, label: email.emailAddrSelect}}
-                    onChange={(selectedOption) => {
-
-                        handleEmailChange({target: {name: 'emailAddrSelect', value: selectedOption.value}});
-                    }}
+                    value={{value: email?.emailAddrSelect, label: email?.emailAddrSelect}}
+                    onChange={(selectOption) => selectChangeHandler(selectOption)} // selectChangeHandler 과 동일
                     options={[
                         {value: '직접선택', label: '직접선택'},
                         {value: 'naver.com', label: 'naver.com'},
