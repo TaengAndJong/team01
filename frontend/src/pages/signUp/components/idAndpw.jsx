@@ -3,7 +3,7 @@ import {idvalidation, pwConfirmValidation, pwvalidation} from "../../../util/val
 import {useState} from "react";
 
 
-const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
+const IdAndPw = ({formData,setFormData,handleConfirm})=>{
 
     //메시지 상태관리
     const [msg, setMsg] = useState({});
@@ -36,7 +36,7 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
         // 비밀번호 확인 검증
         if(name === "passwordConfirm"){
             console.log("name",name);
-            const pwConfirmValid = pwConfirmValidation(signInfo.password,value)
+            const pwConfirmValid = pwConfirmValidation(formData.password,value)
             console.log("pwConfirmValid",pwConfirmValid);
             setMsg({
                 type:name,
@@ -46,7 +46,7 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
 
         }
 
-        setSignInfo({ ...signInfo, [name]: value });
+        setFormData({ ...formData, [name]: value });
     };
 
 
@@ -56,10 +56,10 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
 
                <div className="row col-12 mb-2">
                    <FormTag label="아이디" labelClass="form-title col-2" id="clientId" className="form-control"  name="clientId" type="text"
-                            value={signInfo.clientId}
+                            value={formData.clientId}
                             onChange={handleInputChange}/>
                    <button className="btn custom-btn01 form-control w-auto ms-1 py-2"  id="confirm" type="button" onClick={() => {
-                       handleConfirm("clientId", signInfo.clientId)
+                       handleConfirm("clientId", formData.clientId)
                    }}>중복확인</button>
 
                </div>
@@ -72,7 +72,7 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
                {/*pw*/}
                <div className="row col-12  mb-2">
                    <FormTag label="비밀번호" labelClass="form-title col-2"  id="password" className="form-control" name="password" type="password"
-                            value={signInfo.password}
+                            value={formData.password}
                             onChange={handleInputChange}/>
                    {msg.message && msg.type === "password" && (
                        <div className="d-flex align-items-center my-2">
@@ -82,7 +82,7 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
                </div>
                <div className="row col-12  mb-2">
                    <FormTag label="비밀번호확인" labelClass="form-title col-2" className="form-control" name="passwordConfirm" type="password"
-                            value={signInfo.passwordConfirm}
+                            value={formData.passwordConfirm}
                             onChange={handleInputChange}/>
                    {msg.message && msg.type === "passwordConfirm" && (
                        <div className="d-flex align-items-center my-2"  role="alert">
@@ -92,7 +92,7 @@ const IdAndPw = ({signInfo,setSignInfo,handleConfirm})=>{
                </div>
                <div className="row col-12  mb-2">
                    <FormTag label="이름" labelClass="form-title col-2" className="form-control" id="clientName" name="clientName"
-                            value={signInfo.clientName}
+                            value={formData.clientName}
                             onChange={handleInputChange}/>
                </div>
 

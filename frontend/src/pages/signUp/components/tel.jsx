@@ -41,7 +41,12 @@ const Tel=({formData,setFormData})=>{
     useEffect(()=>{
         console.log("tel", tel);
         //tel의 첫 번째,두 번째,세 번째 값이 다 존재할 경우, formDate에 담아주기
-        
+        setFormData(prev =>({
+            ...prev,
+            tel:`${tel.firstTelNum}-${tel.secondTelNum}-${tel.lastTelNum}`,
+        }))
+
+        console.log("formData", formData);
     },[tel])
 
 
@@ -71,9 +76,9 @@ const Tel=({formData,setFormData})=>{
                     <span className="d-inline-flex align-items-center mx-2">-</span>
                     <FormTag
                         className="form-control col-1 px-0 d-inline-flex text-center"
-                        id="thirdTelNum"
-                        name="thirdTelNum"
-                        value={tel.thirdTelNum || ""}
+                        id="lastTelNum"
+                        name="lastTelNum"
+                        value={tel.lastTelNum || ""}
                         onChange={handleTelChange}
                         placeholder="마지막 전화번호 입력"
                     />

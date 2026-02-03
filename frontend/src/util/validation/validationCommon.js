@@ -17,7 +17,7 @@ import {inputRegexs} from "./regex.js";  "@util/validation/regex"
 
 //아이디형식 검증
 export const idvalidation = (value) =>{
-    console.log("idvalidation",value);
+
     // 값 없음 !value ==> null 포함 비어있는 모든 값 검증
     // 빈 문자열  ==> value.trim()
     if(!value || value.trim() === ""){
@@ -42,7 +42,7 @@ export const idvalidation = (value) =>{
 
 // 비밀번호형식  검증
 export const pwvalidation = (value) =>{
-    console.log("pwvalidation",value);
+
     if(!value || value.trim() === ""){
         return {
             valid: false,
@@ -64,7 +64,7 @@ export const pwvalidation = (value) =>{
 
 // 비밀번호형식  일치 검증 ==> 기존 입력된 패스워드와 재입력한 패스워드 비교할 파라미터 2개
 export const pwConfirmValidation = (password,passwordConfirm) =>{
-    console.log("pwConfirmValidation",password,passwordConfirm);
+
     // passwordConfirm 의 빈 값과 공백 검증
     if(!passwordConfirm || passwordConfirm.trim() === ""){
         return {
@@ -83,98 +83,6 @@ export const pwConfirmValidation = (password,passwordConfirm) =>{
     return {valid: true};
 }
 
-
-//이메일형식  검증
-export const emailvalidation = (value) =>{
-    console.log("emailvalidation",value);
-    if(!value || value.trim() === ""){
-        return {
-            valid: false,
-            message:"사용할 이메일 입력"
-        }
-    }
-    
-    if(!inputRegexs.emailRegex.test(value)){
-        return {
-            valid: false,
-            message: "이메일 형식 다름"
-        }
-    }
-
-    return {valid: true};
-}
-
-//숫자검증
-export const numberValidation = (value) =>{
-    console.log("numbervalidation",value);
-    //숫자 검증
-    if(!inputRegexs.numberRegex.test(value)){
-        return {
-            valid: false,
-            message: "숫자로 입력"
-        }
-    }
-
-    return {valid: true};
-    
-}
-
-//도서가격 검증 ==> onchange핸들러에서 입력될 때마다 실행 되어야하는 검증
-export const bookPriceValidation = (value) =>{
-    console.log("bookPriceValidation",value);
-    //빈 값 검증, 기본값이 0인데  검증 필요한가 ?
-    if (value === "") { // 사용자가 지웠을 때 입력중이니까 에 대한 상황 검증 코드
-        return { valid: false, allowEmpty: true };
-    }
-    // 숫자인지 검증
-    if (!inputRegexs.numberRegex.test(value)) {
-        return {
-            valid: false,
-            message: "숫자만 입력하세요."
-        };
-    }
-
-    return { valid: true };
-
-}
-
-//도서재고 검증
-export const bookStockValidation = (value) =>{
-    console.log("bookStockValidation",value);
-
-    //빈 값 검증, 기본값이 0인데  검증 필요한가 ?
-    if (value === "") { // 사용자가 지웠을 때 입력중이니까 에 대한 상황 검증 코드
-        return { valid: false, allowEmpty: true };
-    }
-
-    if(inputRegexs.numberRegex.test(value)){
-        return {
-            valid: false,
-            message:" 숫자만 입력"
-        }
-    }
-
-    // input에서 text 타입으로 value 가 들어오기 떄문에 Number Type 으로 변환 후 검증필요
-    const num = Number(value);
-    //입력값의 기본값은 1이고 1미만 100초과는 안됨
-    if(value < 1){
-        return{
-            valid: false,
-            message:"최소 수량은 1개입니다."
-        };
-    }
-
-    if(value>100){
-        return{
-            valid: false,
-            message:"최대 수량은 100개입니다."
-        }; //종료
-    }
-
-    return { valid: true };
-
-}
-
 //생년월일 검증
 export const birthValidation = (birth, birthType) => {
     const { year, month } = birth;
@@ -183,7 +91,7 @@ export const birthValidation = (birth, birthType) => {
     // 공통 반환 객체
     const result = {
         type: birthType,
-        valid: false,
+        valid: true,
         message: "",
     };
 
@@ -214,7 +122,7 @@ export const birthValidation = (birth, birthType) => {
     // 월
     if (birthType === "month") {
         if (val.length < 2) return result; // 2미만이면 입력중
-        
+
         //2자리 아니면, 1보다 작으며, 12보다 크면
         if (val.length !== 2 || Number(val) < 1 || Number(val) > 12) {
             return {
@@ -259,11 +167,11 @@ export const eachTelValidation=(tel,telType)=>{
     const type = telType.toLowerCase();
     // 변경된 타입명으로 객체의 값 접근, val에 저장
     const val = tel[telType]; // 해당 타입에 대한 값
-    console.log("val",val);
+
     // 공통 반환 결과 객체
     const result = {
         type: telType,
-        valid: false,
+        valid: true,
         message: "",
     };
 
@@ -280,7 +188,7 @@ export const eachTelValidation=(tel,telType)=>{
 
     //첫번째 번호 3자리까지만
     if(type === "firsttelnum" &&  val.length > 3 ){
-        console.log("first", telType);
+
         return  {
             ...result,
             message: "3자리까지 입력가능",
@@ -289,7 +197,7 @@ export const eachTelValidation=(tel,telType)=>{
 
     //두번째 번호 3,4자리까지만
     if(type=== "secondtelnum" &&  val.length > 4 ){
-        console.log("secondtelnum", telType);
+
         return  {
             ...result,
             message: "4자리까지 입력가능",
@@ -297,8 +205,8 @@ export const eachTelValidation=(tel,telType)=>{
     }
 
     //세번째 번호 4자리이여야하고 4자리까지만허용
-    if(type === "thirdtelnum" && val.length > 4 ){
-        console.log("thirdtelnum", telType);
+    if(type === "lastTelNum" && val.length > 4 ){
+
         return  {
             ...result,
             message: "4자리까지 입력가능",
@@ -314,9 +222,81 @@ export const eachTelValidation=(tel,telType)=>{
 }//단일 전화번호형식 검증
 
 
-//전체 전화번호형식  검증
+//숫자검증
+export const numberValidation = (value) =>{
+
+    //숫자 검증
+    if(!inputRegexs.numberRegex.test(value)){
+        return {
+            valid: false,
+            message: "숫자로 입력"
+        }
+    }
+
+    return {valid: true};
+    
+}
+
+//도서가격 검증 ==> onchange핸들러에서 입력될 때마다 실행 되어야하는 검증
+export const bookPriceValidation = (value) =>{
+
+    //빈 값 검증, 기본값이 0인데  검증 필요한가 ?
+    if (value === "") { // 사용자가 지웠을 때 입력중이니까 에 대한 상황 검증 코드
+        return { valid: false, allowEmpty: true };
+    }
+    // 숫자인지 검증
+    if (!inputRegexs.numberRegex.test(value)) {
+        return {
+            valid: false,
+            message: "숫자만 입력하세요."
+        };
+    }
+
+    return { valid: true };
+
+}
+
+//도서재고 검증
+export const bookStockValidation = (value) =>{
+
+
+    //빈 값 검증, 기본값이 0인데  검증 필요한가 ?
+    if (value === "") { // 사용자가 지웠을 때 입력중이니까 에 대한 상황 검증 코드
+        return { valid: false, allowEmpty: true };
+    }
+
+    if(inputRegexs.numberRegex.test(value)){
+        return {
+            valid: false,
+            message:" 숫자만 입력"
+        }
+    }
+
+    // input에서 text 타입으로 value 가 들어오기 떄문에 Number Type 으로 변환 후 검증필요
+    const num = Number(value);
+    //입력값의 기본값은 1이고 1미만 100초과는 안됨
+    if(value < 1){
+        return{
+            valid: false,
+            message:"최소 수량은 1개입니다."
+        };
+    }
+
+    if(value>100){
+        return{
+            valid: false,
+            message:"최대 수량은 100개입니다."
+        }; //종료
+    }
+
+    return { valid: true };
+
+}
+
+
+//전체 전화번호형식  검증 ==> 수정필요
 export const telvalidation = (value) =>{
-    console.log("telvalidation",value);
+
     //빈 값 검증
     if(!value || value.trim() === ""){
         return {
@@ -337,3 +317,48 @@ export const telvalidation = (value) =>{
 }
 
 
+//이메일 아이디 검증
+export const emailIdValidation = (emailId) =>{
+     console.log("Emailid --- 검증",emailId);
+    // 값이 입력 중이거나 미입력일 경우, value는  " "
+    if(!emailId) return {valid: true, message:""}
+
+    //형식 검증
+    if(!inputRegexs.emailIdRegex.test(emailId)){
+        return {
+            valid: false,
+            message: "영문자, 숫자, 특수문자('_'또는'-')로 30자 이내 입력"
+        }
+    }
+
+    return {valid: true, message:""};
+}
+
+//이메일 아이디 검증
+export const emailAddrValidation = (value) =>{
+
+    //빈 값, 입력 중일 때
+
+
+    return {valid: true};
+}
+
+//이메일 전체 주소 형식 검증
+export const emailValidation = (value) =>{
+
+    if(!value || value.trim() === ""){
+        return {
+            valid: false,
+            message:"사용할 이메일 입력"
+        }
+    }
+
+    if(!inputRegexs.emailRegex.test(value)){
+        return {
+            valid: false,
+            message: "이메일 형식 다름"
+        }
+    }
+
+    return {valid: true};
+}

@@ -1,7 +1,7 @@
-import Select from "react-select";
+
 import React, {useEffect, useState} from "react";
-import {generateOptions} from "@util/form/selectDate.jsx";
-import {birthValidation, numberValidation} from "../../../util/validation/validationCommon.js";
+
+import {birthValidation} from "../../../util/validation/validationCommon.js";
 
 const Birth = ({formData,setFormData}) =>{
 

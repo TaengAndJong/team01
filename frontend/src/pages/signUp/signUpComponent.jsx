@@ -133,10 +133,10 @@ const SignUpComponent = () => {
                 <form className="container">
                     <fieldset>
                         <legend className="d-block title-border mb-5">회원가입</legend>
-                        <IdAndpw signInfo={signInfo} setSignInfo={setSignInfo} handleConfirm={handleConfirm}/>
-                        <Birth signInfo={signInfo} setSignInfo={setSignInfo} />
-                        <Tel signInfo={signInfo} setSignInfo={setSignInfo} />
-                        {/*<Email signInfo={signInfo} setSignInfo={setSignInfo} />*/}
+                        <IdAndpw formData={signInfo} setFormData={setSignInfo} handleConfirm={handleConfirm}/>
+                        <Birth formData={signInfo} setFormData={setSignInfo} />
+                        <Tel formData={signInfo} setFormData={setSignInfo} />
+                        <Email formData={signInfo} setFormData={setSignInfo} />
                         {/*<Address signInfo={signInfo} setSignInfo={setSignInfo} />*/}
                         {/*<StaffConfirm signInfo={signInfo} setSignInfo={setSignInfo}  handleConfirm={handleConfirm}/>*/}
                         <div className="d-flex justify-content-center w-100 mt-4">
