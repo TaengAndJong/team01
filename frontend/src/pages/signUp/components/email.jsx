@@ -10,10 +10,10 @@ const Email=({formData,setFormData})=>{
     const [email, setEmail] = useState({
         emailId: "",
         emailAddrInput: "",
-        emailAddrSelect: "직접선택",
+        emailAddrSelect: "직접입력",
     });
 
-    const [msg, setMsg] = useState({});
+    const [msg, setMsg] = useState(""); // 초기값은 빈 문자열
 
     //useEffect의 역할 : 상태변화의 결과에 반응, 서버호출, 외부 Effect 처리 용도로 onChange 이벤트를 대신해서 사용하면 안 됨
     useEffect(() => {
@@ -30,15 +30,24 @@ const Email=({formData,setFormData})=>{
         const {name, value} = e.target;
         // 입력에 대한 필터 결과를 저장할 변수 :  검증이 아닌 불필요한 입력값을 사전 필터링하는 용도
         let inputFilterVal;
-        //이메일 아이디
-        if(name === "emailId"){
-            //입력된 이메일 아이디값에 대한 불필요한 텍스트 제거
+        //이메일 아이디 또는 이메일 주소
+        if (name === "emailId" || name === "emailAddrInput") {
+            //입력된 이메일 아이디값에 대한 불필요한 텍스트 제거 ( 사전필터 )
             inputFilterVal= value.replace(/[^a-zA-Z0-9._-]/g, "");
         }
-        //이메일 주소
-        if(name === "emailAddrInput"){
-            //입력된 주소값에 대한 불필요한 텍스트 제거
-            inputFilterVal=value.replace(/[^a-zA-Z0-9._-]/g, "");
+
+        // 사용자가 잘못된 값을 입력할 경우 안내할 메시지
+        if(value !== inputFilterVal){ // 실제 입력된 값과 필터된 값이 다르면 
+            //사용자에게 보여줄 메시지 갱신 예약
+            setMsg({
+                valid: false,
+                message: "한글 입력 불가"
+            });
+        }else{
+            setMsg({
+                valid: true,
+                message: ""
+            })
         }
 
         //이메일 객체에 반영
@@ -51,13 +60,17 @@ const Email=({formData,setFormData})=>{
 
     //react-select 컴포넌트 전용 핸들러: 리액트 셀렉트 컴포넌트는 selectedOption = { value: 'naver.com',label: 'naver.com'} 의 객체형태로 값 전달
     const selectChangeHandler = (selectOption)=>{
-        console.log("selectOption",selectOption);
-        //select로 이메일주소를 선택한경우, input과 select 값을 동일하게 갱신
+
+        const selectValue=selectOption.value;
+        console.log("selectValue",selectValue);
+        //select로 이메일주소를 선택한경우, input과 select 값을 동일하게 갱신 (상태갱신 예약)
         setEmail((prev)=>({
             ...prev,
-            emailAddrInput: selectOption.value, 
-            emailAddrSelect:selectOption.value
+            emailAddrInput: selectValue === '직접입력' ? '': selectValue,  // 선택값이 "직접 입력" 일 경우와 아닐 경우
+            emailAddrSelect:selectValue
         }));
+
+
 
     }
 
@@ -67,6 +80,10 @@ const Email=({formData,setFormData})=>{
     *  브라우저는 이전 저장된 계정정보, 비밀번호 관리자 정보 등을 의미에 맞게 제안해 줌
     *  --> 이 입력이 무엇인지 브라우저에게 알려주는 접근성 속성
     * */
+
+    useEffect(()=>{
+        console.log(`${email?.emailAddrSelect !== '직접입력'}`)
+    })
 
     return(
         <>
@@ -89,6 +106,8 @@ const Email=({formData,setFormData})=>{
                     id="emailAddrInput"
                     name="emailAddrInput"
                     value={email?.emailAddrInput}
+                    // readOnly={email?.emailAddrSelect === '직접입력' ? false : true}
+                    readOnly={email?.emailAddrSelect !== '직접입력'}
                     onChange={inputChangeHandler}
                     placeholder="이메일주소"
                 />
@@ -103,13 +122,17 @@ const Email=({formData,setFormData})=>{
                     value={{value: email?.emailAddrSelect, label: email?.emailAddrSelect}}
                     onChange={(selectOption) => selectChangeHandler(selectOption)} // selectChangeHandler 과 동일
                     options={[
-                        {value: '직접선택', label: '직접선택'},
+                        {value: '직접입력', label: '직접입력'},
                         {value: 'naver.com', label: 'naver.com'},
                         {value: 'google.com', label: 'google.com'},
                         {value: 'daum.net', label: 'daum.net'},
                     ]}
                 />
-
+                {msg.message && (
+                    <div className="d-flex align-items-center my-2" role="alert">
+                        <i className="icon info me-2"></i>{msg.message}
+                    </div>
+                )}
             </fieldset>
         </>
     )
