@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import FormTag from "../../../util/form/formTag.jsx";
-import Btn from "../../../util/form/reuseBtn.jsx";
-import {validID} from "../../../util/validation/regex.js";
+import FormTag from "@util/form/formTag.jsx";
+import Btn from "@util/form/reuseBtn.jsx";
 
-const StaffConfirm =({formData,setFormData,msg,setMsg,handleConfirm}) =>{
+
+const StaffConfirm =({formData,setFormData}) =>{
     // 사원여부
     const [isStaff, setIsStaff] = useState("no"); // 기본값을 "no"(아니오)로 설정
 
@@ -26,60 +26,64 @@ const StaffConfirm =({formData,setFormData,msg,setMsg,handleConfirm}) =>{
     return(
         <>
             {/*member : 라디오버튼은 같은 그룹이면 name 이 동일해야 함 */}
-            <div className="d-flex align-items-center mb-2">
-                <strong className="form-title">사원검증</strong>
-                <FormTag
-                    label="예"
-                    htmlFor="yes"
-                    labelClass="me-2"
-                    className="me-5"
-                    id="yes"
-                    name="radio"
-                    value="yes"
-                    type="radio"
-                    checked={isStaff ==="yes"} // 선택 상태 확인 checked 속성값은  true/false
-                    onChange={(e)=>handleStaffChange(e)}
-                />
-                <FormTag
-                    label="아니오"
-                    htmlFor="no"
-                    labelClass="me-2"
-                    id="no"
-                    name="radio"
-                    value="no"
-                    type="radio"
-                    checked={isStaff ==="no"} // 선택 상태 확인 checked 속성값은  true/false
-                    onChange={(e)=>handleStaffChange(e)}
+            <div className="staff-comfirm">
+                <fieldset className="row col-12 mb-2">
+                    <legend className="form-title col-2">사원여부</legend>
+                    <div className="d-flex align-items-center mb-2 radio-group">
+                        <FormTag
+                            label="예"
+                            labelClass="me-2 w-auto"
+                            className="me-5  w-auto"
+                            id="radio-yes"
+                            name="radio"
+                            value="yes"
+                            type="radio"
+                            checked={isStaff ==="yes"} // 선택 상태 확인 checked 속성값은  true/false
+                            onChange={(e)=>handleStaffChange(e)}
+                        />
+                        <FormTag
+                            label="아니오"
+                            labelClass="me-2 w-auto"
+                            className="me-5  w-auto"
+                            id="radio-no"
+                            name="radio"
+                            value="no"
+                            type="radio"
+                            checked={isStaff ==="no"} // 선택 상태 확인 checked 속성값은  true/false
+                            onChange={(e)=>handleStaffChange(e)}
 
-                />
+                        />
+                    </div>
+
+                    {isStaff === "yes" && (
+                    <div className="d-flex align-items-center px-0">
+                        <FormTag
+                            label="사원번호"
+                            labelClass="form-title sr-only"
+                            className="form-control w-50"
+                            id="staffId"
+                            name="staffId"
+                            value={formData.staffId}
+                            type="text"
+                            onChange={handleInputChange}
+                            placeholder="사원번호 입력"
+                        />
+                        <Btn
+                            text="사원번호확인"
+                            type="button"
+                            className="btn custom-btn01 form-control ms-1 py-2 "
+                            onClick={() => {
+                                handleConfirm("staffId", formData.staffId,{
+                                    clientName: formData.clientName,
+                                    tel: formData.tel
+                                });
+                            }}
+                        />
+                    </div>
+                    )}
+                </fieldset>
+
             </div>
-            {isStaff === "yes" && (
-                <div className="d-flex align-items-center mb-1">
-                    <FormTag
-                        label="사원번호"
-                        labelClass="form-title"
-                        className="form-control w-75"
-                        name="staffId"
-                        value={formData.staffId}
-                        type="text"
-                        onChange={handleInputChange}
-                        placeholder="사원번호를 입력해주세요"
-                        msg={msg.memberMsg}
-                    />
-                    <Btn
-                        text="사원번호확인"
-                        type="button"
-                        className="btn-primary ms-1 w-25"
-                        onClick={() => {
-                            handleConfirm("staffId", formData.staffId,{
-                                clientName: formData.clientName,
-                                tel: formData.tel
-                            });
-                        }}
-                    />
-                </div>
-            )}
-
         </>
     )
 }

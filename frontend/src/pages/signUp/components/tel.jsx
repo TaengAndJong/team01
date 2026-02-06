@@ -64,7 +64,7 @@ const Tel=({formData,setFormData})=>{
                         onChange={handleTelChange}
                         placeholder="첫 번째 전화번호 입력"
                     />
-                    <span className="d-inline-flex align-items-center mx-2">-</span>
+                    <span className="d-inline-flex align-items-center mx-2 seperator">-</span>
                     <FormTag
                         className="form-control col-1 px-0 d-inline-flex text-center"
                         id="secondTelNum"
@@ -73,7 +73,7 @@ const Tel=({formData,setFormData})=>{
                         onChange={handleTelChange}
                         placeholder="두 번째 전화번호 입력"
                     />
-                    <span className="d-inline-flex align-items-center mx-2">-</span>
+                    <span className="d-inline-flex align-items-center mx-2 seperator">-</span>
                     <FormTag
                         className="form-control col-1 px-0 d-inline-flex text-center"
                         id="lastTelNum"

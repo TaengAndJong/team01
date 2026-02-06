@@ -11,6 +11,7 @@ import Address from "./components/address.jsx";
 import {useModal} from "../common/modal/ModalContext.jsx";
 import {catchError} from "../../util/error/error.jsx";
 import axios from "axios";
+import StaffConfirm from "./components/staffConfirm.jsx";
 
 
 
@@ -19,6 +20,8 @@ const SignUpComponent = () => {
     // formInfoData를 부모 컴포넌트로부터 props로 받아온다고 가정
     const [signInfo,setSignInfo] = useState({
         roleId:`ROLE_CLIENT`,
+        addr: "",
+        addrDetail:"",
     });
 
     //공통모달
@@ -137,8 +140,8 @@ const SignUpComponent = () => {
                         <Birth formData={signInfo} setFormData={setSignInfo} />
                         <Tel formData={signInfo} setFormData={setSignInfo} />
                         <Email formData={signInfo} setFormData={setSignInfo} />
-                        {/*<Address signInfo={signInfo} setSignInfo={setSignInfo} />*/}
-                        {/*<StaffConfirm signInfo={signInfo} setSignInfo={setSignInfo}  handleConfirm={handleConfirm}/>*/}
+                        <Address formData={signInfo} setFormData={setSignInfo} />
+                        <StaffConfirm formData={signInfo} setFormData={setSignInfo}/>
                         <div className="d-flex justify-content-center w-100 mt-4">
                             <Btn type="submit" text="회원가입" className="btn btn-dark me-2" id="signup"
                                  onClick={handleSignUp}/>

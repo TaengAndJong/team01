@@ -5,13 +5,16 @@
     width: auto; }
 /*.signup input[type="text"],.signup input[type="password"]{ max-width: 300px;*/
 /*    width: 100%}*/
+.signup  .seperator{min-width: 1.4rem;justify-content: center}
 .signup .form-title{display: inline-flex; align-items: center; position: absolute;left: 0;top:0 }
-.signup .addr-info{ display:block; width: 100%;}
-.signup .addr-info [type="text"] {max-width:80%; width: 100%;}
-.signup .addr-info [name="zoneCode"]{max-width:68%;}
+.signup .addr-info [type="text"]{ display:block; width: 100%;}
+.signup .addr-info #addr{width: 80%;}
+.signup .addr-info #detailAddr{width: 80%;margin-right: 0.5%;}
+.signup .addr-info #zoneCode{width: 19%;}
+
+
 .signup .tel-info{position: relative;}
-.signup .tel-info .form-control { max-width:22.8%; width: 100%;
-    padding: 0}
+.signup .tel-info .form-control { max-width:29.2%; width: 100%;padding: 0}
 .signup .tel-info .row{ padding-left: 0;}
 
 /*.signup .tel-info .row{padding-left:11.5rem}*/
@@ -23,6 +26,10 @@
 .signup .email-info input[type="text"]{ width: 100%;}
 .signup .email-info input[type="text"]:first-of-type{max-width: 20%;}
 .signup .email-info input[type="text"]:not(:first-of-type){max-width: 28.5%;}
-
+.signup .email-info  #emailId{max-width:25%; }
+.signup .email-info  #emailAddrInput{max-width:40%}
+.signup .email-info  #emailAddrSelect{max-width:25%}
 .signup .birth-info .col-2{ width: calc(100% / 3 - 4px)}
 .signup .birth-info .col-2 input[type="text"]{width:100%;}
+
+.signup .staff-comfirm .radio-group{min-height: 3.8rem;}

@@ -38,8 +38,9 @@ const DaumPostcode  = ({ onAddressSelect }) => {
     };
 
     return (
-        <button type='button' id="find-addr-btn" className="btn custom-btn01 form-control w-auto ms-1 py-2" onClick={handleClick}>
-            주소 찾기
+        <button type='button' id="find-addr-btn" className="btn custom-btn01 form-control ms-1 py-2 mb-2"
+                onClick={handleClick} aria-label="주소 검색">
+            주소 검색
         </button>
     );
 };

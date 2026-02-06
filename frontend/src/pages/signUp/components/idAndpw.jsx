@@ -57,7 +57,7 @@ const IdAndPw = ({formData,setFormData,handleConfirm})=>{
                <div className="row col-12 mb-2">
                    <FormTag label="아이디" labelClass="form-title col-2" id="clientId" className="form-control"  name="clientId" type="text"
                             value={formData.clientId}
-                            onChange={handleInputChange}/>
+                            onChange={handleInputChange}  placeholder={"아이디"}/>
                    <button className="btn custom-btn01 form-control w-auto ms-1 py-2"  id="confirm" type="button" onClick={() => {
                        handleConfirm("clientId", formData.clientId)
                    }}>중복확인</button>
@@ -73,7 +73,8 @@ const IdAndPw = ({formData,setFormData,handleConfirm})=>{
                <div className="row col-12  mb-2">
                    <FormTag label="비밀번호" labelClass="form-title col-2"  id="password" className="form-control" name="password" type="password"
                             value={formData.password}
-                            onChange={handleInputChange}/>
+                            onChange={handleInputChange}
+                            placeholder={"비밀번호"}/>
                    {msg.message && msg.type === "password" && (
                        <div className="d-flex align-items-center my-2">
                            <i className="icon info me-2"></i>{msg.message}
@@ -83,7 +84,10 @@ const IdAndPw = ({formData,setFormData,handleConfirm})=>{
                <div className="row col-12  mb-2">
                    <FormTag label="비밀번호확인" labelClass="form-title col-2" className="form-control" name="passwordConfirm" type="password"
                             value={formData.passwordConfirm}
-                            onChange={handleInputChange}/>
+                            onChange={handleInputChange}
+                            placeholder={"비밀번호 확인"}
+                   />
+               
                    {msg.message && msg.type === "passwordConfirm" && (
                        <div className="d-flex align-items-center my-2"  role="alert">
                            <i className="icon info me-2"></i>{msg.message}
@@ -93,7 +97,8 @@ const IdAndPw = ({formData,setFormData,handleConfirm})=>{
                <div className="row col-12  mb-2">
                    <FormTag label="이름" labelClass="form-title col-2" className="form-control" id="clientName" name="clientName"
                             value={formData.clientName}
-                            onChange={handleInputChange}/>
+                            onChange={handleInputChange}
+                            placeholder={"이름"}/>
                </div>
 
        </>

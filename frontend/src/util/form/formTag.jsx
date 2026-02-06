@@ -2,7 +2,7 @@ import DatePicker from "react-datepicker";
 import {ko} from "date-fns/locale";
 
 const FormTag = ({ label,labelClass,id, name, value, onChange,className,
-                     type = "text", checked, msg,ref,
+                     type = "text", checked, msg,ref, placeholder,
 
                      disabled = false, readOnly = false, required=false }) => {
 
@@ -13,7 +13,9 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
            case "text":
                return (
                    <input id={id} name={name} type={type} value={value || ""} onChange={onChange}  ref={ref}
-                          className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required} />
+                          className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required}
+                          placeholder={placeholder}
+                   />
            );
            case "checkbox":
            case "radio":
@@ -21,7 +23,9 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                              className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required} />
            case "textarea":
                return <textarea id={id} name={name} value={value} onChange={onChange}  ref={ref}
-                                className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required}/>
+                                className={msg ? "msg form-control" : className}
+                                disabled={disabled} readOnly={readOnly} required={required}
+                                placeholder={placeholder}/>
            case "password":
                return (
                    <input
@@ -29,6 +33,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                        className={msg ? "msg form-control" : className}
                        required={required}
                        readOnly={readOnly}
+                       placeholder={placeholder}
                        {...(type === "password" ? {autoComplete: "new-password"} : {})}
                        {...(type === "name" ? {autoComplete: "name"} : {})}
                    />
@@ -48,6 +53,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                        className={msg ? "msg form-control" : className}
                        readOnly={readOnly}
                        required={required}
+                       placeholder={placeholder}
                    />
 
                );
@@ -55,7 +61,10 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
            case "date":
                return (
                    <input id={id} name={name} type={type} value={value || ""} onChange={onChange}  ref={ref}
-                          className={msg ? "msg form-control" : className} disabled={disabled} readOnly={readOnly} required={required} />
+                          className={msg ? "msg form-control" : className}
+                          disabled={disabled} readOnly={readOnly} required={required}
+                          placeholder={placeholder}
+                   />
                );
            case "datePicker" :
                return(
@@ -86,6 +95,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
                        disabled={disabled}
                        readOnly={readOnly}
                        required={required}
+                       placeholder={placeholder}
                    />
                );
        }
@@ -94,7 +104,7 @@ const FormTag = ({ label,labelClass,id, name, value, onChange,className,
     return (
         <>
             {/* labelClass가 null이나 undefined 이면 "" (빈문자열 반환) */}
-            <label htmlFor={name} className={labelClass ? labelClass : ""}>{label}</label>
+            <label htmlFor={id} className={labelClass ? labelClass : ""}>{label}</label>
                 {inputType()}
             {msg && <div className="msg tip text-start w-auto d-inline-flex align-items-center my-2"><i className="icon info mx-2"></i>{msg}</div>}
         </>

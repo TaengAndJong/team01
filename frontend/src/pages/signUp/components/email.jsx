@@ -99,7 +99,7 @@ const Email=({formData,setFormData})=>{
                     onChange={inputChangeHandler}
                     placeholder="이메일아이디"
                 />
-                <span className="d-inline-flex w-auto align-items-center mx-1" id="at" aria-hidden="true">@</span>
+                <span className="d-inline-flex w-auto align-items-center mx-1 seperator" id="at" aria-hidden="true">@</span>
                 <FormTag
                     label="이메일주소"
                     labelClass="sr-only" className="form-control col-3"
