@@ -1,7 +1,8 @@
 package com.example.team01.signup;
 
 
-import com.example.team01.signup.dto.UserInfoValidateRequesetDTO;
+import com.example.team01.signup.dto.auth.ClientIdConfirmRequest;
+import com.example.team01.signup.dto.staff.StaffConfirmRequest;
 import com.example.team01.signup.service.SignUpService;
 import com.example.team01.vo.SignUpVO;
 import lombok.RequiredArgsConstructor;
@@ -61,16 +62,15 @@ public class SignUpController {
     }
 
 
+    //아이디중복검증 API
+    @PostMapping("/idConfirm")
+    public ResponseEntity<?>  confirmId(@RequestBody ClientIdConfirmRequest resp) {
 
-    //단일검증 API
-    @GetMapping("/validate")
-    public ResponseEntity<?>  checkUserInfo(UserInfoValidateRequesetDTO validInfo) {
+        log.info("validInfo------------- 회원가입 객체 검증:{}",resp);
 
-        log.info("validInfo------------- 회원가입 객체 검증:{}",validInfo);
-
-        if (validInfo.getClientId() != null) {
+        if (resp.getClientId() != null) {
             log.info("아이디 중복 검증 진입");
-            signUpService.selectDuplicateId(validInfo.getClientId()); //예외가 발생하지 않으면 다음코드 실행
+            signUpService.selectDuplicateId(resp.getClientId()); //예외가 발생하지 않으면 다음코드 실행
             //각 객체의 성공여부 분기처리를 위해 type을 지정해서 응답에 보내줌
             return ResponseEntity.ok(
                     Map.of("success", true, "type", "CLIENTID")
@@ -80,6 +80,15 @@ public class SignUpController {
         // if문 이외라면 400에러 반환
         return ResponseEntity.badRequest().build();
     }
+
+    //사원검증  API
+    @PostMapping("/staffConfirm")
+      public ResponseEntity<?> confirmStaff(@RequestBody StaffConfirmRequest staffInfo){
+            log.info("사원번호 검증:{}",staffInfo);
+            //사원번호가 존재하는 지 우선 조회 -> 없으면 예외 처리 필요
+
+        return  null;
+      }
 
 
 }

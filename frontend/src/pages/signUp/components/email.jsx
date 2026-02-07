@@ -19,6 +19,37 @@ const Email=({formData,setFormData})=>{
     useEffect(() => {
 
 
+        //이메일아이디가 비어있고
+        const emptyEmailId = !email.emailId;
+        // 변수에 값을 저장하기때문에 무조건 실행되는 코드로 true, false 둘 다 반환가능
+        const emptyDomain =
+            email.emailAddrSelect === "직접입력"
+                ? !email.emailAddrInput
+                : !email.emailAddrSelect;
+
+        if (emptyEmailId || emptyDomain) {
+           // 이메일 입력 안내 메시지 출력
+            setMsg({
+                valid:false,
+                message:"이메일 입력 필수"
+            });
+            return;
+        }
+
+        //해당 필터를 통과하면 formData email에 넣어줄 전체 이메일 주소 결합하기
+        const combineEmail=
+            email.emailAddrSelect !== "직접입력"
+            ? `${email.emailId}@${email.emailAddrSelect}`
+            : `${email.emailId}@${email.emailAddrInput}`;
+
+        console.log("combineEmail",combineEmail);
+
+        // 하나의 이메일 주소로 결합하여 formData한번만 갱신
+        setFormData(prev => ({
+            ...prev,
+            email: combineEmail,
+        }))
+
     },  [email]); // email가 변경될 때 실행
 
     // onChaneg 의 역할 : 입력 제어와 상태변경
@@ -69,7 +100,6 @@ const Email=({formData,setFormData})=>{
             emailAddrInput: selectValue === '직접입력' ? '': selectValue,  // 선택값이 "직접 입력" 일 경우와 아닐 경우
             emailAddrSelect:selectValue
         }));
-
 
 
     }

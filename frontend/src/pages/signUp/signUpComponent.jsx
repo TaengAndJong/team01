@@ -22,6 +22,9 @@ const SignUpComponent = () => {
         roleId:`ROLE_CLIENT`,
         addr: "",
         addrDetail:"",
+        isStaff:"no",
+        staffId:"",
+
     });
 
     //공통모달
@@ -45,8 +48,9 @@ const SignUpComponent = () => {
     }
 
 //signUp post로 비동기 요청보내기
-    const handleSignUp = async (e) => {
+    const submitSignUp = async (e) => {
         e.preventDefault();
+        // 서버 전송 전 데이터 빈값 검증과 풀데이터 정규식 형식검증
         try {
             //signInfo에 담기전에 빈값 검증필요
             for (const [key, value] of Object.entries(signInfo)) {
@@ -90,45 +94,6 @@ const SignUpComponent = () => {
 
         }
     };
-    
-    // 아이디, 회원번호 검증
-    const handleConfirm = async (key, value,addData = {}) => {
-
-        // onSubmit 이벤트 전, 검증코드 분리 메서드를 통한 1차 사전 검증 진행
-
-
-        // 후 서버로 회원가입 할 사용자의 정보 전송
-        try{
-            //axios 를 사용하는 이유 : params를 사용해 값들을 쿼리스트링으로 자동 변환하여 URLSearchParams 사요할 필요 없음
-            const response = await axios.get("/api/signup/validate",{
-                params:{
-                    [key]:value, // 동적 키 처리 가능 ==> 하나의 API로 여러 객체 검증 가능
-                    ...addData,
-                }
-            })
-            console.log("검증요청 응답 ",response)
-            // 성공했을 경우 모달
-            const type = response.data.type;
-
-            //
-            switch(type) {
-                case "CLIENTID": openModal({
-                    modalType: "default",
-                    content:<p>사용 가능한 아이디입니다.</p>,
-                    onConfirm: () => {closeModal()},
-                });
-                break;
-            }
-
-        }catch(err){
-            console.log("회원가입 에러",err);
-            //에러처리
-            catchError(err, { openModal, closeModal});
-        }
-        //end
-    }
-
-
 
     return (
         <>
@@ -136,7 +101,7 @@ const SignUpComponent = () => {
                 <form className="container">
                     <fieldset>
                         <legend className="d-block title-border mb-5">회원가입</legend>
-                        <IdAndpw formData={signInfo} setFormData={setSignInfo} handleConfirm={handleConfirm}/>
+                        <IdAndpw formData={signInfo} setFormData={setSignInfo}/>
                         <Birth formData={signInfo} setFormData={setSignInfo} />
                         <Tel formData={signInfo} setFormData={setSignInfo} />
                         <Email formData={signInfo} setFormData={setSignInfo} />
@@ -144,7 +109,7 @@ const SignUpComponent = () => {
                         <StaffConfirm formData={signInfo} setFormData={setSignInfo}/>
                         <div className="d-flex justify-content-center w-100 mt-4">
                             <Btn type="submit" text="회원가입" className="btn btn-dark me-2" id="signup"
-                                 onClick={handleSignUp}/>
+                                 onClick={submitSignUp}/>
                             <Link to="/" className="btn btn-danger">취소</Link>
                         </div>
                     </fieldset>

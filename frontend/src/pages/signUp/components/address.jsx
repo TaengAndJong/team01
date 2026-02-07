@@ -5,16 +5,9 @@ import React from "react";
 const Address=({formData,setFormData})=>{
 
     //input onChange 핸들러
-    const inputOnchanghandler = (e) => {
+    const inputOnchangehandler = (e) => {
         const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
         setFormData({ ...formData, [name]: value });
-
-        // 아이디 유효성 검사
-        if (name === "clientId") {
-            const idValidation = validAddrID(value);
-
-        }
-
     };
 
     //주소
@@ -39,27 +32,27 @@ const Address=({formData,setFormData})=>{
                         label="기본주소"
                         labelClass="form-title col-2 sr-only" id="addr" className="form-control mb-2"
                         name="addr"
-                        value={formData.addr}
+                        value={formData?.addr}
                         readOnly={true}
                         placeholder="기본주소"
-                        onChange={inputOnchanghandler}
+                        onChange={inputOnchangehandler}
                     />
                     <DaumPostcode onAddressSelect={handleAddressSelect}/>
                     <FormTag
                         label="상세주소"
                         labelClass="form-title col-2 sr-only" id="detailAddr" className="form-control mb-2"
                         name="detailAddr"
-                        value={formData.detailAddr}
-                        onChange={inputOnchanghandler}
+                        value={formData?.detailAddr}
+                        onChange={inputOnchangehandler}
                         placeholder="상세주소"
                     />
                     <FormTag
                         label="우편번호"
                         labelClass="form-title col-2 sr-only" id="zoneCode" className="form-control mb-2"
                         name="zoneCode"
-                        value={formData.zoneCode}
+                        value={formData?.zoneCode}
                         placeholder="우편번호"
-                        onChange={inputOnchanghandler}
+                        onChange={inputOnchangehandler}
                     />
                 </fieldset>
             </div>
