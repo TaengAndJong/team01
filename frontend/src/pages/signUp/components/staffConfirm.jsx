@@ -38,7 +38,7 @@ const StaffConfirm =({formData,setFormData}) =>{
                 staffId:formData?.staffId,
                 isStaff:formData?.isStaff,
                 staffName:formData?.clientName,
-                staffEmail:"",
+                staffEmail:formData?.email,
                 staffTelNum:formData?.tel,
             });
         

@@ -15,26 +15,11 @@ const Email=({formData,setFormData})=>{
 
     const [msg, setMsg] = useState(""); // 초기값은 빈 문자열
 
+    //사용자 조작 상태 : 사용자가 입력한 적이 없는 상태로 초기값
+    const [emailTouched, setEmailTouched] = useState(false); 
+    
     //useEffect의 역할 : 상태변화의 결과에 반응, 서버호출, 외부 Effect 처리 용도로 onChange 이벤트를 대신해서 사용하면 안 됨
     useEffect(() => {
-
-
-        //이메일아이디가 비어있고
-        const emptyEmailId = !email.emailId;
-        // 변수에 값을 저장하기때문에 무조건 실행되는 코드로 true, false 둘 다 반환가능
-        const emptyDomain =
-            email.emailAddrSelect === "직접입력"
-                ? !email.emailAddrInput
-                : !email.emailAddrSelect;
-
-        if (emptyEmailId || emptyDomain) {
-           // 이메일 입력 안내 메시지 출력
-            setMsg({
-                valid:false,
-                message:"이메일 입력 필수"
-            });
-            return;
-        }
 
         //해당 필터를 통과하면 formData email에 넣어줄 전체 이메일 주소 결합하기
         const combineEmail=
@@ -50,12 +35,14 @@ const Email=({formData,setFormData})=>{
             email: combineEmail,
         }))
 
+
     },  [email]); // email가 변경될 때 실행
+
 
     // onChaneg 의 역할 : 입력 제어와 상태변경
     // 이메일 유효성 검사 및 중복 검사 ( input[type=text] 에 대한 이벤트 핸들러)
     const inputChangeHandler = (e)=>{
-
+        setEmailTouched(true); // 사용자가 조작함
         console.log("이메일 입력",e.target.name,e.target.value);
         // 이벤트 타겟 객체 구조분해 할당
         const {name, value} = e.target;
@@ -111,9 +98,7 @@ const Email=({formData,setFormData})=>{
     *  --> 이 입력이 무엇인지 브라우저에게 알려주는 접근성 속성
     * */
 
-    useEffect(()=>{
-        console.log(`${email?.emailAddrSelect !== '직접입력'}`)
-    })
+
 
     return(
         <>
