@@ -6,6 +6,7 @@ import com.example.team01.common.exception.signup.IdException;
 import com.example.team01.common.exception.signup.PasswordException;
 import com.example.team01.common.exception.signup.PhoneNumberException;
 import com.example.team01.signup.dao.SignUpDao;
+import com.example.team01.signup.dto.staff.StaffConfirmRequest;
 import com.example.team01.vo.SignUpVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -97,14 +98,16 @@ public class SignUpServiceImple implements SignUpService {
         }
     }
 
+       @Override
+    public void selectStaffId(StaffConfirmRequest staff) {
 
+        log.info("staff-------------- 사원 정보:{}", staff);
 
-    @Override
-    public SignUpVO selectStaffInfo(String staffId) {
-        log.info("select staff info:{}", dao.selectStaffInfo(staffId));
-        return dao.selectStaffInfo(staffId);
+//컨트롤러에서 받아온 파라미터 dao로 전달, 반환값이 1이면 존재, 아니면 0 인데 예외처리해야함?
+
+           dao.selectStaffInfo(staff);
+
     }
-
 
 
 }

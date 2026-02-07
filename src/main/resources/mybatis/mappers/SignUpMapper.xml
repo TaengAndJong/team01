@@ -34,23 +34,11 @@
     </select>
 
     <!-- staff 사원 정보 -->
-    <select id="selectStaffInfo" parameterType="String" resultType="SignUpVO">
-        SELECT
-            emp.staffId,
-            emp.staffName,
-            emp.roleId,
-            emp.rankId,
-            emp.birth,
-            emp.tel,
-            emp.startDate,
-            dep.departId,
-            dep.departName
-        FROM
-            (SELECT staffId, staffName,birth,tel,roleId,rankId,startDate, departId
-             FROM emp
-             WHERE staffId = #{staffId}) emp
-                LEFT JOIN DEPARTMENT dep
-                          ON emp.departId = dep.departId
+    <select id="selectStaffInfo" parameterType="com.example.team01.signup.dto.staff.StaffConfirmRequest" resultType="int">
+        SELECT EXISTS (
+            SELECT 1 FROM staff
+            WHERE staffId = #{staff.staffId}  AND (staffEmail = #{staff.staffEmail} OR staffTelNum = #{staff.staffTelNum})
+        )
     </select>
 
 

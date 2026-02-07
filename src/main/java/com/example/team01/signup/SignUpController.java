@@ -83,9 +83,10 @@ public class SignUpController {
 
     //사원검증  API
     @PostMapping("/staffConfirm")
-      public ResponseEntity<?> confirmStaff(@RequestBody StaffConfirmRequest staffInfo){
-            log.info("사원번호 검증:{}",staffInfo);
-            //사원번호가 존재하는 지 우선 조회 -> 없으면 예외 처리 필요
+      public ResponseEntity<?> confirmStaff(@RequestBody StaffConfirmRequest staff){
+            log.info("사원번호 검증:{}",staff);
+            //서비스에 파라미터 담아서 넘겨주기
+            signUpService.selectStaffId(staff);
 
         return  null;
       }

@@ -1,6 +1,7 @@
 package com.example.team01.signup.dao;
 
 
+import com.example.team01.signup.dto.staff.StaffConfirmRequest;
 import com.example.team01.vo.SignUpVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,8 +27,5 @@ public interface SignUpDao {
      int selectDuplicateEmail(String email);
      int selectDuplicateId(String clientId);
      int selectDuplicatePhoneNumber(String tel);
-//     int selectDuplicateStaffId(@Param("staffId") String staffId,
-//                                @Param("staffName") String staffName,
-//                                @Param("tel") String tel);
-     SignUpVO selectStaffInfo(String staffId);
+     int selectStaffInfo(StaffConfirmRequest staff);
 }
