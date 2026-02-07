@@ -1,4 +1,4 @@
-package com.example.team01.signup.dto;
+package com.example.team01.signup.dto.auth;
 
 import lombok.*;
 
