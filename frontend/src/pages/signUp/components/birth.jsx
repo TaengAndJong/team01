@@ -62,11 +62,11 @@ const Birth = ({formData,setFormData}) =>{
     //birth 상태 변경 될 때마다 갱신
     useEffect(() => {
         // '년, 월 ,일 ' 모든 값이 있을 때만 infoDate의 'birth'를 갱신
-        if (birth.birthYear && birth.birthMonth && birth.birthDay) {
+        if (birth.year && birth.month  && birth.day) {
             // 'birthYear', 'birthMonth', 'birthDay' 값이 모두 있으면
             setFormData((prev) => ({
                 ...prev,
-                birth: `${birth.birthYear}-${birth.birthMonth}-${birth.birthDay}`,
+                birth: `${birth.year}-${birth.month}-${birth.day}`,
             }));
         }
 

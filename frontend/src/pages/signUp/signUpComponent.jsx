@@ -21,7 +21,7 @@ const SignUpComponent = () => {
     const [signInfo,setSignInfo] = useState({
         roleId:`ROLE_CLIENT`,
         addr: "",
-        addrDetail:"",
+        detailAddr:"",
         isStaff:"no",
         staffId:"",
 

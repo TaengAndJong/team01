@@ -61,6 +61,10 @@ const StaffConfirm =({formData,setFormData}) =>{
                 valid: true,
                 message:""
             });
+
+            //formData에 isStaff, staff 검증 완료 처리 ?
+
+
         } catch (err) {  //실패 : 서버가 보내 온 예외
              console.log("사원검증 에러 ",err);
             //에러처리
