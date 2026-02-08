@@ -3,7 +3,6 @@ package com.example.team01.common.exception.common;
 public class BusinessException extends RuntimeException {
 
     public BusinessException(String message) {
-
         super(message); // 런타임예외를 상속받고 있어서 선언만 해주면 됨
     }
     // 새로 커스텀하려면, 클래스변수를 선언하고 

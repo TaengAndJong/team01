@@ -27,5 +27,5 @@ public interface SignUpDao {
      int selectDuplicateEmail(String email);
      int selectDuplicateId(String clientId);
      int selectDuplicatePhoneNumber(String tel);
-     int selectStaffInfo(StaffConfirmRequest staff);
+    boolean selectStaffInfo(StaffConfirmRequest staff);
 }

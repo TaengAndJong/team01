@@ -88,7 +88,10 @@ public class SignUpController {
             //서비스에 파라미터 담아서 넘겨주기
             signUpService.selectStaffId(staff);
 
-        return  null;
+       // return ResponseEntity.ok().body("확인 완료");
+        return ResponseEntity.ok(
+                Map.of("success", true, "type", "STAFFID")
+        );
       }
 
 

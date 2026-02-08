@@ -1,10 +1,7 @@
 package com.example.team01.signup.service;
 
 
-import com.example.team01.common.exception.signup.EmailException;
-import com.example.team01.common.exception.signup.IdException;
-import com.example.team01.common.exception.signup.PasswordException;
-import com.example.team01.common.exception.signup.PhoneNumberException;
+import com.example.team01.common.exception.signup.*;
 import com.example.team01.signup.dao.SignUpDao;
 import com.example.team01.signup.dto.staff.StaffConfirmRequest;
 import com.example.team01.vo.SignUpVO;
@@ -98,15 +95,18 @@ public class SignUpServiceImple implements SignUpService {
         }
     }
 
-       @Override
+    @Override
     public void selectStaffId(StaffConfirmRequest staff) {
 
         log.info("staff-------------- 사원 정보:{}", staff);
-
-//컨트롤러에서 받아온 파라미터 dao로 전달, 반환값이 1이면 존재, 아니면 0 인데 예외처리해야함?
-
-           dao.selectStaffInfo(staff);
-
+        //컨트롤러에서 받아온 파라미터 dao로 전달
+       boolean exists = dao.selectStaffInfo(staff);
+       //사원번호가 존재하지 않으면 false
+        if(!exists){
+            //존재하지 않는 것에 대한 예외처리 --> 컨트롤러로 예외 던지기
+            throw  new StaffIdException("사원번호가 존재하지 않습니다.");
+        }
+        //정상처리이면 끝
     }
 
 

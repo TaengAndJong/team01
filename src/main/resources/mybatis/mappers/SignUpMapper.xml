@@ -34,15 +34,15 @@
     </select>
 
     <!-- staff 사원 정보 -->
-    <select id="selectStaffInfo" parameterType="com.example.team01.signup.dto.staff.StaffConfirmRequest" resultType="int">
+    <select id="selectStaffInfo" parameterType="com.example.team01.signup.dto.staff.StaffConfirmRequest" resultType="boolean">
         SELECT EXISTS (
-            SELECT 1 FROM staff
-            WHERE staffId = #{staff.staffId}  AND (staffEmail = #{staff.staffEmail} OR staffTelNum = #{staff.staffTelNum})
-        )
+            SELECT 1
+            FROM staff
+            WHERE staffId = #{staffId}
+              AND (staffEmail = #{staffEmail}
+                OR staffTelNum = #{staffTelNum})
+        ) AS exists
     </select>
-
-
-
 
 
 </mapper>

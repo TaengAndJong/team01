@@ -62,17 +62,12 @@ const IdAndPw = ({formData,setFormData})=>{
             const response = await axios.post("/api/signup/idConfirm",{clientId: formData?.clientId});
             console.log("아이디 검증요청 응답 ",response)
             // 성공했을 경우 모달
-            const type = response.data.type;
 
-            //
-            switch(type) {
-                case "CLIENTID": openModal({
-                    modalType: "default",
-                    content:<p>사용 가능한 아이디입니다.</p>,
-                    onConfirm: () => {closeModal()},
-                });
-                    break;
-            }
+            openModal({
+                modalType: "default",
+                content:<p>사용 가능한 아이디입니다.</p>,
+                onConfirm: () => {closeModal()},
+            });
 
         }catch(err){
             console.log("회원가입 에러",err);
