@@ -1,7 +1,6 @@
 import FormTag from "../../../util/form/formTag.jsx";
 import Select from "react-select";
 import React, {useEffect, useState} from "react";
-import {emailAddrValidation, emailIdValidation} from "../../../util/validation/validationCommon.js";
 
 
 const Email=({formData,setFormData})=>{

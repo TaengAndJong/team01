@@ -68,6 +68,18 @@ public class SignUpServiceImple implements SignUpService {
             throw new EmailException("이미 사용중인 이메일입니다.");
         }
 
+
+
+        // 여기에서 사원인 경우, 아닌경우 분기처리해서 singUpVO 넣어줘야돼 ?
+        boolean isStaff =
+                signUpVO.getStaffId() != null && !signUpVO.getStaffId().isBlank();
+
+        log.info("회원가입 유형: {}", isStaff ? "사원" : "일반");
+
+        if(!isStaff){
+            signUpVO.setStaffId(null);
+        }
+
         cnt = dao.insertUserData(signUpVO);
         log.info("insert cnt :{}",cnt);
         if (cnt != 1) {

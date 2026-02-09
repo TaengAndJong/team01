@@ -9,9 +9,10 @@ import Tel from "./components/tel.jsx";
 import Email from "./components/email.jsx";
 import Address from "./components/address.jsx";
 import {useModal} from "../common/modal/ModalContext.jsx";
-import {catchError} from "../../util/error/error.jsx";
+import {catchError} from "@util/error/error.jsx";
 import axios from "axios";
 import StaffConfirm from "./components/staffConfirm.jsx";
+import {inputRegexs} from "../../util/validation/regex.js";
 
 
 
@@ -51,20 +52,57 @@ const SignUpComponent = () => {
     const submitSignUp = async (e) => {
         e.preventDefault();
         // 서버 전송 전 데이터 빈값 검증과 풀데이터 정규식 형식검증
+
         try {
+            // isStaff 일 경우와 아닐 경우, 검증 객체 나눠주기
+            const commonInfo =[
+                "clientId","roleId", "clientName",
+                "password","birth", "tel",
+                "zoneCode", "addr","detailAddr",
+                "email"];
+
+            const isStaffInfo = [...commonInfo,"staffId"];
+
+            // 빈 값 검증 isStaff 기준으로 검증 객체 결정
+            const validationFields =signInfo.isStaff === "no"? commonInfo : isStaffInfo;
+
             //signInfo에 담기전에 빈값 검증필요
-            for (const [key, value] of Object.entries(signInfo)) {
-                if (!value) {
+            for (const key of validationFields) {  // formData 객체 순회
+                if (!signInfo[key]) { // 빈값일 경우
                     const engtokorName = korname[key] || key; // korname[key] 를 사용해서 해당 객체의 value 값을 가져오기
+                    //모달로 사용자에게 알림
                     openModal({
                         modalType: "error",
-                        content:<>
-                            <p>{engtokorName} 값이 비어있습니다.</p>
-                        </>,
+                        content:<><p>{engtokorName} 값이 비어있습니다.</p></>,
                         onConfirm: () => {closeModal()}
                     })
-                    break; // 빈 값 발견 시 루프 종료
+                    return; // 빈값 발견 시 함수 전체 종료 ( 다음 코드 실행 안됨 )
                 }
+            } // for end
+            
+            //전화번호 전체형식 검증
+            const validFulltel = inputRegexs.telMobileRegex.test(signInfo.tel.trim()) ||
+                inputRegexs.telAreaRegex.test(signInfo.tel.trim())
+            
+            if (!validFulltel) {
+                openModal({
+                    modalType: "error",
+                    content: <p>전화번호 형식이 잘못됨</p>,
+                    onConfirm: closeModal,
+                });
+                return; // 힘수 전체종료
+            }
+
+            //이메일 전체형식 검증
+            const validfullEmail = inputRegexs.emailRegex.test(signInfo.email.trim());
+         
+            if (!validfullEmail) {
+                openModal({
+                    modalType: "error",
+                    content: <p>이메일 형식이 잘못됨</p>,
+                    onConfirm: closeModal,
+                });
+                return;// 힘수 전체종료
             }
 
             // axios에서 signInfo를 Json으로 변경해 줌
@@ -79,7 +117,7 @@ const SignUpComponent = () => {
             //서버에서 반환하는 json 객체에 success :  true로 설정해줘야함
             if (result.success) {
                 openModal({
-                    modalType: "confirm",
+                    modalType: "default",
                     content:<>
                                 <p>회원가입이 성공적으로 완료되었습니다!</p>
                             </>,

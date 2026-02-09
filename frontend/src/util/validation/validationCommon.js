@@ -1,4 +1,5 @@
-import {inputRegexs} from "./regex.js";  "@util/validation/regex"
+import {inputRegexs} from "./regex.js";
+
 
 
 /*
@@ -15,7 +16,10 @@ import {inputRegexs} from "./regex.js";  "@util/validation/regex"
 * */
 
 
+/* 각 컴포넌트별 사전검증 */
 //아이디형식 검증
+
+
 export const idvalidation = (value) =>{
 
     // 값 없음 !value ==> null 포함 비어있는 모든 값 검증
@@ -221,6 +225,23 @@ export const eachTelValidation=(tel,telType)=>{
 
 }//단일 전화번호형식 검증
 
+//이메일 아이디 검증
+export const emailIdValidation = (emailId) =>{
+    console.log("Emailid --- 검증",emailId);
+    // 값이 입력 중이거나 미입력일 경우, value는  " "
+    if(!emailId) return {valid: true, message:""}
+
+    //형식 검증
+    if(!inputRegexs.emailIdRegex.test(emailId)){
+        return {
+            valid: false,
+            message: "영문자, 숫자, 특수문자('_'또는'-')로 30자 이내 입력"
+        }
+    }
+
+    return {valid: true, message:""};
+}
+
 
 //숫자검증
 export const numberValidation = (value) =>{
@@ -234,7 +255,7 @@ export const numberValidation = (value) =>{
     }
 
     return {valid: true};
-    
+
 }
 
 //도서가격 검증 ==> onchange핸들러에서 입력될 때마다 실행 되어야하는 검증
@@ -294,8 +315,9 @@ export const bookStockValidation = (value) =>{
 }
 
 
+/* 서버 전송 전 검증 */
 //전체 전화번호형식  검증 ==> 수정필요
-export const telvalidation = (value) =>{
+export const fulltelvalidation = (value) =>{
 
     //빈 값 검증
     if(!value || value.trim() === ""){
@@ -316,35 +338,8 @@ export const telvalidation = (value) =>{
     return {valid: true};
 }
 
-
-//이메일 아이디 검증
-export const emailIdValidation = (emailId) =>{
-     console.log("Emailid --- 검증",emailId);
-    // 값이 입력 중이거나 미입력일 경우, value는  " "
-    if(!emailId) return {valid: true, message:""}
-
-    //형식 검증
-    if(!inputRegexs.emailIdRegex.test(emailId)){
-        return {
-            valid: false,
-            message: "영문자, 숫자, 특수문자('_'또는'-')로 30자 이내 입력"
-        }
-    }
-
-    return {valid: true, message:""};
-}
-
-//이메일 아이디 검증
-export const emailAddrValidation = (value) =>{
-
-    //빈 값, 입력 중일 때
-
-
-    return {valid: true};
-}
-
 //이메일 전체 주소 형식 검증
-export const emailValidation = (value) =>{
+export const fullemailValidation = (value) =>{
 
     if(!value || value.trim() === ""){
         return {
@@ -362,3 +357,6 @@ export const emailValidation = (value) =>{
 
     return {valid: true};
 }
+
+//생년월일 전체 형식 검증
+export const fullbirthValidation = (value) =>{}
