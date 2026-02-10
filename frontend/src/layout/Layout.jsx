@@ -9,12 +9,8 @@ import { scrollTop } from "@js/common.js";
 
 
 
-
-
-
-
 const Layout = () => {
-  console.log("레이아웃 진입");
+
   const [data, setData] = useState("");
   const [url, setUrl] = useState("/api"); // 기본 URL 설정
   const { menu, currentPath, standardPoint } = useMenu();

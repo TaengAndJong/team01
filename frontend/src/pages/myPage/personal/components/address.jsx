@@ -1,12 +1,13 @@
 
 
-import React from "react";
+import React, {useState} from "react";
 import FormTag from "@util/form/formTag.jsx";
 import DaumPostcode from "@util/address/daumPostcode.jsx";
 
-const Address=({userInfo,setUserInfo,msg,setMsg})=>{
+const Address=({userInfo,setUserInfo})=>{
 
-
+    //
+    const [msg,setMsg]=useState({});
     //input onChange 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target; // 입력 필드의 name과 value 가져오기
@@ -33,42 +34,38 @@ const Address=({userInfo,setUserInfo,msg,setMsg})=>{
     return(
         <>
             {/*주소*/}
-            <div className="d-flex flex-column mb-3">
-                <div className="d-flex align-items-center w-100 mb-2">
-                    <FormTag
-                        label="우편번호"
-                        labelClass="form-title" className="form-control w-25"
-                        name="zoneCode"
-                        value={userInfo?.zoneCode}
-                        placeholder="우편번호"
-                        onChange={handleInputChange}
-                    />
-                    <DaumPostcode onAddressSelect={handleAddressSelect}/>
-                </div>
-                <div className="d-flex align-items-center w-100 mb-2">
-                    <FormTag
-                        label="주소"
-                        labelClass="form-title" className="form-control"
-                        name="addr"
-                        value={userInfo?.addr}
-                        placeholder="주소"
-                        onChange={handleInputChange}
-                    />
-                </div>
 
-                <div className="d-flex align-items-center w-100">
-                    <FormTag
-                        label="상세주소"
-                        labelClass="form-title" className="form-control"
-                        name="detailAddr"
-                        value={userInfo?.detailAddr}
-                        onChange={handleInputChange}
-                        placeholder="상세주소 입력"
-                    />
-                </div>
-            </div>
+            <fieldset className="addr-info d-flex col-12 mb-2">
+
+                    <legend className="form-title col-2">전체 주소</legend>
+                        <FormTag
+                            label="주소"
+                            labelClass="form-title col-2 sr-only" id="addr" className="form-control mb-2"
+                            name="addr"
+                            value={userInfo?.addr}
+                            placeholder="주소"
+                            onChange={handleInputChange}
+                        />
+                        <DaumPostcode onAddressSelect={handleAddressSelect}/>
+                        <FormTag
+                            label="상세주소"
+                            labelClass="form-title col-2 sr-only" id="detailAddr" className="form-control"
+                            name="detailAddr"
+                            value={userInfo?.detailAddr}
+                            onChange={handleInputChange}
+                            placeholder="상세주소 입력"
+                        />
+                        <FormTag
+                            label="우편번호"
+                            labelClass="form-title col-2 sr-only" id="zoneCode" className="form-control mb-2"
+                            name="zoneCode"
+                            value={userInfo?.zoneCode}
+                            placeholder="우편번호"
+                            onChange={handleInputChange}
+                        />
+            </fieldset>
         </>
-    )
+)
 }
 
 export default Address;

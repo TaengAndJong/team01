@@ -9,8 +9,7 @@ import {useModal} from "../pages/common/modal/ModalContext.jsx";
 import {catchError} from "../util/error/error.jsx";
 
 const Gnb = ({ menu, commonMenuItems }) => {
-  console.log("gnb 진입");
-  console.log(` 메뉴 : ${menu}  공통메뉴 : ${commonMenuItems} ` );
+
 
   // 로그인상태와 사용자데이터 가져오는 커스텀훅, 훅은 최상단에 작성
   const { isAuthenticated, userData, role, logoutReset,isLoading} = useAuth();
@@ -21,7 +20,7 @@ const Gnb = ({ menu, commonMenuItems }) => {
 
 
   useEffect(() => {
-    console.log("gnb useffect");
+
     if (isLoading) return;
     if (!menu) return;
     //경로 조건으로 관리자, 클라이언트 gnb 분리하기
@@ -90,7 +89,7 @@ const Gnb = ({ menu, commonMenuItems }) => {
     }
   };
 
-  console.log("GNB Role 권한 확인", role);
+ 
 
 
   return (

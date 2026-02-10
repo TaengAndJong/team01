@@ -3,14 +3,14 @@ import Birth from "./birth.jsx";
 import Tel from "./tel.jsx";
 import Email from "./email.jsx";
 import Address from "./address.jsx";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useModal} from "../../../common/modal/ModalContext.jsx";
 import {useNavigate} from "react-router-dom";
 
 
-const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
-
+const EditInfo = ({userInfo,setUserInfo,onEdit})=>{
+    console.log("유저정보 수정" ,userInfo);
     //모달 안내창
     const {openModal,closeModal} = useModal();
 
@@ -81,7 +81,7 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
             }
 
         } catch (err) {
-
+            //예외처리 필요
             console.error("개인정보 변경에러:", typeof err);
             console.error("status:", err.response?.status);
             console.error("data:", err.response?.data);
@@ -116,25 +116,27 @@ const EditInfo = ({userInfo,setUserInfo,msg,setMsg,onEdit})=>{
 
     return(
         <>
-        <form className="userInfoForm" aria-labelledby="userInfoTitle" onSubmit={handleSubmit}>
-            <fieldset>
-                <IdAndpw defaultInfo={defaultInfo}  onPasswordChanged={() => setPasswordChanged(true)}/>
-                <Birth birth={userInfo?.birth}/>
-                <Tel telNum={userInfo?.tel} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
-                <Email email={userInfo?.email} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
-                <Address userInfo={userInfo} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg}/>
-            </fieldset>
-            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-5  border-top pt-5">
-                <button type="submit"  id="completeBtn" className="btn btn-dark me-2">수정</button>
-                <button  type="button" id="cancelBtn" className="btn custom-btn00 me-md-2"
-                        onClick={() => onEdit()}>취소
-                </button>
-            </div>
-        </form>
+            <form className="user-info_form" aria-labelledby="userInfoTitle" onSubmit={handleSubmit}>
+                <fieldset>
+                    <legend className="d-block title-border mb-5">개인정보 수정</legend>
+                    <IdAndpw defaultInfo={defaultInfo} onPasswordChanged={() => setPasswordChanged(true)}/>
+                    <Birth birth={userInfo?.birth}/>
+                    <Tel telNum={userInfo?.tel} setUserInfo={setUserInfo}/>
+                    <Email email={userInfo?.email} setUserInfo={setUserInfo} />
+                    <Address userInfo={userInfo} setUserInfo={setUserInfo}/>
 
-</>
+                    <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-5  border-top pt-5">
+                        <button type="submit" id="completeBtn" className="btn btn-dark me-2">수정</button>
+                        <button type="button" id="cancelBtn" className="btn custom-btn00 me-md-2"
+                                onClick={() => onEdit()}>취소
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+
+        </>
 )
-    ;
+;
 }
 
 export default EditInfo;

@@ -3,15 +3,11 @@
 import React, { useEffect, useState} from "react";
 import RetrieveInfo from "./components/retrieveInfo.jsx";
 import EditInfo from "./components/editInfo.jsx";
-
+import "@assets/css/mypage/personal.css"
 
 const PersonalInfo = () => {
     const [userInfo, setUserInfo] = useState({}); // 조회모드
     const [isEditMode, setIsEditMode] = useState(false); // 수정모드
-
-    //에러 상태 초기화 관리
-    const [msg, setMsg] = useState({});
-
 
     //개인정보조회 fetch
     const userInfoFetch = async () => {
@@ -36,7 +32,7 @@ const PersonalInfo = () => {
             {isEditMode ? (
                 <>
                     <strong className="title-border title d-block">개인정보 수정</strong>
-                    <EditInfo userInfo={userInfo} setUserInfo={setUserInfo} msg={msg} setMsg={setMsg} onEdit={onEdit}/>
+                    <EditInfo userInfo={userInfo} setUserInfo={setUserInfo} onEdit={onEdit}/>
                 </>
 
             ) : (

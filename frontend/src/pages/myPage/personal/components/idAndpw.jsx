@@ -23,7 +23,7 @@ const IdAndPw = ({defaultInfo,onPasswordChanged})=>{
     });
     //메시지관리
     const [msg,setMsg]=useState({
-        msg:"비밀번호 변경 시, 현재비밀번호를 확인해주세요."
+        massage:"비밀번호 변경 시, 현재비밀번호를 확인해주세요."
     });
     //비밀번호변경 Ui 토글관리
     const [pwTag,setPwdTag] = useState(false);
@@ -56,7 +56,7 @@ const IdAndPw = ({defaultInfo,onPasswordChanged})=>{
 
             setMsg(prev => ({
                 ...prev,
-                msg: response.data.msg
+                massage: response.data.msg
             }));
             //이전상태값이 false면 true, true면 false
             setPwdTag((prev)=>!prev);
@@ -64,7 +64,7 @@ const IdAndPw = ({defaultInfo,onPasswordChanged})=>{
 
             setMsg((prev) => ({
                 ...prev,
-                msg: "비밀번호 확인에 실패했습니다.",
+                massage: "비밀번호 확인에 실패했습니다.",
             }));
         }
 
@@ -81,7 +81,7 @@ const IdAndPw = ({defaultInfo,onPasswordChanged})=>{
        
             setMsg(prev => ({
                 ...prev,
-                msg: response.data.msg
+                massage: response.data.msg
             }))
 
             //이전상태값이 false면 true, true면 false ==> 새 비밀번호 입력 UI 닫기 
@@ -124,42 +124,48 @@ const IdAndPw = ({defaultInfo,onPasswordChanged})=>{
     return (
         <>
             {/*id*/}
-            <div className="d-flex align-items-center mb-2 justify-content-start">
-                <FormTag label="아이디" labelClass="form-title" className="form-control w-auto" name="clientId" type="text"
-                         value={defaultInfo.clientId}
-                        readOnly
-                        aria-readonly="true"/>
-           </div>
-           {/*pw*/}
-            <div className="d-flex flex-wrap align-items-center mb-2">
-                <label className="form-title">비밀번호</label>
-                <input type="password" className="form-control w-auto" name="currentPw" value={newPassword.currentPw}
-                placeholder={"현재 비밀번호 입력"} onChange={handleInputChange} disabled={isDisabled} />
-                <button type="button" className="btn custom-btn00 pw-change ms-1 py-2" onClick={openPwTag}
-                        disabled={isDisabled}
-                >{pwTag?"닫기":"확인"}
-                </button>
-                <p className={"info d-flex align-items-center fw-bold"}>
 
-                    {msg.msg && !pwTag? (
-                        <><i className={"icon info mx-3"}><span className={"sr-only"}>안내</span></i>{msg.msg}</>):""}
-                </p>
+                <div className="d-flex col-12 mb-2">
+                    <FormTag label="아이디" labelClass="form-title col-2" id="clientId" className="form-control"
+                             name="clientId" type="text"
+                             value={defaultInfo.clientId}
+                             readOnly
+                             aria-readonly="true"/>
+                </div>
+                {/*pw*/}
+                <div className="d-flex col-12  mb-2 flex-wrap">
+                    <label className="form-title col-2">비밀번호</label>
+                    <input type="password" className="form-control w-auto" id="currentPw" name="currentPw" value={newPassword.currentPw}
+                    placeholder={"현재 비밀번호 입력"} onChange={handleInputChange} disabled={isDisabled} />
+                    <button type="button" className="btn custom-btn00 pw-change ms-1 py-2" onClick={openPwTag}
+                            disabled={isDisabled}
+                    >{pwTag?"닫기":"확인"}
+                    </button>
+                    {msg.massage && !pwTag? (
+                        <p className={"info align-items-center fw-bold d-flex"}>
+                               <i className={"icon info mx-3"}><span className={"sr-only"}>안내</span></i>{msg.massage}
+                        </p>
+                    ):""}
+                </div>
+
                 {pwTag && (
                     <>
-                        <div className="d-flex align-items-center pwChange w-75">
-                            <label className="form-title">새비밀번호</label>
+                        <div className="d-flex col-12  mb-2 align-items-center pwChange">
+                            <label className="form-title col-2">새비밀번호</label>
                             <input
                                 type="password"
+                                id="newPassword"
                                 className="form-control me-3"
                                 name="newPassword"
                                 placeholder="새 비밀번호 입력"
                                 onChange={handleInputChange}
                                 value={newPassword.newPassword}
                             />
-                            <label className="form-title">비밀번호확인</label>
+                            <label className="form-title col-2 sr-only">비밀번호확인</label>
                             <input
                                 type="password"
                                 className="form-control "
+                                id="newPasswordConfirm"
                                 name="newPasswordConfirm"
                                 placeholder="새 비밀번호 입력 확인"
                                 onChange={handleInputChange}
@@ -170,7 +176,7 @@ const IdAndPw = ({defaultInfo,onPasswordChanged})=>{
                         </div>
                         {msg.errorpwd || msg.errorpwdConfirm?
                             (
-                                <p className={"info d-flex align-items-center fw-bold"}><i className={"icon info mx-2"}><span
+                                <p className={"info d-flex align-items-center fw-bold my-2"}><i className={"icon info me-2"}><span
                                     className={"sr-only"}>안내</span></i>
                                     {msg.errorpwd || msg.errorpwdConfirm}
                                 </p>
@@ -179,14 +185,13 @@ const IdAndPw = ({defaultInfo,onPasswordChanged})=>{
                     </>
                 )}
 
-            </div>
-            <div className="d-flex align-items-center mb-2">
-                <FormTag label="이름" labelClass="form-title" className="form-control w-auto" name="clientName"
-                         value={defaultInfo.clientName}
-                         readOnly={true}
-                         aria-readonly="true"
-                />
-            </div>
+                <div className="d-flex col-12  mb-2">
+                    <FormTag label="이름" labelClass="form-title" id="clientName" className="form-control w-auto" name="clientName"
+                             value={defaultInfo.clientName}
+                             readOnly={true}
+                             aria-readonly="true"
+                    />
+                </div>
 
             {/*     */}
 

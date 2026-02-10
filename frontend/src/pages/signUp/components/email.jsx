@@ -12,7 +12,7 @@ const Email=({formData,setFormData})=>{
         emailAddrSelect: "직접입력",
     });
 
-    const [msg, setMsg] = useState(""); // 초기값은 빈 문자열
+    const [msg, setMsg] = useState({}); // 초기값은 빈 문자열
 
     //사용자 조작 상태 : 사용자가 입력한 적이 없는 상태로 초기값
     const [emailTouched, setEmailTouched] = useState(false); 
@@ -86,7 +86,6 @@ const Email=({formData,setFormData})=>{
             emailAddrInput: selectValue === '직접입력' ? '': selectValue,  // 선택값이 "직접 입력" 일 경우와 아닐 경우
             emailAddrSelect:selectValue
         }));
-
 
     }
 

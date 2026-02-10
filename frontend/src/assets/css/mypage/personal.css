@@ -1,0 +1,17 @@
+
+.user-info_form [class*=form-], [class*=-text]{ min-height: 3.8rem;
+    width: auto; }
+.user-info_form > fieldset >.d-flex{position: relative;padding-left: 120px;}
+.user-info_form  .seperator{min-width: 1.4rem;justify-content: center}
+.user-info_form  .form-title{display: inline-flex; align-items: center; position: absolute;left: 0;top: 0; }
+.user-info_form .tel-info{position: relative; }
+.user-info_form .tel-info .form-control { max-width:29.2%; width: 100%;padding: 0}
+.user-info_form .tel-info .row{ padding-left: 0;}
+
+.user-info_form .addr-info{flex-wrap: wrap}
+.user-info_form .addr-info [type="text"]{ display:block; width: 100%;}
+.user-info_form .addr-info #addr{width: 88%;}
+.user-info_form .addr-info #detailAddr{width: 80%;margin-right: 0.5%;}
+.user-info_form .addr-info #zoneCode{width: 19%;}
+
+.user-info_form .pwChang{position: relative;}

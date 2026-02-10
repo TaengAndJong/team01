@@ -4,7 +4,13 @@ import FormTag from "../../../../util/form/formTag.jsx";
 import Select from "react-select";
 
 
+/*
+* value가 있을 경우 onChange이벤트 핸들러가 정의가 되어있지 않으면, readOnly 속성을 명시해줘야 함
+*  aria-reaonly = true 는 스크린리더의 접근 기준
+* */
+
 const RetrieveInfo=({userInfo,onEdit})=>{
+
 
 
     return(
@@ -73,6 +79,8 @@ const RetrieveInfo=({userInfo,onEdit})=>{
                             name="addr"
                             value={userInfo?.addr}
                             placeholder="주소"
+                            readOnly={true}
+                            aria-readonly="true"
                         />
                     </div>
                     <div className="d-flex align-items-center w-100 mb-2">
@@ -83,6 +91,8 @@ const RetrieveInfo=({userInfo,onEdit})=>{
                             name="detailAddr"
                             value={userInfo?.detailAddr}
                             placeholder="상세주소 "
+                            readOnly={true}
+                            aria-readonly="true"
                         />
                         <FormTag
                             label="우편번호"
@@ -91,6 +101,8 @@ const RetrieveInfo=({userInfo,onEdit})=>{
                             name="zoneCode"
                             value={userInfo?.zoneCode}
                             placeholder="우편번호"
+                            readOnly={true}
+                            aria-readonly="true"
                         />
                     </div>
 
