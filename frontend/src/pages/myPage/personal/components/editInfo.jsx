@@ -3,28 +3,35 @@ import Birth from "./birth.jsx";
 import Tel from "./tel.jsx";
 import Email from "./email.jsx";
 import Address from "./address.jsx";
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, { useEffect,useState} from "react";
 import axios from "axios";
 import {useModal} from "../../../common/modal/ModalContext.jsx";
-import {useNavigate} from "react-router-dom";
+import {fullemailValidation, fulltelValidation} from "@util/validation/validationCommon.js";
+
 
 
 const EditInfo = ({userInfo,setUserInfo,onEdit})=>{
     console.log("유저정보 수정" ,userInfo);
     //모달 안내창
     const {openModal,closeModal} = useModal();
-
     // 이전사용자정보값 보존할 인스턴스
     const [prevUserInfo , setPrevUserInfo] = useState({});
     //비밀번호 변경 상태관리  플래그 변수
     const [passwordChanged, setPasswordChanged] = useState(false);
 
+    useEffect(() => {
+        //수정페이지가 렌더 될 때, 기존 조회데이터를 새로운 객체에 담아서 이전값 보존하기
+        if(userInfo){
+            setPrevUserInfo(userInfo);
+        }
+    }, []);
+
+
+
     //signUp post로 비동기 요청보내기
     const handleSubmit = async (e) => {
-
         e.preventDefault();
 
-        // 변경된 데이터가 있는지 검증==> 기존 데이터를 조회해와야함
         //비밀번호를 제외한 값들 검증
         const hasUserInfoChanges  = Object.keys(userInfo).some(
             key => userInfo[key] !== prevUserInfo[key] // 각 객체의 key  값에 해당하는 값이 같지 않은지 검증 ==> true 반환
@@ -45,8 +52,28 @@ const EditInfo = ({userInfo,setUserInfo,onEdit})=>{
             return; // try문 실행 안 함
         }
 
-        // 비밀번호만 변경했을 경우, 변경된 내용 없음 검증 통과후 
-        
+        //변경된 내용이 있으면 사전 형식 검증 이메일 , 전화번호 등 전체 형식 검증
+        const validEmail =  fullemailValidation(userInfo.email); // 객체는
+        const validTel = fulltelValidation(userInfo.tel);
+        //
+        if (!validEmail.valid) {
+            openModal({
+                modalType: "error",
+                content: <><p>{validEmail.message}</p></>
+            });
+            return;
+        }
+
+        if (!validTel.valid) {
+            openModal({
+                modalType: "error",
+                content: <><p>{validTel.message}</p></>
+            });
+            return;
+        }
+
+
+        // 비밀번호만 변경했을 경우, 변경된 내용 없음 검증 통과후
         // password 제거한 데이터들만 전송 ( pw는 이미 변경할때 단독으로 처리해서 이미 갱신된 상태)
         const { password, ...payload } = userInfo;
 
@@ -103,18 +130,6 @@ const EditInfo = ({userInfo,setUserInfo,onEdit})=>{
         // password:userInfo.password, // 비밀번호는 표기할 필요 없으니까 초기값 필요없음
         clientName:userInfo.clientName,
     }
-
-
-
-    useEffect(() => {
-        //수정페이지가 렌더 될 때, 기존 조회데이터를 새로운 객체에 담아서 이전값 보존하기
-        if(userInfo){
-            setPrevUserInfo(userInfo);
-        }
-    }, []);
-
-
-
 
 
     return(

@@ -317,7 +317,7 @@ export const bookStockValidation = (value) =>{
 
 /* 서버 전송 전 검증 */
 //전체 전화번호형식  검증 ==> 수정필요
-export const fulltelvalidation = (value) =>{
+export const fulltelValidation = (value) =>{
 
     //빈 값 검증
     if(!value || value.trim() === ""){
@@ -327,8 +327,8 @@ export const fulltelvalidation = (value) =>{
         }
     }
 
-    //전화번호 형식 검증
-    if(!inputRegexs.telRegex.test(value)){
+    //전화번호 형식 검증 ==> 지역번호와 휴대폰형식이 아닌 것들이니까 and 로 작성해야함
+    if(!inputRegexs.telMobileRegex.test(value) &&  !inputRegexs.telAreaRegex.test(value)){
         return {
             valid: false,
             message: "전화번호 형식 다름"

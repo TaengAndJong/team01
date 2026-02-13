@@ -40,11 +40,11 @@ const Tel=({telNum,setUserInfo})=>{
                 [name]:value
             }
 
-            console.log("nextTel",nextTel);
+            //console.log("nextTel",nextTel);
 
             // 최신값으로 전화번호 검증
             const telNumVailid = eachTelValidation(nextTel,name);
-            console.log("eachTelNumVailid", telNumVailid);
+
             //msg에 검증에서 반환된 값 담기
             setMsg(
                 {type:telNumVailid.type,
