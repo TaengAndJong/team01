@@ -31,7 +31,7 @@ const Email=({email,setUserInfo})=>{
             emailAddrInput:emailAddr || "",
             emailAddrSelect: emailAddr || "", // 초기값은 input 과 동일
         });
-    },[]); // 이메일 값이 갱신되면 변경되도록 의존성 배열에 email 넣어줘야함
+    },[]); // 부모로부터 받아온 초기값이라서 초기렌더링 시에만 1번 받아오면 되기때문에 의존성 x
 
     //이메일 완성값 부모로 전달
     useEffect(() => {
