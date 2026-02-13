@@ -3,7 +3,7 @@ import Birth from "./birth.jsx";
 import Tel from "./tel.jsx";
 import Email from "./email.jsx";
 import Address from "./address.jsx";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useModal} from "../../../common/modal/ModalContext.jsx";
 import {useNavigate} from "react-router-dom";
@@ -105,12 +105,15 @@ const EditInfo = ({userInfo,setUserInfo,onEdit})=>{
     }
 
 
+
     useEffect(() => {
         //수정페이지가 렌더 될 때, 기존 조회데이터를 새로운 객체에 담아서 이전값 보존하기
         if(userInfo){
             setPrevUserInfo(userInfo);
         }
     }, []);
+
+
 
 
 
