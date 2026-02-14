@@ -136,7 +136,7 @@ const EditInfo = ({userInfo,setUserInfo,onEdit})=>{
         <>
             <form className="user-info_form" aria-labelledby="userInfoTitle" onSubmit={handleSubmit}>
                 <fieldset>
-                    <legend className="d-block title-border mb-5">개인정보 수정</legend>
+                    <legend className="d-block title-border mb-5 sr-only">개인정보 수정</legend>
                     <IdAndpw defaultInfo={defaultInfo} onPasswordChanged={() => setPasswordChanged(true)}/>
                     <Birth birth={userInfo?.birth}/>
                     <Tel telNum={userInfo?.tel} setUserInfo={setUserInfo}/>
