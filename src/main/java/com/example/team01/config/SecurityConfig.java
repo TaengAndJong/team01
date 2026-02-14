@@ -46,7 +46,7 @@ public class SecurityConfig {
         //로그인 여부(인증여부)와 상관없이 접근 가능한 경로들
         String[] allowedPaths = {
                 "/", "/login/**", "/signup/**", "/uploads/**", "/images/**","/auth",
-               "/page", "/book/**", "/menu","/uploads/**","/images/**","/check/**"
+               "/page", "/book/**", "/menu","/uploads/**","/images/**","/check/**", "/error",
         };
 
 
