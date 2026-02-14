@@ -1,0 +1,2 @@
+ALTER TABLE staff
+    ADD COLUMN staffEmail VARCHAR(320) UNIQUE;
