@@ -31,7 +31,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/team02db #컨테이너끼리 포트 공개없이 통신가능
       SPRING_DATASOURCE_USERNAME: team02
       SPRING_DATASOURCE_PASSWORD: java
-      SPRING_FLYWAY_ENABLED: "false" # 도커 환경변수로
+      SPRING_FLYWAY_ENABLED: "false"  # 필수
     volumes:
       - ./uploads:/team01/uploads/ #우분투 파일경로를 nginx 파일 경로와 맞추기 (백엔드와 동일한 우분투 경로 바라보기)
       - ./images:/team01/images/
