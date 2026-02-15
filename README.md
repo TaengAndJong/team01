@@ -88,11 +88,11 @@
         <strong>TheBookAdmin</strong> [https://www.tjbook.store/admin]</li><br/>
     <li><strong>로그인정보</strong>
         <ul>
-            <li><strong>일반회원</strong><br/>
+            <li><strong>관리자</strong><br/>
                 <u>ID : user01 </u>
                 <u>PW : !User1234</u>
             </li>
-            <li><strong>관리자</strong><br/>
+            <li><strong>일반회원</strong><br/>
                 <u>ID : user02 </u>
                 <u>PW : !User1234</u>
             </li>
