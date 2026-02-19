@@ -6,9 +6,8 @@ import { menuNavi } from "../../util/menuNavi.jsx";
 import {useModal} from "../common/modal/ModalContext.jsx";
 import axios from "axios";
 import {catchError} from "../../util/error/error.jsx";
-
+//-- 도서관리 리팩토링 전 백업 600219
 // 주소에 해당하는 제목 데이터 가져와서 레프트 메뉴 이름과 제목열에 데이터 나열하기
-
 function reducer(state, action) {
 
   switch (action.type) {
