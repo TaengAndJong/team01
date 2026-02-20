@@ -3,7 +3,6 @@ import React, {useContext, useEffect, useState} from "react";
 import FormTag from "@util/form/formTag.jsx";
 import Btn from "@util/form/reuseBtn.jsx";
 import PathsData from "../../../assets/pathsData.jsx";
-import {PaginationContext} from "../adminBookComponent.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 import FileUpload from "./fileUpload.jsx";
 import Category from "./category.jsx";
@@ -14,18 +13,20 @@ import {numberValidation} from "@util/validation/validationCommon.js";
 import PublishDate from "./publishDate.jsx";
 import RecomType from "./RecomType.jsx";
 import SalesStatus from "./salesStatus.jsx";
-import {useModal} from "../../common/modal/ModalContext.jsx";
 import axios from "axios";
 import "@assets/css/book/adminbookCreate.css";
+import {useAdminBook} from "../adminBookProvider.jsx";
+
 
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰--
 
 const AdminBookCreate = () => {
 
     const {userData} = useAuth();
-    const {setPaginationInfo,setSearchCondition,fetchBookList } = useContext(PaginationContext);
-    const navigate = useNavigate();
-    const {openModal,closeModal} = useModal();
+    const { fetchBookList, setPaginationInfo, setSearchCondition,
+    openModal, closeModal,navigate
+    } = useAdminBook();
+
 
     //리액트는 초기값이 렌더링 되면 상태관리 방식으로인해 값이 고정되어
     // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
