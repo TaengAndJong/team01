@@ -24,31 +24,12 @@ const AdminBookCreate = () => {
     // 로그인여부, 역할 훅
     const {userData} = useAuth();
     //도서 등록 훅
-    const {openModal, closeModal,navigate,registerBook} = useAdminBook();
+    const {openModal, closeModal,navigate,registerBook,currentBook,setCurrentBook,categoryList,setCategoryList} = useAdminBook();
 
 
     //리액트는 초기값이 렌더링 되면 상태관리 방식으로인해 값이 고정되어
     // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
-    const [createBook, setCreateBook] = useState({
-        bookName: '',
-        bookCateNm:[],
-        bookCateDepth:[],
-        bookDesc: '',
-        author:'',
-        bookPrice: '0',
-        stock: '0',
-        stockStatus:'재고없음',
-        publishDate:'', //발행일
-        roleId:'',
-        cateId:[],
-        bookImg: [], // 다중 파일 업로드라면 배열로 설정
-        writer: '',
-        createDate:formatToDate(new Date()), // 클라이언트에게 보여줄 날짜 ==> 데이터베이스는 자동으로 데이터 넣기
-        recomType:'NORMAL',
-        saleStatus:'판매중'
-    })
-    //카테고리
-    const [categoryList, setCategoryList] = useState([]); // 도서 카테고리 상태관리
+
     //파일
     const [bookImg, setBookImg] = useState({
         existing: [], // 서버에서 불러온 기존 파일
@@ -83,8 +64,8 @@ const AdminBookCreate = () => {
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
-        if (userData && userData.roleId) {
-            setCreateBook(prev => ({
+        if (userData?.roleId) {
+            setCurrentBook(prev => ({
                 ...prev,
                 roleId: userData.roleId,     // roles[0] 대신 직접 접근
                 writer: userData.clientName,
@@ -125,8 +106,8 @@ const AdminBookCreate = () => {
 
         }
 
-        setCreateBook({
-            ...createBook,//기존에 있는 데이터들 스프레드 연산자로 합쳐주기
+        setCurrentBook({
+            ...currentBook,//기존에 있는 데이터들 스프레드 연산자로 합쳐주기
             [name] : value,
             // 재고수량에 따른 재고상태값 변화 조건 , 스프레드 연산자로  객체 항목 추가
             ...(name === 'stock' && {
@@ -139,7 +120,7 @@ const AdminBookCreate = () => {
 //전송
     const onSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
-       const isRegistered =   await registerBook(createBook, bookImg); // 도서등록 훅에 담아줄 객체들 담아서 서버 등록 처리
+       const isRegistered =   await registerBook(currentBook, bookImg); // 도서등록 훅에 담아줄 객체들 담아서 서버 등록 처리
         //서버 등록 처리 완료 여부
         console.log("isRegistered",isRegistered);
         if(isRegistered){
@@ -162,37 +143,37 @@ const AdminBookCreate = () => {
                 <form className="bookCreateForm" onSubmit={onSubmit}>
 
                     {/*카테고리*/}
-                    <Category mode="create" setDefaultData={setCreateBook} defaultData={createBook}
+                    <Category mode="create" setDefaultData={setCurrentBook} defaultData={currentBook}
                               categoryList={categoryList}/>
 
                     <div className="row col-12 align-items-center mb-1 ">
                         {/*등록타입*/}
-                        <RecomType setDefaultData={setCreateBook} defaultData={createBook}/>
+                        <RecomType setDefaultData={setCurrentBook} defaultData={currentBook}/>
                         {/* 판매상태관리 */}
-                        <SalesStatus setDefaultData={setCreateBook} defaultData={createBook}/>
+                        <SalesStatus setDefaultData={setCurrentBook} defaultData={currentBook}/>
                     </div>
                     {/*도서명*/}
                     <div className="row col-12 align-items-center mb-1">
                         <FormTag id="bookName" label="도서명" labelClass="form-title col-3"
                                  className="form-control flex-fill"
                                  name="bookName" type="text"
-                                 placeholder="도서명 입력" value={createBook.bookName} onChange={handleChange}/>
+                                 placeholder="도서명 입력" value={currentBook.bookName} onChange={handleChange}/>
 
                     </div>
 
                     <div className="row col-12 align-items-center mb-1 stock-price">
                         {/*재고 & 가격*/}
-                        <PriceStock bookPrice={createBook.bookPrice} stock={createBook.stock}
-                                    stockStatus={createBook.stockStatus} handleChange={handleChange}/>
+                        <PriceStock bookPrice={currentBook.bookPrice} stock={currentBook.stock}
+                                    stockStatus={currentBook.stockStatus} handleChange={handleChange}/>
                         {/*발행일*/}
-                        <PublishDate publishDate={createBook.publishDate} handleChange={handleChange}/>
+                        <PublishDate publishDate={currentBook.publishDate} handleChange={handleChange}/>
                     </div>
                     <div className="row col-12 align-items-center mb-1 author-writer">
                         {/*저자명 */}
                         <FormTag id="author" label="저자" labelClass="form-title col-2" className="form-control"
                                  name="author"
                                  type="text"
-                                 placeholder="저자입력" value={createBook.author} onChange={handleChange}/>
+                                 placeholder="저자입력" value={currentBook.author} onChange={handleChange}/>
 
                         {/*get 요청시 로그인한 유저의 이름을 value 로 업데이팅*/}
                         <FormTag id="writer" label="작성자" labelClass="form-title col-2"
@@ -205,7 +186,7 @@ const AdminBookCreate = () => {
                                  className="form-control"
                                  name="createDate"
                                  type="text"
-                                 placeholder="등록일" value={createBook.createDate} readOnly={true}/>
+                                 placeholder="등록일" value={currentBook.createDate} readOnly={true}/>
 
                     </div>
 
@@ -213,15 +194,15 @@ const AdminBookCreate = () => {
                     <div className="d-flex align-items-center mb-1">
                         <label htmlFor="bookDesc" className="form-title col-3">도서설명</label>
                         <textarea id="bookDesc" className="form-control flex-fill" name="bookDesc" type="text"
-                                  placeholder="도서설명을 입력해주세요" value={createBook.bookDesc}
+                                  placeholder="도서설명을 입력해주세요" value={currentBook.bookDesc}
                                   aria-describedby="bookDescHelp" required onChange={handleChange}/>
                     </div>
 
                      {/*도서이미지 이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요      */}
                     <div className="d-flex align-items-center flex-wrap">
 
-                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} defaultData={createBook}
-                                    setDefaultData={setCreateBook}/>
+                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} defaultData={currentBook}
+                                    setDefaultData={setCurrentBook}/>
                     </div>
                 </form>
                 <div className="d-flex align-items-center justify-content-center mt-4">
