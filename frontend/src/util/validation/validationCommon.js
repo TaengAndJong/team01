@@ -1,4 +1,5 @@
 import {inputRegexs} from "./regex.js";
+import qnaEdit from "../../pages/qna/components/qnaEdit.jsx";
 
 
 
@@ -259,8 +260,8 @@ export const numberValidation = (value) =>{
 }
 
 //도서가격 검증 ==> onchange핸들러에서 입력될 때마다 실행 되어야하는 검증
-export const bookPriceValidation = (value) =>{
-
+export const bookPriceValidation = (value,name) =>{
+    console.log("name",name);
     //빈 값 검증, 기본값이 0인데  검증 필요한가 ?
     if (value === "") { // 사용자가 지웠을 때 입력중이니까 에 대한 상황 검증 코드
         return { valid: false, allowEmpty: true };
@@ -278,15 +279,15 @@ export const bookPriceValidation = (value) =>{
 }
 
 //도서재고 검증
-export const bookStockValidation = (value) =>{
-
+export const bookStockValidation = (value,name) =>{
+    console.log("name",name);
 
     //빈 값 검증, 기본값이 0인데  검증 필요한가 ?
     if (value === "") { // 사용자가 지웠을 때 입력중이니까 에 대한 상황 검증 코드
         return { valid: false, allowEmpty: true };
     }
 
-    if(inputRegexs.numberRegex.test(value)){
+    if(!inputRegexs.numberRegex.test(value)){
         return {
             valid: false,
             message:" 숫자만 입력"
@@ -296,14 +297,14 @@ export const bookStockValidation = (value) =>{
     // input에서 text 타입으로 value 가 들어오기 떄문에 Number Type 으로 변환 후 검증필요
     const num = Number(value);
     //입력값의 기본값은 1이고 1미만 100초과는 안됨
-    if(value < 1){
+    if(num < 1){
         return{
             valid: false,
             message:"최소 수량은 1개입니다."
         };
     }
 
-    if(value>100){
+    if(num>100){
         return{
             valid: false,
             message:"최대 수량은 100개입니다."
