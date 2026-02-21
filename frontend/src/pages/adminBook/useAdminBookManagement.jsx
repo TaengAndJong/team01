@@ -6,11 +6,13 @@
 *
 *   ** UI를 그리지 않는 순수한 로직일 경우  .js **
 *
+*  hook은 데이터를 처리하고 결과만 보고하는 역할
 * */
 
-import {useReducer, useState} from "react";
+import React, {useReducer, useState} from "react";
 import axios from "axios";
 import {catchError} from "../../util/error/error.jsx";
+import {getToday} from "../../util/date/dateUtils.jsx";
 
 //reducer은 훅 외부에 작성하는 게  깔끔
 function reducer(state, action) {
@@ -42,6 +44,18 @@ function reducer(state, action) {
     //reducer end
 }
 
+//한글 변환용 객체
+const korname = {
+    bookName: "도서명",
+    bookCateNm:"카테고리",
+    bookDesc: "도서설명",
+    author:"저자",
+    publishDate:"발행일", //발행일
+    recomType:"도서분류",
+    saleStatus:'판매중'
+}
+
+
 //useState나 useReducer을 사용하면 use를 포함하여 이름 작성하기
 export const useAdminBookManagement = (openModal, closeModal, navigate) =>{
 //openModal, closeModal, navigate : 인자들은 catchError에 필요하기 때문에 받아와야함
@@ -66,10 +80,8 @@ export const useAdminBookManagement = (openModal, closeModal, navigate) =>{
         pageSize: 6,
     });
 
-
     //초기데이터 설정 : 훅 내부로 옮긴 이유는 '캡슐화'로 컴포넌트는 UI 중심으로 복잡한 데이터로직을 알 필요가 없음
     const onInit = (bookdata) => {
-
         dispatch({
             type: "INIT",
             data: bookdata,
@@ -139,6 +151,81 @@ export const useAdminBookManagement = (openModal, closeModal, navigate) =>{
         //try end
     }; //fetch end
 
+    // create 도서 등록 함수
+    const registerBook = async (createBookData, bookImg) => {
+        // formData 생성 
+        const formData = new FormData();
+
+        Object.entries(createBookData).forEach(([key, value]) => {
+
+            if (key === "bookImg") {
+                // 이미지 파일 처리
+                (bookImg.new || []).forEach(img => formData.append("bookImg", img));
+            }
+            else if (["bookCateDepth", "bookCateNm", "cateId"].includes(key) && Array.isArray(value)) {
+                // 배열 처리 (카테고리 계층)
+                if (value.length > 0) {
+                    value.forEach(v => formData.append(key, v));
+                } else {
+                    // 빈 배열일 경우도 append
+                    formData.append(key, "");
+                }
+            }
+            else if (key === "createDate") {
+                // 등록일 생성
+                const today = getToday();
+                formData.append("createDate", today);
+            }
+            else {
+                // 일반 문자열 처리
+                formData.append(key, value ?? ""); //value가 null 이면 "" 처리
+            }
+        });
+
+        // 유효성 검사
+        const entries = Array.from(formData.entries());
+
+        for (const [key, value] of entries) {
+
+            //bookImgPath는 비어 있어도 통과
+            if (key === "bookImgPath") continue;
+
+            if (!value || typeof value === "string" && value.trim() === "") { // null, undefined 등 비어있는 값 & 비어있는 문자열
+                const errorField = korname[key] || key;
+                openModal({
+                    modalType: "error",
+                    content: <p>{errorField} 값을 채워주세요.</p>,
+                    onConfirm: () => closeModal()
+                });
+                return false; // 검증 실패 시 중단 , true, false 로 성공여부를 알려주면 이후 과정확장 시 조건 여부로 사용가능
+            }
+        }
+
+
+        // 서버로 axios.post 비동기 요청
+        try {
+            await axios.post("/api/admin/book/bookCreate",formData);
+            // 검색어 상태를 초기화 해줘야 등록완료 후 처음으로 돌아감
+            setSearchCondition(null);
+            // 1. 페이지 1로 이동 ( 이미 1페이지면 state 변경이 안됨)
+            setPaginationInfo(prev => ({ ...prev, currentPage: 1 }));
+            // 2. 다시 서버로 재요청 (명시적으로 fetch 호출이 안전)
+            await fetchBookList();
+            return true;// 컴포넌트에게 성공 보고 , true, false 로 성공여부를 알려주면 이후 과정확장 시 조건 여부로 사용가능
+
+        } catch (err) {
+            openModal({
+                modalType: "error",
+                content:<>
+                    <p>{err?.response?.data || "서버 요청 중 오류가 발생했습니다. 다시 시도해주세요."}</p>
+                </>,
+                onConfirm:()=>{closeModal()}
+            });
+            return false; // 컴포넌트에게 실패 보고
+        }
+    }
+
+
     // 컴포넌트에서 useAdminBookMangement 훅을 사용해 가져다 쓸 객체들 반환
     return {
         bookdata,
@@ -156,5 +243,6 @@ export const useAdminBookManagement = (openModal, closeModal, navigate) =>{
         openModal, // adminbookContext를 통해서 사용하려면 다시 담아서 반환해야함 ,장점 : 각 컴포넌트를 찾아가 선언할 필요 없음
         closeModal,
         navigate,
+        registerBook
     }
 }

@@ -1,19 +1,17 @@
 
-import React, {useContext, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import FormTag from "@util/form/formTag.jsx";
 import Btn from "@util/form/reuseBtn.jsx";
 import PathsData from "../../../assets/pathsData.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 import FileUpload from "./fileUpload.jsx";
 import Category from "./category.jsx";
-import {useNavigate} from "react-router-dom";
-import {formatToDate, getToday} from "@util/date/dateUtils.jsx";
+import {formatToDate} from "@util/date/dateUtils.jsx";
 import PriceStock from "./priceStock.jsx";
 import {numberValidation} from "@util/validation/validationCommon.js";
 import PublishDate from "./publishDate.jsx";
 import RecomType from "./RecomType.jsx";
 import SalesStatus from "./salesStatus.jsx";
-import axios from "axios";
 import "@assets/css/book/adminbookCreate.css";
 import {useAdminBook} from "../adminBookProvider.jsx";
 
@@ -21,11 +19,11 @@ import {useAdminBook} from "../adminBookProvider.jsx";
 //전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰--
 
 const AdminBookCreate = () => {
-
+    
+    // 로그인여부, 역할 훅
     const {userData} = useAuth();
-    const { fetchBookList, setPaginationInfo, setSearchCondition,
-    openModal, closeModal,navigate
-    } = useAdminBook();
+    //도서 등록 훅
+    const {openModal, closeModal,navigate,registerBook} = useAdminBook();
 
 
     //리액트는 초기값이 렌더링 되면 상태관리 방식으로인해 값이 고정되어
@@ -84,10 +82,10 @@ const AdminBookCreate = () => {
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
-        if (userData && userData.roles?.length > 0) {
+        if (userData && userData.roleId) {
             setCreateBook(prev => ({
                 ...prev,
-                roleId: userData.roles[0],
+                roleId: userData.roleId,     // roles[0] 대신 직접 접근
                 writer: userData.clientName,
             }));
         }
@@ -100,8 +98,6 @@ const AdminBookCreate = () => {
             bookImg: bookImg.new,
         }));
     }, [bookImg])
-
-
 
 
     //핸들러 값 변경 시 실행되는 함수
@@ -137,124 +133,20 @@ const AdminBookCreate = () => {
         })
     }
 
-    //formData에 데이터 담아주기
-    const buildFormData = (createBook, bookImg) => {
-        const formData = new FormData();
-
-        Object.entries(createBook).forEach(([key, value]) => {
-            if (key === "bookImg") {
-                // 이미지 파일 처리
-                (bookImg.new || []).forEach(img => formData.append("bookImg", img));
-            }
-            else if (["bookCateDepth", "bookCateNm", "cateId"].includes(key) && Array.isArray(value)) {
-                // 배열 처리 (카테고리 계층)
-                if (value.length > 0) {
-                    value.forEach(v => formData.append(key, v));
-                } else {
-                    // 빈 배열일 경우도 append
-                    formData.append(key, "");
-                }
-            }
-            else if (key === "createDate") {
-                // 등록일 생성
-                const today = getToday();
-                formData.append("createDate", today);
-            }
-            else {
-                // 일반 문자열 처리
-                formData.append(key, value ?? ""); //value가 null 이면 "" 처리
-            }
-        });
-
-        return formData;
-    };
-
-
-    //한글로 변경
-    const korname = {
-        bookName: "도서명",
-        bookCateNm:"카테고리",
-        bookDesc: "도서설명",
-        author:"저자",
-        publishDate:"발행일", //발행일
-        recomType:"도서분류",
-        saleStatus:'판매중'
-    }
-
-    // formData에 검증
-    const validateFormData = (formData) => {
-        const entries = Array.from(formData.entries());
-
-        for (const [key, value] of entries) {
-
-            //bookImgPath는 비어 있어도 통과
-            if (key === "bookImgPath") continue;
-
-            if (typeof value === "string" && value.trim() === "") {
-                return  korname[key] || key ; // 비어있는 문자열 키 반환
-            }
-            if (!value) {
-                return korname[key] || key; // null, undefined 등 비어있는 값
-            }
-        }
-
-        return null; // 문제 없음
-    };
-
-
-
-
-    // 서버로 전송
-    const handleSubmit = async () => {
-        // formData
-        const formData = buildFormData(createBook, bookImg);
-
-        const emptyKey = validateFormData(formData);
-        if (emptyKey) {
-            openModal({
-                modalType: "error",
-                content:<>
-                    <p>{`${emptyKey} 값을 채워주세요.`}</p>
-                </>,
-                onConfirm:()=>{closeModal()}
-            });
-            return;
-        }
-
-        try {
-            const response = await axios.post("/api/admin/book/bookCreate",
-                formData, {
-                    headers: {
-                        // FormData는 브라우저가 boundary를 자동 생성
-                        // Content-Type 명시하지 않기
-                        // "Content-Type": "multipart/form-data"
-                    },
-                });
-
-                setSearchCondition(null); // 검색어 상태를 초기화 해줘야 등록완료후 처음으로돌아감
-                // 1. 페이지 1로 이동 ( 이미 1페이지면 state 변경이 안됨)
-                setPaginationInfo(prev => ({ ...prev, currentPage: 1 }));
-                // 2. 다시 서버로 재요청 (명시적으로 fetch 호출이 안전)
-                await fetchBookList();
-                // 3. 목록 페이지로 이동
-                navigate("/admin/book/bookList");
-
-
-        } catch (err) {
-            openModal({
-                modalType: "error",
-                content:<>
-                    <p>{err?.response?.data || "서버 요청 중 오류가 발생했습니다. 다시 시도해주세요."}</p>
-                </>,
-                onConfirm:()=>{closeModal()}
-            });
-        }
-    };
 
 //전송
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
-        handleSubmit();
+       const isRegistered =   await registerBook(createBook, bookImg); // 도서등록 훅에 담아줄 객체들 담아서 서버 등록 처리
+        //서버 등록 처리 완료 여부
+        console.log("isRegistered",isRegistered);
+        if(isRegistered){
+            console.log("isRegistered success"); // 목록페이지로 이동
+            navigate("/admin/book/bookList");
+        }else{
+            console.log("isRegistered false"); // 기존 페이지에 머무르기 ? 아니면 재등록 ?
+        }
+
     }
 
 //return start

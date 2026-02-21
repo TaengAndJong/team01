@@ -16,10 +16,12 @@ import {useModal} from "../../common/modal/ModalContext.jsx";
 import ImgBaseUrl from "@/util/imgBaseUrl";
 import "@assets/css/book/adminbookList.css";
 import axios from "axios";
+import {useAdminBook} from "../adminBookProvider.jsx";
 
 const AdminBookList = () => {
-  const bookdata = useContext(BookStateContext);
+
   const {
+    bookdata,
     paginationInfo,
     setPaginationInfo,
     onChangePageHandler,
@@ -27,13 +29,14 @@ const AdminBookList = () => {
     search,
     setSearch,
     handleSearch
-  } = useContext(PaginationContext);
+  } = useAdminBook();
 
 
   const [bookList, setBookList] = useState([]);
 
 // bookdata가 존재할 때만 bookList 업데이트
   useEffect(() => {
+
     //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
     if(bookdata){
 
