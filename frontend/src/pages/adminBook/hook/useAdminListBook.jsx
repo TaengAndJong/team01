@@ -9,134 +9,27 @@
 *  hook은 데이터를 처리하고 결과만 보고하는 역할
 * */
 
-import React, {useReducer, useState} from "react";
+
 import axios from "axios";
-import {catchError} from "../../util/error/error.jsx";
-import {formatToDate, getToday} from "../../util/date/dateUtils.jsx";
+import {catchError} from "../../../util/error/error.jsx";
+import {useEffect, useState} from "react";
+import {useModal} from "../../common/modal/ModalContext.jsx";
 
-//reducer은 훅 외부에 작성하는 게  깔끔
-function reducer(state, action) {
-
-    switch (action.type) {
-        case "INIT": //초기데이터
-
-            // 서버에서 단일객체{} 또는 여러 개의 객체가  action.data로 넘어오면 배열에 담아줘야 함.
-            return Array.isArray(action.data) ? action.data : [action.data];
-        case "CREATE"://생성
-
-            return [action.data, ...state]; // 새 객체(action.data) + 기존 배열, action.data는 단일객체
-        case "DELETE"://삭제
-            //서버에서 재조회된 items 배열로 전체 교체
-            return Array.isArray(action.data) ? [...action.data] : state;
-
-        case "UPDATE":
-            // if (action.data) {
-            //   console.log("UPDATE action", action.data, Array.isArray(action.data));
-            // }
-            //state는 새로 들어온 데이터객체를 담고있는 배열
-            // action.data의 bookId가 기존데이터인 book의 bookId와 같으면 새로들어온 action.data로 교체 아니면 기존 데이터 유지
-            return state.map((book) =>
-                book.bookId === action.data.bookId ? action.data : book
-            );
-        default:
-            return state;
-    }
-    //reducer end
-}
-
-
-//훅 외부에 초기값 함수 선언
-const getNewBook = () => ({
-    bookName: '',
-    bookCateNm: [],
-    bookCateDepth: [],
-    bookDesc: '',
-    author: '',
-    bookPrice: '0',
-    stock: '0',
-    stockStatus: '재고없음',
-    publishDate: '',
-    roleId: '',
-    cateId: [],
-    bookImg: [],
-    writer: '',
-    createDate: formatToDate(new Date()), // 매번 실행할 때마다 '지금' 날짜 생성
-    recomType: 'NORMAL',
-    saleStatus: '판매중'
-});
 
 //useState나 useReducer을 사용하면 use를 포함하여 이름 작성하기
-export const useAdminBookManagement = (openModal, closeModal, navigate) =>{
-//openModal, closeModal, navigate : 인자들은 catchError에 필요하기 때문에 받아와야함
+export const useAdminListBook = (paginationInfo,
+                                     setPaginationInfo,
+                                     searchCondition) =>{
 
+    const { openModal, closeModal, navigate } = useModal();
 
-    //리듀서 상태관리
-    const [bookdata, dispatch] = useReducer(reducer, null);
-    //각 페이지 도서데이터 상태관리
-
-    //검색어 입력중 상태관리
-    const [search, setSearch] = useState({
-        bookType: "ALL", // 전체 / 국내도서 / 국외도서
-        searchType: "bookName", // bookName(도서명), author(저자)
-        recomType: "ALL",
-        stockType: "ALL",
-        keyword: "", // 검색어
-    });
-    // 실제 조회 조건 (서버로 보내는 값으로 확정된 검색값 상태관리)
-    const [searchCondition, setSearchCondition] = useState(null);
-    //pagination
-    const [paginationInfo, setPaginationInfo] = useState({
-        currentPage: 1,
-        totalPages: 0,
-        totalRecord: 0,
-        pageSize: 6,
-    });
-
-
-
-
-
-    // // 초기값 설정 함수
-    // const resetInitial = () => {
-    //     console.log("모든 상태를 초기화합니다.");
-    //     const freshBook = getNewBook();
-    //     setCurrentBook(freshBook);
-    //     setBookImg({ existing: [], new: [], removed: [] });
-    // };
-
-    //초기데이터 설정 : 훅 내부로 옮긴 이유는 '캡슐화'로 컴포넌트는 UI 중심으로 복잡한 데이터로직을 알 필요가 없음
-    const onInit = (bookdata) => {
-        dispatch({
-            type: "INIT",
-            data: bookdata,
-        });
-    };
-    const onCreate = (createBook) => {
-
-        dispatch({
-            type: "CREATE", // 이벤트 발생 시 작동해야할 dispatch 타입 결정
-            data: createBook,
-        });
-    };
-    const onDelete = (newBookList) => {
-
-        dispatch({
-            type: "DELETE",
-            data: newBookList,
-        });
-    };
-    const onUpdate = (updateBook) => {
-
-        dispatch({
-            type: "UPDATE",
-            data: updateBook,
-        });
-    };
+// 1. 훅 내부에서 도서 목록 상태 관리
+    const [bookList, setBookList] = useState([]);
 
 
     //get요청(초기 조회 , 검색 시 조회, 페이지번호변경 시 사용하는 fetch요청 함수
-    // 문제점 : 검색 버튼을 누르지 않았을 경우에도 검색필터가 반영됨 --- > 검색 키워드 상태값 관리 필요
-    const getchBookList = async () => {
+    //도서 목록조회 요청
+    const fetchBookList = async () => {
 
         try{
             const response = await axios.get("/api/admin/book/bookList",{
@@ -147,13 +40,11 @@ export const useAdminBookManagement = (openModal, closeModal, navigate) =>{
                 }
             });
 
-
             //서버에서 넘온 데이터 객체구조분해
             const { currentPage, items, pageSize, totalPages, totalRecord } = response.data;
 
-
             // 도서 목록 갱신
-            onInit(items);
+            setBookList(items);
 
             // 데이터삭제시 페이지 개수 수정
             let fixedPage = currentPage;
@@ -176,26 +67,44 @@ export const useAdminBookManagement = (openModal, closeModal, navigate) =>{
         //try end
     }; //fetch end
 
+    //삭제 요청
+    const fetchDeleteBooks = async (deleteItems) => {
+        try {
+            const response = await axios.post(
+                "/api/admin/book/bookDelete",
+                deleteItems,
+                { withCredentials: true }
+            );
 
+            const data = response.data;
+
+            setPaginationInfo({
+                currentPage: data.currentPage,
+                pageSize: data.pageSize,
+                totalPages: data.totalPages,
+                totalRecord: data.totalRecord,
+            });
+            //삭제 후 재조회
+            await fetchBookList();
+            return data; // 컴포넌트에 결과값 전달
+
+        } catch (err) {
+            catchError(err, { openModal, closeModal, navigate });
+            throw err;
+        }
+    };
+
+
+    useEffect(()=>{
+        console.log("페이지변경, 검색상태 변경 시 도서 목록 재조회")
+        fetchBookList();
+    },[paginationInfo.currentPage, searchCondition])// 페이지 번호가 변경될 때마다 다시 호출
 
 
     // 컴포넌트에서 useAdminBookMangement 훅을 사용해 가져다 쓸 객체들 반환
     return {
-        bookdata,
-        search,
-        setSearch,
-        searchCondition,
-        setSearchCondition,
-        paginationInfo,
-        setPaginationInfo,
-        onInit,
-        onCreate,
-        onDelete,
-        onUpdate,
-        openModal, // adminbookContext를 통해서 사용하려면 다시 담아서 반환해야함 ,장점 : 각 컴포넌트를 찾아가 선언할 필요 없음
-        closeModal,
-        navigate,
-        getchBookList, // 도서 목록 조회
-
+        bookList,
+        fetchBookList,
+        fetchDeleteBooks
     }
 }

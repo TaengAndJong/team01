@@ -1,4 +1,3 @@
-//전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰
 
 import React, { useContext, useEffect, useState } from "react";
 import Btn from "@util/form/reuseBtn.jsx";
@@ -17,33 +16,35 @@ import ImgBaseUrl from "@/util/imgBaseUrl";
 import "@assets/css/book/adminbookList.css";
 import axios from "axios";
 import {useAdminBook} from "../adminBookProvider.jsx";
+import {useAdminListBook} from "../hook/useAdminListBook.jsx";
+
+/*
+* 컴포넌트는 화면 구성 담당, hook은 서버와 데이터처리
+* */
+
 
 const AdminBookList = () => {
 
-  const {
-    bookdata,
-    paginationInfo,
-    setPaginationInfo,
-    onChangePageHandler,
-    fetchBookList,
-    search,
-    setSearch,
-    handleSearch
-  } = useAdminBook();
+  //검색어 입력중 상태관리로  서버 전송 전이기때문에 컴포넌트에서 관리
+  const [search, setSearch] = useState({
+    bookType: "ALL", // 전체 / 국내도서 / 국외도서
+    searchType: "bookName", // bookName(도서명), author(저자)
+    recomType: "ALL",
+    stockType: "ALL",
+    keyword: "", // 검색어
+  });
 
+  //pagination, 목록화면에서만 사용하니까 목록컴포넌트 내부에서 관리
+  const [paginationInfo, setPaginationInfo] = useState({
+    currentPage: 1,
+    totalPages: 0,
+    totalRecord: 0,
+    pageSize: 6,
+  });
+  const { searchCondition ,setSearchCondition} = useAdminBook();
+  const { bookList,fetchDeleteBooks  } =
+      useAdminListBook(paginationInfo,setPaginationInfo, searchCondition);
 
-  const [bookList, setBookList] = useState([]);
-
-// bookdata가 존재할 때만 bookList 업데이트
-  useEffect(() => {
-
-    //1.부모에서 받아온 데이터를 상태관리 함수에 갱신해줌
-    if(bookdata){
-
-      setBookList(bookdata);
-    }
-
-  },[bookdata])
 
   //전체선택
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 여부
@@ -51,6 +52,23 @@ const AdminBookList = () => {
   const [checkedInput, setCheckedInput] = useState([]);
   const {openModal,closeModal} = useModal();
 
+  const handleSearch = () => {
+    // 검색 조건 확정
+    setSearchCondition(search);
+    //  페이지 1로 초기화
+    setPaginationInfo(prev => ({
+      ...prev,
+      currentPage: 1
+    }));
+
+  }
+
+  const onChangePageHandler = (page) => {
+    setPaginationInfo(prev => ({
+      ...prev,
+      currentPage: page
+    }));
+  };
 
   const handleSelectAll = (isChecked) => {
     setSelectAll(isChecked);
@@ -76,55 +94,18 @@ const AdminBookList = () => {
 
   };
 
-  //삭제핸들러
-  const onDeleteHandler = async(deleteItems)=>{
-
-      try{
-
-        const response = 
-            await axios.post(`/api/admin/book/bookDelete`
-                ,deleteItems, // 자동직렬화가 되기때문에 Json.stringify(직렬화대상객체); 미사용
-                { withCredentials: true}); // 인증 세션 또는 쿠키 사용시 필요함
-
-          const data = response.data;
-
-            /*onDelete(data.items);// 삭제이후에 새로 변경된 bookData 로 상태갱신
-         * 부모컴포넌트에서 페이지네이션이 변경되면 초기화가 이루어지기때문에 불필요
-         * */
-        
-            //서버에서 응답준 페이지 데이터를 다시 페이지네이션에 갱신해주기 => 동일한 값이라면 변경없음
-            setPaginationInfo({
-              currentPage: data.currentPage,
-              pageSize: data.pageSize,
-              totalPages: data.totalPages,
-              totalRecord: data.totalRecord,
-            });
-
-            //삭제확인 알림
-            openModal({
-              modalType:"default",
-              content: <><p>{`${data.message}`}</p></>,
-              onConfirm:async ()=>{
-                closeModal();
-                // 삭제할 배열 초기화 ==> 초기화안하면 이전에 삭제한 아이디값이 남아있게됨
-                setCheckedInput([]);
-                await fetchBookList();
-
-              }
-            });
-
-      }catch(err){
-        // fetch는 네트워크에러만 감지, axios는 http오류(400,500)e도 감지
-        //에러처리-버튼테스트
-        openModal({
-          modalType:"error",
-          content: <><p>{`상태메시지 : ${err.response?.statusText} (상태코드: ${err.response?.status}), `}</p></>
-          , onConfirm:()=>{closeModal()}
-        });
-
+  const onDeleteHandler = async (deleteItems) => {
+    const data = await fetchDeleteBooks(deleteItems); // return 한 값 data 변수에 저장
+    //삭제확인 알림 ( UI 관리 )
+    openModal({
+      modalType: "default",
+      content: <p>{data.message}</p>,
+      onConfirm:  () => {
+        closeModal();
+        setCheckedInput([]);  // 삭제할 배열 초기화 ==> 초기화안하면 이전에 삭제한 아이디값이 남아있게됨
       }
-      //공통로직
-  }
+    });
+  };
 
 
 
@@ -306,7 +287,7 @@ const AdminBookList = () => {
             </tbody>
           </table>
         </div>
-        {/*pagination*/}
+
         <Pagination
             paginationInfo={paginationInfo}
             onChangePageHandler={onChangePageHandler}

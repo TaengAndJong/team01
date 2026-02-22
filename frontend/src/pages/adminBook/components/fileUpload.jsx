@@ -3,7 +3,8 @@ import React, {useEffect, useRef, useState} from "react";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
-const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모한테 받은 props 객체 기입
+const FileUpload =({bookImg,setBookImg})=>{//부모한테 받은 props 객체 기입
+
 
     //파일객체 조작관리
     const fileInitRef = useRef(null);
@@ -13,66 +14,6 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
     //최대 파일 사이즈, 총함 파일사이즈
     const maxFileSize = 5 * 1024 * 1024; // 5MB
     const maxTotalSize = 20 * 1024 * 1024; // 총합 20MB 제한 (옵션)
-
-    useEffect(() => {
-        // 안전한 방어코드: defaultData가 없으면 종료 ==> 값이 없으면 굳이 로직을 실행할 필요가 없기때문에
-        if (!defaultData) return;
-
-        const raw = defaultData.bookImgPath;
-
-        // bookImgPath가 null, undefined, 빈 문자열이면 빈 existing으로 설정하고 종료
-        if (raw == null || (typeof raw === "string" && raw.trim() === "")) {
-            setBookImg(prev => {
-                // 불필요한 리렌더 방지: 기존과 동일하면 그대로 반환
-                const prevJson = JSON.stringify(prev?.existing || []);
-                if (prevJson === JSON.stringify([])) return prev;
-                return { ...prev, existing: [] };
-            });
-            return;
-        }
-
-        // 1) 정규화(normalize) : 어떤 형태로 들어오든 "문자열 배열"로 수정
-        //  기존 imgPaths?.filter((fileName) => fileName.toLowerCase().includes("noimg")).length > 0 코드에서는
-        // imgpaths의 원본데이터인 raw 형태가 동일하게 유지 되지 못해 에러가 발생했기때문에, 원본데이터형태를 유지할 수 있게 코드 수정
-        // string인지 array인지 object array인지에 상관없이 안전하게 처리
-        let imgPaths = [];
-
-        if (typeof raw === "string") {
-            //raw문자데이터를 ','를 기준으로 배열로 반환한 후 , map함수로 순회하여 공백제거 및 false값을 필터링
-            // false값 판정은 ""(빈문자열), 공백문자열, null, undefined, 0, false, NaN
-            imgPaths = raw.split(",").map(item => item.trim()).filter(Boolean);
-        } else if (Array.isArray(raw)) {
-            imgPaths = raw
-                .map(item => {
-                    if (typeof item === "string") return item.trim();
-                    // 객체일 때는 가능한 필드들에서 파일명 꺼내기
-                    if (item && typeof item === "object") {
-                        return (item.name || item.fileName || item.filename || "").trim();
-                    }
-                    return "";
-                })
-                .filter(Boolean);
-        } else {
-            // 예기치 않은 타입이면 처리 중단
-            return;
-        }
-
-        // 2) "noimg" 포함 검사 (대소문자 구분 없이)
-        const hasNoImg = imgPaths.some(name => name.toLowerCase().includes("noimg"));
-
-        // 3) 최종 existing 생성: noImg 있으면 빈 배열, 아니면 { name } 객체 배열
-        const existingImgs = hasNoImg ? [] : imgPaths.map(name => ({ name }));
-
-        // 4) 상태 갱신: 이전과 동일하면 setState 하지 않아 불필요한 렌더 방지
-        setBookImg(prev => {
-            const prevExisting = prev?.existing || [];
-            if (JSON.stringify(prevExisting) === JSON.stringify(existingImgs)) {
-                return prev;
-            }
-            return { ...prev, existing: existingImgs };
-        });
-
-    }, [defaultData]);
 
 
     //업로드된 파일크기 관리변수
@@ -167,18 +108,18 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
             return;
         }
         
-        // 파일 목록 갱신
+        // 파일 목록 갱신 (등록 폼에서 에러 유발)
         setBookImg((prev)=>({
-            ...prev, // ??
-            new:[...prev.new,...selectedFiles] // 먼저 등록된 파일 + 새로 등록되는 파일드을
+            ...prev, // 수정, 등록 둘 다 사용하기떄문에 수정일 경우 이전 데이터 필요
+            new:[...(prev?.new || []),...selectedFiles] // 먼저 등록된 파일 + 새로 등록되는 파일드을
         }));
-
+        //prev?.new || [] ==> prev?.new 값이 없으면 undefined 반환해서 에러 발생, [] 빈 배열로 에러 방지
     };
 
     //삭제 핸들러
     const handleRemoveFile = (file, type) => {
 
-
+        console.log("파일 삭제 핸들러 ",file , type)
         setBookImg(prev => {
             //등록했을 경우, 이미지가 새로 생겼을 때
             const updatedNew = type === "new"
@@ -194,18 +135,12 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
                 : prev.removed;
 
 
-
             //갱신된 이미지 배열이 빈 배열이면  ref로 참조한 돔 객체 값 초기화
             if (updatedExisting.length === 0 && fileInitRef.current) {
                 console.log(" :갱신된 이미지 객체 돔조작중 이미지개수 ",updatedExisting.length);
                 fileInitRef.current.value = ""; // 실제 DOM input value 비우기
             }
 
-            // 최종데이터객체에 반영
-            setDefaultData(prevData => ({
-                ...prevData,
-                bookImgPath: updatedExisting // 삭제된 이미지를 제외하고 새로 갱신
-            }));
 
 
             return {
@@ -217,20 +152,6 @@ const FileUpload =({bookImg,setBookImg,defaultData,setDefaultData})=>{//부모�
         });
     };
 
-    useEffect(() => {
-        // 기존 bookImg.existing이 바뀌었을 때만 실행
-        const newBookImgPath = bookImg.existing.map(f => f.name).join(",");
-        //바뀐 이미지 객체데이터로 갱신
-        setDefaultData(prevData => {
-            if (prevData.bookImgPath === newBookImgPath) return prevData; // 변경 없으면 업데이트 X
-            return {
-                ...prevData,
-                bookImgPath: newBookImgPath
-            };
-        });
-
-
-    }, [bookImg.existing]);
 
     // 파일 리스트 출력 ==> noimg가 넘어오면 목록에 출력 x
     const renderFileList = (files, type) => (

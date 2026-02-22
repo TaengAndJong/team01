@@ -152,8 +152,10 @@ public class AdminBookController {
     @GetMapping("/bookDetail/{bookId}")
     public ResponseEntity<?> getBookDetail(@PathVariable Long bookId){
 
+
         // 아이디를 파라미터로 데이터베이스에 넘겨서 데이터 받아오기
         AdminBookVO adminBookVO = bookService.deTailBook(bookId);
+
         // adminBookVO 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
         List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
         if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
@@ -164,6 +166,7 @@ public class AdminBookController {
             );// new ArrayList로 수정 가능한 새로운 가변 List 생성
 
         }
+
         // admingbookVO bookImgList에 담아주기
         adminBookVO.setBookImgList(imgArray);
 

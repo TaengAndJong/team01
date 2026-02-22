@@ -6,64 +6,24 @@ import PathsData from "../../../assets/pathsData.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
 import FileUpload from "./fileUpload.jsx";
 import Category from "./category.jsx";
-import {formatToDate} from "@util/date/dateUtils.jsx";
 import PriceStock from "./priceStock.jsx";
-import {numberValidation} from "@util/validation/validationCommon.js";
 import PublishDate from "./publishDate.jsx";
 import RecomType from "./RecomType.jsx";
 import SalesStatus from "./salesStatus.jsx";
 import "@assets/css/book/adminbookCreate.css";
-import {useAdminBook} from "../adminBookProvider.jsx";
-import {bookPriceValidation, bookStockValidation} from "../../../util/validation/validationCommon.js";
 
+import {bookPriceValidation, bookStockValidation} from "@util/validation/validationCommon.js";
 
-//전체선택, 개별선택 삭제, 장바구니버튼, 바로구매버튼, 찜목록 버튼 , 리뷰--
 
 const AdminBookCreate = () => {
     
     // 로그인여부, 역할 훅
     const {userData} = useAuth();
-    //도서 등록 훅
-    const {openModal, closeModal,navigate,registerBook,currentBook,setCurrentBook,categoryList,setCategoryList} = useAdminBook();
 
-
-    //리액트는 초기값이 렌더링 되면 상태관리 방식으로인해 값이 고정되어
-    // 렌더링될 때마다 렌더링 타이밍과 초기화 방식을 고려해 데이터를 갱신해줘야 함
-
-    //파일
-    const [bookImg, setBookImg] = useState({
-        existing: [], // 서버에서 불러온 기존 파일
-        new: [],      // 새로 업로드한 파일
-        removed: []   // 삭제한 기존 파일
-    });
-    // 업로드 파일 상태관리
-
-
-    //get 요청서 categoryList 받아오기
-    const getCategories = async () => {
-        try{
-            const response = await  fetch("/api/admin/book/bookCreate",{
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-
-            if(!response.ok){
-
-                throw  Error(response.statusText);
-            }
-            // 요청 성공 시 ,응답 제이슨으로 받아오기
-            const data = await response.json();
-            setCategoryList(data);
-
-        }catch(err){
-            console.error("getCategories 실패:", err);
-        }
-    }
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
+
         if (userData?.roleId) {
             setCurrentBook(prev => ({
                 ...prev,
@@ -71,15 +31,9 @@ const AdminBookCreate = () => {
                 writer: userData.clientName,
             }));
         }
-        getCategories();
+
     }, [userData]);  // userData가 변경될 때 실행
 
-    useEffect(() => {
-        setCreateBook(prev => ({
-            ...prev,
-            bookImg: bookImg.new,
-        }));
-    }, [bookImg])
 
 
     //핸들러 값 변경 시 실행되는 함수
@@ -96,7 +50,7 @@ const AdminBookCreate = () => {
                 openModal({
                     modalType:"error",
                     content:<>
-                        <p>{`${result.message}`}</p>
+                        <p>{result.message}</p>
                     </>,
                     onConfirm:()=>{closeModal()}
                 })
@@ -120,12 +74,13 @@ const AdminBookCreate = () => {
 //전송
     const onSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
+
        const isRegistered =   await registerBook(currentBook, bookImg); // 도서등록 훅에 담아줄 객체들 담아서 서버 등록 처리
         //서버 등록 처리 완료 여부
         console.log("isRegistered",isRegistered);
         if(isRegistered){
             console.log("isRegistered success"); // 목록페이지로 이동
-            navigate("/admin/book/bookList");
+
         }else{
             console.log("isRegistered false"); // 기존 페이지에 머무르기 ? 아니면 재등록 ?
         }

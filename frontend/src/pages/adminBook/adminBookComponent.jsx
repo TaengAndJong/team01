@@ -98,7 +98,7 @@ const AdminBook = () => {
                 {/*adminbook 부모가 provider에 props로 직접적으로 modalparams를 전달
                   Context랑은 상관없는 데이터 전달(Props)로,
                   AdminBookProvider라는 컴포넌트 내부에서만 해당 데이터 사용 가능*/}
-                <AdminBookProvider modalparams={modalparams}>
+                <AdminBookProvider>
                   <Outlet />
                 </AdminBookProvider>
               </div>

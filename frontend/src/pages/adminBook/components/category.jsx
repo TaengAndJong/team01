@@ -4,6 +4,7 @@ import {useModal} from "../../common/modal/ModalContext.jsx";
 
 const Category=({mode,setDefaultData,defaultData,categoryList})=>{
 
+    console.log(`mode ${mode} , categoryList = ${categoryList}`);
     //1번 기본 데이터가 넘어옴
     //카테고리 선택박스 초기상태
     const [selectedCategory, setSelectedCategory] = useState({

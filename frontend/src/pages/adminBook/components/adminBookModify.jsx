@@ -8,14 +8,11 @@ import PublishDate from "./publishDate.jsx";
 import PriceStock from "./priceStock.jsx";
 import FileUpload from "./fileUpload.jsx";
 import {useAuth} from "../../common/AuthContext.jsx";
-import {numberValidation} from "@util/validation/validationCommon.js";
-import {formatToDate, getToday} from "@util/date/dateUtils.jsx";
-import {BookDispatchContext} from "../adminBookComponent.jsx";
+import {formatToDate} from "@util/date/dateUtils.jsx";
 import "@assets/css/book/adminbookModify.css";
 import SalesStatus from "./salesStatus.jsx";
 import RecomType from "./RecomType.jsx";
-import {useModal} from "../../common/modal/ModalContext.jsx";
-import axios from "axios";
+
 import {useAdminBook} from "../adminBookProvider.jsx";
 import {bookPriceValidation, bookStockValidation} from "../../../util/validation/validationCommon.js";
 
@@ -31,40 +28,59 @@ const AdminBookModify = () => {
     const {bookId} = useParams(); // URL에서 bookId 값 받아오기
     const {userData} = useAuth();// 로그인한 사용자 데이터
 
-    const {fetchModify,modifyBook,currentBook,
-        setCurrentBook, navigate,openModal, closeModal
+
+
+    const {currentBook,setCurrentBook
+        ,bookImg, setBookImg
+        ,fetchModify,modifyBook
+        ,navigate,openModal,closeModal
         ,categoryList} = useAdminBook();
 
 
-    //파일
-    const [bookImg, setBookImg] = useState({
-        existing: currentBook.bookImgPath || [],
-        new: [],
-        removed: [],   // 삭제한 기존 파일
-    });
-
     useEffect(() => {
-        if (bookId) fetchModify(bookId);
+        // user
+        if (bookId && userData) {
+            console.log("userData---", userData);
+            fetchModify(bookId, userData);
+        }
     }, [bookId]);
 
-    // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
-        if (userData?.roleId) {
-            setCurrentBook(prev => ({
-                ...prev,
-                roleId: userData.roleId,
-                writer: userData.clientName,
-            }));
+        console.log("currentBook-----", currentBook);
+        // 1. 책 ID가 있고, 2. 아직 이미지를 세팅하기 전(existing이 비어있을 때)만 실행
+        if (currentBook.bookId && bookImg.existing.length === 0 && bookImg.removed.length === 0) {
+            //서버에서 받아온 도서이미지
+            const raw = currentBook.bookImgPath;
+            console.log("raw bookImg -- bookModify", raw);
+
+            // 데이터가 없거나 'noimg'가 포함된 경우 빈 배열 처리
+            if (!raw || raw.toLowerCase().includes("noimg")) {
+                setBookImg({ existing: [], new: [], removed: [] });
+                return;
+            }
+
+            //imgPaths 타입이 문자열이면, ","를 기준으로 나누어 양 끝 공백제거 후 true 인것만 반환 아니면 빈배열
+            // filter(Boolean)을 사용하여 ""(빈 문자열)이면 false 판정으로 제외하여 문자열이 존재(true)만 반환
+            //Boolean은 리액트/자바스크립트에서 "", null, undefined, 0, false는 모두 Boolean() 함수에 넣었을 때 false 판정으로
+            // 진짜 값이 있는 경우만 필터링할 경우 사용
+            const imgPaths = typeof raw === "string"
+                ? raw.split(",").map(item => item.trim()).filter(Boolean)
+                : [];
+
+            setBookImg({
+                existing: imgPaths.map(name => ({ name })), // FileUpload가 읽을 수 있는 형태
+                new: [],
+                removed: []
+            });
         }
-    }, [userData]);  // userData가 변경될 때 실행
-
-
+    }, [currentBook.bookId]); // 데이터가 로드될 때 딱 한 번만 작동
 
     //핸들러 값 변경 시 실행되는 함수
     const handleChange = (e) => {
         //name이 이벤트 객체로부터 구조분해할당하여 값을 분배
         const { name, value } = e.target;
 
+        console.log("modify onChange " , name, value);
         //stock 값 숫자인지 검증 , 값이 빈 문자열이 아니고 name이 stock, bookPrice일 경우
         if ((name === "stock" || name === "bookPrice") && value.trim() !== "") {
 
@@ -75,7 +91,7 @@ const AdminBookModify = () => {
                 openModal({
                     modalType:"error",
                     content: <>
-                        <p>`${result.message}`</p>
+                        <p>{result.message}</p>
                     </>,
                     onConfirm:()=>{closeModal()}
                 })
@@ -106,7 +122,6 @@ const AdminBookModify = () => {
         }
 
     }
-
 
     return(
         <>
