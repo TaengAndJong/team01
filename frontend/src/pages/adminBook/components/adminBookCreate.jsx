@@ -13,17 +13,27 @@ import SalesStatus from "./salesStatus.jsx";
 import "@assets/css/book/adminbookCreate.css";
 
 import {bookPriceValidation, bookStockValidation} from "@util/validation/validationCommon.js";
+import {useAdminCreateBook} from "../hook/useAdminCreateBook.jsx";
+import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
 const AdminBookCreate = () => {
     
     // 로그인여부, 역할 훅
     const {userData} = useAuth();
-
+    const {currentBook,
+        setCurrentBook,
+        categoryList,
+        setCategoryList,
+        bookImg,
+        setBookImg,
+        getCategories,
+        fetchCreateBook,}=useAdminCreateBook();
+    const {openModal,closeModal} = useModal();
 
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
-
+        console.log("useData",userData);
         if (userData?.roleId) {
             setCurrentBook(prev => ({
                 ...prev,
@@ -32,8 +42,13 @@ const AdminBookCreate = () => {
             }));
         }
 
+        console.log("currentBook",currentBook);
     }, [userData]);  // userData가 변경될 때 실행
 
+    //마운트시 1번만 요청
+    useEffect(() => {
+        getCategories();
+    }, []);
 
 
     //핸들러 값 변경 시 실행되는 함수
@@ -48,11 +63,11 @@ const AdminBookCreate = () => {
             if(!result.valid){
                 // 숫자 검증 false 일 경우, 모달 알림 뜸
                 openModal({
-                    modalType:"error",
-                    content:<>
-                        <p>{result.message}</p>
-                    </>,
-                    onConfirm:()=>{closeModal()}
+                    modalType: "error",
+                    content: <p>{result.message}</p>,
+                    onConfirm: () => {
+                        closeModal()
+                    }
                 })
                 // 여기에 value 값 '' 으로 변경
                 value = "";
@@ -75,7 +90,7 @@ const AdminBookCreate = () => {
     const onSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
 
-       const isRegistered =   await registerBook(currentBook, bookImg); // 도서등록 훅에 담아줄 객체들 담아서 서버 등록 처리
+       const isRegistered =   await fetchCreateBook(currentBook, bookImg); // 도서등록 훅에 담아줄 객체들 담아서 서버 등록 처리
         //서버 등록 처리 완료 여부
         console.log("isRegistered",isRegistered);
         if(isRegistered){
@@ -135,7 +150,7 @@ const AdminBookCreate = () => {
                                  className="form-control me-5"
                                  name="writer"
                                  type="text"
-                                 placeholder="작성자" value={userData?.clientName} readOnly={true}/>
+                                 placeholder="작성자" value={currentBook.writer} readOnly={true}/>
 
                         <FormTag id="createDate" label="등록일" labelClass="form-title col-2"
                                  className="form-control"

@@ -2,7 +2,7 @@
 
 import React, {useState} from "react";
 import axios from "axios";
-import {getToday} from "../../../util/date/dateUtils.jsx";
+import {formatToDate, getToday} from "../../../util/date/dateUtils.jsx";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
@@ -22,8 +22,29 @@ const korname = {
 
 export const useAdminCreateBook = () => {
 
-    //도서데이터
-    const [currentBook, setCurrentBook] = useState({});
+
+    //훅 외부에 초기값 함수 선언 , 내부에 선언하면 프로바이더가 렌더링 될때마다 계속 함수 생성
+    const initialBook  ={
+        bookName: '',
+        bookCateNm: [],
+        bookCateDepth: [],
+        bookDesc: '',
+        author: '',
+        bookPrice: '0',
+        stock: '0',
+        stockStatus: '재고없음',
+        publishDate: '',
+        roleId: '',
+        cateId: [],
+        bookImg: [],
+        writer: '',
+        createDate: formatToDate(new Date()), // 매번 실행할 때마다 '지금' 날짜 생성
+        recomType: 'NORMAL',
+        saleStatus: '판매중'
+    };
+
+    //도서등록 데이터
+    const [currentBook, setCurrentBook] = useState(initialBook);
     const { openModal, closeModal } = useModal();
 
     //도서 이미지파일목록
@@ -35,7 +56,6 @@ export const useAdminCreateBook = () => {
 
     // 카테고리
     const [categoryList, setCategoryList] = useState([]);
-
 
     //카테고리 리스트 get 요청
     const getCategories = async () => {
@@ -54,11 +74,11 @@ export const useAdminCreateBook = () => {
     }
 
     // create 도서 등록 함수
-    const fetchCreateBook = async (createBookData, bookImg) => {
+    const fetchCreateBook = async (currentBook, bookImg) => {
         // formData 생성
         const formData = new FormData();
 
-        Object.entries(createBookData).forEach(([key, value]) => {
+        Object.entries(currentBook).forEach(([key, value]) => {
 
             if(key === "bookImg") return;
 
@@ -117,48 +137,34 @@ export const useAdminCreateBook = () => {
         // 서버로 axios.post 비동기 요청
         try {
             const response = await axios.post("/api/admin/book/bookCreate",formData)
-
-            if(response.data) { // 서버 응답이 있으면
-                onCreate(response.data); // reducer의 CREATE 액션 실행
-            }
-
-            // 검색어 상태를 초기화 해줘야 등록완료 후 처음으로 돌아감
-            setSearchCondition(null);
-            // 1. 페이지 1로 이동 ( 이미 1페이지면 state 변경이 안됨)
-            setPaginationInfo(prev => ({ ...prev, currentPage: 1 }));
-            // 2. 성공 알림
-            openModal({
-                modalType: "default",
-                content: <p>해당 도서 등록되었습니다.</p>,
-                onConfirm: () => {closeModal();
-                    //  폼과 이미지객체 초기화
-
-                    navigate("/admin/book/bookList");
-                }
-
-            });
-
-            return true;// 컴포넌트에게 성공 보고 , true, false 로 성공여부를 알려주면 이후 과정확장 시 조건 여부로 사용가능
+            // 컴포넌트에게 성공 보고 , true, false 로 성공여부를 알려주면 이후 과정확장 시 조건 여부로 사용가능
+            return { // 객체로 반환 ( 서버에서 받아 온 데이터 사용 용이 )
+                success: true,
+                data: response.data,
+                message: "도서가 등록되었습니다."
+            };
 
         } catch (err) {
             openModal({
                 modalType: "error",
-                content:<>
-                    <p>{err?.response?.data || "서버 요청 중 오류가 발생했습니다. 다시 시도해주세요."}</p>
-                </>,
+                content: <p>{err?.response?.data || "서버 요청 중 오류가 발생했습니다. 다시 시도해주세요."}</p>,
                 onConfirm:()=>{closeModal();}// 이미지 상태 초기화
             });
-            return false; // 컴포넌트에게 실패 보고
+
+            return {// 컴포넌트에게 실패 보고
+                success: false
+            };
         }
     }
 
+
     return{
-        createBook: currentBook,
+         currentBook,
         setCurrentBook,
         categoryList,
         setCategoryList,
         bookImg,
-        setBookImg,
+       setBookImg,
         getCategories,
         fetchCreateBook,
     }

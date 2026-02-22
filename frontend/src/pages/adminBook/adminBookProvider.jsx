@@ -10,25 +10,7 @@ import {formatToDate} from "../../util/date/dateUtils.jsx";
 //컴포넌트들에서 사용할 컨텍스트 생성 (export로 외부 노출은 선택사항, 외부 노출 안할 경우, 하단 캡슐화 필요 )
 const AdminBookContext = createContext();
 
-//훅 외부에 초기값 함수 선언 , 내부에 선언하면 프로바이더가 렌더링 될때마다 계속 함수 생성
-const getNewBook = () => ({
-    bookName: '',
-    bookCateNm: [],
-    bookCateDepth: [],
-    bookDesc: '',
-    author: '',
-    bookPrice: '0',
-    stock: '0',
-    stockStatus: '재고없음',
-    publishDate: '',
-    roleId: '',
-    cateId: [],
-    bookImg: [],
-    writer: '',
-    createDate: formatToDate(new Date()), // 매번 실행할 때마다 '지금' 날짜 생성
-    recomType: 'NORMAL',
-    saleStatus: '판매중'
-});
+
 
 
 
