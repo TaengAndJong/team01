@@ -31,19 +31,22 @@ const AdminBookCreate = () => {
         fetchCreateBook,}=useAdminCreateBook();
     const {openModal,closeModal} = useModal();
 
+
+    useEffect(() => {
+        console.log("userData 변경됨:", userData);
+    }, [userData]);
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
         console.log("useData",userData);
-        if (userData?.roleId) {
+        if (userData?.clientName && userData?.roleId) {
             setCurrentBook(prev => ({
                 ...prev,
-                roleId: userData.roleId,     // roles[0] 대신 직접 접근
-                writer: userData.clientName,
+                roleId: userData.roleId,
+                writer: userData.clientName
             }));
         }
+    }, [userData]);
 
-        console.log("currentBook",currentBook);
-    }, [userData]);  // userData가 변경될 때 실행
 
     //마운트시 1번만 요청
     useEffect(() => {
@@ -86,7 +89,7 @@ const AdminBookCreate = () => {
     }
 
 
-//전송
+//전송 ==> form 내부에 sumit 버튼 두면 알아서 함수가 실행됨
     const onSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
 
@@ -168,17 +171,18 @@ const AdminBookCreate = () => {
                                   aria-describedby="bookDescHelp" required onChange={handleChange}/>
                     </div>
 
-                     {/*도서이미지 이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요      */}
+                    {/*도서이미지 이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요      */}
                     <div className="d-flex align-items-center flex-wrap">
 
                         <FileUpload bookImg={bookImg} setBookImg={setBookImg} defaultData={currentBook}
                                     setDefaultData={setCurrentBook}/>
                     </div>
+                    {/*form 내부에 두어야 onSubmit 자동실행*/}
+                    <div className="d-flex align-items-center justify-content-center mt-4">
+                        <Btn path={PathsData.page.adminBook} className={"login btn btn-danger mx-1"} text={"취소"}/>
+                        <Btn className={"signup btn custom-btn02 mx-1"} text={"등록"} type="submit"/>
+                    </div>
                 </form>
-                <div className="d-flex align-items-center justify-content-center mt-4">
-                    <Btn path={PathsData.page.adminBook} className={"login btn btn-danger mx-1"} text={"취소"}/>
-                    <Btn className={"signup btn custom-btn02 mx-1"} text={"등록"} type="submit" onClick={onSubmit}/>
-                </div>
             </div>
 
         </>

@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         console.log("로그인성공 userdata",userData);
         setIsAuthenticated(true); //시큐리티 로그인인증 성공하면 true로 설정
         setUserData(userData); //시큐리티 로그인인증 컨트롤러에서 응답받은 사용자 데이터 설정
-        setRole(userData.roles[0]);//권한 설정
+        setRole(userData.roleId);//권한 설정
         localStorage.setItem('userData', JSON.stringify(userData)); // 로컬 스토리지에 사용자 정보 저장
     };
 
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
             if (data.authenticated === true && data.userData) { // 근데 새로고침했을 때 authenticated가 true 로 유지되는ㅈ ㅣ확인필요
                 setIsAuthenticated(true);
                 setUserData(data.userData);
-                setRole(data.roles);
+                setRole(data.roleId);
                 localStorage.setItem(
                     "userData",
                     JSON.stringify(data.userData)

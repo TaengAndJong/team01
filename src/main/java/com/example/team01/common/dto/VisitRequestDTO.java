@@ -16,3 +16,12 @@ public class VisitRequestDTO {
     private LocalDateTime visitTime = LocalDateTime.now(); //PSQL은 LOCADATETIME 시 timestamp without time zone
     private String sessionId;
 }
+
+
+/*
+* @Data 는
+* @Getter , @Setter ,@ToString, @EqualsAndHashCode , @RequiredArgsConstructor
+* 전부 포함
+*
+* DTO에서는 getter, builder , 기본생성자 ,모든 필드를 파라미터로 받는 생성자 까지만
+* */

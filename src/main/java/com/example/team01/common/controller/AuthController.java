@@ -1,5 +1,6 @@
 package com.example.team01.common.controller;
 
+import com.example.team01.common.dto.AuthResponseDTO;
 import com.example.team01.security.PrincipalDetails;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /*
 * 로그인 시, 세션만료되면 체크할 용도
@@ -38,10 +40,20 @@ public class AuthController {
         PrincipalDetails principal =
                 (PrincipalDetails) authentication.getPrincipal();
 
-        return ResponseEntity.ok(Map.of(
-                "authenticated", true,
-                "userData", principal.getUserData()//사용자 인증 정보를 담아줘야 프론트에서 인증(로그인)상태 유지
-        )); 
+        //roleId에 담아줄 role 꺼내기
+        String roleId = principal.getAuthorities().stream()
+                .map(auth -> auth.getAuthority()).findFirst().orElse("");
+
+
+        //authResponseDto를 만들어서 구조 수정 및 시큐리티 구조 숨기기
+        AuthResponseDTO response = AuthResponseDTO.builder().authenticated(true)
+                .clientId(principal.getUserData().getClientId())
+                .clientName(principal.getUserData().getClientName())
+                .roleId(roleId)
+                .build();
+        log.info("response--------authController:{}",response);
+        
+        return ResponseEntity.ok(response);
 
     }
 

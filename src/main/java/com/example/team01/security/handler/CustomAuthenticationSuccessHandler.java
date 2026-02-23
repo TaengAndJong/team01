@@ -1,28 +1,22 @@
 package com.example.team01.security.handler;
 
 import com.example.team01.common.service.ClientService;
+import com.example.team01.security.PrincipalDetails;
+import com.example.team01.security.dto.LoginResponseDTO;
 import com.example.team01.vo.ClientVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -53,44 +47,59 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 
         //1. 로그인 사용자 정보 가져오기
-        String username = authentication.getName(); // 사용자 이름
-        Collection<? extends GrantedAuthority> roles = authentication.getAuthorities(); // 권한 목록
+//        String username = authentication.getName(); // 사용자 이름
+//        Collection<? extends GrantedAuthority> roles = authentication.getAuthorities(); // 권한 목록
 
         //로그인 사용자정보
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        log.info("principal--------------------------------:{}", userDetails);
-        // clientId를 이용하여 추가 사용자 정보를 가져오기
-        ClientVO clientInfo = clientService.getClientWithRole(username);
+         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        log.info("principal--------------------------------:{}", principal);
+
+            String username = principal.getUsername();
+         //clientId를 이용하여 추가 사용자 정보를 가져오기 , status, userStatus 항목 조회해야함
+         ClientVO clientInfo = clientService.getClientWithRole(username);
 
         //세션에 저장해줘야 SessionCheckController에서 사용가능
         HttpSession session = request.getSession(true);
-        session.setAttribute("loginUser", userDetails);       // React 기존 세션 방법과 호환
+        session.setAttribute("loginUser", principal);       // React 기존 세션 방법과 호환
         //session.setAttribute("loginClientInfo", clientInfo);  // 필요시 저장
         session.setAttribute("loginTime", LocalDateTime.now()); // 커스텀 만료용
-        
-        // 2.로그인 성공 시  클라이언트로 보내줄 JSON 응답 생성
-        Map<String, Object> responseData = new HashMap<>();
-        //클라이언트의 로컬스토리지에서 아래 데이터 확인가능
-        responseData.put("status","success");
-        responseData.put("message", username +" 로그인 성공");
-        responseData.put("redirect", redirectUrl);
-        responseData.put("roles", roles.stream().map(GrantedAuthority::getAuthority).toList()); // 권한 목록
-        responseData.put("clientId", clientInfo.getClientId()); // 사용자이름
-        responseData.put("clientName", clientInfo.getClientName()); // 사용자이름
-        responseData.put("userStatus", clientInfo.getStatus()); // 회원,사원,관리자
-        // responseData.put("sessionId", request.getSession().getId()); // 세션 ID
+
+        //roleId 권한 배열에서 꺼내기
+        String roleId = principal.getAuthorities().stream()
+                .map(auth -> auth.getAuthority()).findFirst().orElse("");
+
+        log.info("로그인 인증 성공 핸들러 roleId  : {}",roleId);
+
+        //2.로그인 성공 시 클라이언트로 보내줄 데이터 DTO 맞춰서 형식 수정하기
+        LoginResponseDTO loginresp = LoginResponseDTO.builder()
+                .authenticated(true)
+                .clientId(clientInfo.getClientId())
+                .clientName(clientInfo.getClientName())
+                .roleId(roleId)
+                .userStatus(clientInfo.getStatus())
+                .status("success")
+                .message(username +" 로그인 성공")
+                .redirect(redirectUrl)
+                .build();
 
         //Jackson 라이브러리의 ObjectMapper를 사용하여 Map 객체를 JSON 문자열로 변환
         ObjectMapper objectMapper = new ObjectMapper();
-        String jsonResponse = objectMapper.writeValueAsString(responseData);
-
-        // response.getWriter().write()를 사용하여 JSON 응답을 클라이언트로 반환
-        response.getWriter().write(jsonResponse);
+        String jsonResponse = objectMapper.writeValueAsString(loginresp); //ObjectMapper로 Json 변환
+        response.setContentType("application/json"); //ContentType 명시
+        response.setCharacterEncoding("UTF-8"); // CharacterEncoding 지정
+        response.getWriter().write(jsonResponse);// getWriter().write로 클라이언트에 JSON 전송
 
     }
 // class end
 
-
-
 }
 
+/*
+* 시큐리티 핸들러가 ObjectMapper를 사용하여 Json으로 자동직렬화 하는 이유
+* 1) 핸들러는 컨트롤러가 아님 
+* 2) 필터 체인 내부에서 동작
+* 3) 반환타입이 ResponseEntity 나 mvc 구조를 사용하지 않음
+* 4) 결론, Spirng mvc 자동직렬화가 불가능 ==> 수동으로 직렬화 시켜야함
+* 
+*  Security 핸들러 → ObjectMapper + getWriter() 로 직접 JSON 보내야 함
+* */
