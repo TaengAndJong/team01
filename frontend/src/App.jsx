@@ -49,11 +49,12 @@ import WishList from "@pages/myPage/wish/WishList.jsx";
 import PaymentHistory from "@pages/myPage/payment/PaymentHistory.jsx";
 //payment
 import PaymentComponent from "@pages/pay/paymentComponent.jsx";
-//aixos  로그인 여부확인용 js ==> 전역처리할경우 사용, 각 컴포넌트에서 로그인여부 사용할경우 필요없음
-//import "@js/AxiosInterceptor";
 
 //log
 import VisitRecorder from "./pages/common/VisitRecorder.jsx";
+import {ModalProvider} from "./pages/common/modal/ModalContext.jsx";
+import React from "react";
+import PublicModal from "./pages/common/modal/PublicModal.jsx";
 
 function App() {
   let location = useLocation();
@@ -66,101 +67,104 @@ function App() {
 
   return (
     <div className={`App ${headerName()}`}>
-      <MenuProvider>
-        <VisitRecorder />
-        <Routes>
-          {/* Index 컴포넌트 */}
-          <Route path={PathData.page.index} element={<Index />} />
+      <ModalProvider>
+        <MenuProvider>
+          <VisitRecorder />
+          <Routes>
+            {/* Index 컴포넌트 */}
+            <Route path={PathData.page.index} element={<Index />} />
 
-          {/* 공통 Layout */}
-          <Route path="/" element={<Layout />}>
-            {/* 공통 컴포넌트 */}
-            <Route path={PathData.page.login} element={<Login />} />
-            <Route path={PathData.page.myPage} element={<Mypage />}>
-              <Route index element={<MyPageMain />} />
-              <Route path="personal" element={<PersonalInfo />} />
-              <Route path="address" element={<AddressComponent />} />
-              <Route path="payHistory" element={<PaymentHistory />} />
-              <Route path="wishlist" element={<WishComponent />}>
-                <Route index element={<WishList />} />
+            {/* 공통 Layout */}
+            <Route path="/" element={<Layout />}>
+              {/* 공통 컴포넌트 */}
+              <Route path={PathData.page.login} element={<Login />} />
+              <Route path={PathData.page.myPage} element={<Mypage />}>
+                <Route index element={<MyPageMain />} />
+                <Route path="personal" element={<PersonalInfo />} />
+                <Route path="address" element={<AddressComponent />} />
+                <Route path="payHistory" element={<PaymentHistory />} />
+                <Route path="wishlist" element={<WishComponent />}>
+                  <Route index element={<WishList />} />
+                </Route>
+              </Route>
+              <Route path={PathData.page.cart} element={<Cart />}>
+                <Route index path="" element={<CartList />} />
+              </Route>
+              <Route
+                path={PathData.page.payment}
+                element={<PaymentComponent />}
+              />
+              {/*<Route path="paySuccess/:payId" element={<PaymentSuccess/>}/>  /!*중첩라우팅사용하려면 최상위 부모 컴포넌트에 <Outlet/>을 사용해야 함!*!/*/}
+              <Route path={PathData.page.signup} element={<SignUp />} />
+
+              {/* 클라이언트 전용 라우트 */}
+              <Route index path={PathData.page.main} element={<Main />} />
+              <Route path={PathData.page.book} element={<Book />}>
+                <Route index path="" element={<BookList />} />
+                <Route path="bookDetail/:bookId" element={<BookDetail />} />
+                {/*<Route index element={<Navigate to="bookList" replace/>}/>*/}
+                {/*<Route path="bookList" element={<BookList/>} />*/}
+              </Route>
+
+              <Route path={PathData.page.board} element={<Board />}>
+                {/*클라이언트 게시물 생성 수정*/}
+                <Route index element={<BoardDashboard />} />
+                <Route path="createBoard" element={<CreateBoard />} />
+                <Route
+                  path="oneBoard"
+                  element={<BoardTemplateComponent category="one" />}
+                />
+                <Route
+                  path="productBoard"
+                  element={<BoardTemplateComponent category="product" />}
+                />
+                <Route
+                  path="deliveryBoard"
+                  element={<BoardTemplateComponent category="delivery" />}
+                />
+
+                <Route
+                  path="/board/detailBoard/:category/:boardId/"
+                  element={<DetailBoard userType="client" />}
+                />
+              </Route>
+
+              {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
+              <Route path="/admin" element={<Admin />} />
+              <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
+                {/*첫페이지 설정*/}
+                <Route index element={<Navigate to="productBoard" />} />
+                <Route
+                  path="deliveryBoard"
+                  element={<AdminDeliveryBoard category="delivery" />}
+                />
+                <Route
+                  path="productBoard"
+                  element={<AdminProductBoard category="product" />}
+                />
+                <Route
+                  path="oneBoard"
+                  element={<AdminOneBoard category="one" />}
+                />
+
+                <Route
+                  path="detail/:category/:boardId"
+                  element={<AdminDetailBoard userType="admin" />}
+                />
+              </Route>
+
+              <Route path={PathData.page.adminBook} element={<AdminBook />}>
+                <Route index element={<Navigate to="bookList" replace />} />
+                <Route path="bookList" element={<AdminBookList />} />
+                <Route path="bookCreate" element={<AdminBookCreate />} />
+                <Route path="bookDetail/:bookId" element={<AdminBookDetail />} />
+                <Route path="bookModify/:bookId" element={<AdminBookModify />} />
               </Route>
             </Route>
-            <Route path={PathData.page.cart} element={<Cart />}>
-              <Route index path="" element={<CartList />} />
-            </Route>
-            <Route
-              path={PathData.page.payment}
-              element={<PaymentComponent />}
-            />
-            {/*<Route path="paySuccess/:payId" element={<PaymentSuccess/>}/>  /!*중첩라우팅사용하려면 최상위 부모 컴포넌트에 <Outlet/>을 사용해야 함!*!/*/}
-            <Route path={PathData.page.signup} element={<SignUp />} />
-
-            {/* 클라이언트 전용 라우트 */}
-            <Route index path={PathData.page.main} element={<Main />} />
-            <Route path={PathData.page.book} element={<Book />}>
-              <Route index path="" element={<BookList />} />
-              <Route path="bookDetail/:bookId" element={<BookDetail />} />
-              {/*<Route index element={<Navigate to="bookList" replace/>}/>*/}
-              {/*<Route path="bookList" element={<BookList/>} />*/}
-            </Route>
-
-            <Route path={PathData.page.board} element={<Board />}>
-              {/*클라이언트 게시물 생성 수정*/}
-              <Route index element={<BoardDashboard />} />
-              <Route path="createBoard" element={<CreateBoard />} />
-              <Route
-                path="oneBoard"
-                element={<BoardTemplateComponent category="one" />}
-              />
-              <Route
-                path="productBoard"
-                element={<BoardTemplateComponent category="product" />}
-              />
-              <Route
-                path="deliveryBoard"
-                element={<BoardTemplateComponent category="delivery" />}
-              />
-
-              <Route
-                path="/board/detailBoard/:category/:boardId/"
-                element={<DetailBoard userType="client" />}
-              />
-            </Route>
-
-            {/* 관리자 전용 라우트 , 중첩라우트는 상대경로 사용함*/}
-            <Route path="/admin" element={<Admin />} />
-            <Route path={PathData.page.adminBoard} element={<AdminBoard />}>
-              {/*첫페이지 설정*/}
-              <Route index element={<Navigate to="productBoard" />} />
-              <Route
-                path="deliveryBoard"
-                element={<AdminDeliveryBoard category="delivery" />}
-              />
-              <Route
-                path="productBoard"
-                element={<AdminProductBoard category="product" />}
-              />
-              <Route
-                path="oneBoard"
-                element={<AdminOneBoard category="one" />}
-              />
-
-              <Route
-                path="detail/:category/:boardId"
-                element={<AdminDetailBoard userType="admin" />}
-              />
-            </Route>
-
-            <Route path={PathData.page.adminBook} element={<AdminBook />}>
-              <Route index element={<Navigate to="bookList" replace />} />
-              <Route path="bookList" element={<AdminBookList />} />
-              <Route path="bookCreate" element={<AdminBookCreate />} />
-              <Route path="bookDetail/:bookId" element={<AdminBookDetail />} />
-              <Route path="bookModify/:bookId" element={<AdminBookModify />} />
-            </Route>
-          </Route>
-        </Routes>
-      </MenuProvider>
+          </Routes>
+        </MenuProvider>
+        <PublicModal/>
+      </ModalProvider>
     </div>
   );
 }

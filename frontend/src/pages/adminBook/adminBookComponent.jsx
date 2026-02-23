@@ -16,12 +16,6 @@ export const PaginationContext = React.createContext();
 const AdminBook = () => {
 
   const { menu, currentPath, standardPoint } = useMenu(); // menuProvider에서 데이터를 제공하는 커스텀훅
-  //modal
-  const {openModal,closeModal} = useModal();
-  //네입게이트 리액트훅
-  const navigate=useNavigate();
-  // adminbook.provider에 객체로 모아서 담아주기
-  const modalparams = {openModal,closeModal,navigate};
 
   //관리자 메뉴들
   let adminMenuTree = menuNavi(menu?.adminList);

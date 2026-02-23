@@ -15,6 +15,7 @@ import "@assets/css/book/adminbookCreate.css";
 import {bookPriceValidation, bookStockValidation} from "@util/validation/validationCommon.js";
 import {useAdminCreateBook} from "../hook/useAdminCreateBook.jsx";
 import {useModal} from "../../common/modal/ModalContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 const AdminBookCreate = () => {
@@ -29,8 +30,9 @@ const AdminBookCreate = () => {
         setBookImg,
         getCategories,
         fetchCreateBook,}=useAdminCreateBook();
-    const {openModal,closeModal} = useModal();
 
+    const {openModal,closeModal} = useModal();
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log("userData 변경됨:", userData);
@@ -96,12 +98,16 @@ const AdminBookCreate = () => {
        const isRegistered =   await fetchCreateBook(currentBook, bookImg); // 도서등록 훅에 담아줄 객체들 담아서 서버 등록 처리
         //서버 등록 처리 완료 여부
         console.log("isRegistered",isRegistered);
-        if(isRegistered){
-            console.log("isRegistered success"); // 목록페이지로 이동
 
-        }else{
-            console.log("isRegistered false"); // 기존 페이지에 머무르기 ? 아니면 재등록 ?
-        }
+        openModal({
+            modalType: isRegistered.success ? "default" : "error",
+            content: <p>{isRegistered.message}</p>,
+            onConfirm: () => {
+                closeModal();
+                if(isRegistered.success) navigate("/admin/book/bookList");
+            },
+
+        });
 
     }
 

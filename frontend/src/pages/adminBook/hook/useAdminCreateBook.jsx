@@ -129,7 +129,7 @@ export const useAdminCreateBook = () => {
                     content: <p>{errorField} 값을 채워주세요.</p>,
                     onConfirm: () => closeModal()
                 });
-                return false; // 검증 실패 시 중단 , true, false 로 성공여부를 알려주면 이후 과정확장 시 조건 여부로 사용가능
+                 return { success: false, message: `${errorField} 값을 채워주세요.` }; // 검증 실패 시 중단 , true, false 로 성공여부를 알려주면 이후 과정확장 시 조건 여부로 사용가능
             }
         }
 
@@ -140,19 +140,15 @@ export const useAdminCreateBook = () => {
             // 컴포넌트에게 성공 보고 , true, false 로 성공여부를 알려주면 이후 과정확장 시 조건 여부로 사용가능
             return { // 객체로 반환 ( 서버에서 받아 온 데이터 사용 용이 )
                 success: true,
-                data: response.data,
+                data: response?.data,
                 message: "도서가 등록되었습니다."
             };
 
         } catch (err) {
-            openModal({
-                modalType: "error",
-                content: <p>{err?.response?.data || "서버 요청 중 오류가 발생했습니다. 다시 시도해주세요."}</p>,
-                onConfirm:()=>{closeModal();}// 이미지 상태 초기화
-            });
 
             return {// 컴포넌트에게 실패 보고
-                success: false
+                success: false,
+                message:err?.response?.data || "서버 요청 중 오류가 발생했습니다. 다시 시도해주세요."
             };
         }
     }
