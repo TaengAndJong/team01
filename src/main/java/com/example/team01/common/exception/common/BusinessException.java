@@ -1,5 +1,12 @@
 package com.example.team01.common.exception.common;
 
+
+/*
+RuntimeException (unchecked Exception)
+예측이 불가능한 예외 상황처리, 강제적이지 않은 예외처리
+기본적으로 파라미터로 간단한 문자 메시지만 담을 수 있음!
+* */
+
 public class BusinessException extends RuntimeException {
 
     public BusinessException(String message) {

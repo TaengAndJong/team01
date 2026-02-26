@@ -12,7 +12,7 @@ const TapMenuNewBookComponent = () => {
     국외도서: { items: [], pagination: {} },
     "E-book": { items: [], pagination: {} },
   });
-  console.log("bookData", bookData);
+ // console.log("bookData", bookData);
   // const navigate = useNavigate();
 
   const getNewDomestic = async (page = 1, pageSize = 5) => {

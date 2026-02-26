@@ -1,6 +1,7 @@
 package com.example.team01.admin.service;
 
 import com.example.team01.admin.dao.AdminBookDao;
+import com.example.team01.common.exception.book.BookException;
 import com.example.team01.common.exception.book.BookNotFoundException;
 import com.example.team01.common.exception.common.BusinessException;
 import com.example.team01.utils.FileUtils;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -148,85 +150,37 @@ public class AdminBookServiceImple implements AdminBookService {
 
     }
 
+    @Transactional
     @Override
-    public int updateBook(AdminBookVO book) {
-
+    public void updateBook(AdminBookVO book) {
+        // 도서수정처리 예외, 성공, 실패
         log.info("수정 updateBook-----------:{}",book);
 
-        int cnt =0;
-        // 여기서부터 노이미지 파일 유틸에 들어가야함, 받을 파라미터는 BookVO book
-        String bookImgPath=""; // 데이터베이스에 담을 파일명 담는 문자열 변수
+        // 데이터베이스에 저장할 문자열 변수
+        String bookImgPath="";
 
-        if(book != null) { // 도서 객체가 있는지 확인
-            log.info("updateBook 파일 객체도 담겨서 넘어옴:{}", book );
-            log.info("수정 updateBook book.file새로추가된:{}", book.getBookImg()); // 1개 이상의 파일 객체 (파일 날데이터)
-            //파일 유틸 클래스에서 이미지객체 존재 여부에 대해 검증하고 예외처리하기때문에
-            // try - catch 구문 사용, 예외처리 없다면 사용하지 않아도 됨
-
-                // 도서 이미지가 존재 새로 추가되어 비어있지 않은 경우
-                if(book.getBookImg() != null && !book.getBookImg().isEmpty()){
-                    //들어온 파일을 서버에 저장하는역할 ==> 내부에서 빈값이면 noImg로 대체해서 반환해줌
-                    bookImgPath = fileUtils.saveFile(book.getBookImg(),"book");
-                    log.info("실서버에 저장된 파일 객체 값: {}",bookImgPath);
-
-                    //기존 bookImgPath가 있을경우 결합 후 설정 필요
-                    String updateBookImgPath="";
-                    //1.기존  해당 등록도서의 이전 bookImgPath 조회해오기
-                     String preBookImgPath= dao.selectOneBook(book.getBookId()).getBookImgPath();
-                     log.info("이전 도서 이미지 경로 존재 여부 확인 : {} ",preBookImgPath);
-
-                     //preBookImgPath가 이미 noImg를 포함하고 있다면 조건 분기
-                    if(preBookImgPath == null && preBookImgPath.trim().isEmpty()){
-                        log.info("업데이트 북이미지 경로 생성 : 혹시모를 null값 방어코드 ");
-                        //디비 조회해온 이미지가 없고, 빈값이면 가져온 이미지로 대체
-                        updateBookImgPath = bookImgPath;
-                    }else if(preBookImgPath.toLowerCase().contains("noimg")){
-                        log.info("업데이트 북이미지 경로 생성 : 노이미지 >> 여기까지 조건문이 들어오나 ?  ");
-                        //대소문자 구분 없이 'noimg' 포함되어 있으면 새 경로로 대체(노이미지 삭제)
-                        updateBookImgPath = bookImgPath;
-                    }else{
-                        log.info("업데이트 북이미지 경로 생성 bookImgPath : {} ",bookImgPath);
-                        //디비조회한 이미지가 noimg가 아니고, 이전 값이 존재하는 경우  BookImgPath 경로와 다시 결합 후 반환
-                        updateBookImgPath = String.join(",",preBookImgPath,bookImgPath);
-                    }
-                    log.info("최종 이미지 경로 updateBookImgPath : {} ",updateBookImgPath);
-                    //반환된 bookImgPath 데이터베이스에 전달할 객체설정
-                    book.setBookImgPath(updateBookImgPath);
-                }else{
-                    // 새로 추가된 이미지가 없는 경우 ( 기존 도서 일부 또는 전체 삭제[bookImgPath = 빈값])
-                    log.info("새로 추가되지 않을 경우, 일부 삭제만 했을 경우 , 빈값일 경우도 여기서 처리 : {}",book.getBookImgPath());
-                    String preBookImgPath = book.getBookImgPath();
-                   if(preBookImgPath != null && !preBookImgPath.isEmpty()) { // 이미지를 전체 삭제했을 경우
-                       log.info("새로 추가되지 않을 경우, 일부 삭제만 했을 경우 처리 블록 : {}",preBookImgPath);
-                       //기존 bookImgPath 재설정
-                       book.setBookImgPath(preBookImgPath);
-                       log.info("새로 추가되지 않을 경우, 일부 삭제만 했을 경우: {}",book.getBookImgPath());
-                   }else{
-                       log.info("전체삭제: {}",book.getBookImgPath());
-                       book.setBookImgPath(fileUtils.getDefaultImgPath());
-                       log.info("전체삭제 했을 (빈값 일)경우 처리 블록  noImg처리: {}",book.getBookImgPath());
-                   }
-                }
-
-
-            //book 카테고리 공백 제거 ==> 데이터 문자열 정제
-            if(book.getBookCateNm() !=null && !book.getBookCateNm().isEmpty()){
-                String trimBookCateNm=book.getBookCateNm().trim()
-                        .replaceAll("\\s*,\\s*", ",") // 콤마 양옆 공백 정리
-                        .replaceAll("\\s+", " ");     // 불필요한 공백 정리;
-                //정제된 카테고리 데이터 값 재설정
-                book.setBookCateNm(trimBookCateNm);
-            }
-            //파일 유틸 끝
-            log.info(" 도서수정 후 객체 확인 - 파일객체 확인하기 전체:{} ",book);
-            log.info(" 도서수정 후 객체 확인 - 파일객체 확인하기 bookImgPath:{} ",book.getBookImgPath());
-
-            //공통처리부분
-            cnt = dao.updateBook(book); // 처리가 되면 값이 1로 변경
-            log.info("도서수정완료 cnt------------------- : {} ", cnt);
-            return cnt; // 1 반환
+        //서버로 전송된 book 객체 검증
+        if(book==null){
+            throw new BookException("도서 정보가 존재하지 않습니다.");
         }
-        return cnt; // false 일경우 0 반환
+
+        // book에 해당하는 도서 db 조회
+        AdminBookVO bookInfo =  dao.selectOneBook(book.getBookId());
+        log.info("bookInfo---------도서 수정 updateBook:{}",bookInfo);
+
+        //조회한 도서 객체가 없다면 null 예외처리
+        if(bookInfo==null){
+            throw new BookException("수정할 도서 정보가 없습니다.");
+        }
+
+        // 조회한 도서 객체가 있다면
+        log.info("수정 book.file새로추가 된 이미지:{}, typeOf :{}", book.getBookImg(),  book.getBookImg().getClass());
+        // 추가된 이미지가 있다면
+        if(book.getBookImg() != null || !book.getBookImg().isEmpty()){
+
+        }
+
+
     }
 
     @Override

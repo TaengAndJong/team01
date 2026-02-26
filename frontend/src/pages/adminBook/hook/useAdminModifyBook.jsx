@@ -14,7 +14,10 @@ const korname = {
     saleStatus:'판매중'
 }
 
-export const useAdminModifyBook = (openModal, closeModal, navigate,onUpdate)=> {
+export const useAdminModifyBook = (bookId,userData)=> {
+
+    console.log("bookId---------", bookId);
+    console.log("userData-------------", userData);
 
     //서버에서 받아온 값으로 초기값 설정 필요 ==> 빈객체 대체
     const [currentBook, setCurrentBook] = useState({}); // 초기 상태 설정 함수 담아주기
@@ -30,15 +33,15 @@ export const useAdminModifyBook = (openModal, closeModal, navigate,onUpdate)=> {
     const [categoryList, setCategoryList] = useState([]);
 
     //수정 조회 fetch 함수
-    const getModifyBook = async (bookId,userData) => {
-        console.log("fetchModify --bookId",bookId);
-        console.log("fetchModify --userData",userData);
+    const getModifyBook = async () => {
 
         try{
             const response =
                 await axios.get(`/api/admin/book/bookModify/${bookId}`);
 
             const {book,cateData} = response.data; // 객체형으로 구조분해할당하기
+            console.log("book", book);
+            console.log("cateData", cateData);
             // 현재 도서 데이터 초기값 갱신
             setCurrentBook({
                 ...book, // 서버에서 온 데이터
@@ -49,11 +52,12 @@ export const useAdminModifyBook = (openModal, closeModal, navigate,onUpdate)=> {
 
         }catch(err){
             //error
-            openModal({
-                modalType:"error",
-                content:<><p>`${err.response?.data?.message}`</p></>,
-                onConfirm:()=>{closeModal()}
-            });
+            console.log("객체 형태로 반환?")
+            // openModal({
+            //     modalType:"error",
+            //     content:<><p>`${err.response?.data?.message}`</p></>,
+            //     onConfirm:()=>{closeModal()}
+            // });
         }
     }
 
@@ -89,20 +93,26 @@ export const useAdminModifyBook = (openModal, closeModal, navigate,onUpdate)=> {
 
         //이미지 삭제 관리는 엔트리 순회할 때, bookImg 순서가 오지않으면 로직이 실행이 안될 수 있기때문에 분리해서 처리하기
         const { new: newFiles, existing, removed } = bookImg;
+        console.log("서버전송 파일목록 로그 " ,newFiles,existing,removed )
 
-        //새로 업로드한 파일이   있다면
+        //새로 업로드한 파일이  있다면
         if (Array.isArray(newFiles) && newFiles.length > 0) {
             newFiles.forEach((file) => {
+                //formData에 담아주기
                 formData.append("bookImg", file);
             });
         }
+        
         //삭제할 기존 파일이 있다면 추가
         if (Array.isArray(removed) && removed.length > 0) {
             removed.forEach((file) => {
                 formData.append("removedBookImg", file.name); // 또는 file이 string이면 그대로
             });
         }
+        
         console.log(`new ${newFiles} existing ${existing}, removed ${removed}`);
+        
+        
         // formData key,value 객체 배열로 변환
         const entries = Array.from(formData.entries());
 
@@ -110,17 +120,13 @@ export const useAdminModifyBook = (openModal, closeModal, navigate,onUpdate)=> {
 
         for (const [key, value] of entries) {
 
-            // bookImgPath는 비어 있어도 통과
+            // bookImgPath 등은 비어 있어도 통과
             if (optionalKeys.includes(key)) continue;
 
             if (!value || typeof value === "string" && value.trim() === "") { // null, undefined 등 비어있는 값 & 비어있는 문자열
                 const errorField = korname[key] || key;
-                openModal({
-                    modalType: "error",
-                    content: <p>{errorField} 값을 채워주세요.</p>,
-                    onConfirm: () => closeModal()
-                });
-                return false; // 검증 실패 시 중단 , true, false 로 성공여부를 알려주면 이후 과정확장 시 조건 여부로 사용가능
+
+                return { success: false, message: `${errorField} 값을 채워주세요.` }; /// 검증 실패 시 중단 , true, false 로 성공여부를 알려주면 이후 과정확장 시 조건 여부로 사용가능
             }
             //if end
         }
@@ -128,40 +134,27 @@ export const useAdminModifyBook = (openModal, closeModal, navigate,onUpdate)=> {
 
         //서버로 수정 데이터 담아서 보내기
         try{
-            const response = await axios.post(`/api/admin/book/bookModify/${bookData.bookId}`,
+            const response = await axios.post(`/api/admin/book/bookModify/${currentBook.bookId}`,
                 formData);
 
-            // onUpdate를 통해 도서목록 갱신
-            onUpdate(response.data);
-            // 2. 성공 알림
-            openModal({
-                modalType: "default",
-                content: <p>도서 정보가 수정되었습니다.</p>,
-                onConfirm: () => {closeModal();
-
-                    //  폼과 이미지객체 초기화
-                    resetInitial();
-                    navigate(`/admin/book/bookModify/${bookData.bookId}`);
-                }
-
-            });
+            return { // 객체로 반환 ( 서버에서 받아 온 데이터 사용 용이 )
+                success: true,
+                data: response?.data,
+                message: "도서수정 완료"
+            };
 
             return true;
         }catch(err){
-            openModal({
-                modalType: "error",
-                content:<>
-                    <p>서버 요청 중 오류가 발생했습니다. 다시 시도해주세요.</p>
-                    <p>`에러 : ${err}`</p>
-                </>,
-                onConfirm:()=>{closeModal()}
-            });
-            return false;
+
+            return {// 컴포넌트에게 실패 보고
+                success: false,
+                message:err?.response?.data || "서버 요청 중 오류가 발생했습니다. 다시 시도해주세요."
+            };
         }
     }
 
     return{
-        modifybook : currentBook, // 수정도서일 경우, curruntBook은 modifyBook으로 지칭 함
+        currentBook,
         setCurrentBook,
         categoryList,
         setCategoryList,

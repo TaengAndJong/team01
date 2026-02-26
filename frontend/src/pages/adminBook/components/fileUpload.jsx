@@ -3,7 +3,9 @@ import React, {useEffect, useRef, useState} from "react";
 import {useModal} from "../../common/modal/ModalContext.jsx";
 
 
-const FileUpload =({bookImg,setBookImg})=>{//부모한테 받은 props 객체 기입
+// 상태관리를 부모로 옮긴 후 의 공통 컴포넌트 ( 모드 삭제)
+
+const FileUpload =({images, setImages})=>{//부모한테 받은 props 객체 기입
 
 
     //파일객체 조작관리
@@ -21,12 +23,14 @@ const FileUpload =({bookImg,setBookImg})=>{//부모한테 받은 props 객체 �
     const bytesToMB = (bytes) => (bytes / 1024 / 1024).toFixed(2); // 바이트를 메가바이트로 변환하는함수
     //bookImg 객체가 갱신될 때마다 계산
     useEffect(() => {
-        // 기존 + 새로 추가된 파일 크기 합산
-        const existingSize = (bookImg.existing || []).reduce((sum, f) => sum + (f.size || 0), 0);
-        const newSize = (bookImg.new || []).reduce((sum, f) => sum + (f.size || 0), 0);
+        if (!images) return; // 이미지 객체가 없으면 종료 
+        
+        //새로운 파일들에 대해서만 사이즈 검증 (기존 파일들은 이미 검증)
+        const newSize = (images.new || [])
+            .reduce((sum, file) => sum + (file.size || 0), 0);
 
-        setTotalFileSize(existingSize + newSize);
-    }, [bookImg]);
+        setTotalFileSize(newSize);
+    }, [images]);
 
 
     // 파일 선택 핸들러
@@ -56,8 +60,8 @@ const FileUpload =({bookImg,setBookImg})=>{//부모한테 받은 props 객체 �
 
         // 중복 파일 검사 (기존 new + existing 모두 포함)
         const existingFileNames = [
-            ...(bookImg.existing?.map(f => f.name) || []),
-            ...(bookImg.new?.map(f => f.name) || [])
+            ...(images.existing?.map(file => file.name)),
+            ...(images.new?.map(file => file.name))
         ];
 
         const duplicateFiles = selectedFiles.filter(f => existingFileNames.includes(f.name));
@@ -92,7 +96,7 @@ const FileUpload =({bookImg,setBookImg})=>{//부모한테 받은 props 객체 �
         }
 
         const totalSize =
-            [...(bookImg.new || []), ...selectedFiles].reduce((sum, f) => sum + (f.size || 0), 0);
+            [...(images.new || []), ...selectedFiles].reduce((sum, f) => sum + (f.size || 0), 0);
         if (totalSize > maxTotalSize) {
 
             openModal({
@@ -109,7 +113,7 @@ const FileUpload =({bookImg,setBookImg})=>{//부모한테 받은 props 객체 �
         }
         
         // 파일 목록 갱신 (등록 폼에서 에러 유발)
-        setBookImg((prev)=>({
+        setImages((prev)=>({
             ...prev, // 수정, 등록 둘 다 사용하기떄문에 수정일 경우 이전 데이터 필요
             new:[...(prev?.new || []),...selectedFiles] // 먼저 등록된 파일 + 새로 등록되는 파일드을
         }));
@@ -120,7 +124,7 @@ const FileUpload =({bookImg,setBookImg})=>{//부모한테 받은 props 객체 �
     const handleRemoveFile = (file, type) => {
 
         console.log("파일 삭제 핸들러 ",file , type)
-        setBookImg(prev => {
+        setImages(prev => {
             //등록했을 경우, 이미지가 새로 생겼을 때
             const updatedNew = type === "new"
                 ? prev.new.filter(f => f.name !== file.name)
@@ -185,9 +189,9 @@ const FileUpload =({bookImg,setBookImg})=>{//부모한테 받은 props 객체 �
             </div>
 
             {/* 기존 이미지 리스트 */}
-            {bookImg?.existing?.length > 0 && renderFileList(bookImg.existing, "existing")}
+            {images?.existing?.length > 0 && renderFileList(images.existing, "existing")}
             {/* 새로 추가된 이미지 리스트 */}
-            {bookImg?.new?.length > 0 && renderFileList(bookImg.new, "new")}
+            {images?.new?.length > 0 && renderFileList(images.new, "new")}
 
         </>
     )

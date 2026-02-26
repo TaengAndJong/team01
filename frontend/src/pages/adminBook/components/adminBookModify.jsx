@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Btn from "../../../util/form/reuseBtn.jsx";
 import pathsData from "../../../assets/pathsData.jsx";
 import Category from "./category.jsx";
@@ -13,8 +13,9 @@ import "@assets/css/book/adminbookModify.css";
 import SalesStatus from "./salesStatus.jsx";
 import RecomType from "./RecomType.jsx";
 
-import {useAdminBook} from "../adminBookProvider.jsx";
 import {bookPriceValidation, bookStockValidation} from "../../../util/validation/validationCommon.js";
+import {useModal} from "../../common/modal/ModalContext.jsx";
+import {useAdminModifyBook} from "../hook/useAdminModifyBook.jsx";
 
 const AdminBookModify = () => {
 
@@ -28,22 +29,37 @@ const AdminBookModify = () => {
     const {bookId} = useParams(); // URL에서 bookId 값 받아오기
     const {userData} = useAuth();// 로그인한 사용자 데이터
 
+    const {currentBook,
+        setCurrentBook,
+        categoryList,
+        setCategoryList,
+        bookImg,
+        setBookImg,
+        getModifyBook,
+        fetchModifyBook,}=useAdminModifyBook(bookId,userData)
 
+    const {openModal,closeModal} = useModal();
+    const navigate = useNavigate();
 
-    const {currentBook,setCurrentBook
-        ,bookImg, setBookImg
-        ,fetchModify,modifyBook
-        ,navigate,openModal,closeModal
-        ,categoryList} = useAdminBook();
-
+    const [Images, setImages] = useState({
+        existing: [],
+        new: [],
+        removed: []
+    });
 
     useEffect(() => {
+        console.log("currentbook-- 파일목록 삭제 시, 데이터 갱신이 안되고 잇음",currentBook);
+    })
+
+    useEffect(() => {
+
         // user
         if (bookId && userData) {
             console.log("userData---", userData);
-            fetchModify(bookId, userData);
+            getModifyBook();
         }
     }, [bookId]);
+
 
     useEffect(() => {
         console.log("currentBook-----", currentBook);
@@ -112,11 +128,25 @@ const AdminBookModify = () => {
     const onSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작을 막기 위해서 추가
 
-        const isModified = await modifyBook(currentBook, bookImg);
+        // 도서수정
+        const isModified = await fetchModifyBook(currentBook, bookImg);
+        //
+        console.log("isModified",isModified);
+
         // 목록 페이지로 이동
         if(isModified){
             console.log("isModified",isModified);
-            navigate("/admin/book/bookList");
+            // isModified.success true ,false 에 따른 모달 타입
+            //성공여부에 따른 모달 열림
+            openModal({
+                modalType: isModified.success ? "default" : "error",
+                content: <p>{isModified.message}</p>,
+                onConfirm: () => {
+                    closeModal();
+                    if(isModified.success) {navigate(`/admin/book/bookDetail/${bookId}`)};
+                },
+            });//modal end
+
         }else{
             console.log("isModified false");
         }
@@ -191,10 +221,8 @@ const AdminBookModify = () => {
                         */}
                         {currentBook.bookId && (
                             <FileUpload
-                                bookImg={bookImg}
-                                setBookImg={setBookImg}
-                                defaultData={currentBook}
-                                setDefaultData={setCurrentBook}
+                                images={Images}
+                                setImages={setImages}
                             />
                         )}
                     </div>

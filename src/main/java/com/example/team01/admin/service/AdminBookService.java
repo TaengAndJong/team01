@@ -13,7 +13,7 @@ public interface AdminBookService {
 
     public AdminBookVO deTailBook(Long bookId);
     public int createBook(AdminBookVO book);
-    public int updateBook(AdminBookVO book);
+    public void updateBook(AdminBookVO book);
     public int deleteBooks(List<Long> bookIds);
     //public List<BookVO> searchBook(String type, String field, String keyword);
 }

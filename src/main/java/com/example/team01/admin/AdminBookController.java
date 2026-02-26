@@ -27,7 +27,7 @@ public class AdminBookController {
 
     private final CategoryService categoryService;
     private final AdminBookService bookService;
-    private final FileUtils fileUtils;
+
 
     @GetMapping("/bookCreate")
     public ResponseEntity<?> getCreateBook(){
@@ -226,41 +226,16 @@ public class AdminBookController {
         modifyBook.setBookCateDepth(String.join(",", bookCateDepth));
         modifyBook.setCateId(String.join(",", cateId));
 
-
-        // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
-        int result = bookService.updateBook(modifyBook);
-
-
-        // 데이터 insert 성공시 결과 반환
-        if (result > 0) {
-            AdminBookVO updateData = bookService.deTailBook(modifyBook.getBookId());
-
-            //파일 경로 서버주소 반영하는 파일Util
-            log.info("adminBookVO -- 수정 : {}",updateData);
-
-            List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
-            if(updateData.getBookImgPath() != null && !updateData.getBookImgPath().isEmpty()){
-                imgArray =  new ArrayList<>(
-                        Arrays.asList(
-                                updateData.getBookImgPath().split(",") //String [] 배열로 반환
-                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
-                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
-
-            }
-
-            // admingbookVO bookImgList에 담아주기
-            updateData.setBookImgList(imgArray);
-
-            //삭제된 이미지 목록이 있을 경우에만 실행
-            if (removedBookImg != null && !removedBookImg.isEmpty()) {
-                fileUtils.deleteFiles(String.join(",", removedBookImg), "book");
-            }
-            return ResponseEntity.ok(updateData);// 저장된 데이터 전체를 클라이언트에 반환
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Book creation failed");
+        log.info("modifyBook---------- 도서 정보오오오:{}",modifyBook);
+        //수정도서 데이터  서비스로 넘겨주기
+        try{
+            bookService.updateBook(modifyBook);
+        }catch (Exception e){ // 예외 던져진거 받아오기
+            e.printStackTrace();
         }
 
+
+        return ResponseEntity.ok("재수정 중");
     }
 
 

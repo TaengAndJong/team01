@@ -34,6 +34,12 @@ const AdminBookCreate = () => {
     const {openModal,closeModal} = useModal();
     const navigate = useNavigate();
 
+    const [images, setImages] = useState({
+        existing: [],
+        new: [],
+        removed: []
+    });
+
     useEffect(() => {
         console.log("userData 변경됨:", userData);
     }, [userData]);
@@ -98,7 +104,7 @@ const AdminBookCreate = () => {
        const isRegistered =   await fetchCreateBook(currentBook, bookImg); // 도서등록 훅에 담아줄 객체들 담아서 서버 등록 처리
         //서버 등록 처리 완료 여부
         console.log("isRegistered",isRegistered);
-
+        //성공여부에 따른 모달 열림
         openModal({
             modalType: isRegistered.success ? "default" : "error",
             content: <p>{isRegistered.message}</p>,
@@ -180,8 +186,7 @@ const AdminBookCreate = () => {
                     {/*도서이미지 이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요      */}
                     <div className="d-flex align-items-center flex-wrap">
 
-                        <FileUpload bookImg={bookImg} setBookImg={setBookImg} defaultData={currentBook}
-                                    setDefaultData={setCurrentBook}/>
+                        <FileUpload  images={images}  setImages={setImages}/>
                     </div>
                     {/*form 내부에 두어야 onSubmit 자동실행*/}
                     <div className="d-flex align-items-center justify-content-center mt-4">
