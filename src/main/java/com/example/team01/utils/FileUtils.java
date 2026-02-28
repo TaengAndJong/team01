@@ -41,58 +41,59 @@ public class FileUtils {
     private  String uploadDir;
     @Value("${file.images-dir}")
     private  String imagesDir;
-    
- // MultipartFile 파라미터 받아서 파일 저장 메서드
+
+
+    // MultipartFile 파라미터 받아서 파일 저장 메서드
     public String saveSingleMultiPartFile(MultipartFile file, String middlePath){
-        return saveFile(List.of(file), middlePath);
+        return "수정중";
+        //return saveFile(List.of(file), middlePath);
     }
 
-    // 여러 파일 저장 메서드
-//날데이터 받아서 문자열로 경로반환 저장메서드
-    public String saveFile(List<MultipartFile> files,String middlePath) {
-       log.info("saveFile 파일 저장 시작 파일 객체:{}", files);
-        String bookImgPath=""; //반환할 데이터베이스 텍스트경로
+    // 이미지 여러 파일 저장 메서드
+    //날데이터 받아서 문자열로 경로반환 저장메서드
+    public List<String> saveFile(List<MultipartFile> files,String middlePath) {
+       //파일 객체만 저장하는 역할 ( 일반 파일, 이미지파일 공통사용 메서드 )
+        log.info("saveFile 파일 저장 시작 파일 객체:{}", files);
+        List<String> savedPaths = new ArrayList<>(); //반환할 데이터베이스 텍스트경로
 
-        if(!files.isEmpty()) {
-           log.info("들어오는 파일 객체:{}",bookImgPath);
-            for (MultipartFile file : files) {
-                String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename(); //랜덤 파일 명칭(중복방지)
-               log.info("새로 생성된 파일이름:{}", fileName);
-
-                //2. 데이터베이스에 2개 이상의 파일경로 문자열로 변환과정
-                if(!bookImgPath.equals("")) { // 북이미지 텍스트 배열로 받고 구분하기 위한 조건 ( 텍스트 파일 경로가 존재하면, 기존 경로 + 파일명)
-                    bookImgPath= bookImgPath +","+fileName;//랜덤 파일명칭 텍스트로 생성
-                   log.info("2개 이상일 경우 :{}", bookImgPath);
-                }else{
-                    bookImgPath = fileName;
-                  log.info("1개일 경우 :{}", bookImgPath);
-                }
-
-                //실제파일을 프로젝트 내부에(서버) 저장
-                //여기에서 실제 경로에 파일저장
-                String saveFilePath = uploadDir + File.separator + middlePath + File.separator + fileName;//운영체제에 맞게 파일 경로 생성하기 위한 코드
-                Path path = Paths.get(saveFilePath); //파라미터에 해당하는 파일 경로를 가져오는 Path 변수로, 해당 파일을 저장할 파일명을 포함한 경로를 의미
-
-                try {
-                    //upload 디렉토리가 없는 경우 noSuchFileExcption 방지
-                    Files.createDirectories(path.getParent()); // 디렉터리(폴더) 없으면 생성
-                    Files.write(path, file.getBytes()); // 파일 저장
-
-                } catch (IOException e) {
-                    log.error("파일 저장 실패: {}", e.getMessage());
-                }
-
-            }
-            // List<String> bookImgPath를 하나의 문자열로 변환
-            // 객체를 또 순회해서 문자열로 만들어야함 ?????
-        }else{
-          //  log.info("파일 객체가 널인데 ");
-            //저장은 필요 없고, 서버의 resource 하위 경로에 저장되어있는 이미지파일리소스만 가져와서 bookImgPath에 넣어주기
-            bookImgPath = this.getDefaultImgPath();
-           log.info("bookImgPath가 빈 값일 경우 생성 booImgPath================:{}",bookImgPath);
+        if(files == null || files.isEmpty()){ // 리스트 존개여부 확인
+            return savedPaths; // 그냥 빈 리스트 반환
         }
 
-        return bookImgPath; // 여기에서 bookImaPath 반환하여 초기값 갱신
+        //파일 객체가 있을 경우, 배열 순회
+        for (MultipartFile file : files) {
+
+            //개별 파일 존재여부 확인 ( 업로드가 안 된 파일 건너뛰기 )
+            if(file == null || file.isEmpty()){
+                continue;
+            }
+
+            String original = file.getOriginalFilename(); // 실제 파일 명
+            String lowerOriginal = original.toLowerCase(); // 파일명 소문자로 통일
+
+            String fileName = UUID.randomUUID().toString() + "_" + lowerOriginal; //랜덤 파일 명칭(중복방지)
+           log.info("새로 생성된 파일이름:{}", fileName);
+
+            //실제파일을 프로젝트 내부에(서버) 저장
+            //여기에서 실제 경로에 파일저장
+            String saveFilePath = uploadDir + File.separator + middlePath + File.separator + fileName;//운영체제에 맞게 파일 경로 생성하기 위한 코드
+            Path path = Paths.get(saveFilePath); //파라미터에 해당하는 파일 경로를 가져오는 Path 변수로, 해당 파일을 저장할 파일명을 포함한 경로를 의미
+
+            //실제 파일 시스템 경로에 저장
+            try {
+                Files.createDirectories(path.getParent()); // middlePath 명으로 폴더 생성
+                file.transferTo(path); //Spring이 제공하는 공식 업로드 저장 방식, 실제 경로에 파일저장
+
+                //DB에 저장할 경로
+                String dbPath = middlePath + "/" + fileName;
+                savedPaths.add(dbPath); // 디비에 저장할 파일 경로 List에 추가
+
+            } catch (IOException e) {
+                throw new RuntimeException("파일 저장 실패", e);
+            }
+        }//for문 종료
+        
+        return savedPaths; //결과 반환
     }
     //method end
 
@@ -103,36 +104,32 @@ public class FileUtils {
         // 파일 객체가 없으면, frontend/dist/assets/images/common/noImg.png(jpg) 가져오기
         // png,jpg 파일의 확장자 구분 및 실제 존재여부 확인 ==> 파일객체로 실제 파일을 스캔하여 확인
         log.info("imagesDir 노이미지 루트경로 :{} ",imagesDir);
-        File folder = new File(imagesDir); // 팡,
-        log.info("folder -- 노이미지 프론트 빌드 경로:{} ",folder);
-        File[] Files = folder.listFiles();
-             log.info("기본이미지 경로 메서드 foler------------:{} , fileList--------- :{}", folder, Files);
+        File defaultImage  = new File(imagesDir); // 팡,
+        log.info("defaultImage -- :{} ",defaultImage);
+        log.info("defaultImage.getPath() -- :{} ",defaultImage.getPath());
 
-        if(Files != null) {
-            log.info(" 기본이미지 경로 메서드 파일 객체 존재할 경우---");
-            for (File file : Files) {
-                String name = file.getName().toLowerCase();
-                  log.info("파일 이름과 확장자 전부 소무자로 대체 --- 여기에서 매칭이 안되나:{} ",name);
-                if(name.equals("noimg.png") || name.equals("noimg.jpg")) {
-                   // 서버에서 클라이언트로 이미지를 리소스를 보낼때 상대경로를 사용해야 함
-                    //절대경로는 파일 시스템경로를 반환하기때문에 클라이언에서 사용불가
-                    log.info("노이미지 이름 :{} ",name);
-                   // noImgPath ="images/" + name;
-                    noImgPath = name;
-                    log.info("기본이미지 경로 메서드 파일 객체 존재할 경우 noImgPath--------------:{} ",noImgPath);
-                    return noImgPath; // 경로 리턴
-                }
+        if(!defaultImage.exists()){ //기본 이미지 존재 하지 않으면 예외 던지기
+            throw new RuntimeException("기본 이미지가 존재하지 않습니다: " + defaultImage.getPath());
+        }
 
-            }
+        log.info(" 기본이미지 경로 메서드 파일 객체 존재할 경우---");
+        // 소문자로 통일
+        String name = defaultImage.getName().toLowerCase();
+        log.info("기본이지미 파일 이름과 확장자 전부 소문자로 변경 완료 :{} ",name);
+        if(name.equals("noimg.png") || name.equals("noimg.jpg")) {
+           // 서버에서 클라이언트로 이미지를 리소스를 보낼때 상대경로를 사용해야 함
+            //절대경로는 파일 시스템경로를 반환하기때문에 클라이언에서 사용불가
+            log.info("노이미지 이름 :{} ",name);
+            noImgPath = name;
+            log.info("노이미지에 설정된 반환 결과--------------:{} ",noImgPath);
+            return noImgPath; // 경로 리턴
         }
         // 실제 이미지 파일 경로, 실제 경로를 디비로 저장해야함
         return noImgPath;
     }
-    // file.getAbsolutePath 반환하면 자동으로 noImgPath에 대입 되는가?
-
 
     //실서버에 저장된 이미지파일 삭제( + 데이터베이스 bookImgPath 에서도 해당 파일 삭제(갱신) 해줘야 데이터 정합성이 유지됨)
-    public String deleteFiles(String fileNames,String middlePath) { 
+    public String deleteFiles(List<String> fileNames,String middlePath) {
 
         log.info("fileNames------deleteFiles :{} ",fileNames);
         log.info("fileNames------middlePath :{} ",middlePath);
@@ -140,30 +137,7 @@ public class FileUtils {
         String deleteFilePath = uploadDir + File.separator + middlePath + File.separator;//운영체제에 맞게 파일 경로 생성하기 위한 코드
         //File 클래스를 사용하는 이유는, 파일시스템에서 해당경로의 파일을 조작하기 위해서 파일 객체를 사용
 
-        //삭제할 파일 필터 순서 1) 문자열 필터 2) noimg 필터
-        Arrays.stream(fileNames.split(",")) // 문자열 파일객체를 ','를 기준으로 String [] 배열로 반환 후 stream으로 펼침
-                .map(String::trim)//문자열 공백 삭제
-                .filter(fileName ->
-                        fileName != null && // fileName null 이 아님
-                        !fileName.isBlank() && //"", " " 같은 값 제거
-                        !fileName.toLowerCase().contains("noimg") // 대소문자 구분없이 noimg 삭제 대상에서 제외
-                )
-                .map(fileName -> new File(deleteFilePath + fileName))// 삭제할 실제 파일시스템 객체 경로
-                .forEach(file -> { // 해당 파일이 존재하면 
-                   try{
-                       if (file.exists()) {
-                           boolean deleted = file.delete();
-                           log.info("삭제성공여부:{}",deleted);
-                           log.info("삭제성공여부:{}",file.getPath());
-                           // 삭제한 파일을 제외한 값을 반환해줘야함
-                       } else {
-                           //존재하지 않으면
-                           log.warn("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
-                       }
-                   }catch (Exception e){
-                       log.warn("파일 존재 하지않음 , 삭제 실패: {} " + file.getPath());
-                   }
-                });
+
 
        return "서버에 저장된 이미지파일 삭제완료 ";
     }

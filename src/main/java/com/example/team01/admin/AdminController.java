@@ -37,7 +37,7 @@ public class AdminController {
             log.warn("사용자가 인증되지 않았습니다.");
         }
 
-        log.info("Authentication in session: {}", authentication);
+       // log.info("Authentication in session: {}", authentication);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "안녕하세요. 관리자 페이지입니다.");
@@ -53,12 +53,12 @@ public class AdminController {
         int result1 = adminService.getQnaOneLength();
         int result2 = adminService.getProductLength();
         int result3 = adminService.getDeliveryLength();
-        log.info("Controller result1: {}, result2: {}, result3: {}", result1, result2, result3);
+        //log.info("Controller result1: {}, result2: {}, result3: {}", result1, result2, result3);
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("qnaCount", result1);
         resultMap.put("productCount", result2);
         resultMap.put("deliveryCount", result3);
-        log.info("resultNewCount---get:{}", resultMap);
+//        log.info("resultNewCount---get:{}", resultMap);
         return  ResponseEntity.ok(resultMap);
     }
     // // 금일 기준(00시) 신규 가입자 반환
@@ -72,11 +72,6 @@ public class AdminController {
         Pagination pagination = new Pagination(currentPage, pageSize);
         List<NewBookDTO> bookData = adminService.getNewDomesticBooks(pagination);
 
-        for (NewBookDTO newBookDTO : bookData) {
-        log.info("여기--검색 책목록:{}", newBookDTO);
-        // fileUtils.changeImgPath(qnaProductVO,request); // 새로운 이미지주소를 가진  bookVO객체가 반환됨
-        log.info("다음--검색 책목록:{}", newBookDTO);
-        }
 
         Map<String, Object> result = new HashMap<>();
         result.put("items", bookData); // getAllQnaProductList로 가져온 게시물 items에 추가
@@ -96,10 +91,7 @@ public class AdminController {
         Pagination pagination = new Pagination(currentPage, pageSize);
         List<NewBookDTO> bookData = adminService.getNewForeignBooks(pagination);
 
-        for (NewBookDTO newBookDTO : bookData) {
-        log.info("여기--검색 책목록:{}", newBookDTO);
-        log.info("다음--검색 책목록:{}", newBookDTO);
-        }
+
 
         Map<String, Object> result = new HashMap<>();
         result.put("items", bookData); // getAllQnaProductList로 가져온 게시물 items에 추가
@@ -119,10 +111,6 @@ public class AdminController {
         Pagination pagination = new Pagination(currentPage, pageSize);
         List<NewBookDTO> bookData = adminService.getNewEBooks(pagination);
 
-        for (NewBookDTO newBookDTO : bookData) {
-        log.info("여기--검색 책목록:{}", newBookDTO);
-        log.info("다음--검색 책목록:{}", newBookDTO);
-        }
 
         Map<String, Object> result = new HashMap<>();
         result.put("items", bookData); // getAllQnaProductList로 가져온 게시물 items에 추가

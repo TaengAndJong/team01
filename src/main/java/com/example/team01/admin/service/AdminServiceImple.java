@@ -180,10 +180,10 @@ public class AdminServiceImple implements AdminService {
 
         @Override
     public List<ChartDataDTO> getVisitPageViewCount(String startDate, String endDate){
-        log.info("startDate :{}, endDate: {}",startDate, endDate);
+//        log.info("startDate :{}, endDate: {}",startDate, endDate);
 
         List<ChartDataDTO> result = dao.selectVisitPageViewCount(startDate, endDate);
-        log.info("차트 데이터 result : {}",result);
+//        log.info("차트 데이터 result : {}",result);
 
         return result;
     }

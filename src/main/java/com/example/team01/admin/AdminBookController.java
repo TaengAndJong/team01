@@ -3,8 +3,6 @@ package com.example.team01.admin;
 
 import com.example.team01.admin.service.AdminBookService;
 import com.example.team01.category.service.CategoryService;
-import com.example.team01.common.exception.book.BookNotFoundException;
-import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
 import com.example.team01.vo.CategoryVO;
@@ -42,13 +40,14 @@ public class AdminBookController {
     @PostMapping(value = "/bookCreate")
     public ResponseEntity<?> insertBookCreate(
             @ModelAttribute AdminBookVO createBook,
-            @RequestParam(name = "createDate") String createDate,
+//            @RequestParam(name = "createDate") String createDate,
             @RequestParam(name = "bookCateNm") List<String> bookCateNm,
             @RequestParam(name = "bookCateDepth") List<String> bookCateDepth,
             @RequestParam(name = "cateId") List<String> cateId,
-            @RequestParam(name= "bookImg", required = false) List<MultipartFile> bookImg) {
+            @RequestParam(name= "bookImg", required = false) List<MultipartFile> images) {
 
-
+        log.info("bookImg----------bookCreate :{}",images);
+        log.info("bookImg----------bookCreate :{}",createBook);
         try{
             //배열 리스트로 받아 온 값을 ,를 기준으로 문자열로 합치기 ,==> bookCateDepth=1차 카테고리,2차 카테고리,3차 카테고리,
             createBook.setBookCateNm(String.join(",", bookCateNm));
@@ -56,20 +55,11 @@ public class AdminBookController {
             createBook.setCateId(String.join(",", cateId));
 
             log.info(" 도서등록 서비스 진입전");
-            // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도)파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
-            bookService.createBook(createBook); //실패시 catch로 건너뜀
+            // 서비스로 book 정보와 파일을 전달 ( 컨트롤러에서 (비어있어도) 파일객체와 기본객체를 분리하지 않고 서비스로 넘겨줌)
+            bookService.createBook(createBook,images); //실패시 catch로 건너뜀
 
-            // 방금 등록된 도서 상세 정보 가져오기
-            AdminBookVO addBookData = bookService.deTailBook(createBook.getBookId());
-            // 이미지 경로 리스트화
-            List<String> imgArray = new ArrayList<>();
-            if(addBookData.getBookImgPath() != null && !addBookData.getBookImgPath().isEmpty()){
-                imgArray = new ArrayList<>(Arrays.asList(addBookData.getBookImgPath().split(",")));
-            }
-            addBookData.setBookImgList(imgArray);
-            log.info("등록 완료 데이터: {}", addBookData);
 
-            return ResponseEntity.ok(addBookData);
+            return ResponseEntity.ok("이미지 저장 정규화 처리중");
            
 
         }catch(RuntimeException e) {
@@ -117,22 +107,22 @@ public class AdminBookController {
         //서비스로 데이터 넘기기
         List<AdminBookVO> bookList  = bookService.getAllBooks(pagination);
 
-        for (AdminBookVO adminBookVO : bookList) {
-            // adminBookVO의 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
-            List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
-            if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
-                imgArray =  new ArrayList<>(
-                        Arrays.asList(
-                                adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
-                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
-                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
-
-            }
-            //for문 종료
-
-            // admingbookVO bookImgList에 담아주기
-            adminBookVO.setBookImgList(imgArray);
-        }
+//        for (AdminBookVO adminBookVO : bookList) {
+//            // adminBookVO의 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
+//            List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+//            if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
+//                imgArray =  new ArrayList<>(
+//                        Arrays.asList(
+//                                adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
+//                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+//                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+//
+//            }
+//            //for문 종료
+//
+//            // admingbookVO bookImgList에 담아주기
+//            adminBookVO.setBookImgList(imgArray);
+//        }
 
         //
         Map<String, Object> result = new HashMap<>();
@@ -157,18 +147,18 @@ public class AdminBookController {
         AdminBookVO adminBookVO = bookService.deTailBook(bookId);
 
         // adminBookVO 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
-        List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
-        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
-            imgArray =  new ArrayList<>(
-                    Arrays.asList(
-                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
-                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
-            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
-
-        }
-
-        // admingbookVO bookImgList에 담아주기
-        adminBookVO.setBookImgList(imgArray);
+//        List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+//        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
+//            imgArray =  new ArrayList<>(
+//                    Arrays.asList(
+//                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
+//                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+//            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+//
+//        }
+//
+//        // admingbookVO bookImgList에 담아주기
+//        adminBookVO.setBookImgList(imgArray);
 
         log.info("adminBookVO -----------:{}",adminBookVO);
 
@@ -188,18 +178,18 @@ public class AdminBookController {
         //해당 아이디에 대한 도서 정보 가져오기
         AdminBookVO adminBookVO = bookService.deTailBook(bookId);
 
-        List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
-        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
-            imgArray =  new ArrayList<>(
-                    Arrays.asList(
-                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
-                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
-            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
-
-        }
-
-        // admingbookVO bookImgList에 담아주기
-        adminBookVO.setBookImgList(imgArray);
+//        List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+//        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
+//            imgArray =  new ArrayList<>(
+//                    Arrays.asList(
+//                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
+//                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+//            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+//
+//        }
+//
+//        // admingbookVO bookImgList에 담아주기
+//        adminBookVO.setBookImgList(imgArray);
         log.info("adminBookVO -- 삭제 : {}",adminBookVO);
         Map<String,Object> response = new HashMap<>();
         //해당 아이디에 대한 도서데이터와 , 카테고리 데이터를 클라이언트에게 전송하기!
@@ -256,77 +246,77 @@ public class AdminBookController {
 
         Map<String, Object> result = new HashMap<>();
         //Advice 미사용 시, 예외에 대해서 try-catch 구문을 사용해서 처리해주기
-        try {
-
-            //페이지 계산 클래스 불러오기
-            Pagination pagination = new Pagination(page, pageSize);
-            log.info("pagination -----------------: {}",pagination);
+//        try {
+//
+//            //페이지 계산 클래스 불러오기
+//            Pagination pagination = new Pagination(page, pageSize);
+//            log.info("pagination -----------------: {}",pagination);
 
             //검색필터 설정해주기
 
-            int delResult = bookService.deleteBooks(bookIds);
-            log.info("delResult -----------------: {}",delResult);
+            //int delResult = bookService.deleteBooks(bookIds);
+            //log.info("delResult -----------------: {}",delResult);
 
-            if (delResult > 0) {
-                // 삭제 성공시 데이터 반환
-                //페이지 버튼 개수 수정
-                int totalPages = pagination.getTotalPages();
-
-                if (pagination.getCurrentPage() > totalPages) {
-                    pagination.setCurrentPage(totalPages == 0 ? 1 : totalPages);
-                }
-
-                //전체도서 데이터 조회  : 검색 파라미터 넘겨준 후 반환값에 담
-                List<AdminBookVO> bookList = bookService.getAllBooks(pagination);
-                log.info("bookList -----------------: {}",bookList);
-                // 레코드 순회 ==> bookImgpath => bookImgList 에 담아주기
-                for (AdminBookVO adminBookVO : bookList) {
-                    log.info("bookList ----------------- 이미지 : {}",bookList);
-                    List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
-                    //분기  noimg 일경우 아닐경우
-                    if(!adminBookVO.getBookImgPath().toLowerCase().equals("noimg.png")){
-                        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
-                            imgArray =  new ArrayList<>(
-                                    Arrays.asList(
-                                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
-                                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
-                            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
-                        }
-                    }else{
-                        //noImg 이면 가변리스트로 가공해서 noimg 담아주기?
-                        imgArray = new ArrayList<>(Arrays.asList(adminBookVO.getBookImgPath()));
-                    }
-
-                    // 공통로직 adminBookVO bookImgList에 담아주기
-                    adminBookVO.setBookImgList(imgArray);
-                }
-
-                log.info("bookList -----------------: {}",bookList);
-                //남은 도서가 없을경우
-                if (bookList.isEmpty()) {
-                    result.put("message", "삭제 완료. 남은 도서가 없습니다.");
-                } else {
-                    result.put("message", "삭제 완료");
-                }
-
-                result.put("items", bookList);
-                result.put("currentPage", pagination.getCurrentPage());
-                result.put("pageSize", pagination.getPageSize());
-                result.put("totalPages", pagination.getTotalPages());
-                result.put("totalRecord", pagination.getTotalRecord());
-                result.put("deletedCount", delResult);
-                log.info("result -----------------: {}",result);
-
-            }
-
-        } catch (BookNotFoundException ex) {
-            // 여기서 예외를 직접 처리!
-            return ResponseEntity.badRequest().body(Map.of(
-                    "error", "존재하지 않는 도서가 포함되어 있습니다.",
-                    "missingIds", ex.getMissingIds(),  // 예외 클래스에서 getter 사용
-                    "message", ex.getMessage()
-            ));
-        }
+//            if (delResult > 0) {
+//                // 삭제 성공시 데이터 반환
+//                //페이지 버튼 개수 수정
+//                int totalPages = pagination.getTotalPages();
+//
+//                if (pagination.getCurrentPage() > totalPages) {
+//                    pagination.setCurrentPage(totalPages == 0 ? 1 : totalPages);
+//                }
+//
+//                //전체도서 데이터 조회  : 검색 파라미터 넘겨준 후 반환값에 담
+//                List<AdminBookVO> bookList = bookService.getAllBooks(pagination);
+//                log.info("bookList -----------------: {}",bookList);
+//                // 레코드 순회 ==> bookImgpath => bookImgList 에 담아주기
+////                for (AdminBookVO adminBookVO : bookList) {
+////                    log.info("bookList ----------------- 이미지 : {}",bookList);
+////                    List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
+////                    //분기  noimg 일경우 아닐경우
+////                    if(!adminBookVO.getBookImgPath().toLowerCase().equals("noimg.png")){
+////                        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
+////                            imgArray =  new ArrayList<>(
+////                                    Arrays.asList(
+////                                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
+////                                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
+////                            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
+////                        }
+////                    }else{
+////                        //noImg 이면 가변리스트로 가공해서 noimg 담아주기?
+////                        imgArray = new ArrayList<>(Arrays.asList(adminBookVO.getBookImgPath()));
+////                    }
+////
+////                    // 공통로직 adminBookVO bookImgList에 담아주기
+////                    adminBookVO.setBookImgList(imgArray);
+////                }
+//
+//                log.info("bookList -----------------: {}",bookList);
+//                //남은 도서가 없을경우
+//                if (bookList.isEmpty()) {
+//                    result.put("message", "삭제 완료. 남은 도서가 없습니다.");
+//                } else {
+//                    result.put("message", "삭제 완료");
+//                }
+//
+//                result.put("items", bookList);
+//                result.put("currentPage", pagination.getCurrentPage());
+//                result.put("pageSize", pagination.getPageSize());
+//                result.put("totalPages", pagination.getTotalPages());
+//                result.put("totalRecord", pagination.getTotalRecord());
+//                result.put("deletedCount", delResult);
+//                log.info("result -----------------: {}",result);
+//
+//            }
+//
+//        } catch (BookNotFoundException ex) {
+//            // 여기서 예외를 직접 처리!
+//            return ResponseEntity.badRequest().body(Map.of(
+//                    "error", "존재하지 않는 도서가 포함되어 있습니다.",
+//                    "missingIds", ex.getMissingIds(),  // 예외 클래스에서 getter 사용
+//                    "message", ex.getMessage()
+//            ));
+//        }
         //프론트로 응답 반환
         return  ResponseEntity.ok(result);
 

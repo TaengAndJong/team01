@@ -242,7 +242,7 @@ const AdminBookList = () => {
                       <td className="text-center" id={`bookImg${index}`}>
                         <div className="img-box">
                           <img
-                              src={ImgBaseUrl(item.bookImgList[0])}
+                              src={ImgBaseUrl(item.image)}
                               alt={`${item.bookName}도서 이미지`}
                           />
                         </div>

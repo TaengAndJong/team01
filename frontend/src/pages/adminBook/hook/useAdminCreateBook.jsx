@@ -119,8 +119,8 @@ export const useAdminCreateBook = () => {
 
         for (const [key, value] of entries) {
 
-            //bookImgPath는 비어 있어도 통과
-            if (key === "bookImgPath") continue;
+            //bookImg 비어 있어도 통과
+            if (key === "bookImg") continue;
 
             if (!value || typeof value === "string" && value.trim() === "") { // null, undefined 등 비어있는 값 & 비어있는 문자열
                 const errorField = korname[key] || key;

@@ -7,6 +7,8 @@ import {useModal} from "../../common/modal/ModalContext.jsx";
 
 const FileUpload =({images, setImages})=>{//부모한테 받은 props 객체 기입
 
+    console.log("fileUpload images",images);
+
 
     //파일객체 조작관리
     const fileInitRef = useRef(null);
@@ -124,7 +126,13 @@ const FileUpload =({images, setImages})=>{//부모한테 받은 props 객체 기
     const handleRemoveFile = (file, type) => {
 
         console.log("파일 삭제 핸들러 ",file , type)
+
         setImages(prev => {
+
+            console.log("prev.existing", prev.existing);
+            console.log("prev.new", prev.new);
+            console.log("prev.removed", prev.removed);
+
             //등록했을 경우, 이미지가 새로 생겼을 때
             const updatedNew = type === "new"
                 ? prev.new.filter(f => f.name !== file.name)
@@ -138,14 +146,15 @@ const FileUpload =({images, setImages})=>{//부모한테 받은 props 객체 기
                 ? [...prev.removed, file]
                 : prev.removed;
 
+            console.log("updatedNew",updatedNew);
+            console.log("updatedExisting",updatedExisting);
+            console.log("updatedRemoved",updatedRemoved);
 
             //갱신된 이미지 배열이 빈 배열이면  ref로 참조한 돔 객체 값 초기화
             if (updatedExisting.length === 0 && fileInitRef.current) {
                 console.log(" :갱신된 이미지 객체 돔조작중 이미지개수 ",updatedExisting.length);
                 fileInitRef.current.value = ""; // 실제 DOM input value 비우기
             }
-
-
 
             return {
                 ...prev,
@@ -161,7 +170,7 @@ const FileUpload =({images, setImages})=>{//부모한테 받은 props 객체 기
     const renderFileList = (files, type) => (
             <>
                 {files.map((file, index) => (
-                    <div  key={`${file.name || file}`}
+                    <div  key={`${file.name}-${index}`}
                         className="file-row d-flex justify-content-start align-items-center w-100 mt-1 py-1 border-bottom">
                         <label className="form-title col-3" htmlFor={`file${index+ 1}`}>업로드목록.{index + 1}</label>
                         <span className="d-inline-block" id={`file${index+ 1}`}> {file.name || file}</span>

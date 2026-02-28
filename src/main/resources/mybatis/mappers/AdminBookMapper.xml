@@ -2,10 +2,71 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.team01.admin.dao.AdminBookDao">
+
+<!-- adminBoook과 bookImgage 와 1:N 관계 선언 : 디비에서 조회할 때 사용 -->
+<resultMap id="selectBookDetailMap" type="AdminBookVO">
+    <!-- AdminBookVO PK-->
+    <id property="bookId" column="bookid"/>
+    <!-- AdminBookVO 일반 컬럼 -->
+    <result property="bookCateNm" column="bookcatenm"/>
+    <result property="bookCateDepth" column="bookcatedepth"/>
+    <result property="bookName" column="bookname"/>
+    <result property="bookDesc" column="bookdesc"/>
+    <result property="author" column="author"/>
+    <result property="bookPrice" column="bookprice"/>
+    <result property="stock" column="stock"/>
+    <result property="stockStatus" column="stockstatus"/>
+    <result property="publishDate" column="publishdate"/>
+    <result property="roleId" column="roleid"/>
+    <result property="cateId" column="cateid"/>
+    <result property="writer" column="writer"/>
+    <result property="recomType" column="recomtype"/>
+    <result property="saleStatus" column="salestatus"/>
+    <result property="createDate" column="createdate"/>
+    <result property="viewCnt" column="viewcnt"/>
+    <result property="wishID" column="wishid"/>
+    <!-- N 관계  Collection -->
+    <collection property="images" ofType="BookImageVO">
+        <id property="imageId" column="imageid"/>
+<!--        <result property="bookId" column="bookid"/> 부모 테이블에서 매핑중이라 굳이 쓸 필요 없음-->
+        <result property="imagePath" column="imagepath"/>
+        <result property="createDate" column="imagecreatedate"/>
+    </collection>
+</resultMap>
+
+<resultMap id="selectBookListMap" type="AdminBookVO">
+    <!-- AdminBookVO PK-->
+    <id property="bookId" column="bookid"/>
+    <!-- AdminBookVO 일반 컬럼 -->
+    <result property="bookCateNm" column="bookcatenm"/>
+    <result property="bookCateDepth" column="bookcatedepth"/>
+    <result property="bookName" column="bookname"/>
+    <result property="bookDesc" column="bookdesc"/>
+    <result property="author" column="author"/>
+    <result property="bookPrice" column="bookprice"/>
+    <result property="stock" column="stock"/>
+    <result property="stockStatus" column="stockstatus"/>
+    <result property="publishDate" column="publishdate"/>
+    <result property="roleId" column="roleid"/>
+    <result property="cateId" column="cateid"/>
+    <result property="writer" column="writer"/>
+    <result property="recomType" column="recomtype"/>
+    <result property="saleStatus" column="salestatus"/>
+    <result property="createDate" column="createdate"/>
+    <result property="viewCnt" column="viewcnt"/>
+    <result property="wishID" column="wishid"/>
+    <!-- 1:1 관계 : 목록용은 이미지 하나만 조회해야 디비 성능에 영향 미치지 않음 -->
+    <association property="image" javaType="BookImageVO">
+        <id property="imageId" column="imageid"/>
+        <result property="isMain" column="ismain"/>
+        <result property="imagePath" column="imagepath"/>
+    </association>
+</resultMap>
 <!--  @org.apache.commons.lang3.StringUtils@isNotBlank(null 체크할 파라미터)
         null 체크와 공백 문자열 체크를 동시에 처리 가능
        오라클 문법에서 from 절 뒤에 as 별칭 형식으로 기입하면 에러 발생, as 제외하고 사용하기
 "-->
+
 <!--
     searchFlag 동적 쿼리 , Pagination pagination에 DetailCondition에 검색조건필터를 담아서 받아온 경우
     detailCondition.bookType 의 형태로 접근해야 함
@@ -57,6 +118,8 @@
         </trim>
 
     </sql>
+
+
    <!-- 페이지네이션파라미터가 안넘어옴! 파라미터 타입 확인해야함-->
     <select id="totalRecord" resultType="int" parameterType="com.example.team01.utils.Pagination">
         SELECT COUNT(*)
@@ -67,30 +130,34 @@
 <!--오라클 char  타입 사용하면  바인딩 파라미터가 값을 못받아서 가변데이터일경우를 포함해서 varchar로 설계해야함!-->
 <!-- rnum 사용시 조건문 범위 연산과정이해 필요   -->
 <!-- 문자열로 숫자를 표현하면 순서가 꼬일 수 있어서 숫자로 변환해줘야 하기때문에 varchar2 말고 number 타입을 선언하기   -->
-    <select id="selectAllBook" resultType="AdminBookVO" parameterType="com.example.team01.utils.Pagination">
+    <select id="selectAllBook"  resultMap="selectBookListMap" parameterType="com.example.team01.utils.Pagination">
 
         SELECT
-            bookId
-        , bookCateNm
-        , bookCateDepth
-        , bookName
-        , bookDesc
-        , author
-        , bookPrice
-        , stock
-        , stockStatus
-        , publishDate
-        , roleId
-        , cateId
-        , bookImgPath
-        , writer
-        , createDate
-        , recomType
-        , saleStatus
-        FROM book
+            b.bookId
+            , b.bookCateNm
+            , b.bookCateDepth
+            , b.bookName
+            , b.bookDesc
+            , b.author
+            , b.bookPrice
+            , b.stock
+            , b.stockStatus
+            , b.publishDate
+            , b.roleId
+            , b.cateId
+            , b.writer
+            , b.createDate
+            , b.recomType
+            , b.saleStatus
+            , i.imageId
+            , i.isMain
+            , i.imagePath
+        FROM book b left join bookImage i
+            on (b.bookId = i.bookId)
+            AND i.ismain = 'Y'
         <include refid="searchFrag" />
 
-        ORDER BY bookId DESC
+        ORDER BY b.bookId DESC
         LIMIT #{pagination.pageSize}
         OFFSET #{pagination.offset}
     </select>
@@ -137,7 +204,6 @@
             , publishDate
             , roleId
             , cateId
-            , bookImgPath
             , writer
             ,recomType
             ,saleStatus
@@ -154,7 +220,6 @@
         , #{publishDate}
         , #{roleId}
         , #{cateId}
-       ,#{bookImgPath}
         , #{writer}
         ,#{recomType}
         ,#{saleStatus}

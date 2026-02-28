@@ -34,15 +34,11 @@ const AdminBookCreate = () => {
     const {openModal,closeModal} = useModal();
     const navigate = useNavigate();
 
-    const [images, setImages] = useState({
-        existing: [],
-        new: [],
-        removed: []
-    });
 
     useEffect(() => {
         console.log("userData 변경됨:", userData);
     }, [userData]);
+
     // userData가 변경될 때 roleId와 writer를 업데이트
     useEffect(() => {
         console.log("useData",userData);
@@ -185,8 +181,7 @@ const AdminBookCreate = () => {
 
                     {/*도서이미지 이미지 파일 업로드 안하면 그냥 기본 이미지로 등록, 필요      */}
                     <div className="d-flex align-items-center flex-wrap">
-
-                        <FileUpload  images={images}  setImages={setImages}/>
+                        <FileUpload  images={bookImg}  setImages={setBookImg}/>
                     </div>
                     {/*form 내부에 두어야 onSubmit 자동실행*/}
                     <div className="d-flex align-items-center justify-content-center mt-4">
