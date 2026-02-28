@@ -49,6 +49,12 @@ export const useAdminModifyBook = (bookId,userData)=> {
                 writer: userData?.clientName // 유저 이름
             });
             setCategoryList(cateData); // 수정 페이지 카테고리 초기값 갱신
+            // bookImg 값 설정
+            setBookImg({
+                existing: book.bookImgList || [],
+                new: [],
+                removed: []
+            });
 
         }catch(err){
             //error

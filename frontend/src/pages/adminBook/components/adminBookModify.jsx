@@ -32,7 +32,6 @@ const AdminBookModify = () => {
     const {currentBook,
         setCurrentBook,
         categoryList,
-        setCategoryList,
         bookImg,
         setBookImg,
         getModifyBook,
@@ -41,13 +40,9 @@ const AdminBookModify = () => {
     const {openModal,closeModal} = useModal();
     const navigate = useNavigate();
 
-    const [Images, setImages] = useState({
-        existing: [],
-        new: [],
-        removed: []
-    });
-
+    
     useEffect(() => {
+        //디버깅용
         console.log("currentbook-- 파일목록 삭제 시, 데이터 갱신이 안되고 잇음",currentBook);
     })
 
@@ -221,8 +216,8 @@ const AdminBookModify = () => {
                         */}
                         {currentBook.bookId && (
                             <FileUpload
-                                images={Images}
-                                setImages={setImages}
+                                images={bookImg}
+                                setImages={setBookImg}
                             />
                         )}
                     </div>
