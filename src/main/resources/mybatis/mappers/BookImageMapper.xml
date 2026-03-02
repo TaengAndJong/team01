@@ -14,4 +14,17 @@
                 )
         </insert>
 
+        <select id="selectImages" resultType="String">
+            select
+                bookId,
+                imagePath
+            from bookImage
+            where bookId IN
+            <foreach item="item" collection="list" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </select>
+
+
+
 </mapper>

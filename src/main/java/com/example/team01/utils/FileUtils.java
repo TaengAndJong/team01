@@ -85,7 +85,7 @@ public class FileUtils {
                 file.transferTo(path); //Spring이 제공하는 공식 업로드 저장 방식, 실제 경로에 파일저장
 
                 //DB에 저장할 경로
-                String dbPath = middlePath + "/" + fileName;
+                String dbPath = fileName;
                 savedPaths.add(dbPath); // 디비에 저장할 파일 경로 List에 추가
 
             } catch (IOException e) {
@@ -128,17 +128,41 @@ public class FileUtils {
         return noImgPath;
     }
 
-    //실서버에 저장된 이미지파일 삭제( + 데이터베이스 bookImgPath 에서도 해당 파일 삭제(갱신) 해줘야 데이터 정합성이 유지됨)
-    public String deleteFiles(List<String> fileNames,String middlePath) {
+    //도서 등록 시 예외 발생할 경우, 삭제처리
+    public void  deleteFiles(List<String> fileNames,String middlePath){
 
         log.info("fileNames------deleteFiles :{} ",fileNames);
         log.info("fileNames------middlePath :{} ",middlePath);
         // 삭제할 파일 레코드 아이디 받아오기 ==> List<String> fileNames
-        String deleteFilePath = uploadDir + File.separator + middlePath + File.separator;//운영체제에 맞게 파일 경로 생성하기 위한 코드
-        //File 클래스를 사용하는 이유는, 파일시스템에서 해당경로의 파일을 조작하기 위해서 파일 객체를 사용
 
+        for(String fileName : fileNames){
+            //운영체제에 맞게 파일 경로 생성하기 위한 코드
+            String deleteFilePath = uploadDir + File.separator + middlePath + File.separator; //uploads/book/
+            Path path = Paths.get(deleteFilePath+fileName);
+            
+            //public static boolean deleteIfExists(Path path) throws IOException
+            //IO Exception은 checkedException으로 예외처리 필수, 
+            try{
+                // 파일 삭제 예외처리를 위해 try, catch 처리필요
+                boolean deleted = Files.deleteIfExists(path);
+                //삭제과정에 대한 로그 남기기
+                if(deleted){
+                    log.info("파일 삭제 성공: {}", path);
+                } else {
+                    log.warn("삭제할 파일이 존재하지 않음: {}", path);
+                }
 
+            } catch (IOException  e) {
+                log.error("파일 삭제 중 예외 발생: {}", path, e);
+            }
+            //end
+        }
 
-       return "서버에 저장된 이미지파일 삭제완료 ";
     }
+
+    //도서 목록에서 도서 삭제
+
+
+
+
 }

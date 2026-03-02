@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -102,8 +103,8 @@ public class AdminBookServiceImple implements AdminBookService {
 
         //그 다음 파일 객체 저장 ( 이미지 파일이 없는 경우, noimage로 대체 / 대표이미지 isMain설정 필요)
         List<String> saveFilePaths = new ArrayList<>();
-
         log.info("saveFilePaths------------------: {}", saveFilePaths);
+
         try {
             // 파일을 경로에 저장하고, 디비에 저장할 파일명 리스트를 반환
             saveFilePaths = fileUtils.saveFile(images,"book");// muntifile 객체와 생성할 폴더명 작성
@@ -137,19 +138,20 @@ public class AdminBookServiceImple implements AdminBookService {
             }//for end
 
         }catch (Exception e){
+            log.error("도서 등록 중 예외 발생 -- 서비스", e);
 
             if (!saveFilePaths.isEmpty()) {
                // 저장된 파일 삭제
-               // fileUtils.deleteFiles(saveFilePaths);
+               fileUtils.deleteFiles(saveFilePaths,"book");
             }
-
-            throw e; // 다시 던져야 트랜잭션 롤백됨
+            throw new BookException("도서 등록 실패");// 다시 던져야 트랜잭션 롤백됨
         }
     //도서 등록 insert 끝
     }
 
-    @Transactional
+
     @Override
+    @Transactional
     public void updateBook(AdminBookVO book) {
         // 도서수정처리 예외, 성공, 실패
         log.info("수정 updateBook-----------:{}",book);
@@ -184,39 +186,36 @@ public class AdminBookServiceImple implements AdminBookService {
 
     //단건삭제 와 다건 삭제는 분리해서 메서드 처리해야함
     @Override
+    @Transactional
     public void deleteBooks(List<Long> bookIds) {
-        log.info("서비스구현체 파라미터오나?-----bookIds:{}",bookIds);
-        int cnt;
-        //삭제할 아이디데이터 조회
-        List<Long> existBookIds = adminBookDao.existBooks(bookIds);
-        log.info("existBookIds-----:{}",existBookIds);
-        //삭제할 아이디데이터와 클라이언트가 삭제하려고 보낸 데이터의 일치여부판단
-        if(existBookIds.size() != bookIds.size()){
-            log.info("삭제할 데이터 개수 일치하지 않음-----:{},{}",existBookIds.size(),bookIds.size());
-            //일치하지 않는 도서 데이터 펼쳐서 필터 후 하나로 묶어서 리스트로 만들기 ( Long => String  변환)
-            List<String> missingIds = bookIds.stream()
-                    .filter(bookId -> !existBookIds.contains(bookId))
-                    .map(String::valueOf)
-                    .collect(Collectors.toList());
-            //예외처리
-            throw new BookNotFoundException("존재하지 않는 도서 ID ",missingIds);
-        }
-        //존재하는 아이디 값만 넘겨서 삭제 성공이면  cnt = 성공한 개수로 반환
-
-        //서버에 저장된 이미지 삭제하기
-//        for(Long bookId : existBookIds){
-//            AdminBookVO adminBookVO = dao.selectOneBook(bookId);
-//            log.info("도서 삭제 :{}", adminBookVO.getBookImgPath());
-//
-//            //아니면 실제경로에서 파일삭제
-//            fileUtils.deleteFiles(adminBookVO.getBookImgPath(),"book");
-//        }
-
-        //디비에서 레코드 삭제(delStatus로 관리해서 참조키관련 삭제관계 고려하지 않아도 됨 )
-        cnt = adminBookDao.deleteBooks(existBookIds);
-        log.info("delete cnt:{}",cnt);
-
-    }
 
 
-}
+        //도서 이미지 테이블에서 해당 도서에 대한 이미지경로 조회
+        List<String> bookImagePaths = bookImageDao.selectImages(bookIds);
+
+            try{
+                // 도서 삭제 (이미지는 bookId 참조키로 on delete cascade 조건 설정해 둠)
+                adminBookDao.deleteBooks(bookIds);
+             
+            } catch(Exception e){
+                // 예외 발생 시, 로그와 예외던지기
+                log.error("도서 삭제 실패", e);
+                throw new BookException("도서 삭제 실패");
+            }
+
+
+            try{
+                //파일 삭제
+                if (!bookImagePaths.isEmpty()) {
+                    fileUtils.deleteFiles(bookImagePaths, "book");
+                }
+            }catch (Exception e){
+                // 파일 삭제 시 예외 발생 로그 남기기
+                log.error("등록된 도서 삭제 중 파일 삭제 실패 --- ", e);
+            }
+
+
+    } // deleteBooks end
+
+
+}//service End
