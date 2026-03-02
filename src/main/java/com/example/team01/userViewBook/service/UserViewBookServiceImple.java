@@ -1,6 +1,6 @@
 package com.example.team01.userViewBook.service;
 
-import com.example.team01.book.dto.BookDTO;
+import com.example.team01.book.dto.BookListResponseDTO;
 import com.example.team01.userViewBook.dao.UserViewBookDao;
 import com.example.team01.userViewBook.dto.UserBookResponseDTO;
 import com.example.team01.vo.UserViewBookVO;
@@ -68,7 +68,7 @@ public class UserViewBookServiceImple implements UserViewBookService {
         // DTO 객체로 변환하기
         log.info("userViewBookVO---- voToDTO :{}",vo);
         //이미지파일 경로 변경때문에 book객체로 묶어서 담아줘야함
-        BookDTO bookDTO = BookDTO.builder()
+        BookListResponseDTO bookDTO = BookListResponseDTO.builder()
                 .bookId(vo.getBookId())
                 .bookName(vo.getBookVO().getBookName())
                 .bookCateNm(vo.getBookVO().getBookCateNm())

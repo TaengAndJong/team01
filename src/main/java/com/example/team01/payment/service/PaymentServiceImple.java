@@ -6,7 +6,7 @@ import com.example.team01.book.dao.BookDao;
 import com.example.team01.common.Enum.PayStatus;
 import com.example.team01.common.exception.cart.CustomCartException;
 import com.example.team01.address.dto.AddressDTO;
-import com.example.team01.book.dto.BookDTO;
+import com.example.team01.book.dto.BookListResponseDTO;
 import com.example.team01.cart.dto.CartDTO;
 import com.example.team01.payment.dto.PaymentListDTO;
 import com.example.team01.payment.dao.PaymentDao;
@@ -237,9 +237,9 @@ public class PaymentServiceImple implements PaymentService {
         BookVO bookList = cartvo.getBookList().get(0);
 
         //cartVO에 담긴 bookList 데이터를 DTO
-        BookDTO bookDTO = null;
+        BookListResponseDTO bookDTO = null;
         if(bookList != null) {
-             bookDTO = BookDTO.builder()
+             bookDTO = BookListResponseDTO.builder()
                     .bookId(cartvo.getBookId())
                     .bookName(bookList.getBookName())
                     .bookCateNm(bookList.getBookCateNm())
@@ -277,7 +277,7 @@ public class PaymentServiceImple implements PaymentService {
         log.info("firstObjects---------:{}",firstObject);
 
         //books DTO 설정하기
-        List<BookDTO> books = voList.stream().map(vo -> BookDTO.builder()
+        List<BookListResponseDTO> books = voList.stream().map(vo -> BookListResponseDTO.builder()
                 .bookId(vo.getBookId())
                         .bookCateNm(vo.getBookCateNm())
                         .bookCateDepth(vo.getBookCateDepth())

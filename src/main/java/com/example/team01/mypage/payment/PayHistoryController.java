@@ -2,7 +2,7 @@ package com.example.team01.mypage.payment;
 
 
 import com.example.team01.common.Enum.PayStatus;
-import com.example.team01.book.dto.BookDTO;
+import com.example.team01.book.dto.BookListResponseDTO;
 import com.example.team01.payment.dto.PaymentCancelDTO;
 import com.example.team01.payment.dto.PaymentListDTO;
 import com.example.team01.payment.service.PaymentService;
@@ -74,7 +74,7 @@ public class PayHistoryController {
             List<Long> bookIds = paymentList.stream()
                     .filter(dto-> dto.getPayId().equals(payId))
                     .flatMap(books -> books.getBooks().stream())// ==> 이중배열구조에서 [bookDTO,bookDTO,bookDTO]로 변형
-                    .map(BookDTO::getBookId).collect(Collectors.toList());  // 각객체에서 bookId만 모아서 반환
+                    .map(BookListResponseDTO::getBookId).collect(Collectors.toList());  // 각객체에서 bookId만 모아서 반환
 
             int result = paymentService.allCancel(payId,bookIds,clientId);
 
@@ -127,7 +127,7 @@ public class PayHistoryController {
 
 
         paymentList.forEach(dto -> {
-            List<BookDTO> updatedBooks = dto.getBooks().stream()
+            List<BookListResponseDTO> updatedBooks = dto.getBooks().stream()
                     .map(book -> {
                         List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
                         if(book.getBookImgPath() != null && !book.getBookImgPath().isEmpty()){

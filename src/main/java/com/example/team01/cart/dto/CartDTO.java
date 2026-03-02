@@ -1,6 +1,6 @@
 package com.example.team01.cart.dto;
 
-import com.example.team01.book.dto.BookDTO;
+import com.example.team01.book.dto.BookListResponseDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,6 +19,6 @@ public class CartDTO { // 하나의 레코드를 의미
     private String bookId; //  도서 아이디 (도서 아이디만 사용할때 )
     private String clientId; // 로그인한 유저 아이디
     private String roleId; // 로그인한 유저의 역할
-    private BookDTO book; // 1:1 단일 매핑인 vo를 DTO 타입으로 변환 (도서 전체 정보)
+    private BookListResponseDTO book; // 1:1 단일 매핑인 vo를 DTO 타입으로 변환 (도서 전체 정보)
 
 }

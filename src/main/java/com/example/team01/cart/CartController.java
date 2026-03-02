@@ -7,7 +7,7 @@ import com.example.team01.cart.service.CartService;
 import com.example.team01.common.exception.common.BusinessException;
 import com.example.team01.address.service.AddressService;
 import com.example.team01.address.dto.AddressDTO;
-import com.example.team01.book.dto.BookDTO;
+import com.example.team01.book.dto.BookListResponseDTO;
 import com.example.team01.cart.dto.CartDTO;
 import com.example.team01.security.PrincipalDetails;
 import com.example.team01.utils.FileUtils;
@@ -63,7 +63,7 @@ public class CartController {
         List<CartDTO> bookList = cartList.stream()
                 .map(cartDTO -> {
                     //cartDTO 내부에 book객체 가져오기
-                    BookDTO book = cartDTO.getBook();
+                    BookListResponseDTO book = cartDTO.getBook();
                     //book 이미지 변경
                     List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
                     if(book.getBookImgPath() != null && !book.getBookImgPath().isEmpty()){
@@ -155,7 +155,7 @@ public class CartController {
             //도서 이미지패스 변경필요
             //log.info("삭제된 후 도서 목록---------------------장바구니 : {}",bookList);
             bookList.forEach(cartDTO -> {
-                BookDTO book = cartDTO.getBook();
+                BookListResponseDTO book = cartDTO.getBook();
                 List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
                 if(book.getBookImgPath() != null && !book.getBookImgPath().isEmpty()){
                     imgArray =  new ArrayList<>(

@@ -1,7 +1,7 @@
 package com.example.team01.userViewBook.dto;
 
 
-import com.example.team01.book.dto.BookDTO;
+import com.example.team01.book.dto.BookListResponseDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,7 +19,7 @@ public class UserBookResponseDTO{
     private String viewId;// 조회 Id
     private LocalDateTime viewDate;// 조회 날짜
     private String clientId;// 로그인 사용자명
-    private BookDTO book;
+    private BookListResponseDTO book;
 
 //    private String bookId;// 도서아이디
 //    private String bookName; // 도서명

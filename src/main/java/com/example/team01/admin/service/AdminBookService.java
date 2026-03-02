@@ -1,5 +1,6 @@
 package com.example.team01.admin.service;
 
+import com.example.team01.book.dto.BookListResponseDTO;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
 import com.example.team01.vo.BookVO;
@@ -10,8 +11,7 @@ import java.util.List;
 
 public interface AdminBookService {
 
-    public List<AdminBookVO> getAllBooks(Pagination pagination);
-
+    public List<BookListResponseDTO> getAllBooks(Pagination pagination);
     public AdminBookVO deTailBook(Long bookId);
     public void  createBook(AdminBookVO book,List<MultipartFile> images);
     public void updateBook(AdminBookVO book);

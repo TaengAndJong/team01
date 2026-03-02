@@ -2,7 +2,7 @@ package com.example.team01.payment.dto;
 
 
 import com.example.team01.address.dto.AddressDTO;
-import com.example.team01.book.dto.BookDTO;
+import com.example.team01.book.dto.BookListResponseDTO;
 import lombok.*;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class PaymentListDTO {
     private String clientId;
     private int quantity;
 
-    private List<BookDTO> books;
+    private List<BookListResponseDTO> books;
     private AddressDTO address;
 
 }

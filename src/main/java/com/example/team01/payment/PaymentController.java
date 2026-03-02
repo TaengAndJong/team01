@@ -7,7 +7,7 @@ import com.example.team01.common.exception.common.BusinessException;
 
 import com.example.team01.address.service.AddressService;
 import com.example.team01.address.dto.AddressDTO;
-import com.example.team01.book.dto.BookDTO;
+import com.example.team01.book.dto.BookListResponseDTO;
 import com.example.team01.cart.dto.CartDTO;
 import com.example.team01.payment.service.PaymentService;
 import com.example.team01.security.PrincipalDetails;
@@ -45,7 +45,7 @@ public class PaymentController {
         //최종 반영할 장바구니 도서목록데이터
        List<CartDTO> bookList = cartList.stream().map(cartDTO -> {
                     //cartDTO 내부의 bookDTO 가져오기
-                    BookDTO bookDTO = cartDTO.getBook();
+                    BookListResponseDTO bookDTO = cartDTO.getBook();
                     log.info("changeImg----getPayment:{}",bookDTO);
                    // BookVO 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
                    List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )

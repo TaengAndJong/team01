@@ -2,6 +2,7 @@ package com.example.team01.admin.service;
 
 import com.example.team01.admin.dao.AdminBookDao;
 import com.example.team01.book.dao.BookImageDao;
+import com.example.team01.book.dto.BookListResponseDTO;
 import com.example.team01.common.exception.book.BookException;
 import com.example.team01.common.exception.book.BookNotFoundException;
 import com.example.team01.common.exception.common.BusinessException;
@@ -41,7 +42,7 @@ public class AdminBookServiceImple implements AdminBookService {
 
 
     @Override
-    public List<AdminBookVO> getAllBooks(Pagination pagination) {
+    public List<BookListResponseDTO> getAllBooks(Pagination pagination) {
         log.info("컨트롤러에서 받아온 파라미터 pagination:{}", pagination.toString());
         //전체 데이터 레코드 조회해오기
         int total = adminBookDao.totalRecord(pagination);
@@ -56,10 +57,21 @@ public class AdminBookServiceImple implements AdminBookService {
         List<AdminBookVO> allBookList = adminBookDao.selectAllBook(pagination);
 
        log.info("도서 목록조회 allBookList:{}", allBookList);
+       //DTO로 변경하여 필요한 항목만 클라이언트로 전달
+        List<BookListResponseDTO> result =  allBookList.stream().map(item ->
+            BookListResponseDTO.builder()
+                    .bookId(item.getBookId()) //도서 아이디
+                    .bookName(item.getBookName()) // 도서 이름
+                    .author(item.getAuthor()) // 저자
+                    .bookCateNm(item.getBookCateNm()) // 도서 카테고리
+                    .bookCateDepth(item.getBookCateDepth()) // 도서 카테고리 메뉴 단계
+                    .bookPrice(item.getBookPrice()) // 도서 가격
+                    .stock(item.getStock())
+                    .saleStatus(item.getSaleStatus())
+                    .imagePath(item.getImage().getImagePath()).build()).toList();
 
-
-        //5. 전체 객체 반환하기
-        return allBookList;
+        //5.전체 객체 반환하기
+        return result;
     }
 
     @Override

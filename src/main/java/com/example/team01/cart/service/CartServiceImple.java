@@ -2,7 +2,7 @@ package com.example.team01.cart.service;
 
 import com.example.team01.cart.dao.CartDao;
 import com.example.team01.common.exception.cart.CustomCartException;
-import com.example.team01.book.dto.BookDTO;
+import com.example.team01.book.dto.BookListResponseDTO;
 import com.example.team01.cart.dto.CartDTO;
 import com.example.team01.vo.BookVO;
 import com.example.team01.vo.CartVO;
@@ -141,7 +141,7 @@ public class CartServiceImple implements CartService{
         log.info("convertToDTO--------vo:{}",vo);
 
       //cartVO에 담긴 bookList 데이터를 DTO로
-       BookDTO bookDTO = BookDTO.builder()
+       BookListResponseDTO bookDTO = BookListResponseDTO.builder()
                .bookId(vo.getBookId())
                .bookName(vo.getBookVO().getBookName())
                .bookCateNm(vo.getBookVO().getBookCateNm())

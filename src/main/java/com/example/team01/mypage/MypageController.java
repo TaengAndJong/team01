@@ -4,7 +4,7 @@ package com.example.team01.mypage;
 import com.example.team01.mypage.dashboard.dto.ResponseQnaCntDTO;
 import com.example.team01.mypage.dashboard.service.DashService;
 
-import com.example.team01.book.dto.BookDTO;
+import com.example.team01.book.dto.BookListResponseDTO;
 import com.example.team01.payment.service.PaymentService;
 import com.example.team01.security.PrincipalDetails;
 import com.example.team01.userViewBook.dto.UserBookResponseDTO;
@@ -53,7 +53,7 @@ public class MypageController {
         List<UserBookResponseDTO> userViewBooks
                 = selectViewBooks.stream() // Stream<UserBookResponseDTO> 로 변환
                 .map(dto -> { // map을 통해 순회하면서 데이터변환
-                    BookDTO book = dto.getBook();
+                    BookListResponseDTO book = dto.getBook();
                     //도서상품상세주소
                     book.setDetailUrl("/book/bookDetail/"+dto.getBook().getBookId());
                     //book 이미지 경로변경 ==> dto 반환됨

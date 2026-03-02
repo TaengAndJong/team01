@@ -2,6 +2,7 @@ package com.example.team01.admin;
 
 
 import com.example.team01.admin.service.AdminBookService;
+import com.example.team01.book.dto.BookListResponseDTO;
 import com.example.team01.category.service.CategoryService;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
@@ -105,26 +106,9 @@ public class AdminBookController {
         log.info("pagination -----------------: {}",pageSize);
         log.info("pagination -----------------: {} ",currentPage);
         //서비스로 데이터 넘기기
-        List<AdminBookVO> bookList  = bookService.getAllBooks(pagination);
+        List<BookListResponseDTO> bookList  = bookService.getAllBooks(pagination);
 
-//        for (AdminBookVO adminBookVO : bookList) {
-//            // adminBookVO의 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
-//            List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
-//            if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
-//                imgArray =  new ArrayList<>(
-//                        Arrays.asList(
-//                                adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
-//                        )//Arrays.asList() 는 배열을 List로 => 고정크기 List
-//                );// new ArrayList로 수정 가능한 새로운 가변 List 생성
-//
-//            }
-//            //for문 종료
-//
-//            // admingbookVO bookImgList에 담아주기
-//            adminBookVO.setBookImgList(imgArray);
-//        }
-
-        //
+        //페이지네이션
         Map<String, Object> result = new HashMap<>();
         result.put("items", bookList);
         result.put("currentPage", pagination.getCurrentPage());
