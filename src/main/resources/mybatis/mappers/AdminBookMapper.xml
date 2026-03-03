@@ -22,6 +22,7 @@
     <result property="writer" column="writer"/>
     <result property="recomType" column="recomtype"/>
     <result property="saleStatus" column="salestatus"/>
+    <result property="delStatus" column="delStatus"/>
     <result property="createDate" column="createdate"/>
     <result property="viewCnt" column="viewcnt"/>
     <result property="wishID" column="wishid"/>
@@ -79,7 +80,7 @@
             <!-- 도서구분 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.bookType)
             and pagination.detailCondition.bookType != 'ALL'">
-                STRPOS(bookCateNm, #{pagination.detailCondition.bookType}) &gt; 0 AND
+                STRPOS(b.bookCateNm, #{pagination.detailCondition.bookType}) &gt; 0 AND
             </if>
 
             <!-- 재고 필터 -->
@@ -88,42 +89,42 @@
 
                 <choose>
                     <when test="pagination.detailCondition.stockType == 'in'">
-                        stock &gt; 0 AND
+                        b.stock &gt; 0 AND
                     </when>
                     <when test="pagination.detailCondition.stockType == 'out'">
-                        (stock = 0 OR stock IS NULL) AND
+                        (b.stock = 0 OR b.stock IS NULL) AND
                     </when>
                 </choose>
             </if>
 
             <!-- 등록분류 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.recomType) and pagination.detailCondition.recomType != 'ALL'">
-                recomType = #{pagination.detailCondition.recomType} AND
+                b.recomType = #{pagination.detailCondition.recomType} AND
             </if>
 
             <!-- 키워드 검색 -->
             <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(pagination.detailCondition.keyword)">
                 <choose>
                     <when test="pagination.detailCondition.searchType == 'bookName'">
-                        STRPOS(bookName, #{pagination.detailCondition.keyword}) &gt; 0 AND
+                        STRPOS(b.bookName, #{pagination.detailCondition.keyword}) &gt; 0 AND
                     </when>
                     <when test="pagination.detailCondition.searchType == 'author'">
-                        STRPOS(author, #{pagination.detailCondition.keyword}) &gt; 0 AND
+                        STRPOS(b.author, #{pagination.detailCondition.keyword}) &gt; 0 AND
                     </when>
                 </choose>
             </if>
 
-            delStatus = 'N'
+            b.delStatus = 'N'
 
         </trim>
 
     </sql>
 
 
-   <!-- 페이지네이션파라미터가 안넘어옴! 파라미터 타입 확인해야함-->
+   <!-- 페이지네이션파라미터가 안넘어옴! 파라미터 타입 확인해야함 , 도서테이블과 도서이미지 테이블이 조인 중이라 테이블 별칭 맞춰주기-->
     <select id="totalRecord" resultType="int" parameterType="com.example.team01.utils.Pagination">
         SELECT COUNT(*)
-        FROM book
+        FROM book b
         <include refid="searchFrag"/>
     </select>
 
@@ -149,6 +150,7 @@
             , b.createDate
             , b.recomType
             , b.saleStatus
+            , b.delStatus
             , i.imageId
             , i.isMain
             , i.imagePath
@@ -156,7 +158,6 @@
             on (b.bookId = i.bookId)
             AND i.ismain = 'Y'
         <include refid="searchFrag" />
-
         ORDER BY b.bookId DESC
         LIMIT #{pagination.pageSize}
         OFFSET #{pagination.offset}
@@ -164,26 +165,29 @@
 
 <!-- long 과 Long은 다름
  long 기본타입이라 mybatis가  alias를 가지고 있어서 long만 기입해도 인식 , Long은 객체(래퍼 타입)라서 FQCN를 정확히 써줘야함 -->
-    <select id="selectOneBook" resultType="AdminBookVO" parameterType="java.lang.Long" >
-        select  bookId
-             , bookCateNm
-             , bookCateDepth
-             , bookName
-             , bookDesc
-             , author
-             , bookPrice
-             , stock
-             , stockStatus
-             , publishDate
-             , roleId
-             , cateId
-             , bookImgPath
-             , writer
-             , createDate
-             ,recomType
-             , saleStatus
-        from book
-        where bookId=#{bookId} and delStatus = 'N'
+    <select id="selectOneBook" resultMap="selectBookDetailMap">
+        select
+            b.bookId
+             , b.bookCateNm
+             , b.bookCateDepth
+             , b.bookName
+             , b.bookDesc
+             , b.author
+             , b.bookPrice
+             , b.stock
+             , b.stockStatus
+             , b.publishDate
+             , b.roleId
+             , b.cateId
+             , b.writer
+             , b.createDate
+             , b.recomType
+             , b.saleStatus
+             , b.delStatus
+             , i.imageId
+             , i.imagePath
+        from book b join bookImage i on (b.bookId = i.bookId)
+        where b.bookId=#{bookId} and b.delStatus = 'N';
     </select>
     <!-- 인덱스 역할을 하는 파라미터를 String으로 하면 #{} 이 인식을 못할 경우 , ${} 사용하기
     마이바티스가 #{}바인딩 변수를 사용해서 문자열을 치환하면 varchar 타입으로 변환해 char 타입일 경우 인식이
@@ -249,7 +253,7 @@
 
     <!--도서에 등록된 이미지 삭제시 갱신 쿼리 -->
     <update id="deleteBookFiles" parameterType="AdminBookVO">
-        update book
+        update bookImage
         set bookImgPath = #{bookImgPath}
         WHERE bookId=#{bookId}
     </update>

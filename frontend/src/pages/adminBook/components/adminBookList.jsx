@@ -242,7 +242,7 @@ const AdminBookList = () => {
                       <td className="text-center" id={`bookImg${index}`}>
                         <div className="img-box">
                           <img
-                              src={ImgBaseUrl(item.image)}
+                              src={ImgBaseUrl(item.imagePath)}
                               alt={`${item.bookName}도서 이미지`}
                           />
                         </div>
@@ -273,7 +273,7 @@ const AdminBookList = () => {
                         {item.writer}
                       </td>
                       <td className="text-center" id={`bookPublishDt${index}`}>
-                        {formatToDate(new Date(item.createDate))}
+                        {item.publishDate}
                       </td>
                       <td className="text-center" id={`bookStock${index}`}>
                         {item.stock}

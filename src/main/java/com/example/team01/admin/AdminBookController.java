@@ -1,8 +1,9 @@
 package com.example.team01.admin;
 
 
+import com.example.team01.admin.dto.AdminBookDetailResponseDTO;
 import com.example.team01.admin.service.AdminBookService;
-import com.example.team01.book.dto.BookListResponseDTO;
+import com.example.team01.admin.dto.AdminBookListResponseDTO;
 import com.example.team01.category.service.CategoryService;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
@@ -41,7 +42,6 @@ public class AdminBookController {
     @PostMapping(value = "/bookCreate")
     public ResponseEntity<?> insertBookCreate(
             @ModelAttribute AdminBookVO createBook,
-//            @RequestParam(name = "createDate") String createDate,
             @RequestParam(name = "bookCateNm") List<String> bookCateNm,
             @RequestParam(name = "bookCateDepth") List<String> bookCateDepth,
             @RequestParam(name = "cateId") List<String> cateId,
@@ -106,7 +106,7 @@ public class AdminBookController {
         log.info("pagination -----------------: {}",pageSize);
         log.info("pagination -----------------: {} ",currentPage);
         //서비스로 데이터 넘기기
-        List<BookListResponseDTO> bookList  = bookService.getAllBooks(pagination);
+        List<AdminBookListResponseDTO> bookList  = bookService.getAllBooks(pagination);
 
         //페이지네이션
         Map<String, Object> result = new HashMap<>();
@@ -126,28 +126,12 @@ public class AdminBookController {
     @GetMapping("/bookDetail/{bookId}")
     public ResponseEntity<?> getBookDetail(@PathVariable Long bookId){
 
-
         // 아이디를 파라미터로 데이터베이스에 넘겨서 데이터 받아오기
-        AdminBookVO adminBookVO = bookService.deTailBook(bookId);
-
-        // adminBookVO 이미지Path를 분리해서 담아줄 ImgliSt 배열 변수 필요
-//        List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
-//        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
-//            imgArray =  new ArrayList<>(
-//                    Arrays.asList(
-//                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
-//                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
-//            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
-//
-//        }
-//
-//        // admingbookVO bookImgList에 담아주기
-//        adminBookVO.setBookImgList(imgArray);
-
-        log.info("adminBookVO -----------:{}",adminBookVO);
+        AdminBookDetailResponseDTO detailBook = bookService.deTailBook(bookId);
+        log.info("detailBook Controller DTO 변환 결과 -----------:{}",detailBook);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("bookVO", adminBookVO);
+        response.put("detailBookData", detailBook);
 
         return  ResponseEntity.ok(response);
     }
@@ -160,26 +144,14 @@ public class AdminBookController {
         Map<String, List<CategoryVO>> cateData  = categoryService.getAllCategories();
 
         //해당 아이디에 대한 도서 정보 가져오기
-        AdminBookVO adminBookVO = bookService.deTailBook(bookId);
+       // AdminBookVO adminBookVO = bookService.deTailBook(bookId);
 
-//        List<String> imgArray = new ArrayList<>(); // 가변배열 리스트이면서, 값이 없어도 존재해야함 ( npx 방지 )
-//        if(adminBookVO.getBookImgPath() != null && !adminBookVO.getBookImgPath().isEmpty()){
-//            imgArray =  new ArrayList<>(
-//                    Arrays.asList(
-//                            adminBookVO.getBookImgPath().split(",") //String [] 배열로 반환
-//                    )//Arrays.asList() 는 배열을 List로 => 고정크기 List
-//            );// new ArrayList로 수정 가능한 새로운 가변 List 생성
-//
-//        }
-//
-//        // admingbookVO bookImgList에 담아주기
-//        adminBookVO.setBookImgList(imgArray);
-        log.info("adminBookVO -- 삭제 : {}",adminBookVO);
+
         Map<String,Object> response = new HashMap<>();
         //해당 아이디에 대한 도서데이터와 , 카테고리 데이터를 클라이언트에게 전송하기!
         //문자열 데이터 List 형태로 바꿔서 bookVO재설정하기
         // 도서 데이터준비
-        response.put("book", adminBookVO);
+//        response.put("book", adminBookVO);
         //카테고리 데이터
         response.put("cateData",cateData);
 

@@ -36,9 +36,10 @@ const AdminBookDetail = () => {
             throw new Error("서버응답에러");
         }
         //응답 성공시
-        const bookData = await response.json(); 
+        const data = await response.json();
+        console.log("data", data);
         // 제이슨 문자 데이터로 변환 ==> 담겨야할 데이터 bookId에 해당하는 정보 서버에서 반환받기
-        setBookDetail(bookData.bookVO);
+        setBookDetail(data.detailBookData);
 
     }catch(err){
         //에러처리
@@ -88,7 +89,7 @@ const AdminBookDetail = () => {
                         <div className="bookInfo card-body">
                             <h3 className="book-title title-dotted">
                                 {recomTultip(bookDetail.recomType)}
-                                {saleStatus(bookDetail.saleStatus)}
+                                {/*{saleStatus(bookDetail.saleStatus)}*/}
                                 <em className="">{bookDetail.bookName}</em>
                             </h3>
                             <ul className="ul bullet">

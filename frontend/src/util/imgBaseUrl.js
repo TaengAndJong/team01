@@ -7,6 +7,7 @@ const ImgBaseUrl=((fileName)=>{
 
     // 파일명이 없으면 기본 이미지
     if (!fileName) {
+        console.log(`file 없으면 fileName:${BASE_URL}`)
         return `${BASE_URL}images/noImg.png`;
     }
 

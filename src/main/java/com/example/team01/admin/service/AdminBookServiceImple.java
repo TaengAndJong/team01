@@ -2,10 +2,10 @@ package com.example.team01.admin.service;
 
 import com.example.team01.admin.dao.AdminBookDao;
 import com.example.team01.book.dao.BookImageDao;
-import com.example.team01.book.dto.BookListResponseDTO;
+import com.example.team01.admin.dto.AdminBookDetailResponseDTO;
+import com.example.team01.admin.dto.AdminBookListResponseDTO;
 import com.example.team01.common.exception.book.BookException;
 import com.example.team01.common.exception.book.BookNotFoundException;
-import com.example.team01.common.exception.common.BusinessException;
 import com.example.team01.utils.FileUtils;
 import com.example.team01.utils.Pagination;
 import com.example.team01.vo.AdminBookVO;
@@ -14,15 +14,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -42,7 +39,7 @@ public class AdminBookServiceImple implements AdminBookService {
 
 
     @Override
-    public List<BookListResponseDTO> getAllBooks(Pagination pagination) {
+    public List<AdminBookListResponseDTO> getAllBooks(Pagination pagination) {
         log.info("컨트롤러에서 받아온 파라미터 pagination:{}", pagination.toString());
         //전체 데이터 레코드 조회해오기
         int total = adminBookDao.totalRecord(pagination);
@@ -58,8 +55,8 @@ public class AdminBookServiceImple implements AdminBookService {
 
        log.info("도서 목록조회 allBookList:{}", allBookList);
        //DTO로 변경하여 필요한 항목만 클라이언트로 전달
-        List<BookListResponseDTO> result =  allBookList.stream().map(item ->
-            BookListResponseDTO.builder()
+        List<AdminBookListResponseDTO> result =  allBookList.stream().map(item ->
+            AdminBookListResponseDTO.builder()
                     .bookId(item.getBookId()) //도서 아이디
                     .bookName(item.getBookName()) // 도서 이름
                     .author(item.getAuthor()) // 저자
@@ -68,29 +65,48 @@ public class AdminBookServiceImple implements AdminBookService {
                     .bookPrice(item.getBookPrice()) // 도서 가격
                     .stock(item.getStock())
                     .saleStatus(item.getSaleStatus())
+                    .publishDate(item.getPublishDate())
+                    .cateId(item.getCateId())
+                    .recomType(item.getRecomType())
                     .imagePath(item.getImage().getImagePath()).build()).toList();
 
+        log.info("등록된 도서목록 조회 : {}",result);
         //5.전체 객체 반환하기
         return result;
     }
 
     @Override
-    public AdminBookVO deTailBook(Long bookId) {
+    public AdminBookDetailResponseDTO deTailBook(Long bookId) {
         //psql 수정후 bookId를 못받아오고 있음 ==>
         // mapper.xml에서  insert 시 vo.bookId를 설정해주는 useGeneratedKeys="true" keyProperty="bookId" 작성 필요
         log.info("detailBook--bookId:{}", bookId);
-        AdminBookVO adminBookVO = adminBookDao.selectOneBook(bookId);
+        AdminBookVO vo = adminBookDao.selectOneBook(bookId);
+        //vo  널이나 빈값일 경우 방지 예외처리
+        if (vo == null) { //mybatis는 결과가 없으면 null 반환, 빈 VO객체 생성하지 않음
+            throw new BookNotFoundException("해당 도서를 찾을 수 없습니다",bookId);
+        }
 
-        log.info("detailBook--modify:{}", adminBookVO);
+        log.info("detailBook--vo:{}", vo);
+        
+        //DTO로 변환
+        AdminBookDetailResponseDTO result = AdminBookDetailResponseDTO.builder().bookId(vo.getBookId())
+                .bookName(vo.getBookName())
+                .bookCateNm(vo.getBookCateNm())
+                .bookDesc(vo.getBookDesc())
+                .bookCateDepth(vo.getBookCateDepth())
+                .author(vo.getAuthor())
+                .bookPrice(vo.getBookPrice())
+                .stock(vo.getStock())
+                .stockStatus(vo.getStockStatus())
+                .publishDate(vo.getPublishDate())
+                .recomType(vo.getRecomType())
+                .images(vo.getImages())
+                .cateId(vo.getCateId())
+                .build();
 
-        // 텍스트 이미지경로 to ArrayList 이미지경로
-        //bookImgPath  배열로 변경해서 넣어야함
-        // 텍스트 이미지 split(",") 사용해서 문자 배열로 변경
-//        String[] bookImgPaths = adminBookVO.getBookImgPath().split(",");
-//        // bookVO의 bookImgList에 String 배열을 List 배열로 변경해 담아주기
-//        adminBookVO.setBookImgList(Arrays.asList(bookImgPaths));
+        log.info(" detailBook---modify : {} ",result);
         //데이터 반환
-        return adminBookVO;
+        return result;
     }
 
     @Override

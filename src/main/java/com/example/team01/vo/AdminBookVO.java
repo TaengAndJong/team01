@@ -33,8 +33,9 @@ public class AdminBookVO implements Serializable {
     private String writer; // 등록한 관리자 아이디
     private String recomType; // 등록분류
     private String saleStatus;// 판매 상태관리
+    private String delStatus;// 판매 상태관리
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createDate; // 도서등록일
 
     // 도서 이미지 정규화

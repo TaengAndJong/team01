@@ -38,6 +38,7 @@ const BookDetail = () => {
             }
 
             const data = await response.json();
+            console.log("bookDetail", data);
             setBookDetail(data.bookVO);
 
         }catch(e){
