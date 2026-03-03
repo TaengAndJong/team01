@@ -1,10 +1,7 @@
-package com.example.team01.book.dto;
+package com.example.team01.admin.dto;
 
 
-import com.example.team01.common.support.BookImgChange;
 import lombok.*;
-
-import java.util.List;
 
 @ToString
 @Getter
@@ -12,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BookListResponseDTO {
+public class AdminBookListResponseDTO {
 
     private Long bookId;//도서ID
     private String bookCateNm;//도서카테고리 ==> Category.cateId 와 book의 cateId에 대한 고려필요
